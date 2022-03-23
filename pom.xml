@@ -4,7 +4,7 @@
 	<groupId>it.polimi.ingsw</groupId>
 	<artifactId>proj-ingsw-xxx</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>proj-ingsw-xxx</name>
+	<name>proj-ingsw-triton</name>
 	<description>Prova Finale Ingegneria del software</description>
 	<dependencyManagement>
 		<dependencies>
