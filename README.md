@@ -44,7 +44,7 @@ then, you can safely remove the 'template' remote by typing `git remote rm templ
     - right-click on class `AppTest` and select `Run AppTest`
 
 ### Commit and push your changes:
-
+### CIAO
 ```
 git commit -am "customize project"
 git push origin master
