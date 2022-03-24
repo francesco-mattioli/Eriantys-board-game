@@ -46,6 +46,7 @@ then, you can safely remove the 'template' remote by typing `git remote rm templ
 ### Commit and push your changes:
 ### CIAO sono il divino
 ### Ciaoooooo
+### SIUUUUM
 ```
 git commit -am "customize project"
 git push origin master
