@@ -3,14 +3,17 @@ package it.polimi.ingsw.triton.launcher.model;
 import java.util.ArrayList;
 
 public class Island{
-    public Island() {
+
+    public Island(int id) {
+        this.id=id;
+        this.dim=1;
+        this.students=new int[5];
     }
 
     private int id;
-    private int dim = 1;
+    private int dim;
     private TowerColor dominance;
     private int[] students;
-    private TowerColor dominance;
 
     public Island merge(Island i) {
         // TODO implement here

@@ -12,6 +12,6 @@ public class CardEffect01 implements CardEffect{
 
     @Override
     public void executeEffect() {
-        island.
+       // island.
     }
 }

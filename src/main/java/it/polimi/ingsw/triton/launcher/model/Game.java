@@ -1,10 +1,12 @@
 package it.polimi.ingsw.triton.launcher.model;
 
 import java.util.ArrayList;
+import java.util.Random;
 
 public class Game {
 
     public Game() {
+        this.islands= new ArrayList<Island>();
     }
 
     private int numPlayers;
@@ -19,9 +21,24 @@ public class Game {
     private ArrayList<CharacterCard> characterCards;
 
     public void startGame() {
+        //FASE 1
+        setupIslands();
+        setupMotherNature();
+
+
+    }
+
+    public void setupIslands(){
         for(int i=0;i<12;i++){
-            islands.add(new Island());
+            islands.add(new Island(i));
         }
+    }
+
+    public void setupMotherNature(){
+        Random random = new Random();
+        int randomIndex = random.nextInt(islands.size());
+        System.out.println(randomIndex);
+        MotherNature motherNature= new MotherNature(islands.get(randomIndex));
     }
 
     public void endGame() {
