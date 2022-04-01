@@ -1,4 +1,4 @@
 package it.polimi.ingsw.triton.launcher.model;
 
-public class CharacterCardEffect {
+public class AssistantDeck {
 }
