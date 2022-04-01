@@ -21,8 +21,8 @@ public class Game {
     private AssistantDeck assistantDecks;
     private ArrayList<CharacterCard> characterCards;
 
+    // Preparation phase
     public void startGame() {
-        //FASE 1
         setupIslands();
         setupMotherNature();
         setupBag();
