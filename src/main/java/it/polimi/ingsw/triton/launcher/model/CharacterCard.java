@@ -9,10 +9,10 @@ public abstract class CharacterCard {
         this.cost = cost;
     }
 
-    public void cardEffect(Color student, Island island){
-        throw new UnsupportedOperationException("Subclass responsiblity");
-    }
     public void increaseCost(){
         this.cost++;
+    }
+    public void cardEffect(){
+        throw new UnsupportedOperationException("Subclass responsiblity");
     }
 }
