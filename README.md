@@ -1,4 +1,5 @@
-##COMMANDS
-git commit -am "message to explain the modification"
+### COMMANDS
+git commit -am "message explaining the modification"
+
 git push origin master
 
