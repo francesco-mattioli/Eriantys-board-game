@@ -7,6 +7,7 @@ public class Game {
 
     public Game() {
         this.islands= new ArrayList<Island>();
+        this.bag=new Bag();
     }
 
     private int numPlayers;
@@ -24,7 +25,7 @@ public class Game {
         //FASE 1
         setupIslands();
         setupMotherNature();
-
+        setupBag();
 
     }
 
@@ -37,8 +38,15 @@ public class Game {
     public void setupMotherNature(){
         Random random = new Random();
         int randomIndex = random.nextInt(islands.size());
-        System.out.println(randomIndex);
         MotherNature motherNature= new MotherNature(islands.get(randomIndex));
+    }
+
+    public void setupBag(){
+        for(int i=0;i<5;i++){
+             for(int j=0;j<2;j++)
+                 bag.addStudent(Color.values()[i]);
+        }
+
     }
 
     public void endGame() {
