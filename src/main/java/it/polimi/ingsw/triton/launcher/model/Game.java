@@ -5,47 +5,59 @@ import java.util.Random;
 
 public class Game {
 
-    public Game() {
-        this.islands= new ArrayList<Island>();
-        this.bag=new Bag();
-    }
-
+    private final ArrayList<Island> islands;
+    private final Bag bag;
     private int numPlayers;
     private ArrayList<Player> players;
     private int generalCoinSupply;
     private ArrayList<CloudTile> cloudTiles;
     private MotherNature motherNature;
-    private ArrayList<Island> islands;
     private Player[] professors;
-    private Bag bag;
     private AssistantDeck assistantDecks;
     private ArrayList<CharacterCard> characterCards;
 
+    // some useful final variables
+    private final int NUM_OF_STUDENTS=Color.values().length;
+    private final int MAX_NUM_OF_ISLANDS=12;
+
+    public Game() {
+        this.islands = new ArrayList<Island>();
+        this.bag = new Bag();
+    }
+
     // Preparation phase
     public void startGame() {
-        setupIslands();
+        createIslands();
         setupMotherNature();
         setupBag();
+        setupIslands();
+        Island currentIsland = islands.get(0);
+
+
 
     }
 
-    public void setupIslands(){
-        for(int i=0;i<12;i++){
+    public void createIslands() {
+        for (int i = 0; i < MAX_NUM_OF_ISLANDS ; i++) {
             islands.add(new Island(i));
         }
     }
 
-    public void setupMotherNature(){
+    public void setupMotherNature() {
         Random random = new Random();
         int randomIndex = random.nextInt(islands.size());
-        MotherNature motherNature= new MotherNature(islands.get(randomIndex));
+        MotherNature motherNature = new MotherNature(islands.get(randomIndex));
     }
 
-    public void setupBag(){
-        for(int i=0;i<5;i++){
-             for(int j=0;j<2;j++)
-                 bag.addStudent(Color.values()[i]);
+    public void setupBag() {
+        for (int i = 0; i < NUM_OF_STUDENTS ; i++) {
+            for (int j = 0; j < 2; j++)
+                bag.addStudent(Color.values()[i]);
         }
+    }
+
+    public void setupIslands() {
+
 
     }
 
@@ -90,8 +102,10 @@ public class Game {
     }
 
     public Island nextIsland(Island currentIsland) {
-        // TODO implement here
-        return null;
+        if (islands.indexOf(currentIsland) == islands.size() - 1) {
+            return islands.get(0);
+        } else
+            return islands.get(1 + islands.indexOf(currentIsland));
     }
 
 
@@ -101,8 +115,7 @@ public class Game {
     }
 
 
-
-    public void updateProfessors(Player player,Color color ) {
+    public void updateProfessors(Player player, Color color) {
         // TODO implement here
     }
 
