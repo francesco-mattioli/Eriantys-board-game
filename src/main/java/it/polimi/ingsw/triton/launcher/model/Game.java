@@ -17,12 +17,16 @@ public class Game {
     private ArrayList<CharacterCard> characterCards;
 
     // some useful final variables
-    private final int NUM_OF_STUDENTS=Color.values().length;
+    private final int NUM_OF_STUDENTS_COLORS=Color.values().length;
     private final int MAX_NUM_OF_ISLANDS=12;
 
     public Game() {
         this.islands = new ArrayList<Island>();
         this.bag = new Bag();
+    }
+
+    public ArrayList<Island> getIslands() {
+        return islands;
     }
 
     // Preparation phase
@@ -31,10 +35,6 @@ public class Game {
         setupMotherNature();
         setupBag();
         setupIslands();
-        Island currentIsland = islands.get(0);
-
-
-
     }
 
     public void createIslands() {
@@ -50,7 +50,7 @@ public class Game {
     }
 
     public void setupBag() {
-        for (int i = 0; i < NUM_OF_STUDENTS ; i++) {
+        for (int i = 0; i < NUM_OF_STUDENTS_COLORS ; i++) {
             for (int j = 0; j < 2; j++)
                 bag.addStudent(Color.values()[i]);
         }
