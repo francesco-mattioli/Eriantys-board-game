@@ -17,6 +17,9 @@ public class Island{
     private TowerColor dominance;
     private int[] students;
 
+    public int[] getStudents() {
+        return students;
+    }
 
     public int getDim() {
         return dim;

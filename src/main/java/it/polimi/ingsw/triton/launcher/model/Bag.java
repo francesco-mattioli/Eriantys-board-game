@@ -20,7 +20,7 @@ public class Bag {
             // generates a random number until it finds a student's color that has at least one pawn
             Random random = new Random();
             int randomIndex = random.nextInt(NUM_OF_STUDENTS_COLORS);
-            int result=students[random.nextInt(NUM_OF_STUDENTS_COLORS)];
+            int result=students[randomIndex];
             // if result == 0, there's no students of this color; thus it's necessary to generate another color
             while(result==0) {
                 randomIndex = random.nextInt(NUM_OF_STUDENTS_COLORS);

@@ -21,6 +21,8 @@ class GameTest {
         }
 
 
+
+
     }
 
     @Test
@@ -39,5 +41,27 @@ class GameTest {
 
     @Test
     void setupIslands() {
+        Game game = new Game();
+        game.startGame();
+        assertTrue(game.getBag().isEmpty());
+        for(Island island: game.getIslands()){
+            if(island.getId() == game.getMotherNature().getPosition().getId() || island.getId() == game.getMotherNature().getIndexOfOppositeIsland())
+            {
+                int sum = 0;
+                for(int i=0; i<5; i++)
+                {
+                    sum += island.getStudents()[i];
+                }
+                assertEquals(0, sum);
+            }
+            else{
+                int sum = 0;
+                for(int i=0; i<5; i++)
+                {
+                    sum += island.getStudents()[i];
+                }
+                assertEquals(1, sum);
+            }
+        }
     }
 }
