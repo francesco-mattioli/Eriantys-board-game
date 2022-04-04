@@ -11,6 +11,8 @@ public class Game {
     private ArrayList<Player> players;
     private int generalCoinSupply;
     private ArrayList<CloudTile> cloudTiles;
+
+
     private MotherNature motherNature;
     private Player[] professors;
     private AssistantDeck assistantDecks;
@@ -27,6 +29,10 @@ public class Game {
 
     public ArrayList<Island> getIslands() {
         return islands;
+    }
+
+    public MotherNature getMotherNature() {
+        return motherNature;
     }
 
     // Preparation phase
@@ -46,7 +52,7 @@ public class Game {
     public void setupMotherNature() {
         Random random = new Random();
         int randomIndex = random.nextInt(islands.size());
-        MotherNature motherNature = new MotherNature(islands.get(randomIndex));
+        motherNature = new MotherNature(islands.get(randomIndex));
     }
 
     public void setupBag() {
