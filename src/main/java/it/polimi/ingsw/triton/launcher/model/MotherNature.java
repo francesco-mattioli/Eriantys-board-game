@@ -18,4 +18,9 @@ public class MotherNature {
         // TODO implement here
         return null;
     }
+
+    public int getIndexOfOppositeIsland(){
+        int currentIndex=position.getId();
+        return (currentIndex+6)%12;
+    }
 }

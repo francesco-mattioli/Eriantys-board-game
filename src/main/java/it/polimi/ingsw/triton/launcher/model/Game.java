@@ -62,9 +62,12 @@ public class Game {
         }
     }
 
-    public void setupIslands() {
-
-
+    public void setupIslands(){
+       for(Island island: islands){
+           if(island.getId()!= motherNature.getIndexOfOppositeIsland() && island.getId()!= motherNature.getPosition().getId()){
+               island.addStudent(bag.drawStudent());
+           }
+       }
     }
 
     public void endGame() {
