@@ -1,11 +1,3 @@
-### COMMANDS
-### prova 
-git commit -am "message explaining the modification"
+##RULES TO USE GIT
 
-git push origin master
-
-ciao
-
-compare
-
-dav
+https://jameschambers.co.uk/git-team-workflow-cheatsheet
