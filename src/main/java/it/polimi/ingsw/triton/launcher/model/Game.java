@@ -12,8 +12,6 @@ public class Game {
     private ArrayList<Player> players;
     private int generalCoinSupply;
     private ArrayList<CloudTile> cloudTiles;
-    private ArrayList<CloudTile> chosenCloudTiles;
-
 
 
     private MotherNature motherNature;
@@ -29,6 +27,7 @@ public class Game {
     public Game() {
         this.islands = new ArrayList<Island>();
         this.bag = new Bag();
+
     }
 
     public ArrayList<Island> getIslands() {
@@ -51,7 +50,7 @@ public class Game {
         setupIslands();
         bag.fillBag();
         this.professorsManager = new ProfessorsManager();
-        setupCloudTiles(chosenCloudTiles);
+        setupCloudTiles();
     }
 
     public void createIslands() {
@@ -81,10 +80,12 @@ public class Game {
        }
     }
 
-    public void setupCloudTiles(ArrayList<CloudTile> cloudTiles){
-        chosenCloudTiles=new ArrayList<>();
-        chosenCloudTiles.addAll(cloudTiles);
+    public void setupCloudTiles(){
+        for(int i=0;i<2;i++){
+            cloudTiles.add(new CloudTile(i));
+        }
     }
+
 
     public void endGame() {
 
