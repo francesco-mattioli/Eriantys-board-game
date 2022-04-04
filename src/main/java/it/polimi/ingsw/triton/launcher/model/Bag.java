@@ -4,6 +4,7 @@ import java.util.NoSuchElementException;
 import java.util.Random;
 
 public class Bag {
+
     private int students[];
 
     // some some useful final variables
@@ -56,6 +57,10 @@ public class Bag {
             }
         }
         return true;
+    }
+
+    public int[] getStudents() {
+        return students;
     }
 
 
