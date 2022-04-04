@@ -4,9 +4,7 @@ import java.util.ArrayList;
 
 public class Island{
 
-    public int getDim() {
-        return dim;
-    }
+
 
     public Island(int id) {
         this.id=id;
@@ -18,6 +16,15 @@ public class Island{
     private int dim;
     private TowerColor dominance;
     private int[] students;
+
+
+    public int getDim() {
+        return dim;
+    }
+
+    public int getId() {
+        return id;
+    }
 
     public Island merge(Island i) {
         // TODO implement here
