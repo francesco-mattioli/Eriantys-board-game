@@ -16,7 +16,7 @@ public class Game {
 
 
     private MotherNature motherNature;
-    private Player[] professors;
+    //private Player[] professors;
     private AssistantDeck assistantDecks;
     private ArrayList<CharacterCard> characterCards;
     private ProfessorsManager professorsManager;
@@ -28,7 +28,6 @@ public class Game {
     public Game() {
         this.islands = new ArrayList<Island>();
         this.bag = new Bag();
-        this.professorsManager = new ProfessorsManager();
     }
 
     public ArrayList<Island> getIslands() {
@@ -50,6 +49,7 @@ public class Game {
         setupBag();
         setupIslands();
         bag.fillBag();
+        this.professorsManager = new ProfessorsManager();
     }
 
     public void createIslands() {
