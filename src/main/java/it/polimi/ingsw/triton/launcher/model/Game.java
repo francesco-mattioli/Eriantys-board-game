@@ -14,10 +14,12 @@ public class Game {
     private ArrayList<CloudTile> cloudTiles;
 
 
+
     private MotherNature motherNature;
     private Player[] professors;
     private AssistantDeck assistantDecks;
     private ArrayList<CharacterCard> characterCards;
+    private ProfessorsManager professorsManager;
 
     // some useful final variables
     private final int NUM_OF_STUDENTS_COLORS=Color.values().length;
@@ -26,6 +28,7 @@ public class Game {
     public Game() {
         this.islands = new ArrayList<Island>();
         this.bag = new Bag();
+        this.professorsManager = new ProfessorsManager();
     }
 
     public ArrayList<Island> getIslands() {
@@ -126,11 +129,6 @@ public class Game {
     public Island prevIsland(Island currentIsland) {
         // TODO implement here
         return null;
-    }
-
-
-    public void updateProfessors(Player player, Color color) {
-        // TODO implement here
     }
 
 }
