@@ -4,6 +4,10 @@ import java.util.ArrayList;
 
 public class Island{
 
+    public int getDim() {
+        return dim;
+    }
+
     public Island(int id) {
         this.id=id;
         this.dim=1;

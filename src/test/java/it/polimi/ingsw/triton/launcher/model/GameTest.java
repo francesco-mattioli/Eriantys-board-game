@@ -11,6 +11,9 @@ class GameTest {
         Game game = new Game();
         game.createIslands();
         assertEquals(12,game.getIslands().size());
+        for (Island i: game.getIslands()){
+            assertEquals(1, i.getDim());
+        }
     }
 
     @Test
