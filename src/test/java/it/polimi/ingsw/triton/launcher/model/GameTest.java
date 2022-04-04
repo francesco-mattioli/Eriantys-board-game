@@ -25,7 +25,7 @@ class GameTest {
 
     @Test
     void setupMotherNature() {
-        Game game = new Game();
+        Game game = new Game(); //prova
         game.startGame();
         assertNotNull(game.getMotherNature());
         assertNotNull(game.getMotherNature().getPosition());
