@@ -9,11 +9,18 @@ class GameTest {
     @Test
     void createIslands() {
         Game game = new Game();
+
         game.createIslands();
         assertEquals(12,game.getIslands().size());
+        int j = 0; // int to check the island's id
         for (Island i: game.getIslands()){
+            assertNotNull(i);
             assertEquals(1, i.getDim());
+            assertEquals(j,i.getId());
+            j++;
         }
+
+
     }
 
     @Test
