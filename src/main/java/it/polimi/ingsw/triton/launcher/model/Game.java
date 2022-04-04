@@ -6,6 +6,7 @@ import java.util.Random;
 public class Game {
 
     private final ArrayList<Island> islands;
+
     private final Bag bag;
     private int numPlayers;
     private ArrayList<Player> players;
@@ -33,6 +34,10 @@ public class Game {
 
     public MotherNature getMotherNature() {
         return motherNature;
+    }
+
+    public Bag getBag() {
+        return bag;
     }
 
     // Preparation phase
