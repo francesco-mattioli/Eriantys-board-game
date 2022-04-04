@@ -4,7 +4,7 @@ import java.util.NoSuchElementException;
 import java.util.Random;
 
 public class Bag {
-
+    private int numPlayer;
     private int[] students;
     private static Bag bagInstance;
 
@@ -12,8 +12,9 @@ public class Bag {
     private final int NUM_OF_STUDENTS_COLORS = Color.values().length;
     private final int NUM_OF_STUDENTS_FOREACH_COLOR = 26;
 
-    private Bag() {
+    private Bag(int numPlayer) {
         this.students=new int[5];
+        this.numPlayer=numPlayer;
     }
 
     public static Bag instance(){
@@ -43,7 +44,9 @@ public class Bag {
 
 
     public void fillCloudTile(CloudTile cloudTile) {
-        // TODO implement here
+        if (numPlayer == 2){
+
+        }
     }
 
 
