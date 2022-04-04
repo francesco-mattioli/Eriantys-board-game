@@ -19,6 +19,10 @@ public class Island{
     private TowerColor dominance;
     private int[] students;
 
+    public int getId() {
+        return id;
+    }
+
     public Island merge(Island i) {
         // TODO implement here
         return null;

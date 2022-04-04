@@ -20,6 +20,12 @@ class GameTest {
 
     @Test
     void setupMotherNature() {
+        Game game = new Game();
+        game.startGame();
+        assertNotNull(game.getMotherNature());
+        assertNotNull(game.getMotherNature().getPosition());
+        assertTrue(game.getMotherNature().getPosition().getId() >= 0);
+        assertTrue(game.getMotherNature().getPosition().getId() < 12);
     }
 
     @Test
