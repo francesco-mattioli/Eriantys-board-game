@@ -12,6 +12,7 @@ public class Game {
     private ArrayList<Player> players;
     private int generalCoinSupply;
     private ArrayList<CloudTile> cloudTiles;
+    private ArrayList<CloudTile> chosenCloudTiles;
 
 
 
@@ -50,6 +51,7 @@ public class Game {
         setupBag();
         setupIslands();
         bag.fillBag();
+        setupCloudTiles();
     }
 
     public void createIslands() {
@@ -77,6 +79,11 @@ public class Game {
                island.addStudent(bag.drawStudent());
            }
        }
+    }
+
+    public void setupCloudTiles(ArrayList<CloudTile> cloudTiles){
+        chosenCloudTiles=new ArrayList<>();
+        chosenCloudTiles.addAll(cloudTiles);
     }
 
     public void endGame() {
