@@ -5,10 +5,11 @@ import java.util.Random;
 
 public class Bag {
 
-    private int students[];
+    private int[] students;
 
     // some some useful final variables
     private final int NUM_OF_STUDENTS_COLORS = Color.values().length;
+    private final int NUM_OF_STUDENTS_FOREACH_COLOR = 26;
 
     public Bag() {
         this.students=new int[5];
@@ -40,7 +41,9 @@ public class Bag {
 
 
     public void fillBag() {
-        // TODO implement here
+        for (int i=0; i<NUM_OF_STUDENTS_COLORS; i++){
+            students[i] += NUM_OF_STUDENTS_FOREACH_COLOR-2;
+        }
     }
 
 
