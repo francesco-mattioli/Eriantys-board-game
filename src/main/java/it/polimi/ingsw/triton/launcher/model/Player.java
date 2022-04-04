@@ -7,17 +7,20 @@ public class Player {
     private AssistantCard lastPlayedCard;
     private SchoolBoard schoolBoard;
 
-    public Player(String username, TowerColor towerColor){
+    public Player(String username){
         this.username = username;
-        this.schoolBoard = new SchoolBoard(towerColor);
     }
 
-    public void setChosenWizard(Wizard wizard){
-        // TODO implement here
+    public void setWizard(Wizard wizard){
+        assistantDeck = new AssistantDeck(wizard);
     }
 
     public SchoolBoard getSchoolBoard(){
         // TODO implement here
         return null;
+    }
+
+    public void setSchoolBoard (TowerColor towerColor){
+        this.schoolBoard = new SchoolBoard(towerColor);
     }
 }

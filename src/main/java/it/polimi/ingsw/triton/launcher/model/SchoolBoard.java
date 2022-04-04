@@ -6,7 +6,7 @@ public class SchoolBoard {
     private int[] entrance;
     private int[] diningRoom;
 
-    private final int INITIAL_NUM_TOWERS = 6;
+    private final int INITIAL_NUM_TOWERS = 8;
 
     public SchoolBoard(TowerColor towerColor){
         this.towerColor = towerColor;
@@ -29,7 +29,7 @@ public class SchoolBoard {
     }
 
     public void addStudentIntoEntrance(Color color){
-        // TODO implement here
+        entrance[color.ordinal()]++;
     }
 
     public int getStudentsNumber(Color color){

@@ -28,7 +28,8 @@ class GameTest {
     @Test
     void setupMotherNature() {
         Game game = new Game(); //prova
-        game.startGame();
+        game.createIslands();
+        game.setupMotherNature();
         assertNotNull(game.getMotherNature());
         assertNotNull(game.getMotherNature().getPosition());
         assertTrue(game.getMotherNature().getPosition().getId() >= 0);
@@ -49,7 +50,7 @@ class GameTest {
     @Test
     void setupIslands() {
         Game game = new Game();
-        game.startGame();
+        game.setupIslands();
         assertTrue(game.getBag().isEmpty());
         for(Island island: game.getIslands()){
             if(island.getId() == game.getMotherNature().getPosition().getId() || island.getId() == game.getMotherNature().getIndexOfOppositeIsland())

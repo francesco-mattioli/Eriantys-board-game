@@ -1,6 +1,7 @@
 package it.polimi.ingsw.triton.launcher.model;
 
 import java.util.ArrayList;
+import java.util.Map;
 import java.util.Random;
 
 public class Game {
@@ -12,7 +13,7 @@ public class Game {
     private ArrayList<Player> players;
     private int generalCoinSupply;
     private ArrayList<CloudTile> cloudTiles;
-
+    private Player currentPlayer;
 
     private MotherNature motherNature;
     private Player[] professors;
@@ -43,7 +44,7 @@ public class Game {
     }
 
     // Preparation phase
-    public void startGame() {
+    public void startGame(Map<Player,TowerColor> playerTowerColorMap, Map<Player,Wizard> playerWizardMap) {
         createIslands();
         setupMotherNature();
         setupBag();
@@ -51,6 +52,10 @@ public class Game {
         bag.fillBag();
         this.professorsManager = new ProfessorsManager();
         setupCloudTiles();
+        setupSchoolboard(playerTowerColorMap);
+        setupWizard(playerWizardMap);
+        setupEntrance();
+        setupFirstPlayer();
     }
 
     public void createIslands() {
@@ -86,6 +91,35 @@ public class Game {
         }
     }
 
+    public void addPlayer(Player player){
+        players.add(player);
+    }
+
+    public void setupSchoolboard(Map<Player,TowerColor> playerTowerColorMap){
+
+        for (Player player: playerTowerColorMap.keySet()) {
+            player.setSchoolBoard(playerTowerColorMap.get(player));
+        }
+    }
+
+    public void setupWizard(Map<Player,Wizard> playerWizardMap){
+        for (Player player: playerWizardMap.keySet()) {
+            player.setWizard(playerWizardMap.get(player));
+        }
+    }
+
+    public void setupEntrance(){
+        for (Player player: players) {
+            for (int i=0; i<7; i++){
+                player.getSchoolBoard().addStudentIntoEntrance(bag.drawStudent());
+            }
+        }
+    }
+
+    public void setupFirstPlayer(){
+        Random random = new Random();
+        currentPlayer = players.get(random.nextInt(players.size()));
+    }
 
     public void endGame() {
 
