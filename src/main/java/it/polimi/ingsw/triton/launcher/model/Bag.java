@@ -5,7 +5,7 @@ import java.util.Random;
 
 public class Bag {
 
-    private int students[];
+    private int[] students;
 
     // some some useful final variables
     private final int NUM_OF_STUDENTS_COLORS = Color.values().length;
