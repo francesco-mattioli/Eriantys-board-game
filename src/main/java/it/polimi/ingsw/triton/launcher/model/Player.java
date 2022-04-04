@@ -5,9 +5,11 @@ public class Player {
     private int moveCounter = 0;
     private AssistantDeck assistantDeck;
     private AssistantCard lastPlayedCard;
+    private SchoolBoard schoolBoard;
 
     public Player(String username, TowerColor towerColor){
         this.username = username;
+        this.schoolBoard = new SchoolBoard(towerColor);
     }
 
     public void setChosenWizard(Wizard wizard){
