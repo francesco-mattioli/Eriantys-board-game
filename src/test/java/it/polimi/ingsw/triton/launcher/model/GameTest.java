@@ -37,6 +37,13 @@ class GameTest {
 
     @Test
     void setupBag() {
+        Game game = new Game();
+        game.setupBag();
+        assertNotNull(game.getBag());
+        assertFalse(game.getBag().isEmpty());
+        for(Integer i: game.getBag().getStudents()){
+            assertEquals(2, i);
+        }
     }
 
     @Test
