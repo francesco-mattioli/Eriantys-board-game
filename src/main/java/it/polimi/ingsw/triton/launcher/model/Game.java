@@ -70,10 +70,6 @@ public class Game {
         }
     }
 
-    public Bag getBag() {
-        return bag;
-    }
-
     public void setupIslands(){
        for(Island island: islands){
            if(island.getId()!= motherNature.getIndexOfOppositeIsland() && island.getId()!= motherNature.getPosition().getId()){
