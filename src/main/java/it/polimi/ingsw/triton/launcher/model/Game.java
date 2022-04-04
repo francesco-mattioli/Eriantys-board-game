@@ -49,6 +49,7 @@ public class Game {
         setupMotherNature();
         setupBag();
         setupIslands();
+        bag.fillBag();
     }
 
     public void createIslands() {
