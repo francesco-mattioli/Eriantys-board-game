@@ -131,9 +131,4 @@ public class Game {
         return null;
     }
 
-
-    public void updateProfessors(Player player, Color color) {
-        // TODO implement here
-    }
-
 }
