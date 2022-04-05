@@ -2,6 +2,9 @@ package it.polimi.ingsw.triton.launcher.model;
 
 import org.junit.jupiter.api.Test;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 class GameTest {
@@ -83,5 +86,26 @@ class GameTest {
         assertEquals("Giorgio", game.getPlayers().get(1).getUsername());
         game.setupCloudTiles();
         assertEquals(2,game.getCloudTiles().size());
+    }
+
+    @Test
+    void setupSchoolBoard()
+    {
+        Game game = new Game();
+        game.addPlayer("Gianni");
+        game.addPlayer("Giorgio");
+        Map<Player,TowerColor> m1 = new HashMap<Player, TowerColor>();
+        m1.put(game.getPlayers().get(0), TowerColor.BLACK);
+        Map<Player,TowerColor> m2 = new HashMap<Player, TowerColor>();
+        m2.put(game.getPlayers().get(1), TowerColor.WHITE);
+        game.setupSchoolboard(m1);
+        game.setupSchoolboard(m2);
+        assertEquals(TowerColor.BLACK, game.getPlayers().get(0).getSchoolBoard().getTowerColor());
+        /*assertEquals(TowerColor.WHITE, game.getPlayers().get(1).getSchoolBoard().getTowerColor());
+        game.addPlayer("Michele");
+        Map<Player,TowerColor> m3 = new HashMap<Player, TowerColor>();
+        m3.put(game.getPlayers().get(2), TowerColor.BLACK);
+        game.setupSchoolboard(m3);
+        assertEquals(TowerColor.BLACK, game.getPlayers().get(2).getSchoolBoard().getTowerColor());*/
     }
 }
