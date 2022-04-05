@@ -111,7 +111,6 @@ class GameTest {
         assertEquals(TowerColor.BLACK, game.getPlayers().get(2).getSchoolBoard().getTowerColor());*/
     }
 
-    // TO DO
     @Test
     public void setupCloudTiles(){
         ArrayList<CloudTile> cloudTiles = new ArrayList<>();
