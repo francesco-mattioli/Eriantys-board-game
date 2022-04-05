@@ -17,9 +17,9 @@ public class Bag {
         this.numPlayer=numPlayer;
     }
 
-    public static Bag instance(){
+    public static Bag instance(int numPlayer){
         if(bagInstance == null)
-            bagInstance = new Bag();
+            bagInstance = new Bag(numPlayer);
         return bagInstance;
     }
 
@@ -45,7 +45,10 @@ public class Bag {
 
     public void fillCloudTile(CloudTile cloudTile) {
         if (numPlayer == 2){
-
+            cloudTile.setStudents(bagInstance.drawStudent(),bagInstance.drawStudent(),bagInstance.drawStudent());
+        }
+        if (numPlayer == 3){
+            cloudTile.setStudents(bagInstance.drawStudent(),bagInstance.drawStudent(),bagInstance.drawStudent(),bagInstance.drawStudent());
         }
     }
 
@@ -75,6 +78,7 @@ public class Bag {
     public int[] getStudents() {
         return students;
     }
+
 
 
 }

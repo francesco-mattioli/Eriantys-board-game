@@ -26,7 +26,7 @@ public class Game {
 
     public Game() {
         this.islands = new ArrayList<Island>();
-        this.bag = Bag.instance();
+        this.bag = Bag.instance(players.size());
         this.players = new ArrayList<Player>();
         this.cloudTiles = new ArrayList<CloudTile>();
         this.generalCoinSupply = INITIAL_NUM_COINS;
