@@ -2,8 +2,10 @@ package it.polimi.ingsw.triton.launcher.model;
 
 import org.junit.jupiter.api.Test;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Random;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -108,4 +110,31 @@ class GameTest {
         game.setupSchoolboard(m3);
         assertEquals(TowerColor.BLACK, game.getPlayers().get(2).getSchoolBoard().getTowerColor());*/
     }
+
+    // TO DO
+    @Test
+    public void setupCloudTiles(){
+        ArrayList<CloudTile> cloudTiles = new ArrayList<>();
+        cloudTiles.add(new CloudTile(0));
+        cloudTiles.add(new CloudTile(1));
+
+        Random random = new Random();
+
+        // adding some students without a logic
+        for(CloudTile cloudTile: cloudTiles){
+            for(int i=0; i<3;i++){
+                cloudTile.addStudent(Color.values()[random.nextInt(Color.values().length)]);
+            }
+        }
+
+        for(CloudTile cloudTile: cloudTiles){
+            int sumOfStudents=0;
+            int[] students=cloudTile.getStudents();
+            for(int i=0;i<Color.values().length;i++){
+                sumOfStudents+=students[i];
+            }
+            assertEquals(3,sumOfStudents);
+        }
+    }
 }
+

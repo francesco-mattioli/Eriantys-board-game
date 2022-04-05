@@ -12,14 +12,14 @@ public class Bag {
     private final int NUM_OF_STUDENTS_COLORS = Color.values().length;
     private final int NUM_OF_STUDENTS_FOREACH_COLOR = 26;
 
-    private Bag(int numPlayer) {
+    private Bag(int numPlayers) {
         this.students=new int[5];
-        this.numPlayer=numPlayer;
+        this.numPlayer=numPlayers;
     }
 
-    public static Bag instance(){
+    public static Bag instance(int numPlayers){
         if(bagInstance == null)
-            bagInstance = new Bag();
+            bagInstance = new Bag(numPlayers);
         return bagInstance;
     }
 

@@ -24,4 +24,7 @@ public class CloudTile {
         students[x.ordinal()]++;
     }
 
+    public int[] getStudents() {
+        return students;
+    }
 }
