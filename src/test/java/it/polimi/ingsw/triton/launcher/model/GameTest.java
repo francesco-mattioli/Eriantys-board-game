@@ -84,7 +84,7 @@ class GameTest {
         assertEquals(2,game.getPlayers().size());
         assertEquals("Gianni", game.getPlayers().get(0).getUsername());
         assertEquals("Giorgio", game.getPlayers().get(1).getUsername());
-        game.setupCloudTiles();
+        game.createCloudTiles();
         assertEquals(2,game.getCloudTiles().size());
     }
 
