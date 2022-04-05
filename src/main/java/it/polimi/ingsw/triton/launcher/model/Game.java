@@ -27,7 +27,7 @@ public class Game {
 
     public Game() {
         this.islands = new ArrayList<Island>();
-        this.bag = new Bag();
+        this.bag = new Bag(); // to pass num of stud
         this.cloudTiles= new ArrayList<>();
 
     }
@@ -48,8 +48,8 @@ public class Game {
         setupFirstPlayer();
     }
 
-    // Pianification Phase
-    public void pianificationPhase(){
+    // Planning Phase
+    public void planningPhase(){
         setupCloudTiles();
     }
 

@@ -13,16 +13,14 @@ class GameTest {
         Game game = new Game();
 
         game.createIslands();
-        assertEquals(12,game.getIslands().size());
+        assertEquals(12, game.getIslands().size());
         int j = 0; // int to check the island's id
-        for (Island i: game.getIslands()){
+        for (Island i : game.getIslands()) {
             assertNotNull(i);
             assertEquals(1, i.getDim());
-            assertEquals(j,i.getId());
+            assertEquals(j, i.getId());
             j++;
         }
-
-
 
 
     }
@@ -44,7 +42,7 @@ class GameTest {
         game.setupBag();
         assertNotNull(game.getBag());
         assertFalse(game.getBag().isEmpty());
-        for(Integer i: game.getBag().getStudents()){
+        for (Integer i : game.getBag().getStudents()) {
             assertEquals(2, i);
         }
     }
@@ -54,52 +52,22 @@ class GameTest {
         Game game = new Game();
         game.setupIslands();
         assertTrue(game.getBag().isEmpty());
-        for(Island island: game.getIslands()){
-            if(island.getId() == game.getMotherNature().getPosition().getId() || island.getId() == game.getMotherNature().getIndexOfOppositeIsland())
-            {
+        for (Island island : game.getIslands()) {
+            if (island.getId() == game.getMotherNature().getPosition().getId() || island.getId() == game.getMotherNature().getIndexOfOppositeIsland()) {
                 int sum = 0;
-                for(int i=0; i<5; i++)
-                {
+                for (int i = 0; i < 5; i++) {
                     sum += island.getStudents()[i];
                 }
                 assertEquals(0, sum);
-            }
-            else{
+            } else {
                 int sum = 0;
-                for(int i=0; i<5; i++)
-                {
+                for (int i = 0; i < 5; i++) {
                     sum += island.getStudents()[i];
                 }
                 assertEquals(1, sum);
             }
         }
     }
-
-
-    // TO DO
-    @Test
-    public void setupCloudTiles(){
-        Game game = new Game();
-        Bag bag = new Bag();
-        bag.fillBag();
-        ArrayList<CloudTile> cloudTiles = new ArrayList<>();
-        cloudTiles.add(new CloudTile(0));
-        cloudTiles.add(new CloudTile(1));
-
-
-        for(CloudTile cloudTile: cloudTiles){
-            for(int i=0; i<3;i++){
-                cloudTile.addStudents(bag.drawStudent());
-            }
-        }
-
-        int numOfStudentsOnCloudTile=0;
-        for(CloudTile cloudTile: cloudTiles){
-            int[] students=cloudTile.getStudents();
-            for(int i=0;i<Color.values().length;i++){
-                numOfStudentsOnCloudTile+=students[i];
-            }
-            assertEquals(3,numOfStudentsOnCloudTile);
-        }
-    }
 }
+
+
