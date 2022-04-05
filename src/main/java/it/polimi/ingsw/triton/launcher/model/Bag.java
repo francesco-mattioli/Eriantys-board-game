@@ -4,7 +4,7 @@ import java.util.NoSuchElementException;
 import java.util.Random;
 
 public class Bag {
-
+    private int numPlayer;
     private int[] students;
     private static Bag bagInstance;
 
@@ -12,13 +12,14 @@ public class Bag {
     private final int NUM_OF_STUDENTS_COLORS = Color.values().length;
     private final int NUM_OF_STUDENTS_FOREACH_COLOR = 26;
 
-    private Bag() {
+    private Bag(int numPlayers) {
         this.students=new int[5];
+        this.numPlayer=numPlayers;
     }
 
-    public static Bag instance(){
+    public static Bag instance(int numPlayers){
         if(bagInstance == null)
-            bagInstance = new Bag();
+            bagInstance = new Bag(numPlayers);
         return bagInstance;
     }
 
@@ -37,13 +38,15 @@ public class Bag {
             }
             // decrements the number of the drawn student
             students[randomIndex]--;
-            return Color.values()[result];
+            return Color.values()[randomIndex];
         }
     }
 
 
     public void fillCloudTile(CloudTile cloudTile) {
-        // TODO implement here
+        if (numPlayer == 2){
+
+        }
     }
 
 

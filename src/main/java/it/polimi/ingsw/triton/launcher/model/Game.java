@@ -16,8 +16,8 @@ public class Game {
 
     private MotherNature motherNature;
     private Player[] professors;
-    private ArrayList<CharacterCard> characterCards;
     private ProfessorsManager professorsManager;
+
 
     // some useful final variables
     private final int NUM_OF_STUDENTS_COLORS=Color.values().length;
@@ -26,7 +26,7 @@ public class Game {
 
     public Game() {
         this.islands = new ArrayList<Island>();
-        this.bag = Bag.instance();
+        this.bag = Bag.instance(players.size());
         this.players = new ArrayList<Player>();
         this.cloudTiles = new ArrayList<CloudTile>();
         this.generalCoinSupply = INITIAL_NUM_COINS;
@@ -59,6 +59,32 @@ public class Game {
         setupFirstPlayer();
     }
 
+    // Planning phase
+    public void planningPhase(){
+        setupCloudTiles();
+    }
+
+
+    //--- methods for the PIANIFICATION PHASE
+    public void setupCloudTiles(){
+        int numOfStudentsOnCloudTile=3;
+        if(players.size()>2){
+           numOfStudentsOnCloudTile=4;
+        }
+        // if there are 2 players the numOfStudentsOnCloudTile should be 3
+        for(CloudTile cloudTile: cloudTiles){
+            for(int i=0;i<numOfStudentsOnCloudTile;i++){
+                cloudTile.addStudent(bag.drawStudent());
+            }
+        }
+    }
+
+    //--- end of methods for the PLANNING PHASE
+
+
+
+
+
     public void createIslands() {
         for (int i = 0; i < MAX_NUM_OF_ISLANDS ; i++) {
             islands.add(new Island(i));
@@ -68,7 +94,7 @@ public class Game {
     public void setupMotherNature() {
         Random random = new Random();
         int randomIndex = random.nextInt(islands.size());
-        motherNature = new MotherNature(islands.get(randomIndex));
+        motherNature = MotherNature.instance(islands.get(randomIndex));
     }
 
     public void setupBag() {
