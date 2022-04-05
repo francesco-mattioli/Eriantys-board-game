@@ -30,7 +30,7 @@ public class Bag {
             }
             // decrements the number of the drawn student
             students[randomIndex]--;
-            return Color.values()[result];
+            return Color.values()[randomIndex];
         }
     }
 

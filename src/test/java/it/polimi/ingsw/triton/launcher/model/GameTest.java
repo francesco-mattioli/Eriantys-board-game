@@ -2,6 +2,8 @@ package it.polimi.ingsw.triton.launcher.model;
 
 import org.junit.jupiter.api.Test;
 
+import java.util.ArrayList;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 class GameTest {
@@ -70,6 +72,34 @@ class GameTest {
                 }
                 assertEquals(1, sum);
             }
+        }
+    }
+
+
+    // TO DO
+    @Test
+    public void setupCloudTiles(){
+        Game game = new Game();
+        Bag bag = new Bag();
+        bag.fillBag();
+        ArrayList<CloudTile> cloudTiles = new ArrayList<>();
+        cloudTiles.add(new CloudTile(0));
+        cloudTiles.add(new CloudTile(1));
+
+
+        for(CloudTile cloudTile: cloudTiles){
+            for(int i=0; i<3;i++){
+                cloudTile.addStudents(bag.drawStudent());
+            }
+        }
+
+        int numOfStudentsOnCloudTile=0;
+        for(CloudTile cloudTile: cloudTiles){
+            int[] students=cloudTile.getStudents();
+            for(int i=0;i<Color.values().length;i++){
+                numOfStudentsOnCloudTile+=students[i];
+            }
+            assertEquals(3,numOfStudentsOnCloudTile);
         }
     }
 }
