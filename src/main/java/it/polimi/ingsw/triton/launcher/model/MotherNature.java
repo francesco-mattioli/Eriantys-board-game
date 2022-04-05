@@ -16,13 +16,14 @@ public class MotherNature {
     public static MotherNature instance(Island island){
         if (motherNature == null)
             motherNature = new MotherNature(island);
-        else return motherNature;
+        return motherNature;
     }
 
     public Island getPosition() {
         return position;
     }
 
+    //need to be tested
     public Island move(AssistantCard assistantCard, int steps, ArrayList<Island> islands) throws IllegalArgumentException {
         int maxSteps = assistantCard.getAssistantCardType().getMaxSteps() + additionalSteps;
         if (steps > maxSteps)
