@@ -5,10 +5,11 @@ import java.util.ArrayList;
 public class AssistantDeck {
     private Wizard wizard;
     private ArrayList<AssistantCard> assistantDeck = new ArrayList<>();
+    private final int CARDS_NUMBER = 10;
 
     public AssistantDeck(Wizard wizard){
         this.wizard=wizard;
-        for(int i = 0; i < 10; i++){
+        for(int i = 0; i < CARDS_NUMBER; i++){
             assistantDeck.add(new AssistantCard(AssistantCardType.values()[i]));
         }
     }

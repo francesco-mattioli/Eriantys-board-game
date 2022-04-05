@@ -4,18 +4,21 @@ import java.util.ArrayList;
 
 public class Island{
 
-
+    private int id;
+    private int dim;
+    private TowerColor dominance;
+    private int[] students;
+    private int noEntryTiles;
+    private InfluenceStrategy influenceStrategy;
+    private CharacterCard characterCard5 = null;
 
     public Island(int id) {
         this.id=id;
         this.dim=1;
         this.students=new int[5];
+        this.noEntryTiles = 0;
+        this.influenceStrategy = new InfluenceStrategyDefault();
     }
-
-    private int id;
-    private int dim;
-    private TowerColor dominance;
-    private int[] students;
 
     public int[] getStudents() {
         return students;

@@ -5,6 +5,7 @@ import java.util.ArrayList;
 public class MotherNature {
 
     private Island position;
+    private int additionalSteps;
 
     public MotherNature(Island island) {
         this.position=island;
@@ -22,5 +23,9 @@ public class MotherNature {
     public int getIndexOfOppositeIsland(){
         int currentIndex=position.getId();
         return (currentIndex+6)%12;
+    }
+
+    public void resetAdditionalSteps(){
+        // TODO implement here
     }
 }
