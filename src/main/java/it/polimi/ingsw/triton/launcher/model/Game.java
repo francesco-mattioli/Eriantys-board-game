@@ -9,7 +9,6 @@ public class Game {
     private final ArrayList<Island> islands;
 
     private final Bag bag;
-    //private int numPlayers=0;
     private ArrayList<Player> players;
     private int generalCoinSupply;
     private ArrayList<CloudTile> cloudTiles;
@@ -17,19 +16,20 @@ public class Game {
 
     private MotherNature motherNature;
     private Player[] professors;
-    private AssistantDeck assistantDecks;
     private ArrayList<CharacterCard> characterCards;
     private ProfessorsManager professorsManager;
 
     // some useful final variables
     private final int NUM_OF_STUDENTS_COLORS=Color.values().length;
-    private final int MAX_NUM_OF_ISLANDS=12;
+    private final int MAX_NUM_OF_ISLANDS =12;
+    private final int INITIAL_NUM_COINS = 20;
 
     public Game() {
         this.islands = new ArrayList<Island>();
         this.bag = Bag.instance();
         this.players = new ArrayList<Player>();
         this.cloudTiles = new ArrayList<CloudTile>();
+        this.generalCoinSupply = INITIAL_NUM_COINS;
     }
 
     public ArrayList<Island> getIslands() {
