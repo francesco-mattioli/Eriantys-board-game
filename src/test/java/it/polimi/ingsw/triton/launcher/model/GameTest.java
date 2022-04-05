@@ -101,8 +101,8 @@ class GameTest {
         game.setupSchoolboard(m1);
         game.setupSchoolboard(m2);
         assertEquals(TowerColor.BLACK, game.getPlayers().get(0).getSchoolBoard().getTowerColor());
-        /*assertEquals(TowerColor.WHITE, game.getPlayers().get(1).getSchoolBoard().getTowerColor());
-        game.addPlayer("Michele");
+        assertEquals(TowerColor.WHITE, game.getPlayers().get(1).getSchoolBoard().getTowerColor());
+        /*game.addPlayer("Michele");
         Map<Player,TowerColor> m3 = new HashMap<Player, TowerColor>();
         m3.put(game.getPlayers().get(2), TowerColor.BLACK);
         game.setupSchoolboard(m3);

@@ -52,7 +52,7 @@ public class Game {
         setupIslands();
         bag.fillBag();
         this.professorsManager = new ProfessorsManager();
-        setupCloudTiles();
+        createCloudTiles();
         setupSchoolboard(playerTowerColorMap);
         setupWizard(playerWizardMap);
         setupEntrance();
@@ -86,7 +86,7 @@ public class Game {
        }
     }
 
-    public void setupCloudTiles(){
+    public void createCloudTiles(){
         for(int i=0;i<players.size();i++){
             cloudTiles.add(new CloudTile(i));
         }
@@ -100,6 +100,7 @@ public class Game {
         return cloudTiles;
     }
 
+    //control if name is unique
     public void addPlayer(String username){
         Player player = new Player(username);
         players.add(player);
