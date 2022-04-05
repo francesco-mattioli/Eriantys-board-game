@@ -15,30 +15,48 @@ public class SchoolBoard {
         this.diningRoom = new int[5];
     }
 
+    /**
+     * @return the tower color of the school board
+     */
     public TowerColor getTowerColor() {
         return towerColor;
     }
 
-    public TowerColor moveTowerOntoIsland(int dim){
+    public void moveTowerOntoIsland(int dim, Island island){
         // TODO implement here
-        return null;
     }
 
+    /**
+     * Remove the towers from the island and put them into the school board
+     * @param dim the number of towers to add in the school board
+     */
     public void moveTowerOntoSchoolBoard(int dim){
-        // TODO implement here
+        numTowers+=dim;
     }
 
+    /**
+     * Add a student in the dining room of the school board
+     * @param color the color of the student to insert
+     */
     public void addStudentIntoDiningRoom(Color color){
-        // TODO implement here
+        diningRoom[color.ordinal()]++;
     }
 
+    /**
+     * Add a student at the entrance of the school board
+     * @param color the color of the student to add at the entrance
+     */
     public void addStudentIntoEntrance(Color color){
         entrance[color.ordinal()]++;
     }
 
+    /**
+     * @param color the color of the students
+     * @return the number of students in the dining room with
+     * the color passed in parameter
+     */
     public int getStudentsNumber(Color color){
-        // TODO implement here
-        return 0;
+        return diningRoom[color.ordinal()];
     }
 
 }

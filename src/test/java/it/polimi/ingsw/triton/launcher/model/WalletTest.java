@@ -6,6 +6,9 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class WalletTest {
 
+    /**
+     * Test if wallet increases his value after getValue()
+     */
     @Test
     void increaseValue() {
         Wallet wallet = new Wallet();

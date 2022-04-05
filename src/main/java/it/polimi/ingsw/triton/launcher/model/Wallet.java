@@ -11,6 +11,9 @@ public class Wallet {
         value++;
     }
 
+    /**
+     * @return number of coins in the wallet
+     */
     public int getValue() {
         return value;
     }
