@@ -5,6 +5,11 @@ public class Player {
     private int moveCounter = 0;
     private AssistantDeck assistantDeck;
     private AssistantCard lastPlayedCard;
+
+    public String getUsername() {
+        return username;
+    }
+
     private SchoolBoard schoolBoard;
 
     public Player(String username){
