@@ -15,6 +15,10 @@ public class SchoolBoard {
         this.diningRoom = new int[5];
     }
 
+    public TowerColor getTowerColor() {
+        return towerColor;
+    }
+
     public TowerColor moveTowerOntoIsland(int dim){
         // TODO implement here
         return null;

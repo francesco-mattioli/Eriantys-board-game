@@ -7,6 +7,10 @@ public class Player {
     private AssistantCard lastPlayedCard;
     private SchoolBoard schoolBoard;
 
+    public String getUsername() {
+        return username;
+    }
+
     public Player(String username){
         this.username = username;
     }
@@ -16,8 +20,7 @@ public class Player {
     }
 
     public SchoolBoard getSchoolBoard(){
-        // TODO implement here
-        return null;
+        return this.schoolBoard;
     }
 
     public void setSchoolBoard (TowerColor towerColor){

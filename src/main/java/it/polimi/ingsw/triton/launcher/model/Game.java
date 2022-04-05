@@ -9,7 +9,7 @@ public class Game {
     private final ArrayList<Island> islands;
 
     private final Bag bag;
-    private int numPlayers;
+    //private int numPlayers=0;
     private ArrayList<Player> players;
     private int generalCoinSupply;
     private ArrayList<CloudTile> cloudTiles;
@@ -27,8 +27,9 @@ public class Game {
 
     public Game() {
         this.islands = new ArrayList<Island>();
-        this.bag = Bag.instance();
-
+        this.bag = new Bag();
+        this.players = new ArrayList<Player>();
+        this.cloudTiles = new ArrayList<CloudTile>();
     }
 
     public ArrayList<Island> getIslands() {
@@ -51,7 +52,7 @@ public class Game {
         setupIslands();
         bag.fillBag();
         this.professorsManager = new ProfessorsManager();
-        setupCloudTiles();
+        createCloudTiles();
         setupSchoolboard(playerTowerColorMap);
         setupWizard(playerWizardMap);
         setupEntrance();
@@ -85,18 +86,27 @@ public class Game {
        }
     }
 
-    public void setupCloudTiles(){
-        for(int i=0;i<2;i++){
+    public void createCloudTiles(){
+        for(int i=0;i<players.size();i++){
             cloudTiles.add(new CloudTile(i));
         }
     }
 
-    public void addPlayer(Player player){
+    public ArrayList<Player> getPlayers() {
+        return players;
+    }
+
+    public ArrayList<CloudTile> getCloudTiles() {
+        return cloudTiles;
+    }
+
+    //control if name is unique
+    public void addPlayer(String username){
+        Player player = new Player(username);
         players.add(player);
     }
 
     public void setupSchoolboard(Map<Player,TowerColor> playerTowerColorMap){
-
         for (Player player: playerTowerColorMap.keySet()) {
             player.setSchoolBoard(playerTowerColorMap.get(player));
         }
