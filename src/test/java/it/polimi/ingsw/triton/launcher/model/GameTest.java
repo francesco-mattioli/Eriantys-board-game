@@ -2,8 +2,10 @@ package it.polimi.ingsw.triton.launcher.model;
 
 import org.junit.jupiter.api.Test;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Random;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -77,14 +79,14 @@ class GameTest {
     }
 
     @Test
-    void setupCloudTiles(){
+    void createCloudTiles(){
         Game game = new Game();
         game.addPlayer("Gianni");
         game.addPlayer("Giorgio");
         assertEquals(2,game.getPlayers().size());
         assertEquals("Gianni", game.getPlayers().get(0).getUsername());
         assertEquals("Giorgio", game.getPlayers().get(1).getUsername());
-        game.setupCloudTiles();
+        game.createCloudTiles();
         assertEquals(2,game.getCloudTiles().size());
     }
 
@@ -108,4 +110,30 @@ class GameTest {
         game.setupSchoolboard(m3);
         assertEquals(TowerColor.BLACK, game.getPlayers().get(2).getSchoolBoard().getTowerColor());*/
     }
+
+    @Test
+    public void setupCloudTiles(){
+        ArrayList<CloudTile> cloudTiles = new ArrayList<>();
+        cloudTiles.add(new CloudTile(0));
+        cloudTiles.add(new CloudTile(1));
+
+        Random random = new Random();
+
+        // adding some students without a logic
+        for(CloudTile cloudTile: cloudTiles){
+            for(int i=0; i<3;i++){
+                cloudTile.addStudent(Color.values()[random.nextInt(Color.values().length)]);
+            }
+        }
+
+        for(CloudTile cloudTile: cloudTiles){
+            int sumOfStudents=0;
+            int[] students=cloudTile.getStudents();
+            for(int i=0;i<Color.values().length;i++){
+                sumOfStudents+=students[i];
+            }
+            assertEquals(3,sumOfStudents);
+        }
+    }
 }
+
