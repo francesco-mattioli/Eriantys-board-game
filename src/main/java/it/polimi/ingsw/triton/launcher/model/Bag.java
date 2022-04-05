@@ -6,13 +6,20 @@ import java.util.Random;
 public class Bag {
 
     private int[] students;
+    private static Bag bagInstance;
 
     // some some useful final variables
     private final int NUM_OF_STUDENTS_COLORS = Color.values().length;
     private final int NUM_OF_STUDENTS_FOREACH_COLOR = 26;
 
-    public Bag() {
+    private Bag() {
         this.students=new int[5];
+    }
+
+    public static Bag instance(){
+        if(bagInstance == null)
+            bagInstance = new Bag();
+        return bagInstance;
     }
 
     public Color drawStudent() throws NoSuchElementException{
