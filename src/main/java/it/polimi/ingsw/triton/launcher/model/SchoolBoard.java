@@ -8,6 +8,9 @@ public class SchoolBoard {
 
     private final int INITIAL_NUM_TOWERS = 8;
 
+    /**
+     * @param towerColor the color of towers in the school board
+     */
     public SchoolBoard(TowerColor towerColor){
         this.towerColor = towerColor;
         this.numTowers = INITIAL_NUM_TOWERS;
@@ -20,6 +23,17 @@ public class SchoolBoard {
      */
     public TowerColor getTowerColor() {
         return towerColor;
+    }
+
+    /**
+     * @return the number of towers in the school board
+     */
+    public int getNumTowers(){
+        return numTowers;
+    }
+
+    public int[] getEntrance() {
+        return entrance;
     }
 
     public void moveTowerOntoIsland(int dim, Island island){
