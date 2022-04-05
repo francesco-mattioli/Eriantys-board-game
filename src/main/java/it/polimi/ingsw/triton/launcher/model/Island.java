@@ -32,6 +32,7 @@ public class Island{
         return id;
     }
 
+    //to test
     public void merge(Island island) {
         this.dim += island.getDim();
         for(int i = 0; i<= students.length; i++){
