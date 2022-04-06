@@ -62,7 +62,6 @@ public class Game {
     // Planning phase
     public void planningPhase(AssistantCard assistantCard){
         setupCloudTiles();
-
     }
 
 
