@@ -23,6 +23,10 @@ public class Bag {
         return bagInstance;
     }
 
+    /**
+     * Draw a random student from the bag
+     * @return a random student
+     */
     public Color drawStudent() throws NoSuchElementException{
         if(isEmpty())
             throw new NoSuchElementException("The bag is empty; a student cannot be drawn!");
@@ -42,27 +46,44 @@ public class Bag {
         }
     }
 
-
+    /**
+     * Fill the cloud tile with a number of students,
+     * the number of students depend by the number of player
+     * @param cloudTile the cloudTile to fill
+     */
     public void fillCloudTile(CloudTile cloudTile) {
         if (numPlayer == 2){
-
+            cloudTile.setStudents(bagInstance.drawStudent(),bagInstance.drawStudent(),bagInstance.drawStudent());
+        }
+        if (numPlayer > 2){
+            cloudTile.setStudents(bagInstance.drawStudent(),bagInstance.drawStudent(),bagInstance.drawStudent(),bagInstance.drawStudent());
         }
     }
 
 
+    /**
+     * Add to the bag 24 students for each color
+     */
     public void fillBag() {
         for (int i=0; i<NUM_OF_STUDENTS_COLORS; i++){
             students[i] += NUM_OF_STUDENTS_FOREACH_COLOR-2;
         }
     }
 
-
+    /**
+     * Add a student to the bag
+     * @param color the student to add to the bag
+     */
     public void addStudent(Color color) {
         students[color.ordinal()]++;
     }
 
 
-    // isEmpty() returns true if there is no student in the Bag
+
+    /**
+     * check if the bag is empty
+     * @return true if the bag is empty, else return false
+     */
     public boolean isEmpty(){
         for(int i=0;i<NUM_OF_STUDENTS_COLORS;i++){
             if(students[i]>0){
@@ -71,7 +92,9 @@ public class Bag {
         }
         return true;
     }
-
+    /**
+     * @return the array of students of the bag
+     */
     public int[] getStudents() {
         return students;
     }
