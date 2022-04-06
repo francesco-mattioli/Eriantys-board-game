@@ -57,5 +57,3 @@ class SchoolBoardTest {
         assertEquals(1, schoolBoard.getStudentsNumber(Color.GREEN));
     }
 }
-
-//FARE TEST
