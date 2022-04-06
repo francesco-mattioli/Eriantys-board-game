@@ -4,20 +4,33 @@ import java.util.ArrayList;
 
 public class MotherNature {
 
+    private static MotherNature motherNature;
     private Island position;
     private int additionalSteps;
 
-    public MotherNature(Island island) {
+    private MotherNature(Island island) {
         this.position=island;
+        this.additionalSteps = 0;
+    }
+
+    public static MotherNature instance(Island island){
+        if (motherNature == null)
+            motherNature = new MotherNature(island);
+        return motherNature;
     }
 
     public Island getPosition() {
         return position;
     }
 
-    public Island move(AssistantCard assistantCard, int steps, ArrayList<Island> islands) {
-        // TODO implement here
-        return null;
+    //need to be tested
+    public Island move(AssistantCard assistantCard, int steps, ArrayList<Island> islands) throws IllegalArgumentException {
+        int maxSteps = assistantCard.getAssistantCardType().getMaxSteps() + additionalSteps;
+        if (steps > maxSteps)
+            throw new IllegalArgumentException();
+        int positionIndex = islands.indexOf(position);
+        position = islands.get((positionIndex+steps)%islands.size());
+        return position;
     }
 
     public int getIndexOfOppositeIsland(){
@@ -26,6 +39,6 @@ public class MotherNature {
     }
 
     public void resetAdditionalSteps(){
-        // TODO implement here
+        additionalSteps = 0;
     }
 }

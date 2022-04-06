@@ -32,9 +32,12 @@ public class Island{
         return id;
     }
 
-    public Island merge(Island i) {
-        // TODO implement here
-        return null;
+    //to test
+    public void merge(Island island) {
+        this.dim += island.getDim();
+        for(int i = 0; i<= students.length; i++){
+            this.students[i]+= island.getStudents()[i];
+        }
     }
 
     public int calculateInfluence(Player player) {
