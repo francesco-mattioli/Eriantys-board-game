@@ -55,7 +55,7 @@ public class Bag {
         if (numPlayer == 2){
             cloudTile.setStudents(bagInstance.drawStudent(),bagInstance.drawStudent(),bagInstance.drawStudent());
         }
-        if (numPlayer == 3){
+        if (numPlayer > 2){
             cloudTile.setStudents(bagInstance.drawStudent(),bagInstance.drawStudent(),bagInstance.drawStudent(),bagInstance.drawStudent());
         }
     }
