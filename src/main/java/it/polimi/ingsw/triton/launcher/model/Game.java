@@ -181,7 +181,6 @@ public class Game {
     public void mergeIslands(Island i1, Island i2) {
         // TODO implement here
     }
-
     public void sortPlayerPerTurn() {
         // TODO implement here
     }

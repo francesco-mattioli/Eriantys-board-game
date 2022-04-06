@@ -21,4 +21,21 @@ class IslandTest {
         motherNature.move(a2, 3, islands);
         assertTrue(motherNature.getPosition() == islands.get(2));
     }
+
+    @Test
+    void merge(){  ///need to be tested in combination with mergeIslands() in game
+        ArrayList<Island> islands = new ArrayList<Island>();
+        for(int i = 0; i<10; i++){
+            islands.add(new Island(i));
+        }
+        islands.get(0).merge(islands.get(1));
+        assertEquals(2, islands.get(0).getDim());
+        islands.remove(1);
+        islands.get(0).merge(islands.get(1));
+        assertEquals(3, islands.get(0).getDim());
+    }
+
+    void influence(){
+
+    }
 }
