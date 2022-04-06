@@ -44,4 +44,15 @@ public class CloudTile {
     public int[] getStudents() {
         return students;
     }
+
+    /**
+     * @param student the color of the student to remove
+     * @exception if there aren't students with the specified color on the cloud tile
+     */
+    public void removeStudentFromCloudTile(Color student){
+        if(students[student.ordinal()] > 0)
+            students[student.ordinal()] --;
+        else
+            throw new RuntimeException("There aren't " + student.name() + " students on this cloud tile");
+    }
 }
