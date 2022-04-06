@@ -5,12 +5,14 @@ package it.polimi.ingsw.triton.launcher.model;
  */
 public class ChooseCloudTile implements Action{
     private CloudTile cloudTile;
+    private SchoolBoard schoolBoard;
 
     /**
      * @param cloudTile the cloud tile chosen by the player
      */
-    public ChooseCloudTile(CloudTile cloudTile){
+    public ChooseCloudTile(CloudTile cloudTile, SchoolBoard schoolBoard){
         this.cloudTile = cloudTile;
+        this.schoolBoard = schoolBoard;
     }
 
     /**
@@ -19,5 +21,8 @@ public class ChooseCloudTile implements Action{
     @Override
     public void execute() {
         // TODO implement here
+        for(int i = 0; i < cloudTile.getStudents().length; i++){
+
+        }
     }
 }
