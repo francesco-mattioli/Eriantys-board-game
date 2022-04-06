@@ -25,6 +25,7 @@ public class MoveStudentOntoIsland implements Action{
      */
     @Override
     public void execute() {
+        schoolBoard.removeStudentFromEntrance(student);
         destination.addStudent(student);
     }
 }
