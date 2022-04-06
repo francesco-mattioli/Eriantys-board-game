@@ -1,5 +1,7 @@
 package it.polimi.ingsw.triton.launcher.model;
 
+import it.polimi.ingsw.triton.launcher.model.cardeffects.CharacterCard;
+
 public class UseCharacterCard implements Action{
     private CharacterCard characterCard;
 

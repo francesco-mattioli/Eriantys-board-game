@@ -1,5 +1,7 @@
 package it.polimi.ingsw.triton.launcher.model;
 
+import it.polimi.ingsw.triton.launcher.model.cardeffects.CharacterCard;
+
 import java.util.ArrayList;
 
 public class Island{

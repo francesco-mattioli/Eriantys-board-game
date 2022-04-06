@@ -1,6 +1,7 @@
-package it.polimi.ingsw.triton.launcher.model;
+package it.polimi.ingsw.triton.launcher.model.cardeffects;
 
-import javax.swing.text.html.HTMLDocument;
+import it.polimi.ingsw.triton.launcher.model.Island;
+
 import java.util.ArrayList;
 
 public class CardEffect06 implements CardEffect{

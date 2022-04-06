@@ -1,4 +1,6 @@
-package it.polimi.ingsw.triton.launcher.model;
+package it.polimi.ingsw.triton.launcher.model.cardeffects;
+
+import it.polimi.ingsw.triton.launcher.model.ProfessorsManager;
 
 public class CardEffect02 implements CardEffect{
     private ProfessorsManager professorsManager;

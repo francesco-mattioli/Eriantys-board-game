@@ -1,4 +1,6 @@
-package it.polimi.ingsw.triton.launcher.model;
+package it.polimi.ingsw.triton.launcher.model.cardeffects;
+
+import it.polimi.ingsw.triton.launcher.model.SchoolBoard;
 
 public class CardEffect07 implements CardEffect{
     private int[] fromCard;

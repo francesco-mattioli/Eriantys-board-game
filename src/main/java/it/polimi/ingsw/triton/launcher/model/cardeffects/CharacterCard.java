@@ -1,4 +1,4 @@
-package it.polimi.ingsw.triton.launcher.model;
+package it.polimi.ingsw.triton.launcher.model.cardeffects;
 
 public class CharacterCard {
     protected int id;

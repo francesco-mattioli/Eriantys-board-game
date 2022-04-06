@@ -102,7 +102,7 @@ public class Game {
     public void setupMotherNature() {
         Random random = new Random();
         int randomIndex = random.nextInt(islands.size());
-        motherNature = MotherNature.instance(islands.get(randomIndex));
+        //motherNature = MotherNature.instance(islands.get(randomIndex));
     }
 
     public void setupBag() {
