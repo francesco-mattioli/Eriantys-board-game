@@ -23,6 +23,7 @@ public class ChooseCloudTile implements Action{
         // TODO implement here
         for(int i = 0; i < cloudTile.getStudents().length; i++){
             for(int j = 0; j < cloudTile.getStudents()[i]; j++){
+                cloudTile.removeStudentFromCloudTile(Color.values()[i]);
                 schoolBoard.addStudentIntoEntrance(Color.values()[i]);
             }
         }
