@@ -4,7 +4,7 @@ public class Player {
     private String username;
     private int moveCounter = 0;
     private AssistantDeck assistantDeck;
-    private AssistantCard lastPlayedCard;
+    private AssistantCard lastPlayedAssistantCard;
     private SchoolBoard schoolBoard;
 
     public String getUsername() {
@@ -26,4 +26,9 @@ public class Player {
     public void setSchoolBoard (TowerColor towerColor){
         this.schoolBoard = new SchoolBoard(towerColor);
     }
+
+    public void playCard(AssistantCard assistantCard){
+        this.lastPlayedAssistantCard=assistantCard;
+    }
+
 }

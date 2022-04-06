@@ -60,9 +60,17 @@ public class Game {
     }
 
     // Planning phase
-    public void planningPhase(){
+    public void planningPhase(AssistantCard assistantCard){
         setupCloudTiles();
     }
+
+
+
+
+
+
+
+
 
 
     //--- methods for the PIANIFICATION PHASE
@@ -84,7 +92,7 @@ public class Game {
 
 
 
-
+    // methods for the PREPARATION PHASE
     public void createIslands() {
         for (int i = 0; i < MAX_NUM_OF_ISLANDS ; i++) {
             islands.add(new Island(i));
@@ -156,6 +164,8 @@ public class Game {
         Random random = new Random();
         currentPlayer = players.get(random.nextInt(players.size()));
     }
+
+    // end of methods for the PREPARATION PHASE
 
     public void endGame() {
 
