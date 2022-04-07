@@ -36,6 +36,10 @@ public class SchoolBoard {
         return entrance;
     }
 
+    public int[] getDiningRoom() {
+        return diningRoom;
+    }
+
     public void moveTowerOntoIsland(int dim, Island island){
         // TODO implement here
     }
