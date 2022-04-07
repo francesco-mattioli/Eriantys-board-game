@@ -73,4 +73,16 @@ public class SchoolBoard {
         return diningRoom[color.ordinal()];
     }
 
+    /**
+     * Remove a student with a specified color from the entrance
+     * @param student the color of the student to remove
+     * @exception if there are no students of the specified color at the entrance
+     */
+    public void removeStudentFromEntrance(Color student){
+        if(entrance[student.ordinal()] > 0)
+            entrance[student.ordinal()]--;
+        else
+            throw new RuntimeException("No students of color " + student.name() + " at entrance");
+    }
+
 }

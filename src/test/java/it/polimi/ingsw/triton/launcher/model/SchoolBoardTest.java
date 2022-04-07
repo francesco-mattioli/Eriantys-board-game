@@ -1,5 +1,6 @@
 package it.polimi.ingsw.triton.launcher.model;
 
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -55,5 +56,22 @@ class SchoolBoardTest {
         assertEquals(0, schoolBoard.getStudentsNumber(Color.GREEN));
         schoolBoard.addStudentIntoDiningRoom(Color.GREEN);
         assertEquals(1, schoolBoard.getStudentsNumber(Color.GREEN));
+    }
+
+    /**
+     * Test if the student is removed from the entrance of the school board
+     */
+    @Test
+    void removeStudentFromEntrance() {
+        SchoolBoard schoolBoard = new SchoolBoard(TowerColor.BLACK);
+        Color student = Color.BLUE;
+        Exception exception = Assertions.assertThrows(RuntimeException.class, ()->schoolBoard.removeStudentFromEntrance(student));
+        assertEquals("No students of color " + student.name() + " at entrance", exception.getMessage());
+        schoolBoard.addStudentIntoEntrance(Color.GREEN);
+        schoolBoard.addStudentIntoEntrance(student);
+        schoolBoard.removeStudentFromEntrance(Color.GREEN);
+        assertEquals(1, schoolBoard.getEntrance()[student.ordinal()]);
+        schoolBoard.removeStudentFromEntrance(student);
+        assertEquals(0, schoolBoard.getEntrance()[student.ordinal()]);
     }
 }

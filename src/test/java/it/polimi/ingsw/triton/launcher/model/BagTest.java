@@ -8,21 +8,45 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class BagTest {
 
+    /**
+     * Test if the bag is empty throws an exception
+     */
     @Test
-    void drawStudent() {
-        /*int before = 0;
-        int after = 0;
+    void throwsNoSuchElementExceptionIfEmpty() {
         Bag bag = Bag.instance(2);
-        //assertThrows(NoSuchElementException.class, bag::isEmpty);
-        bag.fillBag();
-            for (int i = 0; i<5; i++){
-                before+=bag.getStudents()[i];
-            }
-            drawStudent();
-            for (int i = 0; i<5; i++){
-                after+=bag.getStudents()[i];
-            }
-            assertEquals(after,before-1);*/
+        assertThrows(NoSuchElementException.class, bag::drawStudent);
+    }
+
+    /**
+     * Test if after the function draw the number of students is correct
+     */
+    @Test
+    void drawOneStudentWhenTheBagHasTwo(){
+        Bag bag = Bag.instance(2);
+        int current = 0;
+        bag.addStudent(Color.BLUE);
+        bag.addStudent(Color.BLUE);
+        bag.drawStudent();
+        for (int i = 0; i < bag.getStudents().length; i++){
+            current += bag.getStudents()[i];
+        }
+        assertEquals(1,current);
+    }
+
+
+    /**
+     * Test if after the function draw the number of students is correct
+     */
+    @Test
+    void drawOneStudentWhenTheBagHasOne(){
+        Bag bag = Bag.instance(2);
+        int current = 0;
+        bag.addStudent(Color.BLUE);
+        bag.drawStudent();
+        for (int i = 0; i < bag.getStudents().length; i++){
+            current += bag.getStudents()[i];
+        }
+        assertEquals(0,current);
     }
 
     @Test
