@@ -4,11 +4,14 @@ import it.polimi.ingsw.triton.launcher.model.enums.TowerColor;
 import it.polimi.ingsw.triton.launcher.model.enums.Wizard;
 import it.polimi.ingsw.triton.launcher.model.playeractions.Action;
 
+import java.util.ArrayList;
+
 public class Player {
     private String username;
     private int moveCounter = 0;
     private AssistantDeck assistantDeck;
-    private AssistantCard lastPlayedAssistantCard;
+    //private AssistantCard lastPlayedAssistantCard;
+    private ArrayList<AssistantCard> currentPlayedCard = new ArrayList<>();  //Chiedere per passaggio per riferimento nei metodi
     private SchoolBoard schoolBoard;
 
     public String getUsername() {

@@ -13,7 +13,7 @@ public class PlayCard implements Action {
     private AssistantCard assistantCard;
     private AssistantDeck assistantDeck;
     private ArrayList<Integer> usedCards;
-    private AssistantCard currentPlayedCard;
+    private ArrayList<AssistantCard> currentPlayedCard;
 
     /**
      * @param assistantCard the assistant card selected by the player.
@@ -21,7 +21,7 @@ public class PlayCard implements Action {
      * @param usedCards the cards already played in this turn.
      * @param currentPlayedCard the card played by the user.
      */
-    public PlayCard(AssistantCard assistantCard, AssistantDeck assistantDeck, ArrayList<Integer> usedCards, AssistantCard currentPlayedCard){
+    public PlayCard(AssistantCard assistantCard, AssistantDeck assistantDeck, ArrayList<Integer> usedCards, ArrayList<AssistantCard> currentPlayedCard){
         this.assistantCard = assistantCard;
         this.assistantDeck = assistantDeck;
         this.usedCards = usedCards;
@@ -68,12 +68,15 @@ public class PlayCard implements Action {
     @Override
     public void execute() {
         if(isUsedCard(assistantCard, usedCards)){
-            if(isUniqueChoice(assistantDeck, usedCards))
-                currentPlayedCard = assistantCard;
-            else
+            if(isUniqueChoice(assistantDeck, usedCards)) {
+                currentPlayedCard.remove(0);
+                currentPlayedCard.add(assistantCard);
+            }else
                 throw new RuntimeException("The selected card is already used");
         }else{
-            currentPlayedCard = assistantCard;
+            currentPlayedCard.remove(0);
+            currentPlayedCard.add(assistantCard);
+            assistantDeck.removeCard(assistantCard);
         }
     }
 }

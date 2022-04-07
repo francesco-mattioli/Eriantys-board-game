@@ -22,4 +22,13 @@ public class AssistantDeck {
         return assistantDeck;
     }
 
+    public void removeCard(AssistantCard cardToRemove){
+        for(int i = 0; i < assistantDeck.size(); i++){
+            if(assistantDeck.get(i).getAssistantCardType().getValue() == cardToRemove.getAssistantCardType().getValue()) {
+                assistantDeck.remove(i);
+                break;
+            }
+        }
+    }
+
 }
