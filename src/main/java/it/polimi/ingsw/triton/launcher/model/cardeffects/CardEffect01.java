@@ -1,21 +1,30 @@
 package it.polimi.ingsw.triton.launcher.model.cardeffects;
 
-import it.polimi.ingsw.triton.launcher.model.Bag;
 import it.polimi.ingsw.triton.launcher.model.Color;
 import it.polimi.ingsw.triton.launcher.model.Island;
 
-public class CardEffect01 implements CardEffect{
-    private Bag bag;
-    private Island island;
+public class CardEffect01 implements CardEffect {
+    private final Island island;
+    private final Color student;
+    private final CharacterCard characterCard;
 
-
-    public CardEffect01(Bag bag, Color student, Island island){
-        this.bag=bag;
-        this.island=island;
+    /**
+     * @param student to draw from the Card.
+     * @param island  where the student must be moved.
+     */
+    public CardEffect01(CharacterCard characterCard, Color student, Island island) {
+        this.characterCard = characterCard;
+        this.island = island;
+        this.student = student;
     }
 
+    /**
+     * This method adds a student onto an island.
+     * The chosen student was on the CharacterCard.
+     * The island is passed through the constructor.
+     */
     @Override
-    public void executeEffect() {
-       // TODO implement here
+    public void execute() {
+        island.addStudent(characterCard.drawStudent(student));
     }
 }

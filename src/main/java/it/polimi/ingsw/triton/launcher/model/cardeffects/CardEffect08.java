@@ -12,7 +12,7 @@ public class CardEffect08 implements CardEffect{
     }
 
     @Override
-    public void executeEffect() {
+    public void execute() {
         // TODO implement here
     }
 }
