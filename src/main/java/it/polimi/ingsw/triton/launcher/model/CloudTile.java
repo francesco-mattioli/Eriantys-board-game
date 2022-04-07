@@ -13,7 +13,10 @@ public class CloudTile {
      * set the students when the game has 3 players
      * @param x,y,z,w the students to add to the cloudTile
      */
-    public void setStudents(Color x, Color y, Color z, Color w){
+    public void setStudents(Color x, Color y, Color z, Color w) throws IllegalArgumentException{
+        if (x == null || y == null || z == null || w == null){
+            throw new IllegalArgumentException("Color cannot be null");
+        }
         students[x.ordinal()]++;
         students[y.ordinal()]++;
         students[z.ordinal()]++;
@@ -24,7 +27,10 @@ public class CloudTile {
      * set the students when the game has 2 players
      * @param x,y,z the students to add to the cloudTile
      */
-    public void setStudents(Color x, Color y, Color z){
+    public void setStudents(Color x, Color y, Color z) throws IllegalArgumentException{
+        if (x == null || y == null || z == null){
+            throw new IllegalArgumentException("Color cannot be null");
+        }
         students[x.ordinal()]++;
         students[y.ordinal()]++;
         students[z.ordinal()]++;
@@ -34,8 +40,10 @@ public class CloudTile {
      * Add a students in the cloudTile
      * @param x the student to add to the cloudTile
      */
-    public void addStudent(Color x){
-        students[x.ordinal()]++;
+    public void addStudent(Color x) throws IllegalArgumentException{
+        if(x == null)
+            throw new IllegalArgumentException("Color cannot be null");
+        else students[x.ordinal()]++;
     }
 
     /**
@@ -53,6 +61,6 @@ public class CloudTile {
         if(students[student.ordinal()] > 0)
             students[student.ordinal()] --;
         else
-            throw new RuntimeException("There aren't " + student.name() + " students on this cloud tile");
+            throw new IllegalArgumentException("There aren't " + student.name() + " students on this cloud tile");
     }
 }

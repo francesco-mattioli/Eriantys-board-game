@@ -68,7 +68,9 @@ public class Bag {
      * Add a student to the bag
      * @param color the student to add to the bag
      */
-    public void addStudent(Color color) {
+    public void addStudent(Color color) throws IllegalArgumentException{
+        if (color == null)
+            throw new IllegalArgumentException("Color cannot be null");
         students[color.ordinal()]++;
     }
 

@@ -1,42 +1,63 @@
 package it.polimi.ingsw.triton.launcher.model;
 
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 class CloudTileTest {
 
-    @Test
-    void setStudents() {
+    private CloudTile cloudTile;
+
+    @BeforeEach
+    public void setUp(){
+        cloudTile = new CloudTile(1);
     }
 
-    @Test
-    void testSetStudents() {
-    }
-
-    @Test
-    void addStudent() {
-    }
-
-    @Test
-    void getStudents() {
+    @AfterEach
+    public void tearDown(){
+        cloudTile = null;
     }
 
     /**
-     * Test if the student is removed from the cloud tile
+     * Test if the student is added
      */
     @Test
-    void removeStudentFromCloudTile() {
-        CloudTile ct = new CloudTile(1);
-        Color student = Color.YELLOW;
-        assertNotNull(ct);
-        ct.setStudents(Color.BLUE, Color.RED, Color.GREEN);
-        Exception exception = Assertions.assertThrows(RuntimeException.class, ()->ct.removeStudentFromCloudTile(student));
-        assertEquals("There aren't " + student.name() + " students on this cloud tile", exception.getMessage());
-        Color student2 = Color.BLUE;
-        assertEquals(1, ct.getStudents()[student2.ordinal()]);
-        ct.removeStudentFromCloudTile(student2);
-        assertEquals(0, ct.getStudents()[student2.ordinal()]);
+    void addOneStudentWhenCloudTileHasZero() {
+        cloudTile.addStudent(Color.BLUE);
+        int current = 0;
+        for (int i = 0; i < cloudTile.getStudents().length; i++){
+            current += cloudTile.getStudents()[i];
+        }
+        assertEquals(1,current);
+    }
+
+    /**
+     * Test throws an exception if color == null
+     */
+    @Test
+    void addNullStudentColor(){
+        assertThrows(IllegalArgumentException.class, () -> {cloudTile.addStudent(null);});
+    }
+
+
+    /**
+     * Tests if removeStudentFromCloudTile throws an exception when cloudtile is empty
+     */
+    @Test
+    void throwExceptionWhenCloudTileIsEmpty() {
+        assertThrows(IllegalArgumentException.class, ()->cloudTile.removeStudentFromCloudTile(Color.YELLOW));
+    }
+
+    /**
+     * Tests if removeStudentFromCloudTile remove the correct student
+     */
+    @Test
+    void removeOneBlueStudentWhenThereIsOne(){
+        cloudTile.setStudents(Color.BLUE, Color.RED, Color.GREEN);
+        cloudTile.removeStudentFromCloudTile(Color.BLUE);
+        assertEquals(0, cloudTile.getStudents()[Color.BLUE.ordinal()]);
     }
 }
