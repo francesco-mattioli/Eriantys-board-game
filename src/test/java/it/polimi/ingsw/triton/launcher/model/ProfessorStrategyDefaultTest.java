@@ -1,0 +1,64 @@
+package it.polimi.ingsw.triton.launcher.model;
+
+import it.polimi.ingsw.triton.launcher.model.enums.Color;
+import it.polimi.ingsw.triton.launcher.model.enums.TowerColor;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.*;
+
+class ProfessorStrategyDefaultTest {
+
+    private ProfessorsManager professorsManager;
+    private Player player;
+
+    @BeforeEach
+    void setUp(){
+        professorsManager = new ProfessorsManager();
+        professorsManager.setProfessorStrategy(new ProfessorStrategyDefault());
+        player = new Player("TestPlayer");
+        player.setSchoolBoard(TowerColor.BLACK);
+    }
+
+    @AfterEach
+    void tearDown(){
+        professorsManager = null;
+        player = null;
+    }
+
+    /**
+     * Test throws an exception if the parameter color is null
+     */
+    @Test
+    void throwExceptionIfColorIsNull() {
+        assertThrows(IllegalArgumentException.class, () -> {
+            professorsManager.updateProfessors(player,null);
+        });
+    }
+
+
+    /**
+     * Tests if update correctly the influence when the professor is not taken
+     */
+    @Test
+    void updateProfessorInfluenceWhenPlayerIsNull(){
+        player.getSchoolBoard().getDiningRoom()[Color.BLUE.ordinal()]=1;
+        professorsManager.updateProfessors(player,Color.BLUE);
+        assertTrue(player.equals(professorsManager.getProfessors()[Color.BLUE.ordinal()]));
+    }
+
+    /**
+     * Tests if update correctly the influence when the professor is taken
+     */
+    @Test
+    void updateProfessorInfluenceWhenPlayerIsNotNull(){
+        Player playerWithProfessor = new Player("TestPlayer1");
+        playerWithProfessor.setSchoolBoard(TowerColor.WHITE);
+        playerWithProfessor.getSchoolBoard().getDiningRoom()[Color.BLUE.ordinal()]=1;
+        professorsManager.getProfessors()[Color.BLUE.ordinal()] = playerWithProfessor;
+        player.getSchoolBoard().getDiningRoom()[Color.BLUE.ordinal()]=2;
+        professorsManager.updateProfessors(player,Color.BLUE);
+        assertTrue(player.equals(professorsManager.getProfessors()[Color.BLUE.ordinal()]));
+    }
+}
