@@ -11,12 +11,12 @@ class CharacterCardTest {
 
     @Test
     void costIsOneUnitGraterAfterIncrease() {
-        Bag bag = Bag.instance(2);
+        Bag bag = new Bag(2);
         bag.addStudent(Color.BLUE);
         bag.addStudent(Color.BLUE);
         bag.addStudent(Color.BLUE);
         bag.addStudent(Color.BLUE);
-        CharacterCard card = new CharacterCard(1,1,3,Bag.instance(2));
+        CharacterCard card = new CharacterCard(1,1,3,new Bag(2));
 
         card.increaseCost();
         assertEquals(2,card.getCost());
@@ -25,12 +25,12 @@ class CharacterCardTest {
 
     @Test
     void numberOfStudentsIsOneSmallerAfterDraw() {
-        Bag bag = Bag.instance(2);
+        Bag bag = new Bag(2);
         bag.addStudent(Color.BLUE);
         bag.addStudent(Color.BLUE);
         bag.addStudent(Color.BLUE);
         bag.addStudent(Color.BLUE);
-        CharacterCard card = new CharacterCard(1,1,3,Bag.instance(2));
+        CharacterCard card = new CharacterCard(1,1,3,new Bag(2));
         Color color=card.drawStudent(Color.BLUE);
         int[] students = card.getStudents();
         int sum=0;

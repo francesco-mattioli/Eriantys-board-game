@@ -6,22 +6,16 @@ import java.util.Random;
 public class Bag {
     private int numPlayer;
     private int[] students;
-    private static Bag bagInstance;
 
-    // some some useful final variables
+    // some useful final variables
     private final int NUM_OF_STUDENTS_COLORS = Color.values().length;
     private final int NUM_OF_STUDENTS_FOREACH_COLOR = 26;
 
-    private Bag(int numPlayers) {
+    public Bag(int numPlayers) {
         this.students=new int[5];
         this.numPlayer=numPlayers;
     }
-
-    public static Bag instance(int numPlayers){
-        if(bagInstance == null)
-            bagInstance = new Bag(numPlayers);
-        return bagInstance;
-    }
+    
 
     /**
      * Draw a random student from the bag
@@ -53,10 +47,10 @@ public class Bag {
      */
     public void fillCloudTile(CloudTile cloudTile) {
         if (numPlayer == 2){
-            cloudTile.setStudents(bagInstance.drawStudent(),bagInstance.drawStudent(),bagInstance.drawStudent());
+            cloudTile.setStudents(drawStudent(),drawStudent(),drawStudent());
         }
         if (numPlayer > 2){
-            cloudTile.setStudents(bagInstance.drawStudent(),bagInstance.drawStudent(),bagInstance.drawStudent(),bagInstance.drawStudent());
+            cloudTile.setStudents(drawStudent(),drawStudent(),drawStudent(),drawStudent());
         }
     }
 
