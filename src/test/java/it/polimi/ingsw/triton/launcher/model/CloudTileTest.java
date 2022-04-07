@@ -44,6 +44,23 @@ class CloudTileTest {
 
 
     /**
+     * Test throws an exception if color == null
+     */
+    @Test
+    void setNullColorWhenTwoPlayers(){
+        assertThrows(IllegalArgumentException.class, () -> {cloudTile.setStudents(null,Color.BLUE,Color.RED);});
+    }
+
+
+    /**
+     * Test throws an exception if color == null
+     */
+    @Test
+    void setNullColorWhenThreePlayers(){
+        assertThrows(IllegalArgumentException.class, () -> {cloudTile.setStudents(null,Color.BLUE,Color.RED,Color.GREEN);});
+    }
+
+    /**
      * Tests if removeStudentFromCloudTile throws an exception when cloudtile is empty
      */
     @Test
