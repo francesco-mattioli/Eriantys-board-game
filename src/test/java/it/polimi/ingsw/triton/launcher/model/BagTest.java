@@ -49,6 +49,20 @@ class BagTest {
         assertEquals(0,current);
     }
 
+
+    /**
+     * Test if after the function draw the correct student color
+     */
+    @Test
+    void drawCorrectStudentColor(){
+        Bag bag = Bag.instance(2);
+        int current = 0;
+        bag.addStudent(Color.BLUE);
+        bag.drawStudent();
+        current = bag.getStudents()[Color.BLUE.ordinal()];
+        assertEquals(0,current);
+    }
+
     @Test
     void fillCloudTile() {
     }
