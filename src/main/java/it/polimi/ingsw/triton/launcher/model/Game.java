@@ -59,11 +59,7 @@ public class Game {
         setupWizard(playerWizardMap);
         setupEntrance();
         setupFirstPlayer();
-
-
-        CharacterCard card= new CharacterCard(1,3,0,bag);
-
-        card.executeEffect(new CardEffect01(card,Color.BLUE,islands.get(0)));
+        
     }
 
     // Planning phase
