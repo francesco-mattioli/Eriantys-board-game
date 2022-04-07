@@ -2,6 +2,7 @@ package it.polimi.ingsw.triton.launcher.model;
 
 import it.polimi.ingsw.triton.launcher.model.enums.TowerColor;
 import it.polimi.ingsw.triton.launcher.model.enums.Wizard;
+import it.polimi.ingsw.triton.launcher.model.playeractions.Action;
 
 public class Player {
     private String username;
@@ -30,8 +31,15 @@ public class Player {
         this.schoolBoard = new SchoolBoard(towerColor);
     }
 
-    public void playCard(AssistantCard assistantCard){
-        this.lastPlayedAssistantCard=assistantCard;
+
+    /**
+     * @param action to be executed
+     */
+    public void executeAction(Action action){
+        action.execute();
     }
+
+    // Comments for developers: the action should be called from the Game in this way.
+    // player.executeAction( new PlayCard(..arguments..) )
 
 }
