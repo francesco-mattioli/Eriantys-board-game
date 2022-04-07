@@ -13,10 +13,14 @@ class BagTest {
     private Bag bag;
 
     @BeforeEach
-    public void setUp(){
+    void setUp() {
         bag = new Bag(2);
     }
 
+    @AfterEach
+    void tearDown() {
+        bag = null;
+    }
 
     /**
      * Test if the bag is empty throws an exception
@@ -31,16 +35,16 @@ class BagTest {
      * Test if after the function draw the number of students is correct
      */
     @Test
-    void drawOneStudentWhenTheBagHasTwo(){
+    void drawOneStudentWhenTheBagHasTwo() {
         //Bag bag = Bag.instance(2);
         int current = 0;
         bag.addStudent(Color.BLUE);
         bag.addStudent(Color.BLUE);
         bag.drawStudent();
-        for (int i = 0; i < bag.getStudents().length; i++){
+        for (int i = 0; i < bag.getStudents().length; i++) {
             current += bag.getStudents()[i];
         }
-        assertEquals(1,current);
+        assertEquals(1, current);
     }
 
 
@@ -48,15 +52,15 @@ class BagTest {
      * Test if after the function draw the number of students is correct
      */
     @Test
-    void drawOneStudentWhenTheBagHasOne(){
+    void drawOneStudentWhenTheBagHasOne() {
         //Bag bag = Bag.instance(2);
         int current = 0;
         bag.addStudent(Color.BLUE);
         bag.drawStudent();
-        for (int i = 0; i < bag.getStudents().length; i++){
+        for (int i = 0; i < bag.getStudents().length; i++) {
             current += bag.getStudents()[i];
         }
-        assertEquals(0,current);
+        assertEquals(0, current);
     }
 
 
@@ -64,13 +68,13 @@ class BagTest {
      * Test if after the function draw the correct student color
      */
     @Test
-    void drawCorrectStudentColor(){
+    void drawCorrectStudentColor() {
         //Bag bag = Bag.instance(2);
         int current = 0;
         bag.addStudent(Color.BLUE);
         bag.drawStudent();
         current = bag.getStudents()[Color.BLUE.ordinal()];
-        assertEquals(0,current);
+        assertEquals(0, current);
     }
 
     /**
@@ -83,10 +87,10 @@ class BagTest {
         bag.fillBag();
         int current = 0;
         bag.fillCloudTile(cloudTile);
-        for (int i = 0; i < cloudTile.getStudents().length; i++){
-            current+= cloudTile.getStudents()[i];
+        for (int i = 0; i < cloudTile.getStudents().length; i++) {
+            current += cloudTile.getStudents()[i];
         }
-        assertEquals(3,current);
+        assertEquals(3, current);
     }
 
     /**
@@ -99,10 +103,10 @@ class BagTest {
         bagForThree.fillBag();
         int current = 0;
         bagForThree.fillCloudTile(cloudTile);
-        for (int i = 0; i < cloudTile.getStudents().length; i++){
-            current+= cloudTile.getStudents()[i];
+        for (int i = 0; i < cloudTile.getStudents().length; i++) {
+            current += cloudTile.getStudents()[i];
         }
-        assertEquals(4,current);
+        assertEquals(4, current);
     }
 
 
@@ -114,10 +118,10 @@ class BagTest {
         //Bag bag = Bag.instance(2);
         bag.fillBag();
         int tot = 0;
-        for (int i = 0; i < Color.values().length; i++){
-            tot+=bag.getStudents()[i];
+        for (int i = 0; i < Color.values().length; i++) {
+            tot += bag.getStudents()[i];
         }
-        assertEquals(120,tot);
+        assertEquals(120, tot);
     }
 
     /**
@@ -128,10 +132,10 @@ class BagTest {
         //Bag bag = Bag.instance(2);
         int current = 0;
         bag.addStudent(Color.BLUE);
-        for (int i = 0; i < bag.getStudents().length; i++){
+        for (int i = 0; i < bag.getStudents().length; i++) {
             current += bag.getStudents()[i];
         }
-        assertEquals(1,current);
+        assertEquals(1, current);
     }
 
     /**
@@ -147,7 +151,7 @@ class BagTest {
      * Test if the bag is not empty
      */
     @Test
-    void theBagIsNotEmpty(){
+    void theBagIsNotEmpty() {
         //Bag bag = Bag.instance(2);
         bag.addStudent(Color.BLUE);
         assertFalse(bag.isEmpty());
