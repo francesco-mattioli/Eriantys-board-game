@@ -79,6 +79,7 @@ class PlayCardTest {
         AssistantCard assistantCard = new AssistantCard(AssistantCardType.DOG);
         assertNotNull(assistantCard);
         AssistantDeck assistantDeck = new AssistantDeck(Wizard.BLUE);
+        int dim = assistantDeck.getAssistantDeck().size();
         ArrayList<Integer> usedCards = new ArrayList<>();
         ArrayList<AssistantCard> currentCard = new ArrayList<>();
         currentCard.add(new AssistantCard(AssistantCardType.CAT));
@@ -87,5 +88,6 @@ class PlayCardTest {
         PlayCard pc = new PlayCard(assistantCard, assistantDeck, usedCards, currentCard);
         pc.execute();
         assertEquals(assistantCard, currentCard.get(0));
+        assertEquals(dim-1, assistantDeck.getAssistantDeck().size());
     }
 }
