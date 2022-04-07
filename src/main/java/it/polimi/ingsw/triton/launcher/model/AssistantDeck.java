@@ -7,6 +7,7 @@ import java.util.ArrayList;
 
 public class AssistantDeck {
     private Wizard wizard;
+
     private ArrayList<AssistantCard> assistantDeck = new ArrayList<>();
     private final int CARDS_NUMBER = 10;
 
@@ -15,6 +16,10 @@ public class AssistantDeck {
         for(int i = 0; i < CARDS_NUMBER; i++){
             assistantDeck.add(new AssistantCard(AssistantCardType.values()[i]));
         }
+    }
+
+    public ArrayList<AssistantCard> getAssistantDeck() {
+        return assistantDeck;
     }
 
 }

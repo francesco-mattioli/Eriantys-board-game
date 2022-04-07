@@ -5,8 +5,8 @@ import it.polimi.ingsw.triton.launcher.model.Island;
 import it.polimi.ingsw.triton.launcher.model.SchoolBoard;
 
 /**
- * Represent an action performed by the user.
- * This class moves a student onto an island
+ * Represents an action performed by the user.
+ * Moves a student onto an island.
  */
 public class MoveStudentOntoIsland implements Action {
     private Color student;
@@ -14,9 +14,9 @@ public class MoveStudentOntoIsland implements Action {
     private SchoolBoard schoolBoard;
 
     /**
-     * @param schoolBoard the school board of the player
-     * @param student the color of student to move onto island
-     * @param destination the island where to put the student
+     * @param schoolBoard the school board of the player.
+     * @param student the color of student to move onto island.
+     * @param destination the island where to put the student.
      */
     public MoveStudentOntoIsland(SchoolBoard schoolBoard, Color student, Island destination){
         this.schoolBoard = schoolBoard;
@@ -25,7 +25,7 @@ public class MoveStudentOntoIsland implements Action {
     }
 
     /**
-     * Move the student to the island selected by the user
+     * Moves the student to the island selected by the user.
      */
     @Override
     public void execute() {

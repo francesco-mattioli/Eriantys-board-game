@@ -15,7 +15,7 @@ class SchoolBoardTest {
     }
 
     /**
-     * Test if the tower is added on the school board
+     * Tests if the tower is added on the school board.
      */
     @Test
     void moveTowerOntoSchoolBoard() {
@@ -25,7 +25,7 @@ class SchoolBoardTest {
     }
 
     /**
-     * Test if the student is added in the dining room of the school board
+     * Tests if the student is added in the dining room of the school board.
      */
     @Test
     void addStudentIntoDiningRoom() {
@@ -37,7 +37,7 @@ class SchoolBoardTest {
     }
 
     /**
-     * Test if the student is added in the entrance of the school board
+     * Tests if the student is added in the entrance of the school board.
      */
     @Test
     void addStudentIntoEntrance() {
@@ -49,8 +49,8 @@ class SchoolBoardTest {
     }
 
     /**
-     * Return the number of students of a certain color
-     * in the dining room of the school board
+     * Returns the number of students of a certain color
+     * in the dining room of the school board.
      */
     @Test
     void getStudentsNumber() {
@@ -61,7 +61,7 @@ class SchoolBoardTest {
     }
 
     /**
-     * Test if the student is removed from the entrance of the school board
+     * Tests if the student is removed from the entrance of the school board.
      */
     @Test
     void removeStudentFromEntrance() {

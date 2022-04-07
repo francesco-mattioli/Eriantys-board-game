@@ -3,6 +3,9 @@ package it.polimi.ingsw.triton.launcher.model;
 import it.polimi.ingsw.triton.launcher.model.enums.Color;
 import it.polimi.ingsw.triton.launcher.model.enums.TowerColor;
 
+/**
+ * Represents the school board of the player.
+ */
 public class SchoolBoard {
     private TowerColor towerColor;
     private int numTowers;
@@ -12,7 +15,7 @@ public class SchoolBoard {
     private final int INITIAL_NUM_TOWERS = 8;
 
     /**
-     * @param towerColor the color of towers in the school board
+     * @param towerColor the color of towers in the school board.
      */
     public SchoolBoard(TowerColor towerColor){
         this.towerColor = towerColor;
@@ -22,14 +25,14 @@ public class SchoolBoard {
     }
 
     /**
-     * @return the tower color of the school board
+     * @return the tower color of the school board.
      */
     public TowerColor getTowerColor() {
         return towerColor;
     }
 
     /**
-     * @return the number of towers in the school board
+     * @return the number of towers in the school board.
      */
     public int getNumTowers(){
         return numTowers;
@@ -48,42 +51,42 @@ public class SchoolBoard {
     }
 
     /**
-     * Remove the towers from the island and put them into the school board
-     * @param dim the number of towers to add in the school board
+     * Removes the towers from the island and put them into the school board.
+     * @param dim the number of towers to add in the school board.
      */
     public void moveTowerOntoSchoolBoard(int dim){
         numTowers+=dim;
     }
 
     /**
-     * Add a student in the dining room of the school board
-     * @param color the color of the student to insert
+     * Adds a student in the dining room of the school board.
+     * @param color the color of the student to insert.
      */
     public void addStudentIntoDiningRoom(Color color){
         diningRoom[color.ordinal()]++;
     }
 
     /**
-     * Add a student at the entrance of the school board
-     * @param color the color of the student to add at the entrance
+     * Adds a student at the entrance of the school board.
+     * @param color the color of the student to add at the entrance.
      */
     public void addStudentIntoEntrance(Color color){
         entrance[color.ordinal()]++;
     }
 
     /**
-     * @param color the color of the students
+     * @param color the color of the students.
      * @return the number of students in the dining room with
-     * the color passed in parameter
+     * the color passed in parameter.
      */
     public int getStudentsNumber(Color color){
         return diningRoom[color.ordinal()];
     }
 
     /**
-     * Remove a student with a specified color from the entrance
-     * @param student the color of the student to remove
-     * @exception if there are no students of the specified color at the entrance
+     * Removes a student with a specified color from the entrance.
+     * @param student the color of the student to remove.
+     * @throws RuntimeException when there are no students of the specified color at the entrance.
      */
     public void removeStudentFromEntrance(Color student){
         if(entrance[student.ordinal()] > 0)

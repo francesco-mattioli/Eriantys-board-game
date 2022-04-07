@@ -5,14 +5,14 @@ public class Wallet {
     private int value = 0;
 
     /**
-     * Increase the amount of coins of wallet
+     * Increases the amount of coins of wallet.
      */
     public void increaseValue(){
         value++;
     }
 
     /**
-     * @return number of coins in the wallet
+     * @return number of coins in the wallet.
      */
     public int getValue() {
         return value;

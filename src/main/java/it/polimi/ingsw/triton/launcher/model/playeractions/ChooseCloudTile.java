@@ -5,14 +5,14 @@ import it.polimi.ingsw.triton.launcher.model.enums.Color;
 import it.polimi.ingsw.triton.launcher.model.SchoolBoard;
 
 /**
- * Represents the choice of the cloud tile made by the player
+ * Represents the choice of the cloud tile made by the player.
  */
 public class ChooseCloudTile implements Action {
     private CloudTile cloudTile;
     private SchoolBoard schoolBoard;
 
     /**
-     * @param cloudTile the cloud tile chosen by the player
+     * @param cloudTile the cloud tile chosen by the player.
      */
     public ChooseCloudTile(CloudTile cloudTile, SchoolBoard schoolBoard){
         this.cloudTile = cloudTile;
@@ -20,7 +20,7 @@ public class ChooseCloudTile implements Action {
     }
 
     /**
-     * Move the students from the chosen cloud tile to the entrance of the player
+     * Moves the students from the chosen cloud tile to the entrance of the player.
      */
     @Override
     public void execute() {
