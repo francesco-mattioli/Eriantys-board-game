@@ -4,19 +4,12 @@ import java.util.ArrayList;
 
 public class MotherNature {
 
-    private static MotherNature motherNature;
     private Island position;
     private int additionalSteps;
 
-    private MotherNature(Island island) {
+    public MotherNature(Island island) {
         this.position=island;
         this.additionalSteps = 0;
-    }
-
-    public static MotherNature instance(Island island){
-        if (motherNature == null)
-            motherNature = new MotherNature(island);
-        return motherNature;
     }
 
     public Island getPosition() {

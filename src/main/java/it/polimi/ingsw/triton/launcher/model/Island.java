@@ -87,7 +87,4 @@ public class Island{
     public void addStudent(Color color){
         students[color.ordinal()]++;
     }
-
-
-
 }
