@@ -1,4 +1,4 @@
-package it.polimi.ingsw.triton.launcher.model;
+package it.polimi.ingsw.triton.launcher.model.enums;
 
 public enum AssistantCardType {
     TIGER(1,1),

@@ -1,5 +1,7 @@
 package it.polimi.ingsw.triton.launcher.model;
 
+import it.polimi.ingsw.triton.launcher.model.enums.Color;
+
 public class CloudTile {
     private int id;
     private int[] students;

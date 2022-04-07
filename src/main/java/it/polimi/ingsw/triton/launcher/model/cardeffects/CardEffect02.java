@@ -1,6 +1,6 @@
 package it.polimi.ingsw.triton.launcher.model.cardeffects;
 
-import it.polimi.ingsw.triton.launcher.model.Color;
+import it.polimi.ingsw.triton.launcher.model.enums.Color;
 import it.polimi.ingsw.triton.launcher.model.Player;
 import it.polimi.ingsw.triton.launcher.model.ProfessorStrategyWithEffect;
 import it.polimi.ingsw.triton.launcher.model.ProfessorsManager;

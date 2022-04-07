@@ -1,5 +1,8 @@
 package it.polimi.ingsw.triton.launcher.model;
 
+import it.polimi.ingsw.triton.launcher.model.enums.AssistantCardType;
+import it.polimi.ingsw.triton.launcher.model.enums.Wizard;
+
 import java.util.ArrayList;
 
 public class AssistantDeck {

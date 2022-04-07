@@ -1,5 +1,8 @@
 package it.polimi.ingsw.triton.launcher.model;
 
+import it.polimi.ingsw.triton.launcher.model.enums.Color;
+import it.polimi.ingsw.triton.launcher.model.enums.TowerColor;
+
 public class SchoolBoard {
     private TowerColor towerColor;
     private int numTowers;

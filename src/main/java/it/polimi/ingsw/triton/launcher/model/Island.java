@@ -1,6 +1,9 @@
 package it.polimi.ingsw.triton.launcher.model;
 
 import it.polimi.ingsw.triton.launcher.model.cardeffects.CharacterCard;
+import it.polimi.ingsw.triton.launcher.model.enums.Color;
+import it.polimi.ingsw.triton.launcher.model.influencestrategy.InfluenceStrategy;
+import it.polimi.ingsw.triton.launcher.model.influencestrategy.InfluenceStrategyDefault;
 
 import java.util.ArrayList;
 

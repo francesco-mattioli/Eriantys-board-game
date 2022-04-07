@@ -1,4 +1,6 @@
-package it.polimi.ingsw.triton.launcher.model;
+package it.polimi.ingsw.triton.launcher.model.influencestrategy;
+
+import it.polimi.ingsw.triton.launcher.model.Player;
 
 import java.util.ArrayList;
 

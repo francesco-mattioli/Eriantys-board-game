@@ -6,8 +6,8 @@ import it.polimi.ingsw.triton.launcher.model.Player;
 import java.util.ArrayList;
 
 public class CardEffect03 implements CardEffect{
-    private Island island;
-    private ArrayList<Player> players;
+    private final Island island;
+    private final ArrayList<Player> players;
     private Player[] professors;
 
     /**

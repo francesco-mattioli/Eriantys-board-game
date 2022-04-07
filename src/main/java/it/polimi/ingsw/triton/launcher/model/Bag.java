@@ -1,5 +1,7 @@
 package it.polimi.ingsw.triton.launcher.model;
 
+import it.polimi.ingsw.triton.launcher.model.enums.Color;
+
 import java.util.NoSuchElementException;
 import java.util.Random;
 
