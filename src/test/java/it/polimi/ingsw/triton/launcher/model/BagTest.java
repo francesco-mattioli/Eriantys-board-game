@@ -126,6 +126,14 @@ class BagTest {
     }
 
     /**
+     * Test throws an exception if color == null
+     */
+    @Test
+    void addNullStudentColor(){
+        assertThrows(IllegalArgumentException.class, () -> {bag.addStudent(null);});
+    }
+
+    /**
      * Test if after the function add the number of students is correct
      */
     @Test
