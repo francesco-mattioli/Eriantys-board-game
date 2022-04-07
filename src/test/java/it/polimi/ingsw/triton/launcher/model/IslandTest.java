@@ -14,7 +14,7 @@ class IslandTest {
         for(int i = 0; i < 7; i++)
             islands.add(new Island(i));
         Island position = islands.get(4);
-        MotherNature motherNature = MotherNature.instance(position);
+        MotherNature motherNature = new MotherNature(position);
         AssistantCard a1 = new AssistantCard(AssistantCardType.CAT);
         AssistantCard a2 = new AssistantCard(AssistantCardType.DOG);
         motherNature.move(a1, 2, islands);
