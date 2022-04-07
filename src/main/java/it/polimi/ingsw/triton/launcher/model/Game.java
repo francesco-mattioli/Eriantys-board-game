@@ -1,5 +1,8 @@
 package it.polimi.ingsw.triton.launcher.model;
 
+import it.polimi.ingsw.triton.launcher.model.cardeffects.CardEffect01;
+import it.polimi.ingsw.triton.launcher.model.cardeffects.CharacterCard;
+
 import java.util.ArrayList;
 import java.util.Map;
 import java.util.Random;
@@ -7,17 +10,15 @@ import java.util.Random;
 public class Game {
 
     private final ArrayList<Island> islands;
-
     private final Bag bag;
     private ArrayList<Player> players;
     private int generalCoinSupply;
     private ArrayList<CloudTile> cloudTiles;
     private Player currentPlayer;
-
     private MotherNature motherNature;
     private Player[] professors;
     private ProfessorsManager professorsManager;
-
+    private ArrayList<CharacterCard> characterCards;
 
     // some useful final variables
     private final int NUM_OF_STUDENTS_COLORS=Color.values().length;
@@ -25,10 +26,11 @@ public class Game {
     private final int INITIAL_NUM_COINS = 20;
 
     public Game() {
-        this.islands = new ArrayList<Island>();
+        this.islands = new ArrayList<>();
         this.bag = Bag.instance(players.size());
-        this.players = new ArrayList<Player>();
-        this.cloudTiles = new ArrayList<CloudTile>();
+        this.players = new ArrayList<>();
+        this.cloudTiles = new ArrayList<>();
+        this.characterCards=new ArrayList<>();
         this.generalCoinSupply = INITIAL_NUM_COINS;
     }
 
@@ -57,11 +59,17 @@ public class Game {
         setupWizard(playerWizardMap);
         setupEntrance();
         setupFirstPlayer();
+
+
+        CharacterCard card= new CharacterCard(1,3,0,bag);
+
+        card.executeEffect(new CardEffect01(card,Color.BLUE,islands.get(0)));
     }
 
     // Planning phase
     public void planningPhase(AssistantCard assistantCard){
         setupCloudTiles();
+
     }
 
 
