@@ -1,7 +1,9 @@
 package it.polimi.ingsw.triton.launcher.model;
 
-import it.polimi.ingsw.triton.launcher.model.cardeffects.CardEffect01;
 import it.polimi.ingsw.triton.launcher.model.cardeffects.CharacterCard;
+import it.polimi.ingsw.triton.launcher.model.enums.Color;
+import it.polimi.ingsw.triton.launcher.model.enums.TowerColor;
+import it.polimi.ingsw.triton.launcher.model.enums.Wizard;
 
 import java.util.ArrayList;
 import java.util.Map;
@@ -21,7 +23,7 @@ public class Game {
     private ArrayList<CharacterCard> characterCards;
 
     // some useful final variables
-    private final int NUM_OF_STUDENTS_COLORS=Color.values().length;
+    private final int NUM_OF_STUDENTS_COLORS= Color.values().length;
     private final int MAX_NUM_OF_ISLANDS =12;
     private final int INITIAL_NUM_COINS = 20;
 
@@ -47,7 +49,7 @@ public class Game {
     }
 
     // Preparation phase
-    public void startGame(Map<Player,TowerColor> playerTowerColorMap, Map<Player,Wizard> playerWizardMap) {
+    public void startGame(Map<Player, TowerColor> playerTowerColorMap, Map<Player, Wizard> playerWizardMap) {
         createIslands();
         setupMotherNature();
         setupBag();
@@ -60,10 +62,6 @@ public class Game {
         setupEntrance();
         setupFirstPlayer();
 
-
-        CharacterCard card= new CharacterCard(1,3,0,bag);
-
-        card.executeEffect(new CardEffect01(card,Color.BLUE,islands.get(0)));
     }
 
     // Planning phase

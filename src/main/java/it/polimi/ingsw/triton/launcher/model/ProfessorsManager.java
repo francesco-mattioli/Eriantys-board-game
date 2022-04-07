@@ -1,5 +1,7 @@
 package it.polimi.ingsw.triton.launcher.model;
 
+import it.polimi.ingsw.triton.launcher.model.enums.Color;
+
 public class ProfessorsManager {
     private ProfessorStrategy professorStrategy;
     private final Player[] professors;

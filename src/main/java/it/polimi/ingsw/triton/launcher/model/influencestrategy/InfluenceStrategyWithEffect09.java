@@ -1,4 +1,7 @@
-package it.polimi.ingsw.triton.launcher.model;
+package it.polimi.ingsw.triton.launcher.model.influencestrategy;
+
+import it.polimi.ingsw.triton.launcher.model.Player;
+import it.polimi.ingsw.triton.launcher.model.enums.Color;
 
 import java.util.ArrayList;
 

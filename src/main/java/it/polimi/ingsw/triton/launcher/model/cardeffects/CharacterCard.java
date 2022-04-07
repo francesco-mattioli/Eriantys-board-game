@@ -1,7 +1,7 @@
 package it.polimi.ingsw.triton.launcher.model.cardeffects;
 
 import it.polimi.ingsw.triton.launcher.model.Bag;
-import it.polimi.ingsw.triton.launcher.model.Color;
+import it.polimi.ingsw.triton.launcher.model.enums.Color;
 
 public class CharacterCard {
     protected int id;
@@ -11,6 +11,14 @@ public class CharacterCard {
     protected Bag bag;
     private CardEffect cardEffect;
 
+
+    /**
+     * This constructor creates the card and places students on it if necessary
+     * @param id is a unique number
+     * @param cost of the card
+     * @param noEntryTiles is the number of NoEntryTiles on the card
+     * @param bag in order to drawStudents and place them on the card
+     */
     public CharacterCard(int id, int cost, int noEntryTiles, Bag bag) {
         this.id = id;
         this.cost = cost;
@@ -25,10 +33,16 @@ public class CharacterCard {
         }
     }
 
+    /**
+     * This method increases the cost of the card each time a player chooses it
+     */
     public void increaseCost() {
         this.cost++;
     }
 
+    /**
+     * @param cardEffect is the effect that will be executed when the method is called
+     */
     public void executeEffect(CardEffect cardEffect) {
         cardEffect.execute();
     }
@@ -37,10 +51,12 @@ public class CharacterCard {
      * @param student to draw from the CharacterCard
      * @return the color of the drawn student
      */
-    public Color drawStudent(Color student) {
-        if (students[student.ordinal()] < 1) {
-            throw new IllegalArgumentException("this student is not present on the CharacterCard");
-        } else {
+    public Color drawStudent(Color student) throws IllegalArgumentException {
+        if (student == null)
+            throw new IllegalArgumentException("Color cannot be null");
+        if (students[student.ordinal()] < 1)
+            throw new IllegalArgumentException("This student is not present on the CharacterCard");
+        else {
             // This array contains the students present on the CharacterCard
             // Decrements the counter in the position corresponding to the drawn student
             students[student.ordinal()]--;
@@ -57,3 +73,10 @@ public class CharacterCard {
         return students;
     }
 }
+
+
+//comment to delete
+/*
+CharacterCard card = new CharacterCard(1,3,0,bag);
+card.executeEffect(new CardEffect01(card,Color.BLUE,islands.get(0)));
+ */

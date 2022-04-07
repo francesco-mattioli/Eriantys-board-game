@@ -1,5 +1,7 @@
 package it.polimi.ingsw.triton.launcher.model;
 
+import it.polimi.ingsw.triton.launcher.model.enums.Color;
+import it.polimi.ingsw.triton.launcher.model.enums.TowerColor;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
@@ -96,7 +98,7 @@ class GameTest {
         Game game = new Game();
         game.addPlayer("Gianni");
         game.addPlayer("Giorgio");
-        Map<Player,TowerColor> m1 = new HashMap<Player, TowerColor>();
+        Map<Player, TowerColor> m1 = new HashMap<Player, TowerColor>();
         m1.put(game.getPlayers().get(0), TowerColor.BLACK);
         Map<Player,TowerColor> m2 = new HashMap<Player, TowerColor>();
         m2.put(game.getPlayers().get(1), TowerColor.WHITE);

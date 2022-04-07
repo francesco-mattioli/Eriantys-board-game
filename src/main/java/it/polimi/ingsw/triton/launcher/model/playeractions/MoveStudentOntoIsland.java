@@ -1,10 +1,14 @@
-package it.polimi.ingsw.triton.launcher.model;
+package it.polimi.ingsw.triton.launcher.model.playeractions;
+
+import it.polimi.ingsw.triton.launcher.model.enums.Color;
+import it.polimi.ingsw.triton.launcher.model.Island;
+import it.polimi.ingsw.triton.launcher.model.SchoolBoard;
 
 /**
  * Represent an action performed by the user.
  * This class moves a student onto an island
  */
-public class MoveStudentOntoIsland implements Action{
+public class MoveStudentOntoIsland implements Action {
     private Color student;
     private Island destination;
     private SchoolBoard schoolBoard;

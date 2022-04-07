@@ -1,6 +1,8 @@
 package it.polimi.ingsw.triton.launcher.model;
 
-import org.junit.jupiter.api.Assertions;
+import it.polimi.ingsw.triton.launcher.model.enums.Color;
+import it.polimi.ingsw.triton.launcher.model.enums.TowerColor;
+import it.polimi.ingsw.triton.launcher.model.playeractions.ChooseCloudTile;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;

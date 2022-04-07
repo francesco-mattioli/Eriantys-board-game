@@ -1,6 +1,10 @@
-package it.polimi.ingsw.triton.launcher.model;
+package it.polimi.ingsw.triton.launcher.model.playeractions;
 
-public class MoveStudentIntoDiningRoom implements Action{
+import it.polimi.ingsw.triton.launcher.model.enums.Color;
+import it.polimi.ingsw.triton.launcher.model.SchoolBoard;
+import it.polimi.ingsw.triton.launcher.model.Wallet;
+
+public class MoveStudentIntoDiningRoom implements Action {
     private Color student;
     private Wallet wallet;
     private SchoolBoard schoolBoard;
