@@ -4,6 +4,7 @@ import it.polimi.ingsw.triton.launcher.model.cardeffects.CharacterCard;
 import it.polimi.ingsw.triton.launcher.model.enums.Color;
 import it.polimi.ingsw.triton.launcher.model.enums.TowerColor;
 import it.polimi.ingsw.triton.launcher.model.enums.Wizard;
+import it.polimi.ingsw.triton.launcher.model.professor.ProfessorsManager;
 
 import java.util.ArrayList;
 import java.util.Map;
