@@ -67,7 +67,7 @@ class SchoolBoardTest {
     void removeStudentFromEntrance() {
         SchoolBoard schoolBoard = new SchoolBoard(TowerColor.BLACK);
         Color student = Color.BLUE;
-        Exception exception = Assertions.assertThrows(RuntimeException.class, ()->schoolBoard.removeStudentFromEntrance(student));
+        Exception exception = Assertions.assertThrows(IllegalArgumentException.class, ()->schoolBoard.removeStudentFromEntrance(student));
         assertEquals("No students of color " + student.name() + " at entrance", exception.getMessage());
         schoolBoard.addStudentIntoEntrance(Color.GREEN);
         schoolBoard.addStudentIntoEntrance(student);

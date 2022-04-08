@@ -6,25 +6,47 @@ import it.polimi.ingsw.triton.launcher.model.enums.Wizard;
 import java.util.ArrayList;
 
 public class AssistantDeck {
-    private Wizard wizard;
+    /**
+     * The wizard associated with the deck
+     * An ArrayList containing the cards of the same wizard
+     * The maximum number of cards a deck can contain
+     */
+    private final Wizard wizard;
+    private final int CARDS_NUMBER = AssistantCardType.values().length;
+    private final ArrayList<AssistantCard> assistantDeck;
 
-    private ArrayList<AssistantCard> assistantDeck = new ArrayList<>();
-    private final int CARDS_NUMBER = 10;
-
-    public AssistantDeck(Wizard wizard){
-        this.wizard=wizard;
-        for(int i = 0; i < CARDS_NUMBER; i++){
+    /**
+     * Instantiates a new Assistant deck.
+     * Fills the deck with all the cards associated with the type of Wizard
+     * @param wizard the wizard to assign to the deck
+     */
+    public AssistantDeck(Wizard wizard) {
+        this.assistantDeck = new ArrayList<>();
+        this.wizard = wizard;
+        for (int i = 0; i < CARDS_NUMBER; i++) {
             assistantDeck.add(new AssistantCard(AssistantCardType.values()[i]));
         }
     }
 
+    /**
+     * Gets assistant deck.
+     *
+     * @return the assistant deck
+     */
     public ArrayList<AssistantCard> getAssistantDeck() {
         return assistantDeck;
     }
 
-    public void removeCard(AssistantCard cardToRemove){
-        for(int i = 0; i < assistantDeck.size(); i++){
-            if(assistantDeck.get(i).getAssistantCardType().getValue() == cardToRemove.getAssistantCardType().getValue()) {
+    /**
+     * It is called when a player decided to play a card.
+     * This card must be removed from the deck and placed on the
+     * personal discard pile in order to be visibile for other players.
+     *
+     * @param cardToRemove the card to remove
+     */
+    public void removeCard(AssistantCard cardToRemove) {
+        for (int i = 0; i < assistantDeck.size(); i++) {
+            if (assistantDeck.get(i).getAssistantCardType().getValue() == cardToRemove.getAssistantCardType().getValue()) {
                 assistantDeck.remove(i);
                 break;
             }
