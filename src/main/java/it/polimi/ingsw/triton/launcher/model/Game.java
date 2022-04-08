@@ -22,9 +22,10 @@ public class Game {
     private Player[] professors;
     private ProfessorsManager professorsManager;
     private ArrayList<CharacterCard> characterCards;
+    private ArrayList<Integer> valueOfPlayedCards;
 
     // some useful final variables
-    private final int NUM_OF_STUDENTS_COLORS= Color.values().length;
+    private final int NUM_OF_STUDENTS_COLORS = Color.values().length;
     private final int MAX_NUM_OF_ISLANDS =12;
     private final int INITIAL_NUM_COINS = 20;
 
@@ -224,6 +225,11 @@ public class Game {
     public Island prevIsland(Island currentIsland) {
         // TODO implement here
         return null;
+    }
+
+    public void resetPlayedCardInTurn(){
+        for(Integer i: valueOfPlayedCards)
+            valueOfPlayedCards.remove(i);
     }
 
 }
