@@ -12,9 +12,10 @@ import java.util.ArrayList;
 public class Player {
     private final String username;
     private int moveCounter;
+
     private AssistantDeck assistantDeck;
-    //private AssistantCard lastPlayedAssistantCard;
-    private ArrayList<AssistantCard> currentPlayedCard = new ArrayList<>();  //Chiedere per passaggio per riferimento nei metodi
+    private AssistantCard lastPlayedAssistantCard;
+    //private ArrayList<AssistantCard> currentPlayedCard = new ArrayList<>();  //Chiedere per passaggio per riferimento nei metodi
     private SchoolBoard schoolBoard;
 
     public Player(String username) {
@@ -49,6 +50,21 @@ public class Player {
         this.schoolBoard = new SchoolBoard(towerColor);
     }
 
+    public void setAssistantDeck(AssistantDeck assistantDeck) {
+        this.assistantDeck = assistantDeck;
+    }
+
+    public void setLastPlayedAssistantCard(AssistantCard lastPlayedAssistantCard) {
+        this.lastPlayedAssistantCard = lastPlayedAssistantCard;
+    }
+
+    public AssistantDeck getAssistantDeck() {
+        return assistantDeck;
+    }
+
+    public AssistantCard getLastPlayedAssistantCard() {
+        return lastPlayedAssistantCard;
+    }
 
     // Comments for developers: the action should be called from the Game in this way.
     // player.executeAction( new PlayCard(..arguments..) )

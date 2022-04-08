@@ -2,7 +2,7 @@ package it.polimi.ingsw.triton.launcher.model.playeractions;
 
 import it.polimi.ingsw.triton.launcher.model.AssistantCard;
 import it.polimi.ingsw.triton.launcher.model.AssistantDeck;
-import it.polimi.ingsw.triton.launcher.model.playeractions.Action;
+import it.polimi.ingsw.triton.launcher.model.Player;
 
 import java.util.ArrayList;
 
@@ -10,32 +10,30 @@ import java.util.ArrayList;
  * Represents the action of playing an assistant card at the start of the turn.
  */
 public class PlayCard implements Action {
-    private AssistantCard assistantCard;
-    private AssistantDeck assistantDeck;
-    private ArrayList<Integer> usedCards;
-    private ArrayList<AssistantCard> currentPlayedCard;
+    private final AssistantCard assistantCardToPlay;
+    private final ArrayList<Integer> usedCards;
+    private Player player;
+
 
     /**
-     * @param assistantCard the assistant card selected by the player.
-     * @param assistantDeck the available cards of the player.
+     * @param assistantCardToPlay the assistant card selected by the player.
+     * @param player the player who plays the card.
      * @param usedCards the cards already played in this turn.
-     * @param currentPlayedCard the card played by the user.
      */
-    public PlayCard(AssistantCard assistantCard, AssistantDeck assistantDeck, ArrayList<Integer> usedCards, ArrayList<AssistantCard> currentPlayedCard){
-        this.assistantCard = assistantCard;
-        this.assistantDeck = assistantDeck;
+    public PlayCard(AssistantCard assistantCardToPlay, Player player, ArrayList<Integer> usedCards) {
+        this.assistantCardToPlay = assistantCardToPlay;
         this.usedCards = usedCards;
-        this.currentPlayedCard = currentPlayedCard;
+        this.player=player;
     }
 
     /**
      * @param assistantCard the card to check if it's already used.
-     * @param usedCards the cards already played by the others players in this turn.
+     * @param usedCards     the cards already played by the others players in this turn.
      * @return if the card is already used.
      */
-    public boolean isUsedCard(AssistantCard assistantCard, ArrayList<Integer> usedCards){
-        for(Integer value: usedCards){
-            if(assistantCard.getAssistantCardType().getValue() == value)
+    private boolean isUsedCard(AssistantCard assistantCard, ArrayList<Integer> usedCards) {
+        for (Integer value : usedCards) {
+            if (assistantCard.getAssistantCardType().getValue() == value)
                 return true;
         }
         return false;
@@ -43,16 +41,16 @@ public class PlayCard implements Action {
 
     /**
      * @param assistantDeck the available cards of the player.
-     * @param usedCards the cards already played by the others players in this turn.
+     * @param usedCards     the cards already played by the others players in this turn.
      * @return true if the player has only one card in the deck, false otherwise.
      */
-    public boolean isUniqueChoice(AssistantDeck assistantDeck, ArrayList<Integer> usedCards){
-        if(assistantDeck.getAssistantDeck().size() == 1)
+    private boolean isUniqueChoice(AssistantDeck assistantDeck, ArrayList<Integer> usedCards) {
+        if (assistantDeck.getAssistantDeck().size() == 1)
             return true;
-        else{
-            for(AssistantCard card: assistantDeck.getAssistantDeck()){
-                for(Integer value: usedCards){
-                    if(card.getAssistantCardType().getValue() == value)
+        else {
+            for (AssistantCard card : assistantDeck.getAssistantDeck()) {
+                for (Integer value : usedCards) {
+                    if (card.getAssistantCardType().getValue() == value)
                         return false;
                 }
             }
@@ -63,20 +61,20 @@ public class PlayCard implements Action {
     /**
      * Allows the player to play the assistant card if it's not already played or if it's the only
      * card player can play.
+     *
      * @throws RuntimeException when a card can't be used in this turn.
      */
     @Override
     public void execute() {
-        if(isUsedCard(assistantCard, usedCards)){
-            if(isUniqueChoice(assistantDeck, usedCards)) {
-                currentPlayedCard.remove(0);
-                currentPlayedCard.add(assistantCard);
-            }else
+        if (isUsedCard(assistantCardToPlay, usedCards)) {
+            if (isUniqueChoice(player.getAssistantDeck(), usedCards)) {
+                player.setLastPlayedAssistantCard(assistantCardToPlay);
+            } else
                 throw new RuntimeException("The selected card is already used");
-        }else{
-            currentPlayedCard.remove(0);
-            currentPlayedCard.add(assistantCard);
-            assistantDeck.removeCard(assistantCard);
+        } else {
+            player.setLastPlayedAssistantCard(assistantCardToPlay);
+            player.getAssistantDeck().removeCard(assistantCardToPlay);
+            usedCards.add(assistantCardToPlay.getAssistantCardType().getValue());
         }
     }
 }
