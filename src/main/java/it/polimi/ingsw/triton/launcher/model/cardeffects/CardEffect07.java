@@ -24,20 +24,29 @@ public class CardEffect07 implements CardEffect{
         addStudentsOnTheCard();
     }
 
-    public void removeStudentsFromCard(){
+    public void removeStudentsFromCard() throws RuntimeException{
         for (int i = 0; i < studentsOnCard.length; i++){
             for (int j = 0; j < fromCard.length; j++){
-                if (Color.values()[i].ordinal() == Color.values()[j].ordinal())
-                    studentsOnCard[i] -= fromCard[j];
+                if (Color.values()[i].ordinal() == Color.values()[j].ordinal()){
+                    if (fromCard[j] <= studentsOnCard[i])
+                    {
+                        studentsOnCard[i] -= fromCard[j];
+                    }
+                    else throw new RuntimeException("There aren't enough students on the card!");
+                }
             }
         }
     }
 
-    public void removeStudentsFromEntrance(){
+    public void removeStudentsFromEntrance() throws RuntimeException{
         for (int i = 0; i < schoolBoard.getEntrance().length; i++){
             for (int j = 0; j < fromSchoolBoard.length; j++){
-                if (Color.values()[i].ordinal() == Color.values()[j].ordinal())
-                    schoolBoard.getEntrance()[i] -= fromSchoolBoard[j];
+                if (Color.values()[i].ordinal() == Color.values()[j].ordinal()){
+                    if (fromSchoolBoard[j] <= schoolBoard.getEntrance()[i]){
+                        schoolBoard.getEntrance()[i] -= fromSchoolBoard[j];
+                    }
+                    else throw new RuntimeException("There aren't enough students on the card!");
+                }
             }
         }
     }

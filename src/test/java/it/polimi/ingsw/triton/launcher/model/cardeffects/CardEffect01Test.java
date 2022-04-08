@@ -28,7 +28,6 @@ class CardEffect01Test {
         bag = null;
         island = null;
         characterCard = null;
-        characterCard.getStudents()[Color.BLUE.ordinal()]=0;
     }
 
 

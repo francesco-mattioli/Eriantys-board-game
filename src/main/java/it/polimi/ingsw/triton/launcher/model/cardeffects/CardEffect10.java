@@ -26,17 +26,26 @@ public class CardEffect10 implements CardEffect{
     public void removeStudentsFromDiningRoom(){
         for (int i = 0; i < schoolBoard.getDiningRoom().length; i++){
             for (int j = 0; j < fromDiningRoom.length; j++){
-                if (Color.values()[i].ordinal() == Color.values()[j].ordinal())
-                    schoolBoard.getDiningRoom()[i] -= fromDiningRoom[j];
+                if (Color.values()[i].ordinal() == Color.values()[j].ordinal()){
+                    if (fromDiningRoom[j] <= schoolBoard.getDiningRoom()[i]){
+                        schoolBoard.getDiningRoom()[i] -= fromDiningRoom[j];
+                    }
+                    else throw new RuntimeException("There aren't enough students on the card!");
+                }
+
             }
         }
     }
 
-    public void removeStudentsFromEntrance(){
+    public void removeStudentsFromEntrance() throws RuntimeException{
         for (int i = 0; i < schoolBoard.getEntrance().length; i++){
             for (int j = 0; j < fromEntrance.length; j++){
-                if (Color.values()[i].ordinal() == Color.values()[j].ordinal())
-                    schoolBoard.getEntrance()[i] -= fromEntrance[j];
+                if (Color.values()[i].ordinal() == Color.values()[j].ordinal()){
+                    if (fromEntrance[j] <= schoolBoard.getEntrance()[i]){
+                        schoolBoard.getEntrance()[i] -= fromEntrance[j];
+                    }
+                    else throw new RuntimeException("There aren't enough students on the card!");
+                }
             }
         }
     }
