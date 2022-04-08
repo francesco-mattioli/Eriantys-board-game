@@ -11,6 +11,11 @@ public class CardEffect05 implements CardEffect{
         this.characterCard=characterCard;
     }
 
+    /**
+     * This method add a No Entry Tile onto an island
+     * and set the island's charactercard05 to the current charactercard.
+     * The island is passed through the constructor.
+     */
     @Override
     public void execute() {
         island.setNoEntryTiles(1);

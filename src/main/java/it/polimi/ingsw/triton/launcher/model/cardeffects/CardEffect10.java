@@ -8,12 +8,21 @@ public class CardEffect10 implements CardEffect{
     private int[] fromDiningRoom;
     private SchoolBoard schoolBoard;
 
+    /**
+     *
+     * @param fromEntrance students to take from entrance
+     * @param fromDiningRoom students to take from dining room
+     * @param schoolBoard of the player who played the character card
+     */
     public CardEffect10(int[] fromEntrance, int[] fromDiningRoom, SchoolBoard schoolBoard){
         this.fromEntrance = fromEntrance;
         this.fromDiningRoom = fromDiningRoom;
         this.schoolBoard = schoolBoard;
     }
 
+    /**
+     * This method swaps a maximum of three students from the dining room to the entrance
+     */
     @Override
     public void execute() {
         removeStudentsFromDiningRoom();
@@ -23,6 +32,10 @@ public class CardEffect10 implements CardEffect{
     }
 
 
+    /**
+     * This method remove the selected students from the dining room
+     * @throws RuntimeException
+     */
     public void removeStudentsFromDiningRoom(){
         for (int i = 0; i < schoolBoard.getDiningRoom().length; i++){
             for (int j = 0; j < fromDiningRoom.length; j++){
@@ -37,6 +50,11 @@ public class CardEffect10 implements CardEffect{
         }
     }
 
+
+    /**
+     * This method remove the selected students from the entrance
+     * @throws RuntimeException
+     */
     public void removeStudentsFromEntrance() throws RuntimeException{
         for (int i = 0; i < schoolBoard.getEntrance().length; i++){
             for (int j = 0; j < fromEntrance.length; j++){
@@ -50,6 +68,9 @@ public class CardEffect10 implements CardEffect{
         }
     }
 
+    /**
+     * This method adds the students taken from the entrance to the dining room
+     */
     public void addStudentsIntoDiningRoom(){
         for (int i = 0; i < schoolBoard.getDiningRoom().length; i++){
             for (int j = 0; j < fromEntrance.length; j++){
@@ -59,6 +80,9 @@ public class CardEffect10 implements CardEffect{
         }
     }
 
+    /**
+     * This method adds the students taken from the dining room to the entrance
+     */
     public void addStudentsIntoEntrance(){
         for (int i = 0; i < schoolBoard.getEntrance().length; i++){
             for (int j = 0; j < fromDiningRoom.length; j++){

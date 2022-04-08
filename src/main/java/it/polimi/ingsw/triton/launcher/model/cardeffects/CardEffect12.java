@@ -11,12 +11,22 @@ public class CardEffect12 implements CardEffect{
     private ArrayList<Player> players;
     private Bag bag;
 
+    /**
+     *
+     * @param student color of the students to eliminate
+     * @param players
+     * @param bag to put the removed students
+     */
     public CardEffect12(Color student, ArrayList<Player> players, Bag bag){
         this.student = student;
         this.players = players;
         this.bag = bag;
     }
 
+    /**
+     * for the chosen color the method eliminates the students of that color from each player's dining room.
+     * if a player has less than three students in his dining room, the method remove all the students.
+     */
     @Override
     public void execute() {
         for (Player player: players) {

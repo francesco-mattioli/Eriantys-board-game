@@ -13,6 +13,9 @@ public class CardEffect08 implements CardEffect {
         this.islands = islands;
     }
 
+    /**
+     * This method set the island's influence strategy for each island
+     */
     @Override
     public void execute() {
         for (Island island : islands) {
