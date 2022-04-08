@@ -34,4 +34,12 @@ public class MotherNature {
     public void resetAdditionalSteps(){
         additionalSteps = 0;
     }
+
+    public int getAdditionalSteps() {
+        return additionalSteps;
+    }
+
+    public void setAdditionalSteps(int additionalSteps) {
+        this.additionalSteps = additionalSteps;
+    }
 }

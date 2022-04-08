@@ -4,13 +4,17 @@ import it.polimi.ingsw.triton.launcher.model.Island;
 
 public class CardEffect05 implements CardEffect{
     private Island island;
+    private CharacterCard characterCard;
 
-    public CardEffect05(Island island){
+    public CardEffect05(Island island, CharacterCard characterCard){
         this.island = island;
+        this.characterCard=characterCard;
     }
 
     @Override
     public void execute() {
-        // TODO implement here
+        island.setNoEntryTiles(1);
+        island.setCharacterCard05(characterCard);
     }
+
 }

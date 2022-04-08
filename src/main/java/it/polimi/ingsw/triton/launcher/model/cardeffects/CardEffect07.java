@@ -1,20 +1,62 @@
 package it.polimi.ingsw.triton.launcher.model.cardeffects;
 
 import it.polimi.ingsw.triton.launcher.model.SchoolBoard;
+import it.polimi.ingsw.triton.launcher.model.enums.Color;
 
 public class CardEffect07 implements CardEffect{
     private int[] fromCard;
     private int[] fromSchoolBoard;
     private SchoolBoard schoolBoard;
+    private int[] studentsOnCard;
 
-    public CardEffect07(int[] fromCard, int[] fromSchoolBoard, SchoolBoard schoolBoard){
+    public CardEffect07(int[] studentsOnCard, int[] fromCard, int[] fromSchoolBoard, SchoolBoard schoolBoard){
         this.fromCard = fromCard;
         this.fromSchoolBoard = fromSchoolBoard;
         this.schoolBoard = schoolBoard;
+        this.studentsOnCard = studentsOnCard;
     }
 
     @Override
     public void execute() {
-        // TODO implement here
+        removeStudentsFromCard();
+        removeStudentsFromEntrance();
+        addStudentsIntoEntrance();
+        addStudentsOnTheCard();
+    }
+
+    public void removeStudentsFromCard(){
+        for (int i = 0; i < studentsOnCard.length; i++){
+            for (int j = 0; j < fromCard.length; j++){
+                if (Color.values()[i].ordinal() == Color.values()[j].ordinal())
+                    studentsOnCard[i] -= fromCard[j];
+            }
+        }
+    }
+
+    public void removeStudentsFromEntrance(){
+        for (int i = 0; i < schoolBoard.getEntrance().length; i++){
+            for (int j = 0; j < fromSchoolBoard.length; j++){
+                if (Color.values()[i].ordinal() == Color.values()[j].ordinal())
+                    schoolBoard.getEntrance()[i] -= fromSchoolBoard[j];
+            }
+        }
+    }
+
+    public void addStudentsIntoEntrance(){
+        for (int i = 0; i < fromCard.length; i++){
+            for (int j = 0; j < schoolBoard.getEntrance().length; j++){
+                if (Color.values()[i].ordinal() == Color.values()[j].ordinal())
+                    schoolBoard.getEntrance()[j] += fromCard[i];
+            }
+        }
+    }
+
+    public void addStudentsOnTheCard(){
+        for (int i = 0; i < fromSchoolBoard.length; i++){
+            for (int j = 0; j < studentsOnCard.length; j++){
+                if (Color.values()[i].ordinal() == Color.values()[j].ordinal())
+                    studentsOnCard[j] += fromSchoolBoard[i];
+            }
+        }
     }
 }

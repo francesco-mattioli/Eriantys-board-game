@@ -9,8 +9,13 @@ public class CardEffect04 implements CardEffect{
         this.motherNature = motherNature;
     }
 
+
+    /**
+     * This effect allows the player to have two extra steps for mother nature
+     */
     @Override
     public void execute() {
-        // TODO implement here
+        motherNature.setAdditionalSteps(2);
+        // remember to set the additional steps to zero when the turn is over
     }
 }

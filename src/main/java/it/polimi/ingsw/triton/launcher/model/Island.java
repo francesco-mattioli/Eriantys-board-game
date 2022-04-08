@@ -15,7 +15,7 @@ public class Island{
     private int[] students;
     private int noEntryTiles;
     private InfluenceStrategy influenceStrategy;
-    private CharacterCard characterCard5 = null;
+    private CharacterCard characterCard05 = null;
 
     public Island(int id) {
         this.id=id;
@@ -42,6 +42,10 @@ public class Island{
         return noEntryTiles;
     }
 
+    public void setNoEntryTiles(int noEntryTiles) {
+        this.noEntryTiles = noEntryTiles;
+    }
+
     //to test
     public void merge(Island island) {
         this.dim += island.getDim();
@@ -51,29 +55,27 @@ public class Island{
         this.noEntryTiles += island.getNoEntryTiles();
     }
 
-    public int calculateInfluence(Player player, Player[] professors) {
-        int influence = 0;
-        if(dominator == player)
-            influence+= dim;
-        for(int i = 0; i<professors.length; i++){
-            if(professors[i] == player){
-                influence += students[i];
-            }
-        }
-        return influence;
+    public int calculateInfluence(Player player, Player[] professors, Player dominator) {
+        return influenceStrategy.execute(player,professors,dominator,this);
     }
 
     public void updateInfluence(ArrayList<Player> players, Player [] professors) {
-        Player newDominator = null;
-        int max = 0;
-        for(Player p : players){
-            int influence = calculateInfluence(p, professors);
-            if(influence> max) {
-                max = influence;
-                newDominator = p;
+        if (noEntryTiles == 0){
+            Player newDominator = null;
+            int max = 0;
+            for(Player p : players){
+                int influence = calculateInfluence(p, professors,dominator);
+                if(influence> max) {
+                    max = influence;
+                    newDominator = p;
+                }
             }
+            towerInfluence(newDominator);
         }
-        towerInfluence(newDominator);
+        else {
+            characterCard05.addNoEntryTile();
+            noEntryTiles--;
+        }
     }
 
     public void towerInfluence(Player newDominator) {
@@ -86,5 +88,13 @@ public class Island{
 
     public void addStudent(Color color){
         students[color.ordinal()]++;
+    }
+
+    public void setInfluenceStrategy(InfluenceStrategy influenceStrategy) {
+        this.influenceStrategy = influenceStrategy;
+    }
+
+    public void setCharacterCard05(CharacterCard characterCard05) {
+        this.characterCard05 = characterCard05;
     }
 }

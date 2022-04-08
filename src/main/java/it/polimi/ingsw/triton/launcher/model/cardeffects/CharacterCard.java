@@ -72,6 +72,15 @@ public class CharacterCard {
     public int[] getStudents() {
         return students;
     }
+
+    public void addStudent(Color color){
+        students[color.ordinal()]++;
+    }
+
+    public void addNoEntryTile(){
+        noEntryTiles++;
+    }
+
 }
 
 

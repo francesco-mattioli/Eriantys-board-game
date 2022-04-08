@@ -1,5 +1,6 @@
 package it.polimi.ingsw.triton.launcher.model.influencestrategy;
 
+import it.polimi.ingsw.triton.launcher.model.Island;
 import it.polimi.ingsw.triton.launcher.model.Player;
 import it.polimi.ingsw.triton.launcher.model.enums.Color;
 
@@ -13,7 +14,15 @@ public class InfluenceStrategyWithEffect09 extends InfluenceStrategy{
     }
 
     @Override
-    public void execute(ArrayList<Player> players) {
-        // TODO implement here
+    public int execute(Player player, Player[] professors, Player dominator, Island island) {
+        int influence = 0;
+        if(dominator.equals(player))
+            influence+= island.getDim();
+        for(int i = 0; i<professors.length; i++){
+            if((professors[i].equals(player)) && i != color.ordinal()){
+                influence += island.getStudents()[i];
+            }
+        }
+        return influence;
     }
 }
