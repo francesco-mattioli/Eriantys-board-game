@@ -46,6 +46,10 @@ public class Island{
         this.noEntryTiles = noEntryTiles;
     }
 
+    public Player getDominator() {
+        return dominator;
+    }
+
     //to test
     public void merge(Island island) {
         this.dim += island.getDim();

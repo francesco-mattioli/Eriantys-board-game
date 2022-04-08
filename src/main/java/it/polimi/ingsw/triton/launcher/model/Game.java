@@ -186,9 +186,19 @@ public class Game {
     }
 
 
-    public void mergeIslands(Island i1, Island i2) {
-        // TODO implement here
+    public void mergeNearIslands(Island motherNaturePosition) {
+        motherNaturePosition.updateInfluence(players, professors);
+        if (motherNaturePosition.getDominator() != null) {
+            if (motherNaturePosition.getDominator() == prevIsland(motherNaturePosition).getDominator()) {
+                motherNaturePosition.merge(prevIsland(motherNaturePosition));
+            }
+            if (motherNaturePosition.getDominator() == nextIsland(motherNaturePosition).getDominator()) {
+                motherNaturePosition.merge(nextIsland(motherNaturePosition));
+            }
+        }
+
     }
+
     public void sortPlayerPerTurn() {
         // TODO implement here
     }
@@ -223,8 +233,10 @@ public class Game {
 
 
     public Island prevIsland(Island currentIsland) {
-        // TODO implement here
-        return null;
+        if (islands.indexOf(currentIsland) == 0 ){
+            return islands.get(islands.size() - 1);
+        } else
+            return islands.get(islands.indexOf(currentIsland)-1);
     }
 
     public void resetPlayedCardInTurn(){
