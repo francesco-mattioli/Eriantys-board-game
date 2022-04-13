@@ -1,5 +1,6 @@
-package it.polimi.ingsw.triton.launcher.model;
+package it.polimi.ingsw.triton.launcher.model.playeractions;
 
+import it.polimi.ingsw.triton.launcher.model.CloudTile;
 import it.polimi.ingsw.triton.launcher.model.enums.Color;
 import it.polimi.ingsw.triton.launcher.model.enums.TowerColor;
 import it.polimi.ingsw.triton.launcher.model.player.SchoolBoard;

@@ -15,19 +15,19 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class PlayCardTest {
     private Player player;
-    private ArrayList<Integer> usedCards;
+    private ArrayList<AssistantCard> usedAssistantCards;
 
     @BeforeEach
     void setupPlayer(){
         player = new Player("Pippo");
         player.setAssistantDeck(new AssistantDeck(Wizard.BLUE));
-        usedCards = new ArrayList<>();
+        usedAssistantCards = new ArrayList<>();
     }
 
     @AfterEach
     void tearDown(){
         player = null;
-        usedCards = null;
+        usedAssistantCards = null;
     }
 
     /**
@@ -36,9 +36,9 @@ class PlayCardTest {
     @Test
     void cardCanBePlayed() {
         AssistantCard cardToPlay = new AssistantCard(AssistantCardType.CAT);
-        usedCards.add(AssistantCardType.SNAKE.getValue());
-        usedCards.add(AssistantCardType.TIGER.getValue());
-        PlayCard pc = new PlayCard(cardToPlay, player, usedCards);
+        usedAssistantCards.add(new AssistantCard(AssistantCardType.SNAKE));
+        usedAssistantCards.add(new AssistantCard(AssistantCardType.TIGER));
+        PlayCard pc = new PlayCard(cardToPlay, player, usedAssistantCards);
         player.executeAction(pc);
         assertEquals(cardToPlay, player.getLastPlayedAssistantCard());
     }
@@ -49,9 +49,9 @@ class PlayCardTest {
     @Test
     void cannotPlayThisCard(){
         AssistantCard cardToPlay = new AssistantCard(AssistantCardType.CAT);
-        usedCards.add(AssistantCardType.SNAKE.getValue());
-        usedCards.add(cardToPlay.getAssistantCardType().getValue());
-        PlayCard pc = new PlayCard(cardToPlay, player, usedCards);
+        usedAssistantCards.add(new AssistantCard(AssistantCardType.SNAKE));
+        usedAssistantCards.add(cardToPlay);
+        PlayCard pc = new PlayCard(cardToPlay, player, usedAssistantCards);
         assertThrows(RuntimeException.class, ()->player.executeAction(pc));
     }
 
@@ -60,12 +60,12 @@ class PlayCardTest {
      */
     @Test
     void playerHasNotOtherChoice(){
-        usedCards.add(AssistantCardType.SNAKE.getValue());
+        usedAssistantCards.add(new AssistantCard(AssistantCardType.SNAKE));
         player.getAssistantDeck().getAssistantDeck().clear();
         AssistantCard uniqueCardInTheDeck = new AssistantCard(AssistantCardType.SNAKE);
         player.getAssistantDeck().getAssistantDeck().add(uniqueCardInTheDeck);
-        usedCards.add(uniqueCardInTheDeck.getAssistantCardType().getValue());
-        PlayCard pc = new PlayCard(uniqueCardInTheDeck, player, usedCards);
+        usedAssistantCards.add(uniqueCardInTheDeck);
+        PlayCard pc = new PlayCard(uniqueCardInTheDeck, player, usedAssistantCards);
         player.executeAction(pc);
         assertEquals(uniqueCardInTheDeck, player.getLastPlayedAssistantCard());
     }
@@ -77,9 +77,9 @@ class PlayCardTest {
     void checkDimensionDeckAfterPlayedCard(){
         AssistantCard cardToPlay = new AssistantCard(AssistantCardType.CAT);
         int initialDimDeck = player.getAssistantDeck().getAssistantDeck().size();
-        usedCards.add(AssistantCardType.SNAKE.getValue());
-        usedCards.add(AssistantCardType.TIGER.getValue());
-        PlayCard pc = new PlayCard(cardToPlay, player, usedCards);
+        usedAssistantCards.add(new AssistantCard(AssistantCardType.SNAKE));
+        usedAssistantCards.add(new AssistantCard(AssistantCardType.TIGER));
+        PlayCard pc = new PlayCard(cardToPlay, player, usedAssistantCards);
         player.executeAction(pc);
         assertEquals(initialDimDeck-1, player.getAssistantDeck().getAssistantDeck().size());
     }
@@ -90,11 +90,11 @@ class PlayCardTest {
     @Test
     void testIncreasedUsedCardsDimension(){
         AssistantCard cardToPlay = new AssistantCard(AssistantCardType.CAT);
-        usedCards.add(AssistantCardType.SNAKE.getValue());
-        usedCards.add(AssistantCardType.TIGER.getValue());
-        int initialDimDeck = usedCards.size();
-        PlayCard pc = new PlayCard(cardToPlay, player, usedCards);
+        usedAssistantCards.add(new AssistantCard(AssistantCardType.SNAKE));
+        usedAssistantCards.add(new AssistantCard(AssistantCardType.TIGER));
+        int initialDimDeck = usedAssistantCards.size();
+        PlayCard pc = new PlayCard(cardToPlay, player, usedAssistantCards);
         player.executeAction(pc);
-        assertEquals(initialDimDeck+1, usedCards.size());
+        assertEquals(initialDimDeck+1, usedAssistantCards.size());
     }
 }

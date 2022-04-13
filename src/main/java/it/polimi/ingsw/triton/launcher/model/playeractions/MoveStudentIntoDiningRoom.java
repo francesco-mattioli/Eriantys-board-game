@@ -8,33 +8,33 @@ import it.polimi.ingsw.triton.launcher.model.player.Wallet;
  * Represents the action of moving a student from the entrance to the dining room of the scholl board.
  */
 public class MoveStudentIntoDiningRoom implements Action {
-    private Color student;
-    private Wallet wallet;
-    private SchoolBoard schoolBoard;
+    private final Color student;
+    private final Wallet wallet;
+    private final SchoolBoard schoolBoard;
 
     /**
-     * @param student the color of student to move into the dining room.
-     * @param wallet contains the number of coins of a player.
-     * @param schoolBoard player's schoolboard where to add the student.
+     * @param student     the color of student to move into the dining room.
+     * @param wallet      contains the number of coins of a player.
+     * @param schoolBoard player's school board where to add the student.
      */
-    public MoveStudentIntoDiningRoom(Color student, Wallet wallet, SchoolBoard schoolBoard){
+    public MoveStudentIntoDiningRoom(Color student, Wallet wallet, SchoolBoard schoolBoard) {
         this.student = student;
         this.wallet = wallet;
         this.schoolBoard = schoolBoard;
     }
 
     /**
-     * @param student the color of student
+     * @param studentColor is the color of student
      * @return true if the number of students of a certain color is a multiple of 3, false otherwise.
      */
-    public boolean isMultiple3(Color student){
-        return (schoolBoard.getStudentsNumber(student) % 3) == 0;
+    public boolean isMultiple3(Color studentColor) {
+        return (schoolBoard.getStudentsNumber(studentColor) % 3) == 0;
     }
 
     /**
      * Calls increaseValue() to add a coin in the wallet
      */
-    public void updateWallet(){
+    public void updateWallet() {
         wallet.increaseValue();
     }
 
@@ -45,7 +45,7 @@ public class MoveStudentIntoDiningRoom implements Action {
     @Override
     public void execute() {
         schoolBoard.addStudentIntoDiningRoom(student);
-        if(isMultiple3(student))
+        if (isMultiple3(student))
             updateWallet();
     }
 }

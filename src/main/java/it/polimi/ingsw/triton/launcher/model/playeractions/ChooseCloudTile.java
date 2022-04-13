@@ -8,8 +8,8 @@ import it.polimi.ingsw.triton.launcher.model.player.SchoolBoard;
  * Represents the choice of the cloud tile made by the player.
  */
 public class ChooseCloudTile implements Action {
-    private CloudTile cloudTile;
-    private SchoolBoard schoolBoard;
+    private final CloudTile cloudTile;
+    private final SchoolBoard schoolBoard;
 
     /**
      * @param cloudTile the cloud tile chosen by the player.
@@ -24,7 +24,6 @@ public class ChooseCloudTile implements Action {
      */
     @Override
     public void execute() {
-        // TODO implement here
         for(int i = 0; i < cloudTile.getStudents().length; i++){
             for(int j = 0; j < cloudTile.getStudents()[i]; j++){
                 cloudTile.removeStudentFromCloudTile(Color.values()[i]);

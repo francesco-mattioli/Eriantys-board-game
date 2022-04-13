@@ -11,46 +11,46 @@ import java.util.ArrayList;
  */
 public class PlayCard implements Action {
     private final AssistantCard assistantCardToPlay;
-    private final ArrayList<Integer> usedCards;
-    private Player player;
+    private final ArrayList<AssistantCard> usedAssistantCards;
+    private final Player player;
 
 
     /**
-     * @param assistantCardToPlay the assistant card selected by the player.
-     * @param player the player who plays the card.
-     * @param usedCards the cards already played in this turn.
+     * @param assistantCardToPlay     the assistant card selected by the player.
+     * @param player                  who plays the card.
+     * @param usedAssistantCardsCards the cards already played in this turn.
      */
-    public PlayCard(AssistantCard assistantCardToPlay, Player player, ArrayList<Integer> usedCards) {
+    public PlayCard(AssistantCard assistantCardToPlay, Player player, ArrayList<AssistantCard> usedAssistantCardsCards) {
         this.assistantCardToPlay = assistantCardToPlay;
-        this.usedCards = usedCards;
-        this.player=player;
+        this.usedAssistantCards = usedAssistantCardsCards;
+        this.player = player;
     }
 
     /**
-     * @param assistantCard the card to check if it's already used.
-     * @param usedCards     the cards already played by the others players in this turn.
+     * @param assistantCard      the card to check if it's already used.
+     * @param usedAssistantCards the cards already played by the others players in this turn.
      * @return if the card is already used.
      */
-    private boolean isUsedCard(AssistantCard assistantCard, ArrayList<Integer> usedCards) {
-        for (Integer value : usedCards) {
-            if (assistantCard.getAssistantCardType().getValue() == value)
+    private boolean isUsedCard(AssistantCard assistantCard, ArrayList<AssistantCard> usedAssistantCards) {
+        for (AssistantCard usedAssistantCard : usedAssistantCards) {
+            if (assistantCard.getAssistantCardType().equals(usedAssistantCard.getAssistantCardType()))
                 return true;
         }
         return false;
     }
 
     /**
-     * @param assistantDeck the available cards of the player.
-     * @param usedCards     the cards already played by the others players in this turn.
+     * @param assistantDeck      the available cards of the player.
+     * @param usedAssistantCards the cards already played by the others players in this turn.
      * @return true if the player has only one card in the deck, false otherwise.
      */
-    private boolean isUniqueChoice(AssistantDeck assistantDeck, ArrayList<Integer> usedCards) {
+    private boolean isUniqueChoice(AssistantDeck assistantDeck, ArrayList<AssistantCard> usedAssistantCards) {
         if (assistantDeck.getAssistantDeck().size() == 1)
             return true;
         else {
             for (AssistantCard card : assistantDeck.getAssistantDeck()) {
-                for (Integer value : usedCards) {
-                    if (card.getAssistantCardType().getValue() == value)
+                for (AssistantCard assistantCard : usedAssistantCards) {
+                    if (card.getAssistantCardType().equals(assistantCard.getAssistantCardType()))
                         return false;
                 }
             }
@@ -66,15 +66,15 @@ public class PlayCard implements Action {
      */
     @Override
     public void execute() {
-        if (isUsedCard(assistantCardToPlay, usedCards)) {
-            if (isUniqueChoice(player.getAssistantDeck(), usedCards)) {
+        if (isUsedCard(assistantCardToPlay, usedAssistantCards)) {
+            if (isUniqueChoice(player.getAssistantDeck(), usedAssistantCards)) {
                 player.setLastPlayedAssistantCard(assistantCardToPlay);
             } else
                 throw new RuntimeException("The selected card is already used");
         } else {
             player.setLastPlayedAssistantCard(assistantCardToPlay);
             player.getAssistantDeck().removeCard(assistantCardToPlay);
-            usedCards.add(assistantCardToPlay.getAssistantCardType().getValue());
+            usedAssistantCards.add(assistantCardToPlay);
         }
     }
 }

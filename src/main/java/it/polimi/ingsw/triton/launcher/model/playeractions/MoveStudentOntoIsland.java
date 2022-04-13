@@ -9,19 +9,19 @@ import it.polimi.ingsw.triton.launcher.model.player.SchoolBoard;
  * Moves a student onto an island.
  */
 public class MoveStudentOntoIsland implements Action {
-    private Color student;
-    private Island destination;
-    private SchoolBoard schoolBoard;
+    private final Color student;
+    private final Island islandDestination;
+    private final SchoolBoard schoolBoard;
 
     /**
      * @param schoolBoard the school board of the player.
      * @param student the color of student to move onto island.
-     * @param destination the island where to put the student.
+     * @param islandDestination the island where to put the student.
      */
-    public MoveStudentOntoIsland(SchoolBoard schoolBoard, Color student, Island destination){
+    public MoveStudentOntoIsland(SchoolBoard schoolBoard, Color student, Island islandDestination){
         this.schoolBoard = schoolBoard;
         this.student = student;
-        this.destination = destination;
+        this.islandDestination = islandDestination;
     }
 
     /**
@@ -30,6 +30,6 @@ public class MoveStudentOntoIsland implements Action {
     @Override
     public void execute() {
         schoolBoard.removeStudentFromEntrance(student);
-        destination.addStudent(student);
+        islandDestination.addStudent(student);
     }
 }

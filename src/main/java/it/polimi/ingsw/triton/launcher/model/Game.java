@@ -23,7 +23,7 @@ public class Game {
     private Player[] professors;
     private ProfessorsManager professorsManager;
     private ArrayList<CharacterCard> characterCards;
-    private ArrayList<Integer> valueOfPlayedCards;
+    private ArrayList<AssistantCard> usedAssistantCards;
 
     // some useful final variables
     private final int NUM_OF_STUDENTS_COLORS = Color.values().length;
@@ -241,8 +241,8 @@ public class Game {
     }
 
     public void resetPlayedCardInTurn(){
-        for(Integer i: valueOfPlayedCards)
-            valueOfPlayedCards.remove(i);
+        for(AssistantCard assistantCard: usedAssistantCards)
+            usedAssistantCards.remove(assistantCard);
     }
 
 }
