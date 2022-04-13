@@ -24,13 +24,24 @@ public class CharacterCard {
         this.cost = cost;
         this.students = new int[5];
         this.noEntryTiles = noEntryTiles;
+        setupCharacterCard(id);
+    }
 
-        // if the card has is id 1, it is necessary to add 4 students on it
-        if (id == 1) {
-            for (int i = 0; i < 4; i++) {
+    /**
+     * This method sets the card up: places students or noEntryTiles on it.
+     * @param id of the card
+     */
+    private void setupCharacterCard(int id) {
+        if (id == 1 || id==11){
+            for (int i = 0; i < 4; i++)
                 students[bag.drawStudent().ordinal()]++;
-            }
         }
+        if(id==7){
+            for (int i = 0; i < 6; i++)
+                students[bag.drawStudent().ordinal()]++;
+        }
+        if(id==5)
+            noEntryTiles=4;
     }
 
     /**
