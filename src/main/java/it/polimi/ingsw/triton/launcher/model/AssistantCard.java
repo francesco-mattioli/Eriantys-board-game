@@ -12,17 +12,19 @@ public class AssistantCard {
 
     /**
      * Assigns the type of assistantCard to the Assistant card.
+     *
      * @param assistantCardType the assistant card type
      */
-    public AssistantCard(AssistantCardType assistantCardType){
-        this.assistantCardType=assistantCardType;
+    public AssistantCard(AssistantCardType assistantCardType) {
+        this.assistantCardType = assistantCardType;
     }
 
     /**
      * Gets assistant card type.
+     *
      * @return the assistant card type
      */
-    public AssistantCardType getAssistantCardType() {
+    public AssistantCardType getType() {
         return assistantCardType;
     }
 }

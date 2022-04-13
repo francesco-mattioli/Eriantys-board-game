@@ -9,7 +9,7 @@ import java.util.ArrayList;
 /**
  * Represents the action of playing an assistant card at the start of the turn.
  */
-public class PlayCard implements Action {
+public class PlayAssistantCard implements Action {
     private final AssistantCard assistantCardToPlay;
     private final ArrayList<AssistantCard> usedAssistantCards;
     private final Player player;
@@ -20,7 +20,7 @@ public class PlayCard implements Action {
      * @param player                  who plays the card.
      * @param usedAssistantCardsCards the cards already played in this turn.
      */
-    public PlayCard(AssistantCard assistantCardToPlay, Player player, ArrayList<AssistantCard> usedAssistantCardsCards) {
+    public PlayAssistantCard(AssistantCard assistantCardToPlay, Player player, ArrayList<AssistantCard> usedAssistantCardsCards) {
         this.assistantCardToPlay = assistantCardToPlay;
         this.usedAssistantCards = usedAssistantCardsCards;
         this.player = player;
@@ -33,7 +33,7 @@ public class PlayCard implements Action {
      */
     private boolean isUsedCard(AssistantCard assistantCard, ArrayList<AssistantCard> usedAssistantCards) {
         for (AssistantCard usedAssistantCard : usedAssistantCards) {
-            if (assistantCard.getAssistantCardType().equals(usedAssistantCard.getAssistantCardType()))
+            if (assistantCard.getType().equals(usedAssistantCard.getType()))
                 return true;
         }
         return false;
@@ -50,7 +50,7 @@ public class PlayCard implements Action {
         else {
             for (AssistantCard card : assistantDeck.getAssistantDeck()) {
                 for (AssistantCard assistantCard : usedAssistantCards) {
-                    if (card.getAssistantCardType().equals(assistantCard.getAssistantCardType()))
+                    if (card.getType().equals(assistantCard.getType()))
                         return false;
                 }
             }

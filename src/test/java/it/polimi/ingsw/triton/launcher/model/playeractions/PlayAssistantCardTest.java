@@ -13,7 +13,7 @@ import java.util.ArrayList;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class PlayCardTest {
+class PlayAssistantCardTest {
     private Player player;
     private ArrayList<AssistantCard> usedAssistantCards;
 
@@ -38,7 +38,7 @@ class PlayCardTest {
         AssistantCard cardToPlay = new AssistantCard(AssistantCardType.CAT);
         usedAssistantCards.add(new AssistantCard(AssistantCardType.SNAKE));
         usedAssistantCards.add(new AssistantCard(AssistantCardType.TIGER));
-        PlayCard pc = new PlayCard(cardToPlay, player, usedAssistantCards);
+        PlayAssistantCard pc = new PlayAssistantCard(cardToPlay, player, usedAssistantCards);
         player.executeAction(pc);
         assertEquals(cardToPlay, player.getLastPlayedAssistantCard());
     }
@@ -51,7 +51,7 @@ class PlayCardTest {
         AssistantCard cardToPlay = new AssistantCard(AssistantCardType.CAT);
         usedAssistantCards.add(new AssistantCard(AssistantCardType.SNAKE));
         usedAssistantCards.add(cardToPlay);
-        PlayCard pc = new PlayCard(cardToPlay, player, usedAssistantCards);
+        PlayAssistantCard pc = new PlayAssistantCard(cardToPlay, player, usedAssistantCards);
         assertThrows(RuntimeException.class, ()->player.executeAction(pc));
     }
 
@@ -65,7 +65,7 @@ class PlayCardTest {
         AssistantCard uniqueCardInTheDeck = new AssistantCard(AssistantCardType.SNAKE);
         player.getAssistantDeck().getAssistantDeck().add(uniqueCardInTheDeck);
         usedAssistantCards.add(uniqueCardInTheDeck);
-        PlayCard pc = new PlayCard(uniqueCardInTheDeck, player, usedAssistantCards);
+        PlayAssistantCard pc = new PlayAssistantCard(uniqueCardInTheDeck, player, usedAssistantCards);
         player.executeAction(pc);
         assertEquals(uniqueCardInTheDeck, player.getLastPlayedAssistantCard());
     }
@@ -79,7 +79,7 @@ class PlayCardTest {
         int initialDimDeck = player.getAssistantDeck().getAssistantDeck().size();
         usedAssistantCards.add(new AssistantCard(AssistantCardType.SNAKE));
         usedAssistantCards.add(new AssistantCard(AssistantCardType.TIGER));
-        PlayCard pc = new PlayCard(cardToPlay, player, usedAssistantCards);
+        PlayAssistantCard pc = new PlayAssistantCard(cardToPlay, player, usedAssistantCards);
         player.executeAction(pc);
         assertEquals(initialDimDeck-1, player.getAssistantDeck().getAssistantDeck().size());
     }
@@ -93,7 +93,7 @@ class PlayCardTest {
         usedAssistantCards.add(new AssistantCard(AssistantCardType.SNAKE));
         usedAssistantCards.add(new AssistantCard(AssistantCardType.TIGER));
         int initialDimDeck = usedAssistantCards.size();
-        PlayCard pc = new PlayCard(cardToPlay, player, usedAssistantCards);
+        PlayAssistantCard pc = new PlayAssistantCard(cardToPlay, player, usedAssistantCards);
         player.executeAction(pc);
         assertEquals(initialDimDeck+1, usedAssistantCards.size());
     }

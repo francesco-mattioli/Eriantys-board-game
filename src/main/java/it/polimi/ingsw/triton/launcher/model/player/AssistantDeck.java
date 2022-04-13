@@ -47,7 +47,7 @@ public class AssistantDeck {
      */
     public void removeCard(AssistantCard cardToRemove) {
         for (int i = 0; i < assistantDeck.size(); i++) {
-            if (assistantDeck.get(i).getAssistantCardType().getValue() == cardToRemove.getAssistantCardType().getValue()) {
+            if (assistantDeck.get(i).getType().getValue() == cardToRemove.getType().getValue()) {
                 assistantDeck.remove(i);
                 break;
             }

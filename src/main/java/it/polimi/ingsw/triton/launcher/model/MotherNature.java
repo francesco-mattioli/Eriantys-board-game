@@ -18,7 +18,7 @@ public class MotherNature {
 
     //need to be tested
     public Island move(AssistantCard assistantCard, int steps, ArrayList<Island> islands) throws IllegalArgumentException {
-        int maxSteps = assistantCard.getAssistantCardType().getMaxSteps() + additionalSteps;
+        int maxSteps = assistantCard.getType().getMaxSteps() + additionalSteps;
         if (steps > maxSteps)
             throw new IllegalArgumentException("The number of steps exceed the maximum possible!");
         islandOn = nextMotherNaturePosition(islandOn, steps, islands);
