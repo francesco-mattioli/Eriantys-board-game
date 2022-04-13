@@ -18,6 +18,9 @@ public class Wallet {
         value++;
     }
 
+    public void decrease(int amount){
+        value=-amount;
+    }
     /**
      * @return number of coins in the wallet.
      */
