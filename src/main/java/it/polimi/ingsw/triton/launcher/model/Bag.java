@@ -44,7 +44,7 @@ public class Bag {
 
     /**
      * Fill the cloud tile with a number of students,
-     * the number of students depends by the number of player
+     * the number of students depends on the number of players
      * @param cloudTile the cloudTile to fill
      */
     public void fillCloudTile(CloudTile cloudTile) {

@@ -17,7 +17,7 @@ public class CardEffect02 implements CardEffect{
     /**
      * This method sets the ProfessorStrategy to a new Strategy in order to calculate differently
      * which player has the Professor.
-     * Thus, it changes the Strategy and calls updateProfessors for every student color. In other words,
+     * Thus, it changes the Strategy and calls updateProfessors fofor every student color. In other words,
      * calls  updateProfessors for every dining table on the school board.
      */
     @Override

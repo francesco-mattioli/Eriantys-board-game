@@ -8,7 +8,7 @@ public class CardEffect01 implements CardEffect {
     private final Island island;
     private final Color student;
     private final CharacterCard characterCard;
-    private Bag bag;
+    private final Bag bag;
 
     /**
      * @param student to draw from the Card.
@@ -25,6 +25,7 @@ public class CardEffect01 implements CardEffect {
      * This method adds a student onto an island.
      * The chosen student was on the CharacterCard.
      * The island is passed through the constructor.
+     * Then it draws a student from the bag and places it on the card
      */
     @Override
     public void execute() {
