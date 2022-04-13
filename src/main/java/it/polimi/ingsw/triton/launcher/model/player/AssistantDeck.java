@@ -1,5 +1,6 @@
-package it.polimi.ingsw.triton.launcher.model;
+package it.polimi.ingsw.triton.launcher.model.player;
 
+import it.polimi.ingsw.triton.launcher.model.AssistantCard;
 import it.polimi.ingsw.triton.launcher.model.enums.AssistantCardType;
 import it.polimi.ingsw.triton.launcher.model.enums.Wizard;
 

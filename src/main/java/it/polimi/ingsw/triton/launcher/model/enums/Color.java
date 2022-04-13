@@ -6,4 +6,9 @@ public enum Color {
     GREEN,
     RED,
     PINK;
+
+    public static int numOfColors(){
+        return Color.values().length;
+    }
+
 }

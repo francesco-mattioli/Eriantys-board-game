@@ -2,7 +2,7 @@ package it.polimi.ingsw.triton.launcher.model.playeractions;
 
 import it.polimi.ingsw.triton.launcher.model.CloudTile;
 import it.polimi.ingsw.triton.launcher.model.enums.Color;
-import it.polimi.ingsw.triton.launcher.model.SchoolBoard;
+import it.polimi.ingsw.triton.launcher.model.player.SchoolBoard;
 
 /**
  * Represents the choice of the cloud tile made by the player.

@@ -1,8 +1,8 @@
 package it.polimi.ingsw.triton.launcher.model.playeractions;
 
 import it.polimi.ingsw.triton.launcher.model.AssistantCard;
-import it.polimi.ingsw.triton.launcher.model.AssistantDeck;
-import it.polimi.ingsw.triton.launcher.model.Player;
+import it.polimi.ingsw.triton.launcher.model.player.AssistantDeck;
+import it.polimi.ingsw.triton.launcher.model.player.Player;
 
 import java.util.ArrayList;
 

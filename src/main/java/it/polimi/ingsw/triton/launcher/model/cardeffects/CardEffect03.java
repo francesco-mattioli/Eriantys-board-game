@@ -1,7 +1,7 @@
 package it.polimi.ingsw.triton.launcher.model.cardeffects;
 
 import it.polimi.ingsw.triton.launcher.model.Island;
-import it.polimi.ingsw.triton.launcher.model.Player;
+import it.polimi.ingsw.triton.launcher.model.player.Player;
 
 import java.util.ArrayList;
 

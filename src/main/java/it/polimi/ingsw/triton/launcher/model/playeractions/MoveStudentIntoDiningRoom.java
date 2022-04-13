@@ -1,8 +1,8 @@
 package it.polimi.ingsw.triton.launcher.model.playeractions;
 
 import it.polimi.ingsw.triton.launcher.model.enums.Color;
-import it.polimi.ingsw.triton.launcher.model.SchoolBoard;
-import it.polimi.ingsw.triton.launcher.model.Wallet;
+import it.polimi.ingsw.triton.launcher.model.player.SchoolBoard;
+import it.polimi.ingsw.triton.launcher.model.player.Wallet;
 
 /**
  * Represents the action of moving a student from the entrance to the dining room of the scholl board.

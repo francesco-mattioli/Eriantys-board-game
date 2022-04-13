@@ -2,6 +2,8 @@ package it.polimi.ingsw.triton.launcher.model;
 
 import it.polimi.ingsw.triton.launcher.model.enums.Color;
 import it.polimi.ingsw.triton.launcher.model.enums.TowerColor;
+import it.polimi.ingsw.triton.launcher.model.player.SchoolBoard;
+import it.polimi.ingsw.triton.launcher.model.player.Wallet;
 import it.polimi.ingsw.triton.launcher.model.playeractions.MoveStudentIntoDiningRoom;
 import org.junit.jupiter.api.Test;
 

@@ -2,7 +2,7 @@ package it.polimi.ingsw.triton.launcher.model.playeractions;
 
 import it.polimi.ingsw.triton.launcher.model.enums.Color;
 import it.polimi.ingsw.triton.launcher.model.Island;
-import it.polimi.ingsw.triton.launcher.model.SchoolBoard;
+import it.polimi.ingsw.triton.launcher.model.player.SchoolBoard;
 
 /**
  * Represents an action performed by the user.

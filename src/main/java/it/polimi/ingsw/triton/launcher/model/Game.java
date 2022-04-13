@@ -4,6 +4,7 @@ import it.polimi.ingsw.triton.launcher.model.cardeffects.CharacterCard;
 import it.polimi.ingsw.triton.launcher.model.enums.Color;
 import it.polimi.ingsw.triton.launcher.model.enums.TowerColor;
 import it.polimi.ingsw.triton.launcher.model.enums.Wizard;
+import it.polimi.ingsw.triton.launcher.model.player.Player;
 import it.polimi.ingsw.triton.launcher.model.professor.ProfessorsManager;
 
 import java.util.ArrayList;
@@ -122,7 +123,7 @@ public class Game {
 
     public void setupIslands(){
        for(Island island: islands){
-           if(island.getId()!= motherNature.getIndexOfOppositeIsland() && island.getId()!= motherNature.getPosition().getId()){
+           if(island.getId()!= motherNature.getIndexOfOppositeIsland(islands) && island.getId()!= motherNature.getPosition().getId()){
                island.addStudent(bag.drawStudent());
            }
        }

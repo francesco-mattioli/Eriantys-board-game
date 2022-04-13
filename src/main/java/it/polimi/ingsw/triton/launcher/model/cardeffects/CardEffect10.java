@@ -1,6 +1,6 @@
 package it.polimi.ingsw.triton.launcher.model.cardeffects;
 
-import it.polimi.ingsw.triton.launcher.model.SchoolBoard;
+import it.polimi.ingsw.triton.launcher.model.player.SchoolBoard;
 import it.polimi.ingsw.triton.launcher.model.enums.Color;
 
 public class CardEffect10 implements CardEffect{

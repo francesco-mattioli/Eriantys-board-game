@@ -1,7 +1,7 @@
 package it.polimi.ingsw.triton.launcher.model.cardeffects;
 
 import it.polimi.ingsw.triton.launcher.model.Bag;
-import it.polimi.ingsw.triton.launcher.model.Player;
+import it.polimi.ingsw.triton.launcher.model.player.Player;
 import it.polimi.ingsw.triton.launcher.model.enums.Color;
 import it.polimi.ingsw.triton.launcher.model.enums.TowerColor;
 import org.junit.jupiter.api.AfterEach;

@@ -1,10 +1,9 @@
-package it.polimi.ingsw.triton.launcher.model;
+package it.polimi.ingsw.triton.launcher.model.player;
 
+import it.polimi.ingsw.triton.launcher.model.AssistantCard;
 import it.polimi.ingsw.triton.launcher.model.enums.TowerColor;
 import it.polimi.ingsw.triton.launcher.model.enums.Wizard;
 import it.polimi.ingsw.triton.launcher.model.playeractions.Action;
-
-import java.util.ArrayList;
 
 /**
  * The type Player.

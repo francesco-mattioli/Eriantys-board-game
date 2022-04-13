@@ -2,6 +2,7 @@ package it.polimi.ingsw.triton.launcher.model;
 
 import it.polimi.ingsw.triton.launcher.model.enums.Color;
 import it.polimi.ingsw.triton.launcher.model.enums.TowerColor;
+import it.polimi.ingsw.triton.launcher.model.player.Player;
 import it.polimi.ingsw.triton.launcher.model.professor.ProfessorStrategyDefault;
 import it.polimi.ingsw.triton.launcher.model.professor.ProfessorsManager;
 import org.junit.jupiter.api.AfterEach;

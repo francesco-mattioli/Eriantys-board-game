@@ -2,6 +2,7 @@ package it.polimi.ingsw.triton.launcher.model;
 
 import it.polimi.ingsw.triton.launcher.model.enums.Color;
 import it.polimi.ingsw.triton.launcher.model.enums.TowerColor;
+import it.polimi.ingsw.triton.launcher.model.player.Player;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
@@ -60,7 +61,7 @@ class GameTest {
         game.setupIslands();
         assertTrue(game.getBag().isEmpty());
         for(Island island: game.getIslands()){
-            if(island.getId() == game.getMotherNature().getPosition().getId() || island.getId() == game.getMotherNature().getIndexOfOppositeIsland())
+            if(island.getId() == game.getMotherNature().getPosition().getId() || island.getId() == game.getMotherNature().getIndexOfOppositeIsland(game.getIslands()))
             {
                 int sum = 0;
                 for(int i=0; i<5; i++)

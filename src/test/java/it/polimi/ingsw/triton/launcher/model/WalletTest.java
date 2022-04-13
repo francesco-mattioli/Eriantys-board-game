@@ -1,5 +1,6 @@
 package it.polimi.ingsw.triton.launcher.model;
 
+import it.polimi.ingsw.triton.launcher.model.player.Wallet;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;

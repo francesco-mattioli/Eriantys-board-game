@@ -4,34 +4,38 @@ import java.util.ArrayList;
 
 public class MotherNature {
 
-    private Island position;
+    private Island islandOn;
     private int additionalSteps;
 
-    public MotherNature(Island island) {
-        this.position=island;
+    public MotherNature(Island islandOn) {
+        this.islandOn = islandOn;
         this.additionalSteps = 0;
     }
 
     public Island getPosition() {
-        return position;
+        return islandOn;
     }
 
     //need to be tested
     public Island move(AssistantCard assistantCard, int steps, ArrayList<Island> islands) throws IllegalArgumentException {
         int maxSteps = assistantCard.getAssistantCardType().getMaxSteps() + additionalSteps;
         if (steps > maxSteps)
-            throw new IllegalArgumentException();
-        int positionIndex = islands.indexOf(position);
-        position = islands.get((positionIndex+steps)%islands.size());
-        return position;
+            throw new IllegalArgumentException("The number of steps exceed the maximum possible!");
+        islandOn = nextMotherNaturePosition(islandOn, steps, islands);
+        return islandOn;
     }
 
-    public int getIndexOfOppositeIsland(){
-        int currentIndex=position.getId();
-        return (currentIndex+6)%12;
+    private Island nextMotherNaturePosition(Island islandOn, int steps, ArrayList<Island> islands) {
+        int positionIndex = islands.indexOf(islandOn);
+        return islands.get((positionIndex + steps) % islands.size());
     }
 
-    public void resetAdditionalSteps(){
+
+    public int getIndexOfOppositeIsland(ArrayList<Island> islands) {
+        return (islandOn.getId() + (islands.size() / 2)) % (islands.size());
+    }
+
+    public void resetAdditionalSteps() {
         additionalSteps = 0;
     }
 
@@ -42,4 +46,6 @@ public class MotherNature {
     public void setAdditionalSteps(int additionalSteps) {
         this.additionalSteps = additionalSteps;
     }
+
+
 }

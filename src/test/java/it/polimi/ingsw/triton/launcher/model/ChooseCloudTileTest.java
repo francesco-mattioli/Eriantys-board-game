@@ -2,6 +2,7 @@ package it.polimi.ingsw.triton.launcher.model;
 
 import it.polimi.ingsw.triton.launcher.model.enums.Color;
 import it.polimi.ingsw.triton.launcher.model.enums.TowerColor;
+import it.polimi.ingsw.triton.launcher.model.player.SchoolBoard;
 import it.polimi.ingsw.triton.launcher.model.playeractions.ChooseCloudTile;
 import org.junit.jupiter.api.Test;
 

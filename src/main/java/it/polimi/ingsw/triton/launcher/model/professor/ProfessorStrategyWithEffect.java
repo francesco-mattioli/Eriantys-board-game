@@ -1,15 +1,15 @@
 package it.polimi.ingsw.triton.launcher.model.professor;
 
-import it.polimi.ingsw.triton.launcher.model.Player;
+import it.polimi.ingsw.triton.launcher.model.player.Player;
 import it.polimi.ingsw.triton.launcher.model.enums.Color;
 
 public class ProfessorStrategyWithEffect implements ProfessorStrategy{
     /**
      *
      * @param player that has to update its professor
-     * @param color
-     * @param professors
-     * @throws IllegalArgumentException
+     * @param color of the dining table
+     * @param professors is the array of Players which contains the information of assignments between professors and players
+     * @throws IllegalArgumentException when one parameter is null
      */
     @Override
     public void execute(Player player, Color color, Player[] professors) throws IllegalArgumentException{

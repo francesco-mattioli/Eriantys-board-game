@@ -1,6 +1,6 @@
 package it.polimi.ingsw.triton.launcher.model.professor;
 
-import it.polimi.ingsw.triton.launcher.model.Player;
+import it.polimi.ingsw.triton.launcher.model.player.Player;
 import it.polimi.ingsw.triton.launcher.model.enums.Color;
 
 public class ProfessorsManager {
