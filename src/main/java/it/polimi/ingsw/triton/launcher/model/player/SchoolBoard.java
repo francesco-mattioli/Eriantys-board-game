@@ -4,9 +4,6 @@ import it.polimi.ingsw.triton.launcher.model.Island;
 import it.polimi.ingsw.triton.launcher.model.enums.Color;
 import it.polimi.ingsw.triton.launcher.model.enums.TowerColor;
 
-/**
- * Represents the school board of the player.
- */
 public class SchoolBoard {
     private final int INITIAL_NUM_TOWERS = 8;
     private final TowerColor towerColor;
@@ -24,16 +21,10 @@ public class SchoolBoard {
         this.diningRoom = new int[5];
     }
 
-    /**
-     * @return the tower color of the school board.
-     */
     public TowerColor getTowerColor() {
         return towerColor;
     }
 
-    /**
-     * @return the number of towers in the school board.
-     */
     public int getNumTowers() {
         return numTowers;
     }
@@ -46,8 +37,12 @@ public class SchoolBoard {
         return diningRoom;
     }
 
-    public void moveTowerOntoIsland(int dim, Island island) {
-        // TODO implement here
+    /**
+     * Moves the towers from the school board to the island
+     * @param dim the number of towers to move
+     */
+    public void moveTowerOntoIsland(int dim) {
+        numTowers -= dim;
     }
 
     /**
