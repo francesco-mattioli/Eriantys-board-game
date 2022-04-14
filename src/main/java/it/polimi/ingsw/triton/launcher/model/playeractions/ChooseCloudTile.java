@@ -17,15 +17,27 @@ public class ChooseCloudTile implements Action {
         this.schoolBoard = schoolBoard;
     }
 
+    private boolean isCloudTileAlreadyChosen(){
+        int sumStudents = 0;
+        for(int i = 0; i < cloudTile.getStudents().length; i++){
+            sumStudents += cloudTile.getStudents()[i];
+        }
+        return sumStudents == 0;
+    }
+
     /**
      * Moves the students from the chosen cloud tile to the entrance of the player.
      */
     @Override
     public void execute() {
-        for(int i = 0; i < cloudTile.getStudents().length; i++){
-            for(int j = 0; j < cloudTile.getStudents()[i]; j++){
-                cloudTile.removeStudentFromCloudTile(Color.values()[i]);
-                schoolBoard.addStudentIntoEntrance(Color.values()[i]);
+        if(isCloudTileAlreadyChosen()){
+            throw new RuntimeException("This cloud tile is already chosen");
+        }else{
+            for(int i = 0; i < cloudTile.getStudents().length; i++){
+                for(int j = 0; j < cloudTile.getStudents()[i]; j++){
+                    cloudTile.removeStudentFromCloudTile(Color.values()[i]);
+                    schoolBoard.addStudentIntoEntrance(Color.values()[i]);
+                }
             }
         }
     }
