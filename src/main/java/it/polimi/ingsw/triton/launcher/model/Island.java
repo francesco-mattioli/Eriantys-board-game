@@ -66,7 +66,7 @@ public class Island {
     public void towerInfluence(Player newDominator) {
         if (dominator != null && newDominator != null && dominator != newDominator) {
             dominator.getSchoolBoard().moveTowerOntoSchoolBoard(dim);
-            newDominator.getSchoolBoard().moveTowerOntoIsland(dim, this);
+            newDominator.getSchoolBoard().moveTowerOntoIsland(dim);
             dominator = newDominator;
         }
     }
