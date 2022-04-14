@@ -24,12 +24,30 @@ public class MoveStudentOntoIsland implements Action {
         this.islandDestination = islandDestination;
     }
 
+    private boolean isEmptyEntrance(){
+        int numStudentsEntrance = 0;
+        for(int i = 0; i < schoolBoard.getEntrance().length; i++){
+            numStudentsEntrance += schoolBoard.getEntrance()[i];
+        }
+        return numStudentsEntrance == 0;
+    }
+
+    private boolean noStudentsColorInTheEntrance(){
+        return schoolBoard.getEntrance()[student.ordinal()] == 0;
+    }
+
     /**
      * Moves the student to the island selected by the user.
      */
     @Override
     public void execute() {
-        schoolBoard.removeStudentFromEntrance(student);
-        islandDestination.addStudent(student);
+        if(isEmptyEntrance())
+            throw new RuntimeException("There aren't any students in the entrance");
+        else if(noStudentsColorInTheEntrance())
+            throw new RuntimeException("There aren't any" + student.name() + "students in the entrance");
+        else{
+            schoolBoard.removeStudentFromEntrance(student);
+            islandDestination.addStudent(student);
+        }
     }
 }

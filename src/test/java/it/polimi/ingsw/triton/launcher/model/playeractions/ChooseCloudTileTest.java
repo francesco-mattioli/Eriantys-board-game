@@ -39,6 +39,18 @@ class ChooseCloudTileTest {
     }
 
     /**
+     * Test if the cloud tile is already chosen.
+     */
+    @Test
+    void testIfCloudTileIsAlreadyChosen() {
+        ChooseCloudTile cct = new ChooseCloudTile(ct, schoolBoard);
+        ct.setStudents(Color.BLUE, Color.RED, Color.GREEN);
+        cct.execute();
+        ChooseCloudTile cct2 = new ChooseCloudTile(ct, schoolBoard);
+        assertThrows(RuntimeException.class, cct2::execute);
+    }
+
+    /**
      * Test if the students are removed from the cloud tile.
      */
     @Test
