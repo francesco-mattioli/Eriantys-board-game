@@ -5,6 +5,7 @@ import it.polimi.ingsw.triton.launcher.model.enums.Color;
 import it.polimi.ingsw.triton.launcher.model.enums.TowerColor;
 import it.polimi.ingsw.triton.launcher.model.enums.Wizard;
 import it.polimi.ingsw.triton.launcher.model.player.Player;
+import it.polimi.ingsw.triton.launcher.model.player.PlayerTurnComparator;
 import it.polimi.ingsw.triton.launcher.model.professor.ProfessorsManager;
 
 import java.util.ArrayList;
@@ -70,13 +71,7 @@ public class Game {
 
 
     public void sortPlayerPerTurn() {
-        for (int i = 0; i < players.size() - 1; i++) {
-            for (int j = i + 1; j < players.size(); j++) {
-                if (players.get(i).getLastPlayedAssistantCard().getType().getValue() > players.get(j).getLastPlayedAssistantCard().getType().getValue()) {
-                    Collections.swap(players, i, j);
-                }
-            }
-        }
+        players.sort(new PlayerTurnComparator());
     }
 
     public void nextPlayCardTurn() {

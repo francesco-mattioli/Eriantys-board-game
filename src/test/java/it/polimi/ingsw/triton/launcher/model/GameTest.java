@@ -159,8 +159,8 @@ class GameTest {
         player3.setLastPlayedAssistantCard(new AssistantCard(AssistantCardType.CAT));
         game.sortPlayerPerTurn();
         assertEquals("TestPlayer2", game.getPlayers().get(0).getUsername());
-        assertEquals("TestPlayer1", game.getPlayers().get(2).getUsername());
         assertEquals("TestPlayer3", game.getPlayers().get(1).getUsername());
+        assertEquals("TestPlayer1", game.getPlayers().get(2).getUsername());
 
     }
 }
