@@ -7,9 +7,7 @@ import it.polimi.ingsw.triton.launcher.model.enums.Wizard;
 import it.polimi.ingsw.triton.launcher.model.player.Player;
 import it.polimi.ingsw.triton.launcher.model.professor.ProfessorsManager;
 
-import java.util.ArrayList;
-import java.util.Map;
-import java.util.Random;
+import java.util.*;
 
 public class Game {
 
@@ -214,16 +212,13 @@ public class Game {
     }
 
     public void sortPlayerPerTurn() {
-        /*Player temporaryPlayer;
         for (int i = 0; i < players.size() - 1; i++){
             for (int j = i + 1; j < players.size(); j++){
                 if (players.get(i).getLastPlayedAssistantCard().getType().getValue() > players.get(j).getLastPlayedAssistantCard().getType().getValue()){
-                    temporaryPlayer = players.get(i);
-                    players.add(i,players.get(j));
-                    players.add(j,temporaryPlayer);
+                    Collections.swap(players,i,j);
                 }
             }
-        }*/
+        }
     }
 
     public void nextPlayCardTurn() {

@@ -1,5 +1,6 @@
 package it.polimi.ingsw.triton.launcher.model;
 
+import it.polimi.ingsw.triton.launcher.model.enums.AssistantCardType;
 import it.polimi.ingsw.triton.launcher.model.enums.Color;
 import it.polimi.ingsw.triton.launcher.model.enums.TowerColor;
 import it.polimi.ingsw.triton.launcher.model.player.Player;
@@ -111,8 +112,6 @@ class GameTest {
     @Test
     void setupSchoolBoard()
     {
-        game.addPlayer("Gianni");
-        game.addPlayer("Giorgio");
         Map<Player, TowerColor> m1 = new HashMap<Player, TowerColor>();
         m1.put(game.getPlayers().get(0), TowerColor.BLACK);
         Map<Player,TowerColor> m2 = new HashMap<Player, TowerColor>();
@@ -151,6 +150,18 @@ class GameTest {
             }
             assertEquals(3,sumOfStudents);
         }
+    }
+
+    @Test
+    public void checkSortingPlayers(){
+        player1.setLastPlayedAssistantCard(new AssistantCard(AssistantCardType.SNAKE));
+        player2.setLastPlayedAssistantCard(new AssistantCard(AssistantCardType.TIGER));
+        player3.setLastPlayedAssistantCard(new AssistantCard(AssistantCardType.CAT));
+        game.sortPlayerPerTurn();
+        assertEquals("TestPlayer2", game.getPlayers().get(0).getUsername());
+        assertEquals("TestPlayer1", game.getPlayers().get(2).getUsername());
+        assertEquals("TestPlayer3", game.getPlayers().get(1).getUsername());
+
     }
 }
 
