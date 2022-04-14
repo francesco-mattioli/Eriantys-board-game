@@ -17,6 +17,9 @@ public class ChooseCloudTile implements Action {
         this.schoolBoard = schoolBoard;
     }
 
+    /**
+     * @return true if the cloud tile is not already chosen, false otherwise.
+     */
     private boolean isCloudTileAlreadyChosen(){
         int sumStudents = 0;
         for(int i = 0; i < cloudTile.getStudents().length; i++){
