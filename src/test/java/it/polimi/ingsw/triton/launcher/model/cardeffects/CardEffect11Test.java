@@ -33,7 +33,9 @@ class CardEffect11Test {
         characterCard = null;
     }
 
-
+    /**
+     * This test check if the effect adds only one student when the entrance has zero
+     */
     @Test
     public void addStudentWhenDiningRoomHasZero(){
        characterCard.executeEffect(new CardEffect11(Color.BLUE, player.getSchoolBoard(),bag,characterCard));

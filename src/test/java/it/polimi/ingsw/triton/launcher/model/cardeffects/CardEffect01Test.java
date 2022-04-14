@@ -15,6 +15,8 @@ class CardEffect01Test {
     private Island island;
     private CharacterCard characterCard;
 
+
+
     @BeforeEach
     public void setUp(){
         bag = new Bag(2);
@@ -23,6 +25,7 @@ class CardEffect01Test {
         characterCard = new CharacterCard(1,0,0,bag);
     }
 
+
     @AfterEach
     public void tearDown(){
         bag = null;
@@ -30,7 +33,9 @@ class CardEffect01Test {
         characterCard = null;
     }
 
-
+    /**
+     * This test check if the effect adds only one student when the island has zero
+     */
     @Test
     public void addStudentIntoIslandWhenHasZero(){
         characterCard.executeEffect(new CardEffect01(characterCard, Color.BLUE, island, bag));

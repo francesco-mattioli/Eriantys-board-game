@@ -37,6 +37,10 @@ class CardEffect10Test {
         player = null;
     }
 
+
+    /**
+     * This test checks if students are swapped correctly from the dining room to the entrance
+     */
     @Test
     public void checkIfStudentSwitchedInEntrance(){
         fromDiningRoom[Color.PINK.ordinal()] = 3;
@@ -45,6 +49,9 @@ class CardEffect10Test {
         assertEquals(3,player.getSchoolBoard().getEntrance()[Color.PINK.ordinal()]);
     }
 
+    /**
+     * This test throws an exception if entrance hasn't enough students
+     */
     @Test
     public void throwExceptionIfNotEnoughStudentsInEntrance(){
         fromDiningRoom[Color.PINK.ordinal()] = 3;
@@ -52,6 +59,9 @@ class CardEffect10Test {
         assertThrows(RuntimeException.class, () -> {characterCard.executeEffect(new CardEffect10(fromEntrance,fromDiningRoom,player.getSchoolBoard()));});
     }
 
+    /**
+     * This test checks if students are swapped correctly from the entrance to the dining room
+     */
     @Test
     public void checkIfStudentSwitchedInDiningRoom(){
         fromDiningRoom[Color.PINK.ordinal()] = 3;
@@ -60,6 +70,9 @@ class CardEffect10Test {
         assertEquals(3,player.getSchoolBoard().getDiningRoom()[Color.BLUE.ordinal()]);
     }
 
+    /**
+     * This test throws an exception if dining room hasn't enough students
+     */
     @Test
     public void throwExceptionIfNotEnoughStudentsInDiningRoom(){
         fromDiningRoom[Color.PINK.ordinal()] = 4;

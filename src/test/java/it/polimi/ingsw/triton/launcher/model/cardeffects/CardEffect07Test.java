@@ -38,6 +38,9 @@ class CardEffect07Test {
         player = null;
     }
 
+    /**
+     * This test checks if students are swapped correctly from the card to the entrance
+     */
     @Test
     public void checkIfStudentSwitchedInEntrance(){
         fromCard[Color.PINK.ordinal()] = 3;
@@ -46,6 +49,9 @@ class CardEffect07Test {
         assertEquals(3,player.getSchoolBoard().getEntrance()[Color.PINK.ordinal()]);
     }
 
+    /**
+     * This test throws an exception if entrance hasn't enough students
+     */
     @Test
     public void throwExceptionIfNotEnoughStudentsInEntrance(){
         fromCard[Color.PINK.ordinal()] = 3;
@@ -53,6 +59,9 @@ class CardEffect07Test {
         assertThrows(RuntimeException.class, () -> {characterCard.executeEffect(new CardEffect07(characterCard.getStudents(), fromCard, fromSchoolBoard, player.getSchoolBoard()));});
     }
 
+    /**
+     * This test checks if students are swapped correctly from the entrance to the card
+     */
     @Test
     public void checkIfStudentSwitchedInCharacterCard(){
         fromCard[Color.PINK.ordinal()] = 3;
@@ -61,6 +70,9 @@ class CardEffect07Test {
         assertEquals(3,characterCard.getStudents()[Color.BLUE.ordinal()]);
     }
 
+    /**
+     * This test throws an exception if card hasn't enough students
+     */
     @Test
     public void throwExceptionIfNotEnoughStudentsOnCharacterCard(){
         fromCard[Color.PINK.ordinal()] = 4;
