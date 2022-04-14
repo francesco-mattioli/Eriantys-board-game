@@ -10,6 +10,14 @@ import it.polimi.ingsw.triton.launcher.model.player.Player;
  */
 public class InfluenceStrategyDefaultSuper extends InfluenceStrategy{
 
+    /**
+     * This method calculate the default influence between two players on an island
+     * @param player candidate for the dominance
+     * @param professors
+     * @param dominator player who dominates the island
+     * @param island on which to calculate the influence
+     * @return influence value
+     */
     @Override
     public int execute(Player player, Player[] professors, Player dominator, Island island) {
         int influence = 0;
