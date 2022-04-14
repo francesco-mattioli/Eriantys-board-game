@@ -4,9 +4,6 @@ import it.polimi.ingsw.triton.launcher.model.enums.Color;
 import it.polimi.ingsw.triton.launcher.model.player.SchoolBoard;
 import it.polimi.ingsw.triton.launcher.model.player.Wallet;
 
-/**
- * Represents the action of moving a student from the entrance to the dining room of the scholl board.
- */
 public class MoveStudentIntoDiningRoom implements Action {
     private final Color student;
     private final Wallet wallet;
@@ -27,14 +24,14 @@ public class MoveStudentIntoDiningRoom implements Action {
      * @param studentColor is the color of student
      * @return true if the number of students of a certain color is a multiple of 3, false otherwise.
      */
-    public boolean isMultiple3(Color studentColor) {
+    private boolean isMultiple3(Color studentColor) {
         return (schoolBoard.getStudentsNumber(studentColor) % 3) == 0;
     }
 
     /**
      * Calls increaseValue() to add a coin in the wallet
      */
-    public void updateWallet() {
+    private void updateWallet() {
         wallet.increaseValue();
     }
 
@@ -44,8 +41,12 @@ public class MoveStudentIntoDiningRoom implements Action {
      */
     @Override
     public void execute() {
-        schoolBoard.addStudentIntoDiningRoom(student);
-        if (isMultiple3(student))
-            updateWallet();
+        if(student == null){
+            throw new NullPointerException("Not valid color");
+        }else{
+            schoolBoard.addStudentIntoDiningRoom(student);
+            if (isMultiple3(student))
+                updateWallet();
+        }
     }
 }

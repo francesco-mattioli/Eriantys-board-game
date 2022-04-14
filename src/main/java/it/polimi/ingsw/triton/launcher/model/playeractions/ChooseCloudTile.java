@@ -4,15 +4,13 @@ import it.polimi.ingsw.triton.launcher.model.CloudTile;
 import it.polimi.ingsw.triton.launcher.model.enums.Color;
 import it.polimi.ingsw.triton.launcher.model.player.SchoolBoard;
 
-/**
- * Represents the choice of the cloud tile made by the player.
- */
 public class ChooseCloudTile implements Action {
     private final CloudTile cloudTile;
     private final SchoolBoard schoolBoard;
 
     /**
      * @param cloudTile the cloud tile chosen by the player.
+     * @param schoolBoard the school board of the player.
      */
     public ChooseCloudTile(CloudTile cloudTile, SchoolBoard schoolBoard){
         this.cloudTile = cloudTile;
