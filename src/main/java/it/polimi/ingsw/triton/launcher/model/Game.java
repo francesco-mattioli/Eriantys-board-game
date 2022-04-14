@@ -24,19 +24,22 @@ public class Game {
     private ProfessorsManager professorsManager;
     private ArrayList<CharacterCard> characterCards;
     private ArrayList<AssistantCard> usedAssistantCards;
+    private final int maxNumberOfPlayers;
 
     // some useful final variables
     private final int NUM_OF_STUDENTS_COLORS = Color.values().length;
     private final int MAX_NUM_OF_ISLANDS =12;
     private final int INITIAL_NUM_COINS = 20;
 
-    public Game() {
+    public Game(int maxNumberOfPlayers) {
         this.islands = new ArrayList<>();
-        this.bag = new Bag(players.size());
+        this.maxNumberOfPlayers = maxNumberOfPlayers;
+        this.bag = new Bag(maxNumberOfPlayers);
         this.players = new ArrayList<>();
         this.cloudTiles = new ArrayList<>();
         this.characterCards=new ArrayList<>();
         this.generalCoinSupply = INITIAL_NUM_COINS;
+
     }
 
     public ArrayList<Island> getIslands() {
@@ -126,7 +129,7 @@ public class Game {
     public void setupMotherNature() {
         Random random = new Random();
         int randomIndex = random.nextInt(islands.size());
-        //motherNature = MotherNature.instance(islands.get(randomIndex));
+        motherNature = new MotherNature(islands.get(randomIndex));
     }
 
     public void setupBag() {
@@ -187,13 +190,13 @@ public class Game {
     // end of methods for the PREPARATION PHASE
 
     public void endGame() {
-
+        //close connection
     }
 
-    public void createPlayer() {
-    }
 
-    public void removePlayer() {
+    public void removePlayer(Player player) {
+        players.remove(player);
+        endGame();
     }
 
 
@@ -211,7 +214,16 @@ public class Game {
     }
 
     public void sortPlayerPerTurn() {
-        // TODO implement here
+        /*Player temporaryPlayer;
+        for (int i = 0; i < players.size() - 1; i++){
+            for (int j = i + 1; j < players.size(); j++){
+                if (players.get(i).getLastPlayedAssistantCard().getType().getValue() > players.get(j).getLastPlayedAssistantCard().getType().getValue()){
+                    temporaryPlayer = players.get(i);
+                    players.add(i,players.get(j));
+                    players.add(j,temporaryPlayer);
+                }
+            }
+        }*/
     }
 
     public void nextPlayCardTurn() {

@@ -3,6 +3,8 @@ package it.polimi.ingsw.triton.launcher.model;
 import it.polimi.ingsw.triton.launcher.model.enums.Color;
 import it.polimi.ingsw.triton.launcher.model.enums.TowerColor;
 import it.polimi.ingsw.triton.launcher.model.player.Player;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
@@ -13,11 +15,30 @@ import java.util.Random;
 import static org.junit.jupiter.api.Assertions.*;
 
 class GameTest {
+    private Game game;
+    private Player player1;
+    private Player player2;
+    private Player player3;
+
+    @BeforeEach
+    public void setUp(){
+        game = new Game(2);
+        player1 = new Player("TestPlayer1");
+        player2 = new Player("TestPlayer2");
+        player3 = new Player("TestPlayer3");
+        game.getPlayers().add(player1);
+        game.getPlayers().add(player2);
+        game.getPlayers().add(player3);
+
+    }
+
+    @AfterEach
+    public void tearDown(){
+        game = null;
+    }
 
     @Test
     void createIslands() {
-        Game game = new Game();
-
         game.createIslands();
         assertEquals(12,game.getIslands().size());
         int j = 0; // int to check the island's id
@@ -35,7 +56,6 @@ class GameTest {
 
     @Test
     void setupMotherNature() {
-        Game game = new Game(); //prova
         game.createIslands();
         game.setupMotherNature();
         assertNotNull(game.getMotherNature());
@@ -46,7 +66,6 @@ class GameTest {
 
     @Test
     void setupBag() {
-        Game game = new Game();
         game.setupBag();
         assertNotNull(game.getBag());
         assertFalse(game.getBag().isEmpty());
@@ -57,7 +76,6 @@ class GameTest {
 
     @Test
     void setupIslands() {
-        Game game = new Game();
         game.setupIslands();
         assertTrue(game.getBag().isEmpty());
         for(Island island: game.getIslands()){
@@ -83,20 +101,16 @@ class GameTest {
 
     @Test
     void createCloudTiles(){
-        Game game = new Game();
-        game.addPlayer("Gianni");
-        game.addPlayer("Giorgio");
-        assertEquals(2,game.getPlayers().size());
-        assertEquals("Gianni", game.getPlayers().get(0).getUsername());
-        assertEquals("Giorgio", game.getPlayers().get(1).getUsername());
+        assertEquals(3,game.getPlayers().size());
+        assertEquals("TestPlayer1", game.getPlayers().get(0).getUsername());
+        assertEquals("TestPlayer2", game.getPlayers().get(1).getUsername());
         game.createCloudTiles();
-        assertEquals(2,game.getCloudTiles().size());
+        assertEquals(3,game.getCloudTiles().size());
     }
 
     @Test
     void setupSchoolBoard()
     {
-        Game game = new Game();
         game.addPlayer("Gianni");
         game.addPlayer("Giorgio");
         Map<Player, TowerColor> m1 = new HashMap<Player, TowerColor>();

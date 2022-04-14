@@ -8,6 +8,7 @@ import it.polimi.ingsw.triton.launcher.model.playeractions.Action;
 public class Player {
     private final String username;
     private int moveCounter;
+    private Wallet wallet;
 
     private AssistantDeck assistantDeck;
     private AssistantCard lastPlayedAssistantCard;
@@ -16,6 +17,7 @@ public class Player {
     public Player(String username) {
         this.username = username;
         this.moveCounter = 0;
+        this.wallet = new Wallet();
     }
 
     /**
@@ -61,6 +63,9 @@ public class Player {
         return lastPlayedAssistantCard;
     }
 
+    public Wallet getWallet(){
+        return wallet;
+    }
     // Comments for developers: the action should be called from the Game in this way.
     // player.executeAction( new PlayCard(..arguments..) )
 
