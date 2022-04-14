@@ -2,6 +2,7 @@ package it.polimi.ingsw.triton.launcher.model.playeractions;
 
 import it.polimi.ingsw.triton.launcher.model.cardeffects.CardEffect;
 import it.polimi.ingsw.triton.launcher.model.cardeffects.CharacterCard;
+import it.polimi.ingsw.triton.launcher.model.player.Player;
 import it.polimi.ingsw.triton.launcher.model.player.Wallet;
 
 public class UseCharacterCard implements Action {
