@@ -38,6 +38,6 @@ class MotherNatureTest {
             islands.add(new Island(i));
         }
         MotherNature motherNature = new MotherNature(islands.get(10));
-        assertThrows(IllegalArgumentException.class, () -> {motherNature.move(new AssistantCard(AssistantCardType.EAGLE), 6, islands)});
+        assertThrows(IllegalArgumentException.class, () -> {motherNature.move(new AssistantCard(AssistantCardType.EAGLE), 6, islands);});
     }
 }
