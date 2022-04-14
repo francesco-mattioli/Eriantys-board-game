@@ -51,6 +51,15 @@ public class Game {
         return bag;
     }
 
+    public boolean isUsernameChosen(String username){
+        for(Player player: players){
+            if(player.getUsername().toLowerCase().equals(username.toLowerCase())){
+                return true;
+            }
+        }
+        return false;
+    }
+
     // Preparation phase
     public void startGame(Map<Player, TowerColor> playerTowerColorMap, Map<Player, Wizard> playerWizardMap) {
         createIslands();
