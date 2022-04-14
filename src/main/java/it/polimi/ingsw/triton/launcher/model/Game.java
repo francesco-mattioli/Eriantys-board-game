@@ -60,6 +60,12 @@ public class Game {
         return false;
     }
 
+    //control if name is unique
+    public void addPlayer(String username){
+        players.add(new Player(username));
+    }
+
+
     // Preparation phase
     public void startGame(Map<Player, TowerColor> playerTowerColorMap, Map<Player, Wizard> playerWizardMap) {
         createIslands();
@@ -152,11 +158,6 @@ public class Game {
         return cloudTiles;
     }
 
-    //control if name is unique
-    public void addPlayer(String username){
-        Player player = new Player(username);
-        players.add(player);
-    }
 
     public void setupSchoolboard(Map<Player,TowerColor> playerTowerColorMap){
         for (Player player: playerTowerColorMap.keySet()) {
