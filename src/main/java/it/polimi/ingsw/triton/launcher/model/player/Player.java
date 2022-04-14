@@ -5,21 +5,17 @@ import it.polimi.ingsw.triton.launcher.model.enums.TowerColor;
 import it.polimi.ingsw.triton.launcher.model.enums.Wizard;
 import it.polimi.ingsw.triton.launcher.model.playeractions.Action;
 
-/**
- * The type Player.
- */
 public class Player {
     private final String username;
     private int moveCounter;
 
     private AssistantDeck assistantDeck;
     private AssistantCard lastPlayedAssistantCard;
-    //private ArrayList<AssistantCard> currentPlayedCard = new ArrayList<>();  //Chiedere per passaggio per riferimento nei metodi
     private SchoolBoard schoolBoard;
 
     public Player(String username) {
         this.username = username;
-        this.moveCounter=0;
+        this.moveCounter = 0;
     }
 
     /**
@@ -31,7 +27,7 @@ public class Player {
 
     /**
      * @param wizard chosen by the player.
-     *               This method instantiates the deck of the corresponding wizard.
+     * This method instantiates the deck of the corresponding wizard.
      */
     public void setWizard(Wizard wizard) {
         assistantDeck = new AssistantDeck(wizard);
