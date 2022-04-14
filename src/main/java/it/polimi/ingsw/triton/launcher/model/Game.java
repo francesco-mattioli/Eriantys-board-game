@@ -7,27 +7,29 @@ import it.polimi.ingsw.triton.launcher.model.enums.Wizard;
 import it.polimi.ingsw.triton.launcher.model.player.Player;
 import it.polimi.ingsw.triton.launcher.model.professor.ProfessorsManager;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Map;
+import java.util.Random;
 
 public class Game {
 
     private final ArrayList<Island> islands;
     private final Bag bag;
-    private ArrayList<Player> players;
-    private int generalCoinSupply;
-    private ArrayList<CloudTile> cloudTiles;
+    private final int maxNumberOfPlayers;
+    // some useful final variables
+    private final int NUM_OF_STUDENTS_COLORS = Color.values().length;
+    private final int MAX_NUM_OF_ISLANDS = 12;
+    private final int INITIAL_NUM_COINS = 20;
+    private final ArrayList<Player> players;
+    private final int generalCoinSupply;
+    private final ArrayList<CloudTile> cloudTiles;
+    private final ArrayList<CharacterCard> characterCards;
     private Player currentPlayer;
     private MotherNature motherNature;
     private Player[] professors;
     private ProfessorsManager professorsManager;
-    private ArrayList<CharacterCard> characterCards;
     private ArrayList<AssistantCard> usedAssistantCards;
-    private final int maxNumberOfPlayers;
-
-    // some useful final variables
-    private final int NUM_OF_STUDENTS_COLORS = Color.values().length;
-    private final int MAX_NUM_OF_ISLANDS =12;
-    private final int INITIAL_NUM_COINS = 20;
 
     public Game(int maxNumberOfPlayers) {
         this.islands = new ArrayList<>();
@@ -35,7 +37,7 @@ public class Game {
         this.bag = new Bag(maxNumberOfPlayers);
         this.players = new ArrayList<>();
         this.cloudTiles = new ArrayList<>();
-        this.characterCards=new ArrayList<>();
+        this.characterCards = new ArrayList<>();
         this.generalCoinSupply = INITIAL_NUM_COINS;
 
     }
@@ -52,18 +54,35 @@ public class Game {
         return bag;
     }
 
-    public boolean isUsernameChosen(String username){
-        for(Player player: players){
-            if(player.getUsername().toLowerCase().equals(username.toLowerCase())){
+    public boolean isUsernameChosen(String username) {
+        for (Player player : players) {
+            if (player.getUsername().equalsIgnoreCase(username)) {
                 return true;
             }
         }
         return false;
     }
 
-    //control if name is unique
-    public void addPlayer(String username){
+
+    public void addPlayer(String username) {
         players.add(new Player(username));
+    }
+
+
+    public void sortPlayerPerTurn() {
+        for (int i = 0; i < players.size() - 1; i++) {
+            for (int j = i + 1; j < players.size(); j++) {
+                if (players.get(i).getLastPlayedAssistantCard().getType().getValue() > players.get(j).getLastPlayedAssistantCard().getType().getValue()) {
+                    Collections.swap(players, i, j);
+                }
+            }
+        }
+    }
+
+    public void nextPlayCardTurn() {
+        if (players.indexOf(currentPlayer) < maxNumberOfPlayers - 1)
+            currentPlayer = players.get(players.indexOf(currentPlayer) + 1);
+        else sortPlayerPerTurn();
     }
 
 
@@ -84,29 +103,21 @@ public class Game {
     }
 
     // Planning phase
-    public void planningPhase(AssistantCard assistantCard){
+    public void planningPhase(AssistantCard assistantCard) {
         setupCloudTiles();
 
     }
 
 
-
-
-
-
-
-
-
-
     //--- methods for the PIANIFICATION PHASE
-    public void setupCloudTiles(){
-        int numOfStudentsOnCloudTile=3;
-        if(players.size()>2){
-           numOfStudentsOnCloudTile=4;
+    public void setupCloudTiles() {
+        int numOfStudentsOnCloudTile = 3;
+        if (players.size() > 2) {
+            numOfStudentsOnCloudTile = 4;
         }
         // if there are 2 players the numOfStudentsOnCloudTile should be 3
-        for(CloudTile cloudTile: cloudTiles){
-            for(int i=0;i<numOfStudentsOnCloudTile;i++){
+        for (CloudTile cloudTile : cloudTiles) {
+            for (int i = 0; i < numOfStudentsOnCloudTile; i++) {
                 cloudTile.addStudent(bag.drawStudent());
             }
         }
@@ -115,11 +126,9 @@ public class Game {
     //--- end of methods for the PLANNING PHASE
 
 
-
-
     // methods for the PREPARATION PHASE
     public void createIslands() {
-        for (int i = 0; i < MAX_NUM_OF_ISLANDS ; i++) {
+        for (int i = 0; i < MAX_NUM_OF_ISLANDS; i++) {
             islands.add(new Island(i));
         }
     }
@@ -131,22 +140,22 @@ public class Game {
     }
 
     public void setupBag() {
-        for (int i = 0; i < NUM_OF_STUDENTS_COLORS ; i++) {
+        for (int i = 0; i < NUM_OF_STUDENTS_COLORS; i++) {
             for (int j = 0; j < 2; j++)
                 bag.addStudent(Color.values()[i]);
         }
     }
 
-    public void setupIslands(){
-       for(Island island: islands){
-           if(island.getId()!= motherNature.getIndexOfOppositeIsland(islands) && island.getId()!= motherNature.getPosition().getId()){
-               island.addStudent(bag.drawStudent());
-           }
-       }
+    public void setupIslands() {
+        for (Island island : islands) {
+            if (island.getId() != motherNature.getIndexOfOppositeIsland(islands) && island.getId() != motherNature.getPosition().getId()) {
+                island.addStudent(bag.drawStudent());
+            }
+        }
     }
 
-    public void createCloudTiles(){
-        for(int i=0;i<players.size();i++){
+    public void createCloudTiles() {
+        for (int i = 0; i < players.size(); i++) {
             cloudTiles.add(new CloudTile(i));
         }
     }
@@ -160,27 +169,27 @@ public class Game {
     }
 
 
-    public void setupSchoolboard(Map<Player,TowerColor> playerTowerColorMap){
-        for (Player player: playerTowerColorMap.keySet()) {
+    public void setupSchoolboard(Map<Player, TowerColor> playerTowerColorMap) {
+        for (Player player : playerTowerColorMap.keySet()) {
             player.setSchoolBoard(playerTowerColorMap.get(player));
         }
     }
 
-    public void setupWizard(Map<Player,Wizard> playerWizardMap){
-        for (Player player: playerWizardMap.keySet()) {
+    public void setupWizard(Map<Player, Wizard> playerWizardMap) {
+        for (Player player : playerWizardMap.keySet()) {
             player.setWizard(playerWizardMap.get(player));
         }
     }
 
-    public void setupEntrance(){
-        for (Player player: players) {
-            for (int i=0; i<7; i++){
+    public void setupEntrance() {
+        for (Player player : players) {
+            for (int i = 0; i < 7; i++) {
                 player.getSchoolBoard().addStudentIntoEntrance(bag.drawStudent());
             }
         }
     }
 
-    public void setupFirstPlayer(){
+    public void setupFirstPlayer() {
         Random random = new Random();
         currentPlayer = players.get(random.nextInt(players.size()));
     }
@@ -211,24 +220,6 @@ public class Game {
 
     }
 
-    public void sortPlayerPerTurn() {
-        for (int i = 0; i < players.size() - 1; i++){
-            for (int j = i + 1; j < players.size(); j++){
-                if (players.get(i).getLastPlayedAssistantCard().getType().getValue() > players.get(j).getLastPlayedAssistantCard().getType().getValue()){
-                    Collections.swap(players,i,j);
-                }
-            }
-        }
-    }
-
-    public void nextPlayCardTurn() {
-       int i = players.indexOf(currentPlayer);
-       if (i<maxNumberOfPlayers-1)
-            currentPlayer = players.get(i+1);
-       else sortPlayerPerTurn();
-    }
-
-
     public void nextGameTurn() {
         // TODO implement here
     }
@@ -254,14 +245,14 @@ public class Game {
 
 
     public Island prevIsland(Island currentIsland) {
-        if (islands.indexOf(currentIsland) == 0 ){
+        if (islands.indexOf(currentIsland) == 0) {
             return islands.get(islands.size() - 1);
         } else
-            return islands.get(islands.indexOf(currentIsland)-1);
+            return islands.get(islands.indexOf(currentIsland) - 1);
     }
 
-    public void resetPlayedCardInTurn(){
-        for(AssistantCard assistantCard: usedAssistantCards)
+    public void resetPlayedCardInTurn() {
+        for (AssistantCard assistantCard : usedAssistantCards)
             usedAssistantCards.remove(assistantCard);
     }
 
