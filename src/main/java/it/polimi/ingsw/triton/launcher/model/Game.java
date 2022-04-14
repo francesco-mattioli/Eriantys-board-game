@@ -222,7 +222,10 @@ public class Game {
     }
 
     public void nextPlayCardTurn() {
-        // TODO implement here
+       int i = players.indexOf(currentPlayer);
+       if (i<maxNumberOfPlayers-1)
+            currentPlayer = players.get(i+1);
+       else sortPlayerPerTurn();
     }
 
 
