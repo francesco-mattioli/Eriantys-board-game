@@ -1,6 +1,11 @@
 package it.polimi.ingsw.triton.launcher.model;
 
 import it.polimi.ingsw.triton.launcher.model.enums.AssistantCardType;
+import it.polimi.ingsw.triton.launcher.model.enums.Color;
+import it.polimi.ingsw.triton.launcher.model.enums.TowerColor;
+import it.polimi.ingsw.triton.launcher.model.player.Player;
+import it.polimi.ingsw.triton.launcher.model.player.SchoolBoard;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
@@ -8,35 +13,43 @@ import java.util.ArrayList;
 import static org.junit.jupiter.api.Assertions.*;
 
 class IslandTest {
-    @Test
-    void move(){
-        ArrayList<Island> islands = new ArrayList<Island>();
-        for(int i = 0; i < 7; i++)
-            islands.add(new Island(i));
-        Island position = islands.get(4);
-        MotherNature motherNature = new MotherNature(position);
-        AssistantCard a1 = new AssistantCard(AssistantCardType.CAT);
-        AssistantCard a2 = new AssistantCard(AssistantCardType.DOG);
-        motherNature.move(a1, 2, islands);
-        assertTrue(motherNature.getPosition() == islands.get(6));
-        motherNature.move(a2, 3, islands);
-        assertTrue(motherNature.getPosition() == islands.get(2));
+    private ArrayList<Player> players;
+    Player p1, p2;
+    private Island island1, island2;
+    private Player[] professors;
+
+    @BeforeEach
+    void setup(){
+        players = new ArrayList<Player>();
+        p1 = new Player("Pippo");
+        p1.setSchoolBoard(TowerColor.BLACK);
+        p2 = new Player("Pluto");
+        p2.setSchoolBoard(TowerColor.WHITE);
+        players.add(p1);
+        players.add(p2);
+        island1 = new Island(1);
+        island2 = new Island(2);
+        professors = new Player[5];
+        professors[0] = p1;
+        professors[1] = p1;
+        professors[2] = null;
+        professors[3] = p2;
+        professors[4] = p1;
+        island1.addStudent(Color.YELLOW);
+        island1.addStudent(Color.BLUE);
+        island1.addStudent(Color.GREEN);
+        island1.addStudent(Color.RED);
+        island1.addStudent(Color.PINK);
     }
 
     @Test
-    void merge(){  ///need to be tested in combination with mergeIslands() in game
-        ArrayList<Island> islands = new ArrayList<Island>();
-        for(int i = 0; i<10; i++){
-            islands.add(new Island(i));
-        }
-        islands.get(0).merge(islands.get(1));
-        assertEquals(2, islands.get(0).getDim());
-        islands.remove(1);
-        islands.get(0).merge(islands.get(1));
-        assertEquals(3, islands.get(0).getDim());
-    }
-
     void influence(){
+        assertEquals(3, island1.calculateInfluence(p1, professors, island1.getDominator()));
+    }
 
+    @Test
+    void UpdateInfluence(){
+        island1.updateInfluence(players, professors);
+        assertEquals(p1, island1.getDominator());
     }
 }

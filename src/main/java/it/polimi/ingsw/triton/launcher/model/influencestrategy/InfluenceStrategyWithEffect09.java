@@ -22,10 +22,10 @@ public class InfluenceStrategyWithEffect09 extends InfluenceStrategy{
     @Override
     public int execute(Player player, Player[] professors, Player dominator, Island island) {
         int influence = 0;
-        if(dominator.equals(player))
+        if(dominator != null && dominator.equals(player))
             influence+= island.getDim();
         for(int i = 0; i<professors.length; i++){
-            if((professors[i].equals(player)) && i != color.ordinal()){
+            if((professors[i] == player) && i != color.ordinal()){
                 influence += island.getStudents()[i];
             }
         }

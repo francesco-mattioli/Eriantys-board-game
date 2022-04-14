@@ -33,7 +33,9 @@ public class Island {
      * The current island's parameters will become the sum of the two islands parameters
      * @param island specifies the island to merge with the current island
      */
-    public void merge(Island island) {
+    public void merge(Island island) throws IllegalArgumentException {
+        if (this.dominator != island.getDominator() || dominator == null)
+            throw new IllegalArgumentException("The islands must have the same dominator");
         this.dim += island.getDim();
         for (int i = 0; i < students.length; i++) {
             this.students[i] += island.getStudents()[i];
@@ -84,11 +86,13 @@ public class Island {
      * @param newDominator specifies the player that is now dominating on the island
      */
     public void towerInfluence(Player newDominator) {
-        if (dominator != null && newDominator != null && dominator != newDominator) {
+        if (dominator != null && dominator != newDominator) {
             dominator.getSchoolBoard().moveTowerOntoSchoolBoard(dim);
-            newDominator.getSchoolBoard().moveTowerOntoIsland(dim);
-            dominator = newDominator;
         }
+        if (newDominator != null && dominator != newDominator) {
+            newDominator.getSchoolBoard().moveTowerOntoIsland(dim);
+        }
+        dominator = newDominator;
     }
 
     /**

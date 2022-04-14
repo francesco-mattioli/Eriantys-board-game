@@ -21,10 +21,10 @@ public class InfluenceStrategyDefaultSuper extends InfluenceStrategy{
     @Override
     public int execute(Player player, Player[] professors, Player dominator, Island island) {
         int influence = 0;
-        if(dominator.equals(player))
+        if(dominator != null && dominator.equals(player))
             influence+= island.getDim();
         for(int i = 0; i<professors.length; i++){
-            if(professors[i].equals(player)){
+            if(professors[i] == player){
                 influence += island.getStudents()[i];
             }
         }

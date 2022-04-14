@@ -1,6 +1,7 @@
 package it.polimi.ingsw.triton.launcher.model;
 
 import it.polimi.ingsw.triton.launcher.model.enums.AssistantCardType;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
@@ -8,36 +9,39 @@ import java.util.ArrayList;
 import static org.junit.jupiter.api.Assertions.*;
 
 class MotherNatureTest {
-    @Test
-    void moveMotherNatureWithoutAdditionalSteps(){
-        ArrayList<Island> islands = new ArrayList<Island>();
+
+    private ArrayList<Island> islands;
+    private MotherNature motherNature;
+
+    @BeforeEach
+    void setupIslandsAndMotherNature(){
+        islands = new ArrayList<Island>();
         for(int i=0; i<12; i++){
             islands.add(new Island(i));
         }
-        MotherNature motherNature = new MotherNature(islands.get(10));
-        Island island = motherNature.move(new AssistantCard(AssistantCardType.TURTLE), 10, islands);
-        assertEquals(island, islands.get(8));
+        motherNature = new MotherNature(islands.get(10));
+    }
+
+    @Test
+    void moveMotherNatureWithoutAdditionalSteps(){
+        Island position = motherNature.move(new AssistantCard(AssistantCardType.TURTLE), 5, islands);
+        assertEquals(position, islands.get(3));
     }
 
     @Test
     void moveMotherNatureWithAdditionalSteps(){
-        ArrayList<Island> islands = new ArrayList<Island>();
-        for(int i=0; i<12; i++){
-            islands.add(new Island(i));
-        }
-        MotherNature motherNature = new MotherNature(islands.get(10));
         motherNature.setAdditionalSteps(2);
-        Island island = motherNature.move(new AssistantCard(AssistantCardType.DOG), 9, islands);
-        assertEquals(island, islands.get(7));
+        Island island = motherNature.move(new AssistantCard(AssistantCardType.DOG), 5, islands);
+        assertEquals(island, islands.get(3));
     }
 
     @Test
     void moveMotherNatureWithIllegalArgument(){
-        ArrayList<Island> islands = new ArrayList<Island>();
-        for(int i=0; i<12; i++){
-            islands.add(new Island(i));
-        }
-        MotherNature motherNature = new MotherNature(islands.get(10));
-        assertThrows(IllegalArgumentException.class, () -> {motherNature.move(new AssistantCard(AssistantCardType.EAGLE), 6, islands);});
+        assertThrows(IllegalArgumentException.class, () -> {motherNature.move(new AssistantCard(AssistantCardType.EAGLE), 5, islands);});
+    }
+
+    @Test
+    void oppositeIsland(){
+        assertEquals(4, motherNature.getIndexOfOppositeIsland(islands));
     }
 }
