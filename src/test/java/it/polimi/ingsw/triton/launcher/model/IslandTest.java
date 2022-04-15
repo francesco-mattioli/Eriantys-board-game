@@ -3,6 +3,7 @@ package it.polimi.ingsw.triton.launcher.model;
 import it.polimi.ingsw.triton.launcher.model.enums.AssistantCardType;
 import it.polimi.ingsw.triton.launcher.model.enums.Color;
 import it.polimi.ingsw.triton.launcher.model.enums.TowerColor;
+import it.polimi.ingsw.triton.launcher.model.influencestrategy.InfluenceStrategyWithEffect09;
 import it.polimi.ingsw.triton.launcher.model.player.Player;
 import it.polimi.ingsw.triton.launcher.model.player.SchoolBoard;
 import org.junit.jupiter.api.BeforeEach;
@@ -42,10 +43,20 @@ class IslandTest {
         island1.addStudent(Color.PINK);
     }
 
+    /**
+     * This test verifies if the influence calculation is correct, using the defalult strategy
+     */
     @Test
-    void influence(){
+    void defaultInfluence(){
         assertEquals(3, island1.calculateInfluence(p1, professors, island1.getDominator()));
     }
+
+    @Test
+    void straegy09Influence(){
+        island1.setInfluenceStrategy(new InfluenceStrategyWithEffect09(Color.BLUE));
+        assertEquals(2, island1.calculateInfluence(p1, professors, island1.getDominator()));
+    }
+
 
     @Test
     void UpdateInfluence(){
