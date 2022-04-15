@@ -30,7 +30,6 @@ class GameTest {
         game.getPlayers().add(player1);
         game.getPlayers().add(player2);
         game.getPlayers().add(player3);
-
     }
 
     @AfterEach
@@ -116,8 +115,8 @@ class GameTest {
         m1.put(game.getPlayers().get(0), TowerColor.BLACK);
         Map<Player,TowerColor> m2 = new HashMap<Player, TowerColor>();
         m2.put(game.getPlayers().get(1), TowerColor.WHITE);
-        game.setupSchoolboard(m1);
-        game.setupSchoolboard(m2);
+        game.setupSchoolboard(m1, 2);
+        game.setupSchoolboard(m2, 2);
         assertEquals(TowerColor.BLACK, game.getPlayers().get(0).getSchoolBoard().getTowerColor());
         assertEquals(TowerColor.WHITE, game.getPlayers().get(1).getSchoolBoard().getTowerColor());
         /*game.addPlayer("Michele");

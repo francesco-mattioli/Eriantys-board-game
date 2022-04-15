@@ -90,7 +90,7 @@ public class Game {
         bag.fillBag();
         this.professorsManager = new ProfessorsManager();
         createCloudTiles();
-        setupSchoolboard(playerTowerColorMap);
+        setupSchoolboard(playerTowerColorMap, this.maxNumberOfPlayers);
         setupWizard(playerWizardMap);
         setupEntrance();
         setupFirstPlayer();
@@ -164,9 +164,9 @@ public class Game {
     }
 
 
-    public void setupSchoolboard(Map<Player, TowerColor> playerTowerColorMap) {
+    public void setupSchoolboard(Map<Player, TowerColor> playerTowerColorMap, int numPlayers) {
         for (Player player : playerTowerColorMap.keySet()) {
-            player.setSchoolBoard(playerTowerColorMap.get(player));
+            player.setSchoolBoard(playerTowerColorMap.get(player), numPlayers);
         }
     }
 
@@ -177,8 +177,11 @@ public class Game {
     }
 
     public void setupEntrance() {
+        int studentsToMove = 7;
+        if(this.maxNumberOfPlayers == 3)
+            studentsToMove = 9;
         for (Player player : players) {
-            for (int i = 0; i < 7; i++) {
+            for (int i = 0; i < studentsToMove; i++) {
                 player.getSchoolBoard().addStudentIntoEntrance(bag.drawStudent());
             }
         }

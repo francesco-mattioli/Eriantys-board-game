@@ -27,7 +27,7 @@ class CardEffect07Test {
         characterCard = new CharacterCard(7,0,0,bag);
         characterCard.getStudents()[Color.PINK.ordinal()] = 3;
         player = new Player("TestPlayer");
-        player.setSchoolBoard(TowerColor.BLACK);
+        player.setSchoolBoard(TowerColor.BLACK, 2);
         player.getSchoolBoard().getEntrance()[Color.BLUE.ordinal()] = 3;
     }
 

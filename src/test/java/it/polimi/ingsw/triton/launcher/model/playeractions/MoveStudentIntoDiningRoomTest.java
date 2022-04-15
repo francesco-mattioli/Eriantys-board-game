@@ -19,7 +19,7 @@ class MoveStudentIntoDiningRoomTest {
     @BeforeEach
     void setup(){
         wallet = new Wallet();
-        schoolBoard = new SchoolBoard(TowerColor.BLACK);
+        schoolBoard = new SchoolBoard(TowerColor.BLACK, 2);
     }
 
     @AfterEach

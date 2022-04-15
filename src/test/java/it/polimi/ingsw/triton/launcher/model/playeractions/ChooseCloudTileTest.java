@@ -18,7 +18,7 @@ class ChooseCloudTileTest {
     @BeforeEach
     void setup(){
         ct = new CloudTile(1);
-        schoolBoard = new SchoolBoard(TowerColor.BLACK);
+        schoolBoard = new SchoolBoard(TowerColor.BLACK, 2);
     }
 
     @AfterEach

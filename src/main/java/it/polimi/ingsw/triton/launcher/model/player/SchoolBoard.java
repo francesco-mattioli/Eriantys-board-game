@@ -5,7 +5,7 @@ import it.polimi.ingsw.triton.launcher.model.enums.Color;
 import it.polimi.ingsw.triton.launcher.model.enums.TowerColor;
 
 public class SchoolBoard {
-    private final int INITIAL_NUM_TOWERS = 8;
+    private final int INITIAL_NUM_TOWERS;
     private final TowerColor towerColor;
     private int numTowers;
     private int[] entrance;
@@ -14,8 +14,12 @@ public class SchoolBoard {
     /**
      * @param towerColor the color of towers in the school board.
      */
-    public SchoolBoard(TowerColor towerColor) {
+    public SchoolBoard(TowerColor towerColor, int numPlayers) {
         this.towerColor = towerColor;
+        if(numPlayers == 2)
+            INITIAL_NUM_TOWERS = 8;
+        else
+            INITIAL_NUM_TOWERS = 6;
         this.numTowers = INITIAL_NUM_TOWERS;
         this.entrance = new int[5];
         this.diningRoom = new int[5];
