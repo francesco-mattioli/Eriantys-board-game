@@ -1,5 +1,6 @@
 package it.polimi.ingsw.triton.launcher.model;
 
+import it.polimi.ingsw.triton.launcher.model.cardeffects.CharacterCard;
 import it.polimi.ingsw.triton.launcher.model.enums.AssistantCardType;
 import it.polimi.ingsw.triton.launcher.model.enums.Color;
 import it.polimi.ingsw.triton.launcher.model.enums.TowerColor;
@@ -20,6 +21,7 @@ class IslandTest {
     Player p1, p2;
     private Island island1, island2;
     private Player[] professors;
+    private CharacterCard card05;
 
     @BeforeEach
     void setup(){
@@ -43,6 +45,8 @@ class IslandTest {
         island1.addStudent(Color.GREEN);
         island1.addStudent(Color.RED);
         island1.addStudent(Color.PINK);
+        Bag bag = new Bag(10);
+        card05 = new CharacterCard(5, 2, 4, bag);
     }
 
     @Test
@@ -127,13 +131,72 @@ class IslandTest {
         assertEquals(p2, island1.getDominator());
     }
 
-    /**
-     * This test verifies the limit situation when two players have the same influence, but there are already towers on the island
-     */
     @Test
     void stategy06InfluenceEqualsWithTowers(){
         island1.setInfluenceStrategy(new InfluenceStrategyWithEffect06());
         island1.updateInfluence(players, professors);
         assertEquals(3, island1.calculateInfluence(p1, professors, island1.getDominator()));
     }
+
+    @Test
+    void updateInfluenceNoEntryTiles(){
+        island1.setCharacterCard05(card05);
+        island1.addStudent(Color.RED);
+        island1.updateInfluence(players, professors);
+        island1.setNoEntryTiles(1);
+        island1.updateInfluence(players, professors);
+        assertEquals(0, island1.getNoEntryTiles());
+    }
+
+    @Test
+    void updateInfluenceNoEntryTilesWithPossibleOvertake(){
+        island1.setCharacterCard05(card05);
+        island1.updateInfluence(players, professors);
+        island1.addStudent(Color.RED);
+        island1.addStudent(Color.RED);
+        island1.addStudent(Color.RED);
+        island1.addStudent(Color.RED);
+        island1.addStudent(Color.RED);
+        island1.setNoEntryTiles(1);
+        island1.updateInfluence(players, professors);
+        assertEquals(p1, island1.getDominator());
+    }
+
+
+
+    @Test
+    void mergeIslandsDimension(){
+        island2.addStudent(Color.BLUE);
+        island2.addStudent(Color.BLUE);
+        island1.updateInfluence(players, professors);
+        island2.updateInfluence(players, professors);
+        island1.merge(island2);
+        assertEquals(2, island1.getDim());
+    }
+
+    @Test
+    void mergeIslandsStudents(){
+        island2.addStudent(Color.BLUE);
+        island2.addStudent(Color.BLUE);
+        island1.updateInfluence(players, professors);
+        island2.updateInfluence(players, professors);
+        island1.merge(island2);
+        assertEquals(3, island1.getStudents()[Color.BLUE.ordinal()]);
+    }
+
+    @Test
+    void mergeIslandsWithoutSameDominator(){
+        island2.addStudent(Color.RED);
+        island1.updateInfluence(players, professors);
+        island2.updateInfluence(players, professors);
+        assertThrows(IllegalArgumentException.class, () -> {island1.merge(island2);});
+    }
+
+    @Test
+    void mergeIslandsWithNullDominator(){
+        island1.updateInfluence(players, professors);
+        island2.updateInfluence(players, professors);
+        assertThrows(IllegalArgumentException.class, () -> {island1.merge(island2);});
+    }
+
 }

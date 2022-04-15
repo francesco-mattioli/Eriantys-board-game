@@ -34,7 +34,7 @@ public class Island {
      * @param island specifies the island to merge with the current island
      */
     public void merge(Island island) throws IllegalArgumentException {
-        if (this.dominator != island.getDominator() || dominator == null)
+        if (this.dominator != island.getDominator() || this.dominator == null)
             throw new IllegalArgumentException("The islands must have the same dominator");
         this.dim += island.getDim();
         for (int i = 0; i < students.length; i++) {
