@@ -9,8 +9,6 @@ import it.polimi.ingsw.triton.launcher.model.player.PlayerTurnComparator;
 import it.polimi.ingsw.triton.launcher.model.professor.ProfessorsManager;
 
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Map;
 import java.util.Random;
 
 public class Game {
@@ -31,6 +29,9 @@ public class Game {
     private Player[] professors;
     private ProfessorsManager professorsManager;
     private ArrayList<AssistantCard> usedAssistantCards;
+    // This array must be shown to users, so they can choose a towerColor that is not already chosen.
+    private final boolean[] towerColorChosen;
+
 
     public Game(int maxNumberOfPlayers) {
         this.islands = new ArrayList<>();
@@ -40,6 +41,7 @@ public class Game {
         this.cloudTiles = new ArrayList<>();
         this.characterCards = new ArrayList<>();
         this.generalCoinSupply = INITIAL_NUM_COINS;
+        this.towerColorChosen = new boolean[TowerColor.values().length];
 
     }
 
@@ -64,9 +66,33 @@ public class Game {
         return false;
     }
 
-
     public void addPlayer(String username) {
         players.add(new Player(username));
+    }
+
+    public void chooseTowerColor(Player player, TowerColor towerColor) {
+        player.setSchoolBoard(towerColor, maxNumberOfPlayers);
+        towerColorChosen[towerColor.ordinal()] = true;
+    }
+
+    public void chooseWizard(Player player, Wizard wizard) {
+        player.setWizard(wizard);
+    }
+
+    /**
+     * This method executes the setup phase of the game
+     */
+    public void setup() {
+        createIslands(); //PHASE 1
+        setupMotherNature(); //PHASE 2
+        setupBag(); //PART 1 OF PHASE 3
+        setupIslands(); //PART 2 OF PHASE 3
+        bag.fillBag(); //PHASE 4
+        createCloudTiles(); //PHASE 5
+        this.professorsManager = new ProfessorsManager(); //PHASE 6
+        //PHASE 7, 8 & 9 are done when the player logs in for the first time
+        setupEntrance(); //PHASE 10
+        setupFirstPlayer(); //PHASE 11
     }
 
 
@@ -80,22 +106,6 @@ public class Game {
         else sortPlayerPerTurn();
     }
 
-
-    // Preparation phase
-    public void startGame(Map<Player, TowerColor> playerTowerColorMap, Map<Player, Wizard> playerWizardMap) {
-        createIslands();
-        setupMotherNature();
-        setupBag();
-        setupIslands();
-        bag.fillBag();
-        this.professorsManager = new ProfessorsManager();
-        createCloudTiles();
-        setupSchoolboard(playerTowerColorMap, this.maxNumberOfPlayers);
-        setupWizard(playerWizardMap);
-        setupEntrance();
-        setupFirstPlayer();
-
-    }
 
     // Planning phase
     public void planningPhase(AssistantCard assistantCard) {
@@ -150,7 +160,7 @@ public class Game {
     }
 
     public void createCloudTiles() {
-        for (int i = 0; i < players.size(); i++) {
+        for (int i = 0; i < maxNumberOfPlayers; i++) {
             cloudTiles.add(new CloudTile(i));
         }
     }
@@ -164,21 +174,9 @@ public class Game {
     }
 
 
-    public void setupSchoolboard(Map<Player, TowerColor> playerTowerColorMap, int numPlayers) {
-        for (Player player : playerTowerColorMap.keySet()) {
-            player.setSchoolBoard(playerTowerColorMap.get(player), numPlayers);
-        }
-    }
-
-    public void setupWizard(Map<Player, Wizard> playerWizardMap) {
-        for (Player player : playerWizardMap.keySet()) {
-            player.setWizard(playerWizardMap.get(player));
-        }
-    }
-
     public void setupEntrance() {
         int studentsToMove = 7;
-        if(this.maxNumberOfPlayers == 3)
+        if (this.maxNumberOfPlayers == 3)
             studentsToMove = 9;
         for (Player player : players) {
             for (int i = 0; i < studentsToMove; i++) {
