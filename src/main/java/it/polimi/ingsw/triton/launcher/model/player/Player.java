@@ -43,6 +43,7 @@ public class Player {
         return this.schoolBoard;
     }
 
+
     public void setSchoolBoard(TowerColor towerColor, int numPlayers) {
         this.schoolBoard = new SchoolBoard(towerColor, numPlayers);
     }

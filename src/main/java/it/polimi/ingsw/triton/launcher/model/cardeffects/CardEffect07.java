@@ -96,4 +96,5 @@ public class CardEffect07 implements CardEffect{
             }
         }
     }
+
 }
