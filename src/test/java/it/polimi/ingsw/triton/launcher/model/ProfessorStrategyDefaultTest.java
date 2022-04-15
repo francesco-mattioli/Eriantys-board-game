@@ -21,7 +21,7 @@ class ProfessorStrategyDefaultTest {
         professorsManager = new ProfessorsManager();
         professorsManager.setProfessorStrategy(new ProfessorStrategyDefault());
         player = new Player("TestPlayer");
-        player.setSchoolBoard(TowerColor.BLACK);
+        player.setSchoolBoard(TowerColor.BLACK, 2);
     }
 
     @AfterEach
@@ -57,7 +57,7 @@ class ProfessorStrategyDefaultTest {
     @Test
     void updateProfessorInfluenceWhenPlayerIsNotNull(){
         Player playerWithProfessor = new Player("TestPlayer1");
-        playerWithProfessor.setSchoolBoard(TowerColor.WHITE);
+        playerWithProfessor.setSchoolBoard(TowerColor.WHITE, 2);
         playerWithProfessor.getSchoolBoard().getDiningRoom()[Color.BLUE.ordinal()]=1;
         professorsManager.getProfessors()[Color.BLUE.ordinal()] = playerWithProfessor;
         player.getSchoolBoard().getDiningRoom()[Color.BLUE.ordinal()]=2;

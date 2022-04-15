@@ -23,9 +23,9 @@ class IslandTest {
     void setup(){
         players = new ArrayList<Player>();
         p1 = new Player("Pippo");
-        p1.setSchoolBoard(TowerColor.BLACK);
+        p1.setSchoolBoard(TowerColor.BLACK, 2);
         p2 = new Player("Pluto");
-        p2.setSchoolBoard(TowerColor.WHITE);
+        p2.setSchoolBoard(TowerColor.WHITE, 2);
         players.add(p1);
         players.add(p2);
         island1 = new Island(1);

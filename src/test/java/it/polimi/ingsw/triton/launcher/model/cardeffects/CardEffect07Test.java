@@ -27,7 +27,7 @@ class CardEffect07Test {
         characterCard = new CharacterCard(7,0,0,bag);
         characterCard.getStudents()[Color.PINK.ordinal()] = 3;
         player = new Player("TestPlayer");
-        player.setSchoolBoard(TowerColor.BLACK);
+        player.setSchoolBoard(TowerColor.BLACK, 2);
         player.getSchoolBoard().getEntrance()[Color.BLUE.ordinal()] = 3;
     }
 
@@ -64,10 +64,12 @@ class CardEffect07Test {
      */
     @Test
     public void checkIfStudentSwitchedInCharacterCard(){
+        int previousPinkOnCard;
+        previousPinkOnCard = characterCard.getStudents()[Color.BLUE.ordinal()];
         fromCard[Color.PINK.ordinal()] = 3;
         fromSchoolBoard[Color.BLUE.ordinal()] = 3;
         characterCard.executeEffect(new CardEffect07(characterCard.getStudents(), fromCard, fromSchoolBoard, player.getSchoolBoard()));
-        assertEquals(3,characterCard.getStudents()[Color.BLUE.ordinal()]);
+        assertEquals(previousPinkOnCard + 3,characterCard.getStudents()[Color.BLUE.ordinal()]);
     }
 
     /**

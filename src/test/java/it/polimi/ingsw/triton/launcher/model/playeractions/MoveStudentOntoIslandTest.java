@@ -19,7 +19,7 @@ class MoveStudentOntoIslandTest {
 
     @BeforeEach
     void setup(){
-        schoolBoard = new SchoolBoard(TowerColor.BLACK);
+        schoolBoard = new SchoolBoard(TowerColor.BLACK, 2);
         dest = new Island(1);
         student = Color.BLUE;
     }

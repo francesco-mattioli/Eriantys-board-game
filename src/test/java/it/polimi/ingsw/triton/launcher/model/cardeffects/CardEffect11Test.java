@@ -21,7 +21,7 @@ class CardEffect11Test {
         bag = new Bag(2);
         bag.fillBag();
         player = new Player("TestPlayer");
-        player.setSchoolBoard(TowerColor.BLACK);
+        player.setSchoolBoard(TowerColor.BLACK, 2);
         characterCard = new CharacterCard(11,0,0,bag);
         characterCard.getStudents()[Color.BLUE.ordinal()] = 1;
     }

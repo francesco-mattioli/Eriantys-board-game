@@ -25,7 +25,7 @@ class CardEffect12Test {
         bag.fillBag();
         characterCard = new CharacterCard(12,0,0,bag);
         playerTest1 = new Player("TestPlayer1");
-        playerTest1.setSchoolBoard(TowerColor.BLACK);
+        playerTest1.setSchoolBoard(TowerColor.BLACK, 2);
         players = new ArrayList<>();
         players.add(playerTest1);
     }

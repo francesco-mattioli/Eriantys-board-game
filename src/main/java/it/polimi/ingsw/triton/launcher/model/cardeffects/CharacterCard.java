@@ -24,6 +24,7 @@ public class CharacterCard {
         this.cost = cost;
         this.students = new int[5];
         this.noEntryTiles = noEntryTiles;
+        this.bag = bag;
         setupCharacterCard(id);
     }
 
