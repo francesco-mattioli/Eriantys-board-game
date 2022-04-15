@@ -65,13 +65,19 @@ public class Island {
      */
     public void updateInfluence(ArrayList<Player> players, Player[] professors) {
         if (noEntryTiles == 0) {
-            Player newDominator = null;
-            int max = 0;
+            Player newDominator = dominator;
+            int max = calculateInfluence(dominator, professors, dominator);
+            boolean modifiedMax = false;
             for (Player p : players) {
                 int influence = calculateInfluence(p, professors, dominator);
                 if (influence > max) {
                     max = influence;
                     newDominator = p;
+                    modifiedMax = true;
+                }
+                else if(dominator == null && modifiedMax && influence == max){
+                    newDominator = null;
+                    break;
                 }
             }
             towerInfluence(newDominator);

@@ -3,6 +3,8 @@ package it.polimi.ingsw.triton.launcher.model;
 import it.polimi.ingsw.triton.launcher.model.enums.AssistantCardType;
 import it.polimi.ingsw.triton.launcher.model.enums.Color;
 import it.polimi.ingsw.triton.launcher.model.enums.TowerColor;
+import it.polimi.ingsw.triton.launcher.model.influencestrategy.InfluenceStrategyWithEffect06;
+import it.polimi.ingsw.triton.launcher.model.influencestrategy.InfluenceStrategyWithEffect08;
 import it.polimi.ingsw.triton.launcher.model.influencestrategy.InfluenceStrategyWithEffect09;
 import it.polimi.ingsw.triton.launcher.model.player.Player;
 import it.polimi.ingsw.triton.launcher.model.player.SchoolBoard;
@@ -43,24 +45,95 @@ class IslandTest {
         island1.addStudent(Color.PINK);
     }
 
-    /**
-     * This test verifies if the influence calculation is correct, using the defalult strategy
-     */
     @Test
     void defaultInfluence(){
         assertEquals(3, island1.calculateInfluence(p1, professors, island1.getDominator()));
     }
 
     @Test
-    void straegy09Influence(){
+    void strategy09Influence(){
         island1.setInfluenceStrategy(new InfluenceStrategyWithEffect09(Color.BLUE));
         assertEquals(2, island1.calculateInfluence(p1, professors, island1.getDominator()));
     }
 
+    @Test
+    void strategy08Influence(){
+        island1.setInfluenceStrategy(new InfluenceStrategyWithEffect08());
+        assertEquals(5, island1.calculateInfluence(p1, professors, island1.getDominator()));
+    }
 
     @Test
-    void UpdateInfluence(){
+    void updateInfluence(){
         island1.updateInfluence(players, professors);
         assertEquals(p1, island1.getDominator());
+    }
+
+    /**
+     * This test verifies what happens when tho players have the same influence on an island and there are no towers
+     */
+    @Test
+    void updateInfluenceEquals(){
+        island1.addStudent(Color.RED);
+        island1.addStudent(Color.RED);
+        island1.updateInfluence(players, professors);
+        assertNull(island1.getDominator());
+    }
+
+    /**
+     * This test verifies if the influence of tower is correctly calculated
+     */
+    @Test
+    void defaultInfluenceWithTowers(){
+        island1.updateInfluence(players, professors);
+        assertEquals(4, island1.calculateInfluence(p1, professors, island1.getDominator()));
+    }
+
+    /**
+     * This test verifies il the dominator il correctly calculated when some towers are already on the island
+     */
+    @Test
+    void updateInfluenceWithTowers(){
+        island1.addStudent(Color.RED);
+        island1.updateInfluence(players, professors);
+        island1.addStudent(Color.RED);
+        island1.updateInfluence(players, professors);
+        assertEquals(p1, island1.getDominator());
+    }
+
+    /**
+     * This test verifies the limit situation when two players have the same influence, but there are already towers on the island
+     */
+    @Test
+    void updateInfluenceEqualsWithTowers(){
+        island1.addStudent(Color.RED);
+        island1.updateInfluence(players, professors);
+        island1.addStudent(Color.RED);
+        island1.addStudent(Color.RED);
+        island1.updateInfluence(players, professors);
+        assertEquals(p1, island1.getDominator());
+    }
+
+    /**
+     * This test verifies the limit situation when a player overtakes the actual dominator
+     */
+    @Test
+    void updateInfluenceWithChangeDomination(){
+        island1.addStudent(Color.RED);
+        island1.updateInfluence(players, professors);
+        island1.addStudent(Color.RED);
+        island1.addStudent(Color.RED);
+        island1.addStudent(Color.RED);
+        island1.updateInfluence(players, professors);
+        assertEquals(p2, island1.getDominator());
+    }
+
+    /**
+     * This test verifies the limit situation when two players have the same influence, but there are already towers on the island
+     */
+    @Test
+    void stategy06InfluenceEqualsWithTowers(){
+        island1.setInfluenceStrategy(new InfluenceStrategyWithEffect06());
+        island1.updateInfluence(players, professors);
+        assertEquals(3, island1.calculateInfluence(p1, professors, island1.getDominator()));
     }
 }
