@@ -6,6 +6,7 @@ import it.polimi.ingsw.triton.launcher.model.enums.TowerColor;
 import it.polimi.ingsw.triton.launcher.model.enums.Wizard;
 import it.polimi.ingsw.triton.launcher.model.player.Player;
 import it.polimi.ingsw.triton.launcher.model.player.PlayerTurnComparator;
+import it.polimi.ingsw.triton.launcher.model.playeractions.PlayAssistantCard;
 import it.polimi.ingsw.triton.launcher.model.professor.ProfessorsManager;
 
 import java.util.ArrayList;
@@ -107,7 +108,7 @@ public class Game {
         this.professorsManager = new ProfessorsManager(); //PHASE 6
         //PHASE 7, 8 & 9 are done when the player logs in for the first time
         setupEntrance(); //PHASE 10
-        setupFirstPlayer(); //PHASE 11
+        setupPlayers(); //PHASE 11
     }
 
 
@@ -130,7 +131,7 @@ public class Game {
 
 
     // Planning phase
-    public void planningPhase(AssistantCard assistantCard) {
+    public void planningPhase() {
         setupCloudTiles();
     }
 
@@ -195,6 +196,9 @@ public class Game {
         }
     }
 
+    /**
+     * This method sorts the players ArrayList random, and sets correctly the current player
+     */
     public void setupPlayers(){
         Random rnd = new Random();
         Player p;
@@ -239,10 +243,10 @@ public class Game {
     /**
      * This method selects a random player for the first turn of the game.
      */
-    public void setupFirstPlayer() {
+    /*public void setupFirstPlayer() {
         Random random = new Random();
         currentPlayer = players.get(random.nextInt(players.size()));
-    }
+    }*/
 
     // end of methods for the PREPARATION PHASE
 
