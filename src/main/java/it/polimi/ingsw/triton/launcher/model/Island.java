@@ -65,26 +65,38 @@ public class Island {
      */
     public void updateInfluence(ArrayList<Player> players, Player[] professors) {
         if (noEntryTiles == 0) {
-            Player newDominator = dominator;
-            int max = calculateInfluence(dominator, professors, dominator);
-            boolean modifiedMax = false;
-            for (Player p : players) {
-                int influence = calculateInfluence(p, professors, dominator);
-                if (influence > max) {
-                    max = influence;
-                    newDominator = p;
-                    modifiedMax = true;
-                }
-                else if(dominator == null && modifiedMax && influence == max){
-                    newDominator = null;
-                    break;
+            int nonDominatorPlayersInfluences[] = new int[players.size()];
+            for(int i = 0; i < players.size(); i++){
+                if(dominator != players.get(i)){
+                    nonDominatorPlayersInfluences[i] = calculateInfluence(players.get(i), professors, dominator);
                 }
             }
-            towerInfluence(newDominator);
+            if(!checkForTie(nonDominatorPlayersInfluences)) {
+                Player newDominator = dominator;
+                int max = calculateInfluence(dominator, professors, dominator);
+                for (Player p : players) {
+                    int influence = calculateInfluence(p, professors, dominator);
+                    if (influence > max) {
+                        max = influence;
+                        newDominator = p;
+                    }
+                }
+                towerInfluence(newDominator);
+            }
         } else {
             characterCard05.addNoEntryTile();
             noEntryTiles--;
         }
+    }
+
+    private boolean checkForTie(int [] nonDominatorPlayersInfluences){
+        for(int i = 0; i < nonDominatorPlayersInfluences.length-1; i++){
+            for (int j = i+1; j<nonDominatorPlayersInfluences.length; j++){
+                if(nonDominatorPlayersInfluences[i] == nonDominatorPlayersInfluences[j])
+                    return true;
+            }
+        }
+        return false;
     }
 
     /**

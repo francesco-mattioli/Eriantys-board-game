@@ -162,8 +162,6 @@ class IslandTest {
         assertEquals(p1, island1.getDominator());
     }
 
-
-
     @Test
     void mergeIslandsDimension(){
         island2.addStudent(Color.BLUE);
