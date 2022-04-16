@@ -57,6 +57,11 @@ public class Game {
         return bag;
     }
 
+    /**
+     * This method checks if the username entered by the player has already been chosen
+     * @param username
+     * @return true if the username has already been chosen else false
+     */
     public boolean isUsernameChosen(String username) {
         for (Player player : players) {
             if (player.getUsername().equalsIgnoreCase(username)) {
@@ -70,11 +75,21 @@ public class Game {
         players.add(new Player(username));
     }
 
+    /**
+     * This method set the player's schoolboard with the chosen tower color
+     * @param player
+     * @param towerColor
+     */
     public void chooseTowerColor(Player player, TowerColor towerColor) {
         player.setSchoolBoard(towerColor, maxNumberOfPlayers);
         towerColorChosen[towerColor.ordinal()] = true;
     }
 
+    /**
+     * This method set the player's deck with the chosen wizard
+     * @param player
+     * @param wizard
+     */
     public void chooseWizard(Player player, Wizard wizard) {
         player.setWizard(wizard);
     }
@@ -96,10 +111,17 @@ public class Game {
     }
 
 
+    /**
+     * This method define the game turn based on the played assistant cards
+     */
     public void sortPlayerPerTurn() {
         players.sort(new PlayerTurnComparator());
     }
 
+    /**
+     * This method allows one player per time to play his assistant card.
+     * When all the players have played their card the game defines the game turn.
+     */
     public void nextPlayCardTurn() {
         if (players.indexOf(currentPlayer) < maxNumberOfPlayers - 1)
             currentPlayer = players.get(players.indexOf(currentPlayer) + 1);
@@ -110,11 +132,15 @@ public class Game {
     // Planning phase
     public void planningPhase(AssistantCard assistantCard) {
         setupCloudTiles();
-
     }
 
 
     //--- methods for the PIANIFICATION PHASE
+
+    /**
+     * This method add three students on the cloud tiles when there are two players.
+     * This method add four students on the cloud tiles when there are three players.
+     */
     public void setupCloudTiles() {
         int numOfStudentsOnCloudTile = 3;
         if (players.size() > 2) {
@@ -138,12 +164,19 @@ public class Game {
         }
     }
 
+    /**
+     * This method places mother nature on a random island.
+     */
     public void setupMotherNature() {
         Random random = new Random();
         int randomIndex = random.nextInt(islands.size());
         motherNature = new MotherNature(islands.get(randomIndex));
     }
 
+
+    /**
+     * This method places two students for each color into the bag.
+     */
     public void setupBag() {
         for (int i = 0; i < NUM_OF_STUDENTS_COLORS; i++) {
             for (int j = 0; j < 2; j++)
@@ -151,6 +184,9 @@ public class Game {
         }
     }
 
+    /**
+     * This method places two students on every island except the one with mother nature and the one in front of it.
+     */
     public void setupIslands() {
         for (Island island : islands) {
             if (island.getId() != motherNature.getIndexOfOppositeIsland(islands) && island.getId() != motherNature.getPosition().getId()) {
@@ -173,7 +209,10 @@ public class Game {
         return cloudTiles;
     }
 
-
+    /**
+     * This method add seven students into the entrance when there are two players.
+     * This method add nine students into the entrance when there are three players.
+     */
     public void setupEntrance() {
         int studentsToMove = 7;
         if (this.maxNumberOfPlayers == 3)
@@ -185,6 +224,9 @@ public class Game {
         }
     }
 
+    /**
+     * This method selects a random player for the first turn of the game.
+     */
     public void setupFirstPlayer() {
         Random random = new Random();
         currentPlayer = players.get(random.nextInt(players.size()));
@@ -196,13 +238,19 @@ public class Game {
         //close connection
     }
 
-
+    /**
+     * This method remove a player and then end the game.
+     * @param player to remove
+     */
     public void removePlayer(Player player) {
         players.remove(player);
         endGame();
     }
 
-
+    /**
+     * This method merge two or more adjacent islands with the same dominator.
+     * @param motherNaturePosition
+     */
     public void mergeNearIslands(Island motherNaturePosition) {
         motherNaturePosition.updateInfluence(players, professors);
         if (motherNaturePosition.getDominator() != null) {
@@ -232,6 +280,11 @@ public class Game {
         // TODO implement here
     }
 
+    /**
+     *
+     * @param currentIsland
+     * @return next island on the left
+     */
     public Island nextIsland(Island currentIsland) {
         if (islands.indexOf(currentIsland) == islands.size() - 1) {
             return islands.get(0);
@@ -239,7 +292,11 @@ public class Game {
             return islands.get(1 + islands.indexOf(currentIsland));
     }
 
-
+    /**
+     *
+     * @param currentIsland
+     * @return previous island on the right.
+     */
     public Island prevIsland(Island currentIsland) {
         if (islands.indexOf(currentIsland) == 0) {
             return islands.get(islands.size() - 1);
@@ -247,6 +304,9 @@ public class Game {
             return islands.get(islands.indexOf(currentIsland) - 1);
     }
 
+    /**
+     * This method removes the played assistant card from the player's deck.
+     */
     public void resetPlayedCardInTurn() {
         for (AssistantCard assistantCard : usedAssistantCards)
             usedAssistantCards.remove(assistantCard);
