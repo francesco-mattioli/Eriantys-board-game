@@ -195,6 +195,18 @@ public class Game {
         }
     }
 
+    public void setupPlayers(){
+        Random rnd = new Random();
+        Player p;
+        for(int i = 0; i<players.size(); i++){
+            int random = rnd.nextInt(players.size()-i)+i;
+            p = players.get(random);
+            players.set(random, players.get(i));
+            players.set(i,p);
+        }
+        currentPlayer = players.get(0);
+    }
+
     public void createCloudTiles() {
         for (int i = 0; i < maxNumberOfPlayers; i++) {
             cloudTiles.add(new CloudTile(i));
