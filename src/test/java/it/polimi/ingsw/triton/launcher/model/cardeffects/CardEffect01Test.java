@@ -34,13 +34,33 @@ class CardEffect01Test {
     }
 
     /**
-     * This test check if the effect adds only one student when the island has zero
+     * This test checks if the effect adds only one student when the island has zero.
+     * We call the helper method aStudentOnTheCard() in order to execute the test
+     * drawing a student that is actually on the card.
      */
     @Test
-    public void addStudentIntoIslandWhenHasZero(){
-        characterCard.executeEffect(new CardEffect01(characterCard, Color.BLUE, island, bag));
-        assertEquals(1,island.getStudents()[Color.BLUE.ordinal()]);
+    public void addStudentIntoIslandWhenHasZeroStudent(){
+        Color studentColorToDraw = aStudentOnTheCard(characterCard);
+        assert studentColorToDraw != null;
+        characterCard.executeEffect(new CardEffect01(characterCard, studentColorToDraw, island, bag));
+        assertEquals(1,island.getStudents()[studentColorToDraw.ordinal()]);
     }
+
+    /**
+     * This is a helper method for addStudentIntoIslandWhenHasZeroStudents
+     * @param card on which identify a student present on the card
+     * @return the student Color of a student present on the card
+     */
+    public Color aStudentOnTheCard(CharacterCard card){
+        for(int i=0;i<characterCard.getStudents().length;i++){
+            if(characterCard.getStudents()[i]!=0){
+                return Color.values()[characterCard.getStudents()[i]];
+            }
+        }
+        return null;
+    }
+
+
 
 
 }

@@ -73,7 +73,7 @@ class IslandTest {
     }
 
     /**
-     * This test verifies what happens when tho players have the same influence on an island and there are no towers
+     * This test verifies what happens when two players have the same influence on an island and there are no towers
      */
     @Test
     void updateInfluenceEquals(){
@@ -93,7 +93,7 @@ class IslandTest {
     }
 
     /**
-     * This test verifies il the dominator il correctly calculated when some towers are already on the island
+     * This test verifies il the dominator is correctly calculated when some towers are already on the island
      */
     @Test
     void updateInfluenceWithTowers(){
@@ -132,7 +132,7 @@ class IslandTest {
     }
 
     @Test
-    void stategy06InfluenceEqualsWithTowers(){
+    void strategy06InfluenceEqualsWithTowers(){
         island1.setInfluenceStrategy(new InfluenceStrategyWithEffect06());
         island1.updateInfluence(players, professors);
         assertEquals(3, island1.calculateInfluence(p1, professors, island1.getDominator()));
@@ -163,7 +163,7 @@ class IslandTest {
     }
 
     @Test
-    void mergeIslandsDimension(){
+    void twoMergedIslandsOfDim1ShouldHaveDim2(){
         island2.addStudent(Color.BLUE);
         island2.addStudent(Color.BLUE);
         island1.updateInfluence(players, professors);
@@ -173,7 +173,7 @@ class IslandTest {
     }
 
     @Test
-    void mergeIslandsStudents(){
+    void mergedIslandsHaveTheSumOfStudents(){
         island2.addStudent(Color.BLUE);
         island2.addStudent(Color.BLUE);
         island1.updateInfluence(players, professors);

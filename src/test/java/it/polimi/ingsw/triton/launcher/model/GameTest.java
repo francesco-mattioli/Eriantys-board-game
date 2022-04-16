@@ -37,6 +37,7 @@ class GameTest {
         game = null;
     }
 
+    /*
     @Test
     void createIslands() {
         game.createIslands();
@@ -100,30 +101,12 @@ class GameTest {
     }
 
     @Test
-    void createCloudTiles(){
-        assertEquals(3,game.getPlayers().size());
+    void createCloudTiles() {
+        assertEquals(3, game.getPlayers().size());
         assertEquals("TestPlayer1", game.getPlayers().get(0).getUsername());
         assertEquals("TestPlayer2", game.getPlayers().get(1).getUsername());
         game.createCloudTiles();
-        assertEquals(3,game.getCloudTiles().size());
-    }
-
-    @Test
-    void setupSchoolBoard()
-    {
-        Map<Player, TowerColor> m1 = new HashMap<Player, TowerColor>();
-        m1.put(game.getPlayers().get(0), TowerColor.BLACK);
-        Map<Player,TowerColor> m2 = new HashMap<Player, TowerColor>();
-        m2.put(game.getPlayers().get(1), TowerColor.WHITE);
-        game.setupSchoolboard(m1, 2);
-        game.setupSchoolboard(m2, 2);
-        assertEquals(TowerColor.BLACK, game.getPlayers().get(0).getSchoolBoard().getTowerColor());
-        assertEquals(TowerColor.WHITE, game.getPlayers().get(1).getSchoolBoard().getTowerColor());
-        /*game.addPlayer("Michele");
-        Map<Player,TowerColor> m3 = new HashMap<Player, TowerColor>();
-        m3.put(game.getPlayers().get(2), TowerColor.BLACK);
-        game.setupSchoolboard(m3);
-        assertEquals(TowerColor.BLACK, game.getPlayers().get(2).getSchoolBoard().getTowerColor());*/
+        assertEquals(3, game.getCloudTiles().size());
     }
 
     @Test
@@ -150,6 +133,7 @@ class GameTest {
             assertEquals(3,sumOfStudents);
         }
     }
+    */
 
     @Test
     public void checkSortingPlayers(){
