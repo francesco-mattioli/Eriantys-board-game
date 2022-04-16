@@ -40,10 +40,10 @@ class CardEffect01Test {
      */
     @Test
     public void addStudentIntoIslandWhenHasZeroStudent(){
-        Color studentColorToDraw = aStudentOnTheCard(characterCard);
-        assert studentColorToDraw != null;
-        characterCard.executeEffect(new CardEffect01(characterCard, studentColorToDraw, island, bag));
-        assertEquals(1,island.getStudents()[studentColorToDraw.ordinal()]);
+        int studentColorToDraw = aStudentOnTheCard(characterCard);
+        assert studentColorToDraw != -1;
+        characterCard.executeEffect(new CardEffect01(characterCard, Color.values()[studentColorToDraw], island, bag));
+        assertEquals(1,island.getStudents()[studentColorToDraw]);
     }
 
     /**
@@ -51,13 +51,13 @@ class CardEffect01Test {
      * @param card on which identify a student present on the card
      * @return the student Color of a student present on the card
      */
-    public Color aStudentOnTheCard(CharacterCard card){
-        for(int i=0;i<characterCard.getStudents().length;i++){
-            if(characterCard.getStudents()[i]!=0){
-                return Color.values()[characterCard.getStudents()[i]];
+    public int aStudentOnTheCard(CharacterCard card){
+        for(int i=0;i<card.getStudents().length;i++){
+            if(card.getStudents()[i]!=0){
+                return i;
             }
         }
-        return null;
+        return -1;
     }
 
 
