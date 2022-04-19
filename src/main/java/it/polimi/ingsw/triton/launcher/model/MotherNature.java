@@ -20,7 +20,7 @@ public class MotherNature {
     }
 
     /**
-     * Moves MotherNature onto an other island
+     * Moves MotherNature onto another island
      * @param assistantCard specifies the played card, witch contains information about the max number of steps
      * @param steps specifies the number of steps that MotherNature has to do
      * @param islands specifies the ArrayList of Islands

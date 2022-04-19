@@ -4,6 +4,7 @@ import it.polimi.ingsw.triton.launcher.model.enums.AssistantCardType;
 import it.polimi.ingsw.triton.launcher.model.enums.Color;
 import it.polimi.ingsw.triton.launcher.model.enums.TowerColor;
 import it.polimi.ingsw.triton.launcher.model.player.Player;
+import it.polimi.ingsw.triton.launcher.network.message.StudentsOnCloudTileMessage;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -23,18 +24,34 @@ class GameTest {
 
     @BeforeEach
     public void setUp(){
-        game = new Game(2);
-        player1 = new Player("TestPlayer1");
-        player2 = new Player("TestPlayer2");
-        player3 = new Player("TestPlayer3");
-        game.getPlayers().add(player1);
-        game.getPlayers().add(player2);
-        game.getPlayers().add(player3);
+        game = new Game(3);
+        game.addPlayer("TestPlayer1");
+        game.addPlayer("TestPlayer2");
+        game.addPlayer("TestPlayer3");
+        game.chooseTowerColor(game.getPlayers().get(0),TowerColor.WHITE);
+        game.chooseTowerColor(game.getPlayers().get(1),TowerColor.BLACK);
+        game.chooseTowerColor(game.getPlayers().get(2),TowerColor.GREY);
+        game.setup();
     }
 
     @AfterEach
     public void tearDown(){
         game = null;
+    }
+
+    @Test
+    public void ThreeStudentsOnCloudTileAfterAddStudentsToCloudTiles(){
+        int[] students= new int[5];
+        students[0]=1;
+        students[2]=1;
+        students[4]=2;
+        StudentsOnCloudTileMessage message= new StudentsOnCloudTileMessage(students,game.getCloudTiles().get(0));
+        int[] oldStudentsInMessage= message.students().clone();
+        game.addStudentsToCloudTiles(game.getCurrentPlayer(),message);
+        for(int  i=0;i<Color.numOfColors();i++){
+            assertEquals(game.getCloudTiles().get(0).getStudents()[i],oldStudentsInMessage[i]);
+        }
+
     }
 
     /*

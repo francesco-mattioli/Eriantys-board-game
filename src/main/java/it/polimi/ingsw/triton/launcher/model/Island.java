@@ -59,7 +59,7 @@ public class Island {
     }
 
     /**
-     * This methods updates the island dominator
+     * This method updates the island dominator
      * @param players specifies the ArrayList of players
      * @param professors specifies for each professor which player has that professor
      */
