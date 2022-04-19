@@ -13,6 +13,7 @@ import java.util.Random;
 
 public class Game {
 
+    public static final String NAME_SERVER = "eriantys";
     private final ArrayList<Island> islands;
     private final Bag bag;
     private final int maxNumberOfPlayers;
