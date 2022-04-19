@@ -3,7 +3,7 @@ package it.polimi.ingsw.triton.launcher.network.message;
 import it.polimi.ingsw.triton.launcher.model.CloudTile;
 import it.polimi.ingsw.triton.launcher.model.enums.Color;
 
-public class StudentsOnCloudTileMessage {
+public class StudentsOnCloudTileMessage extends Message{
     private int[] students;
     private CloudTile cloudTile;
 
