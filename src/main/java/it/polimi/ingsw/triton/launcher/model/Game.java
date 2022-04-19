@@ -6,13 +6,9 @@ import it.polimi.ingsw.triton.launcher.model.enums.TowerColor;
 import it.polimi.ingsw.triton.launcher.model.enums.Wizard;
 import it.polimi.ingsw.triton.launcher.model.player.Player;
 import it.polimi.ingsw.triton.launcher.model.player.PlayerTurnComparator;
-import it.polimi.ingsw.triton.launcher.model.playeractions.PlayAssistantCard;
 import it.polimi.ingsw.triton.launcher.model.professor.ProfessorsManager;
-import it.polimi.ingsw.triton.launcher.network.message.StudentsOnCloudTileMessage;
 
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
 import java.util.Random;
 
 public class Game {
@@ -88,7 +84,7 @@ public class Game {
     }
 
     /**
-     * This method executes the setup phase of the game
+     * This method executes the SETUP phase of the game
      */
     public void setup() {
         createIslands(); //PHASE 1
@@ -103,30 +99,27 @@ public class Game {
         setupPlayers(); //PHASE 11
     }
 
-    public void addStudentsToCloudTiles(Player player, StudentsOnCloudTileMessage message){
-        if(player==currentPlayer) {
-            int numOfStudents = 3;
-            if (this.players.size() > 2)
-                numOfStudents = 4;
-            if (Arrays.stream(message.students()).sum() == numOfStudents && this.cloudTiles.contains(message.cloudTile())) {
-                for(int i=0;i<message.students().length;i++){
-                    while (message.students()[i] > 0) {
-                        message.students()[i]--;
-                        this.cloudTiles.get(this.cloudTiles.indexOf(message.cloudTile())).addStudent(Color.values()[i]);
-                    }
-                }
-            } else
-                throw new IllegalArgumentException("Incorrect number of students to move!");
+
+     // The following methods execute the PLANNING phase of the game
+
+    /**
+     * PART 1 of PLANNING
+     */
+    public void addStudentsToCloudTiles(){
+        for(CloudTile cloudTile: cloudTiles){
+            if(maxNumberOfPlayers==2)
+                cloudTile.setStudents(bag.drawStudent(),bag.drawStudent(),bag.drawStudent());
+            if(maxNumberOfPlayers==3)
+                cloudTile.setStudents(bag.drawStudent(),bag.drawStudent(),bag.drawStudent(),bag.drawStudent());
         }
-        else
-            throw new RuntimeException("It is not the turn of this player!");
     }
 
 
 
 
+
     /**
-     * This method define the game turn based on the played assistant cards
+     * This method defines the game turn based on the played assistant cards
      */
     public void sortPlayerPerTurn() {
         players.sort(new PlayerTurnComparator());
