@@ -1,6 +1,8 @@
 package it.polimi.ingsw.triton.launcher.network.message;
 
-public abstract class Message {
+import java.io.Serializable;
+
+public abstract class Message implements Serializable {
     private final String nickname;
     private final MessageType messageType;
 
@@ -9,4 +11,11 @@ public abstract class Message {
         this.messageType = messageType;
     }
 
+    public String getNickname() {
+        return nickname;
+    }
+
+    public MessageType getMessageType() {
+        return messageType;
+    }
 }

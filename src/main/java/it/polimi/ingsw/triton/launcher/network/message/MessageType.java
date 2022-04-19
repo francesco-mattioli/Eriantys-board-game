@@ -2,6 +2,25 @@ package it.polimi.ingsw.triton.launcher.network.message;
 
 public enum MessageType {
     LOGIN_REQUEST,
-    LOGIN_REPLY
-
+    LOGIN_REPLY,
+    PLAYERSNUMBER_REQUEST,
+    PLAYERSNUMBER_REPLY,
+    TOWER_COLOR_REQUEST,
+    TOWER_COLOR_REPLY,
+    LOBBY,
+    COLORS_REQUEST,
+    COLORS_REPLY,
+    ASSISTANT_CARD_REQUEST,
+    ASSISTANT_CARD_REPLY,
+    CHARACTER_CARD_REQUEST,
+    CHARACTER_CARD_REPLY,
+    MOVE, // to understand ??
+    CLOUD_TILE_REQUEST,
+    CLOUD_TILE_REPLY,
+    MOTHER_NATURE_POSITION,
+    WIN,
+    GAME_INFO,
+    GENERIC,
+    DISCONNECTION,
+    ERROR
 }
