@@ -31,7 +31,7 @@ public class MoveStudentIntoDiningRoom implements Action {
     /**
      * Calls increaseValue() to add a coin in the wallet
      */
-    private void updateWallet() {
+    private synchronized void updateWallet() {
         wallet.increaseValue();
     }
 

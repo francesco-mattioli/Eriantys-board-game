@@ -143,5 +143,45 @@ class GameTest {
         assertEquals("TestPlayer1", game.getPlayers().get(2).getUsername());
 
     }
+
+    /**
+     * Tests if the method depositCoin launches an exception when the number of coins to deposit
+     * is less than 0.
+     */
+    @Test
+    public void depositCoinsWhenNumberOfCoinsIsLessThanZero(){
+        assertThrows(IllegalArgumentException.class, ()->game.depositCoin(-2));
+    }
+
+    /**
+     * Tests if the general coin supply is increased.
+     */
+    @Test
+    public void depositCoinsWhenNumberOfCoinsIsCorrect(){
+        int oldSupply = game.getGeneralCoinSupply();
+        game.depositCoin(2);
+        assertEquals(oldSupply + 2, game.getGeneralCoinSupply());
+    }
+
+    /**
+     * Tests if the general coin supply is decreased by 1.
+     */
+    @Test
+    public void withdrawCoinTest(){
+        int oldSupply = game.getGeneralCoinSupply();
+        game.withdrawCoin();
+        assertEquals(oldSupply - 1, game.getGeneralCoinSupply());
+    }
+
+    /**
+     * Tests if the method launches an exception when there are no coins to withdraw.
+     */
+    @Test
+    public void withdrawCoinWhenSupplyHasNotCoins(){
+        for(int i = 0; i < 20; i++){
+            game.withdrawCoin();
+        }
+        assertThrows(RuntimeException.class, ()->game.withdrawCoin());
+    }
 }
 

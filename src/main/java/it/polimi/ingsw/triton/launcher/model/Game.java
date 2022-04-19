@@ -22,7 +22,7 @@ public class Game {
     private final int MAX_NUM_OF_ISLANDS = 12;
     private final int INITIAL_NUM_COINS = 20;
     private final ArrayList<Player> players;
-    private final int generalCoinSupply;
+    private int generalCoinSupply;
     private final ArrayList<CloudTile> cloudTiles;
     private final ArrayList<CharacterCard> characterCards;
     private Player currentPlayer;
@@ -287,12 +287,28 @@ public class Game {
         // TODO implement here
     }
 
+    /**
+     * Decreases by 1 the general coin supply.
+     * @throws RuntimeException if there aren't coins in the supply.
+     */
     public void withdrawCoin() {
-        // TODO implement here
+        if(generalCoinSupply > 0)
+            generalCoinSupply--;
+        else
+            throw new RuntimeException("There are no coins in the supply");
     }
 
-    public void depositCoin(int x) {
-        // TODO implement here
+    /**
+     * Increases the general coin supply.
+     * @param coinsToDeposit the number of coins to deposit.
+     * @throws IllegalArgumentException if the number of coins to deposit is less than 0.
+     */
+    public void depositCoin(int coinsToDeposit) {
+        if(coinsToDeposit >= 0)
+            generalCoinSupply += coinsToDeposit;
+        else{
+            throw new IllegalArgumentException("Number of coins to deposit must be greater or equal than 0");
+        }
     }
 
     /**
@@ -349,5 +365,9 @@ public class Game {
 
     public Player getCurrentPlayer() {
         return currentPlayer;
+    }
+
+    public int getGeneralCoinSupply() {
+        return generalCoinSupply;
     }
 }
