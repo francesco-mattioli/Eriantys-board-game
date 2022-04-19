@@ -108,8 +108,7 @@ public class Game {
             int numOfStudents = 3;
             if (this.players.size() > 2)
                 numOfStudents = 4;
-            long prova= Arrays.stream(message.students()).sum();
-            if (prova == numOfStudents && this.cloudTiles.contains(message.cloudTile())) {
+            if (Arrays.stream(message.students()).sum() == numOfStudents && this.cloudTiles.contains(message.cloudTile())) {
                 for(int i=0;i<message.students().length;i++){
                     while (message.students()[i] > 0) {
                         message.students()[i]--;
