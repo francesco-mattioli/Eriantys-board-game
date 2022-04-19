@@ -10,12 +10,13 @@ public enum MessageType {
     WIZARD_REQUEST,
     WIZARD_REPLY,
     LOBBY,
-    COLORS_REQUEST,
-    COLORS_REPLY,
+    COLORS_REQUEST, //What color?
+    COLORS_REPLY,   //What color?
     ASSISTANT_CARD_REQUEST,
     ASSISTANT_CARD_REPLY,
-    CHARACTER_CARD_REQUEST,
-    CHARACTER_CARD_REPLY,
+    CHARACTER_CARD_REQUEST,   //a player wants to use a character card
+    CHARACTER_CARD_REPLY,     //server returns the available character cards
+    CHARACTER_CARD_CHOICE,    //the card selected by the user
     MOVE, // to understand ??
     CLOUD_TILE_REQUEST,
     CLOUD_TILE_REPLY,
