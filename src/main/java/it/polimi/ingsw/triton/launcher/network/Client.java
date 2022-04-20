@@ -4,35 +4,39 @@ import it.polimi.ingsw.triton.launcher.network.message.Message;
 
 import java.io.*;
 import java.net.Socket;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 public class Client{
     private Socket socket;
     private ObjectInputStream inSocket;
     private ObjectOutputStream outSocket;
-    private BufferedReader inKeyboard;
+    private ExecutorService executor;
 
     public Client(){
         try {
             socket = new Socket("localhost", Server.PORT);
-
             inSocket = new ObjectInputStream(socket.getInputStream());
             outSocket = new ObjectOutputStream(socket.getOutputStream());
-            // buffer for reading from input
-            inKeyboard = new BufferedReader(new InputStreamReader(System.in));
-
-            //login();
-
+            executor = Executors.newSingleThreadExecutor();
         } catch (IOException e) {
             e.printStackTrace();
-
-        } finally { // anyway the clientSocket must be closed
-            try {
-                socket.close();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
         }
     }
+
+    /*public void readMessage(){
+        executor.execute(() -> {
+            while(!executor.isShutdown()){
+                Message message;
+                try {
+                    message = (Message) inSocket.readObject();
+                } catch (IOException | ClassNotFoundException e) {
+                    disconnect();
+                    executor.shutdownNow();
+                }
+            }
+        });
+    }*/
 
     /*private void login() {
         System.out.println("Insert username:");
@@ -62,13 +66,4 @@ public class Client{
             }
         }
     }
-
-    // to run the Client
-    public static void main(String[] args) {
-        new Client();
-    }
-
-
-
-
 }

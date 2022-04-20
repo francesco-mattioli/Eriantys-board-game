@@ -49,10 +49,4 @@ public class Server {
     public void onDisconnect(ServeOneClient clientHandler){
         // TODO IMPLEMENT
     }
-
-    // to run the Server
-    public static void main(String[] args) throws IOException {
-        Controller controller = new Controller();
-        new Server(controller);
-    }
 }

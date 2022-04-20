@@ -9,6 +9,17 @@ import it.polimi.ingsw.triton.launcher.model.Game;
   */
 
 public class Controller {
+    private Game game;
+
+    public Controller(Game game){
+        this.game = game;
+    }
+}
+
+
+
+
+
     /*private Game game;
 
 
@@ -25,7 +36,7 @@ public class Controller {
     // ---------------------------------------------------------
     // TO DELETE: some examples to check that the server works
     // example, just to test if the server works
-    private String username;
+    /*private String username;
 
 
     // this is called by ServeOneClient
@@ -35,5 +46,4 @@ public class Controller {
 
     public void print() {
         System.out.println("bro:" + username);
-    }
-}
+    }*/
