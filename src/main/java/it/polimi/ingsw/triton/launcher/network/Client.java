@@ -1,24 +1,26 @@
 package it.polimi.ingsw.triton.launcher.network;
 
+import it.polimi.ingsw.triton.launcher.network.message.Message;
+
 import java.io.*;
 import java.net.Socket;
 
-public class Client {
+public class Client{
     private Socket socket;
-    private BufferedReader inSocket;
-    private PrintWriter outSocket;
+    private ObjectInputStream inSocket;
+    private ObjectOutputStream outSocket;
     private BufferedReader inKeyboard;
 
     public Client(){
         try {
             socket = new Socket("localhost", Server.PORT);
 
-            inSocket = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-            outSocket = new PrintWriter(new BufferedWriter(new OutputStreamWriter(socket.getOutputStream())), true);
+            inSocket = new ObjectInputStream(socket.getInputStream());
+            outSocket = new ObjectOutputStream(socket.getOutputStream());
             // buffer for reading from input
             inKeyboard = new BufferedReader(new InputStreamReader(System.in));
 
-            login();
+            //login();
 
         } catch (IOException e) {
             e.printStackTrace();
@@ -32,7 +34,7 @@ public class Client {
         }
     }
 
-    private void login() {
+    /*private void login() {
         System.out.println("Insert username:");
         try {
             String username = inKeyboard.readLine();
@@ -40,12 +42,33 @@ public class Client {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }*/
+
+    public void sendMessage(Message message){
+        try {
+            outSocket.writeObject(message);
+            outSocket.reset();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void disconnect(){
+        if(!socket.isClosed()){
+            try {
+                socket.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
     }
 
     // to run the Client
     public static void main(String[] args) {
         new Client();
     }
+
+
 
 
 }

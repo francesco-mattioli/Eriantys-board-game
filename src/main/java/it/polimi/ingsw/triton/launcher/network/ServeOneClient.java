@@ -15,8 +15,10 @@ public class ServeOneClient implements Runnable {
     private final Server server;
     private ObjectInputStream inSocket; // input stream for receiving messages from the client
     private ObjectOutputStream outSocket; //output stream for sending messages to the client
-    private Controller controller;
+    //private Controller controller;
     private boolean connected;
+    private final Object inputLock;
+    private final Object outputLock;
 
     public ServeOneClient(Socket socketClient, Server server) {
         this.socket = socketClient;
@@ -28,7 +30,8 @@ public class ServeOneClient implements Runnable {
         }catch (IOException e) {
             e.printStackTrace();
         }
-
+        inputLock = new Object();
+        outputLock = new Object();
     }
 
     @Override
@@ -43,11 +46,13 @@ public class ServeOneClient implements Runnable {
     public void handleConnection() throws IOException {
         try{
             while (!Thread.currentThread().isInterrupted()){
-                Message message = (Message) inSocket.readObject();
-                if(message.getMessageType() == MessageType.LOGIN_REQUEST && message != null){
-                    server.addClient(message.getNickname(), this);
-                }else{
-                    server.onReceive(message);
+                synchronized (inputLock){
+                    Message message = (Message) inSocket.readObject();
+                    if(message.getMessageType() == MessageType.LOGIN_REQUEST && message != null){
+                        server.addClient(message.getNickname(), this);
+                    }else{
+                        server.onReceive(message);
+                    }
                 }
             }
         }catch(ClassCastException | ClassNotFoundException e){
@@ -76,8 +81,14 @@ public class ServeOneClient implements Runnable {
         }
     }
 
-
-
-
-
+    public void sendMessage(Message message){
+        synchronized (outputLock){
+            try {
+                outSocket.writeObject(message);
+                outSocket.reset();
+            } catch (IOException e) {
+                closeSocket();
+            }
+        }
+    }
 }
