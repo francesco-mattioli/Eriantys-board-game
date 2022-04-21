@@ -4,6 +4,7 @@ import it.polimi.ingsw.triton.launcher.model.MotherNature;
 
 public class CardEffect04 implements CardEffect{
     private MotherNature motherNature;
+    private final int ADDITIONAL_STEPS = 2;
 
     public CardEffect04(MotherNature motherNature){
         this.motherNature = motherNature;
@@ -15,7 +16,7 @@ public class CardEffect04 implements CardEffect{
      */
     @Override
     public void execute() {
-        motherNature.setAdditionalSteps(2);
+        motherNature.setAdditionalSteps(ADDITIONAL_STEPS);
         // remember to set the additional steps to zero when the turn is over
     }
 }
