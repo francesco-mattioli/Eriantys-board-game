@@ -8,13 +8,16 @@ import it.polimi.ingsw.triton.launcher.model.player.Player;
 import it.polimi.ingsw.triton.launcher.model.player.PlayerTurnComparator;
 import it.polimi.ingsw.triton.launcher.model.professor.ProfessorsManager;
 import it.polimi.ingsw.triton.launcher.network.Observable;
+import it.polimi.ingsw.triton.launcher.network.Observer;
 import it.polimi.ingsw.triton.launcher.network.message.AssistantCardRequest;
+import it.polimi.ingsw.triton.launcher.network.message.Message;
+import it.polimi.ingsw.triton.launcher.view.View;
 import it.polimi.ingsw.triton.launcher.view.VirtualView;
 
 import java.util.ArrayList;
 import java.util.Random;
 
-public class Game extends Observable<VirtualView> {
+public class Game extends Observable {
 
     public static final String NAME_SERVER = "eriantys";
     private final ArrayList<Island> islands;
@@ -29,6 +32,8 @@ public class Game extends Observable<VirtualView> {
     private final ArrayList<CloudTile> cloudTiles;
     private final ArrayList<CharacterCard> characterCards;
     private Player currentPlayer;
+
+
     private MotherNature motherNature;
     private Player[] professors;
     private ProfessorsManager professorsManager;

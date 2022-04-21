@@ -1,6 +1,10 @@
 package it.polimi.ingsw.triton.launcher.controller;
 
 import it.polimi.ingsw.triton.launcher.model.Game;
+import it.polimi.ingsw.triton.launcher.network.Observer;
+import it.polimi.ingsw.triton.launcher.network.message.Message;
+import it.polimi.ingsw.triton.launcher.view.View;
+import it.polimi.ingsw.triton.launcher.view.VirtualView;
 
 /**
  * Server has a reference to Controller. This reference is passed to
@@ -8,11 +12,24 @@ import it.polimi.ingsw.triton.launcher.model.Game;
  *
   */
 
-public class Controller {
+public class Controller implements Observer<Message> {
     private Game game;
 
     public Controller(Game game){
         this.game = game;
+    }
+
+    public void addPlayer(String username){
+        game.addPlayer(username);
+    }
+
+    @Override
+    public void update(Message message) {
+
+    }
+
+    public void addGameObserver(VirtualView virtualView){
+        game.addObserver(virtualView);
     }
 }
 
