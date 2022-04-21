@@ -7,8 +7,10 @@ import java.util.ArrayList;
 
 public class WizardRequest extends Message{
     private ArrayList<Wizard> availableWizards;
-    public WizardRequest(ArrayList<Wizard> availableWizards) {
+    private String receiverNickname;
+    public WizardRequest(ArrayList<Wizard> availableWizards, String receiverNickname) {
         super(Game.NAME_SERVER, MessageType.WIZARD_REQUEST);
         this.availableWizards = availableWizards;
+        this.receiverNickname = receiverNickname;
     }
 }
