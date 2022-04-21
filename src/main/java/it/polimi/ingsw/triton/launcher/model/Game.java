@@ -7,11 +7,14 @@ import it.polimi.ingsw.triton.launcher.model.enums.Wizard;
 import it.polimi.ingsw.triton.launcher.model.player.Player;
 import it.polimi.ingsw.triton.launcher.model.player.PlayerTurnComparator;
 import it.polimi.ingsw.triton.launcher.model.professor.ProfessorsManager;
+import it.polimi.ingsw.triton.launcher.network.Observable;
+import it.polimi.ingsw.triton.launcher.network.message.AssistantCardRequest;
+import it.polimi.ingsw.triton.launcher.view.VirtualView;
 
 import java.util.ArrayList;
 import java.util.Random;
 
-public class Game {
+public class Game extends Observable<VirtualView> {
 
     public static final String NAME_SERVER = "eriantys";
     private final ArrayList<Island> islands;
@@ -140,6 +143,8 @@ public class Game {
     // Planning phase
     public void planningPhase() {
         setupCloudTiles();
+
+
     }
 
 
@@ -218,6 +223,9 @@ public class Game {
         currentPlayer = players.get(0);
     }
 
+    /**
+     * This method creates the cloud tiles, one per player.
+     */
     public void createCloudTiles() {
         for (int i = 0; i < maxNumberOfPlayers; i++) {
             cloudTiles.add(new CloudTile(i));
@@ -239,13 +247,6 @@ public class Game {
         }
     }
 
-    /**
-     * This method selects a random player for the first turn of the game.
-     */
-    /*public void setupFirstPlayer() {
-        Random random = new Random();
-        currentPlayer = players.get(random.nextInt(players.size()));
-    }*/
 
     // end of methods for the PREPARATION PHASE
 
