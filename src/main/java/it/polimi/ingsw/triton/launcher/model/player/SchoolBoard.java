@@ -3,6 +3,7 @@ package it.polimi.ingsw.triton.launcher.model.player;
 import it.polimi.ingsw.triton.launcher.model.Island;
 import it.polimi.ingsw.triton.launcher.model.enums.Color;
 import it.polimi.ingsw.triton.launcher.model.enums.TowerColor;
+import org.w3c.dom.events.EventException;
 
 public class SchoolBoard {
     private final int INITIAL_NUM_TOWERS;
@@ -44,9 +45,12 @@ public class SchoolBoard {
     /**
      * Moves the towers from the school board to the island
      * @param dim the number of towers to move
+     * @throws RuntimeException if the player has not other towers on the school board so the game is ended.
      */
     public void moveTowerOntoIsland(int dim) {
         numTowers -= dim;
+        if(numTowers == 0)
+            throw new RuntimeException("Game is ended");
     }
 
     /**

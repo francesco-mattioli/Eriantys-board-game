@@ -102,8 +102,9 @@ public class Island {
     /**
      * This method updates the number of tower on the schoolboards of the players that are taking or losing the domination
      * @param newDominator specifies the player that is now dominating on the island
+     * @throws RuntimeException
      */
-    public void towerInfluence(Player newDominator) {
+    public void towerInfluence(Player newDominator) throws RuntimeException {
         if (dominator != null && dominator != newDominator) {
             dominator.getSchoolBoard().moveTowerOntoSchoolBoard(dim);
         }
