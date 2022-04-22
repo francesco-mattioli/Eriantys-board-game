@@ -39,20 +39,26 @@ public class Server {
         return (num == 2 || num == 3);
     }
 
+    /**
+     * This method is called when the first player decides the max number of players.
+     * If the number is not correct, it sends an error message to the first player and re-asks the number of players.
+     * Otherwise, it creates the Game, the Controller, and sets the VirtualView of first player as an observer of the Controller.
+     * @param maxNumPlayers decided by the first player
+     * @param username of the first player
+     */
     public void activateGame(int maxNumPlayers, String username){
         if(!checkMaxNumPlayers(maxNumPlayers)){
-            controller.getVirtualViews().get(0).sendErrorMessage("The number of players must be 2 or 3!");
-            controller.getVirtualViews().get(0).askNumOfPlayersAndMode();
+            controller.getVirtualViewByUsername(username).sendErrorMessage("The number of players must be 2 or 3!");
+            controller.getVirtualViewByUsername(username).askNumOfPlayersAndMode();
         }
         else{
             this.maxNumPlayers = maxNumPlayers;
-            Game game = new Game(maxNumPlayers);
-            this.controller = new Controller(game);
+            this.controller = new Controller(new Game(maxNumPlayers));
             controller.addPlayer(username);
-            semaphore.release();
             numOfClients++;
-            controller.getVirtualViews().get(0).addObserver(controller);
-            controller.addGameObserver(controller.getVirtualViews().get(0));
+            controller.getVirtualViewByUsername(username).addObserver(controller);
+            controller.addGameObserver(controller.getVirtualViewByUsername(username));
+            semaphore.release();
         }
 
     }
