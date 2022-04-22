@@ -16,6 +16,11 @@ public class Server {
     public static int PORT;
     private int numOfClients=0;
     private Controller controller;
+
+    public Controller getController() {
+        return controller;
+    }
+
     private Semaphore semaphore = new Semaphore(1);
     private int maxNumPlayers = 0;
 
@@ -60,7 +65,6 @@ public class Server {
             try{
                 controller.addPlayer(username);
                 controller.getVirtualViews().add(new VirtualView(serveOneClient, username));
-                semaphore.release();
                 numOfClients++;
                 controller.getVirtualViews().get(numOfClients).addObserver(controller);
                 controller.addGameObserver(controller.getVirtualViews().get(maxNumPlayers));
@@ -69,6 +73,9 @@ public class Server {
                 VirtualView virtualView = new VirtualView(serveOneClient, username);
                 virtualView.sendErrorMessage("Username already chosen");
             }
+            finally {
+                semaphore.release();
+            }
         }
         else if (!isUsernameValid(username)){
             VirtualView virtualView = new VirtualView(serveOneClient, username);
@@ -76,7 +83,7 @@ public class Server {
         }
         else{
             VirtualView virtualView = new VirtualView(serveOneClient, username);
-            virtualView.sendErrorMessage("The connection can't be open!");
+            virtualView.sendErrorMessage("Lobby is full");
         }
     }
 

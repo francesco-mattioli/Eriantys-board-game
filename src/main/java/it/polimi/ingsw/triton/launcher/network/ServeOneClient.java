@@ -52,11 +52,13 @@ public class ServeOneClient implements Runnable {
             while(isActive()){
                 Message message = (Message)inSocket.readObject();
                 if(message.getMessageType()==MessageType.LOGIN_REQUEST)
-                    server.lobby(this, message.getNickname());
+                    server.lobby(this, message.getSenderName());
                 else if(message.getMessageType()==MessageType.PLAYERSNUMBER_REPLY)
-                    server.activateGame(((PlayersNumbersAndModeReply)message).getPlayersNumber(), message.getNickname());
-                //read = in.nextLine();
-                //notify(read);
+                    server.activateGame(((PlayersNumbersAndModeReply)message).getPlayersNumber(), message.getSenderName());
+                else{
+                    server.getController().getVirtualViewByUsername(message.getSenderName());
+
+                }
             }
         } catch (IOException | NoSuchElementException | ClassNotFoundException e) {
             System.err.println("Error!" + e.getMessage());

@@ -10,6 +10,10 @@ public class VirtualView extends Observable<Message> implements View, Observer<M
     private ServeOneClient serveOneClient;
     private String username;
 
+    public String getUsername() {
+        return username;
+    }
+
     public VirtualView(ServeOneClient serveOneClient, String username){
         this.serveOneClient = serveOneClient;
         this.username = username;
