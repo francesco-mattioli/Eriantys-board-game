@@ -32,12 +32,11 @@ public class Game extends Observable<Message> {
     private final ArrayList<CloudTile> cloudTiles;
     private final ArrayList<CharacterCard> characterCards;
     private Player currentPlayer;
-
-
     private MotherNature motherNature;
     private Player[] professors;
     private ProfessorsManager professorsManager;
     private ArrayList<AssistantCard> usedAssistantCards;
+
     // This array must be shown to users, so they can choose a towerColor that is not already chosen.
     private final boolean[] towerColorChosen;
 
@@ -60,7 +59,7 @@ public class Game extends Observable<Message> {
      * @param username
      * @return true if the username has already been chosen else false
      */
-    public boolean isUsernameChosen(String username) {
+    private boolean isUsernameChosen(String username) {
         for (Player player : players) {
             if (player.getUsername().equalsIgnoreCase(username)) {
                 return true;
@@ -70,7 +69,10 @@ public class Game extends Observable<Message> {
     }
 
     public void addPlayer(String username) {
-        players.add(new Player(username));
+        if(!isUsernameChosen(username) && username != Game.NAME_SERVER)
+            players.add(new Player(username));
+        else
+            throw new IllegalArgumentException("Nickname already chosen");
     }
 
     /**
@@ -106,6 +108,7 @@ public class Game extends Observable<Message> {
         //PHASE 7, 8 & 9 are done when the player logs in for the first time
         setupEntrance(); //PHASE 10
         setupPlayers(); //PHASE 11
+        drawCharacterCards(); //(PHASE 12) creates 3 character cards
     }
 
 
@@ -123,14 +126,10 @@ public class Game extends Observable<Message> {
         }
     }
 
-
-
-
-
     /**
      * This method defines the game turn based on the played assistant cards
      */
-    public void sortPlayerPerTurn() {
+    private void sortPlayerPerTurn() {
         players.sort(new PlayerTurnComparator());
     }
 
@@ -138,7 +137,7 @@ public class Game extends Observable<Message> {
      * This method allows one player per time to play his assistant card.
      * When all the players have played their card the game defines the game turn.
      */
-    public void nextPlayCardTurn() {
+    private void nextPlayCardTurn() {
         if (players.indexOf(currentPlayer) < maxNumberOfPlayers - 1)
             currentPlayer = players.get(players.indexOf(currentPlayer) + 1);
         else sortPlayerPerTurn();
@@ -148,13 +147,14 @@ public class Game extends Observable<Message> {
     // Planning phase
     public void planningPhase() {
         setupCloudTiles();
+        resetPlayedCardInTurn();
         chooseAssistantCard();
     }
 
     /**
      * Asks all the players to play assistant card.
      */
-    public void chooseAssistantCard(){
+    private void chooseAssistantCard(){
         for(Player players: players){
             notify(new AssistantCardRequest(currentPlayer.getUsername()));
             nextPlayCardTurn();
@@ -168,7 +168,7 @@ public class Game extends Observable<Message> {
      * This method add three students on the cloud tiles when there are two players.
      * This method add four students on the cloud tiles when there are three players.
      */
-    public void setupCloudTiles() {
+    private void setupCloudTiles() {
         int numOfStudentsOnCloudTile = 3;
         if (players.size() > 2) {
             numOfStudentsOnCloudTile = 4;
@@ -185,7 +185,7 @@ public class Game extends Observable<Message> {
 
 
     // methods for the SETUP PHASE
-    public void createIslands() {
+    private void createIslands() {
         for (int i = 0; i < MAX_NUM_OF_ISLANDS; i++) {
             islands.add(new Island(i));
         }
@@ -194,7 +194,7 @@ public class Game extends Observable<Message> {
     /**
      * This method places mother nature on a random island.
      */
-    public void setupMotherNature() {
+    private void setupMotherNature() {
         Random random = new Random();
         int randomIndex = random.nextInt(islands.size());
         motherNature = new MotherNature(islands.get(randomIndex));
@@ -204,7 +204,7 @@ public class Game extends Observable<Message> {
     /**
      * This method places two students for each color into the bag.
      */
-    public void setupBag() {
+    private void setupBag() {
         for (int i = 0; i < NUM_OF_STUDENTS_COLORS; i++) {
             for (int j = 0; j < 2; j++)
                 bag.addStudent(Color.values()[i]);
@@ -214,7 +214,7 @@ public class Game extends Observable<Message> {
     /**
      * This method places two students on every island except the one with mother nature and the one in front of it.
      */
-    public void setupIslands() {
+    private void setupIslands() {
         for (Island island : islands) {
             if (island.getId() != motherNature.getIndexOfOppositeIsland(islands) && island.getId() != motherNature.getPosition().getId()) {
                 island.addStudent(bag.drawStudent());
@@ -225,7 +225,7 @@ public class Game extends Observable<Message> {
     /**
      * This method sorts the players ArrayList random, and sets correctly the current player
      */
-    public void setupPlayers(){
+    private void setupPlayers(){
         Random rnd = new Random();
         Player p;
         for(int i = 0; i<players.size(); i++){
@@ -240,7 +240,7 @@ public class Game extends Observable<Message> {
     /**
      * This method creates the cloud tiles, one per player.
      */
-    public void createCloudTiles() {
+    private void createCloudTiles() {
         for (int i = 0; i < maxNumberOfPlayers; i++) {
             cloudTiles.add(new CloudTile(i));
         }
@@ -250,7 +250,7 @@ public class Game extends Observable<Message> {
      * This method add seven students into the entrance when there are two players.
      * This method add nine students into the entrance when there are three players.
      */
-    public void setupEntrance() {
+    private void setupEntrance() {
         int studentsToMove = 7;
         if (this.maxNumberOfPlayers == 3)
             studentsToMove = 9;
@@ -307,8 +307,22 @@ public class Game extends Observable<Message> {
         }
     }
 
-    public void drawCharacterCards() {
-        // TODO implement here
+    /**
+     * Creates three character cards.
+     * Each one costs 1 coin.
+     */
+    private void drawCharacterCards() {
+        Random randomNumber;
+        ArrayList<Integer> idAlreadyChosen = new ArrayList<>();
+        int id;
+        while(characterCards.size() < 3){
+            randomNumber = new Random();
+            id = randomNumber.nextInt(12);
+            if(!idAlreadyChosen.contains(id)){
+                characterCards.add(new CharacterCard(id, 1, 0, this.bag));
+                idAlreadyChosen.add(id);
+            }
+        }
     }
 
     /**
@@ -340,7 +354,7 @@ public class Game extends Observable<Message> {
      * @param currentIsland
      * @return next island on the left
      */
-    public Island nextIsland(Island currentIsland) {
+    private Island nextIsland(Island currentIsland) {
         if (islands.indexOf(currentIsland) == islands.size() - 1) {
             return islands.get(0);
         } else
@@ -352,7 +366,7 @@ public class Game extends Observable<Message> {
      * @param currentIsland
      * @return previous island on the right.
      */
-    public Island prevIsland(Island currentIsland) {
+    private Island prevIsland(Island currentIsland) {
         if (islands.indexOf(currentIsland) == 0) {
             return islands.get(islands.size() - 1);
         } else
@@ -362,7 +376,7 @@ public class Game extends Observable<Message> {
     /**
      * This method removes the played assistant card from the player's deck.
      */
-    public void resetPlayedCardInTurn() {
+    private void resetPlayedCardInTurn() {
         for (AssistantCard assistantCard : usedAssistantCards)
             usedAssistantCards.remove(assistantCard);
     }
@@ -393,5 +407,13 @@ public class Game extends Observable<Message> {
 
     public int getGeneralCoinSupply() {
         return generalCoinSupply;
+    }
+
+    public ArrayList<CharacterCard> getCharacterCards() {
+        return characterCards;
+    }
+
+    public boolean[] getTowerColorChosen() {
+        return towerColorChosen;
     }
 }

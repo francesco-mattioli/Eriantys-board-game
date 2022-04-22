@@ -27,7 +27,7 @@ public class Controller implements Observer<Message> {
         this.game = game;
     }
 
-    public void addPlayer(String username){
+    public void addPlayer(String username) throws IllegalArgumentException{
         game.addPlayer(username);
     }
 
