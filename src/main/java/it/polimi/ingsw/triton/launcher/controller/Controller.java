@@ -6,6 +6,8 @@ import it.polimi.ingsw.triton.launcher.network.message.Message;
 import it.polimi.ingsw.triton.launcher.view.View;
 import it.polimi.ingsw.triton.launcher.view.VirtualView;
 
+import java.util.ArrayList;
+
 /**
  * Server has a reference to Controller. This reference is passed to
  * ServeOneClient, so the latter can send new data to the Controller.
@@ -14,6 +16,11 @@ import it.polimi.ingsw.triton.launcher.view.VirtualView;
 
 public class Controller implements Observer<Message> {
     private Game game;
+    private ArrayList<VirtualView> virtualViews= new ArrayList<>();
+
+    public ArrayList<VirtualView> getVirtualViews() {
+        return virtualViews;
+    }
 
     public Controller(Game game){
         this.game = game;

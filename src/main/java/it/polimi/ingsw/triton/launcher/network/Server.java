@@ -16,7 +16,6 @@ public class Server {
     public static int PORT;
     private int numOfClients=0;
     private Controller controller;
-    private ArrayList<VirtualView> virtualViews= new ArrayList<>();
     private Semaphore semaphore = new Semaphore(1);
     private int maxNumPlayers = 0;
 
@@ -35,8 +34,8 @@ public class Server {
 
     public void activateGame(int maxNumPlayers, String username){
         if(!checkMaxNumPlayers(maxNumPlayers)){
-            virtualViews.get(0).sendErrorMessage("The number of players must be 2 or 3!");
-            virtualViews.get(0).askNumOfPlayersAndMode();
+            controller.getVirtualViews().get(0).sendErrorMessage("The number of players must be 2 or 3!");
+            controller.getVirtualViews().get(0).askNumOfPlayersAndMode();
         }
         else{
             this.maxNumPlayers = maxNumPlayers;
@@ -45,8 +44,8 @@ public class Server {
             controller.addPlayer(username);
             semaphore.release();
             numOfClients++;
-            virtualViews.get(0).addObserver(controller);
-            controller.addGameObserver(virtualViews.get(0));
+            controller.getVirtualViews().get(0).addObserver(controller);
+            controller.addGameObserver(controller.getVirtualViews().get(0));
         }
 
     }
@@ -54,16 +53,22 @@ public class Server {
     public synchronized void lobby(ServeOneClient serveOneClient,String username) {
         semaphore.acquireUninterruptibly();
         if(numOfClients == 0 && isUsernameValid(username)){
-            virtualViews.add(new VirtualView(serveOneClient, username));
-            virtualViews.get(0).askNumOfPlayersAndMode();
+            controller.getVirtualViews().add(new VirtualView(serveOneClient, username));
+            controller.getVirtualViews().get(0).askNumOfPlayersAndMode();
         }
         else if (numOfClients <= maxNumPlayers && isUsernameValid(username)){
-            virtualViews.add(new VirtualView(serveOneClient, username));
-            controller.addPlayer(username);
-            semaphore.release();
-            numOfClients++;
-            virtualViews.get(numOfClients).addObserver(controller);
-            controller.addGameObserver(virtualViews.get(maxNumPlayers));
+            try{
+                controller.addPlayer(username);
+                controller.getVirtualViews().add(new VirtualView(serveOneClient, username));
+                semaphore.release();
+                numOfClients++;
+                controller.getVirtualViews().get(numOfClients).addObserver(controller);
+                controller.addGameObserver(controller.getVirtualViews().get(maxNumPlayers));
+            }
+            catch (IllegalArgumentException e){
+                VirtualView virtualView = new VirtualView(serveOneClient, username);
+                virtualView.sendErrorMessage("Username already chosen");
+            }
         }
         else if (!isUsernameValid(username)){
             VirtualView virtualView = new VirtualView(serveOneClient, username);
