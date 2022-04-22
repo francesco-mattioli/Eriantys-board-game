@@ -85,6 +85,10 @@ public class CharacterCard {
         return students;
     }
 
+    public int getId(){
+        return id;
+    }
+
     public void addStudent(Color color){
         students[color.ordinal()]++;
     }

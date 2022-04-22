@@ -132,7 +132,44 @@ class GameTest {
     }
     */
 
+    /**
+     * Tests if the method launches an exception if the nickname is already chosen.
+     */
     @Test
+    public void addPlayerWhenUsernameIsChosen(){
+        Player playerTest = new Player("TestPlayer1");
+        assertThrows(IllegalArgumentException.class, ()->game.addPlayer(playerTest.getUsername()));
+    }
+
+    /**
+     * Tests if the method launches an exception if the nickname is eriantys.
+     */
+    @Test
+    public void addPlayerWhenUsernameIsEriantys(){
+        Player playerTest = new Player("eriantys");
+        assertThrows(IllegalArgumentException.class, ()->game.addPlayer(playerTest.getUsername()));
+    }
+
+    /**
+     * Tests if the method launches an exception if the nickname is written in capital letters
+     * but is already chosen.
+     */
+    @Test
+    public void addPlayerWhenUsernameIsChosenInCapitalLetters(){
+        Player playerTest = new Player("TESTPLAYER2");
+        assertThrows(IllegalArgumentException.class, ()->game.addPlayer(playerTest.getUsername()));
+    }
+
+    /**
+     * Tests if the array of chosen tower colors is updated correctly when a player
+     * selects a tower color.
+     */
+    @Test
+    public void checkTowerColorSelected(){
+        assertTrue(game.getTowerColorChosen()[TowerColor.WHITE.ordinal()]);
+    }
+
+    /*@Test
     public void checkSortingPlayers(){
         player1.setLastPlayedAssistantCard(new AssistantCard(AssistantCardType.SNAKE));
         player2.setLastPlayedAssistantCard(new AssistantCard(AssistantCardType.TIGER));
@@ -142,7 +179,7 @@ class GameTest {
         assertEquals("TestPlayer3", game.getPlayers().get(1).getUsername());
         assertEquals("TestPlayer1", game.getPlayers().get(2).getUsername());
 
-    }
+    }*/
 
     /**
      * Tests if the method depositCoin launches an exception when the number of coins to deposit
@@ -182,6 +219,29 @@ class GameTest {
             game.withdrawCoin();
         }
         assertThrows(RuntimeException.class, ()->game.withdrawCoin());
+    }
+
+    /**
+     * Tests if the number of character cards created is three.
+     */
+    @Test
+    public void checkCharacterCardsSizeIsThree(){
+        assertEquals(3, game.getCharacterCards().size());
+    }
+
+    /**
+     * Tests if the id of the three character cards are different.
+     */
+    @Test
+    public void checkCharacterCardsIdAreDifferent(){
+        boolean foundSameId = false;
+        for(int i = 0; i < game.getCharacterCards().size() - 1; i++){
+            for(int j = i + 1; j < game.getCharacterCards().size(); j++){
+                if(game.getCharacterCards().get(i).getId() == game.getCharacterCards().get(j).getId())
+                    foundSameId = true;
+            }
+        }
+        assertFalse(foundSameId);
     }
 }
 
