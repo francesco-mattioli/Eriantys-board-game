@@ -6,6 +6,9 @@ import it.polimi.ingsw.triton.launcher.network.message.Message;
 import it.polimi.ingsw.triton.launcher.view.View;
 import it.polimi.ingsw.triton.launcher.view.VirtualView;
 
+import java.util.ArrayList;
+import java.util.NoSuchElementException;
+
 /**
  * Server has a reference to Controller. This reference is passed to
  * ServeOneClient, so the latter can send new data to the Controller.
@@ -14,6 +17,11 @@ import it.polimi.ingsw.triton.launcher.view.VirtualView;
 
 public class Controller implements Observer<Message> {
     private Game game;
+    private ArrayList<VirtualView> virtualViews= new ArrayList<>();
+
+    public ArrayList<VirtualView> getVirtualViews() {
+        return virtualViews;
+    }
 
     public Controller(Game game){
         this.game = game;
@@ -30,6 +38,14 @@ public class Controller implements Observer<Message> {
 
     public void addGameObserver(VirtualView virtualView){
         game.addObserver(virtualView);
+    }
+
+    public VirtualView getVirtualViewByUsername(String username) throws NoSuchElementException{
+        for(VirtualView vw : virtualViews){
+            if (vw.getUsername().equals(username))
+                return vw;
+        }
+        throw new NoSuchElementException("The virtualview does not exist");
     }
 }
 
