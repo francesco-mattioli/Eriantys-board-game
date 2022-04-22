@@ -29,15 +29,26 @@ public class Server {
         return username.length() != 0;
     }
 
+    private boolean checkMaxNumPlayers(int num){
+        return (num == 2 || num == 3);
+    }
+
     public void activateGame(int maxNumPlayers, String username){
-        this.maxNumPlayers = maxNumPlayers;
-        Game game = new Game(maxNumPlayers);
-        this.controller = new Controller(game);
-        controller.addPlayer(username);
-        semaphore.release();
-        numOfClients++;
-        virtualViews.get(0).addObserver(controller);
-        controller.addGameObserver(virtualViews.get(0));
+        if(!checkMaxNumPlayers(maxNumPlayers)){
+            virtualViews.get(0).sendErrorMessage("The number of players must be 2 or 3!");
+            virtualViews.get(0).askNumOfPlayersAndMode();
+        }
+        else{
+            this.maxNumPlayers = maxNumPlayers;
+            Game game = new Game(maxNumPlayers);
+            this.controller = new Controller(game);
+            controller.addPlayer(username);
+            semaphore.release();
+            numOfClients++;
+            virtualViews.get(0).addObserver(controller);
+            controller.addGameObserver(virtualViews.get(0));
+        }
+
     }
 
     public synchronized void lobby(ServeOneClient serveOneClient,String username) {
