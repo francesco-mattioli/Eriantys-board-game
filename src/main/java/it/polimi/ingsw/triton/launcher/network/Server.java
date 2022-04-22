@@ -2,15 +2,13 @@ package it.polimi.ingsw.triton.launcher.network;
 
 import it.polimi.ingsw.triton.launcher.controller.Controller;
 import it.polimi.ingsw.triton.launcher.model.Game;
+import it.polimi.ingsw.triton.launcher.network.client.ServeOneClient;
 import it.polimi.ingsw.triton.launcher.network.message.FullLobbyMessage;
-import it.polimi.ingsw.triton.launcher.network.message.Message;
-import it.polimi.ingsw.triton.launcher.network.message.MessageType;
 import it.polimi.ingsw.triton.launcher.view.VirtualView;
 
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.util.ArrayList;
 import java.util.concurrent.Semaphore;
 
 
@@ -70,7 +68,7 @@ public class Server {
      * @param serveOneClient
      * @param username
      */
-    public synchronized void lobby(ServeOneClient serveOneClient,String username) {
+    public synchronized void lobby(ServeOneClient serveOneClient, String username) {
         semaphore.acquireUninterruptibly();
         //if the player is the first one, we need to wait that he has chosen the number of players
         if(numOfClients == 0 && isUsernameValid(username)){

@@ -1,6 +1,7 @@
-package it.polimi.ingsw.triton.launcher.network;
+package it.polimi.ingsw.triton.launcher.network.client;
 
 import it.polimi.ingsw.triton.launcher.controller.Controller;
+import it.polimi.ingsw.triton.launcher.network.Server;
 import it.polimi.ingsw.triton.launcher.network.message.Message;
 import it.polimi.ingsw.triton.launcher.network.message.MessageType;
 import it.polimi.ingsw.triton.launcher.network.message.PlayersNumbersAndModeReply;
