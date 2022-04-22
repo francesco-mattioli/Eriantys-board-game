@@ -133,6 +133,78 @@ class GameTest {
     */
 
     /**
+     * Tests if the number of islands created is twelve.
+     */
+    @Test
+    public void checkNumberOfIslands(){
+        assertEquals(12, game.getIslands().size());
+    }
+
+    /**
+     * Tests if mother nature is onto an island at the begin of the game.
+     */
+    @Test
+    public void checkMotherNaturePosition(){
+        assertTrue(game.getMotherNature().getPosition() != null);
+    }
+
+    /**
+     * Tests if the number of students in the bag at the begin of the game is greater than zero.
+     */
+    @Test
+    public void checkInitialNumberStudentsInBag(){
+        for(Color color: Color.values())
+            assertTrue(game.getBag().getStudents()[color.ordinal()] > 0);
+    }
+
+    /**
+     * Tests if the number of students is 0 when the island contains mother nature.
+     */
+    @Test
+    public void checkNumberOfStudentsOnIslandWithMotherNature(){
+        Island islandWithMotherNature = game.getMotherNature().getPosition();
+        int numOfStudents = 0;
+        for(Color color: Color.values())
+            numOfStudents += islandWithMotherNature.getStudents()[color.ordinal()];
+        assertEquals(0, numOfStudents);
+    }
+
+    /**
+     * Tests if the number of students is 0 when the island is opposite to mother nature..
+     */
+    @Test
+    public void checkNumberOfStudentsOnIslandOppositeToMotherNature(){
+        int idIslandOppositeToMotherNature = (game.getMotherNature().getPosition().getId() + 6) % 12;
+        int numOfStudents = 0;
+        for(Color color: Color.values())
+            numOfStudents += game.getIslands().get(idIslandOppositeToMotherNature).getStudents()[color.ordinal()];
+        assertEquals(0, numOfStudents);
+    }
+
+    /**
+     * Tests if the number of students is 1 onto other islands.
+     */
+    @Test
+    public void checkNumberOfStudentsOnOtherIslands(){
+        int idIslandWithMotherNature = game.getMotherNature().getPosition().getId();
+        int idIslandOppositeToMotherNature = (game.getMotherNature().getPosition().getId() + 6) % 12;
+        boolean numOfStudentsNotEqualsToOne = false;
+        int numOfStudents = 0;
+        for(Island island: game.getIslands()){
+            if(island.getId() != idIslandWithMotherNature && island.getId() != idIslandOppositeToMotherNature){
+                for(Color color: Color.values()){
+                    numOfStudents += island.getStudents()[color.ordinal()];
+                }
+                if(numOfStudents != 1)
+                    numOfStudentsNotEqualsToOne = true;
+            }
+            numOfStudents = 0;
+        }
+        assertFalse(numOfStudentsNotEqualsToOne);
+    }
+
+
+    /**
      * Tests if the method launches an exception if the nickname is already chosen.
      */
     @Test
