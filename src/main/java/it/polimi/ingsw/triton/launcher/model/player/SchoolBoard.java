@@ -47,7 +47,7 @@ public class SchoolBoard {
      * @param dim the number of towers to move
      * @throws RuntimeException if the player has not other towers on the school board so the game is ended.
      */
-    public void moveTowerOntoIsland(int dim) {
+    public void moveTowerOntoIsland(int dim) throws RuntimeException {
         numTowers -= dim;
         if(numTowers == 0)
             throw new RuntimeException("Game is ended");

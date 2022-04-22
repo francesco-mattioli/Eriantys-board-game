@@ -65,7 +65,7 @@ public class PlayAssistantCard implements Action {
      * @throws RuntimeException when a card can't be used in this turn.
      */
     @Override
-    public void execute() {
+    public void execute() throws RuntimeException {
         if (isUsedCard(assistantCardToPlay, usedAssistantCards)) {
             if (isUniqueChoice(player.getAssistantDeck(), usedAssistantCards)) {
                 player.setLastPlayedAssistantCard(assistantCardToPlay);
