@@ -25,7 +25,7 @@ class GameTest {
         game.chooseTowerColor("TestPlayer1",TowerColor.WHITE);
         game.chooseTowerColor("TestPlayer2",TowerColor.BLACK);
         game.chooseTowerColor("TestPlayer3",TowerColor.GREY);
-        game.setup();
+
     }
 
     @AfterEach
@@ -34,103 +34,6 @@ class GameTest {
     }
 
 
-    /*
-    @Test
-    void createIslands() {
-        game.createIslands();
-        assertEquals(12,game.getIslands().size());
-        int j = 0; // int to check the island's id
-        for (Island i: game.getIslands()){
-            assertNotNull(i);
-            assertEquals(1, i.getDim());
-            assertEquals(j,i.getId());
-            j++;
-        }
-
-
-
-
-    }
-
-    @Test
-    void setupMotherNature() {
-        game.createIslands();
-        game.setupMotherNature();
-        assertNotNull(game.getMotherNature());
-        assertNotNull(game.getMotherNature().getPosition());
-        assertTrue(game.getMotherNature().getPosition().getId() >= 0);
-        assertTrue(game.getMotherNature().getPosition().getId() < 12);
-    }
-
-    @Test
-    void setupBag() {
-        game.setupBag();
-        assertNotNull(game.getBag());
-        assertFalse(game.getBag().isEmpty());
-        for(Integer i: game.getBag().getStudents()){
-            assertEquals(2, i);
-        }
-    }
-
-    @Test
-    void setupIslands() {
-        game.setupIslands();
-        assertTrue(game.getBag().isEmpty());
-        for(Island island: game.getIslands()){
-            if(island.getId() == game.getMotherNature().getPosition().getId() || island.getId() == game.getMotherNature().getIndexOfOppositeIsland(game.getIslands()))
-            {
-                int sum = 0;
-                for(int i=0; i<5; i++)
-                {
-                    sum += island.getStudents()[i];
-                }
-                assertEquals(0, sum);
-            }
-            else{
-                int sum = 0;
-                for(int i=0; i<5; i++)
-                {
-                    sum += island.getStudents()[i];
-                }
-                assertEquals(1, sum);
-            }
-        }
-    }
-
-    @Test
-    void createCloudTiles() {
-        assertEquals(3, game.getPlayers().size());
-        assertEquals("TestPlayer1", game.getPlayers().get(0).getUsername());
-        assertEquals("TestPlayer2", game.getPlayers().get(1).getUsername());
-        game.createCloudTiles();
-        assertEquals(3, game.getCloudTiles().size());
-    }
-
-    @Test
-    public void setupCloudTiles(){
-        ArrayList<CloudTile> cloudTiles = new ArrayList<>();
-        cloudTiles.add(new CloudTile(0));
-        cloudTiles.add(new CloudTile(1));
-
-        Random random = new Random();
-
-        // adding some students without a logic
-        for(CloudTile cloudTile: cloudTiles){
-            for(int i=0; i<3;i++){
-                cloudTile.addStudent(Color.values()[random.nextInt(Color.values().length)]);
-            }
-        }
-
-        for(CloudTile cloudTile: cloudTiles){
-            int sumOfStudents=0;
-            int[] students=cloudTile.getStudents();
-            for(int i=0;i<Color.values().length;i++){
-                sumOfStudents+=students[i];
-            }
-            assertEquals(3,sumOfStudents);
-        }
-    }
-    */
 
     /**
      * Tests if the number of islands created is twelve.
@@ -203,6 +106,48 @@ class GameTest {
         assertFalse(numOfStudentsNotEqualsToOne);
     }
 
+    /**
+     * This test checks if game creates three cloudtiels when there are three players.
+     */
+    @Test
+    public void checkCreateCloudTilesWithThreePlayers(){
+        assertEquals(3,game.getCloudTiles().size());
+    }
+
+    /**
+     * This method checks if game add nine students into the entrance of every players when the game has three players.
+     */
+    @Test
+    public void checkIfEachPlayerHasNineStudentsIntoEntrance(){
+        int numStudentsIntoEntrance;
+        for (Player player: game.getPlayers()) {
+            numStudentsIntoEntrance = 0;
+            for (int i = 0; i < Color.values().length; i++){
+                numStudentsIntoEntrance += player.getSchoolBoard().getEntrance()[i];
+            }
+            assertEquals(9,numStudentsIntoEntrance);
+        }
+    }
+
+    /**
+     * Tests if the number of character cards created is three.
+     */
+    @Test
+    public void checkCharacterCardsSizeIsThree(){
+        assertEquals(3, game.getCharacterCards().size());
+    }
+
+   /* @Test
+    public void checksIfEachCloudTilesHasFourStudents(){
+        int numStudentsOnCloudTile;
+        for (CloudTile cloudTile : game.getCloudTiles()) {
+            numStudentsOnCloudTile = 0;
+            for (int i = 0; i < Color.values().length; i++){
+                numStudentsOnCloudTile += cloudTile.getStudents()[i];
+            }
+            assertEquals(4,numStudentsOnCloudTile);
+        }
+    }*/
 
     /**
      * Tests if the method launches an exception if the nickname is already chosen.
@@ -241,7 +186,7 @@ class GameTest {
         assertTrue(game.getTowerColorChosen()[TowerColor.WHITE.ordinal()]);
     }
 
-    /*@Test
+   /* @Test
     public void checkSortingPlayers(){
         player1.setLastPlayedAssistantCard(new AssistantCard(AssistantCardType.SNAKE));
         player2.setLastPlayedAssistantCard(new AssistantCard(AssistantCardType.TIGER));
@@ -293,13 +238,7 @@ class GameTest {
         assertThrows(RuntimeException.class, ()->game.withdrawCoin());
     }
 
-    /**
-     * Tests if the number of character cards created is three.
-     */
-    @Test
-    public void checkCharacterCardsSizeIsThree(){
-        assertEquals(3, game.getCharacterCards().size());
-    }
+
 
     /**
      * Tests if the id of the three character cards are different.
