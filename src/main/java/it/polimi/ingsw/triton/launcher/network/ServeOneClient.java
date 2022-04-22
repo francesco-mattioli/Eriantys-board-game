@@ -56,8 +56,8 @@ public class ServeOneClient implements Runnable {
                 else if(message.getMessageType()==MessageType.PLAYERSNUMBER_REPLY)
                     server.activateGame(((PlayersNumbersAndModeReply)message).getPlayersNumber(), message.getSenderName());
                 else{
-                    server.getController().getVirtualViewByUsername(message.getSenderName());
-
+                    VirtualView virtualView = server.getController().getVirtualViewByUsername(message.getSenderName());
+                    virtualView.notify(message);
                 }
             }
         } catch (IOException | NoSuchElementException | ClassNotFoundException e) {
