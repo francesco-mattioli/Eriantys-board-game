@@ -148,8 +148,17 @@ public class Game extends Observable<Message> {
     // Planning phase
     public void planningPhase() {
         setupCloudTiles();
+        chooseAssistantCard();
+    }
 
-
+    /**
+     * Asks all the players to play assistant card.
+     */
+    public void chooseAssistantCard(){
+        for(Player players: players){
+            notify(new AssistantCardRequest(currentPlayer.getUsername()));
+            nextPlayCardTurn();
+        }
     }
 
 
@@ -285,8 +294,17 @@ public class Game extends Observable<Message> {
 
     }
 
+    /**
+     * Changes current player at the end of every action phase.
+     * At the end of the last player's action phase, it starts a new planning phase.
+     */
     public void nextGameTurn() {
-        // TODO implement here
+        if (players.indexOf(currentPlayer) < maxNumberOfPlayers - 1)
+            currentPlayer = players.get(players.indexOf(currentPlayer) + 1);
+        else{
+            currentPlayer = players.get(0);
+            planningPhase();
+        }
     }
 
     public void drawCharacterCards() {
