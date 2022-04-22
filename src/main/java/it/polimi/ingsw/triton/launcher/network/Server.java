@@ -57,12 +57,21 @@ public class Server {
 
     }
 
+    /**
+     * This method adds players to the game
+     * We use a semaphore that locks the execution until the first player has chosen the number of players
+     * numOfClients is very important to establish which player is the first one, so he has to choose the number of players
+     * @param serveOneClient
+     * @param username
+     */
     public synchronized void lobby(ServeOneClient serveOneClient,String username) {
         semaphore.acquireUninterruptibly();
+        //if the player is the first one, we need to wait that he has chosen the number of players
         if(numOfClients == 0 && isUsernameValid(username)){
             controller.getVirtualViews().add(new VirtualView(serveOneClient, username));
             controller.getVirtualViews().get(0).askNumOfPlayersAndMode();
         }
+        //in this case, the player can be added to the game. His virtualview cam be created and added to the ArrayList
         else if (numOfClients <= maxNumPlayers && isUsernameValid(username)){
             try{
                 controller.addPlayer(username);
@@ -70,6 +79,7 @@ public class Server {
                 numOfClients++;
                 controller.getVirtualViews().get(numOfClients).addObserver(controller);
                 controller.addGameObserver(controller.getVirtualViews().get(maxNumPlayers));
+                //in this case, the player added is the last one, so after this the game can be started and next players will be rejected
                 if(numOfClients == maxNumPlayers)
                     controller.getVirtualViews().get(0).notify(new FullLobbyMessage(controller.getVirtualViews().get(0).getUsername()));
             }
@@ -81,10 +91,12 @@ public class Server {
                 semaphore.release();
             }
         }
+        //in this case, the username is not valid
         else if (!isUsernameValid(username)){
             VirtualView virtualView = new VirtualView(serveOneClient, username);
             virtualView.sendErrorMessage("Username is not correct");
         }
+        //in this case, lobby is already full so an other player cannot be added
         else{
             VirtualView virtualView = new VirtualView(serveOneClient, username);
             virtualView.sendErrorMessage("Lobby is full");
