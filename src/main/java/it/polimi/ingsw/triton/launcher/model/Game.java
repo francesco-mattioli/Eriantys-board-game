@@ -11,10 +11,13 @@ import it.polimi.ingsw.triton.launcher.network.Observable;
 import it.polimi.ingsw.triton.launcher.network.Observer;
 import it.polimi.ingsw.triton.launcher.network.message.AssistantCardRequest;
 import it.polimi.ingsw.triton.launcher.network.message.Message;
+import it.polimi.ingsw.triton.launcher.network.message.TowerColorRequest;
 import it.polimi.ingsw.triton.launcher.view.View;
 import it.polimi.ingsw.triton.launcher.view.VirtualView;
 
+import java.lang.management.PlatformLoggingMXBean;
 import java.util.ArrayList;
+import java.util.NoSuchElementException;
 import java.util.Random;
 
 public class Game extends Observable<Message> {
@@ -50,7 +53,6 @@ public class Game extends Observable<Message> {
         this.characterCards = new ArrayList<>();
         this.generalCoinSupply = INITIAL_NUM_COINS;
         this.towerColorChosen = new boolean[TowerColor.values().length];
-
     }
 
 
@@ -68,20 +70,27 @@ public class Game extends Observable<Message> {
         return false;
     }
 
+    public void createTowerChosenMessage(Player player){
+        notify(new TowerColorRequest(towerColorChosen, player.getUsername()));
+    }
+
     public void addPlayer(String username) {
-        if(!isUsernameChosen(username) && username != Game.NAME_SERVER)
+        if(!isUsernameChosen(username) && username != Game.NAME_SERVER){
             players.add(new Player(username));
+            if (players.size() == 1)
+                createTowerChosenMessage(players.get(0));
+        }
         else
             throw new IllegalArgumentException("Nickname already chosen");
     }
 
     /**
      * This method set the player's schoolboard with the chosen tower color
-     * @param player
+     * @param username
      * @param towerColor
      */
-    public void chooseTowerColor(Player player, TowerColor towerColor) {
-        player.setSchoolBoard(towerColor, maxNumberOfPlayers);
+    public void chooseTowerColor(String username, TowerColor towerColor) {
+        getPlayerByUsername(username).setSchoolBoard(towerColor, maxNumberOfPlayers);
         towerColorChosen[towerColor.ordinal()] = true;
     }
 
@@ -92,6 +101,14 @@ public class Game extends Observable<Message> {
      */
     public void chooseWizard(Player player, Wizard wizard) {
         player.setWizard(wizard);
+    }
+
+    private Player getPlayerByUsername(String username) throws NoSuchElementException {
+        for(Player p : players){
+            if(p.getUsername() == username)
+                return p;
+        }
+        throw new NoSuchElementException("This player does not exist");
     }
 
     /**

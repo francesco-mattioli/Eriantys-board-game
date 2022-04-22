@@ -3,6 +3,8 @@ package it.polimi.ingsw.triton.launcher.controller;
 import it.polimi.ingsw.triton.launcher.model.Game;
 import it.polimi.ingsw.triton.launcher.network.Observer;
 import it.polimi.ingsw.triton.launcher.network.message.Message;
+import it.polimi.ingsw.triton.launcher.network.message.MessageType;
+import it.polimi.ingsw.triton.launcher.network.message.TowerColorReply;
 import it.polimi.ingsw.triton.launcher.view.View;
 import it.polimi.ingsw.triton.launcher.view.VirtualView;
 
@@ -33,7 +35,9 @@ public class Controller implements Observer<Message> {
 
     @Override
     public void update(Message message) {
-
+        if(message.getMessageType() == MessageType.TOWER_COLOR_REPLY){
+            game.chooseTowerColor(message.getSenderName(), ((TowerColorReply) message).getPlayerColor());
+        }
     }
 
     public void addGameObserver(VirtualView virtualView){

@@ -22,9 +22,9 @@ class GameTest {
         game.addPlayer("TestPlayer1");
         game.addPlayer("TestPlayer2");
         game.addPlayer("TestPlayer3");
-        game.chooseTowerColor(game.getPlayers().get(0),TowerColor.WHITE);
-        game.chooseTowerColor(game.getPlayers().get(1),TowerColor.BLACK);
-        game.chooseTowerColor(game.getPlayers().get(2),TowerColor.GREY);
+        game.chooseTowerColor("TestPlayer1",TowerColor.WHITE);
+        game.chooseTowerColor("TestPlayer2",TowerColor.BLACK);
+        game.chooseTowerColor("TestPlayer3",TowerColor.GREY);
         game.setup();
     }
 
