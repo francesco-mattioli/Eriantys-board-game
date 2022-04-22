@@ -315,7 +315,7 @@ public class Game extends Observable<Message> {
         Random randomNumber;
         ArrayList<Integer> idAlreadyChosen = new ArrayList<>();
         int id;
-        while(characterCards.size() <= 3){
+        while(characterCards.size() < 3){
             randomNumber = new Random();
             id = randomNumber.nextInt(12);
             if(!idAlreadyChosen.contains(id)){
