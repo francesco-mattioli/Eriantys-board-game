@@ -6,7 +6,7 @@ import it.polimi.ingsw.triton.launcher.network.Observer;
 import it.polimi.ingsw.triton.launcher.network.ServeOneClient;
 import it.polimi.ingsw.triton.launcher.network.message.*;
 
-public class VirtualView extends Observable implements View, Observer<Message> {
+public class VirtualView extends Observable<Message> implements View, Observer<Message> {
     private ServeOneClient serveOneClient;
     private String username;
 

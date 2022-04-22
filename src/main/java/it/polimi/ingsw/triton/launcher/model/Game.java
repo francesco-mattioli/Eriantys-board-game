@@ -17,7 +17,7 @@ import it.polimi.ingsw.triton.launcher.view.VirtualView;
 import java.util.ArrayList;
 import java.util.Random;
 
-public class Game extends Observable {
+public class Game extends Observable<Message> {
 
     public static final String NAME_SERVER = "eriantys";
     private final ArrayList<Island> islands;

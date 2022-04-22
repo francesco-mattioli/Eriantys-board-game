@@ -36,7 +36,8 @@ public class Server {
         controller.addPlayer(username);
         semaphore.release();
         numOfClients++;
-        virtualViews.get(0).addObserver(controller);   //raw use
+        virtualViews.get(0).addObserver(controller);
+        controller.addGameObserver(virtualViews.get(0));
     }
 
     public synchronized void lobby(ServeOneClient serveOneClient,String username) {
@@ -51,6 +52,7 @@ public class Server {
             semaphore.release();
             numOfClients++;
             virtualViews.get(numOfClients).addObserver(controller);
+            controller.addGameObserver(virtualViews.get(maxNumPlayers));
         }
         else if (!isUsernameValid(username)){
             VirtualView virtualView = new VirtualView(serveOneClient, username);
