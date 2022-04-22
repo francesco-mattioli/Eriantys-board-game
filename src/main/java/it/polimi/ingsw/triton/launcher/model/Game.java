@@ -310,18 +310,31 @@ public class Game extends Observable<Message> {
     /**
      * This method merge two or more adjacent islands with the same dominator.
      * @param motherNaturePosition
+     * @throws RuntimeException
      */
-    public void mergeNearIslands(Island motherNaturePosition) {
+    public void mergeNearIslands(Island motherNaturePosition) throws RuntimeException {
         motherNaturePosition.updateInfluence(players, professors);
         if (motherNaturePosition.getDominator() != null) {
             if (motherNaturePosition.getDominator() == prevIsland(motherNaturePosition).getDominator()) {
                 motherNaturePosition.merge(prevIsland(motherNaturePosition));
+                islands.remove(prevIsland(motherNaturePosition));
+                checkNumberIslands();
             }
             if (motherNaturePosition.getDominator() == nextIsland(motherNaturePosition).getDominator()) {
                 motherNaturePosition.merge(nextIsland(motherNaturePosition));
+                islands.remove(nextIsland(motherNaturePosition));
+                checkNumberIslands();
             }
         }
+    }
 
+    /**
+     * Checks if the number of remaining groups of islands is three.
+     * @throws RuntimeException if the number of groups islands is three because the game must finish.
+     */
+    private void checkNumberIslands() throws RuntimeException{
+        if(islands.size() == 3)
+            throw new RuntimeException("Only three groups of islands: game ended.");
     }
 
     /**
