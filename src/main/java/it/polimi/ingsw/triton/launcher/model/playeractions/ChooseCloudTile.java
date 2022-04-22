@@ -32,7 +32,7 @@ public class ChooseCloudTile implements Action {
      * Moves the students from the chosen cloud tile to the entrance of the player.
      */
     @Override
-    public void execute() {
+    public void execute() throws RuntimeException {
         if(isCloudTileAlreadyChosen()){
             throw new RuntimeException("This cloud tile is already chosen");
         }else{

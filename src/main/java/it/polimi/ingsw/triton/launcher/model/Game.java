@@ -118,7 +118,7 @@ public class Game extends Observable<Message> {
 
     private Player getPlayerByUsername(String username) throws NoSuchElementException {
         for(Player p : players){
-            if(p.getUsername() == username)
+            if(p.getUsername().equals(username))
                 return p;
         }
         throw new NoSuchElementException("This player does not exist");

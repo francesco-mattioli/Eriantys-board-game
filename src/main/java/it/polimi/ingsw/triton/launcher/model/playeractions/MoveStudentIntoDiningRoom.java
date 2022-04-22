@@ -40,7 +40,7 @@ public class MoveStudentIntoDiningRoom implements Action {
      * a number of students which is multiple of 3.
      */
     @Override
-    public void execute() {
+    public void execute() throws NullPointerException {
         if(student == null){
             throw new NullPointerException("Not valid color");
         }else{

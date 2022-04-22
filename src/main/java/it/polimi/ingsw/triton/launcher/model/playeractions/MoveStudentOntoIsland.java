@@ -40,7 +40,7 @@ public class MoveStudentOntoIsland implements Action {
      * Moves the student to the island selected by the user.
      */
     @Override
-    public void execute() {
+    public void execute() throws RuntimeException {
         if(isEmptyEntrance())
             throw new RuntimeException("There aren't any students in the entrance");
         else if(noStudentsColorInTheEntrance())

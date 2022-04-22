@@ -34,7 +34,7 @@ public class UseCharacterCard implements Action {
      * executes the effect and increases the card's cost.
      */
     @Override
-    public void execute() {
+    public void execute() throws RuntimeException {
         if (canBePurchased()) {
             wallet.decrease(characterCard.getCost());
             characterCard.executeEffect(cardEffect);
