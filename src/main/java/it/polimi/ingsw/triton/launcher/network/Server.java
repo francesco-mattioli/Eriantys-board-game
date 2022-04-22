@@ -2,7 +2,9 @@ package it.polimi.ingsw.triton.launcher.network;
 
 import it.polimi.ingsw.triton.launcher.controller.Controller;
 import it.polimi.ingsw.triton.launcher.model.Game;
+import it.polimi.ingsw.triton.launcher.network.message.FullLobbyMessage;
 import it.polimi.ingsw.triton.launcher.network.message.Message;
+import it.polimi.ingsw.triton.launcher.network.message.MessageType;
 import it.polimi.ingsw.triton.launcher.view.VirtualView;
 
 import java.io.IOException;
@@ -68,6 +70,8 @@ public class Server {
                 numOfClients++;
                 controller.getVirtualViews().get(numOfClients).addObserver(controller);
                 controller.addGameObserver(controller.getVirtualViews().get(maxNumPlayers));
+                if(numOfClients == maxNumPlayers)
+                    controller.getVirtualViews().get(0).notify(new FullLobbyMessage(controller.getVirtualViews().get(0).getUsername()));
             }
             catch (IllegalArgumentException e){
                 VirtualView virtualView = new VirtualView(serveOneClient, username);

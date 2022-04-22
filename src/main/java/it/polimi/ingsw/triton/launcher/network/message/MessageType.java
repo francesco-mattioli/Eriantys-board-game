@@ -25,5 +25,6 @@ public enum MessageType {
     GAME_INFO,
     GENERIC,
     DISCONNECTION,
-    ERROR
+    ERROR,
+    FULL_LOBBY
 }

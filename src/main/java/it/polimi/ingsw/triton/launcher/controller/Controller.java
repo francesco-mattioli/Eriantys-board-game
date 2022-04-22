@@ -38,6 +38,10 @@ public class Controller implements Observer<Message> {
         if(message.getMessageType() == MessageType.TOWER_COLOR_REPLY){
             game.chooseTowerColor(message.getSenderName(), ((TowerColorReply) message).getPlayerColor());
         }
+        if(message.getMessageType() == MessageType.FULL_LOBBY){
+            game.createTowerColorRequestMessage(message.getSenderName());
+        }
+
     }
 
     public void addGameObserver(VirtualView virtualView){

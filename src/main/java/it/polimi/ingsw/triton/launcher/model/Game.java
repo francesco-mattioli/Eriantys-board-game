@@ -70,18 +70,16 @@ public class Game extends Observable<Message> {
         return false;
     }
 
-    public void createTowerChosenMessage(Player player){
-        notify(new TowerColorRequest(towerColorChosen, player.getUsername()));
-    }
-
     public void addPlayer(String username) {
         if(!isUsernameChosen(username) && username != Game.NAME_SERVER){
             players.add(new Player(username));
-            if (players.size() == 1)
-                createTowerChosenMessage(players.get(0));
         }
         else
             throw new IllegalArgumentException("Nickname already chosen");
+    }
+
+    public void createTowerColorRequestMessage(String username){
+        notify(new TowerColorRequest(towerColorChosen, username));
     }
 
     /**
@@ -90,8 +88,23 @@ public class Game extends Observable<Message> {
      * @param towerColor
      */
     public void chooseTowerColor(String username, TowerColor towerColor) {
-        getPlayerByUsername(username).setSchoolBoard(towerColor, maxNumberOfPlayers);
+        Player p = getPlayerByUsername(username);
+        p.setSchoolBoard(towerColor, maxNumberOfPlayers);
         towerColorChosen[towerColor.ordinal()] = true;
+        try{
+            String nextUsername = getNextPlayerName(p);
+            createTowerColorRequestMessage(nextUsername);
+        }
+        catch (NoSuchElementException e){
+            setup();
+        }
+    }
+
+    private String getNextPlayerName(Player current) throws NoSuchElementException{
+        int index = players.indexOf(current);
+        if(players.size()+1 < index)
+            return players.get(index+1).getUsername();
+        throw new NoSuchElementException("There is not a next player");
     }
 
     /**

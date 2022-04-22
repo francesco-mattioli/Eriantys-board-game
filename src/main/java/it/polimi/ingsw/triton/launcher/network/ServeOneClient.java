@@ -74,7 +74,7 @@ public class ServeOneClient implements Runnable {
             outSocket.writeObject(message);
             outSocket.flush();
         } catch(IOException e){
-            System.err.println(e.getMessage());
+
         }
     }
 
