@@ -4,7 +4,9 @@ public enum ErrorTypeID {
     USERNAME_ALREADY_CHOSEN("This username is already used!"),
     WRONG_PLAYERS_NUMBER("The number of players must be 2 or 3!"),
     FORBIDDEN_USERNAME("Username is not correct!"),
-    FULL_LOBBY("Lobby is full!");
+    FULL_LOBBY("Lobby is full!"),
+    WRONG_USERNAME("This username doesn't exists!"),
+    ASSISTANTCARD_ALREADY_CHOSEN("This assistant card is already used!");
 
 
     private final String description;
