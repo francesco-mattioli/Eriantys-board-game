@@ -254,5 +254,39 @@ class GameTest {
         }
         assertFalse(foundSameId);
     }
+
+
+
+
+   /*@Test
+    public void checkOneWinner(){
+        game.getIslands().get(0).setDim(1);
+        game.getIslands().get(0).setDominator(game.getPlayers().get(0));
+        game.getIslands().get(1).setDim(1);
+        game.getIslands().get(1).setDominator(game.getPlayers().get(0));
+        game.getIslands().get(2).setDim(1);
+        game.getIslands().get(2).setDominator(game.getPlayers().get(0));
+        game.getIslands().get(3).setDim(1);
+        game.getIslands().get(3).setDominator(game.getPlayers().get(2));
+        game.getIslands().get(4).setDim(1);
+        game.getIslands().get(4).setDominator(game.getPlayers().get(0));
+        game.getIslands().get(5).setDim(1);
+        game.getIslands().get(5).setDominator(game.getPlayers().get(1));
+        game.getIslands().get(6).setDim(1);
+        game.getIslands().get(6).setDominator(game.getPlayers().get(1));
+        game.getIslands().get(7).setDim(1);
+        game.getIslands().get(7).setDominator(game.getPlayers().get(0));
+        game.getIslands().get(8).setDim(1);
+        game.getIslands().get(8).setDominator(game.getPlayers().get(0));
+        game.getIslands().get(9).setDim(1);
+        game.getIslands().get(9).setDominator(game.getPlayers().get(0));
+        game.getIslands().get(10).setDim(1);
+        game.getIslands().get(10).setDominator(game.getPlayers().get(0));
+        game.getIslands().get(11).setDim(1);
+        game.getIslands().get(11).setDominator(game.getPlayers().get(0));
+        String pippo = game.findWinnerWithTowers().get(0);
+        assertEquals("TestPlayer1", pippo);
+
+    }*/
 }
 

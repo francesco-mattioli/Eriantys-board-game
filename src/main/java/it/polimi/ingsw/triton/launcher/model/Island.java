@@ -150,4 +150,11 @@ public class Island {
         return dominator;
     }
 
+    public void setDim(int dim) {
+        this.dim = dim;
+    }
+
+    public void setDominator(Player dominator) {
+        this.dominator = dominator;
+    }
 }
