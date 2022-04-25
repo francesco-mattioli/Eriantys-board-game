@@ -4,7 +4,7 @@ import it.polimi.ingsw.triton.launcher.controller.Controller;
 import it.polimi.ingsw.triton.launcher.model.Game;
 import it.polimi.ingsw.triton.launcher.network.client.ServeOneClient;
 import it.polimi.ingsw.triton.launcher.network.message.ErrorTypeID;
-import it.polimi.ingsw.triton.launcher.network.message.FullLobbyMessage;
+import it.polimi.ingsw.triton.launcher.network.message.servermessage.FullLobbyMessage;
 import it.polimi.ingsw.triton.launcher.view.VirtualView;
 
 import java.io.IOException;

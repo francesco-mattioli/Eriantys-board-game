@@ -4,8 +4,7 @@ import it.polimi.ingsw.triton.launcher.model.Game;
 import it.polimi.ingsw.triton.launcher.network.Observer;
 import it.polimi.ingsw.triton.launcher.network.message.Message;
 import it.polimi.ingsw.triton.launcher.network.message.MessageType;
-import it.polimi.ingsw.triton.launcher.network.message.TowerColorReply;
-import it.polimi.ingsw.triton.launcher.view.View;
+import it.polimi.ingsw.triton.launcher.network.message.clientmessage.TowerColorReply;
 import it.polimi.ingsw.triton.launcher.view.VirtualView;
 
 import java.util.ArrayList;

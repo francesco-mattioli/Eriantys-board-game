@@ -4,6 +4,9 @@ import it.polimi.ingsw.triton.launcher.network.Observable;
 import it.polimi.ingsw.triton.launcher.network.Observer;
 import it.polimi.ingsw.triton.launcher.network.client.ServeOneClient;
 import it.polimi.ingsw.triton.launcher.network.message.*;
+import it.polimi.ingsw.triton.launcher.network.message.servermessage.ErrorMessage;
+import it.polimi.ingsw.triton.launcher.network.message.servermessage.PlayersNumbersAndModeRequest;
+import it.polimi.ingsw.triton.launcher.network.message.servermessage.TowerColorRequest;
 
 public class VirtualView extends Observable<Message> implements View, Observer<Message> {
     private ServeOneClient serveOneClient;

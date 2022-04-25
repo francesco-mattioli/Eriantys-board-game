@@ -9,14 +9,10 @@ import it.polimi.ingsw.triton.launcher.model.player.PlayerTurnComparator;
 import it.polimi.ingsw.triton.launcher.model.playeractions.PlayAssistantCard;
 import it.polimi.ingsw.triton.launcher.model.professor.ProfessorsManager;
 import it.polimi.ingsw.triton.launcher.network.Observable;
-import it.polimi.ingsw.triton.launcher.network.Observer;
-import it.polimi.ingsw.triton.launcher.network.message.AssistantCardRequest;
+import it.polimi.ingsw.triton.launcher.network.message.servermessage.AssistantCardRequest;
 import it.polimi.ingsw.triton.launcher.network.message.Message;
-import it.polimi.ingsw.triton.launcher.network.message.TowerColorRequest;
-import it.polimi.ingsw.triton.launcher.view.View;
-import it.polimi.ingsw.triton.launcher.view.VirtualView;
+import it.polimi.ingsw.triton.launcher.network.message.servermessage.TowerColorRequest;
 
-import java.lang.management.PlatformLoggingMXBean;
 import java.util.ArrayList;
 import java.util.NoSuchElementException;
 import java.util.Random;
