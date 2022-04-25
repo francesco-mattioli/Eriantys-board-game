@@ -349,12 +349,13 @@ public class Game extends Observable<Message> {
      * At the end of the game, it checks who is the winner according to the number of towers.
      * @return the username of the winner player.
      */
-    /*private ArrayList<String> findWinnerWithTowers(){
+    /*public ArrayList<String> findWinnerWithTowers(){
         ArrayList<Integer> currentTowersNumber = new ArrayList<>();
         ArrayList<String> winnerUsernames = new ArrayList<>();
-        int towersNumber = 0;
+        int towersNumber;
 
         for(Player player: players){
+            towersNumber = 0;
             for(Island island: islands){
                 if(island.getDominator().equals(player))
                     towersNumber += island.getDim();
@@ -363,7 +364,8 @@ public class Game extends Observable<Message> {
         }
         int maxNumberTowers = Collections.max(currentTowersNumber);
         if(Collections.frequency(currentTowersNumber, maxNumberTowers) == 1){
-            winnerUsernames.add(players.get(currentTowersNumber.indexOf(maxNumberTowers)).getUsername());
+            int i = currentTowersNumber.indexOf(maxNumberTowers);
+            winnerUsernames.add(players.get(i).getUsername());
             return winnerUsernames;
         }
         else
@@ -374,9 +376,9 @@ public class Game extends Observable<Message> {
      * Checks the winner player according to the number of professors.
      * @param towersNumber the number of towers for the players that are drawing.
      * @param maxNumberTowers the max number of towers.
-     * @return the username of the winner player or the usernames of thedrawing player.
+     * @return the username of the winner player or the usernames of the drawing player.
      */
-    /*private ArrayList<String> findWinnerWithProfessors(ArrayList<Integer> towersNumber, int maxNumberTowers){
+    /*public ArrayList<String> findWinnerWithProfessors(ArrayList<Integer> towersNumber, int maxNumberTowers){
         ArrayList<Integer> playersIndex = new ArrayList<>();
         ArrayList<Player> playersProfessors = (ArrayList<Player>) Arrays.asList(professors);
         ArrayList<String> drawUsernames = new ArrayList<>();
