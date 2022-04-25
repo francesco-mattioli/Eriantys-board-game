@@ -1,18 +1,15 @@
 package it.polimi.ingsw.triton.launcher.network.client;
 
-import it.polimi.ingsw.triton.launcher.controller.Controller;
 import it.polimi.ingsw.triton.launcher.network.Server;
 import it.polimi.ingsw.triton.launcher.network.message.Message;
 import it.polimi.ingsw.triton.launcher.network.message.MessageType;
-import it.polimi.ingsw.triton.launcher.network.message.PlayersNumbersAndModeReply;
+import it.polimi.ingsw.triton.launcher.network.message.clientmessage.ClientMessage;
+import it.polimi.ingsw.triton.launcher.network.message.clientmessage.PlayersNumbersAndModeReply;
 import it.polimi.ingsw.triton.launcher.view.VirtualView;
 
-import java.awt.event.ActionEvent;
 import java.io.*;
 import java.net.Socket;
 import java.util.NoSuchElementException;
-import java.util.Observable;
-import java.util.Scanner;
 
 // Each player must be treated as a thread
 public class ServeOneClient implements Runnable {
@@ -51,13 +48,13 @@ public class ServeOneClient implements Runnable {
     public void handleConnection(){
         try{
             while(isActive()){
-                Message message = (Message)inSocket.readObject();
+                ClientMessage message = (ClientMessage)inSocket.readObject();
                 if(message.getMessageType()==MessageType.LOGIN_REQUEST)
-                    server.lobby(this, message.getSenderName());
+                    server.lobby(this, message.getUsername());
                 else if(message.getMessageType()==MessageType.PLAYERSNUMBER_REPLY)
-                    server.activateGame(((PlayersNumbersAndModeReply)message).getPlayersNumber(), message.getSenderName());
+                    server.activateGame(((PlayersNumbersAndModeReply)message).getPlayersNumber(), message.getUsername());
                 else{
-                    VirtualView virtualView = server.getController().getVirtualViewByUsername(message.getSenderName());
+                    VirtualView virtualView = server.getController().getVirtualViewByUsername(message.getUsername());
                     virtualView.notify(message);
                 }
             }
