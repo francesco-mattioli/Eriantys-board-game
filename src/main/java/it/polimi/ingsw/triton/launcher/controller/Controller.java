@@ -41,6 +41,9 @@ public class Controller implements Observer<Message> {
         if(message.getMessageType() == MessageType.FULL_LOBBY){
             game.createTowerColorRequestMessage(message.getSenderName());
         }
+        if(message.getMessageType() == MessageType.ASSISTANT_CARD_REPLY){
+            game.createTowerColorRequestMessage((message.getSenderName()));
+        }
 
     }
 

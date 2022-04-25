@@ -170,8 +170,10 @@ public class Game extends Observable<Message> {
      * When all the players have played their card the game defines the game turn.
      */
     private void nextPlayCardTurn() {
-        if (players.indexOf(currentPlayer) < maxNumberOfPlayers - 1)
+        if (players.indexOf(currentPlayer) < maxNumberOfPlayers - 1) {
             currentPlayer = players.get(players.indexOf(currentPlayer) + 1);
+            createAssistantCardRequestMessage();
+        }
         else sortPlayerPerTurn();
     }
 
@@ -193,8 +195,12 @@ public class Game extends Observable<Message> {
     public void chooseAssistantCard(String username, AssistantCard assistantCard){
         try{
             new PlayAssistantCard(assistantCard, getPlayerByUsername(username),usedAssistantCards).execute();
+            nextPlayCardTurn();
         }
-        catch (RuntimeException e) { //we need to use an error message
+        catch (NoSuchElementException e){  //case player name not found in players
+
+        }
+        catch (RuntimeException e) {  //case AssistantCard already chosen in the same turn
 
         }
     }
