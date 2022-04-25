@@ -50,11 +50,11 @@ public class ServeOneClient implements Runnable {
             while(isActive()){
                 ClientMessage message = (ClientMessage)inSocket.readObject();
                 if(message.getMessageType()==MessageType.LOGIN_REQUEST)
-                    server.lobby(this, message.getUsername());
+                    server.lobby(this, message.getSenderUsername());
                 else if(message.getMessageType()==MessageType.PLAYERSNUMBER_REPLY)
-                    server.activateGame(((PlayersNumbersAndModeReply)message).getPlayersNumber(), message.getUsername());
+                    server.activateGame(((PlayersNumbersAndModeReply)message).getPlayersNumber(), message.getSenderUsername());
                 else{
-                    VirtualView virtualView = server.getController().getVirtualViewByUsername(message.getUsername());
+                    VirtualView virtualView = server.getController().getVirtualViewByUsername(message.getSenderUsername());
                     virtualView.notify(message);
                 }
             }
