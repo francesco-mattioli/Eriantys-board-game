@@ -6,6 +6,7 @@ import it.polimi.ingsw.triton.launcher.model.enums.TowerColor;
 import it.polimi.ingsw.triton.launcher.model.enums.Wizard;
 import it.polimi.ingsw.triton.launcher.model.player.Player;
 import it.polimi.ingsw.triton.launcher.model.player.PlayerTurnComparator;
+import it.polimi.ingsw.triton.launcher.model.playeractions.PlayAssistantCard;
 import it.polimi.ingsw.triton.launcher.model.professor.ProfessorsManager;
 import it.polimi.ingsw.triton.launcher.network.Observable;
 import it.polimi.ingsw.triton.launcher.network.Observer;
@@ -177,16 +178,22 @@ public class Game extends Observable<Message> {
     public void planningPhase() {
         setupCloudTiles();
         resetPlayedCardInTurn();
-        chooseAssistantCard();
+        createAssistantCardRequestMessage();
     }
 
     /**
      * Asks all the players to play assistant card.
      */
-    private void chooseAssistantCard(){
-        for(Player players: players){
-            notify(new AssistantCardRequest(currentPlayer.getUsername()));
-            nextPlayCardTurn();
+    private void createAssistantCardRequestMessage(){
+        notify(new AssistantCardRequest(currentPlayer.getUsername()));
+    }
+
+    public void chooseAssistantCard(String username, AssistantCard assistantCard){
+        try{
+            new PlayAssistantCard(assistantCard, getPlayerByUsername(username),usedAssistantCards).execute();
+        }
+        catch (RuntimeException e) { //we need to use an error message
+
         }
     }
 
