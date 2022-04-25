@@ -27,11 +27,11 @@ public class VirtualView extends Observable<Message> implements View, Observer<M
     }
 
     public void askNumOfPlayersAndMode(){
-        serveOneClient.sendMessage(new PlayersNumbersAndModeRequest());
+        serveOneClient.sendMessage(new PlayersNumbersAndModeRequest(username));
     }
 
     public void showErrorMessage(ErrorTypeID errorTypeID){
-        serveOneClient.sendMessage(new ErrorMessage(errorTypeID));
+        serveOneClient.sendMessage(new ErrorMessage(errorTypeID, username));
     }
 
     public void askTowerColor(boolean[] availableColors){
