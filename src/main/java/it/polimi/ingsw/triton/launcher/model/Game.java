@@ -101,7 +101,7 @@ public class Game extends Observable<Message> {
 
     private String getNextPlayerName(Player current) throws NoSuchElementException{
         int index = players.indexOf(current);
-        if(players.size()+1 < index)
+        if(index < players.size()-1)
             return players.get(index+1).getUsername();
         throw new NoSuchElementException("There is not a next player");
     }

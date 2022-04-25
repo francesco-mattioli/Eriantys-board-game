@@ -1,5 +1,6 @@
-package it.polimi.ingsw.triton.launcher.network;
+package it.polimi.ingsw.triton.launcher.network.client;
 
+import it.polimi.ingsw.triton.launcher.network.Server;
 import it.polimi.ingsw.triton.launcher.network.message.Message;
 
 import java.io.*;

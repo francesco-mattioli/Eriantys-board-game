@@ -1,13 +1,9 @@
 package it.polimi.ingsw.triton.launcher.view;
 
-import it.polimi.ingsw.triton.launcher.controller.Controller;
-import it.polimi.ingsw.triton.launcher.model.enums.TowerColor;
 import it.polimi.ingsw.triton.launcher.network.Observable;
 import it.polimi.ingsw.triton.launcher.network.Observer;
-import it.polimi.ingsw.triton.launcher.network.ServeOneClient;
+import it.polimi.ingsw.triton.launcher.network.client.ServeOneClient;
 import it.polimi.ingsw.triton.launcher.network.message.*;
-
-import java.util.ArrayList;
 
 public class VirtualView extends Observable<Message> implements View, Observer<Message> {
     private ServeOneClient serveOneClient;
