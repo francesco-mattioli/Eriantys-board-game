@@ -36,13 +36,13 @@ public class Controller implements Observer<ClientMessage> {
     @Override
     public void update(ClientMessage message) {
         if(message.getMessageType() == MessageType.TOWER_COLOR_REPLY){
-            game.chooseTowerColor(message.getSenderName(), ((TowerColorReply) message).getPlayerColor());
+            game.chooseTowerColor(message.getSenderUsername(), ((TowerColorReply) message).getPlayerColor());
         }
         if(message.getMessageType() == MessageType.FULL_LOBBY){
-            game.createTowerColorRequestMessage(message.getSenderName());
+            game.createTowerColorRequestMessage(message.getSenderUsername());
         }
         if(message.getMessageType() == MessageType.ASSISTANT_CARD_REPLY){
-            game.createTowerColorRequestMessage((message.getSenderName()));
+            game.createTowerColorRequestMessage((message.getSenderUsername()));
         }
 
     }
