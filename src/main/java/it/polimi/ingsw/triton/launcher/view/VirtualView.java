@@ -38,4 +38,8 @@ public class VirtualView extends Observable<Message> implements View, Observer<M
         serveOneClient.sendMessage(new TowerColorRequest(availableColors, username));
     }
 
+    @Override
+    public void askUsername() {
+        // TO DO
+    }
 }

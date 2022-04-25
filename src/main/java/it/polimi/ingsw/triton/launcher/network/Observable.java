@@ -1,6 +1,5 @@
 package it.polimi.ingsw.triton.launcher.network;
 
-import it.polimi.ingsw.triton.launcher.network.Observer;
 
 import java.util.ArrayList;
 import java.util.List;

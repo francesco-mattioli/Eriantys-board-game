@@ -17,7 +17,7 @@ import java.util.NoSuchElementException;
  *
   */
 
-public class Controller implements Observer<ClientMessage> {
+public class Controller implements Observer<Message> {
     private Game game;
     private ArrayList<VirtualView> virtualViews= new ArrayList<>();
 
@@ -34,15 +34,15 @@ public class Controller implements Observer<ClientMessage> {
     }
 
     @Override
-    public void update(ClientMessage message) {
+    public void update(Message message) {
         if(message.getMessageType() == MessageType.TOWER_COLOR_REPLY){
-            game.chooseTowerColor(message.getSenderUsername(), ((TowerColorReply) message).getPlayerColor());
+            game.chooseTowerColor(((ClientMessage)message).getSenderUsername(), ((TowerColorReply) message).getPlayerColor());
         }
         if(message.getMessageType() == MessageType.FULL_LOBBY){
-            game.createTowerColorRequestMessage(message.getSenderUsername());
+            game.createTowerColorRequestMessage(((ClientMessage)message).getSenderUsername());
         }
         if(message.getMessageType() == MessageType.ASSISTANT_CARD_REPLY){
-            game.createTowerColorRequestMessage((message.getSenderUsername()));
+            game.createTowerColorRequestMessage((((ClientMessage)message).getSenderUsername()));
         }
 
     }

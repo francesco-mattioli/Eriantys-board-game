@@ -1,65 +1,63 @@
 package it.polimi.ingsw.triton.launcher.network.client;
 
-import it.polimi.ingsw.triton.launcher.network.Server;
+import it.polimi.ingsw.triton.launcher.network.Observer;
 import it.polimi.ingsw.triton.launcher.network.message.Message;
+import it.polimi.ingsw.triton.launcher.network.message.clientmessage.ClientMessage;
+import it.polimi.ingsw.triton.launcher.network.message.servermessage.ErrorMessage;
+import it.polimi.ingsw.triton.launcher.network.message.servermessage.ServerMessage;
 
-import java.io.*;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.net.Socket;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-
-public class Client{
+// capire se usare observer o riferimenti
+public class Client implements Observer<Message> {
     private Socket socket;
     private ObjectInputStream inSocket;
     private ObjectOutputStream outSocket;
-    private ExecutorService executor;
 
-    public Client(){
+    public Client() {
         try {
-            socket = new Socket("localhost", Server.PORT);
-            inSocket = new ObjectInputStream(socket.getInputStream());
+            socket = new Socket("localhost", 3000);
             outSocket = new ObjectOutputStream(socket.getOutputStream());
-            executor = Executors.newSingleThreadExecutor();
+            inSocket = new ObjectInputStream(socket.getInputStream());
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
-    /*public void readMessage(){
-        executor.execute(() -> {
-            while(!executor.isShutdown()){
-                Message message;
-                try {
-                    message = (Message) inSocket.readObject();
-                } catch (IOException | ClassNotFoundException e) {
-                    disconnect();
-                    executor.shutdownNow();
-                }
-            }
-        });
-    }*/
-
-    /*private void login() {
-        System.out.println("Insert username:");
+    public void receiveMessage(){
         try {
-            String username = inKeyboard.readLine();
-            outSocket.println(username); // this method sends the input to the ServeOneClient through the clientSocket
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }*/
+            ServerMessage message = (ServerMessage) inSocket.readObject();
 
-    public void sendMessage(Message message){
+        }catch(IOException | ClassNotFoundException e){
+            // TO DO: ServerMessage message = new ErrorMessage(null, "Connection lost with the server.");
+            System.err.println("Error! " + e.getMessage());
+        }
+    }
+
+
+    @Override
+    public void update(Message message) {
+        sendMessage(message);
+    }
+
+    public void sendMessage(Message message) {
         try {
             outSocket.writeObject(message);
             outSocket.reset();
+            try {
+                Thread.sleep(500000);
+            }catch(InterruptedException e){
+                e.printStackTrace();
+            }
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
-    public void disconnect(){
-        if(!socket.isClosed()){
+    public void disconnect() {
+        if (!socket.isClosed()) {
             try {
                 socket.close();
             } catch (IOException e) {
@@ -67,4 +65,6 @@ public class Client{
             }
         }
     }
+
+
 }

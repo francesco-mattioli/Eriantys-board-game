@@ -7,7 +7,9 @@ import it.polimi.ingsw.triton.launcher.network.message.clientmessage.ClientMessa
 import it.polimi.ingsw.triton.launcher.network.message.clientmessage.PlayersNumbersAndModeReply;
 import it.polimi.ingsw.triton.launcher.view.VirtualView;
 
-import java.io.*;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.util.NoSuchElementException;
 
@@ -16,23 +18,23 @@ public class ServeOneClient implements Runnable {
     private final Socket socket;
     private final Server server;
     private final int id;
+    private final Object inputLock;
+    private final Object outputLock;
     private ObjectInputStream inSocket; // input stream for receiving messages from the client
     private ObjectOutputStream outSocket; //output stream for sending messages to the client
     //private Controller controller;
-    private boolean connected;
-    private final Object inputLock;
-    private final Object outputLock;
+    private final boolean connected;
     private boolean active = true;
 
-    public ServeOneClient(Socket socketClient, Server server,int id) {
+    public ServeOneClient(Socket socketClient, Server server, int id) {
         this.socket = socketClient;
         this.server = server;
-        this.id=id;
+        this.id = id;
         this.connected = true;
-        try{
-            inSocket= new ObjectInputStream(socketClient.getInputStream());
-            outSocket= new ObjectOutputStream(socketClient.getOutputStream());
-        }catch (IOException e) {
+        try {
+            outSocket = new ObjectOutputStream(socketClient.getOutputStream());
+            inSocket = new ObjectInputStream(socketClient.getInputStream());
+        } catch (IOException e) {
             e.printStackTrace();
         }
         inputLock = new Object();
@@ -45,22 +47,22 @@ public class ServeOneClient implements Runnable {
     }
 
 
-    public void handleConnection(){
-        try{
-            while(isActive()){
+    public void handleConnection() {
+        try {
+            while (isActive()) {
                 ClientMessage message = (ClientMessage)inSocket.readObject();
-                if(message.getMessageType()==MessageType.LOGIN_REQUEST)
+                if (message.getMessageType() == MessageType.LOGIN_REQUEST)
                     server.lobby(this, message.getSenderUsername());
-                else if(message.getMessageType()==MessageType.PLAYERSNUMBER_REPLY)
-                    server.activateGame(((PlayersNumbersAndModeReply)message).getPlayersNumber(), message.getSenderUsername());
-                else{
+                else if (message.getMessageType() == MessageType.PLAYERSNUMBER_REPLY)
+                    server.activateGame(((PlayersNumbersAndModeReply) message).getPlayersNumber(), message.getSenderUsername());
+                else {
                     VirtualView virtualView = server.getController().getVirtualViewByUsername(message.getSenderUsername());
                     virtualView.notify(message);
                 }
             }
         } catch (IOException | NoSuchElementException | ClassNotFoundException e) {
-            System.err.println("Error!" + e.getMessage());
-        }finally{
+            System.err.println("Error! " + e.getMessage());
+        } finally {
             close();
         }
     }
@@ -71,21 +73,20 @@ public class ServeOneClient implements Runnable {
             outSocket.reset();
             outSocket.writeObject(message);
             outSocket.flush();
-        } catch(IOException e){
+        } catch (IOException e) {
 
         }
     }
 
-    public boolean isActive(){
+    public boolean isActive() {
         return active;
     }
 
-    public void close(){
+    public void close() {
         active = false;
         try {
             socket.close();
-        }
-        catch (IOException e){
+        } catch (IOException e) {
             e.printStackTrace();
         }
     }
