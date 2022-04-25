@@ -39,7 +39,6 @@ public class Game extends Observable<Message> {
     private Player[] professors;
     private ProfessorsManager professorsManager;
     private ArrayList<AssistantCard> usedAssistantCards;
-
     // This array must be shown to users, so they can choose a towerColor that is not already chosen.
     private final boolean[] towerColorChosen;
 
