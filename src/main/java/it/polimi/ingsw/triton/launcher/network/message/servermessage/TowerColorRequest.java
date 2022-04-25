@@ -10,7 +10,8 @@ import java.util.ArrayList;
 public class TowerColorRequest extends ServerMessage {
     private final boolean [] availableTowerColors;
     private String receiverUsername;
-    public TowerColorRequest(boolean [] availableTowerColors, String receiverNickname) {
+
+    public TowerColorRequest(boolean [] availableTowerColors, String receiverUsername) {
         super(MessageType.TOWER_COLOR_REQUEST, receiverUsername);
         this.availableTowerColors = availableTowerColors;
     }
