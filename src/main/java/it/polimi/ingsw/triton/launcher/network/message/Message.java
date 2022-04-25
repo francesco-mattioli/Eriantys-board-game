@@ -18,4 +18,5 @@ public abstract class Message implements Serializable {
     public MessageType getMessageType() {
         return messageType;
     }
+
 }

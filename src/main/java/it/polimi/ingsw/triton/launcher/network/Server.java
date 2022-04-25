@@ -3,6 +3,7 @@ package it.polimi.ingsw.triton.launcher.network;
 import it.polimi.ingsw.triton.launcher.controller.Controller;
 import it.polimi.ingsw.triton.launcher.model.Game;
 import it.polimi.ingsw.triton.launcher.network.client.ServeOneClient;
+import it.polimi.ingsw.triton.launcher.network.message.ErrorTypeID;
 import it.polimi.ingsw.triton.launcher.network.message.FullLobbyMessage;
 import it.polimi.ingsw.triton.launcher.view.VirtualView;
 
@@ -46,7 +47,7 @@ public class Server {
      */
     public void activateGame(int maxNumPlayers, String username){
         if(!checkMaxNumPlayers(maxNumPlayers)){
-            controller.getVirtualViewByUsername(username).sendErrorMessage("The number of players must be 2 or 3!");
+            controller.getVirtualViewByUsername(username).showErrorMessage(ErrorTypeID.WRONG_PLAYERS_NUMBER);
             controller.getVirtualViewByUsername(username).askNumOfPlayersAndMode();
         }
         else{
@@ -89,7 +90,7 @@ public class Server {
             }
             catch (IllegalArgumentException e){
                 VirtualView virtualView = new VirtualView(serveOneClient, username);
-                virtualView.sendErrorMessage("Username already chosen");
+                virtualView.showErrorMessage(ErrorTypeID.USERNAME_ALREADY_CHOSEN);
             }
             finally {
                 semaphore.release();
@@ -98,12 +99,12 @@ public class Server {
         //in this case, the username is not valid
         else if (!isUsernameValid(username)){
             VirtualView virtualView = new VirtualView(serveOneClient, username);
-            virtualView.sendErrorMessage("Username is not correct");
+            virtualView.showErrorMessage(ErrorTypeID.FORBIDDEN_USERNAME);
         }
         //in this case, lobby is already full so an other player cannot be added
         else{
             VirtualView virtualView = new VirtualView(serveOneClient, username);
-            virtualView.sendErrorMessage("Lobby is full");
+            virtualView.showErrorMessage(ErrorTypeID.FULL_LOBBY);
         }
     }
 

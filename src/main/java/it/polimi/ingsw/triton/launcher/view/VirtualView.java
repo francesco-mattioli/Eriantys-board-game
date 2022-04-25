@@ -27,8 +27,8 @@ public class VirtualView extends Observable<Message> implements View, Observer<M
         serveOneClient.sendMessage(new PlayersNumbersAndModeRequest());
     }
 
-    public void sendErrorMessage(String errorMessage){
-        serveOneClient.sendMessage(new ErrorMessage(errorMessage));
+    public void showErrorMessage(ErrorTypeID errorTypeID){
+        serveOneClient.sendMessage(new ErrorMessage(errorTypeID));
     }
 
     public void askTowerColor(boolean[] availableColors){
