@@ -286,7 +286,6 @@ class GameTest {
         game.getIslands().get(11).setDominator(game.getPlayers().get(0));
         String pippo = game.findWinnerWithTowers().get(0);
         assertEquals("TestPlayer1", pippo);
-
     }*/
 }
 
