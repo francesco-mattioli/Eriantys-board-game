@@ -4,6 +4,7 @@ import it.polimi.ingsw.triton.launcher.model.Game;
 import it.polimi.ingsw.triton.launcher.network.Observer;
 import it.polimi.ingsw.triton.launcher.network.message.Message;
 import it.polimi.ingsw.triton.launcher.network.message.MessageType;
+import it.polimi.ingsw.triton.launcher.network.message.clientmessage.ClientMessage;
 import it.polimi.ingsw.triton.launcher.network.message.clientmessage.TowerColorReply;
 import it.polimi.ingsw.triton.launcher.view.VirtualView;
 
@@ -16,7 +17,7 @@ import java.util.NoSuchElementException;
  *
   */
 
-public class Controller implements Observer<Message> {
+public class Controller implements Observer<ClientMessage> {
     private Game game;
     private ArrayList<VirtualView> virtualViews= new ArrayList<>();
 
@@ -33,7 +34,7 @@ public class Controller implements Observer<Message> {
     }
 
     @Override
-    public void update(Message message) {
+    public void update(ClientMessage message) {
         if(message.getMessageType() == MessageType.TOWER_COLOR_REPLY){
             game.chooseTowerColor(message.getSenderName(), ((TowerColorReply) message).getPlayerColor());
         }
