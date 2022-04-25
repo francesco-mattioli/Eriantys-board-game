@@ -70,11 +70,13 @@ public class Game extends Observable<Message> {
     }
 
     public void addPlayer(String username) {
-        if(!isUsernameChosen(username) && username != Game.NAME_SERVER){
+        if(!isUsernameChosen(username) && !username.equals(Game.NAME_SERVER)){
             players.add(new Player(username));
         }
         else
-            throw new IllegalArgumentException("Nickname already chosen");
+            notify();
+            //throw new IllegalArgumentException("Nickname already chosen");
+
     }
 
     public void createTowerColorRequestMessage(String username){
