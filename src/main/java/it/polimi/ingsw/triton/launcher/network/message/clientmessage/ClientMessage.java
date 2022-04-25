@@ -4,14 +4,14 @@ import it.polimi.ingsw.triton.launcher.network.message.Message;
 import it.polimi.ingsw.triton.launcher.network.message.MessageType;
 
 public class ClientMessage extends Message {
-    private final String username;
+    private final String senderUsername;
 
-    public ClientMessage(MessageType messageType, String username) {
+    public ClientMessage(MessageType messageType, String senderUsername) {
         super(messageType);
-        this.username = username;
+        this.senderUsername = senderUsername;
     }
 
-    public String getUsername() {
-        return username;
+    public String getSenderUsername() {
+        return senderUsername;
     }
 }
