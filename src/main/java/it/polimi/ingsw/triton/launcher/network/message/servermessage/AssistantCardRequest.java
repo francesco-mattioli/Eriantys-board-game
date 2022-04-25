@@ -1,7 +1,5 @@
 package it.polimi.ingsw.triton.launcher.network.message.servermessage;
 
-import it.polimi.ingsw.triton.launcher.model.Game;
-import it.polimi.ingsw.triton.launcher.network.message.Message;
 import it.polimi.ingsw.triton.launcher.network.message.MessageType;
 
 public class AssistantCardRequest extends ServerMessage {

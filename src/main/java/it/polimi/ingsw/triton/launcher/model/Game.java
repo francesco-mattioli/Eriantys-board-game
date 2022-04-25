@@ -10,7 +10,7 @@ import it.polimi.ingsw.triton.launcher.model.professor.ProfessorsManager;
 import it.polimi.ingsw.triton.launcher.network.Observable;
 import it.polimi.ingsw.triton.launcher.network.message.servermessage.AssistantCardRequest;
 import it.polimi.ingsw.triton.launcher.network.message.Message;
-import it.polimi.ingsw.triton.launcher.network.message.TowerColorRequest;
+import it.polimi.ingsw.triton.launcher.network.message.servermessage.TowerColorRequest;
 
 import java.util.ArrayList;
 import java.util.NoSuchElementException;
