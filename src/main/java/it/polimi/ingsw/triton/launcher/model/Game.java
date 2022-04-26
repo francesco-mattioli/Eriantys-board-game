@@ -9,8 +9,11 @@ import it.polimi.ingsw.triton.launcher.model.player.PlayerTurnComparator;
 import it.polimi.ingsw.triton.launcher.model.playeractions.PlayAssistantCard;
 import it.polimi.ingsw.triton.launcher.model.professor.ProfessorsManager;
 import it.polimi.ingsw.triton.launcher.network.Observable;
+import it.polimi.ingsw.triton.launcher.network.message.ErrorTypeID;
 import it.polimi.ingsw.triton.launcher.network.message.servermessage.AssistantCardRequest;
 import it.polimi.ingsw.triton.launcher.network.message.Message;
+import it.polimi.ingsw.triton.launcher.network.message.servermessage.ErrorMessage;
+import it.polimi.ingsw.triton.launcher.network.message.servermessage.LobbyMessage;
 import it.polimi.ingsw.triton.launcher.network.message.servermessage.TowerColorRequest;
 
 import java.util.*;
@@ -64,16 +67,28 @@ public class Game extends Observable<Message> {
         return false;
     }
 
-    public void addPlayer(String username) {
+    /**
+     * Checks the username.
+     * If the username is correct, it adds it to the players array.
+     * @param username the username of the player.
+     * @throws IllegalArgumentException if the username is not correct (already used).
+     */
+    public void addPlayer(String username) throws IllegalArgumentException {
         if(!isUsernameChosen(username) && !username.equals(Game.NAME_SERVER)){
             players.add(new Player(username));
+            ArrayList<String> usernames = new ArrayList<>();
+            for(Player player: players)
+                usernames.add(player.getUsername());
+            notify(new LobbyMessage(usernames, maxNumberOfPlayers));
         }
         else
-            notify();
-            //throw new IllegalArgumentException("Nickname already chosen");
-
+            throw new IllegalArgumentException("Username already chosen");    //caught by lobby method in server
     }
 
+    /**
+     * Creates a new message for requesting to the player to choose the tower color.
+     * @param username the username of the receiver player.
+     */
     public void createTowerColorRequestMessage(String username){
         notify(new TowerColorRequest(towerColorChosen, username));
     }
