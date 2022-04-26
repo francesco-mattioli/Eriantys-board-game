@@ -1,5 +1,7 @@
 package it.polimi.ingsw.triton.launcher.view;
 
-public interface View{
+import it.polimi.ingsw.triton.launcher.network.Observer;
+
+public interface View {
     public void askUsername();
 }

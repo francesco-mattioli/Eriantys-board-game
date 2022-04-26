@@ -1,24 +1,36 @@
 package it.polimi.ingsw.triton.launcher.view.cli;
 
 import it.polimi.ingsw.triton.launcher.network.Observable;
+import it.polimi.ingsw.triton.launcher.network.Observer;
 import it.polimi.ingsw.triton.launcher.network.client.Client;
 import it.polimi.ingsw.triton.launcher.network.message.Message;
 import it.polimi.ingsw.triton.launcher.network.message.MessageType;
 import it.polimi.ingsw.triton.launcher.network.message.clientmessage.LoginRequest;
-import it.polimi.ingsw.triton.launcher.view.View;
-
+import it.polimi.ingsw.triton.launcher.view.ClientView;
 import java.io.PrintStream;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.FutureTask;
 
-public class Cli extends Observable<Message> implements View {
+
+/**
+ * The type Cli.
+ */
+public class Cli extends Observable<Message> implements ClientView, Observer<Object>{
     private final PrintStream out;
     private Client client;
 
+    /**
+     * Instantiates a new Cli;
+     * The PrintStream out variable is set to System.out, by this way System.out.println() is not replicated multiple times.
+     *
+     */
     public Cli() {
         out = System.out;
     }
 
+    /**
+     * Print the logo and welcome the player.
+     */
     public void start() {
         out.println("\n" +
                 "  _____   ____    ___      _      _   _   _____  __   __  ____  \n" +
@@ -31,8 +43,12 @@ public class Cli extends Observable<Message> implements View {
         init();
     }
 
+    /**
+     * Creates the Client to communicate with the Server, then sets the latter as an Observer of the Cli.
+     * Eventually, it asks the username to the player.
+     */
     public void init(){
-        this.client=new Client();
+        this.client=new Client(this);
         this.addObserver(client);
         askUsername();
     }
@@ -44,18 +60,22 @@ public class Cli extends Observable<Message> implements View {
             String username = readLine();
             notify(new LoginRequest(username, MessageType.LOGIN_REQUEST));
         } catch (ExecutionException e) {
-            out.println("try again");
+            out.println("Try again...");
         }
 
     }
 
+    /**
+     * Read a string line using a separated thread
+     *
+     * @return the string
+     * @throws ExecutionException the execution exception
+     */
     public String readLine() throws ExecutionException {
         FutureTask<String> futureTask = new FutureTask<>(new InputReadTask());
-        Thread inputThread = new Thread(futureTask);
-        inputThread.start();
-
+        new Thread(futureTask).start();
+        // METTERE A POSTO LA QUESTIONE DEL NULL
         String input = null;
-
         try {
             input = futureTask.get();
         } catch (InterruptedException e) {
@@ -63,6 +83,11 @@ public class Cli extends Observable<Message> implements View {
             Thread.currentThread().interrupt();
         }
         return input;
+    }
+
+    @Override
+    public void update(Object object) {
+
     }
 }
 

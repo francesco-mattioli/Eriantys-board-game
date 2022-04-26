@@ -19,8 +19,8 @@ public class ClientApp {
         }*/
 
         if (cliParam) {
-            Cli view = new Cli();
-            view.start();
+            Cli cli = new Cli();
+            cli.start();
         } else {
             System.out.println("Qui va il metodo per lanciare GUI");
             //LAUNCH GUI
