@@ -17,13 +17,13 @@ public class Bag {
 
 
     /**
-     * Draw a random student from the bag
+     * Draw a random student from the bag.
      *
      * @return a random student
      */
     public Color drawStudent() throws NoSuchElementException {
-        if (isEmpty())
-            throw new NoSuchElementException("The bag is empty; a student cannot be drawn!");
+        if(isEmpty())
+            throw new NoSuchElementException("There aren't any other students");
         else {
             // generates a random number until it finds a student's color that has at least one pawn
             Random random = new Random();
@@ -36,6 +36,8 @@ public class Bag {
             }
             // decrements the number of the drawn student
             students[randomIndex]--;
+            if(isEmpty())
+                throw new NoSuchElementException("There aren't any other students");
             return Color.values()[randomIndex];
         }
     }

@@ -10,11 +10,8 @@ import it.polimi.ingsw.triton.launcher.model.playeractions.PlayAssistantCard;
 import it.polimi.ingsw.triton.launcher.model.professor.ProfessorsManager;
 import it.polimi.ingsw.triton.launcher.network.Observable;
 import it.polimi.ingsw.triton.launcher.network.message.ErrorTypeID;
-import it.polimi.ingsw.triton.launcher.network.message.servermessage.AssistantCardRequest;
+import it.polimi.ingsw.triton.launcher.network.message.servermessage.*;
 import it.polimi.ingsw.triton.launcher.network.message.Message;
-import it.polimi.ingsw.triton.launcher.network.message.servermessage.ErrorMessage;
-import it.polimi.ingsw.triton.launcher.network.message.servermessage.LobbyMessage;
-import it.polimi.ingsw.triton.launcher.network.message.servermessage.TowerColorRequest;
 
 import java.util.*;
 
@@ -39,6 +36,8 @@ public class Game extends Observable<Message> {
     private ArrayList<AssistantCard> usedAssistantCards;
     // This array must be shown to users, so they can choose a towerColor that is not already chosen.
     private final boolean[] towerColorChosen;
+    private ArrayList<Wizard> availableWizards;
+    private boolean lastRound = false;
 
 
     public Game(int maxNumberOfPlayers) {
@@ -50,6 +49,7 @@ public class Game extends Observable<Message> {
         this.characterCards = new ArrayList<>();
         this.generalCoinSupply = INITIAL_NUM_COINS;
         this.towerColorChosen = new boolean[TowerColor.values().length];
+        this.availableWizards = new ArrayList<>(Arrays.asList(Wizard.values()));
     }
 
 
@@ -60,11 +60,21 @@ public class Game extends Observable<Message> {
      */
     private boolean isUsernameChosen(String username) {
         for (Player player : players) {
-            if (player.getUsername().equalsIgnoreCase(username)) {
+            if (player.getUsername().equalsIgnoreCase(username))
                 return true;
-            }
         }
         return false;
+    }
+
+    /**
+     * @param players the array of players in the game.
+     * @return all the usernames of the players that are playing.
+     */
+    private ArrayList<String> getAllUsernames(ArrayList<Player> players){
+        ArrayList<String> usernames = new ArrayList<>();
+        for(Player player: players)
+            usernames.add(player.getUsername());
+        return usernames;
     }
 
     /**
@@ -76,10 +86,7 @@ public class Game extends Observable<Message> {
     public void addPlayer(String username) throws IllegalArgumentException {
         if(!isUsernameChosen(username) && !username.equals(Game.NAME_SERVER)){
             players.add(new Player(username));
-            ArrayList<String> usernames = new ArrayList<>();
-            for(Player player: players)
-                usernames.add(player.getUsername());
-            notify(new LobbyMessage(usernames, maxNumberOfPlayers));
+            notify(new LobbyMessage(getAllUsernames(players), maxNumberOfPlayers));
         }
         else
             throw new IllegalArgumentException("Username already chosen");    //caught by lobby method in server
@@ -95,8 +102,8 @@ public class Game extends Observable<Message> {
 
     /**
      * This method set the player's schoolboard with the chosen tower color
-     * @param username
-     * @param towerColor
+     * @param username the username of the player that has chosen the tower color.
+     * @param towerColor the color of the tower.
      */
     public void chooseTowerColor(String username, TowerColor towerColor) {
         Player p = getPlayerByUsername(username);
@@ -107,10 +114,40 @@ public class Game extends Observable<Message> {
             createTowerColorRequestMessage(nextUsername);
         }
         catch (NoSuchElementException e){
+            createChooseWizardMessage(players.get(0).getUsername());
+        }
+    }
+
+    /**
+     * Creates a new message to send to the player to select the wizard.
+     * @param username the receiver player's username.
+     */
+    public void createChooseWizardMessage(String username){
+        notify(new WizardRequest(availableWizards, username));
+    }
+
+    /**
+     * Sets the wizard to the player and creates a new request to the next player if present.
+     * @param username the player's username of who sets the wizard.
+     * @param wizard the wizard selected by the player.
+     */
+    public void chooseWizard(String username, Wizard wizard){
+        Player p = getPlayerByUsername(username);
+        p.setWizard(wizard);
+        availableWizards.remove(wizard);
+        try{
+            String nextUsername = getNextPlayerName(p);
+            createChooseWizardMessage(nextUsername);
+        }catch (NoSuchElementException e){
             setup();
         }
     }
 
+    /**
+     * @param current the current player of the game.
+     * @return the next player that will play his turn.
+     * @throws NoSuchElementException if the there's not a next player.
+     */
     private String getNextPlayerName(Player current) throws NoSuchElementException{
         int index = players.indexOf(current);
         if(index < players.size()-1)
@@ -119,14 +156,10 @@ public class Game extends Observable<Message> {
     }
 
     /**
-     * This method set the player's deck with the chosen wizard
-     * @param player
-     * @param wizard
+     * @param username the username of the player.
+     * @return the player with the passed username.
+     * @throws NoSuchElementException if there's not a player with the passed username.
      */
-    public void chooseWizard(Player player, Wizard wizard) {
-        player.setWizard(wizard);
-    }
-
     private Player getPlayerByUsername(String username) throws NoSuchElementException {
         for(Player p : players){
             if(p.getUsername().equals(username))
@@ -150,8 +183,8 @@ public class Game extends Observable<Message> {
         setupEntrance(); //PHASE 10
         setupPlayers(); //PHASE 11
         drawCharacterCards(); //(PHASE 12) creates 3 character cards
+        notify(new GameInfoMessage(getAllUsernames(players), characterCards));
     }
-
 
      // The following methods execute the PLANNING phase of the game
 
@@ -160,8 +193,9 @@ public class Game extends Observable<Message> {
      */
     public void addStudentsToCloudTiles(){
         for(CloudTile cloudTile: cloudTiles){
-            if(maxNumberOfPlayers==2)
+            if(maxNumberOfPlayers==2){        //To refactor if it's possible. To do setStudents with only one parameter and use double for.
                 cloudTile.setStudents(bag.drawStudent(),bag.drawStudent(),bag.drawStudent());
+            }
             if(maxNumberOfPlayers==3)
                 cloudTile.setStudents(bag.drawStudent(),bag.drawStudent(),bag.drawStudent(),bag.drawStudent());
         }
