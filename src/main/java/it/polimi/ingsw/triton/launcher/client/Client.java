@@ -2,6 +2,7 @@ package it.polimi.ingsw.triton.launcher.client;
 
 import it.polimi.ingsw.triton.launcher.client.model.ClientModel;
 import it.polimi.ingsw.triton.launcher.client.view.ClientView;
+import it.polimi.ingsw.triton.launcher.server.Server;
 import it.polimi.ingsw.triton.launcher.utils.obs.Observer;
 import it.polimi.ingsw.triton.launcher.utils.message.Message;
 import it.polimi.ingsw.triton.launcher.utils.message.MessageType;
@@ -24,7 +25,7 @@ public class Client implements Observer<Message> {
     public Client(ClientView view) {
         try {
             // initializes socket and input, output streams to communicate with the server
-            socket = new Socket("localhost", 3000);
+            socket = new Socket("localhost", Server.PORT);
             outSocket = new ObjectOutputStream(socket.getOutputStream());
             inSocket = new ObjectInputStream(socket.getInputStream());
 

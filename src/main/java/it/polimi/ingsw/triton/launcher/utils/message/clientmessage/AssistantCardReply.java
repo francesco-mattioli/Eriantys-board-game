@@ -11,9 +11,7 @@ public class AssistantCardReply extends ClientMessage {
         this.chosenAssistantCard = chosenAssistantCard;
     }
 
-
     public AssistantCard getChosenAssistantCard() {
         return chosenAssistantCard;
     }
-
 }

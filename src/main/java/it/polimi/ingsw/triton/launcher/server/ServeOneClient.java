@@ -51,17 +51,23 @@ public class ServeOneClient implements Runnable {
         try {
             while (isActive()) {
                 ClientMessage message = (ClientMessage)inSocket.readObject();
-                if (message.getMessageType() == MessageType.LOGIN_REQUEST)
+                if (message.getMessageType() == MessageType.LOGIN_REQUEST) {
                     server.lobby(this, message.getSenderUsername());
-                else if (message.getMessageType() == MessageType.PLAYERSNUMBER_REPLY)
+                    Server.LOGGER.info("Recived new login request");
+                }
+                else if (message.getMessageType() == MessageType.PLAYERSNUMBER_REPLY) {
                     server.activateGame(((PlayersNumbersAndModeReply) message).getPlayersNumber(), message.getSenderUsername());
+                    Server.LOGGER.info("Recived number of player response");
+                }
                 else {
                     VirtualView virtualView = server.getController().getVirtualViewByUsername(message.getSenderUsername());
                     virtualView.notify(message);
+                    Server.LOGGER.info("Recived new " + message.getMessageType().toString() + " message");
                 }
             }
         } catch (IOException | NoSuchElementException | ClassNotFoundException e) {
             System.err.println("Error! " + e.getMessage());
+            Server.LOGGER.severe(e.getMessage());
         } finally {
             close();
         }
