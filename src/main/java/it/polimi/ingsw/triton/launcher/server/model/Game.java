@@ -152,8 +152,10 @@ public class Game extends Observable<Message> {
      */
     private String getNextPlayerName(Player current) throws NoSuchElementException{
         int index = players.indexOf(current);
-        if(index < players.size()-1)
+        if(index < players.size()-1){
+            currentPlayer = players.get(index+1);
             return players.get(index+1).getUsername();
+        }
         throw new NoSuchElementException("There is not a next player");
     }
 
@@ -186,7 +188,8 @@ public class Game extends Observable<Message> {
         setupPlayers(); //PHASE 11
         drawCharacterCards(); //(PHASE 12) creates 3 character cards
         notify(new GameInfoMessage(getAllUsernames(players), characterCards, islands, motherNature.getPosition(), getAllSchoolBoards()));
-        notify(new YourTurnMessage(MessageType.YOUR_TURN, currentPlayer.getUsername()));
+        notify(new YourTurnMessage(currentPlayer.getUsername()));
+        planningPhase();
     }
 
      // The following methods execute the PLANNING phase of the game
@@ -209,14 +212,14 @@ public class Game extends Observable<Message> {
                     student = bag.drawStudent();
                 }catch(NoSuchElementException e){           //HERE we don't expect to enter
                     lastRound = true;
-                    notify(new EmptyBagMessage(MessageType.EMPTY_BAG));
+                    notify(new EmptyBagMessage());
                     exit = true;
                     break;
                 }
                 cloudTile.setStudents(student);
                 if(bag.isEmpty()){
                     lastRound = true;
-                    notify(new EmptyBagMessage(MessageType.EMPTY_BAG));
+                    notify(new EmptyBagMessage());
                     exit = true;
                     break;
                 }
@@ -224,7 +227,7 @@ public class Game extends Observable<Message> {
             if(exit)
                 break;
         }
-        notify(new FillCloudTilesMessage(MessageType.FILLED_CLOUD_TILES, cloudTiles));
+        notify(new FillCloudTilesMessage(cloudTiles));
     }
 
     /**
@@ -241,10 +244,14 @@ public class Game extends Observable<Message> {
     private void nextPlayCardTurn() {
         if (players.indexOf(currentPlayer) < maxNumberOfPlayers - 1) {
             currentPlayer = players.get(players.indexOf(currentPlayer) + 1);
-            notify(new YourTurnMessage(MessageType.YOUR_TURN, currentPlayer.getUsername()));
+            notify(new YourTurnMessage(currentPlayer.getUsername()));
             createAssistantCardRequestMessage();
         }
-        else sortPlayerPerTurn();
+        else{
+            sortPlayerPerTurn();
+            currentPlayer = players.get(0);
+            notify(new YourTurnMessage(currentPlayer.getUsername()));
+        }
     }
 
 
@@ -254,6 +261,19 @@ public class Game extends Observable<Message> {
         addStudentsToCloudTiles();
         resetPlayedCardInTurn();
         createAssistantCardRequestMessage();
+    }
+
+    //Action phase
+    public void actionPhase(){
+        notify(new GenericMessage("Action phase: now you have to move 3 students from the entrance of your schoolboard to an island or to your dining room.", currentPlayer.getUsername()));
+    }
+
+
+    /**
+     * Creates the message to ask the player which students wants to move and where he wants to move to.
+     */
+    private void createMoveStudentsMessage(){
+        notify(new InfoActionPhase(currentPlayer.getUsername(), getAllSchoolBoards(), islands, motherNature.getPosition()));
     }
 
     /**
@@ -266,6 +286,7 @@ public class Game extends Observable<Message> {
     public void chooseAssistantCard(String username, AssistantCard assistantCard){
         try{
             new PlayAssistantCard(assistantCard, getPlayerByUsername(username),usedAssistantCards).execute();
+            notify(new InfoAssistantCardPlayedMessage(currentPlayer.getUsername(), assistantCard));
             nextPlayCardTurn();
         }
         catch (NoSuchElementException e){  //case player name not found in players
@@ -485,11 +506,11 @@ public class Game extends Observable<Message> {
     public void nextGameTurn() {
         if (players.indexOf(currentPlayer) < maxNumberOfPlayers - 1){
             currentPlayer = players.get(players.indexOf(currentPlayer) + 1);
-            notify(new YourTurnMessage(MessageType.YOUR_TURN, currentPlayer.getUsername()));
+            notify(new YourTurnMessage(currentPlayer.getUsername()));
         }
         else{
             currentPlayer = players.get(0);
-            notify(new YourTurnMessage(MessageType.YOUR_TURN, currentPlayer.getUsername()));
+            notify(new YourTurnMessage(currentPlayer.getUsername()));
             planningPhase();
         }
     }

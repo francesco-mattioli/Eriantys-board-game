@@ -30,4 +30,6 @@ public enum MessageType {
     EMPTY_BAG,
     FILLED_CLOUD_TILES,
     YOUR_TURN,
+    INFO_ASSISTANT_CARD_PLAYED,
+    INFO_ACTION_PHASE,
 }

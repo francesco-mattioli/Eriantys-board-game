@@ -10,8 +10,8 @@ import java.util.ArrayList;
  */
 public class FillCloudTilesMessage extends BroadcastServerMessage{
     private ArrayList<CloudTile> cloudTiles;
-    public FillCloudTilesMessage(MessageType messageType, ArrayList<CloudTile> cloudTiles) {
-        super(messageType);
+    public FillCloudTilesMessage(ArrayList<CloudTile> cloudTiles) {
+        super(MessageType.FILLED_CLOUD_TILES);
         this.cloudTiles = cloudTiles;
     }
 }
