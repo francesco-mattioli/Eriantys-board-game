@@ -29,4 +29,5 @@ public enum MessageType {
     FULL_LOBBY,
     EMPTY_BAG,
     FILLED_CLOUD_TILES,
+    YOUR_TURN,
 }

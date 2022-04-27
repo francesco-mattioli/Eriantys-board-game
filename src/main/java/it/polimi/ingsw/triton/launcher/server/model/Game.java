@@ -6,8 +6,10 @@ import it.polimi.ingsw.triton.launcher.server.model.enums.TowerColor;
 import it.polimi.ingsw.triton.launcher.server.model.enums.Wizard;
 import it.polimi.ingsw.triton.launcher.server.model.player.Player;
 import it.polimi.ingsw.triton.launcher.server.model.player.PlayerTurnComparator;
+import it.polimi.ingsw.triton.launcher.server.model.player.SchoolBoard;
 import it.polimi.ingsw.triton.launcher.server.model.playeractions.PlayAssistantCard;
 import it.polimi.ingsw.triton.launcher.server.model.professor.ProfessorsManager;
+import it.polimi.ingsw.triton.launcher.utils.message.ErrorTypeID;
 import it.polimi.ingsw.triton.launcher.utils.message.MessageType;
 import it.polimi.ingsw.triton.launcher.utils.obs.Observable;
 import it.polimi.ingsw.triton.launcher.utils.message.servermessage.*;
@@ -183,11 +185,16 @@ public class Game extends Observable<Message> {
         setupEntrance(); //PHASE 10
         setupPlayers(); //PHASE 11
         drawCharacterCards(); //(PHASE 12) creates 3 character cards
-        notify(new GameInfoMessage(getAllUsernames(players), characterCards));
+        notify(new GameInfoMessage(getAllUsernames(players), characterCards, islands, motherNature.getPosition(), getAllSchoolBoards()));
+        notify(new YourTurnMessage(MessageType.YOUR_TURN, currentPlayer.getUsername()));
     }
 
      // The following methods execute the PLANNING phase of the game
 
+    /**
+     * Adds the students to the cloud tiles and sets the last round flag if the bag is empty.
+     * It sends messages to communicate the new filled cloud tiles and if the bag is empty.
+     */
     public void addStudentsToCloudTiles(){
         boolean exit = false;
         Color student;
@@ -234,6 +241,7 @@ public class Game extends Observable<Message> {
     private void nextPlayCardTurn() {
         if (players.indexOf(currentPlayer) < maxNumberOfPlayers - 1) {
             currentPlayer = players.get(players.indexOf(currentPlayer) + 1);
+            notify(new YourTurnMessage(MessageType.YOUR_TURN, currentPlayer.getUsername()));
             createAssistantCardRequestMessage();
         }
         else sortPlayerPerTurn();
@@ -242,7 +250,8 @@ public class Game extends Observable<Message> {
 
     // Planning phase
     public void planningPhase() {
-        setupCloudTiles();
+        //setupCloudTiles();
+        addStudentsToCloudTiles();
         resetPlayedCardInTurn();
         createAssistantCardRequestMessage();
     }
@@ -251,7 +260,7 @@ public class Game extends Observable<Message> {
      * Asks all the players to play assistant card.
      */
     private void createAssistantCardRequestMessage(){
-        notify(new AssistantCardRequest(currentPlayer.getUsername()));
+        notify(new AssistantCardRequest(currentPlayer.getUsername(), currentPlayer.getAssistantDeck()));
     }
 
     public void chooseAssistantCard(String username, AssistantCard assistantCard){
@@ -263,7 +272,7 @@ public class Game extends Observable<Message> {
 
         }
         catch (RuntimeException e) {  //case AssistantCard already chosen in the same turn
-
+            notify(new ErrorMessage(ErrorTypeID.ASSISTANTCARD_ALREADY_CHOSEN, currentPlayer.getUsername()));
         }
     }
 
@@ -474,10 +483,13 @@ public class Game extends Observable<Message> {
      * At the end of the last player's action phase, it starts a new planning phase.
      */
     public void nextGameTurn() {
-        if (players.indexOf(currentPlayer) < maxNumberOfPlayers - 1)
+        if (players.indexOf(currentPlayer) < maxNumberOfPlayers - 1){
             currentPlayer = players.get(players.indexOf(currentPlayer) + 1);
+            notify(new YourTurnMessage(MessageType.YOUR_TURN, currentPlayer.getUsername()));
+        }
         else{
             currentPlayer = players.get(0);
+            notify(new YourTurnMessage(MessageType.YOUR_TURN, currentPlayer.getUsername()));
             planningPhase();
         }
     }
@@ -554,6 +566,17 @@ public class Game extends Observable<Message> {
     private void resetPlayedCardInTurn() {
         for (AssistantCard assistantCard : usedAssistantCards)
             usedAssistantCards.remove(assistantCard);
+    }
+
+    /**
+     * @return all the school boards associate to their owner.
+     */
+    public Map<String, SchoolBoard> getAllSchoolBoards(){
+        Map<String, SchoolBoard> mapSchoolBoards = new HashMap<>();
+        for(Player player: players){
+            mapSchoolBoards.put(player.getUsername(), player.getSchoolBoard());
+        }
+        return mapSchoolBoards;
     }
 
     public ArrayList<Island> getIslands() {
