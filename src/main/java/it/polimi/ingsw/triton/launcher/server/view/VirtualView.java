@@ -25,6 +25,7 @@ public class VirtualView extends Observable<Message> implements View, Observer<M
 
     }
 
+
     public void askNumOfPlayersAndMode(){
         serveOneClient.sendMessage(new PlayersNumbersAndModeRequest(username));
     }
