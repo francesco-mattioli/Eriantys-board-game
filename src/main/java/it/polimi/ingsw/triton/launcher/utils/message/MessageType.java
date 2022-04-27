@@ -38,4 +38,5 @@ public enum MessageType {
     TOWER_ON_ISLAND,
     TOWER_ON_SCHOOLBOARD,
     MERGE_ISLANDS,
+    TIE,
 }

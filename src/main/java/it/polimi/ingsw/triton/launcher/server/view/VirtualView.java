@@ -13,9 +13,7 @@ public class VirtualView extends Observable<Message> implements View, Observer<M
     private ServeOneClient serveOneClient;
     private String username;
 
-    public String getUsername() {
-        return username;
-    }
+
 
     public VirtualView(ServeOneClient serveOneClient, String username){
         this.serveOneClient = serveOneClient;
@@ -42,5 +40,9 @@ public class VirtualView extends Observable<Message> implements View, Observer<M
     @Override
     public void askUsername() {
         // TO DO
+    }
+
+    public String getUsername() {
+        return username;
     }
 }
