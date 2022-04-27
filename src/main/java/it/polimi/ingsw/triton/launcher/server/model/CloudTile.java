@@ -4,6 +4,7 @@ import it.polimi.ingsw.triton.launcher.server.model.enums.Color;
 
 public class CloudTile {
     private final int id;
+    private boolean alreadyUsed = false;
     private final int[] students;
 
     public CloudTile(int id) {
@@ -44,5 +45,13 @@ public class CloudTile {
             students[student.ordinal()]--;
         else
             throw new IllegalArgumentException("There aren't " + student.name() + " students on this cloud tile");
+    }
+
+    public boolean isAlreadyUsed() {
+        return alreadyUsed;
+    }
+
+    public void setAlreadyUsed(boolean alreadyUsed) {
+        this.alreadyUsed = alreadyUsed;
     }
 }

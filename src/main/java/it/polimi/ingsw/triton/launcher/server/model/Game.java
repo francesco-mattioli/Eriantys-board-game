@@ -1,13 +1,18 @@
 package it.polimi.ingsw.triton.launcher.server.model;
 
+import com.sun.org.apache.bcel.internal.generic.SWITCH;
+import it.polimi.ingsw.triton.launcher.server.model.cardeffects.CardEffect;
 import it.polimi.ingsw.triton.launcher.server.model.cardeffects.CharacterCard;
 import it.polimi.ingsw.triton.launcher.server.model.enums.Color;
+import it.polimi.ingsw.triton.launcher.server.model.enums.GameState;
 import it.polimi.ingsw.triton.launcher.server.model.enums.TowerColor;
 import it.polimi.ingsw.triton.launcher.server.model.enums.Wizard;
 import it.polimi.ingsw.triton.launcher.server.model.player.Player;
 import it.polimi.ingsw.triton.launcher.server.model.player.PlayerTurnComparator;
 import it.polimi.ingsw.triton.launcher.server.model.player.SchoolBoard;
+import it.polimi.ingsw.triton.launcher.server.model.playeractions.ChooseCloudTile;
 import it.polimi.ingsw.triton.launcher.server.model.playeractions.PlayAssistantCard;
+import it.polimi.ingsw.triton.launcher.server.model.playeractions.UseCharacterCard;
 import it.polimi.ingsw.triton.launcher.server.model.professor.ProfessorsManager;
 import it.polimi.ingsw.triton.launcher.utils.message.ErrorTypeID;
 import it.polimi.ingsw.triton.launcher.utils.message.MessageType;
@@ -40,6 +45,7 @@ public class Game extends Observable<Message> {
     private final boolean[] towerColorChosen;
     private ArrayList<Wizard> availableWizards;
     private boolean lastRound = false;
+    private GameState gameState;
 
 
     public Game(int maxNumberOfPlayers) {
@@ -52,6 +58,7 @@ public class Game extends Observable<Message> {
         this.generalCoinSupply = INITIAL_NUM_COINS;
         this.towerColorChosen = new boolean[TowerColor.values().length];
         this.availableWizards = new ArrayList<>(Arrays.asList(Wizard.values()));
+        this.gameState = GameState.LOGIN;
     }
 
 
@@ -176,6 +183,7 @@ public class Game extends Observable<Message> {
      * This method executes the SETUP phase of the game
      */
     public void setup() {
+        gameState = GameState.SETUP;
         createIslands(); //PHASE 1
         setupMotherNature(); //PHASE 2
         setupBag(); //PART 1 OF PHASE 3
@@ -207,6 +215,7 @@ public class Game extends Observable<Message> {
         else
             numStudents = 4;
         for(CloudTile cloudTile: cloudTiles){
+            cloudTile.setAlreadyUsed(false);
             for(int i = 0; i < numStudents; i++){
                 try{
                     student = bag.drawStudent();
@@ -257,7 +266,7 @@ public class Game extends Observable<Message> {
 
     // Planning phase
     public void planningPhase() {
-        //setupCloudTiles();
+        gameState = GameState.PLANNING_PHASE;
         addStudentsToCloudTiles();
         resetPlayedCardInTurn();
         createAssistantCardRequestMessage();
@@ -265,7 +274,9 @@ public class Game extends Observable<Message> {
 
     //Action phase
     public void actionPhase(){
+        gameState = GameState.BEGIN_ACTION_PHASE;
         notify(new GenericMessage("Action phase: now you have to move 3 students from the entrance of your schoolboard to an island or to your dining room.", currentPlayer.getUsername()));
+        createMoveStudentsMessage();
     }
 
 
@@ -281,7 +292,7 @@ public class Game extends Observable<Message> {
      * Checks if the player has to move again a student.
      */
     public void checkNumberMoves(){
-        int numberMoves = 1;
+        int numberMoves = 0;
         if(maxNumberOfPlayers == 2)
             numberMoves = 3;
         else
@@ -289,6 +300,7 @@ public class Game extends Observable<Message> {
         if(currentPlayer.getMoveCounter() != numberMoves)
             createMoveStudentsMessage();
         else{
+            currentPlayer.setMoveCounter(0);
             notify(new NumberStepsMotherNatureMessage(currentPlayer.getUsername()));
         }
     }
@@ -298,6 +310,7 @@ public class Game extends Observable<Message> {
      * @param numSteps the number of steps that mother nature has to do.
      */
     public void moveMotherNature(int numSteps){
+        gameState = GameState.MIDDLE_ACTION_PHASE;
         try{
             motherNature.setIslandOn(motherNature.move(currentPlayer.getLastPlayedAssistantCard(), numSteps, islands));
         }catch (IllegalArgumentException e){
@@ -315,7 +328,7 @@ public class Game extends Observable<Message> {
 
     public void chooseAssistantCard(String username, AssistantCard assistantCard){
         try{
-            new PlayAssistantCard(assistantCard, getPlayerByUsername(username),usedAssistantCards).execute();
+            currentPlayer.executeAction(new PlayAssistantCard(assistantCard, getPlayerByUsername(username),usedAssistantCards));
             notify(new InfoAssistantCardPlayedMessage(currentPlayer.getUsername(), assistantCard));
             nextPlayCardTurn();
         }
@@ -329,23 +342,6 @@ public class Game extends Observable<Message> {
 
 
     //--- methods for the PIANIFICATION PHASE
-
-    /**
-     * This method add three students on the cloud tiles when there are two players.
-     * This method add four students on the cloud tiles when there are three players.
-     */
-    private void setupCloudTiles() {
-        int numOfStudentsOnCloudTile = 3;
-        if (players.size() > 2) {
-            numOfStudentsOnCloudTile = 4;
-        }
-        // if there are 2 players the numOfStudentsOnCloudTile should be 3
-        for (CloudTile cloudTile : cloudTiles) {
-            for (int i = 0; i < numOfStudentsOnCloudTile; i++) {
-                cloudTile.addStudent(bag.drawStudent());
-            }
-        }
-    }
 
     //--- end of methods for the PLANNING PHASE
 
@@ -453,15 +449,38 @@ public class Game extends Observable<Message> {
         if (motherNaturePosition.getDominator() != null) {
             if (motherNaturePosition.getDominator() == prevIsland(motherNaturePosition).getDominator()) {
                 motherNaturePosition.merge(prevIsland(motherNaturePosition));
+                notify(new MergeIslandsMessage(motherNaturePosition.getDominator().getUsername(), motherNaturePosition, prevIsland(motherNaturePosition)));
                 islands.remove(prevIsland(motherNaturePosition));
                 checkNumberIslands();
             }
             if (motherNaturePosition.getDominator() == nextIsland(motherNaturePosition).getDominator()) {
                 motherNaturePosition.merge(nextIsland(motherNaturePosition));
+                notify(new MergeIslandsMessage(motherNaturePosition.getDominator().getUsername(), motherNaturePosition, nextIsland(motherNaturePosition)));
                 islands.remove(nextIsland(motherNaturePosition));
                 checkNumberIslands();
             }
         }
+        ArrayList<CloudTile> availableCloudTiles = new ArrayList<>();
+        for(CloudTile cloudTile: cloudTiles){
+            if(!cloudTile.isAlreadyUsed())
+                availableCloudTiles.add(cloudTile);
+        }
+        gameState = GameState.END_ACTION_PHASE;
+        notify(new CloudTileRequest(availableCloudTiles, currentPlayer.getUsername()));
+    }
+
+    /**
+     * Manages the action of the player to choose the cloud tile.
+     * @param cloudTile the cloud tile selected from the player.
+     */
+    public void chooseCloudTile(CloudTile cloudTile){
+        try{
+            currentPlayer.executeAction(new ChooseCloudTile(cloudTile, currentPlayer.getSchoolBoard()));
+        }catch (RuntimeException e){
+            notify(new ErrorMessage(ErrorTypeID.CLOUD_TILE_ALREADY_CHOSEN, currentPlayer.getUsername()));
+        }
+        cloudTile.setAlreadyUsed(true);
+        nextGameTurn();
     }
 
     /**
@@ -538,10 +557,35 @@ public class Game extends Observable<Message> {
             currentPlayer = players.get(players.indexOf(currentPlayer) + 1);
             notify(new YourTurnMessage(currentPlayer.getUsername()));
         }
-        else{
+        else if(lastRound){
+            //TODO method for ending game
+        }else{
             currentPlayer = players.get(0);
             notify(new YourTurnMessage(currentPlayer.getUsername()));
             planningPhase();
+        }
+    }
+
+    /**
+     * This method creates a new message to choose the character card.
+     */
+    public void createCharacterCardsMessage(){
+        notify(new CharacterCardReply(characterCards, currentPlayer.getUsername()));
+    }
+
+    /**
+     * Manages the execution of the action useCharacterCard.
+     * @param characterCard the character card selected by the player.
+     * @param cardEffect the effect to apply to the character card.
+     */
+    public void useCharacterCard(CharacterCard characterCard, CardEffect cardEffect){
+        try{
+            currentPlayer.executeAction(new UseCharacterCard(characterCard, cardEffect, currentPlayer.getWallet()));
+        }catch (RuntimeException e){
+            notify(new ErrorMessage(ErrorTypeID.NOT_ENOUGH_COINS, currentPlayer.getUsername()));
+        }
+        switch (gameState){
+            //TODO implement here if needed
         }
     }
 

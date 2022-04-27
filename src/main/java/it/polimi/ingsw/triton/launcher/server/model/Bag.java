@@ -40,26 +40,6 @@ public class Bag {
         }
     }
 
-    /**
-     * Fill the cloud tile with a number of students,
-     * the number of students depends on the number of players
-     *
-     * @param cloudTile the cloudTile to fill
-     */
-   /* public void fillCloudTile(CloudTile cloudTile) {
-        int numStudents = 0;
-        if(numPlayer == 2)
-            numStudents = 3;
-        else
-            numStudents = 4;
-        if (numPlayer == 2) {
-            cloudTile.setStudents(drawStudent(), drawStudent(), drawStudent());
-        }
-        if (numPlayer > 2) {
-            cloudTile.setStudents(drawStudent(), drawStudent(), drawStudent(), drawStudent());
-        }
-    }*/
-
 
     /**
      * Add to the bag 24 students for each color
