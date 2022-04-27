@@ -10,6 +10,7 @@ public class ServerApp {
         try {
             server = new Server(3000);
             server.run();
+            Server.LOGGER.info("Server listening on port " + Server.PORT);
         } catch (IOException e) {
             System.err.println("Impossible to initialize the server: " + e.getMessage() + "!");
         }

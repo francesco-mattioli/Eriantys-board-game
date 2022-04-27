@@ -10,6 +10,7 @@ import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.concurrent.Semaphore;
+import java.util.logging.Logger;
 
 
 public class Server {
@@ -19,10 +20,12 @@ public class Server {
     private final Semaphore semaphore = new Semaphore(1);
     private int maxNumPlayers = 0;
     private VirtualView firstPlayerVirtualView;
+    public static final Logger LOGGER = Logger.getLogger(Server.class.getName());
 
     public Server(int PORT) {
         Server.PORT = PORT;
         this.numOfClients=0;
+        LOGGER.info("Clients connected: " + this.numOfClients);
     }
 
     public Controller getController() {
@@ -49,6 +52,7 @@ public class Server {
         if (!checkMaxNumPlayers(maxNumPlayers)) {
             firstPlayerVirtualView.showErrorMessage(ErrorTypeID.WRONG_PLAYERS_NUMBER);
             firstPlayerVirtualView.askNumOfPlayersAndMode();
+            LOGGER.severe("Not valid number of players");
         } else {
             this.maxNumPlayers = maxNumPlayers;
             this.controller = new Controller(new Game(maxNumPlayers));
@@ -58,6 +62,8 @@ public class Server {
             controller.getVirtualViewByUsername(username).addObserver(controller);
             controller.addGameObserver(controller.getVirtualViewByUsername(username));
             semaphore.release();
+            LOGGER.info("The game was instanced for " + maxNumPlayers + " players");
+            LOGGER.info("Clients connected: " + this.numOfClients);
         }
 
     }
@@ -76,6 +82,7 @@ public class Server {
         if (numOfClients == 0 && isUsernameValid(username)) {
             firstPlayerVirtualView=new VirtualView(serveOneClient, username);
             firstPlayerVirtualView.askNumOfPlayersAndMode();
+            LOGGER.info("First player has logged. Waiting for number of players...");
         }
         //in this case, the player can be added to the game. His virtualview cam be created and added to the ArrayList
         else if (numOfClients <= maxNumPlayers && isUsernameValid(username)) {
@@ -85,12 +92,18 @@ public class Server {
                 numOfClients++;
                 controller.getVirtualViews().get(numOfClients).addObserver(controller);
                 controller.addGameObserver(controller.getVirtualViews().get(maxNumPlayers));
+                LOGGER.info("New player accepted");
+                LOGGER.info("Clients connected: " + this.numOfClients);
                 //in this case, the player added is the last one, so after this the game can be started and next players will be rejected
-                if (numOfClients == maxNumPlayers)
+                if (numOfClients == maxNumPlayers) {
                     controller.getVirtualViews().get(0).notify(new FullLobbyMessage(controller.getVirtualViews().get(0).getUsername()));
+                    LOGGER.info("Last player accepted. Lobby is now full");
+                }
             } catch (IllegalArgumentException e) {
                 VirtualView virtualView = new VirtualView(serveOneClient, username);
                 virtualView.showErrorMessage(ErrorTypeID.USERNAME_ALREADY_CHOSEN);
+                LOGGER.severe("Player not accepted, username already chosen");
+                LOGGER.info("Clients connected: " + this.numOfClients);
             } finally {
                 semaphore.release();
             }
@@ -99,11 +112,14 @@ public class Server {
         else if (!isUsernameValid(username)) {
             VirtualView virtualView = new VirtualView(serveOneClient, username);
             virtualView.showErrorMessage(ErrorTypeID.FORBIDDEN_USERNAME);
+            LOGGER.severe("Player not accepted, username not available");
+            LOGGER.info("Clients connected: " + this.numOfClients);
         }
         //in this case, lobby is already full so an other player cannot be added
         else {
             VirtualView virtualView = new VirtualView(serveOneClient, username);
             virtualView.showErrorMessage(ErrorTypeID.FULL_LOBBY);
+            LOGGER.severe("Player not accepted, lobby was already full");
         }
     }
 

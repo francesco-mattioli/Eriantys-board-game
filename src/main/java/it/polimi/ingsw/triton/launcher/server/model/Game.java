@@ -583,40 +583,6 @@ public class Game extends Observable<Message> {
         return drawUsernames;
     }*/
 
-
-    /**
-     * If two or more players have the same number of towers on islands, is called a new method for the calculation of the winner because of professors
-     * If there is a winner, virtualViews are notified using a WinMessage
-     */
-    public void calculateWinner(){
-        Optional<Player> p;
-        int min = Collections.min(players.stream().map(Player::getSchoolBoard).map(SchoolBoard::getNumTowers).collect(Collectors.toList()));
-        int frequency = Collections.frequency(players.stream().map(Player::getSchoolBoard).map(SchoolBoard::getNumTowers).collect(Collectors.toList()), min);
-        if(frequency == 1) {
-            p = players.stream().filter(player -> player.getSchoolBoard().getNumTowers() == min).findFirst();
-            notify(new WinMessage(p.get().getUsername()));
-        }
-        else checkForTie(players.stream().filter(player -> player.getSchoolBoard().getNumTowers() == min).collect(Collectors.toList()));
-    }
-
-    /**
-     * This methods checks occurrences of players in list into the professors array.
-     * If one of the players has more professors than the others, he's the winner, else we have a tie
-     * In case of tie we notify virtualViews using a TieMessage, which specifies the list of the peer players
-     * @param list gains the list of the players that have the same number of towers, so they are potentially peer.
-     */
-    private void checkForTie(List<Player> list){
-        Optional<Player> player;
-        int max = Collections.max(list.stream().map(p -> Collections.frequency(Arrays.stream(professors).collect(Collectors.toList()), p)).collect(Collectors.toList()));
-        int frequency = Collections.frequency(list.stream().map(p -> Collections.frequency(Arrays.stream(professors).collect(Collectors.toList()), p)).collect(Collectors.toList()), max);
-        if (frequency == 1) {
-            player = list.stream().filter(pl -> (Collections.frequency(Arrays.stream(professors).collect(Collectors.toList()), pl) == max)).findFirst();
-            notify(new WinMessage(player.get().getUsername()));
-        }
-        notify(new TieMessage(list.stream().filter(pl -> (Collections.frequency(Arrays.stream(professors).collect(Collectors.toList()), pl) == max)).collect(Collectors.toList()).stream().map(Player::getUsername).collect(Collectors.toList())));
-    }
-
-
     /**
      * Changes current player at the end of every action phase.
      * At the end of the last player's action phase, it starts a new planning phase.
