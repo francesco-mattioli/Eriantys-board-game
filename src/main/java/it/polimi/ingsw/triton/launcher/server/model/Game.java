@@ -8,6 +8,7 @@ import it.polimi.ingsw.triton.launcher.server.model.player.Player;
 import it.polimi.ingsw.triton.launcher.server.model.player.PlayerTurnComparator;
 import it.polimi.ingsw.triton.launcher.server.model.playeractions.PlayAssistantCard;
 import it.polimi.ingsw.triton.launcher.server.model.professor.ProfessorsManager;
+import it.polimi.ingsw.triton.launcher.utils.message.MessageType;
 import it.polimi.ingsw.triton.launcher.utils.obs.Observable;
 import it.polimi.ingsw.triton.launcher.utils.message.servermessage.*;
 import it.polimi.ingsw.triton.launcher.utils.message.Message;
@@ -187,17 +188,36 @@ public class Game extends Observable<Message> {
 
      // The following methods execute the PLANNING phase of the game
 
-    /**
-     * PART 1 of PLANNING
-     */
     public void addStudentsToCloudTiles(){
+        boolean exit = false;
+        Color student;
+        int numStudents = 0;
+        if(maxNumberOfPlayers == 2)
+            numStudents = 3;
+        else
+            numStudents = 4;
         for(CloudTile cloudTile: cloudTiles){
-            if(maxNumberOfPlayers==2){        //To refactor if it's possible. To do setStudents with only one parameter and use double for.
-                cloudTile.setStudents(bag.drawStudent(),bag.drawStudent(),bag.drawStudent());
+            for(int i = 0; i < numStudents; i++){
+                try{
+                    student = bag.drawStudent();
+                }catch(NoSuchElementException e){           //HERE we don't expect to enter
+                    lastRound = true;
+                    notify(new EmptyBagMessage(MessageType.EMPTY_BAG));
+                    exit = true;
+                    break;
+                }
+                cloudTile.setStudents(student);
+                if(bag.isEmpty()){
+                    lastRound = true;
+                    notify(new EmptyBagMessage(MessageType.EMPTY_BAG));
+                    exit = true;
+                    break;
+                }
             }
-            if(maxNumberOfPlayers==3)
-                cloudTile.setStudents(bag.drawStudent(),bag.drawStudent(),bag.drawStudent(),bag.drawStudent());
+            if(exit)
+                break;
         }
+        notify(new FillCloudTilesMessage(MessageType.FILLED_CLOUD_TILES, cloudTiles));
     }
 
     /**

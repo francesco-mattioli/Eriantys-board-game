@@ -43,7 +43,10 @@ class ChooseCloudTileTest {
     @Test
     void testIfCloudTileIsAlreadyChosen() {
         ChooseCloudTile cct = new ChooseCloudTile(ct, schoolBoard);
-        ct.setStudents(Color.BLUE, Color.RED, Color.GREEN);
+        //ct.setStudents(Color.BLUE, Color.RED, Color.GREEN);
+        ct.setStudents(Color.BLUE);
+        ct.setStudents(Color.RED);
+        ct.setStudents(Color.GREEN);
         cct.execute();
         ChooseCloudTile cct2 = new ChooseCloudTile(ct, schoolBoard);
         assertThrows(RuntimeException.class, cct2::execute);
@@ -55,7 +58,10 @@ class ChooseCloudTileTest {
     @Test
     void testIfStudentsAreRemovedFromCloudTile(){
         ChooseCloudTile cct = new ChooseCloudTile(ct, schoolBoard);
-        ct.setStudents(Color.BLUE, Color.RED, Color.GREEN);
+        //ct.setStudents(Color.BLUE, Color.RED, Color.GREEN);
+        ct.setStudents(Color.BLUE);
+        ct.setStudents(Color.RED);
+        ct.setStudents(Color.GREEN);
         cct.execute();
         assertEquals(0, ct.getStudents()[Color.BLUE.ordinal()]);
         assertEquals(0, ct.getStudents()[Color.RED.ordinal()]);
@@ -68,7 +74,10 @@ class ChooseCloudTileTest {
     @Test
     void testIfStudentsAreMovedToEntrance(){
         ChooseCloudTile cct = new ChooseCloudTile(ct, schoolBoard);
-        ct.setStudents(Color.BLUE, Color.RED, Color.GREEN);
+        //ct.setStudents(Color.BLUE, Color.RED, Color.GREEN);
+        ct.setStudents(Color.BLUE);
+        ct.setStudents(Color.RED);
+        ct.setStudents(Color.GREEN);
         cct.execute();
         assertEquals(1, schoolBoard.getEntrance()[Color.BLUE.ordinal()]);
         assertEquals(1, schoolBoard.getEntrance()[Color.RED.ordinal()]);

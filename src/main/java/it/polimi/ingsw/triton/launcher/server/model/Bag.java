@@ -36,8 +36,6 @@ public class Bag {
             }
             // decrements the number of the drawn student
             students[randomIndex]--;
-            if(isEmpty())
-                throw new NoSuchElementException("There aren't any other students");
             return Color.values()[randomIndex];
         }
     }
@@ -48,14 +46,19 @@ public class Bag {
      *
      * @param cloudTile the cloudTile to fill
      */
-    public void fillCloudTile(CloudTile cloudTile) {
+   /* public void fillCloudTile(CloudTile cloudTile) {
+        int numStudents = 0;
+        if(numPlayer == 2)
+            numStudents = 3;
+        else
+            numStudents = 4;
         if (numPlayer == 2) {
             cloudTile.setStudents(drawStudent(), drawStudent(), drawStudent());
         }
         if (numPlayer > 2) {
             cloudTile.setStudents(drawStudent(), drawStudent(), drawStudent(), drawStudent());
         }
-    }
+    }*/
 
 
     /**

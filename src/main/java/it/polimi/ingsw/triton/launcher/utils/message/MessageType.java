@@ -26,5 +26,7 @@ public enum MessageType {
     GENERIC,
     DISCONNECTION,
     ERROR,
-    FULL_LOBBY
+    FULL_LOBBY,
+    EMPTY_BAG,
+    FILLED_CLOUD_TILES,
 }
