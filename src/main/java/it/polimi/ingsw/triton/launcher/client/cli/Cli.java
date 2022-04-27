@@ -2,7 +2,8 @@ package it.polimi.ingsw.triton.launcher.client.cli;
 
 import it.polimi.ingsw.triton.launcher.client.model.ClientModel;
 import it.polimi.ingsw.triton.launcher.utils.message.clientmessage.ClientMessage;
-import it.polimi.ingsw.triton.launcher.utils.message.clientmessage.PlayersNumbersAndModeReply;
+import it.polimi.ingsw.triton.launcher.utils.message.clientmessage.GameModeReply;
+import it.polimi.ingsw.triton.launcher.utils.message.clientmessage.PlayersNumberReply;
 import it.polimi.ingsw.triton.launcher.utils.obs.Observable;
 import it.polimi.ingsw.triton.launcher.utils.obs.Observer;
 import it.polimi.ingsw.triton.launcher.client.Client;
@@ -68,8 +69,7 @@ public class Cli extends Observable<Message> implements ClientView, Observer<Obj
 
     }
 
-    @Override
-    public void askPlayersNumberAndMode() {
+    public void askGameMode() {
         String input="";
         do{
             try {
@@ -81,6 +81,12 @@ public class Cli extends Observable<Message> implements ClientView, Observer<Obj
         }while(!(input.equalsIgnoreCase("E") || input.equalsIgnoreCase("N")));
         // if input is E, expertMode is true
         boolean expertMode= input.equalsIgnoreCase("E");
+        notify(new GameModeReply(clientModel.getUsername(), expertMode));
+    }
+
+    @Override
+    public void askPlayersNumber() {
+        String input="";
         try {
                 out.print("Enter number of players: [2 or 3] ");
                 input = readLine();
@@ -88,7 +94,7 @@ public class Cli extends Observable<Message> implements ClientView, Observer<Obj
                 out.println("Try again...");
         }
         int numOfPlayers = Integer.parseInt(input);
-        notify(new PlayersNumbersAndModeReply(clientModel.getUsername(), numOfPlayers,expertMode));
+        notify(new PlayersNumberReply(clientModel.getUsername(), numOfPlayers));
     }
 
     @Override

@@ -68,8 +68,11 @@ public class Client implements Observer<Message> {
         if (message.getMessageType() == MessageType.LOGIN_REPLY) {
             clientView.showGenericMessage("Username accepted");
         }
+        if (message.getMessageType() == MessageType.GAMEMODE_REQUEST) {
+            clientView.askGameMode();
+        }
         if (message.getMessageType() == MessageType.PLAYERSNUMBER_REQUEST) {
-            clientView.askPlayersNumberAndMode();
+            clientView.askPlayersNumber();
         }
         if(message.getMessageType()==MessageType.ERROR){
             clientView.showGenericMessage(message.toString());

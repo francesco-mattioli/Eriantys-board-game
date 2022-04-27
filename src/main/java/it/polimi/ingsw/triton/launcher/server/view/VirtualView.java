@@ -1,11 +1,12 @@
 package it.polimi.ingsw.triton.launcher.server.view;
 
+import it.polimi.ingsw.triton.launcher.utils.message.servermessage.GameModeRequest;
+import it.polimi.ingsw.triton.launcher.utils.message.servermessage.PlayersNumberRequest;
 import it.polimi.ingsw.triton.launcher.utils.obs.Observable;
 import it.polimi.ingsw.triton.launcher.utils.obs.Observer;
 import it.polimi.ingsw.triton.launcher.server.ServeOneClient;
 import it.polimi.ingsw.triton.launcher.utils.message.*;
 import it.polimi.ingsw.triton.launcher.utils.message.servermessage.ErrorMessage;
-import it.polimi.ingsw.triton.launcher.utils.message.servermessage.PlayersNumbersAndModeRequest;
 import it.polimi.ingsw.triton.launcher.utils.message.servermessage.TowerColorRequest;
 import it.polimi.ingsw.triton.launcher.utils.View;
 
@@ -25,9 +26,12 @@ public class VirtualView extends Observable<Message> implements View, Observer<M
 
     }
 
+    public void askGameMode(){
+        serveOneClient.sendMessage(new GameModeRequest(username));
+    }
 
-    public void askNumOfPlayersAndMode(){
-        serveOneClient.sendMessage(new PlayersNumbersAndModeRequest(username));
+    public void askNumOfPlayers(){
+        serveOneClient.sendMessage(new PlayersNumberRequest(username));
     }
 
     public void showErrorMessage(ErrorTypeID errorTypeID){
@@ -144,7 +148,7 @@ public class VirtualView extends Observable<Message> implements View, Observer<M
     }
 
     @Override
-    public void askPlayersNumberAndMode() {
+    public void askPlayersNumber() {
 
     }
 
@@ -182,4 +186,5 @@ public class VirtualView extends Observable<Message> implements View, Observer<M
     public String getUsername() {
         return username;
     }
+
 }

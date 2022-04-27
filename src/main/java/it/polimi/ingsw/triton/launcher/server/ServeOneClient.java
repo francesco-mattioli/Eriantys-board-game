@@ -4,7 +4,8 @@ import it.polimi.ingsw.triton.launcher.server.Server;
 import it.polimi.ingsw.triton.launcher.utils.message.Message;
 import it.polimi.ingsw.triton.launcher.utils.message.MessageType;
 import it.polimi.ingsw.triton.launcher.utils.message.clientmessage.ClientMessage;
-import it.polimi.ingsw.triton.launcher.utils.message.clientmessage.PlayersNumbersAndModeReply;
+import it.polimi.ingsw.triton.launcher.utils.message.clientmessage.GameModeReply;
+import it.polimi.ingsw.triton.launcher.utils.message.clientmessage.PlayersNumberReply;
 import it.polimi.ingsw.triton.launcher.server.view.VirtualView;
 
 import java.io.IOException;
@@ -55,8 +56,12 @@ public class ServeOneClient implements Runnable {
                     server.lobby(this, message.getSenderUsername());
                     Server.LOGGER.info("Received new login request");
                 }
-                else if (message.getMessageType() == MessageType.PLAYERSNUMBER_AND_MODE_REPLY) {
-                    server.activateGame(message.getSenderUsername(),((PlayersNumbersAndModeReply) message).getPlayersNumber(),((PlayersNumbersAndModeReply) message).isExpertMode());
+                else if (message.getMessageType() == MessageType.GAMEMODE_REPLY) {
+                    server.setGameMode(message.getSenderUsername(),((GameModeReply) message).isExpertMode());
+                    Server.LOGGER.info("Received mode and number of player response");
+                }
+                else if (message.getMessageType() == MessageType.PLAYERSNUMBER_REPLY) {
+                    server.activateGame(message.getSenderUsername(),((PlayersNumberReply) message).getPlayersNumber());
                     Server.LOGGER.info("Received mode and number of player response");
                 }
                 else {
