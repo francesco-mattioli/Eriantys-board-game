@@ -6,15 +6,16 @@ import it.polimi.ingsw.triton.launcher.utils.obs.Observable;
 import java.util.ArrayList;
 
 public class ClientModel extends Observable<Object> {
-    private ArrayList<String> playerUsernames=new ArrayList<>();
+    private String username;
+    private ClientView clientView;
 
     public ClientModel(ClientView view) {
-        this.addObserver(view);
+        this.clientView = view;
     }
 
     public void addPlayerUsername(String username){
-        playerUsernames.add(username);
-        notify(playerUsernames);
-        // TO THINK IF IS USEFUL TO USE OBSERVER/OBSERVABLE
+        this.username=username;
+        this.clientView.showGenericMessage("Username accepted");
     }
+
 }

@@ -89,5 +89,10 @@ public class Cli extends Observable<Message> implements ClientView, Observer<Obj
     public void update(Object object) {
 
     }
+
+    @Override
+    public void showGenericMessage(String genericMessage) {
+        out.println(genericMessage);
+    }
 }
 
