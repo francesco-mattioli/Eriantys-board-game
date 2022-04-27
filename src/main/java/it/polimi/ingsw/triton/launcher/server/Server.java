@@ -48,7 +48,7 @@ public class Server {
      * @param maxNumPlayers decided by the first player
      * @param username      of the first player
      */
-    public void activateGame(int maxNumPlayers, String username) {
+    public void activateGame(String username,int maxNumPlayers, boolean expertMode) {
         if (!checkMaxNumPlayers(maxNumPlayers)) {
             firstPlayerVirtualView.showErrorMessage(ErrorTypeID.WRONG_PLAYERS_NUMBER);
             firstPlayerVirtualView.askNumOfPlayersAndMode();

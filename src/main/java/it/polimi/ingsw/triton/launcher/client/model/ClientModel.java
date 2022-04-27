@@ -7,15 +7,16 @@ import java.util.ArrayList;
 
 public class ClientModel extends Observable<Object> {
     private String username;
-    private ClientView clientView;
 
-    public ClientModel(ClientView view) {
-        this.clientView = view;
+        public void setUsername(String username) {
+        this.username = username;
     }
 
     public void addPlayerUsername(String username){
         this.username=username;
-        this.clientView.showGenericMessage("Username accepted");
     }
 
+    public String getUsername() {
+        return username;
+    }
 }

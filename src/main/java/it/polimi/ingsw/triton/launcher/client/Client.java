@@ -20,18 +20,18 @@ public class Client implements Observer<Message> {
     private ObjectInputStream inSocket;
     private ObjectOutputStream outSocket;
     private ExecutorService readExecutionQueue;
-    private ClientModel clientModel;
+    private ClientView clientView;
 
-    public Client(ClientView view) {
+    public Client(ClientView clientView) {
         try {
             // initializes socket and input, output streams to communicate with the server
-            socket = new Socket("localhost", Server.PORT);
+            socket = new Socket("127.0.0.1", 50535);
             outSocket = new ObjectOutputStream(socket.getOutputStream());
             inSocket = new ObjectInputStream(socket.getInputStream());
-
             // sets the thread for receiving message from server
             this.readExecutionQueue = Executors.newSingleThreadExecutor();
-            this.clientModel = new ClientModel(view);
+            this.receiveMessage();
+            this.clientView=clientView;
 
         } catch (IOException e) {
             e.printStackTrace();
@@ -66,7 +66,13 @@ public class Client implements Observer<Message> {
      */
     public void manageReceivedMessage(ServerMessage message) {
         if (message.getMessageType() == MessageType.LOGIN_REPLY) {
-            clientModel.addPlayerUsername(message.getReceiverUsername());
+            clientView.showGenericMessage("Username accepted");
+        }
+        if (message.getMessageType() == MessageType.PLAYERSNUMBER_REQUEST) {
+            clientView.askPlayersNumberAndMode();
+        }
+        if(message.getMessageType()==MessageType.ERROR){
+            clientView.showGenericMessage(message.toString());
         }
     }
 
@@ -88,12 +94,6 @@ public class Client implements Observer<Message> {
         try {
             outSocket.writeObject(message);
             outSocket.reset();
-            try {
-                // This sleep method should be removed. It is here just for debugging.
-                Thread.sleep(500000);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
         } catch (IOException e) {
             e.printStackTrace();
         }

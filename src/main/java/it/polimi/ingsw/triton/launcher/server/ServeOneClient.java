@@ -53,16 +53,16 @@ public class ServeOneClient implements Runnable {
                 ClientMessage message = (ClientMessage)inSocket.readObject();
                 if (message.getMessageType() == MessageType.LOGIN_REQUEST) {
                     server.lobby(this, message.getSenderUsername());
-                    Server.LOGGER.info("Recived new login request");
+                    Server.LOGGER.info("Received new login request");
                 }
-                else if (message.getMessageType() == MessageType.PLAYERSNUMBER_REPLY) {
-                    server.activateGame(((PlayersNumbersAndModeReply) message).getPlayersNumber(), message.getSenderUsername());
-                    Server.LOGGER.info("Recived number of player response");
+                else if (message.getMessageType() == MessageType.PLAYERSNUMBER_AND_MODE_REPLY) {
+                    server.activateGame(message.getSenderUsername(),((PlayersNumbersAndModeReply) message).getPlayersNumber(),((PlayersNumbersAndModeReply) message).isExpertMode());
+                    Server.LOGGER.info("Received mode and number of player response");
                 }
                 else {
                     VirtualView virtualView = server.getController().getVirtualViewByUsername(message.getSenderUsername());
                     virtualView.notify(message);
-                    Server.LOGGER.info("Recived new " + message.getMessageType().toString() + " message");
+                    Server.LOGGER.info("Received new " + message.getMessageType().toString() + " message");
                 }
             }
         } catch (IOException | NoSuchElementException | ClassNotFoundException e) {

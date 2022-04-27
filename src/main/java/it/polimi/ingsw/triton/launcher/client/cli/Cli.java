@@ -1,5 +1,8 @@
 package it.polimi.ingsw.triton.launcher.client.cli;
 
+import it.polimi.ingsw.triton.launcher.client.model.ClientModel;
+import it.polimi.ingsw.triton.launcher.utils.message.clientmessage.ClientMessage;
+import it.polimi.ingsw.triton.launcher.utils.message.clientmessage.PlayersNumbersAndModeReply;
 import it.polimi.ingsw.triton.launcher.utils.obs.Observable;
 import it.polimi.ingsw.triton.launcher.utils.obs.Observer;
 import it.polimi.ingsw.triton.launcher.client.Client;
@@ -17,8 +20,7 @@ import java.util.concurrent.FutureTask;
  */
 public class Cli extends Observable<Message> implements ClientView, Observer<Object>{
     private final PrintStream out;
-    private Client client;
-
+    private ClientModel clientModel;
     /**
      * Instantiates a new Cli;
      * The PrintStream out variable is set to System.out, by this way System.out.println() is not replicated multiple times.
@@ -48,8 +50,8 @@ public class Cli extends Observable<Message> implements ClientView, Observer<Obj
      * Eventually, it asks the username to the player.
      */
     public void init(){
-        this.client=new Client(this);
-        this.addObserver(client);
+        this.addObserver(new Client(this));
+        this.clientModel=new ClientModel();
         askUsername();
     }
 
@@ -58,11 +60,35 @@ public class Cli extends Observable<Message> implements ClientView, Observer<Obj
         out.print("Enter your username: ");
         try {
             String username = readLine();
+            this.clientModel.setUsername(username);
             notify(new LoginRequest(username, MessageType.LOGIN_REQUEST));
         } catch (ExecutionException e) {
             out.println("Try again...");
         }
 
+    }
+
+    @Override
+    public void askPlayersNumberAndMode() {
+        String input="";
+        do{
+            try {
+                out.print("Please, select a game mode [N for normal mode, E for expert mode]: ");
+                input = readLine();
+            } catch (ExecutionException e) {
+                out.println("You should type N or E. Try again...");
+            }
+        }while(!(input.equalsIgnoreCase("E") || input.equalsIgnoreCase("N")));
+        // if input is E, expertMode is true
+        boolean expertMode= input.equalsIgnoreCase("E");
+        try {
+                out.print("Enter number of players: [2 or 3] ");
+                input = readLine();
+            } catch (ExecutionException e) {
+                out.println("Try again...");
+        }
+        int numOfPlayers = Integer.parseInt(input);
+        notify(new PlayersNumbersAndModeReply(clientModel.getUsername(), numOfPlayers,expertMode));
     }
 
     @Override
@@ -165,10 +191,7 @@ public class Cli extends Observable<Message> implements ClientView, Observer<Obj
 
     }
 
-    @Override
-    public void askPlayersNumberAndMode() {
 
-    }
 
     @Override
     public void showTieMessage() {
@@ -206,18 +229,17 @@ public class Cli extends Observable<Message> implements ClientView, Observer<Obj
      * @return the string
      * @throws ExecutionException the execution exception
      */
-    public String readLine() throws ExecutionException {
+    public String readLine() throws ExecutionException, NullPointerException {
         FutureTask<String> futureTask = new FutureTask<>(new InputReadTask());
         new Thread(futureTask).start();
         // METTERE A POSTO LA QUESTIONE DEL NULL
-        String input = null;
         try {
-            input = futureTask.get();
+            return futureTask.get();
         } catch (InterruptedException e) {
             futureTask.cancel(true);
             Thread.currentThread().interrupt();
         }
-        return input;
+        throw new NullPointerException("the methods had read a null string");
     }
 
     @Override

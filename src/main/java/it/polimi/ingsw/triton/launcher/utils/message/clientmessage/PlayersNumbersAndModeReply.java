@@ -9,7 +9,7 @@ public class PlayersNumbersAndModeReply extends ClientMessage {
 
 
     public PlayersNumbersAndModeReply(String username, int playersNumber, boolean expertMode) {
-        super(MessageType.PLAYERSNUMBER_REPLY, username);
+        super(MessageType.PLAYERSNUMBER_AND_MODE_REPLY, username);
         this.playersNumber = playersNumber;
         this.expertMode = expertMode;
     }

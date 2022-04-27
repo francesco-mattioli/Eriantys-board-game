@@ -8,7 +8,7 @@ public class ServerApp {
     public static void main(String[] args) {
         Server server;
         try {
-            server = new Server(3000);
+            server = new Server(50535);
             server.run();
             Server.LOGGER.info("Server listening on port " + Server.PORT);
         } catch (IOException e) {
