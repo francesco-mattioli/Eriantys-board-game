@@ -58,6 +58,8 @@ public class Game extends Observable<Message> {
         this.towerColorChosen = new boolean[TowerColor.values().length];
         this.availableWizards = new ArrayList<>(Arrays.asList(Wizard.values()));
         this.gameState = GameState.LOGIN;
+        this.professors = new Player[Color.numOfColors()];
+        this.usedAssistantCards = new ArrayList<>();
     }
 
 
@@ -523,63 +525,9 @@ public class Game extends Observable<Message> {
             notify(new WinMessage(player.get().getUsername()));
         }
         notify(new TieMessage(list.stream().filter(pl -> (Collections.frequency(Arrays.stream(professors).collect(Collectors.toList()), pl) == max)).collect(Collectors.toList()).stream().map(Player::getUsername).collect(Collectors.toList())));
+
     }
 
-    /**
-     * At the end of the game, it checks who is the winner according to the number of towers.
-     * @return the username of the winner player.
-     */
-    /*public ArrayList<String> findWinnerWithTowers(){
-        ArrayList<Integer> currentTowersNumber = new ArrayList<>();
-        ArrayList<String> winnerUsernames = new ArrayList<>();
-        int towersNumber;
-
-        for(Player player: players){
-            towersNumber = 0;
-            for(Island island: islands){
-                if(island.getDominator().equals(player))
-                    towersNumber += island.getDim();
-            }
-            currentTowersNumber.add(towersNumber);
-        }
-        int maxNumberTowers = Collections.max(currentTowersNumber);
-        if(Collections.frequency(currentTowersNumber, maxNumberTowers) == 1){
-            int i = currentTowersNumber.indexOf(maxNumberTowers);
-            winnerUsernames.add(players.get(i).getUsername());
-            return winnerUsernames;
-        }
-        else
-            return findWinnerWithProfessors(currentTowersNumber, maxNumberTowers);
-    }*/
-
-    /**
-     * Checks the winner player according to the number of professors.
-     * @param towersNumber the number of towers for the players that are drawing.
-     * @param maxNumberTowers the max number of towers.
-     * @return the username of the winner player or the usernames of the drawing player.
-     */
-    /*public ArrayList<String> findWinnerWithProfessors(ArrayList<Integer> towersNumber, int maxNumberTowers){
-        ArrayList<Integer> playersIndex = new ArrayList<>();
-        ArrayList<Player> playersProfessors = (ArrayList<Player>) Arrays.asList(professors);
-        ArrayList<String> drawUsernames = new ArrayList<>();
-        int maxProfessors = Integer.MIN_VALUE;
-
-        for(Integer number: towersNumber){
-            if(number == maxNumberTowers)
-                playersIndex.add(towersNumber.indexOf(number));
-        }
-        for(Integer index: playersIndex){
-            if(Collections.frequency(playersProfessors,players.get(index)) > maxProfessors){
-                maxProfessors = Collections.frequency(playersProfessors, players.get(index));
-                drawUsernames.clear();
-                drawUsernames.add(players.get(index).getUsername());
-            }
-            else if(Collections.frequency(playersProfessors,players.get(index)) == maxProfessors){
-                drawUsernames.add(players.get(index).getUsername());
-            }
-        }
-        return drawUsernames;
-    }*/
 
     /**
      * Changes current player at the end of every action phase.
@@ -603,7 +551,7 @@ public class Game extends Observable<Message> {
      * This method creates a new message to choose the character card.
      */
     public void createCharacterCardsMessage(){
-        notify(new CharacterCardReply(characterCards, currentPlayer.getUsername()));
+        notify(new AvailableCharacterCardReply(characterCards, currentPlayer.getUsername()));
     }
 
     /**
@@ -741,5 +689,9 @@ public class Game extends Observable<Message> {
 
     public boolean[] getTowerColorChosen() {
         return towerColorChosen;
+    }
+
+    public Player[] getProfessors() {
+        return professors;
     }
 }

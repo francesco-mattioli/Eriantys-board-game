@@ -250,7 +250,8 @@ class GameTest {
 
 
 
-   @Test
+    //test calculate winner
+   /*@Test
     public void checkOneWinnerWithTower(){
         game.getPlayers().get(0).getSchoolBoard().moveTowerOntoIsland(2);
         game.getPlayers().get(1).getSchoolBoard().moveTowerOntoIsland(5);
@@ -279,6 +280,6 @@ class GameTest {
         game.getProfessors()[Color.BLUE.ordinal()] = game.getPlayers().get(1);
         game.getProfessors()[Color.GREEN.ordinal()] = game.getPlayers().get(2);
         assertEquals("Tie", game.calculateWinner());
-    }
+    }*/
 }
 

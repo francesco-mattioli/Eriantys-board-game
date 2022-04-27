@@ -65,6 +65,141 @@ public class Cli extends Observable<Message> implements ClientView, Observer<Obj
 
     }
 
+    @Override
+    public void askAssistantCard() {
+
+    }
+
+    @Override
+    public void showChangeInfluenceMessage() {
+
+    }
+
+    @Override
+    public void askCloudTile() {
+
+    }
+
+    @Override
+    public void showDisconnectionMessage() {
+
+    }
+
+    @Override
+    public void showEmptyBagMessage() {
+
+    }
+
+    @Override
+    public void showErrorMessage() {
+
+    }
+
+    @Override
+    public void showFillCloudTilesMessage() {
+
+    }
+
+    @Override
+    public void showFullLobbyMessage() {
+
+    }
+
+    @Override
+    public void showGameInfo() {
+
+    }
+
+    @Override
+    public void showGenericMessage() {
+
+    }
+
+    @Override
+    public void showInfoActionPhase() {
+
+    }
+
+    @Override
+    public void showInfoAssistantCardPlayed() {
+
+    }
+
+    @Override
+    public void showLobbyMessage() {
+
+    }
+
+    @Override
+    public void showLoginReply() {
+
+    }
+
+    @Override
+    public void showMergeIslandsMessage() {
+
+    }
+
+    @Override
+    public void showMotherNaturePosition() {
+
+    }
+
+    @Override
+    public void askMoveStudentFromEntrance() {
+
+    }
+
+    @Override
+    public void showMoveTowerOntoIsland() {
+
+    }
+
+    @Override
+    public void showMoveTowerOntoSchoolBoard() {
+
+    }
+
+    @Override
+    public void askNumberStepsMotherNature() {
+
+    }
+
+    @Override
+    public void askPlayersNumberAndMode() {
+
+    }
+
+    @Override
+    public void showTieMessage() {
+
+    }
+
+    @Override
+    public void askTowerColor() {
+
+    }
+
+    @Override
+    public void showWinMessage() {
+
+    }
+
+    @Override
+    public void askWizard() {
+
+    }
+
+    @Override
+    public void showYourTurnMessage() {
+
+    }
+
+    @Override
+    public void showAvailableCharacterCard() {
+
+    }
+
     /**
      * Read a string line using a separated thread
      *
