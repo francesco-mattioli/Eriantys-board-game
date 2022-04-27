@@ -2,6 +2,7 @@ package it.polimi.ingsw.triton.launcher.server.model;
 
 import it.polimi.ingsw.triton.launcher.server.model.enums.Color;
 import it.polimi.ingsw.triton.launcher.server.model.enums.TowerColor;
+import it.polimi.ingsw.triton.launcher.server.model.enums.Wizard;
 import it.polimi.ingsw.triton.launcher.server.model.player.Player;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -24,6 +25,9 @@ class GameTest {
         game.chooseTowerColor("TestPlayer1",TowerColor.WHITE);
         game.chooseTowerColor("TestPlayer2",TowerColor.BLACK);
         game.chooseTowerColor("TestPlayer3",TowerColor.GREY);
+        game.chooseWizard("TestPlayer1", Wizard.BLUE);
+        game.chooseWizard("TestPlayer2", Wizard.GREEN);
+        game.chooseWizard("TestPlayer3", Wizard.PURPLE);
 
     }
 
@@ -226,17 +230,6 @@ class GameTest {
         assertEquals(oldSupply - 1, game.getGeneralCoinSupply());
     }
 
-    /**
-     * Tests if the method launches an exception when there are no coins to withdraw.
-     */
-    @Test
-    public void withdrawCoinWhenSupplyHasNotCoins(){
-        for(int i = 0; i < 20; i++){
-            game.withdrawCoin();
-        }
-        assertThrows(RuntimeException.class, ()->game.withdrawCoin());
-    }
-
 
 
     /**
@@ -257,34 +250,35 @@ class GameTest {
 
 
 
-   /*@Test
-    public void checkOneWinner(){
-        game.getIslands().get(0).setDim(1);
-        game.getIslands().get(0).setDominator(game.getPlayers().get(0));
-        game.getIslands().get(1).setDim(1);
-        game.getIslands().get(1).setDominator(game.getPlayers().get(0));
-        game.getIslands().get(2).setDim(1);
-        game.getIslands().get(2).setDominator(game.getPlayers().get(0));
-        game.getIslands().get(3).setDim(1);
-        game.getIslands().get(3).setDominator(game.getPlayers().get(2));
-        game.getIslands().get(4).setDim(1);
-        game.getIslands().get(4).setDominator(game.getPlayers().get(0));
-        game.getIslands().get(5).setDim(1);
-        game.getIslands().get(5).setDominator(game.getPlayers().get(1));
-        game.getIslands().get(6).setDim(1);
-        game.getIslands().get(6).setDominator(game.getPlayers().get(1));
-        game.getIslands().get(7).setDim(1);
-        game.getIslands().get(7).setDominator(game.getPlayers().get(0));
-        game.getIslands().get(8).setDim(1);
-        game.getIslands().get(8).setDominator(game.getPlayers().get(0));
-        game.getIslands().get(9).setDim(1);
-        game.getIslands().get(9).setDominator(game.getPlayers().get(0));
-        game.getIslands().get(10).setDim(1);
-        game.getIslands().get(10).setDominator(game.getPlayers().get(0));
-        game.getIslands().get(11).setDim(1);
-        game.getIslands().get(11).setDominator(game.getPlayers().get(0));
-        String pippo = game.findWinnerWithTowers().get(0);
-        assertEquals("TestPlayer1", pippo);
-    }*/
+   @Test
+    public void checkOneWinnerWithTower(){
+        game.getPlayers().get(0).getSchoolBoard().moveTowerOntoIsland(2);
+        game.getPlayers().get(1).getSchoolBoard().moveTowerOntoIsland(5);
+        game.getPlayers().get(2).getSchoolBoard().moveTowerOntoIsland(3);
+        assertEquals(game.getPlayers().get(1).getUsername(), game.calculateWinner());
+    }
+
+
+    @Test
+    public void checkOneWinnerWithProfessors(){
+        game.getPlayers().get(0).getSchoolBoard().moveTowerOntoIsland(2);
+        game.getPlayers().get(1).getSchoolBoard().moveTowerOntoIsland(5);
+        game.getPlayers().get(2).getSchoolBoard().moveTowerOntoIsland(5);
+        game.getProfessors()[Color.BLUE.ordinal()] = game.getPlayers().get(1);
+        game.getProfessors()[Color.GREEN.ordinal()] = game.getPlayers().get(2);
+        game.getProfessors()[Color.YELLOW.ordinal()] = game.getPlayers().get(2);
+        assertEquals(game.getPlayers().get(2).getUsername(), game.calculateWinner());
+
+    }
+
+    @Test
+    public void checkTieWinners(){
+        game.getPlayers().get(0).getSchoolBoard().moveTowerOntoIsland(2);
+        game.getPlayers().get(1).getSchoolBoard().moveTowerOntoIsland(5);
+        game.getPlayers().get(2).getSchoolBoard().moveTowerOntoIsland(5);
+        game.getProfessors()[Color.BLUE.ordinal()] = game.getPlayers().get(1);
+        game.getProfessors()[Color.GREEN.ordinal()] = game.getPlayers().get(2);
+        assertEquals("Tie", game.calculateWinner());
+    }
 }
 

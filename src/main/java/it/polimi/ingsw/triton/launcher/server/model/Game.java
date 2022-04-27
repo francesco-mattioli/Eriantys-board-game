@@ -1,6 +1,5 @@
 package it.polimi.ingsw.triton.launcher.server.model;
 
-import com.sun.org.apache.bcel.internal.generic.SWITCH;
 import it.polimi.ingsw.triton.launcher.server.model.cardeffects.CardEffect;
 import it.polimi.ingsw.triton.launcher.server.model.cardeffects.CharacterCard;
 import it.polimi.ingsw.triton.launcher.server.model.enums.Color;
@@ -60,6 +59,8 @@ public class Game extends Observable<Message> {
         this.towerColorChosen = new boolean[TowerColor.values().length];
         this.availableWizards = new ArrayList<>(Arrays.asList(Wizard.values()));
         this.gameState = GameState.LOGIN;
+        this.usedAssistantCards = new ArrayList<>();
+        this.professors = new Player[Color.numOfColors()];
     }
 
 
@@ -554,15 +555,17 @@ public class Game extends Observable<Message> {
      * If two or more players have the same number of towers on islands, is called a new method for the calculation of the winner because of professors
      * If there is a winner, virtualViews are notified using a WinMessage
      */
-    public void calculateWinner(){
+    public String calculateWinner(){
         Optional<Player> p;
         int min = Collections.min(players.stream().map(Player::getSchoolBoard).map(SchoolBoard::getNumTowers).collect(Collectors.toList()));
         int frequency = Collections.frequency(players.stream().map(Player::getSchoolBoard).map(SchoolBoard::getNumTowers).collect(Collectors.toList()), min);
         if(frequency == 1) {
             p = players.stream().filter(player -> player.getSchoolBoard().getNumTowers() == min).findFirst();
-            notify(new WinMessage(p.get().getUsername()));
+            //notify(new WinMessage(p.get().getUsername()));
+            return p.get().getUsername();
         }
-        else checkForTie(players.stream().filter(player -> player.getSchoolBoard().getNumTowers() == min).collect(Collectors.toList()));
+        else return checkForTie(players.stream().filter(player -> player.getSchoolBoard().getNumTowers() == min).collect(Collectors.toList()));
+
     }
 
     /**
@@ -571,15 +574,17 @@ public class Game extends Observable<Message> {
      * In case of tie we notify virtualViews using a TieMessage, which specifies the list of the peer players
      * @param list gains the list of the players that have the same number of towers, so they are potentially peer.
      */
-    private void checkForTie(List<Player> list){
+    private String checkForTie(List<Player> list){
         Optional<Player> player;
         int max = Collections.max(list.stream().map(p -> Collections.frequency(Arrays.stream(professors).collect(Collectors.toList()), p)).collect(Collectors.toList()));
         int frequency = Collections.frequency(list.stream().map(p -> Collections.frequency(Arrays.stream(professors).collect(Collectors.toList()), p)).collect(Collectors.toList()), max);
         if (frequency == 1) {
             player = list.stream().filter(pl -> (Collections.frequency(Arrays.stream(professors).collect(Collectors.toList()), pl) == max)).findFirst();
-            notify(new WinMessage(player.get().getUsername()));
+            //notify(new WinMessage(player.get().getUsername()));
+            return player.get().getUsername();
         }
-        notify(new TieMessage(list.stream().filter(pl -> (Collections.frequency(Arrays.stream(professors).collect(Collectors.toList()), pl) == max)).collect(Collectors.toList()).stream().map(Player::getUsername).collect(Collectors.toList())));
+        //notify(new TieMessage(list.stream().filter(pl -> (Collections.frequency(Arrays.stream(professors).collect(Collectors.toList()), pl) == max)).collect(Collectors.toList()).stream().map(Player::getUsername).collect(Collectors.toList())));
+        return "Tie";
     }
 
 
@@ -605,7 +610,7 @@ public class Game extends Observable<Message> {
      * This method creates a new message to choose the character card.
      */
     public void createCharacterCardsMessage(){
-        notify(new CharacterCardReply(characterCards, currentPlayer.getUsername()));
+        notify(new AvailableCharacterCardReply(characterCards, currentPlayer.getUsername()));
     }
 
     /**
@@ -743,5 +748,9 @@ public class Game extends Observable<Message> {
 
     public boolean[] getTowerColorChosen() {
         return towerColorChosen;
+    }
+
+    public Player[] getProfessors() {
+        return professors;
     }
 }
