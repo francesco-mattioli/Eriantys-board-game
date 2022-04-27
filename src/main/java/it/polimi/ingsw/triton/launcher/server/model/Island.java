@@ -7,6 +7,7 @@ import it.polimi.ingsw.triton.launcher.server.model.influencestrategy.InfluenceS
 import it.polimi.ingsw.triton.launcher.server.model.player.Player;
 import it.polimi.ingsw.triton.launcher.utils.message.Message;
 import it.polimi.ingsw.triton.launcher.utils.message.servermessage.ChangeInfluenceMessage;
+import it.polimi.ingsw.triton.launcher.utils.message.servermessage.MoveTowerOntoIslandMessage;
 import it.polimi.ingsw.triton.launcher.utils.obs.Observable;
 
 import java.util.ArrayList;
@@ -117,6 +118,7 @@ public class Island extends Observable<Message> {
         }
         if (newDominator != null && dominator != newDominator) {
             newDominator.getSchoolBoard().moveTowerOntoIsland(dim);
+            notify(new MoveTowerOntoIslandMessage(newDominator.getUsername(), this));
         }
         dominator = newDominator;
     }
