@@ -7,9 +7,10 @@ public enum ErrorTypeID {
     FULL_LOBBY("Lobby is full!"),
     WRONG_USERNAME("This username doesn't exists!"),
     ASSISTANTCARD_ALREADY_CHOSEN("This assistant card is already used!"),
-    TOO_MANY_MOTHERNATURE_STEPS("The number of steps exceed the maximum possible!"),
+    TOO_MANY_MOTHERNATURE_STEPS("The number of steps exceeds the maximum possible!"),
     NULL_COLOR("Color cannot be null!"),
-    EMPTY_BAG("The bag is empty; a student cannot be drawn!");
+    EMPTY_BAG("The bag is empty; a student cannot be drawn!"),
+    EMPTY_GENERAL_COIN_SUPPLY("The general coin supply is empty! You won't receive the coin.");
 
     private final String description;
 

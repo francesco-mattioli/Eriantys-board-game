@@ -274,6 +274,36 @@ public class Game extends Observable<Message> {
      */
     private void createMoveStudentsMessage(){
         notify(new InfoActionPhase(currentPlayer.getUsername(), getAllSchoolBoards(), islands, motherNature.getPosition()));
+        notify(new MoveStudentFromEntranceMessage(currentPlayer.getUsername(), currentPlayer.getSchoolBoard().getEntrance()));
+    }
+
+    /**
+     * Checks if the player has to move again a student.
+     */
+    public void checkNumberMoves(){
+        int numberMoves = 1;
+        if(maxNumberOfPlayers == 2)
+            numberMoves = 3;
+        else
+            numberMoves = 4;
+        if(currentPlayer.getMoveCounter() != numberMoves)
+            createMoveStudentsMessage();
+        else{
+            notify(new NumberStepsMotherNatureMessage(currentPlayer.getUsername()));
+        }
+    }
+
+    /**
+     * Moves mother nature to another island.
+     * @param numSteps the number of steps that mother nature has to do.
+     */
+    public void moveMotherNature(int numSteps){
+        try{
+            motherNature.setIslandOn(motherNature.move(currentPlayer.getLastPlayedAssistantCard(), numSteps, islands));
+        }catch (IllegalArgumentException e){
+            notify(new ErrorMessage(ErrorTypeID.TOO_MANY_MOTHERNATURE_STEPS, currentPlayer.getUsername()));
+        }
+        mergeNearIslands(motherNature.getPosition());
     }
 
     /**
@@ -439,7 +469,7 @@ public class Game extends Observable<Message> {
      * @throws RuntimeException if the number of groups islands is three because the game must finish.
      */
     private void checkNumberIslands() throws RuntimeException{
-        if(islands.size() == 3)
+        if(islands.size() == 3)   //TO END
             throw new RuntimeException("Only three groups of islands: game ended.");
     }
 
@@ -541,7 +571,7 @@ public class Game extends Observable<Message> {
         if(generalCoinSupply > 0)
             generalCoinSupply--;
         else
-            throw new RuntimeException("There are no coins in the supply");
+            notify(new ErrorMessage(ErrorTypeID.EMPTY_GENERAL_COIN_SUPPLY, currentPlayer.getUsername()));
     }
 
     /**

@@ -5,10 +5,13 @@ import it.polimi.ingsw.triton.launcher.server.model.enums.Color;
 import it.polimi.ingsw.triton.launcher.server.model.influencestrategy.InfluenceStrategy;
 import it.polimi.ingsw.triton.launcher.server.model.influencestrategy.InfluenceStrategyDefault;
 import it.polimi.ingsw.triton.launcher.server.model.player.Player;
+import it.polimi.ingsw.triton.launcher.utils.message.Message;
+import it.polimi.ingsw.triton.launcher.utils.message.servermessage.ChangeInfluenceMessage;
+import it.polimi.ingsw.triton.launcher.utils.obs.Observable;
 
 import java.util.ArrayList;
 
-public class Island {
+public class Island extends Observable<Message> {
 
     private final int id;
     private int dim;
@@ -64,6 +67,7 @@ public class Island {
      * @param professors specifies for each professor which player has that professor
      */
     public void updateInfluence(ArrayList<Player> players, Player[] professors) {
+        boolean modifiedDominator = false;
         if (noEntryTiles == 0) {
             int nonDominatorPlayersInfluences[] = new int[players.size()];
             for(int i = 0; i < players.size(); i++){
@@ -79,8 +83,11 @@ public class Island {
                     if (influence > max) {
                         max = influence;
                         newDominator = p;
+                        modifiedDominator = true;
                     }
                 }
+                if(modifiedDominator)
+                    notify(new ChangeInfluenceMessage(this, newDominator.getUsername()));
                 towerInfluence(newDominator);
             }
         } else {
@@ -102,9 +109,9 @@ public class Island {
     /**
      * This method updates the number of tower on the schoolboards of the players that are taking or losing the domination
      * @param newDominator specifies the player that is now dominating on the island
-     * @throws RuntimeException
+     * @throws IllegalStateException
      */
-    public void towerInfluence(Player newDominator) throws RuntimeException {
+    public void towerInfluence(Player newDominator) throws IllegalStateException {
         if (dominator != null && dominator != newDominator) {
             dominator.getSchoolBoard().moveTowerOntoSchoolBoard(dim);
         }

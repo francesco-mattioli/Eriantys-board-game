@@ -67,6 +67,14 @@ public class Player {
     public Wallet getWallet(){
         return wallet;
     }
+
+    public void setMoveCounter(int moveCounter) {
+        this.moveCounter = moveCounter;
+    }
+
+    public int getMoveCounter() {
+        return moveCounter;
+    }
     // Comments for developers: the action should be called from the Game in this way.
     // player.executeAction( new PlayCard(..arguments..) )
 

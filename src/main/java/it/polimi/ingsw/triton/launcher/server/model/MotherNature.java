@@ -76,4 +76,7 @@ public class MotherNature {
     }
 
 
+    public void setIslandOn(Island islandOn) {
+        this.islandOn = islandOn;
+    }
 }
