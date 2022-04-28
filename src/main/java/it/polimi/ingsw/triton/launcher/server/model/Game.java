@@ -559,6 +559,10 @@ public class Game extends Observable<Message> {
         notify(new AvailableCharacterCardReply(characterCards, currentPlayer.getUsername()));
     }
 
+    /**
+     * Sends messages to the player to ask the parameters for some effects.
+     * @param idCard the id of the selected character card
+     */
     public void manageEffectCharacterCards(int idCard){
         int indexCard = 0;
         boolean foundCard = false;
@@ -583,6 +587,20 @@ public class Game extends Observable<Message> {
                 break;
                 case 7:
                     notify(new CharacterCard07Request(currentPlayer.getUsername()));
+                break;
+                case 9:
+                    notify(new CharacterCard09Request(currentPlayer.getUsername()));
+                break;
+                case 10:
+                    notify(new CharacterCard10Request(currentPlayer.getUsername()));
+                break;
+                case 11:
+                    notify(new CharacterCard11Request(currentPlayer.getUsername()));
+                break;
+                case 12:
+                    notify(new CharacterCard12Request(currentPlayer.getUsername()));
+                break;
+                default:
                 break;
             }
         }
