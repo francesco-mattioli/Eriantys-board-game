@@ -624,34 +624,27 @@ public class Game extends Observable<Message> {
     public void useCharacterCardWithoutPreparation(CharacterCard characterCard){
         switch(characterCard.getId()){
             case 2:
-                try{
-                    currentPlayer.executeAction(new UseCharacterCard(characterCard, new CardEffect02(currentPlayer, professorsManager), currentPlayer.getWallet()));
-                }catch(RuntimeException e){
-                    notify(new ErrorMessage(ErrorTypeID.NOT_ENOUGH_COINS, currentPlayer.getUsername()));
-                }
-                break;
+                currentPlayer.executeAction(new UseCharacterCard(characterCard, new CardEffect02(currentPlayer, professorsManager), currentPlayer.getWallet()));
+            break;
             case 4:
-                try{
-                    currentPlayer.executeAction(new UseCharacterCard(characterCard, new CardEffect04(motherNature), currentPlayer.getWallet()));
-                }catch(RuntimeException e){
-                    notify(new ErrorMessage(ErrorTypeID.NOT_ENOUGH_COINS, currentPlayer.getUsername()));
-                }
-                break;
+                currentPlayer.executeAction(new UseCharacterCard(characterCard, new CardEffect04(motherNature), currentPlayer.getWallet()));
+            break;
             case 6:
-                try{
-                    currentPlayer.executeAction(new UseCharacterCard(characterCard, new CardEffect06(islands), currentPlayer.getWallet()));
-                }catch(RuntimeException e){
-                    notify(new ErrorMessage(ErrorTypeID.NOT_ENOUGH_COINS, currentPlayer.getUsername()));
-                }
-                break;
+                currentPlayer.executeAction(new UseCharacterCard(characterCard, new CardEffect06(islands), currentPlayer.getWallet()));
+            break;
             case 8:
-                try{
-                    currentPlayer.executeAction(new UseCharacterCard(characterCard, new CardEffect08(islands), currentPlayer.getWallet()));
-                }catch(RuntimeException e){
-                    notify(new ErrorMessage(ErrorTypeID.NOT_ENOUGH_COINS, currentPlayer.getUsername()));
-                }
-                break;
+                currentPlayer.executeAction(new UseCharacterCard(characterCard, new CardEffect08(islands), currentPlayer.getWallet()));
+            break;
         }
+        notify(new InfoCharacterCardPlayedMessage(currentPlayer.getUsername(), characterCard));
+    }
+
+    /**
+     * @param characterCard the character card to play
+     * @param cardEffect the effect to apply.
+     */
+    public void useCharacterCardsWithPreparation(CharacterCard characterCard, CardEffect cardEffect){
+        currentPlayer.executeAction(new UseCharacterCard(characterCard, cardEffect, currentPlayer.getWallet()));
         notify(new InfoCharacterCardPlayedMessage(currentPlayer.getUsername(), characterCard));
     }
 
