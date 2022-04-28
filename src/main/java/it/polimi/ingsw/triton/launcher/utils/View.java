@@ -9,9 +9,9 @@ import java.util.ArrayList;
 public interface View {
 
     public void askUsername();
-    public void askAssistantCard(AssistantDeck assistantDeck);
-    public void showChangeInfluenceMessage(Island islandWithNewInfluence, String usernameDominator);
-    public void askCloudTile(ArrayList<CloudTile> availableCloudTiles);
+    public void askAssistantCard();
+    public void showChangeInfluenceMessage();
+    public void askCloudTile();
     public void showDisconnectionMessage();
     public void showEmptyBagMessage();
     public void showErrorMessage();
@@ -32,9 +32,13 @@ public interface View {
     public void askGameMode();
     public void askPlayersNumber();
     public void showTieMessage();
-    public void askTowerColor(boolean[] availableColors);
+    public void askTowerColor();
     public void showWinMessage();
+    public void showLoseMessage(String winnerUsername);
     public void askWizard();
     public void showYourTurnMessage();
     public void showAvailableCharacterCard();
+    public void askStudentsToMoveOntoIslandCharCard01();
+    public void askIslandToCalculateInfluenceCharCard03();
+    public void askIslandToPutNoEntryTileCharCard05();
 }

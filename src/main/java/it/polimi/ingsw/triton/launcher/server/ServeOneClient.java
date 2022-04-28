@@ -58,11 +58,11 @@ public class ServeOneClient implements Runnable {
                 }
                 else if (message.getMessageType() == MessageType.GAMEMODE_REPLY) {
                     server.setGameMode(message.getSenderUsername(),((GameModeReply) message).isExpertMode());
-                    Server.LOGGER.info("Received mode and number of player response");
+                    Server.LOGGER.info("Received game mode response");
                 }
                 else if (message.getMessageType() == MessageType.PLAYERSNUMBER_REPLY) {
                     server.activateGame(message.getSenderUsername(),((PlayersNumberReply) message).getPlayersNumber());
-                    Server.LOGGER.info("Received mode and number of player response");
+                    Server.LOGGER.info("Received number of players response");
                 }
                 else {
                     VirtualView virtualView = server.getController().getVirtualViewByUsername(message.getSenderUsername());
