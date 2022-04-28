@@ -559,6 +559,35 @@ public class Game extends Observable<Message> {
         notify(new AvailableCharacterCardReply(characterCards, currentPlayer.getUsername()));
     }
 
+    public void manageEffectCharacterCards(int idCard){
+        int indexCard = 0;
+        boolean foundCard = false;
+        for(int i = 0; i < characterCards.size(); i++){
+            if(characterCards.get(i).getId() == idCard){
+                indexCard = i;
+                foundCard = true;
+                break;
+            }
+        }
+        if(!foundCard)
+            notify(new ErrorMessage(ErrorTypeID.CHARACTER_CARD_NOT_AVAILABLE, currentPlayer.getUsername()));
+        else{
+            switch (idCard){
+                case 1:
+                    notify(new CharacterCard01Request(currentPlayer.getUsername()));
+                break;
+                case 3:
+                    notify(new CharacterCard03Request(currentPlayer.getUsername()));
+                case 5:
+                    notify(new CharacterCard05Request(currentPlayer.getUsername()));
+                break;
+                case 7:
+                    notify(new CharacterCard07Request(currentPlayer.getUsername()));
+                break;
+            }
+        }
+    }
+
     /**
      * Manages the execution of the action useCharacterCard.
      * @param characterCard the character card selected by the player.
