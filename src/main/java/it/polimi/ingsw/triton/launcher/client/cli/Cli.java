@@ -90,11 +90,12 @@ public class Cli extends Observable<Message> implements ClientView, Observer<Obj
         try {
                 out.print("Enter number of players: [2 or 3] ");
                 input = readLine();
-            } catch (ExecutionException e) {
+                int numOfPlayers = Integer.parseInt(input);
+                notify(new PlayersNumberReply(clientModel.getUsername(), numOfPlayers));
+            } catch (ExecutionException | NumberFormatException e) {
                 out.println("Try again...");
+                askPlayersNumber();
         }
-        int numOfPlayers = Integer.parseInt(input);
-        notify(new PlayersNumberReply(clientModel.getUsername(), numOfPlayers));
     }
 
     @Override
