@@ -3,7 +3,7 @@ package it.polimi.ingsw.triton.launcher.utils.message.servermessage;
 import it.polimi.ingsw.triton.launcher.utils.message.MessageType;
 
 /**
- * This message asks which player wants to switch from this card to his entrance.
+ * This message asks the player which student wants to switch from this card to his entrance.
  */
 public class CharacterCard07Request extends ServerMessage{
     private final int numberMoves;
