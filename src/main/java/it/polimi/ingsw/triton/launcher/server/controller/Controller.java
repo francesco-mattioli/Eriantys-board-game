@@ -38,9 +38,6 @@ public class Controller implements Observer<Message> {
         if(message.getMessageType() == MessageType.TOWER_COLOR_REPLY){
             game.chooseTowerColor(((ClientMessage)message).getSenderUsername(), ((TowerColorReply) message).getPlayerColor());
         }
-        if(message.getMessageType() == MessageType.FULL_LOBBY){
-            game.createTowerColorRequestMessage(((ClientMessage)message).getSenderUsername());
-        }
         if(message.getMessageType() == MessageType.ASSISTANT_CARD_REPLY){
             game.createTowerColorRequestMessage((((ClientMessage)message).getSenderUsername()));
         }
@@ -58,7 +55,13 @@ public class Controller implements Observer<Message> {
         }
         throw new NoSuchElementException("The virtualview does not exist");
     }
+
+    public void createTowerColorRequestMessage(String username){
+        game.createTowerColorRequestMessage(username);
+    }
 }
+
+
 
 
 

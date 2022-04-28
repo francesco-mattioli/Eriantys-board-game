@@ -19,27 +19,14 @@ public class UseCharacterCard implements Action {
         this.wallet = wallet;
     }
 
-    /**
-     * @return true if the player has enough coins to buy the character card, false otherwise.
-     */
-    private boolean canBePurchased() {
-        return characterCard.getCost() <= wallet.getValue();
-    }
-
 
     /**
-     * This method checks if the characterCard can be purchased.
-     * If it is possible to purchase, it decreases the wallet,
-     * executes the effect and increases the card's cost.
+     * It decreases the wallet, executes the effect and increases the card's cost.
      */
     @Override
-    public void execute() throws RuntimeException {
-        if (canBePurchased()) {
-            wallet.decrease(characterCard.getCost());
-            characterCard.executeEffect(cardEffect);
-            characterCard.increaseCost();
-        } else {
-            throw new RuntimeException("You don't have enough coins");
-        }
+    public void execute() {
+        wallet.decrease(characterCard.getCost());
+        characterCard.executeEffect(cardEffect);
+        characterCard.increaseCost();
     }
 }

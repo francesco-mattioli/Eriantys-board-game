@@ -1,7 +1,6 @@
 package it.polimi.ingsw.triton.launcher.server.model;
 
-import it.polimi.ingsw.triton.launcher.server.model.cardeffects.CardEffect;
-import it.polimi.ingsw.triton.launcher.server.model.cardeffects.CharacterCard;
+import it.polimi.ingsw.triton.launcher.server.model.cardeffects.*;
 import it.polimi.ingsw.triton.launcher.server.model.enums.Color;
 import it.polimi.ingsw.triton.launcher.server.model.enums.GameState;
 import it.polimi.ingsw.triton.launcher.server.model.enums.TowerColor;
@@ -559,6 +558,10 @@ public class Game extends Observable<Message> {
         notify(new AvailableCharacterCardReply(characterCards, currentPlayer.getUsername()));
     }
 
+    /**
+     * Sends messages to the player to ask the parameters for some effects.
+     * @param idCard the id of the selected character card
+     */
     public void manageEffectCharacterCards(int idCard){
         int indexCard = 0;
         boolean foundCard = false;
@@ -571,7 +574,9 @@ public class Game extends Observable<Message> {
         }
         if(!foundCard)
             notify(new ErrorMessage(ErrorTypeID.CHARACTER_CARD_NOT_AVAILABLE, currentPlayer.getUsername()));
-        else{
+        else if(foundCard && !canBuyCharacterCard(currentPlayer, characterCards.get(indexCard))){
+            notify(new ErrorMessage(ErrorTypeID.NOT_ENOUGH_COINS, currentPlayer.getUsername()));
+        }else{
             switch (idCard){
                 case 1:
                     notify(new CharacterCard01Request(currentPlayer.getUsername()));
@@ -584,24 +589,70 @@ public class Game extends Observable<Message> {
                 case 7:
                     notify(new CharacterCard07Request(currentPlayer.getUsername()));
                 break;
+                case 9:
+                    notify(new CharacterCard09Request(currentPlayer.getUsername()));
+                break;
+                case 10:
+                    notify(new CharacterCard10Request(currentPlayer.getUsername()));
+                break;
+                case 11:
+                    notify(new CharacterCard11Request(currentPlayer.getUsername()));
+                break;
+                case 12:
+                    notify(new CharacterCard12Request(currentPlayer.getUsername()));
+                break;
+                default:
+                    useCharacterCardWithoutPreparation(characterCards.get(indexCard));
+                break;
             }
         }
     }
 
     /**
-     * Manages the execution of the action useCharacterCard.
-     * @param characterCard the character card selected by the player.
-     * @param cardEffect the effect to apply to the character card.
+     * @param player the player who wants to play the character card.
+     * @param characterCard the character card to play.
+     * @return true if the card can be purchased, false otherwise.
      */
-    public void useCharacterCard(CharacterCard characterCard, CardEffect cardEffect){
-        try{
-            currentPlayer.executeAction(new UseCharacterCard(characterCard, cardEffect, currentPlayer.getWallet()));
-        }catch (RuntimeException e){
-            notify(new ErrorMessage(ErrorTypeID.NOT_ENOUGH_COINS, currentPlayer.getUsername()));
+    private boolean canBuyCharacterCard(Player player, CharacterCard characterCard){
+        return player.getWallet().getValue() >= characterCard.getCost();
+    }
+
+    /**
+     * Applies the effect to the cards that don't require a preparation.
+     * @param characterCard the character card on which to apply the effect.
+     */
+    public void useCharacterCardWithoutPreparation(CharacterCard characterCard){
+        switch(characterCard.getId()){
+            case 2:
+                try{
+                    currentPlayer.executeAction(new UseCharacterCard(characterCard, new CardEffect02(currentPlayer, professorsManager), currentPlayer.getWallet()));
+                }catch(RuntimeException e){
+                    notify(new ErrorMessage(ErrorTypeID.NOT_ENOUGH_COINS, currentPlayer.getUsername()));
+                }
+                break;
+            case 4:
+                try{
+                    currentPlayer.executeAction(new UseCharacterCard(characterCard, new CardEffect04(motherNature), currentPlayer.getWallet()));
+                }catch(RuntimeException e){
+                    notify(new ErrorMessage(ErrorTypeID.NOT_ENOUGH_COINS, currentPlayer.getUsername()));
+                }
+                break;
+            case 6:
+                try{
+                    currentPlayer.executeAction(new UseCharacterCard(characterCard, new CardEffect06(islands), currentPlayer.getWallet()));
+                }catch(RuntimeException e){
+                    notify(new ErrorMessage(ErrorTypeID.NOT_ENOUGH_COINS, currentPlayer.getUsername()));
+                }
+                break;
+            case 8:
+                try{
+                    currentPlayer.executeAction(new UseCharacterCard(characterCard, new CardEffect08(islands), currentPlayer.getWallet()));
+                }catch(RuntimeException e){
+                    notify(new ErrorMessage(ErrorTypeID.NOT_ENOUGH_COINS, currentPlayer.getUsername()));
+                }
+                break;
         }
-        switch (gameState){
-            //TODO implement here if needed
-        }
+        notify(new InfoCharacterCardPlayedMessage(currentPlayer.getUsername(), characterCard));
     }
 
     /**
