@@ -1,5 +1,8 @@
 package it.polimi.ingsw.triton.launcher.client.cli;
 
+import it.polimi.ingsw.triton.launcher.server.model.CloudTile;
+import it.polimi.ingsw.triton.launcher.server.model.Island;
+import it.polimi.ingsw.triton.launcher.server.model.player.AssistantDeck;
 import it.polimi.ingsw.triton.launcher.utils.obs.Observable;
 import it.polimi.ingsw.triton.launcher.utils.obs.Observer;
 import it.polimi.ingsw.triton.launcher.client.Client;
@@ -8,6 +11,7 @@ import it.polimi.ingsw.triton.launcher.utils.message.MessageType;
 import it.polimi.ingsw.triton.launcher.utils.message.clientmessage.LoginRequest;
 import it.polimi.ingsw.triton.launcher.client.view.ClientView;
 import java.io.PrintStream;
+import java.util.ArrayList;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.FutureTask;
 
@@ -66,23 +70,22 @@ public class Cli extends Observable<Message> implements ClientView, Observer<Obj
     }
 
     @Override
-    public void askAssistantCard() {
+    public void askAssistantCard(AssistantDeck assistantDeck) {
 
     }
 
     @Override
-    public void showChangeInfluenceMessage() {
+    public void showChangeInfluenceMessage(Island islandWithNewInfluence, String usernameDominator) {
 
     }
 
     @Override
-    public void askCloudTile() {
+    public void askCloudTile(ArrayList<CloudTile> availableCloudTiles) {
 
     }
 
     @Override
     public void showDisconnectionMessage() {
-
     }
 
     @Override
@@ -176,7 +179,7 @@ public class Cli extends Observable<Message> implements ClientView, Observer<Obj
     }
 
     @Override
-    public void askTowerColor() {
+    public void askTowerColor(boolean[] availableColors) {
 
     }
 

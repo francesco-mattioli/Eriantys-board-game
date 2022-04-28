@@ -1,13 +1,16 @@
 package it.polimi.ingsw.triton.launcher.server.view;
 
+import it.polimi.ingsw.triton.launcher.server.model.CloudTile;
+import it.polimi.ingsw.triton.launcher.server.model.Island;
+import it.polimi.ingsw.triton.launcher.server.model.player.AssistantDeck;
+import it.polimi.ingsw.triton.launcher.utils.message.servermessage.*;
 import it.polimi.ingsw.triton.launcher.utils.obs.Observable;
 import it.polimi.ingsw.triton.launcher.utils.obs.Observer;
 import it.polimi.ingsw.triton.launcher.server.ServeOneClient;
 import it.polimi.ingsw.triton.launcher.utils.message.*;
-import it.polimi.ingsw.triton.launcher.utils.message.servermessage.ErrorMessage;
-import it.polimi.ingsw.triton.launcher.utils.message.servermessage.PlayersNumbersAndModeRequest;
-import it.polimi.ingsw.triton.launcher.utils.message.servermessage.TowerColorRequest;
 import it.polimi.ingsw.triton.launcher.utils.View;
+
+import java.util.ArrayList;
 
 public class VirtualView extends Observable<Message> implements View, Observer<Message> {
     private ServeOneClient serveOneClient;
@@ -44,28 +47,28 @@ public class VirtualView extends Observable<Message> implements View, Observer<M
     }
 
     @Override
-    public void askAssistantCard() {
-        //TODO
+    public void askAssistantCard(AssistantDeck assistantDeck) {
+        serveOneClient.sendMessage(new AssistantCardRequest(username, assistantDeck));
     }
 
     @Override
-    public void showChangeInfluenceMessage() {
-        //TODO
+    public void showChangeInfluenceMessage(Island islandWithNewInfluence, String usernameDominator) {
+        serveOneClient.sendMessage(new ChangeInfluenceMessage(islandWithNewInfluence, usernameDominator));
     }
 
     @Override
-    public void askCloudTile() {
-
+    public void askCloudTile(ArrayList<CloudTile> availableCloudTiles) {
+        serveOneClient.sendMessage(new CloudTileRequest(availableCloudTiles, username));
     }
 
     @Override
     public void showDisconnectionMessage() {
-
+        //serveOneClient.sendMessage(new DisconnectionMessage(username));
     }
 
     @Override
     public void showEmptyBagMessage() {
-
+        serveOneClient.sendMessage(new EmptyBagMessage());
     }
 
     @Override
@@ -153,10 +156,6 @@ public class VirtualView extends Observable<Message> implements View, Observer<M
 
     }
 
-    @Override
-    public void askTowerColor() {
-
-    }
 
     @Override
     public void showWinMessage() {
