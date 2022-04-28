@@ -6,12 +6,14 @@ import it.polimi.ingsw.triton.launcher.server.model.enums.Color;
 import it.polimi.ingsw.triton.launcher.server.model.enums.GameState;
 import it.polimi.ingsw.triton.launcher.server.model.enums.TowerColor;
 import it.polimi.ingsw.triton.launcher.server.model.enums.Wizard;
+import it.polimi.ingsw.triton.launcher.server.model.influencestrategy.InfluenceStrategyDefault;
 import it.polimi.ingsw.triton.launcher.server.model.player.Player;
 import it.polimi.ingsw.triton.launcher.server.model.player.PlayerTurnComparator;
 import it.polimi.ingsw.triton.launcher.server.model.player.SchoolBoard;
 import it.polimi.ingsw.triton.launcher.server.model.playeractions.ChooseCloudTile;
 import it.polimi.ingsw.triton.launcher.server.model.playeractions.PlayAssistantCard;
 import it.polimi.ingsw.triton.launcher.server.model.playeractions.UseCharacterCard;
+import it.polimi.ingsw.triton.launcher.server.model.professor.ProfessorStrategyDefault;
 import it.polimi.ingsw.triton.launcher.server.model.professor.ProfessorsManager;
 import it.polimi.ingsw.triton.launcher.utils.message.ErrorTypeID;
 import it.polimi.ingsw.triton.launcher.utils.obs.Observable;
@@ -536,14 +538,17 @@ public class Game extends Observable<Message> {
     public void nextGameTurn() {
         if (players.indexOf(currentPlayer) < maxNumberOfPlayers - 1){
             currentPlayer = players.get(players.indexOf(currentPlayer) + 1);
+            professorsManager.setProfessorStrategy(new ProfessorStrategyDefault());
+            for(Island island: islands)
+                island.setInfluenceStrategy(new InfluenceStrategyDefault());
             notify(new YourTurnMessage(currentPlayer.getUsername()));
         }
-        else if(lastRound){
-            //TODO method for ending game
-        }else{
+        else if(!lastRound && players.indexOf(currentPlayer) == maxNumberOfPlayers - 1){
             currentPlayer = players.get(0);
             notify(new YourTurnMessage(currentPlayer.getUsername()));
             planningPhase();
+        }else{
+            //TODO method for ending game
         }
     }
 
