@@ -12,7 +12,8 @@ public enum ErrorTypeID {
     EMPTY_BAG("The bag is empty; a student cannot be drawn!"),
     EMPTY_GENERAL_COIN_SUPPLY("The general coin supply is empty! You won't receive the coin!"),
     CLOUD_TILE_ALREADY_CHOSEN("The selected cloud tile is already selected!"),
-    NOT_ENOUGH_COINS("You don't have enough coins to buy this character card!");
+    NOT_ENOUGH_COINS("You don't have enough coins to buy this character card!"),
+    CHARACTER_CARD_NOT_AVAILABLE("The character card selected is not available!");
 
     private final String description;
 
