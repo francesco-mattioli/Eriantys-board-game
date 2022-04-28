@@ -98,14 +98,14 @@ public class Server {
             try {
                 controller.addPlayer(username);
                 controller.getVirtualViews().add(new VirtualView(serveOneClient, username));
+                controller.getVirtualViewByUsername(username).addObserver(controller);
+                controller.addGameObserver(controller.getVirtualViewByUsername(username));
                 numOfClients++;
-                controller.getVirtualViews().get(numOfClients).addObserver(controller);
-                controller.addGameObserver(controller.getVirtualViews().get(maxNumPlayers));
                 LOGGER.info("New player accepted");
                 LOGGER.info("Clients connected: " + this.numOfClients);
                 //in this case, the player added is the last one, so after this the game can be started and next players will be rejected
                 if (numOfClients == maxNumPlayers) {
-                    controller.getVirtualViews().get(0).notify(new FullLobbyMessage(controller.getVirtualViews().get(0).getUsername()));
+                    controller.createTowerColorRequestMessage(controller.getVirtualViews().get(0).getUsername());
                     LOGGER.info("Last player accepted. Lobby is now full");
                 }
             } catch (IllegalArgumentException e) {
