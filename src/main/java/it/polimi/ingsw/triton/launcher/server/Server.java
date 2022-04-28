@@ -98,9 +98,9 @@ public class Server {
             try {
                 controller.addPlayer(username);
                 controller.getVirtualViews().add(new VirtualView(serveOneClient, username));
+                controller.getVirtualViewByUsername(username).addObserver(controller);
+                controller.addGameObserver(controller.getVirtualViewByUsername(username));
                 numOfClients++;
-                controller.getVirtualViews().get(numOfClients).addObserver(controller);
-                controller.addGameObserver(controller.getVirtualViews().get(maxNumPlayers));
                 LOGGER.info("New player accepted");
                 LOGGER.info("Clients connected: " + this.numOfClients);
                 //in this case, the player added is the last one, so after this the game can be started and next players will be rejected

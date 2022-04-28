@@ -73,9 +73,8 @@ public class ServeOneClient implements Runnable {
         } catch (IOException | NoSuchElementException | ClassNotFoundException e) {
             System.err.println("Error! " + e.getMessage());
             Server.LOGGER.severe(e.getMessage());
-        } finally {
-            close();
         }
+        close();
     }
 
 
