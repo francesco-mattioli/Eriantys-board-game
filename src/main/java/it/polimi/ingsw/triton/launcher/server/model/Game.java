@@ -46,6 +46,7 @@ public class Game extends Observable<Message> {
     private ArrayList<Wizard> availableWizards;
     private boolean lastRound = false;
     private GameState gameState;
+    private Message lastMessage;
 
 
     public Game(int maxNumberOfPlayers) {
@@ -197,7 +198,7 @@ public class Game extends Observable<Message> {
         setupEntrance(); //PHASE 10
         setupPlayers(); //PHASE 11
         drawCharacterCards(); //(PHASE 12) creates 3 character cards
-        notify(new GameInfoMessage(getAllUsernames(players), characterCards, islands, motherNature.getPosition(), getAllSchoolBoards()));
+        notify(new GameInfoMessage(characterCards, islands, motherNature.getPosition(), getAllSchoolBoards(), cloudTiles));
         notify(new YourTurnMessage(currentPlayer.getUsername()));
         planningPhase();
     }
@@ -211,7 +212,7 @@ public class Game extends Observable<Message> {
     public void addStudentsToCloudTiles(){
         boolean exit = false;
         Color student;
-        int numStudents = 0;
+        int numStudents;
         if(maxNumberOfPlayers == 2)
             numStudents = 3;
         else
@@ -325,7 +326,9 @@ public class Game extends Observable<Message> {
      * Asks all the players to play assistant card.
      */
     private void createAssistantCardRequestMessage(){
-        notify(new AssistantCardRequest(currentPlayer.getUsername(), currentPlayer.getAssistantDeck()));
+        Message message = new AssistantCardRequest(currentPlayer.getUsername(), currentPlayer.getAssistantDeck());
+        saveMessage(message);
+        notify(message);
     }
 
     public void chooseAssistantCard(String username, AssistantCard assistantCard){
@@ -771,5 +774,13 @@ public class Game extends Observable<Message> {
 
     public Player[] getProfessors() {
         return professors;
+    }
+
+    public Message getLastMessage(){
+        return lastMessage;
+    }
+
+    public void saveMessage(Message messageToSave){
+        this.lastMessage = messageToSave;
     }
 }

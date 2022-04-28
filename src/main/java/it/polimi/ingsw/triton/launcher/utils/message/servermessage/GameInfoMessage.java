@@ -1,5 +1,6 @@
 package it.polimi.ingsw.triton.launcher.utils.message.servermessage;
 
+import it.polimi.ingsw.triton.launcher.server.model.CloudTile;
 import it.polimi.ingsw.triton.launcher.server.model.Island;
 import it.polimi.ingsw.triton.launcher.server.model.MotherNature;
 import it.polimi.ingsw.triton.launcher.server.model.cardeffects.CharacterCard;
@@ -13,22 +14,18 @@ import java.util.Scanner;
  * This message communicates to all the players the info of the game.
  */
 public class GameInfoMessage extends BroadcastServerMessage {
-    private final ArrayList<String> onlineNicknames;
     private final ArrayList<CharacterCard> availableCharacterCards;
     private final ArrayList<Island> islands;
     private final Island motherNaturePosition;
     private final Map<String, SchoolBoard> schoolBoards;
-    public GameInfoMessage(ArrayList<String> onlineNicknames, ArrayList<CharacterCard> availableCharacterCards, ArrayList<Island> islands, Island motherNaturePosition, Map<String, SchoolBoard> schoolBoards) {
+    private final ArrayList<CloudTile> cloudTiles;
+    public GameInfoMessage(ArrayList<CharacterCard> availableCharacterCards, ArrayList<Island> islands, Island motherNaturePosition, Map<String, SchoolBoard> schoolBoards, ArrayList<CloudTile> cloudTiles) {
         super(MessageType.GAME_INFO);
-        this.onlineNicknames = onlineNicknames;
         this.availableCharacterCards = availableCharacterCards;
         this.islands = islands;
         this.motherNaturePosition = motherNaturePosition;
         this.schoolBoards = schoolBoards;
-    }
-
-    public ArrayList<String> getOnlineNicknames() {
-        return onlineNicknames;
+        this.cloudTiles = cloudTiles;
     }
 
     public ArrayList<CharacterCard> getAvailableCharacterCards() {
@@ -45,5 +42,9 @@ public class GameInfoMessage extends BroadcastServerMessage {
 
     public Map<String, SchoolBoard> getSchoolBoards() {
         return schoolBoards;
+    }
+
+    public ArrayList<CloudTile> getCloudTiles() {
+        return cloudTiles;
     }
 }
