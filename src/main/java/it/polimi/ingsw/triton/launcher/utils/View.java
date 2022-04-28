@@ -1,5 +1,11 @@
 package it.polimi.ingsw.triton.launcher.utils;
 
+import it.polimi.ingsw.triton.launcher.server.model.CloudTile;
+import it.polimi.ingsw.triton.launcher.server.model.Island;
+import it.polimi.ingsw.triton.launcher.server.model.player.AssistantDeck;
+
+import java.util.ArrayList;
+
 public interface View {
 
     public void askUsername();
@@ -28,7 +34,11 @@ public interface View {
     public void showTieMessage();
     public void askTowerColor();
     public void showWinMessage();
+    public void showLoseMessage(String winnerUsername);
     public void askWizard();
     public void showYourTurnMessage();
     public void showAvailableCharacterCard();
+    public void askStudentsToMoveOntoIslandCharCard01();
+    public void askIslandToCalculateInfluenceCharCard03();
+    public void askIslandToPutNoEntryTileCharCard05();
 }

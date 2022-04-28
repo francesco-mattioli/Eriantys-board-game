@@ -216,6 +216,11 @@ public class Cli extends Observable<Message> implements ClientView, Observer<Obj
     }
 
     @Override
+    public void showLoseMessage(String winnerUsername) {
+
+    }
+
+    @Override
     public void askWizard() {
 
     }
