@@ -34,16 +34,6 @@ class UseCharacterCardTest {
     }
 
     /**
-     * Test if the execute method throws a Runtime exception when the player has not enough coins
-     * to buy the card.
-     */
-    @Test
-    void testCardCanNotBePurchased() {
-        UseCharacterCard ucc = new UseCharacterCard(characterCard, new CardEffect08(new ArrayList<>()), wallet);
-        assertThrows(RuntimeException.class, ucc::execute);
-    }
-
-    /**
      * Test if the card can be purchased by the player.
      */
     @Test
