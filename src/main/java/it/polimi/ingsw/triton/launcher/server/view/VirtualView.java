@@ -320,6 +320,21 @@ public class VirtualView extends Observable<Message> implements View, Observer<M
         serveOneClient.sendMessage(message);
     }
 
+    @Override
+    public void askStudentsToMoveOntoIslandCharCard01() {
+
+    }
+
+    @Override
+    public void askIslandToCalculateInfluenceCharCard03() {
+
+    }
+
+    @Override
+    public void askIslandToPutNoEntryTileCharCard05() {
+
+    }
+
 
     public String getUsername() {
         return username;
