@@ -19,6 +19,7 @@ public class Server {
     private Controller controller;
     private final Semaphore semaphore = new Semaphore(1);
     private int maxNumPlayers = 0;
+    private boolean expertMode;
     private VirtualView firstPlayerVirtualView;
     public static final Logger LOGGER = Logger.getLogger(Server.class.getName());
 
@@ -40,6 +41,13 @@ public class Server {
         return (num == 2 || num == 3);
     }
 
+    public void setGameMode(String username, boolean expertMode){
+        this.expertMode=expertMode;
+        LOGGER.severe("Game mode was set");
+    }
+
+
+
     /**
      * This method is called when the first player decides the max number of players.
      * If the number is not correct, it sends an error message to the first player and re-asks the number of players.
@@ -48,10 +56,10 @@ public class Server {
      * @param maxNumPlayers decided by the first player
      * @param username      of the first player
      */
-    public void activateGame(int maxNumPlayers, String username) {
+    public void activateGame(String username,int maxNumPlayers) {
         if (!checkMaxNumPlayers(maxNumPlayers)) {
             firstPlayerVirtualView.showErrorMessage(ErrorTypeID.WRONG_PLAYERS_NUMBER);
-            firstPlayerVirtualView.askNumOfPlayersAndMode();
+            firstPlayerVirtualView.askNumOfPlayers();
             LOGGER.severe("Not valid number of players");
         } else {
             this.maxNumPlayers = maxNumPlayers;
@@ -81,8 +89,9 @@ public class Server {
         //if the player is the first one, we need to wait that he has chosen the number of players
         if (numOfClients == 0 && isUsernameValid(username)) {
             firstPlayerVirtualView=new VirtualView(serveOneClient, username);
-            firstPlayerVirtualView.askNumOfPlayersAndMode();
-            LOGGER.info("First player has logged. Waiting for number of players...");
+            firstPlayerVirtualView.askGameMode();
+            firstPlayerVirtualView.askNumOfPlayers();
+            LOGGER.info("First player has logged. Waiting for game mode and number of players...");
         }
         //in this case, the player can be added to the game. His virtualview cam be created and added to the ArrayList
         else if (numOfClients <= maxNumPlayers && isUsernameValid(username)) {

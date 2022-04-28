@@ -4,7 +4,8 @@ import it.polimi.ingsw.triton.launcher.server.Server;
 import it.polimi.ingsw.triton.launcher.utils.message.Message;
 import it.polimi.ingsw.triton.launcher.utils.message.MessageType;
 import it.polimi.ingsw.triton.launcher.utils.message.clientmessage.ClientMessage;
-import it.polimi.ingsw.triton.launcher.utils.message.clientmessage.PlayersNumbersAndModeReply;
+import it.polimi.ingsw.triton.launcher.utils.message.clientmessage.GameModeReply;
+import it.polimi.ingsw.triton.launcher.utils.message.clientmessage.PlayersNumberReply;
 import it.polimi.ingsw.triton.launcher.server.view.VirtualView;
 
 import java.io.IOException;
@@ -53,16 +54,20 @@ public class ServeOneClient implements Runnable {
                 ClientMessage message = (ClientMessage)inSocket.readObject();
                 if (message.getMessageType() == MessageType.LOGIN_REQUEST) {
                     server.lobby(this, message.getSenderUsername());
-                    Server.LOGGER.info("Recived new login request");
+                    Server.LOGGER.info("Received new login request");
+                }
+                else if (message.getMessageType() == MessageType.GAMEMODE_REPLY) {
+                    server.setGameMode(message.getSenderUsername(),((GameModeReply) message).isExpertMode());
+                    Server.LOGGER.info("Received mode and number of player response");
                 }
                 else if (message.getMessageType() == MessageType.PLAYERSNUMBER_REPLY) {
-                    server.activateGame(((PlayersNumbersAndModeReply) message).getPlayersNumber(), message.getSenderUsername());
-                    Server.LOGGER.info("Recived number of player response");
+                    server.activateGame(message.getSenderUsername(),((PlayersNumberReply) message).getPlayersNumber());
+                    Server.LOGGER.info("Received mode and number of player response");
                 }
                 else {
                     VirtualView virtualView = server.getController().getVirtualViewByUsername(message.getSenderUsername());
                     virtualView.notify(message);
-                    Server.LOGGER.info("Recived new " + message.getMessageType().toString() + " message");
+                    Server.LOGGER.info("Received new " + message.getMessageType().toString() + " message");
                 }
             }
         } catch (IOException | NoSuchElementException | ClassNotFoundException e) {

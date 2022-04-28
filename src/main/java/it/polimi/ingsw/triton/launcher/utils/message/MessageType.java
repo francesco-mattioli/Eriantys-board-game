@@ -3,6 +3,10 @@ package it.polimi.ingsw.triton.launcher.utils.message;
 public enum MessageType {
     LOGIN_REQUEST,
     LOGIN_REPLY,
+    GAMEMODE_REQUEST,
+    GAMEMODE_REPLY,
+    PLAYERSNUMBER_AND_MODE_REQUEST,
+    PLAYERSNUMBER_AND_MODE_REPLY,
     PLAYERSNUMBER_REQUEST,
     PLAYERSNUMBER_REPLY,
     TOWER_COLOR_REQUEST,

@@ -1,8 +1,9 @@
 package it.polimi.ingsw.triton.launcher.client.cli;
 
-import it.polimi.ingsw.triton.launcher.server.model.CloudTile;
-import it.polimi.ingsw.triton.launcher.server.model.Island;
-import it.polimi.ingsw.triton.launcher.server.model.player.AssistantDeck;
+import it.polimi.ingsw.triton.launcher.client.model.ClientModel;
+import it.polimi.ingsw.triton.launcher.utils.message.clientmessage.ClientMessage;
+import it.polimi.ingsw.triton.launcher.utils.message.clientmessage.GameModeReply;
+import it.polimi.ingsw.triton.launcher.utils.message.clientmessage.PlayersNumberReply;
 import it.polimi.ingsw.triton.launcher.utils.obs.Observable;
 import it.polimi.ingsw.triton.launcher.utils.obs.Observer;
 import it.polimi.ingsw.triton.launcher.client.Client;
@@ -11,7 +12,6 @@ import it.polimi.ingsw.triton.launcher.utils.message.MessageType;
 import it.polimi.ingsw.triton.launcher.utils.message.clientmessage.LoginRequest;
 import it.polimi.ingsw.triton.launcher.client.view.ClientView;
 import java.io.PrintStream;
-import java.util.ArrayList;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.FutureTask;
 
@@ -21,8 +21,7 @@ import java.util.concurrent.FutureTask;
  */
 public class Cli extends Observable<Message> implements ClientView, Observer<Object>{
     private final PrintStream out;
-    private Client client;
-
+    private ClientModel clientModel;
     /**
      * Instantiates a new Cli;
      * The PrintStream out variable is set to System.out, by this way System.out.println() is not replicated multiple times.
@@ -52,8 +51,8 @@ public class Cli extends Observable<Message> implements ClientView, Observer<Obj
      * Eventually, it asks the username to the player.
      */
     public void init(){
-        this.client=new Client(this);
-        this.addObserver(client);
+        this.addObserver(new Client(this));
+        this.clientModel=new ClientModel();
         askUsername();
     }
 
@@ -62,6 +61,7 @@ public class Cli extends Observable<Message> implements ClientView, Observer<Obj
         out.print("Enter your username: ");
         try {
             String username = readLine();
+            this.clientModel.setUsername(username);
             notify(new LoginRequest(username, MessageType.LOGIN_REQUEST));
         } catch (ExecutionException e) {
             out.println("Try again...");
@@ -69,23 +69,52 @@ public class Cli extends Observable<Message> implements ClientView, Observer<Obj
 
     }
 
+    public void askGameMode() {
+        String input="";
+        do{
+            try {
+                out.print("Please, select a game mode [N for normal mode, E for expert mode]: ");
+                input = readLine();
+            } catch (ExecutionException e) {
+                out.println("You should type N or E. Try again...");
+            }
+        }while(!(input.equalsIgnoreCase("E") || input.equalsIgnoreCase("N")));
+        // if input is E, expertMode is true
+        boolean expertMode= input.equalsIgnoreCase("E");
+        notify(new GameModeReply(clientModel.getUsername(), expertMode));
+    }
+
     @Override
-    public void askAssistantCard(AssistantDeck assistantDeck) {
+    public void askPlayersNumber() {
+        String input="";
+        try {
+                out.print("Enter number of players: [2 or 3] ");
+                input = readLine();
+            } catch (ExecutionException e) {
+                out.println("Try again...");
+        }
+        int numOfPlayers = Integer.parseInt(input);
+        notify(new PlayersNumberReply(clientModel.getUsername(), numOfPlayers));
+    }
+
+    @Override
+    public void askAssistantCard() {
 
     }
 
     @Override
-    public void showChangeInfluenceMessage(Island islandWithNewInfluence, String usernameDominator) {
+    public void showChangeInfluenceMessage() {
 
     }
 
     @Override
-    public void askCloudTile(ArrayList<CloudTile> availableCloudTiles) {
+    public void askCloudTile() {
 
     }
 
     @Override
     public void showDisconnectionMessage() {
+
     }
 
     @Override
@@ -168,10 +197,7 @@ public class Cli extends Observable<Message> implements ClientView, Observer<Obj
 
     }
 
-    @Override
-    public void askPlayersNumberAndMode() {
 
-    }
 
     @Override
     public void showTieMessage() {
@@ -179,7 +205,7 @@ public class Cli extends Observable<Message> implements ClientView, Observer<Obj
     }
 
     @Override
-    public void askTowerColor(boolean[] availableColors) {
+    public void askTowerColor() {
 
     }
 
@@ -209,18 +235,17 @@ public class Cli extends Observable<Message> implements ClientView, Observer<Obj
      * @return the string
      * @throws ExecutionException the execution exception
      */
-    public String readLine() throws ExecutionException {
+    public String readLine() throws ExecutionException, NullPointerException {
         FutureTask<String> futureTask = new FutureTask<>(new InputReadTask());
         new Thread(futureTask).start();
         // METTERE A POSTO LA QUESTIONE DEL NULL
-        String input = null;
         try {
-            input = futureTask.get();
+            return futureTask.get();
         } catch (InterruptedException e) {
             futureTask.cancel(true);
             Thread.currentThread().interrupt();
         }
-        return input;
+        throw new NullPointerException("the methods had read a null string");
     }
 
     @Override

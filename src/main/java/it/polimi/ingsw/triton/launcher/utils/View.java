@@ -29,7 +29,8 @@ public interface View {
     public void showMoveTowerOntoIsland();
     public void showMoveTowerOntoSchoolBoard();
     public void askNumberStepsMotherNature();
-    public void askPlayersNumberAndMode();
+    public void askGameMode();
+    public void askPlayersNumber();
     public void showTieMessage();
     public void askTowerColor(boolean[] availableColors);
     public void showWinMessage();
