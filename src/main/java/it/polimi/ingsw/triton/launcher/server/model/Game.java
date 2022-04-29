@@ -9,9 +9,7 @@ import it.polimi.ingsw.triton.launcher.server.model.influencestrategy.InfluenceS
 import it.polimi.ingsw.triton.launcher.server.model.player.Player;
 import it.polimi.ingsw.triton.launcher.server.model.player.PlayerTurnComparator;
 import it.polimi.ingsw.triton.launcher.server.model.player.SchoolBoard;
-import it.polimi.ingsw.triton.launcher.server.model.playeractions.ChooseCloudTile;
-import it.polimi.ingsw.triton.launcher.server.model.playeractions.PlayAssistantCard;
-import it.polimi.ingsw.triton.launcher.server.model.playeractions.UseCharacterCard;
+import it.polimi.ingsw.triton.launcher.server.model.playeractions.*;
 import it.polimi.ingsw.triton.launcher.server.model.professor.ProfessorStrategyDefault;
 import it.polimi.ingsw.triton.launcher.server.model.professor.ProfessorsManager;
 import it.polimi.ingsw.triton.launcher.utils.message.ErrorTypeID;
@@ -199,6 +197,8 @@ public class Game extends Observable<Message> {
         setupPlayers(); //PHASE 11
         drawCharacterCards(); //(PHASE 12) creates 3 character cards
         notify(new GameInfoMessage(characterCards, islands, motherNature.getPosition(), getAllSchoolBoards(), cloudTiles));
+        for(Player player: players)
+            notify(new GiveAssistantDeckMessage(player.getUsername(), player.getAssistantDeck()));
         notify(new YourTurnMessage(currentPlayer.getUsername()));
         planningPhase();
     }
@@ -263,6 +263,7 @@ public class Game extends Observable<Message> {
             sortPlayerPerTurn();
             currentPlayer = players.get(0);
             notify(new YourTurnMessage(currentPlayer.getUsername()));
+            actionPhase();
         }
     }
 
@@ -278,7 +279,6 @@ public class Game extends Observable<Message> {
     //Action phase
     public void actionPhase(){
         gameState = GameState.BEGIN_ACTION_PHASE;
-        notify(new GenericMessage("Action phase: now you have to move 3 students from the entrance of your schoolboard to an island or to your dining room.", currentPlayer.getUsername()));
         createMoveStudentsMessage();
     }
 
@@ -287,15 +287,44 @@ public class Game extends Observable<Message> {
      * Creates the message to ask the player which students wants to move and where he wants to move to.
      */
     private void createMoveStudentsMessage(){
-        notify(new InfoActionPhase(currentPlayer.getUsername(), getAllSchoolBoards(), islands, motherNature.getPosition()));
-        notify(new MoveStudentFromEntranceMessage(currentPlayer.getUsername(), currentPlayer.getSchoolBoard().getEntrance()));
+        //notify(new InfoActionPhase(currentPlayer.getUsername(), getAllSchoolBoards(), islands, motherNature.getPosition()));
+        Message message = new MoveStudentFromEntranceMessage(currentPlayer.getUsername());
+        saveMessage(message);
+        notify(message);
+    }
+
+    /**
+     * Executes the action of moving a player from entrance to the dining room.
+     * @param student the color of the student to move
+     */
+    public void executeActionMoveStudentToDiningRoom(Color student){
+        if(currentPlayer.getSchoolBoard().getEntrance()[student.ordinal()] == 0)
+            notify(new ErrorMessage(ErrorTypeID.NO_STUDENT_WITH_COLOR_ENTRANCE, currentPlayer.getUsername()));
+        else{
+            currentPlayer.executeAction(new MoveStudentIntoDiningRoom(student, currentPlayer.getWallet(), currentPlayer.getSchoolBoard()));
+            notify(new InfoStudentIntoDiningRoomMessage(currentPlayer.getUsername()));
+            currentPlayer.setMoveCounter(currentPlayer.getMoveCounter() + 1);
+            checkNumberMoves();
+        }
+    }
+
+    public void executeActionMoveStudentToIsland(Color student, int idIsland){
+        if(currentPlayer.getSchoolBoard().getEntrance()[student.ordinal()] == 0) {
+            notify(new ErrorMessage(ErrorTypeID.NO_STUDENT_WITH_COLOR_ENTRANCE, currentPlayer.getUsername()));
+        }else if(currentPlayer.getSchoolBoard().getEntrance()[student.ordinal()] != 0 && !existingIsland(idIsland)){
+            notify(new ErrorMessage(ErrorTypeID.NO_ISLAND_WITH_THAT_ID, currentPlayer.getUsername()));
+        }else{
+            currentPlayer.executeAction(new MoveStudentOntoIsland(currentPlayer.getSchoolBoard(), student, findIsland(idIsland)));
+            currentPlayer.setMoveCounter(currentPlayer.getMoveCounter() + 1);
+            checkNumberMoves();
+        }
     }
 
     /**
      * Checks if the player has to move again a student.
      */
     public void checkNumberMoves(){
-        int numberMoves = 0;
+        int numberMoves;
         if(maxNumberOfPlayers == 2)
             numberMoves = 3;
         else
@@ -304,7 +333,9 @@ public class Game extends Observable<Message> {
             createMoveStudentsMessage();
         else{
             currentPlayer.setMoveCounter(0);
-            notify(new NumberStepsMotherNatureMessage(currentPlayer.getUsername()));
+            Message message = new NumberStepsMotherNatureMessage(currentPlayer.getUsername());
+            saveMessage(message);
+            notify(message);
         }
     }
 
@@ -315,7 +346,9 @@ public class Game extends Observable<Message> {
     public void moveMotherNature(int numSteps){
         gameState = GameState.MIDDLE_ACTION_PHASE;
         try{
-            motherNature.setIslandOn(motherNature.move(currentPlayer.getLastPlayedAssistantCard(), numSteps, islands));
+            Island newPosition = motherNature.move(currentPlayer.getLastPlayedAssistantCard(), numSteps, islands);
+            motherNature.setIslandOn(newPosition);
+            notify(new MotherNaturePositionMessage(newPosition));
         }catch (IllegalArgumentException e){
             notify(new ErrorMessage(ErrorTypeID.TOO_MANY_MOTHERNATURE_STEPS, currentPlayer.getUsername()));
         }
@@ -326,11 +359,16 @@ public class Game extends Observable<Message> {
      * Asks all the players to play assistant card.
      */
     private void createAssistantCardRequestMessage(){
-        Message message = new AssistantCardRequest(currentPlayer.getUsername(), currentPlayer.getAssistantDeck());
+        Message message = new AssistantCardRequest(currentPlayer.getUsername());
         saveMessage(message);
         notify(message);
     }
 
+    /**
+     * Sets the action to the player to play the assistant card and communicates to the others which card he played.
+     * @param username the username of the player that plays the assistant card.
+     * @param assistantCard the assistant card played.
+     */
     public void chooseAssistantCard(String username, AssistantCard assistantCard){
         try{
             currentPlayer.executeAction(new PlayAssistantCard(assistantCard, getPlayerByUsername(username),usedAssistantCards));
@@ -446,7 +484,7 @@ public class Game extends Observable<Message> {
 
     /**
      * This method merge two or more adjacent islands with the same dominator.
-     * @param motherNaturePosition
+     * @param motherNaturePosition the island where mother nature is located.
      * @throws RuntimeException
      */
     public void mergeNearIslands(Island motherNaturePosition) throws RuntimeException {
@@ -471,7 +509,9 @@ public class Game extends Observable<Message> {
                 availableCloudTiles.add(cloudTile);
         }
         gameState = GameState.END_ACTION_PHASE;
-        notify(new CloudTileRequest(availableCloudTiles, currentPlayer.getUsername()));
+        Message message = new CloudTileRequest(availableCloudTiles, currentPlayer.getUsername());
+        saveMessage(message);
+        notify(message);
     }
 
     /**
@@ -550,7 +590,7 @@ public class Game extends Observable<Message> {
             notify(new YourTurnMessage(currentPlayer.getUsername()));
             planningPhase();
         }else{
-            //TODO method for ending game
+            calculateWinner();
         }
     }
 
@@ -782,5 +822,21 @@ public class Game extends Observable<Message> {
 
     public void saveMessage(Message messageToSave){
         this.lastMessage = messageToSave;
+    }
+
+    private boolean existingIsland(int idIsland){
+        for(Island island: islands){
+            if(island.getId() == idIsland)
+                return true;
+        }
+        return false;
+    }
+
+    private Island findIsland(int idIsland){
+        for(Island island: islands){
+            if(island.getId() == idIsland)
+                return island;
+        }
+        return null;      //We don't expect to reach this statement because we check in the caller method if there's not an island with that id
     }
 }

@@ -13,7 +13,9 @@ public enum ErrorTypeID {
     EMPTY_GENERAL_COIN_SUPPLY("The general coin supply is empty! You won't receive the coin!"),
     CLOUD_TILE_ALREADY_CHOSEN("The selected cloud tile is already selected!"),
     NOT_ENOUGH_COINS("You don't have enough coins to buy this character card!"),
-    CHARACTER_CARD_NOT_AVAILABLE("The character card selected is not available!");
+    CHARACTER_CARD_NOT_AVAILABLE("The character card selected is not available!"),
+    NO_STUDENT_WITH_COLOR_ENTRANCE("There aren't students with that color in your entrance!"),
+    NO_ISLAND_WITH_THAT_ID("There aren't existing islands with that id!");
 
     private final String description;
 

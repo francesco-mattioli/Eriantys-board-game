@@ -18,6 +18,7 @@ public enum MessageType {
     COLORS_REPLY,   //What color?
     ASSISTANT_CARD_REQUEST,
     ASSISTANT_CARD_REPLY,
+    GIVE_ASSISTANT_DECK,
     CHARACTER_CARD_REQUEST,   //a player wants to use a character card
     CHARACTER_CARD_REPLY,     //server returns the available character cards
     CHARACTER_CARD_CHOICE,    //the card selected by the user
@@ -53,4 +54,5 @@ public enum MessageType {
     CHARACTER_CARD_11_PARAMETER,
     CHARACTER_CARD_12_PARAMETER,
     INFO_CHARACTER_CARD_PLAYED,
+    INFO_STUDENT_INTO_DINING_ROOM,
 }
