@@ -25,6 +25,7 @@ import java.util.NoSuchElementException;
 public class Controller implements Observer<Message> {
     private final Game game;
     private final ArrayList<VirtualView> virtualViews = new ArrayList<>();
+    String senderUsername;
 
     public Controller(Game game) {
         this.game = game;
@@ -74,7 +75,6 @@ public class Controller implements Observer<Message> {
      * @param message the message received.
      */
     private void loginPhaseSwitch(Message message) {
-        String senderUsername = ((ClientMessage) message).getSenderUsername();
         switch (message.getMessageType()) {
             case TOWER_COLOR_REPLY: {
                 try {
@@ -105,22 +105,6 @@ public class Controller implements Observer<Message> {
                     break;
                 }
             }
-            case ASSISTANT_CARD_REPLY: {
-                try {
-                    game.chooseAssistantCard(((ClientMessage) message).getSenderUsername(), ((AssistantCardReply) message).getChosenAssistantCard());
-                    createAssistantCardRequestMessage(game.getNextPlayerName(game.getPlayerByUsername(senderUsername)));
-                    break;
-                } catch (IllegalClientInputException e) {
-                    getVirtualViewByUsername(senderUsername).showErrorMessage(ErrorTypeID.);
-                    createWizardRequestMessage(senderUsername);
-                    break;
-                } catch (NoSuchElementException e) {
-                    game.setup();
-                    createAssistantCardRequestMessage(game.getCurrentPlayer().getUsername());
-                    game.sortPlayerPerTurn();
-                    break;
-                }
-            }
             default: {
                 characterCardsParametersSwitch(message);
                 break;
@@ -145,6 +129,7 @@ public class Controller implements Observer<Message> {
 
     @Override
     public void update(Message message) {
+        senderUsername = ((ClientMessage) message).getSenderUsername();
         switch (game.getGameState()) {
             case LOGIN:
                 loginPhaseSwitch(message);
@@ -170,18 +155,22 @@ public class Controller implements Observer<Message> {
      */
     private void planningPhaseSwitch(Message message) {
         switch (message.getMessageType()) {
-            case ASSISTANT_CARD_REPLY:
-                game.chooseAssistantCard(((ClientMessage) message).getSenderUsername(), ((AssistantCardReply) message).getChosenAssistantCard());
-                break;
-            case CHARACTER_CARD_REQUEST:
-                game.createCharacterCardsMessage();  //To modify, we need to check if the senderUsername is the current player.
-                break;
-            case CHARACTER_CARD_CHOICE:
-                game.manageEffectCharacterCards(((CharacterCardChoice) message).getSelectedCharacterCard().getId());
-                break;
-            default:
-                characterCardsParametersSwitch(message);
-                break;
+            case ASSISTANT_CARD_REPLY: {
+                try {
+                    game.chooseAssistantCard(((ClientMessage) message).getSenderUsername(), ((AssistantCardReply) message).getChosenAssistantCard());
+                    createAssistantCardRequestMessage(game.getNextPlayerName(game.getPlayerByUsername(senderUsername)));
+                    break;
+                } catch (IllegalClientInputException e) {
+                    //getVirtualViewByUsername(senderUsername).showErrorMessage(ErrorTypeID.);   to create the message type
+                    createWizardRequestMessage(senderUsername);
+                    break;
+                } catch (NoSuchElementException e) {
+                    game.setup();
+                    createAssistantCardRequestMessage(game.getCurrentPlayer().getUsername());
+                    game.sortPlayerPerTurn();
+                    break;
+                }
+            }
         }
     }
 
