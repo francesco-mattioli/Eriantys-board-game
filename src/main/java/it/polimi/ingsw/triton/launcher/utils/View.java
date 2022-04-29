@@ -51,7 +51,7 @@ public interface View {
 
     public void showTieMessage();
 
-    public void askTowerColor();
+    public void askTowerColor(boolean[] towerColorChosen);
 
     public void showWinMessage();
 

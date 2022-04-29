@@ -8,9 +8,9 @@ import java.util.ArrayList;
 /**
  * Communicates that cloud tiles are filled with new students.
  */
-public class FillCloudTilesMessage extends BroadcastServerMessage{
+public class CloudTilesInfoMessage extends BroadcastServerMessage{
     private ArrayList<CloudTile> cloudTiles;
-    public FillCloudTilesMessage(ArrayList<CloudTile> cloudTiles) {
+    public CloudTilesInfoMessage(ArrayList<CloudTile> cloudTiles) {
         super(MessageType.FILLED_CLOUD_TILES);
         this.cloudTiles = cloudTiles;
     }

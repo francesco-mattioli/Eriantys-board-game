@@ -103,10 +103,7 @@ public class Cli extends Observable<Message> implements ClientView, Observer<Obj
     }
 
 
-    @Override
-    public void askTowerColor() {
-        //TO DELETE
-    }
+
 
     @Override
     public void askTowerColor(boolean[] availableTowerColors) {
@@ -122,7 +119,7 @@ public class Cli extends Observable<Message> implements ClientView, Observer<Obj
             notify(new TowerColorReply(clientModel.getUsername(), TowerColor.valueOf(input.toUpperCase())));
         } catch (ExecutionException e) {
             out.println("Try again...");
-            askTowerColor();
+            //askTowerColor();
         }
     }
 

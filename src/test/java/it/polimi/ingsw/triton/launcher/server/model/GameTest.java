@@ -4,6 +4,7 @@ import it.polimi.ingsw.triton.launcher.server.model.enums.Color;
 import it.polimi.ingsw.triton.launcher.server.model.enums.TowerColor;
 import it.polimi.ingsw.triton.launcher.server.model.enums.Wizard;
 import it.polimi.ingsw.triton.launcher.server.model.player.Player;
+import it.polimi.ingsw.triton.launcher.utils.IllegalClientInputException;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -22,9 +23,21 @@ class GameTest {
         game.addPlayer("TestPlayer1");
         game.addPlayer("TestPlayer2");
         game.addPlayer("TestPlayer3");
-        game.chooseTowerColor("TestPlayer1",TowerColor.WHITE);
-        game.chooseTowerColor("TestPlayer2",TowerColor.BLACK);
-        game.chooseTowerColor("TestPlayer3",TowerColor.GREY);
+        try {
+            game.chooseTowerColor("TestPlayer1",TowerColor.WHITE);
+        } catch (IllegalClientInputException e) {
+            e.printStackTrace();
+        }
+        try {
+            game.chooseTowerColor("TestPlayer2",TowerColor.BLACK);
+        } catch (IllegalClientInputException e) {
+            e.printStackTrace();
+        }
+        try {
+            game.chooseTowerColor("TestPlayer3",TowerColor.GREY);
+        } catch (IllegalClientInputException e) {
+            e.printStackTrace();
+        }
         game.chooseWizard("TestPlayer1", Wizard.BLUE);
         game.chooseWizard("TestPlayer2", Wizard.GREEN);
         game.chooseWizard("TestPlayer3", Wizard.PURPLE);

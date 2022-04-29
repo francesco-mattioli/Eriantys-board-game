@@ -90,6 +90,7 @@ public class Server {
         //if the player is the first one, we need to wait that he has chosen the number of players
         if (numOfClients == 0 && isUsernameValid(username)) {
             firstPlayerVirtualView=new VirtualView(serveOneClient, username);
+            // THATS A PROBLEM!! TO SOLVE !!!!!!!!!!!!!!!!!!!!!!
             firstPlayerVirtualView.askGameMode();
             firstPlayerVirtualView.askNumOfPlayers();
             LOGGER.info("First player has logged. Waiting for game mode and number of players...");

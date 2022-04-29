@@ -4,10 +4,9 @@ import it.polimi.ingsw.triton.launcher.utils.message.MessageType;
 
 public class TowerColorRequest extends ServerMessage {
     private final boolean [] chosenTowerColors;
-    private String receiverUsername;
 
-    public TowerColorRequest(boolean [] chosenTowerColors, String receiverUsername) {
-        super(MessageType.TOWER_COLOR_REQUEST, receiverUsername);
+    public TowerColorRequest(boolean [] chosenTowerColors) {
+        super(MessageType.TOWER_COLOR_REQUEST);
         this.chosenTowerColors = chosenTowerColors;
     }
 

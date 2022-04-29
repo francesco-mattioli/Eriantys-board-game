@@ -24,6 +24,7 @@ public class VirtualView extends Observable<Message> implements View, Observer<M
     }
 
 
+
     public void askGameMode(){
         serveOneClient.sendMessage(new GameModeRequest(username));
     }
@@ -37,9 +38,6 @@ public class VirtualView extends Observable<Message> implements View, Observer<M
     }
 
 
-    public void askTowerColor(){
-
-    }
 
 
     @Override
@@ -150,6 +148,11 @@ public class VirtualView extends Observable<Message> implements View, Observer<M
     @Override
     public void showTieMessage() {
 
+    }
+
+    @Override
+    public void askTowerColor(boolean[] towerColorChosen) {
+        serveOneClient.sendMessage(new TowerColorRequest(towerColorChosen));
     }
 
 

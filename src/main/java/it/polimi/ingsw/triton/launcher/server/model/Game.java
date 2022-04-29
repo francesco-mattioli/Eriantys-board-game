@@ -12,6 +12,7 @@ import it.polimi.ingsw.triton.launcher.server.model.player.SchoolBoard;
 import it.polimi.ingsw.triton.launcher.server.model.playeractions.*;
 import it.polimi.ingsw.triton.launcher.server.model.professor.ProfessorStrategyDefault;
 import it.polimi.ingsw.triton.launcher.server.model.professor.ProfessorsManager;
+import it.polimi.ingsw.triton.launcher.utils.IllegalClientInputException;
 import it.polimi.ingsw.triton.launcher.utils.message.ErrorTypeID;
 import it.polimi.ingsw.triton.launcher.utils.obs.Observable;
 import it.polimi.ingsw.triton.launcher.utils.message.servermessage.*;
@@ -102,29 +103,19 @@ public class Game extends Observable<Message> {
             throw new IllegalArgumentException("Username already chosen");    //caught by lobby method in server
     }
 
-    /**
-     * Creates a new message for requesting to the player to choose the tower color.
-     * @param username the username of the receiver player.
-     */
-    public void createTowerColorRequestMessage(String username){
-        notify(new TowerColorRequest(towerColorChosen, username));
-    }
 
     /**
      * This method set the player's schoolboard with the chosen tower color
      * @param username the username of the player that has chosen the tower color.
      * @param towerColor the color of the tower.
      */
-    public void chooseTowerColor(String username, TowerColor towerColor) {
-        Player p = getPlayerByUsername(username);
-        p.setSchoolBoard(towerColor, maxNumberOfPlayers);
-        towerColorChosen[towerColor.ordinal()] = true;
-        try{
-            String nextUsername = getNextPlayerName(p);
-            createTowerColorRequestMessage(nextUsername);
+    public void chooseTowerColor(String username, TowerColor towerColor) throws IllegalClientInputException {
+        if(towerColorChosen[towerColor.ordinal()]){
+            throw new IllegalClientInputException();
         }
-        catch (NoSuchElementException e){
-            createChooseWizardMessage(players.get(0).getUsername());
+        else{
+            getPlayerByUsername(username).setSchoolBoard(towerColor, maxNumberOfPlayers);
+            towerColorChosen[towerColor.ordinal()] = true;
         }
     }
 
@@ -141,15 +132,13 @@ public class Game extends Observable<Message> {
      * @param username the player's username of who sets the wizard.
      * @param wizard the wizard selected by the player.
      */
-    public void chooseWizard(String username, Wizard wizard){
-        Player p = getPlayerByUsername(username);
-        p.setWizard(wizard);
-        availableWizards.remove(wizard);
-        try{
-            String nextUsername = getNextPlayerName(p);
-            createChooseWizardMessage(nextUsername);
-        }catch (NoSuchElementException e){
-            setup();
+    public void chooseWizard(String username, Wizard wizard) throws IllegalClientInputException {
+        if(!availableWizards.contains(wizard)){
+            throw new IllegalClientInputException();
+        }
+        else{
+            getPlayerByUsername(username).setWizard(wizard);
+            availableWizards.remove(wizard);
         }
     }
 
@@ -158,7 +147,7 @@ public class Game extends Observable<Message> {
      * @return the next player that will play his turn.
      * @throws NoSuchElementException if the there's not a next player.
      */
-    private String getNextPlayerName(Player current) throws NoSuchElementException{
+    public String getNextPlayerName(Player current) throws NoSuchElementException{
         int index = players.indexOf(current);
         if(index < players.size()-1){
             currentPlayer = players.get(index+1);
@@ -172,7 +161,7 @@ public class Game extends Observable<Message> {
      * @return the player with the passed username.
      * @throws NoSuchElementException if there's not a player with the passed username.
      */
-    private Player getPlayerByUsername(String username) throws NoSuchElementException {
+    public Player getPlayerByUsername(String username) throws NoSuchElementException {
         for(Player p : players){
             if(p.getUsername().equals(username))
                 return p;
@@ -273,8 +262,11 @@ public class Game extends Observable<Message> {
         gameState = GameState.PLANNING_PHASE;
         addStudentsToCloudTiles();
         resetPlayedCardInTurn();
-        createAssistantCardRequestMessage();
+        notify(new CloudTilesInfoMessage(cloudTiles));
+
     }
+
+
 
     //Action phase
     public void actionPhase(){
@@ -366,24 +358,7 @@ public class Game extends Observable<Message> {
         notify(message);
     }
 
-    /**
-     * Sets the action to the player to play the assistant card and communicates to the others which card he played.
-     * @param username the username of the player that plays the assistant card.
-     * @param assistantCard the assistant card played.
-     */
-    public void chooseAssistantCard(String username, AssistantCard assistantCard){
-        try{
-            currentPlayer.executeAction(new PlayAssistantCard(assistantCard, getPlayerByUsername(username),usedAssistantCards));
-            notify(new InfoAssistantCardPlayedMessage(currentPlayer.getUsername(), assistantCard));
-            nextPlayCardTurn();
-        }
-        catch (NoSuchElementException e){  //case player name not found in players
 
-        }
-        catch (RuntimeException e) {  //case AssistantCard already chosen in the same turn
-            notify(new ErrorMessage(ErrorTypeID.ASSISTANTCARD_ALREADY_CHOSEN, currentPlayer.getUsername()));
-        }
-    }
 
 
     //--- methods for the PIANIFICATION PHASE
