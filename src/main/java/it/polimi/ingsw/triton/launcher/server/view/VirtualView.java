@@ -10,7 +10,6 @@ import it.polimi.ingsw.triton.launcher.utils.View;
 public class VirtualView extends Observable<Message> implements View, Observer<Message> {
     private ServeOneClient serveOneClient;
     private String username;
-    private Message message;
 
 
 
@@ -21,146 +20,9 @@ public class VirtualView extends Observable<Message> implements View, Observer<M
 
     @Override
     public void update(Message message) {
-        this.message = message;
-        switch (message.getMessageType()){
-            case TOWER_COLOR_REQUEST:{
-                if (getUsername().equals(((TowerColorRequest) message).getReceiverUsername()))
-                    askTowerColor();
-                break;
-            }
-
-            case WIN:{
-                if (getUsername().equals(((WinMessage) message).getReceiverUsername()))
-                    showWinMessage();
-                else showLoseMessage(((WinMessage) message).getReceiverUsername());
-                break;
-            }
-
-            case ASSISTANT_CARD_REQUEST:{
-                if (getUsername().equals(((AssistantCardRequest)message).getReceiverUsername()))
-                    askAssistantCard();
-                break;
-            }
-
-            case CHANGE_INFLUENCE_ISLAND:{
-                showChangeInfluenceMessage();
-                break;
-            }
-
-            case CLOUD_TILE_REQUEST:{
-                if (getUsername().equals(((CloudTileRequest) message).getReceiverUsername()))
-                    askCloudTile();
-                break;
-            }
-
-            case DISCONNECTION:{
-                showDisconnectionMessage();
-                break;
-            }
-
-            case EMPTY_BAG:{
-                showEmptyBagMessage();
-                break;
-            }
-
-            case FILLED_CLOUD_TILES:{
-                showFillCloudTilesMessage();
-                break;
-            }
-
-            case FULL_LOBBY:{
-                if (getUsername().equals(((FullLobbyMessage) message).getReceiverUsername()))
-                    showFullLobbyMessage();
-                break;
-            }
-
-            case GAME_INFO:{
-                showGameInfo();
-                break;
-            }
-
-            case GENERIC:{
-                if (getUsername().equals(((GenericMessage) message).getReceiverUsername()))
-                    showGenericMessage();
-                break;
-            }
-
-            case INFO_ACTION_PHASE:{
-                if (getUsername().equals(((InfoActionPhase) message).getReceiverUsername()))
-                    showInfoActionPhase();
-                break;
-            }
-
-            case INFO_ASSISTANT_CARD_PLAYED:{
-                showInfoAssistantCardPlayed();
-                break;
-            }
-
-            case LOBBY:{
-                showLobbyMessage();
-                break;
-            }
-
-            case LOGIN_REPLY:{
-                if (getUsername().equals(((LoginReply) message).getReceiverUsername()))
-                    showLoginReply();
-                break;
-            }
-
-            case MERGE_ISLANDS:{
-                showMergeIslandsMessage();
-                break;
-            }
-
-            case MOTHER_NATURE_POSITION:{
-                showMotherNaturePosition();
-                break;
-            }
-
-            case MOVE_STUDENT_FROM_ENTRANCE:{
-                if (getUsername().equals(((MoveStudentFromEntranceMessage) message).getReceiverUsername()))
-                    askMoveStudentFromEntrance();
-                break;
-            }
-
-            case TOWER_ON_ISLAND:{
-                showMoveTowerOntoIsland();
-                break;
-            }
-
-            case TOWER_ON_SCHOOLBOARD:{
-                showMoveTowerOntoSchoolBoard();
-                break;
-            }
-
-            case NUMBER_STEPS_MOTHER_NATURE:{
-                if (getUsername().equals(((NumberStepsMotherNatureMessage) message).getReceiverUsername()))
-                    askNumberStepsMotherNature();
-                break;
-            }
-
-            case TIE:{
-                showTieMessage();
-                break;
-            }
-
-            case WIZARD_REQUEST:{
-                if (getUsername().equals(((WizardRequest) message).getReceiverUsername()))
-                    askWizard();
-                break;
-            }
-
-            case YOUR_TURN:{
-                showYourTurnMessage();
-                break;
-            }
-
-
-
-
-        }
-
+        message.accept(new MessageVisitor(serveOneClient,this.getUsername()));
     }
+
 
     public void askGameMode(){
         serveOneClient.sendMessage(new GameModeRequest(username));
@@ -170,42 +32,35 @@ public class VirtualView extends Observable<Message> implements View, Observer<M
         serveOneClient.sendMessage(new PlayersNumberRequest(username));
     }
 
-    public void showErrorMessage(ErrorTypeID errorTypeID){
-        serveOneClient.sendMessage(new ErrorMessage(errorTypeID, username));
-    }
 
     public void askTowerColor(){
-        serveOneClient.sendMessage(message);
+
     }
 
-    @Override
-    public void askUsername() {
-        // TODO
-    }
 
     @Override
     public void askAssistantCard() {
-        serveOneClient.sendMessage(message);
+
     }
 
     @Override
     public void showChangeInfluenceMessage() {
-        serveOneClient.sendMessage(message);
+
     }
 
     @Override
     public void askCloudTile() {
-        serveOneClient.sendMessage(message);
+
     }
 
     @Override
     public void showDisconnectionMessage() {
-        serveOneClient.sendMessage(message);
+
     }
 
     @Override
     public void showEmptyBagMessage() {
-        serveOneClient.sendMessage(message);
+
     }
 
     @Override
@@ -215,72 +70,72 @@ public class VirtualView extends Observable<Message> implements View, Observer<M
 
     @Override
     public void showFillCloudTilesMessage() {
-        serveOneClient.sendMessage(message);
+
     }
 
     @Override
     public void showFullLobbyMessage() {
-        serveOneClient.sendMessage(message);
+
     }
 
     @Override
     public void showGameInfo() {
-        serveOneClient.sendMessage(message);
+
     }
 
     @Override
     public void showGenericMessage() {
-        serveOneClient.sendMessage(message);
+
     }
 
     @Override
     public void showInfoActionPhase() {
-        serveOneClient.sendMessage(message);
+
     }
 
     @Override
     public void showInfoAssistantCardPlayed() {
-        serveOneClient.sendMessage(message);
+
     }
 
     @Override
     public void showLobbyMessage() {
-        serveOneClient.sendMessage(message);
+
     }
 
     @Override
     public void showLoginReply() {
-        serveOneClient.sendMessage(message);
+
     }
 
     @Override
     public void showMergeIslandsMessage() {
-        serveOneClient.sendMessage(message);
+
     }
 
     @Override
     public void showMotherNaturePosition() {
-        serveOneClient.sendMessage(message);
+
     }
 
     @Override
     public void askMoveStudentFromEntrance() {
-        serveOneClient.sendMessage(message);
+
     }
 
     @Override
     public void showMoveTowerOntoIsland() {
-        serveOneClient.sendMessage(message);
+
     }
 
     @Override
     public void showMoveTowerOntoSchoolBoard() {
-        serveOneClient.sendMessage(message);
+
     }
 
     @Override
     public void askNumberStepsMotherNature() {
-        serveOneClient.sendMessage(message);
+
     }
 
     @Override
@@ -290,34 +145,34 @@ public class VirtualView extends Observable<Message> implements View, Observer<M
 
     @Override
     public void showTieMessage() {
-        serveOneClient.sendMessage(message);
+
     }
 
 
     @Override
     public void showWinMessage() {
-        serveOneClient.sendMessage(message);
+
     }
 
 
     @Override
-    public void showLoseMessage(String winnerUsername) {
-        serveOneClient.sendMessage(new LoseMessage(winnerUsername));
+    public void showLoseMessage() {
+
     }
 
     @Override
     public void askWizard() {
-        serveOneClient.sendMessage(message);
+
     }
 
     @Override
     public void showYourTurnMessage() {
-        serveOneClient.sendMessage(message);
+
     }
 
     @Override
     public void showAvailableCharacterCard() {
-        serveOneClient.sendMessage(message);
+
     }
 
     @Override
@@ -332,6 +187,31 @@ public class VirtualView extends Observable<Message> implements View, Observer<M
 
     @Override
     public void askIslandToPutNoEntryTileCharCard05() {
+
+    }
+
+    @Override
+    public void askStudentToSwitchFromCardToEntranceCharCard07() {
+
+    }
+
+    @Override
+    public void askColorWithNoInfluenceCharCard09() {
+
+    }
+
+    @Override
+    public void askStudentsToSwitchCharCard10() {
+
+    }
+
+    @Override
+    public void askStudentsToMoveIntoDiningRoomCharCard11() {
+
+    }
+
+    @Override
+    public void askColorCharCard12() {
 
     }
 
