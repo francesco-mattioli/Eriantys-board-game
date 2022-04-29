@@ -849,4 +849,12 @@ public class Game extends Observable<Message> {
     public GameState getGameState() {
         return gameState;
     }
+
+    public CharacterCard getCharacterCardById(int idCard){
+        for(CharacterCard characterCard: characterCards){
+            if(characterCard.getId() == idCard)
+                return characterCard;
+        }
+        return null;     //We don't expect to reach this statement because we check before if there's a card with that id.
+    }
 }

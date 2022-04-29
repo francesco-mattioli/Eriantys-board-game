@@ -2,6 +2,10 @@ package it.polimi.ingsw.triton.launcher.server.controller;
 
 import it.polimi.ingsw.triton.launcher.client.cli.Cli;
 import it.polimi.ingsw.triton.launcher.server.model.Game;
+import it.polimi.ingsw.triton.launcher.server.model.cardeffects.CardEffect;
+import it.polimi.ingsw.triton.launcher.server.model.cardeffects.CardEffect01;
+import it.polimi.ingsw.triton.launcher.server.model.cardeffects.CardEffect03;
+import it.polimi.ingsw.triton.launcher.server.model.cardeffects.CardEffect05;
 import it.polimi.ingsw.triton.launcher.server.model.enums.Wizard;
 import it.polimi.ingsw.triton.launcher.utils.message.clientmessage.*;
 import it.polimi.ingsw.triton.launcher.utils.obs.Observer;
@@ -97,6 +101,9 @@ public class Controller implements Observer<Message> {
             case WIZARD_REPLY:
                 game.chooseWizard(((ClientMessage)message).getSenderUsername(), ((WizardReply)message).getPlayerWizard());
             break;
+            default:
+                characterCardsParametersSwitch(message);
+            break;
         }
     }
 
@@ -114,6 +121,39 @@ public class Controller implements Observer<Message> {
             break;
             case CHARACTER_CARD_CHOICE:
                 game.manageEffectCharacterCards(((CharacterCardChoice)message).getSelectedCharacterCard().getId());
+            break;
+            default:
+                characterCardsParametersSwitch(message);
+            break;
+        }
+    }
+
+    /**
+     * It manages the creation of the effects and calls a method in game to execute them.
+     * @param message the message received
+     */
+    private void characterCardsParametersSwitch(Message message){
+        CardEffect cardEffect;
+        switch (message.getMessageType()){
+            case CHARACTER_CARD_01_PARAMETER:
+                cardEffect = new CardEffect01(game.getCharacterCardById(1), ((CharacterCard01Reply)message).getStudent(),((CharacterCard01Reply)message).getIsland(), game.getBag());
+                game.useCharacterCardsWithPreparation(game.getCharacterCardById(1), cardEffect);
+            break;
+            case CHARACTER_CARD_03_PARAMETER:
+                cardEffect = new CardEffect03(((CharacterCard03Reply)message).getIsland(), game.getPlayers(), game.getProfessors());
+                game.useCharacterCardsWithPreparation(game.getCharacterCardById(3), cardEffect);
+            break;
+            case CHARACTER_CARD_05_PARAMETER:
+                cardEffect = new CardEffect05(((CharacterCard05Reply)message).getIsland(), game.getCharacterCardById(5));
+                game.useCharacterCardsWithPreparation(game.getCharacterCardById(5), cardEffect);
+            break;
+            case CHARACTER_CARD_09_PARAMETER:
+            break;
+            case CHARACTER_CARD_10_PARAMETER:
+            break;
+            case CHARACTER_CARD_11_PARAMETER:
+            break;
+            case CHARACTER_CARD_12_PARAMETER:
             break;
         }
     }
