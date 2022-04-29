@@ -14,6 +14,10 @@ import it.polimi.ingsw.triton.launcher.server.model.professor.ProfessorStrategyD
 import it.polimi.ingsw.triton.launcher.server.model.professor.ProfessorsManager;
 import it.polimi.ingsw.triton.launcher.utils.IllegalClientInputException;
 import it.polimi.ingsw.triton.launcher.utils.message.ErrorTypeID;
+import it.polimi.ingsw.triton.launcher.utils.message.servermessage.Broadcast.*;
+import it.polimi.ingsw.triton.launcher.utils.message.servermessage.CharacterCards.*;
+import it.polimi.ingsw.triton.launcher.utils.message.servermessage.Requests.CloudTileRequest;
+import it.polimi.ingsw.triton.launcher.utils.message.servermessage.Requests.WizardRequest;
 import it.polimi.ingsw.triton.launcher.utils.obs.Observable;
 import it.polimi.ingsw.triton.launcher.utils.message.servermessage.*;
 import it.polimi.ingsw.triton.launcher.utils.message.Message;
@@ -45,8 +49,6 @@ public class Game extends Observable<Message> {
     private ArrayList<Wizard> availableWizards;
     private boolean lastRound = false;
     private GameState gameState;
-    private Message lastMessage;
-
 
     public Game(int maxNumberOfPlayers) {
         this.islands = new ArrayList<>();
@@ -124,7 +126,7 @@ public class Game extends Observable<Message> {
      * @param username the receiver player's username.
      */
     public void createChooseWizardMessage(String username){
-        notify(new WizardRequest(availableWizards, username));
+        notify(new WizardRequest(availableWizards));
     }
 
     /**
@@ -228,13 +230,13 @@ public class Game extends Observable<Message> {
             if(exit)
                 break;
         }
-        notify(new FillCloudTilesMessage(cloudTiles));
+        notify(new CloudTilesInfoMessage(cloudTiles));
     }
 
     /**
      * This method defines the game turn based on the played assistant cards
      */
-    private void sortPlayerPerTurn() {
+    public void sortPlayerPerTurn() {
         players.sort(new PlayerTurnComparator());
     }
 
@@ -242,7 +244,7 @@ public class Game extends Observable<Message> {
      * This method allows one player per time to play his assistant card.
      * When all the players have played their card the game defines the game turn.
      */
-    private void nextPlayCardTurn() {
+    /*private void nextPlayCardTurn() {
         if (players.indexOf(currentPlayer) < maxNumberOfPlayers - 1) {
             currentPlayer = players.get(players.indexOf(currentPlayer) + 1);
             notify(new YourTurnMessage(currentPlayer.getUsername()));
@@ -254,7 +256,7 @@ public class Game extends Observable<Message> {
             notify(new YourTurnMessage(currentPlayer.getUsername()));
             actionPhase();
         }
-    }
+    }*/
 
 
     // Planning phase
@@ -281,7 +283,6 @@ public class Game extends Observable<Message> {
     private void createMoveStudentsMessage(){
         //notify(new InfoActionPhase(currentPlayer.getUsername(), getAllSchoolBoards(), islands, motherNature.getPosition()));
         Message message = new MoveStudentFromEntranceMessage(currentPlayer.getUsername());
-        saveMessage(message);
         notify(message);
     }
 
@@ -291,7 +292,7 @@ public class Game extends Observable<Message> {
      */
     public void executeActionMoveStudentToDiningRoom(Color student){
         if(currentPlayer.getSchoolBoard().getEntrance()[student.ordinal()] == 0 || student == null)
-            notify(new ErrorMessage(ErrorTypeID.NO_STUDENT_WITH_COLOR_ENTRANCE, currentPlayer.getUsername()));
+            notify(new ErrorMessage(ErrorTypeID.NO_STUDENT_WITH_COLOR_ENTRANCE));
         else{
             currentPlayer.executeAction(new MoveStudentIntoDiningRoom(student, currentPlayer.getWallet(), currentPlayer.getSchoolBoard()));
             if(currentPlayer.getSchoolBoard().getDiningRoom()[student.ordinal()] % 3 == 0)
@@ -304,9 +305,9 @@ public class Game extends Observable<Message> {
 
     public void executeActionMoveStudentToIsland(Color student, int idIsland){
         if(currentPlayer.getSchoolBoard().getEntrance()[student.ordinal()] == 0) {
-            notify(new ErrorMessage(ErrorTypeID.NO_STUDENT_WITH_COLOR_ENTRANCE, currentPlayer.getUsername()));
+            notify(new ErrorMessage(ErrorTypeID.NO_STUDENT_WITH_COLOR_ENTRANCE));
         }else if(currentPlayer.getSchoolBoard().getEntrance()[student.ordinal()] != 0 && !existingIsland(idIsland)){
-            notify(new ErrorMessage(ErrorTypeID.NO_ISLAND_WITH_THAT_ID, currentPlayer.getUsername()));
+            notify(new ErrorMessage(ErrorTypeID.NO_ISLAND_WITH_THAT_ID));
         }else{
             currentPlayer.executeAction(new MoveStudentOntoIsland(currentPlayer.getSchoolBoard(), student, findIsland(idIsland)));
             currentPlayer.setMoveCounter(currentPlayer.getMoveCounter() + 1);
@@ -328,7 +329,6 @@ public class Game extends Observable<Message> {
         else{
             currentPlayer.setMoveCounter(0);
             Message message = new NumberStepsMotherNatureMessage(currentPlayer.getUsername());
-            saveMessage(message);
             notify(message);
         }
     }
@@ -344,19 +344,11 @@ public class Game extends Observable<Message> {
             motherNature.setIslandOn(newPosition);
             notify(new MotherNaturePositionMessage(newPosition));
         }catch (IllegalArgumentException e){
-            notify(new ErrorMessage(ErrorTypeID.TOO_MANY_MOTHERNATURE_STEPS, currentPlayer.getUsername()));
+            notify(new ErrorMessage(ErrorTypeID.TOO_MANY_MOTHERNATURE_STEPS));
         }
         mergeNearIslands(motherNature.getPosition());
     }
 
-    /**
-     * Asks all the players to play assistant card.
-     */
-    private void createAssistantCardRequestMessage(){
-        Message message = new AssistantCardRequest(currentPlayer.getUsername());
-        saveMessage(message);
-        notify(message);
-    }
 
 
 
@@ -490,8 +482,7 @@ public class Game extends Observable<Message> {
                 availableCloudTiles.add(cloudTile);
         }
         gameState = GameState.END_ACTION_PHASE;
-        Message message = new CloudTileRequest(availableCloudTiles, currentPlayer.getUsername());
-        saveMessage(message);
+        Message message = new CloudTileRequest(availableCloudTiles);
         notify(message);
     }
 
@@ -503,7 +494,7 @@ public class Game extends Observable<Message> {
         try{
             currentPlayer.executeAction(new ChooseCloudTile(cloudTile, currentPlayer.getSchoolBoard()));
         }catch (RuntimeException e){
-            notify(new ErrorMessage(ErrorTypeID.CLOUD_TILE_ALREADY_CHOSEN, currentPlayer.getUsername()));
+            notify(new ErrorMessage(ErrorTypeID.CLOUD_TILE_ALREADY_CHOSEN));
         }
         cloudTile.setAlreadyUsed(true);
         nextGameTurn();
@@ -579,7 +570,7 @@ public class Game extends Observable<Message> {
      * This method creates a new message to choose the character card.
      */
     public void createCharacterCardsMessage(){
-        notify(new AvailableCharacterCardReply(characterCards, currentPlayer.getUsername()));
+        notify(new AvailableCharacterCardReply(characterCards));
     }
 
     /**
@@ -597,33 +588,33 @@ public class Game extends Observable<Message> {
             }
         }
         if(!foundCard)
-            notify(new ErrorMessage(ErrorTypeID.CHARACTER_CARD_NOT_AVAILABLE, currentPlayer.getUsername()));
+            notify(new ErrorMessage(ErrorTypeID.CHARACTER_CARD_NOT_AVAILABLE));
         else if(foundCard && !canBuyCharacterCard(currentPlayer, characterCards.get(indexCard))){
-            notify(new ErrorMessage(ErrorTypeID.NOT_ENOUGH_COINS, currentPlayer.getUsername()));
+            notify(new ErrorMessage(ErrorTypeID.NOT_ENOUGH_COINS));
         }else{
             switch (idCard){
                 case 1:
-                    notify(new CharacterCard01Request(currentPlayer.getUsername()));
+                    notify(new CharacterCard01Request());
                 break;
                 case 3:
-                    notify(new CharacterCard03Request(currentPlayer.getUsername()));
+                    notify(new CharacterCard03Request());
                 case 5:
-                    notify(new CharacterCard05Request(currentPlayer.getUsername()));
+                    notify(new CharacterCard05Request());
                 break;
                 case 7:
-                    notify(new CharacterCard07Request(currentPlayer.getUsername()));
+                    notify(new CharacterCard07Request());
                 break;
                 case 9:
-                    notify(new CharacterCard09Request(currentPlayer.getUsername()));
+                    notify(new CharacterCard09Request());
                 break;
                 case 10:
-                    notify(new CharacterCard10Request(currentPlayer.getUsername()));
+                    notify(new CharacterCard10Request());
                 break;
                 case 11:
-                    notify(new CharacterCard11Request(currentPlayer.getUsername()));
+                    notify(new CharacterCard11Request());
                 break;
                 case 12:
-                    notify(new CharacterCard12Request(currentPlayer.getUsername()));
+                    notify(new CharacterCard12Request());
                 break;
                 default:
                     useCharacterCardWithoutPreparation(characterCards.get(indexCard));
@@ -697,8 +688,8 @@ public class Game extends Observable<Message> {
     public void withdrawCoin() {
         if(generalCoinSupply > 0)
             generalCoinSupply--;
-        else
-            notify(new ErrorMessage(ErrorTypeID.EMPTY_GENERAL_COIN_SUPPLY, currentPlayer.getUsername()));
+        /*else
+            notify(new ErrorMessage());*/
     }
 
     /**
@@ -795,14 +786,6 @@ public class Game extends Observable<Message> {
 
     public Player[] getProfessors() {
         return professors;
-    }
-
-    public Message getLastMessage(){
-        return lastMessage;
-    }
-
-    public void saveMessage(Message messageToSave){
-        this.lastMessage = messageToSave;
     }
 
     private boolean existingIsland(int idIsland){

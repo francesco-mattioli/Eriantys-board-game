@@ -74,9 +74,8 @@ public class Controller implements Observer<Message> {
      * @param message the message received.
      */
     private void loginPhaseSwitch(Message message) {
-        String senderUsername = ((ClientMessage) message).getSenderUsername(),
+        String senderUsername = ((ClientMessage) message).getSenderUsername();
         switch (message.getMessageType()) {
-
             case TOWER_COLOR_REPLY: {
                 try {
                     game.chooseTowerColor(senderUsername, ((TowerColorReply) message).getPlayerColor());
@@ -91,7 +90,7 @@ public class Controller implements Observer<Message> {
                     break;
                 }
             }
-            case WIZARD_REPLY:
+            case WIZARD_REPLY: {
                 try {
                     game.chooseWizard(((ClientMessage) message).getSenderUsername(), ((WizardReply) message).getPlayerWizard());
                     createWizardRequestMessage(game.getNextPlayerName(game.getPlayerByUsername(senderUsername)));
@@ -105,29 +104,30 @@ public class Controller implements Observer<Message> {
                     createAssistantCardRequestMessage(game.getCurrentPlayer().getUsername());
                     break;
                 }
-            case ASSISTANT_CARD_REPLY:
+            }
+            case ASSISTANT_CARD_REPLY: {
                 try {
                     game.chooseAssistantCard(((ClientMessage) message).getSenderUsername(), ((AssistantCardReply) message).getChosenAssistantCard());
-                    createWizardRequestMessage(game.getNextPlayerName(game.getPlayerByUsername(senderUsername)));
+                    createAssistantCardRequestMessage(game.getNextPlayerName(game.getPlayerByUsername(senderUsername)));
                     break;
                 } catch (IllegalClientInputException e) {
-                    getVirtualViewByUsername(senderUsername).showErrorMessage(ErrorTypeID.WRONG_WIZARD);
+                    getVirtualViewByUsername(senderUsername).showErrorMessage(ErrorTypeID.);
                     createWizardRequestMessage(senderUsername);
                     break;
                 } catch (NoSuchElementException e) {
                     game.setup();
                     createAssistantCardRequestMessage(game.getCurrentPlayer().getUsername());
+                    game.sortPlayerPerTurn();
                     break;
                 }
-        }
-        }
-
-
-            default:
+            }
+            default: {
                 characterCardsParametersSwitch(message);
                 break;
+            }
         }
     }
+
 
 
 
@@ -216,6 +216,7 @@ public class Controller implements Observer<Message> {
         }
     }
 }
+
 
 
 

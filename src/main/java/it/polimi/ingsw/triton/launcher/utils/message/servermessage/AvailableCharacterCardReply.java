@@ -8,8 +8,8 @@ import java.util.ArrayList;
 public class AvailableCharacterCardReply extends ServerMessage {
     private final ArrayList<CharacterCard> availableCharacterCards;
     private String receiverUsername;
-    public AvailableCharacterCardReply(ArrayList<CharacterCard> availableCharacterCards, String receiverUsername) {
-        super(MessageType.CHARACTER_CARD_REPLY, receiverUsername);
+    public AvailableCharacterCardReply(ArrayList<CharacterCard> availableCharacterCards) {
+        super(MessageType.CHARACTER_CARD_REPLY);
         this.availableCharacterCards = availableCharacterCards;
     }
 

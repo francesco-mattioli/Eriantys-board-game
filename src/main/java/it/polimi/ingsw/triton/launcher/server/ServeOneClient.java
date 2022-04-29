@@ -1,12 +1,12 @@
 package it.polimi.ingsw.triton.launcher.server;
 
-import it.polimi.ingsw.triton.launcher.server.Server;
 import it.polimi.ingsw.triton.launcher.utils.message.Message;
 import it.polimi.ingsw.triton.launcher.utils.message.MessageType;
 import it.polimi.ingsw.triton.launcher.utils.message.clientmessage.ClientMessage;
 import it.polimi.ingsw.triton.launcher.utils.message.clientmessage.GameModeReply;
 import it.polimi.ingsw.triton.launcher.utils.message.clientmessage.PlayersNumberReply;
 import it.polimi.ingsw.triton.launcher.server.view.VirtualView;
+import it.polimi.ingsw.triton.launcher.utils.message.servermessage.CharacterCards.CharacterCardMessages;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -25,6 +25,7 @@ public class ServeOneClient implements Runnable {
     private ObjectOutputStream outSocket; //output stream for sending messages to the client
     private final boolean connected;
     private boolean active = true;
+    private Message lastMessage;
 
     public ServeOneClient(Socket socketClient, Server server, int id) {
         this.socket = socketClient;
@@ -78,8 +79,14 @@ public class ServeOneClient implements Runnable {
     }
 
 
+    public Message getLastMessage() {
+        return lastMessage;
+    }
+
     public synchronized void sendMessage(Message message) {
         try {
+            if(!(message instanceof CharacterCardMessages))
+                lastMessage = message;
             outSocket.reset();
             outSocket.writeObject(message);
             outSocket.flush();

@@ -2,6 +2,7 @@ package it.polimi.ingsw.triton.launcher.utils.message.servermessage;
 
 import it.polimi.ingsw.triton.launcher.server.ServeOneClient;
 import it.polimi.ingsw.triton.launcher.utils.message.Message;
+import it.polimi.ingsw.triton.launcher.utils.message.servermessage.Broadcast.BroadcastServerMessage;
 
 public class MessageVisitor {
 

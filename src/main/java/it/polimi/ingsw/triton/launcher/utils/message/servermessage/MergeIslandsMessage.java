@@ -2,11 +2,12 @@ package it.polimi.ingsw.triton.launcher.utils.message.servermessage;
 
 import it.polimi.ingsw.triton.launcher.server.model.Island;
 import it.polimi.ingsw.triton.launcher.utils.message.MessageType;
+import it.polimi.ingsw.triton.launcher.utils.message.servermessage.Broadcast.BroadcastServerMessage;
 
 /**
  * This message communicates to the player that 2 islands are merged and the new island has a dominator.
  */
-public class MergeIslandsMessage extends BroadcastServerMessage{
+public class MergeIslandsMessage extends BroadcastServerMessage {
     private final Island islandWithMotherNature;
     private final Island islandToDelete;
     private final String usernameDominator;
