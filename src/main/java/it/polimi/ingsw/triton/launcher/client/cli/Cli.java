@@ -4,12 +4,10 @@ import it.polimi.ingsw.triton.launcher.client.model.ClientModel;
 import it.polimi.ingsw.triton.launcher.server.model.CloudTile;
 import it.polimi.ingsw.triton.launcher.server.model.Island;
 import it.polimi.ingsw.triton.launcher.server.model.enums.TowerColor;
-import it.polimi.ingsw.triton.launcher.server.model.enums.Wizard;
 import it.polimi.ingsw.triton.launcher.server.model.player.SchoolBoard;
 import it.polimi.ingsw.triton.launcher.utils.message.ErrorTypeID;
 import it.polimi.ingsw.triton.launcher.utils.message.clientmessage.*;
 import it.polimi.ingsw.triton.launcher.utils.obs.Observable;
-import it.polimi.ingsw.triton.launcher.utils.obs.Observer;
 import it.polimi.ingsw.triton.launcher.client.Client;
 import it.polimi.ingsw.triton.launcher.utils.message.Message;
 import it.polimi.ingsw.triton.launcher.utils.message.MessageType;
@@ -20,10 +18,7 @@ import java.util.concurrent.ExecutionException;
 import java.util.concurrent.FutureTask;
 
 
-/**
- * The type Cli.
- */
-public class Cli extends Observable<Message> implements ClientView, Observer<Object>{
+public class Cli extends Observable<Message> implements ClientView{
     private final PrintStream out;
     private ClientModel clientModel;
     /**
@@ -106,12 +101,12 @@ public class Cli extends Observable<Message> implements ClientView, Observer<Obj
 
 
     @Override
-    public void askTowerColor(boolean[] availableTowerColors) {
+    public void askTowerColor(boolean[] chosenTowerColors) {
         String input="";
         try {
             out.print("Choose a tower color [ ");
-            for(int i=0;i< availableTowerColors.length;i++){
-                if(availableTowerColors[i])
+            for(int i=0;i< chosenTowerColors.length;i++){
+                if(chosenTowerColors[i])
                     out.print(TowerColor.values()[i]+" ");
             }
             out.print("]");
@@ -335,19 +330,12 @@ public class Cli extends Observable<Message> implements ClientView, Observer<Obj
         throw new NullPointerException("the methods had read a null string");
     }
 
-    @Override
-    public void update(Object object) {
-
-    }
 
     @Override
     public void showGenericMessage(String genericMessage) {
         out.println(genericMessage);
     }
 
-    public ClientModel getClientModel() {
-        return clientModel;
-    }
 }
 
 

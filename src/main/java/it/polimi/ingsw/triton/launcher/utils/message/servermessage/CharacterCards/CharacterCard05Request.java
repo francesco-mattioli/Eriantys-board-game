@@ -8,6 +8,6 @@ import it.polimi.ingsw.triton.launcher.utils.message.servermessage.ServerMessage
  */
 public class CharacterCard05Request extends ServerMessage implements CharacterCardMessages{
     public CharacterCard05Request() {
-        super(MessageType.CHARACTER_CARD_05_PARAMETER;
+        super(MessageType.CHARACTER_CARD_05_PARAMETER);
     }
 }

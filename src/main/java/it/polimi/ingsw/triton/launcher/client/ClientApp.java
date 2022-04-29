@@ -11,12 +11,12 @@ public class ClientApp {
          */
         boolean cliParam = true;
 
-        /*for (String arg : args) {
+        for (String arg : args) {
             if (arg.equals("--cli")) {
                 cliParam = true;
                 break;
             }
-        }*/
+        }
 
         if (cliParam) {
             Cli cli = new Cli();

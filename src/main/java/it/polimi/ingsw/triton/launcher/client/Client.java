@@ -1,6 +1,7 @@
 package it.polimi.ingsw.triton.launcher.client;
 
 import it.polimi.ingsw.triton.launcher.client.view.ClientView;
+import it.polimi.ingsw.triton.launcher.client.view.ClientVisitor;
 import it.polimi.ingsw.triton.launcher.utils.message.servermessage.Broadcast.BroadcastServerMessage;
 import it.polimi.ingsw.triton.launcher.utils.message.servermessage.Broadcast.GenericMessage;
 import it.polimi.ingsw.triton.launcher.utils.message.servermessage.Broadcast.LobbyMessage;
@@ -45,6 +46,7 @@ public class Client implements Observer<Message> {
     /**
      * Receive message from the server.
      * Create a thread for reading and manage the message.
+     * Based on the message class type, it calls the right method in the Client View using the Visitor Pattern
      */
     public void receiveMessage() {
         readExecutionQueue.execute(() -> {
@@ -52,8 +54,8 @@ public class Client implements Observer<Message> {
             while (!readExecutionQueue.isShutdown()) {
                 try {
                     BroadcastServerMessage message = (BroadcastServerMessage) inSocket.readObject();
-                    Client.LOGGER.info("Received: " + message);
-                    manageReceivedMessage(message);
+                    Client.LOGGER.info("Received: " + message.getMessageType());
+                    message.accept(new ClientVisitor(clientView));
                 } catch (IOException | ClassNotFoundException e) {
                     System.err.println("Error! " + e.getMessage());
                     Client.LOGGER.severe("Connection will be closed");
@@ -64,41 +66,12 @@ public class Client implements Observer<Message> {
         });
     }
 
-    /**
-     * Based on the message received, it calls all methods on the clientModel
-     *
-     * @param message from the server
-     */
-    public void manageReceivedMessage(BroadcastServerMessage message) {
-        if (message.getMessageType() == MessageType.LOGIN_REPLY) {
-            clientView.showGenericMessage("Username accepted");
-        }
-        if (message.getMessageType() == MessageType.GAMEMODE_REQUEST) {
-            clientView.askGameMode();
-        }
-        if (message.getMessageType() == MessageType.PLAYERSNUMBER_REQUEST) {
-            clientView.askPlayersNumber();
-        }
-        if (message.getMessageType() == MessageType.TOWER_COLOR_REQUEST) {
-            clientView.askTowerColor(((TowerColorRequest)message).getAvailableTowerColors());
-        }
-        if(message.getMessageType()==MessageType.LOBBY){
-            clientView.showLobbyMessage(((LobbyMessage)message).getOnlineNicknames(),((LobbyMessage)message).getMaxNumberPlayers());
-        }
-
-        if(message.getMessageType()==MessageType.GENERIC){
-            clientView.showGenericMessage(((GenericMessage)message).getMessage());
-        }
-        if(message.getMessageType()==MessageType.ERROR){
-            clientView.showErrorMessage();
-        }
-    }
 
 
     /**
-     * This update is called when the Client is notified by the Observable ....
+     * This method is executed when the notify method is called on ClientView
      *
-     * @param message
+     * @param message to send from client to server
      */
     @Override
     public void update(Message message) {
@@ -106,12 +79,12 @@ public class Client implements Observer<Message> {
     }
 
     /**
-     * @param message to send to the server
+     * @param message to send from client to server
      */
     public void sendMessage(Message message) {
         try {
             outSocket.writeObject(message);
-            Client.LOGGER.info("Sent: " + message.toString());
+            Client.LOGGER.info("Sent: " + message.getMessageType());
             outSocket.reset();
         } catch (IOException e) {
             e.printStackTrace();

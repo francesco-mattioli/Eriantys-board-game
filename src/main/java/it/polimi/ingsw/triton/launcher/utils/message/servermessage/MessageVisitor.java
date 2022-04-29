@@ -22,7 +22,7 @@ public class MessageVisitor {
        serveOneClient.sendMessage(broadcastServerMessage);
     }
 
-    public void visit(ServerMessage serverMessage){
+    /*public void visit(ServerMessage serverMessage){
        if (serverMessage.getReceiverUsername().equals(username))
             serveOneClient.sendMessage(serverMessage);
     }
@@ -32,4 +32,6 @@ public class MessageVisitor {
             serveOneClient.sendMessage(winMessage);
        else serveOneClient.sendMessage(new LoseMessage(winMessage.getReceiverUsername()));
     }
+    */
+
 }

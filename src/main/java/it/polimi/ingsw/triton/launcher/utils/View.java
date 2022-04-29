@@ -5,6 +5,8 @@ import it.polimi.ingsw.triton.launcher.utils.message.ErrorTypeID;
 
 public interface View {
 
+    public void askTowerColor(boolean[] towerColorChosen);
+
     public void askAssistantCard();
 
     public void showChangeInfluenceMessage();
@@ -51,7 +53,7 @@ public interface View {
 
     public void showTieMessage();
 
-    public void askTowerColor(boolean[] towerColorChosen);
+
 
     public void showWinMessage();
 
