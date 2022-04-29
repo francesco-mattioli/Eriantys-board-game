@@ -14,4 +14,8 @@ public class ServerMessage extends BroadcastServerMessage{
     public String getReceiverUsername(){
         return receiverUsername;
     }
+
+    public void accept(MessageVisitor messageVisitor){
+        messageVisitor.visit(this);
+    }
 }

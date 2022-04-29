@@ -8,4 +8,8 @@ public class BroadcastServerMessage extends Message {
     public BroadcastServerMessage(MessageType messageType) {
         super(messageType);
     }
+
+    public void accept(MessageVisitor messageVisitor){
+        messageVisitor.visit(this);
+    }
 }

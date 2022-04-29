@@ -1,5 +1,7 @@
 package it.polimi.ingsw.triton.launcher.utils.message;
 
+import it.polimi.ingsw.triton.launcher.utils.message.servermessage.MessageVisitor;
+
 import java.io.Serializable;
 
 public abstract class Message implements Serializable {
@@ -12,5 +14,11 @@ public abstract class Message implements Serializable {
     public MessageType getMessageType() {
         return messageType;
     }
+
+    public void accept(MessageVisitor messageVisitor){
+        messageVisitor.visit(this);
+    }
+
+
 
 }
