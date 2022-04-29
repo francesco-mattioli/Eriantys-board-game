@@ -3,10 +3,10 @@ package it.polimi.ingsw.triton.launcher.client;
 import it.polimi.ingsw.triton.launcher.client.model.ClientModel;
 import it.polimi.ingsw.triton.launcher.client.view.ClientView;
 import it.polimi.ingsw.triton.launcher.server.Server;
+import it.polimi.ingsw.triton.launcher.utils.message.servermessage.*;
 import it.polimi.ingsw.triton.launcher.utils.obs.Observer;
 import it.polimi.ingsw.triton.launcher.utils.message.Message;
 import it.polimi.ingsw.triton.launcher.utils.message.MessageType;
-import it.polimi.ingsw.triton.launcher.utils.message.servermessage.ServerMessage;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -14,6 +14,7 @@ import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.logging.Logger;
 
 public class Client implements Observer<Message> {
     private Socket socket;
@@ -21,6 +22,7 @@ public class Client implements Observer<Message> {
     private ObjectOutputStream outSocket;
     private ExecutorService readExecutionQueue;
     private ClientView clientView;
+    public static final Logger LOGGER = Logger.getLogger(Client.class.getName());
 
     public Client(ClientView clientView) {
         try {
@@ -48,10 +50,12 @@ public class Client implements Observer<Message> {
 
             while (!readExecutionQueue.isShutdown()) {
                 try {
-                    ServerMessage message = (ServerMessage) inSocket.readObject();
+                    BroadcastServerMessage message = (BroadcastServerMessage) inSocket.readObject();
+                    Client.LOGGER.info("Received: " + message);
                     manageReceivedMessage(message);
                 } catch (IOException | ClassNotFoundException e) {
                     System.err.println("Error! " + e.getMessage());
+                    Client.LOGGER.severe("Connection will be closed");
                     disconnect();
                     readExecutionQueue.shutdownNow();
                 }
@@ -64,7 +68,7 @@ public class Client implements Observer<Message> {
      *
      * @param message from the server
      */
-    public void manageReceivedMessage(ServerMessage message) {
+    public void manageReceivedMessage(BroadcastServerMessage message) {
         if (message.getMessageType() == MessageType.LOGIN_REPLY) {
             clientView.showGenericMessage("Username accepted");
         }
@@ -74,8 +78,18 @@ public class Client implements Observer<Message> {
         if (message.getMessageType() == MessageType.PLAYERSNUMBER_REQUEST) {
             clientView.askPlayersNumber();
         }
+        if (message.getMessageType() == MessageType.TOWER_COLOR_REQUEST) {
+            clientView.askTowerColor(((TowerColorRequest)message).getAvailableTowerColors());
+        }
+        if(message.getMessageType()==MessageType.LOBBY){
+            clientView.showLobbyMessage(((LobbyMessage)message).getOnlineNicknames(),((LobbyMessage)message).getMaxNumberPlayers());
+        }
+
+        if(message.getMessageType()==MessageType.GENERIC){
+            clientView.showGenericMessage(((GenericMessage)message).getMessage());
+        }
         if(message.getMessageType()==MessageType.ERROR){
-            clientView.showGenericMessage(message.toString());
+            clientView.showErrorMessage();
         }
     }
 
@@ -96,6 +110,7 @@ public class Client implements Observer<Message> {
     public void sendMessage(Message message) {
         try {
             outSocket.writeObject(message);
+            Client.LOGGER.info("Sent: " + message.toString());
             outSocket.reset();
         } catch (IOException e) {
             e.printStackTrace();

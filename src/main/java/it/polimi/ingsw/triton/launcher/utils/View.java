@@ -1,6 +1,8 @@
 package it.polimi.ingsw.triton.launcher.utils;
 
 
+import it.polimi.ingsw.triton.launcher.utils.message.ErrorTypeID;
+
 public interface View {
 
     public void askAssistantCard();
@@ -77,4 +79,5 @@ public interface View {
 
     public void askColorCharCard12();
 
+    void showErrorMessage(ErrorTypeID fullLobby);
 }

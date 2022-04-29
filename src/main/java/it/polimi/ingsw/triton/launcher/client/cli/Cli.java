@@ -1,17 +1,21 @@
 package it.polimi.ingsw.triton.launcher.client.cli;
 
 import it.polimi.ingsw.triton.launcher.client.model.ClientModel;
-import it.polimi.ingsw.triton.launcher.utils.message.clientmessage.ClientMessage;
-import it.polimi.ingsw.triton.launcher.utils.message.clientmessage.GameModeReply;
-import it.polimi.ingsw.triton.launcher.utils.message.clientmessage.PlayersNumberReply;
+import it.polimi.ingsw.triton.launcher.server.model.CloudTile;
+import it.polimi.ingsw.triton.launcher.server.model.Island;
+import it.polimi.ingsw.triton.launcher.server.model.enums.TowerColor;
+import it.polimi.ingsw.triton.launcher.server.model.enums.Wizard;
+import it.polimi.ingsw.triton.launcher.server.model.player.SchoolBoard;
+import it.polimi.ingsw.triton.launcher.utils.message.ErrorTypeID;
+import it.polimi.ingsw.triton.launcher.utils.message.clientmessage.*;
 import it.polimi.ingsw.triton.launcher.utils.obs.Observable;
 import it.polimi.ingsw.triton.launcher.utils.obs.Observer;
 import it.polimi.ingsw.triton.launcher.client.Client;
 import it.polimi.ingsw.triton.launcher.utils.message.Message;
 import it.polimi.ingsw.triton.launcher.utils.message.MessageType;
-import it.polimi.ingsw.triton.launcher.utils.message.clientmessage.LoginRequest;
 import it.polimi.ingsw.triton.launcher.client.view.ClientView;
 import java.io.PrintStream;
+import java.util.ArrayList;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.FutureTask;
 
@@ -73,7 +77,7 @@ public class Cli extends Observable<Message> implements ClientView, Observer<Obj
         String input="";
         do{
             try {
-                out.print("Please, select a game mode [N for normal mode, E for expert mode]: ");
+                out.print("You are the first player\nPlease, select a game mode [N for normal mode, E for expert mode]: ");
                 input = readLine();
             } catch (ExecutionException e) {
                 out.println("You should type N or E. Try again...");
@@ -96,6 +100,45 @@ public class Cli extends Observable<Message> implements ClientView, Observer<Obj
                 out.println("Try again...");
                 askPlayersNumber();
         }
+    }
+
+
+    @Override
+    public void askTowerColor() {
+        //TO DELETE
+    }
+
+    @Override
+    public void askTowerColor(boolean[] availableTowerColors) {
+        String input="";
+        try {
+            out.print("Choose a tower color [ ");
+            for(int i=0;i< availableTowerColors.length;i++){
+                if(availableTowerColors[i])
+                    out.print(TowerColor.values()[i]+" ");
+            }
+            out.print("]");
+            input = readLine();
+            notify(new TowerColorReply(clientModel.getUsername(), TowerColor.valueOf(input.toUpperCase())));
+        } catch (ExecutionException e) {
+            out.println("Try again...");
+            askTowerColor();
+        }
+    }
+
+    public void showLobbyMessage(ArrayList<String> onlineNicknames, int maxNumberPlayers ) {
+        out.println("There are " + onlineNicknames.size() +
+                "online / " + maxNumberPlayers + "players connected\n Waiting for " + (maxNumberPlayers-onlineNicknames.size()) + "players");
+    }
+
+    @Override
+    public void showLobbyMessage() {
+
+    }
+
+    public void showInitializedGame(ArrayList<Island> islands, ArrayList<CloudTile> cloudTiles, SchoolBoard schoolBoard){
+        //professors
+        // wizards are contained in the Enum
     }
 
     @Override
@@ -128,6 +171,7 @@ public class Cli extends Observable<Message> implements ClientView, Observer<Obj
 
     }
 
+
     @Override
     public void showFillCloudTilesMessage() {
 
@@ -158,10 +202,7 @@ public class Cli extends Observable<Message> implements ClientView, Observer<Obj
 
     }
 
-    @Override
-    public void showLobbyMessage() {
 
-    }
 
     @Override
     public void showLoginReply() {
@@ -205,10 +246,7 @@ public class Cli extends Observable<Message> implements ClientView, Observer<Obj
 
     }
 
-    @Override
-    public void askTowerColor() {
 
-    }
 
     @Override
     public void showWinMessage() {
@@ -216,9 +254,10 @@ public class Cli extends Observable<Message> implements ClientView, Observer<Obj
     }
 
     @Override
-    public void showLoseMessage(String winnerUsername) {
+    public void showLoseMessage() {
 
     }
+
 
     @Override
     public void askWizard() {
@@ -232,6 +271,51 @@ public class Cli extends Observable<Message> implements ClientView, Observer<Obj
 
     @Override
     public void showAvailableCharacterCard() {
+
+    }
+
+    @Override
+    public void askStudentsToMoveOntoIslandCharCard01() {
+
+    }
+
+    @Override
+    public void askIslandToCalculateInfluenceCharCard03() {
+
+    }
+
+    @Override
+    public void askIslandToPutNoEntryTileCharCard05() {
+
+    }
+
+    @Override
+    public void askStudentToSwitchFromCardToEntranceCharCard07() {
+
+    }
+
+    @Override
+    public void askColorWithNoInfluenceCharCard09() {
+
+    }
+
+    @Override
+    public void askStudentsToSwitchCharCard10() {
+
+    }
+
+    @Override
+    public void askStudentsToMoveIntoDiningRoomCharCard11() {
+
+    }
+
+    @Override
+    public void askColorCharCard12() {
+
+    }
+
+    @Override
+    public void showErrorMessage(ErrorTypeID fullLobby) {
 
     }
 
@@ -263,5 +347,10 @@ public class Cli extends Observable<Message> implements ClientView, Observer<Obj
     public void showGenericMessage(String genericMessage) {
         out.println(genericMessage);
     }
+
+    public ClientModel getClientModel() {
+        return clientModel;
+    }
 }
+
 

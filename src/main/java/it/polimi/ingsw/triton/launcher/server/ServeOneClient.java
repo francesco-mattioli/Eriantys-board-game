@@ -23,7 +23,6 @@ public class ServeOneClient implements Runnable {
     private final Object outputLock;
     private ObjectInputStream inSocket; // input stream for receiving messages from the client
     private ObjectOutputStream outSocket; //output stream for sending messages to the client
-    //private Controller controller;
     private final boolean connected;
     private boolean active = true;
 

@@ -8,7 +8,7 @@ import java.util.ArrayList;
 public class ClientModel extends Observable<Object> {
     private String username;
 
-        public void setUsername(String username) {
+    public void setUsername(String username) {
         this.username = username;
     }
 

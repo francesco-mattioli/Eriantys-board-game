@@ -5,6 +5,7 @@ import it.polimi.ingsw.triton.launcher.server.model.Game;
 import it.polimi.ingsw.triton.launcher.utils.message.ErrorTypeID;
 import it.polimi.ingsw.triton.launcher.utils.message.servermessage.FullLobbyMessage;
 import it.polimi.ingsw.triton.launcher.server.view.VirtualView;
+import it.polimi.ingsw.triton.launcher.utils.message.servermessage.LoginReply;
 
 import java.io.IOException;
 import java.net.ServerSocket;
@@ -34,7 +35,7 @@ public class Server {
     }
 
     public boolean isUsernameValid(String username) { // to add check server name if it is useful
-        return username.length() != 0;
+        return username.length() != 0 && !username.equals(" ");
     }
 
     private boolean checkMaxNumPlayers(int num) {

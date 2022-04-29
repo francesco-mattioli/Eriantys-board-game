@@ -32,6 +32,10 @@ public class VirtualView extends Observable<Message> implements View, Observer<M
         serveOneClient.sendMessage(new PlayersNumberRequest(username));
     }
 
+    public void showErrorMessage(ErrorTypeID errorTypeID){
+        serveOneClient.sendMessage(new ErrorMessage(errorTypeID, username));
+    }
+
 
     public void askTowerColor(){
 
@@ -214,6 +218,8 @@ public class VirtualView extends Observable<Message> implements View, Observer<M
     public void askColorCharCard12() {
 
     }
+
+
 
 
     public String getUsername() {
