@@ -1,11 +1,12 @@
 package it.polimi.ingsw.triton.launcher.server.controller;
 
+import it.polimi.ingsw.triton.launcher.client.cli.Cli;
 import it.polimi.ingsw.triton.launcher.server.model.Game;
+import it.polimi.ingsw.triton.launcher.server.model.enums.Wizard;
+import it.polimi.ingsw.triton.launcher.utils.message.clientmessage.*;
 import it.polimi.ingsw.triton.launcher.utils.obs.Observer;
 import it.polimi.ingsw.triton.launcher.utils.message.Message;
 import it.polimi.ingsw.triton.launcher.utils.message.MessageType;
-import it.polimi.ingsw.triton.launcher.utils.message.clientmessage.ClientMessage;
-import it.polimi.ingsw.triton.launcher.utils.message.clientmessage.TowerColorReply;
 import it.polimi.ingsw.triton.launcher.server.view.VirtualView;
 
 import java.util.ArrayList;
@@ -33,7 +34,7 @@ public class Controller implements Observer<Message> {
         game.addPlayer(username);
     }
 
-    @Override
+    /*@Override
     public void update(Message message) {
         if(message.getMessageType() == MessageType.TOWER_COLOR_REPLY){
             game.chooseTowerColor(((ClientMessage)message).getSenderUsername(), ((TowerColorReply) message).getPlayerColor());
@@ -42,6 +43,26 @@ public class Controller implements Observer<Message> {
             game.createTowerColorRequestMessage((((ClientMessage)message).getSenderUsername()));
         }
 
+    }*/
+
+    @Override
+    public void update(Message message) {
+        switch (game.getGameState()){
+            case LOGIN:
+                loginPhaseSwitch(message);
+            break;
+            case PLANNING_PHASE:
+                planningPhaseSwitch(message);
+            break;
+            case BEGIN_ACTION_PHASE:
+            break;
+            case MIDDLE_ACTION_PHASE:
+            break;
+            case END_ACTION_PHASE:
+            break;
+            default:
+            break;
+        }
     }
 
     public void addGameObserver(VirtualView virtualView){
@@ -56,8 +77,45 @@ public class Controller implements Observer<Message> {
         throw new NoSuchElementException("The virtualview does not exist");
     }
 
+    /**
+     * Calls a method in game to send the request to a player of selecting a tower color.
+     * @param username the receiver username of the message
+     */
     public void createTowerColorRequestMessage(String username){
         game.createTowerColorRequestMessage(username);
+    }
+
+    /**
+     * In the login phase, it selects the methods in game to setting some properties to the players.
+     * @param message the message received.
+     */
+    private void loginPhaseSwitch(Message message){
+        switch(message.getMessageType()){
+            case TOWER_COLOR_REPLY:
+                game.chooseTowerColor(((ClientMessage)message).getSenderUsername(), ((TowerColorReply)message).getPlayerColor());
+            break;
+            case WIZARD_REPLY:
+                game.chooseWizard(((ClientMessage)message).getSenderUsername(), ((WizardReply)message).getPlayerWizard());
+            break;
+        }
+    }
+
+    /**
+     * In the planning phase, it selects the methods in game to do some actions.
+     * @param message the message received.
+     */
+    private void planningPhaseSwitch(Message message){
+        switch(message.getMessageType()){
+            case ASSISTANT_CARD_REPLY:
+                game.chooseAssistantCard(((ClientMessage)message).getSenderUsername(), ((AssistantCardReply)message).getChosenAssistantCard());
+            break;
+            case CHARACTER_CARD_REQUEST:
+                game.createCharacterCardsMessage();  //To modify, we need to check if the senderUsername is the current player.
+            break;
+            case CHARACTER_CARD_CHOICE:
+                game.manageEffectCharacterCards(((CharacterCardChoice)message).getSelectedCharacterCard().getId());
+            break;
+        }
     }
 }
 

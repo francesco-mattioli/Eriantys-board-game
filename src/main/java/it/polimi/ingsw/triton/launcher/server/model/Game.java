@@ -845,4 +845,8 @@ public class Game extends Observable<Message> {
         }
         return null;      //We don't expect to reach this statement because we check in the caller method if there's not an island with that id
     }
+
+    public GameState getGameState() {
+        return gameState;
+    }
 }
