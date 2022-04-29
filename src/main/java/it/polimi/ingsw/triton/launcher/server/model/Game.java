@@ -196,7 +196,7 @@ public class Game extends Observable<Message> {
         setupEntrance(); //PHASE 10
         setupPlayers(); //PHASE 11
         drawCharacterCards(); //(PHASE 12) creates 3 character cards
-        notify(new GameInfoMessage(characterCards, islands, motherNature.getPosition(), getAllSchoolBoards(), cloudTiles));
+        notify(new GameInfoMessage(characterCards, islands, motherNature.getPosition(), getAllSchoolBoards(), cloudTiles, generalCoinSupply));
         for(Player player: players)
             notify(new GiveAssistantDeckMessage(player.getUsername(), player.getAssistantDeck()));
         notify(new YourTurnMessage(currentPlayer.getUsername()));
@@ -298,10 +298,12 @@ public class Game extends Observable<Message> {
      * @param student the color of the student to move
      */
     public void executeActionMoveStudentToDiningRoom(Color student){
-        if(currentPlayer.getSchoolBoard().getEntrance()[student.ordinal()] == 0)
+        if(currentPlayer.getSchoolBoard().getEntrance()[student.ordinal()] == 0 || student == null)
             notify(new ErrorMessage(ErrorTypeID.NO_STUDENT_WITH_COLOR_ENTRANCE, currentPlayer.getUsername()));
         else{
             currentPlayer.executeAction(new MoveStudentIntoDiningRoom(student, currentPlayer.getWallet(), currentPlayer.getSchoolBoard()));
+            if(currentPlayer.getSchoolBoard().getDiningRoom()[student.ordinal()] % 3 == 0)
+                notify(new UpdateWalletMessage(currentPlayer.getUsername()));
             notify(new InfoStudentIntoDiningRoomMessage(currentPlayer.getUsername()));
             currentPlayer.setMoveCounter(currentPlayer.getMoveCounter() + 1);
             checkNumberMoves();
@@ -431,6 +433,10 @@ public class Game extends Observable<Message> {
      * This method sorts the players ArrayList random, and sets correctly the current player
      */
     private void setupPlayers(){
+        for(Player player: players){
+            player.getWallet().increaseValue();
+            generalCoinSupply--;
+        }
         Random rnd = new Random();
         Player p;
         for(int i = 0; i<players.size(); i++){
