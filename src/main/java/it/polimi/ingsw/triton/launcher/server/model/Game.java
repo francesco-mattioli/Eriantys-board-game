@@ -486,7 +486,7 @@ public class Game extends Observable<Message> {
      */
     public void chooseCloudTile(CloudTile cloudTile){
         try{
-            currentPlayer.executeAction(new ChooseCloudTile(cloudTile, currentPlayer.getSchoolBoard()));
+            //currentPlayer.executeAction(new ChooseCloudTile(cloudTile, currentPlayer.getSchoolBoard()));
         }catch (RuntimeException e){
             notify(new ErrorMessage(ErrorTypeID.CLOUD_TILE_ALREADY_CHOSEN));
         }
@@ -633,16 +633,16 @@ public class Game extends Observable<Message> {
     public void useCharacterCardWithoutPreparation(CharacterCard characterCard){
         switch(characterCard.getId()){
             case 2:
-                currentPlayer.executeAction(new UseCharacterCard(characterCard, new CardEffect02(currentPlayer, professorsManager), currentPlayer.getWallet()));
+                //currentPlayer.executeAction(new UseCharacterCard(characterCard, new CardEffect02(currentPlayer, professorsManager), currentPlayer.getWallet()));
             break;
             case 4:
-                currentPlayer.executeAction(new UseCharacterCard(characterCard, new CardEffect04(motherNature), currentPlayer.getWallet()));
+                //currentPlayer.executeAction(new UseCharacterCard(characterCard, new CardEffect04(motherNature), currentPlayer.getWallet()));
             break;
             case 6:
-                currentPlayer.executeAction(new UseCharacterCard(characterCard, new CardEffect06(islands), currentPlayer.getWallet()));
+                //currentPlayer.executeAction(new UseCharacterCard(characterCard, new CardEffect06(islands), currentPlayer.getWallet()));
             break;
             case 8:
-                currentPlayer.executeAction(new UseCharacterCard(characterCard, new CardEffect08(islands), currentPlayer.getWallet()));
+                //currentPlayer.executeAction(new UseCharacterCard(characterCard, new CardEffect08(islands), currentPlayer.getWallet()));
             break;
         }
         notify(new InfoCharacterCardPlayedMessage(currentPlayer.getUsername(), characterCard));
@@ -653,7 +653,7 @@ public class Game extends Observable<Message> {
      * @param cardEffect the effect to apply.
      */
     public void useCharacterCardsWithPreparation(CharacterCard characterCard, CardEffect cardEffect){
-        currentPlayer.executeAction(new UseCharacterCard(characterCard, cardEffect, currentPlayer.getWallet()));
+        //currentPlayer.executeAction(new UseCharacterCard(characterCard, cardEffect, currentPlayer.getWallet()));
         notify(new InfoCharacterCardPlayedMessage(currentPlayer.getUsername(), characterCard));
     }
 
