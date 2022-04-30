@@ -1,11 +1,16 @@
 package it.polimi.ingsw.triton.launcher.utils;
 
 
+import it.polimi.ingsw.triton.launcher.server.model.enums.Wizard;
 import it.polimi.ingsw.triton.launcher.utils.message.ErrorTypeID;
+
+import java.util.ArrayList;
 
 public interface View {
 
     public void askTowerColor(boolean[] towerColorChosen);
+
+    public void askWizard(ArrayList<Wizard> wizards);
 
     public void askAssistantCard();
 
@@ -59,7 +64,6 @@ public interface View {
 
     public void showLoseMessage();
 
-    public void askWizard();
 
     public void showYourTurnMessage();
 

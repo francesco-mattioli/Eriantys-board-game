@@ -1,6 +1,6 @@
 package it.polimi.ingsw.triton.launcher.utils.message;
 
-import it.polimi.ingsw.triton.launcher.client.view.ClientVisitor;
+import it.polimi.ingsw.triton.launcher.client.ClientVisitor;
 import it.polimi.ingsw.triton.launcher.utils.message.servermessage.MessageVisitor;
 
 import java.io.Serializable;

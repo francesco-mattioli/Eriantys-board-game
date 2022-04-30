@@ -4,6 +4,7 @@ import it.polimi.ingsw.triton.launcher.client.model.ClientModel;
 import it.polimi.ingsw.triton.launcher.server.model.CloudTile;
 import it.polimi.ingsw.triton.launcher.server.model.Island;
 import it.polimi.ingsw.triton.launcher.server.model.enums.TowerColor;
+import it.polimi.ingsw.triton.launcher.server.model.enums.Wizard;
 import it.polimi.ingsw.triton.launcher.server.model.player.SchoolBoard;
 import it.polimi.ingsw.triton.launcher.utils.message.ErrorTypeID;
 import it.polimi.ingsw.triton.launcher.utils.message.clientmessage.*;
@@ -112,9 +113,9 @@ public class Cli extends Observable<Message> implements ClientView{
             out.print("]");
             input = readLine();
             notify(new TowerColorReply(clientModel.getUsername(), TowerColor.valueOf(input.toUpperCase())));
-        } catch (ExecutionException e) {
+        } catch (ExecutionException | NullPointerException e) {
             out.println("Try again...");
-            //askTowerColor();
+            askTowerColor(chosenTowerColors);
         }
     }
 
@@ -122,6 +123,26 @@ public class Cli extends Observable<Message> implements ClientView{
         out.println("There are " + onlineNicknames.size() +
                 "online / " + maxNumberPlayers + "players connected\n Waiting for " + (maxNumberPlayers-onlineNicknames.size()) + "players");
     }
+
+    //CHECK IF ENUMS WORKS CORRECTLY
+    //@Override
+    public void askWizard(ArrayList<Wizard> wizards) {
+        String input="";
+        try {
+            out.print("Choose a Wizard [ ");
+            for(Wizard wizard: wizards){
+                out.print(wizard+" ");
+            }
+            out.print("]");
+            input = readLine();
+            notify(new WizardReply(clientModel.getUsername(), Wizard.valueOf(input.toUpperCase())));
+        } catch (ExecutionException | NullPointerException e) {
+            out.println("Try again...");
+            askWizard(wizards);
+        }
+    }
+
+
 
     @Override
     public void showLobbyMessage() {
@@ -251,10 +272,7 @@ public class Cli extends Observable<Message> implements ClientView{
     }
 
 
-    @Override
-    public void askWizard() {
 
-    }
 
     @Override
     public void showYourTurnMessage() {

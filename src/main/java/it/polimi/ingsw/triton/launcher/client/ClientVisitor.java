@@ -1,5 +1,6 @@
-package it.polimi.ingsw.triton.launcher.client.view;
+package it.polimi.ingsw.triton.launcher.client;
 
+import it.polimi.ingsw.triton.launcher.client.view.ClientView;
 import it.polimi.ingsw.triton.launcher.utils.message.MessageType;
 import it.polimi.ingsw.triton.launcher.utils.message.servermessage.*;
 import it.polimi.ingsw.triton.launcher.utils.message.servermessage.Broadcast.BroadcastServerMessage;
@@ -8,6 +9,7 @@ import it.polimi.ingsw.triton.launcher.utils.message.servermessage.Broadcast.Lob
 import it.polimi.ingsw.triton.launcher.utils.message.servermessage.Requests.GameModeRequest;
 import it.polimi.ingsw.triton.launcher.utils.message.servermessage.Requests.PlayersNumberRequest;
 import it.polimi.ingsw.triton.launcher.utils.message.servermessage.Requests.TowerColorRequest;
+import it.polimi.ingsw.triton.launcher.utils.message.servermessage.Requests.WizardRequest;
 
 public class ClientVisitor {
     private final ClientView clientView;
@@ -39,6 +41,10 @@ public class ClientVisitor {
 
     public void visit(LobbyMessage message){
         clientView.showLobbyMessage(message.getOnlineNicknames(),message.getMaxNumberPlayers());
+    }
+
+    public void visit(WizardRequest message){
+        clientView.askWizard(message.getAvailableWizards());
     }
 
     public void visit(GenericMessage message){
