@@ -13,8 +13,6 @@ public enum GameState {
     LOGIN,
     SETUP,
     PLANNING_PHASE,
-    BEGIN_ACTION_PHASE,
-    MIDDLE_ACTION_PHASE,
-    END_ACTION_PHASE,
+    ACTION_PHASE,
     END
 }

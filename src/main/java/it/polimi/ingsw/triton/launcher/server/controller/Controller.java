@@ -69,6 +69,10 @@ public class Controller implements Observer<Message> {
         getVirtualViewByUsername(username).askAssistantCard();
     }
 
+    private void createMoveStudentRequest(String username){
+        getVirtualViewByUsername(username).askMoveStudentFromEntrance();
+    }
+
 
     /**
      * In the login phase, it selects the methods in game to setting some properties to the players.
@@ -116,42 +120,6 @@ public class Controller implements Observer<Message> {
         }
     }
 
-
-
-
-
-    /*@Override
-    public void update(Message message) {
-        if(message.getMessageType() == MessageType.TOWER_COLOR_REPLY){
-            game.chooseTowerColor(((ClientMessage)message).getSenderUsername(), ((TowerColorReply) message).getPlayerColor());
-        }
-        if(message.getMessageType() == MessageType.ASSISTANT_CARD_REPLY){
-            game.createTowerColorRequestMessage((((ClientMessage)message).getSenderUsername()));
-        }
-
-    }*/
-
-    @Override
-    public void update(Message message) {
-        senderUsername = ((ClientMessage) message).getSenderUsername();
-        switch (game.getGameState()) {
-            case LOGIN:
-                loginPhaseSwitch(message);
-                break;
-            case PLANNING_PHASE:
-                planningPhaseSwitch(message);
-                break;
-            case BEGIN_ACTION_PHASE:
-                break;
-            case MIDDLE_ACTION_PHASE:
-                break;
-            case END_ACTION_PHASE:
-                break;
-            default:
-                break;
-        }
-    }
-
     /**
      * In the planning phase, it selects the methods in game to do some actions.
      *
@@ -160,6 +128,30 @@ public class Controller implements Observer<Message> {
     private void planningPhaseSwitch(Message message) {
         switch (message.getMessageType()) {
             case ASSISTANT_CARD_REPLY: {
+                try {
+                    game.chooseAssistantCard(((ClientMessage) message).getSenderUsername(), ((AssistantCardReply) message).getChosenAssistantCard());
+                    createAssistantCardRequestMessage(game.getNextPlayer(game.getPlayerByUsername(senderUsername)).getUsername());
+                    game.setCurrentPlayer(game.getNextPlayer(game.getPlayerByUsername(senderUsername)));
+                    break;
+                } catch (IllegalClientInputException e) {
+                    getVirtualViewByUsername(senderUsername).showErrorMessage(ErrorTypeID.ASSISTANTCARD_ALREADY_CHOSEN);
+                    createWizardRequestMessage(senderUsername);
+                    break;
+                } catch (NoSuchElementException e) {
+                    createAssistantCardRequestMessage(game.getCurrentPlayer().getUsername());
+                    game.sortPlayerPerTurn();
+                    game.setCurrentPlayer(game.getPlayers().get(0));
+                    game.actionPhase();
+                    createMoveStudentRequest(game.getCurrentPlayer().getUsername());
+                    break;
+                }
+            }
+        }
+    }
+
+    private void actionPhaseSwitch(Message message) {
+        switch (message.getMessageType()) {
+            case MOVE_STUDENT_ONTO_ISLAND: {
                 try {
                     game.chooseAssistantCard(((ClientMessage) message).getSenderUsername(), ((AssistantCardReply) message).getChosenAssistantCard());
                     createAssistantCardRequestMessage(game.getNextPlayer(game.getPlayerByUsername(senderUsername)).getUsername());
@@ -207,6 +199,24 @@ public class Controller implements Observer<Message> {
             case CHARACTER_CARD_11_PARAMETER:
                 break;
             case CHARACTER_CARD_12_PARAMETER:
+                break;
+        }
+    }
+
+    @Override
+    public void update(Message message) {
+        senderUsername = ((ClientMessage) message).getSenderUsername();
+        switch (game.getGameState()) {
+            case LOGIN:
+                loginPhaseSwitch(message);
+                break;
+            case PLANNING_PHASE:
+                planningPhaseSwitch(message);
+                break;
+            case ACTION_PHASE:
+                actionPhaseSwitch(message);
+                break;
+            default:
                 break;
         }
     }
