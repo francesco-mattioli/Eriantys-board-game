@@ -1,5 +1,6 @@
 package it.polimi.ingsw.triton.launcher.server.view;
 
+import it.polimi.ingsw.triton.launcher.server.model.enums.Wizard;
 import it.polimi.ingsw.triton.launcher.utils.message.servermessage.*;
 import it.polimi.ingsw.triton.launcher.utils.message.servermessage.Requests.GameModeRequest;
 import it.polimi.ingsw.triton.launcher.utils.message.servermessage.Requests.PlayersNumberRequest;
@@ -9,6 +10,8 @@ import it.polimi.ingsw.triton.launcher.utils.obs.Observer;
 import it.polimi.ingsw.triton.launcher.server.ServeOneClient;
 import it.polimi.ingsw.triton.launcher.utils.message.*;
 import it.polimi.ingsw.triton.launcher.utils.View;
+
+import java.util.ArrayList;
 
 public class VirtualView extends Observable<Message> implements View, Observer<Message> {
     private ServeOneClient serveOneClient;
@@ -155,6 +158,11 @@ public class VirtualView extends Observable<Message> implements View, Observer<M
         serveOneClient.sendMessage(new TowerColorRequest(towerColorChosen));
     }
 
+    @Override
+    public void askWizard(ArrayList<Wizard> wizards) {
+
+    }
+
 
     @Override
     public void showWinMessage() {
@@ -164,11 +172,6 @@ public class VirtualView extends Observable<Message> implements View, Observer<M
 
     @Override
     public void showLoseMessage() {
-
-    }
-
-    @Override
-    public void askWizard() {
 
     }
 

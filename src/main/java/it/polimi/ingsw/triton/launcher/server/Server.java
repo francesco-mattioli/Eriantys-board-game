@@ -3,9 +3,7 @@ package it.polimi.ingsw.triton.launcher.server;
 import it.polimi.ingsw.triton.launcher.server.controller.Controller;
 import it.polimi.ingsw.triton.launcher.server.model.Game;
 import it.polimi.ingsw.triton.launcher.utils.message.ErrorTypeID;
-import it.polimi.ingsw.triton.launcher.utils.message.servermessage.FullLobbyMessage;
 import it.polimi.ingsw.triton.launcher.server.view.VirtualView;
-import it.polimi.ingsw.triton.launcher.utils.message.servermessage.LoginReply;
 
 import java.io.IOException;
 import java.net.ServerSocket;

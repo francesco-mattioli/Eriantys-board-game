@@ -1,14 +1,9 @@
 package it.polimi.ingsw.triton.launcher.client;
 
 import it.polimi.ingsw.triton.launcher.client.view.ClientView;
-import it.polimi.ingsw.triton.launcher.client.view.ClientVisitor;
 import it.polimi.ingsw.triton.launcher.utils.message.servermessage.Broadcast.BroadcastServerMessage;
-import it.polimi.ingsw.triton.launcher.utils.message.servermessage.Broadcast.GenericMessage;
-import it.polimi.ingsw.triton.launcher.utils.message.servermessage.Broadcast.LobbyMessage;
-import it.polimi.ingsw.triton.launcher.utils.message.servermessage.Requests.TowerColorRequest;
 import it.polimi.ingsw.triton.launcher.utils.obs.Observer;
 import it.polimi.ingsw.triton.launcher.utils.message.Message;
-import it.polimi.ingsw.triton.launcher.utils.message.MessageType;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -55,6 +50,7 @@ public class Client implements Observer<Message> {
                 try {
                     BroadcastServerMessage message = (BroadcastServerMessage) inSocket.readObject();
                     Client.LOGGER.info("Received: " + message.getMessageType());
+                    // Accept the message using Visitor Pattern
                     message.accept(new ClientVisitor(clientView));
                 } catch (IOException | ClassNotFoundException e) {
                     System.err.println("Error! " + e.getMessage());

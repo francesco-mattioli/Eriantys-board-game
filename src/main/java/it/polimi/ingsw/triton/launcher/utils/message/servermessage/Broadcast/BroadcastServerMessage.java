@@ -1,6 +1,6 @@
 package it.polimi.ingsw.triton.launcher.utils.message.servermessage.Broadcast;
 
-import it.polimi.ingsw.triton.launcher.client.view.ClientVisitor;
+import it.polimi.ingsw.triton.launcher.client.ClientVisitor;
 import it.polimi.ingsw.triton.launcher.utils.message.Message;
 import it.polimi.ingsw.triton.launcher.utils.message.MessageType;
 import it.polimi.ingsw.triton.launcher.utils.message.servermessage.MessageVisitor;
