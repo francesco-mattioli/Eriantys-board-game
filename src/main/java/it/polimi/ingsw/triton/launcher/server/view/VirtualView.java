@@ -13,6 +13,7 @@ import it.polimi.ingsw.triton.launcher.utils.View;
 public class VirtualView extends Observable<Message> implements View, Observer<Message> {
     private ServeOneClient serveOneClient;
     private String username;
+    private Message lastMessage;
 
     public VirtualView(ServeOneClient serveOneClient, String username){
         this.serveOneClient = serveOneClient;
@@ -221,7 +222,9 @@ public class VirtualView extends Observable<Message> implements View, Observer<M
 
     }
 
-
+    public void reSendLastMessage(){
+        serveOneClient.sendMessage(lastMessage);
+    }
 
 
     public String getUsername() {

@@ -3,6 +3,7 @@ package it.polimi.ingsw.triton.launcher.server.model.playeractions;
 import it.polimi.ingsw.triton.launcher.server.model.AssistantCard;
 import it.polimi.ingsw.triton.launcher.server.model.player.AssistantDeck;
 import it.polimi.ingsw.triton.launcher.server.model.player.Player;
+import it.polimi.ingsw.triton.launcher.utils.IllegalClientInputException;
 
 import java.util.ArrayList;
 
@@ -18,11 +19,11 @@ public class PlayAssistantCard implements Action {
     /**
      * @param assistantCardToPlay     the assistant card selected by the player.
      * @param player                  who plays the card.
-     * @param usedAssistantCardsCards the cards already played in this turn.
+     * @param usedAssistantCards the cards already played in this turn.
      */
-    public PlayAssistantCard(AssistantCard assistantCardToPlay, Player player, ArrayList<AssistantCard> usedAssistantCardsCards) {
+    public PlayAssistantCard(AssistantCard assistantCardToPlay, Player player, ArrayList<AssistantCard> usedAssistantCards) {
         this.assistantCardToPlay = assistantCardToPlay;
-        this.usedAssistantCards = usedAssistantCardsCards;
+        this.usedAssistantCards = usedAssistantCards;
         this.player = player;
     }
 
@@ -65,13 +66,13 @@ public class PlayAssistantCard implements Action {
      * @throws RuntimeException when a card can't be used in this turn.
      */
     @Override
-    public void execute() throws RuntimeException {
+    public void execute() throws IllegalClientInputException {
         if (isUsedCard(assistantCardToPlay, usedAssistantCards)) {
             if (isUniqueChoice(player.getAssistantDeck(), usedAssistantCards)) {
                 player.setLastPlayedAssistantCard(assistantCardToPlay);
                 player.getAssistantDeck().removeCard(assistantCardToPlay);
             } else
-                throw new RuntimeException("The selected card is already used");
+                throw new IllegalClientInputException();
         } else {
             player.setLastPlayedAssistantCard(assistantCardToPlay);
             player.getAssistantDeck().removeCard(assistantCardToPlay);

@@ -5,6 +5,7 @@ import it.polimi.ingsw.triton.launcher.server.model.cardeffects.CardEffect;
 import it.polimi.ingsw.triton.launcher.server.model.cardeffects.CardEffect01;
 import it.polimi.ingsw.triton.launcher.server.model.cardeffects.CardEffect03;
 import it.polimi.ingsw.triton.launcher.server.model.cardeffects.CardEffect05;
+import it.polimi.ingsw.triton.launcher.server.model.player.Player;
 import it.polimi.ingsw.triton.launcher.server.view.VirtualView;
 import it.polimi.ingsw.triton.launcher.utils.IllegalClientInputException;
 import it.polimi.ingsw.triton.launcher.utils.message.ErrorTypeID;
@@ -79,21 +80,23 @@ public class Controller implements Observer<Message> {
             case TOWER_COLOR_REPLY: {
                 try {
                     game.chooseTowerColor(senderUsername, ((TowerColorReply) message).getPlayerColor());
-                    createTowerColorRequestMessage(game.getNextPlayerName(game.getPlayerByUsername(senderUsername)));
+                    createTowerColorRequestMessage(game.getNextPlayer(game.getPlayerByUsername(senderUsername)).getUsername());
+                    game.setCurrentPlayer(game.getNextPlayer(game.getPlayerByUsername(senderUsername)));
                     break;
                 } catch (IllegalClientInputException e) {
                     getVirtualViewByUsername(senderUsername).showErrorMessage(ErrorTypeID.WRONG_COLOR);
                     createTowerColorRequestMessage(senderUsername);
-
                 } catch (NoSuchElementException e) {
                     createWizardRequestMessage(senderUsername);
+                    game.setCurrentPlayer(game.getPlayers().get(0));
                     break;
                 }
             }
             case WIZARD_REPLY: {
                 try {
                     game.chooseWizard(((ClientMessage) message).getSenderUsername(), ((WizardReply) message).getPlayerWizard());
-                    createWizardRequestMessage(game.getNextPlayerName(game.getPlayerByUsername(senderUsername)));
+                    createWizardRequestMessage(game.getNextPlayer(game.getPlayerByUsername(senderUsername)).getUsername());
+                    game.setCurrentPlayer(game.getNextPlayer(game.getPlayerByUsername(senderUsername)));
                     break;
                 } catch (IllegalClientInputException e) {
                     getVirtualViewByUsername(senderUsername).showErrorMessage(ErrorTypeID.WRONG_WIZARD);
@@ -102,6 +105,7 @@ public class Controller implements Observer<Message> {
                 } catch (NoSuchElementException e) {
                     game.setup();
                     createAssistantCardRequestMessage(game.getCurrentPlayer().getUsername());
+                    game.setCurrentPlayer(game.getPlayers().get(0));
                     break;
                 }
             }
@@ -158,16 +162,18 @@ public class Controller implements Observer<Message> {
             case ASSISTANT_CARD_REPLY: {
                 try {
                     game.chooseAssistantCard(((ClientMessage) message).getSenderUsername(), ((AssistantCardReply) message).getChosenAssistantCard());
-                    createAssistantCardRequestMessage(game.getNextPlayerName(game.getPlayerByUsername(senderUsername)));
+                    createAssistantCardRequestMessage(game.getNextPlayer(game.getPlayerByUsername(senderUsername)).getUsername());
+                    game.setCurrentPlayer(game.getNextPlayer(game.getPlayerByUsername(senderUsername)));
                     break;
                 } catch (IllegalClientInputException e) {
-                    //getVirtualViewByUsername(senderUsername).showErrorMessage(ErrorTypeID.);   to create the message type
+                    getVirtualViewByUsername(senderUsername).showErrorMessage(ErrorTypeID.ASSISTANTCARD_ALREADY_CHOSEN);
                     createWizardRequestMessage(senderUsername);
                     break;
                 } catch (NoSuchElementException e) {
-                    game.setup();
                     createAssistantCardRequestMessage(game.getCurrentPlayer().getUsername());
                     game.sortPlayerPerTurn();
+                    game.setCurrentPlayer(game.getPlayers().get(0));
+                    game.actionPhase();
                     break;
                 }
             }

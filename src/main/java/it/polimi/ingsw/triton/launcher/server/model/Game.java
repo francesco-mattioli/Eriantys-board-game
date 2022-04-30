@@ -122,14 +122,6 @@ public class Game extends Observable<Message> {
     }
 
     /**
-     * Creates a new message to send to the player to select the wizard.
-     * @param username the receiver player's username.
-     */
-    public void createChooseWizardMessage(String username){
-        notify(new WizardRequest(availableWizards));
-    }
-
-    /**
      * Sets the wizard to the player and creates a new request to the next player if present.
      * @param username the player's username of who sets the wizard.
      * @param wizard the wizard selected by the player.
@@ -144,16 +136,20 @@ public class Game extends Observable<Message> {
         }
     }
 
+    public void chooseAssistantCard(String username, AssistantCard assistantCard) throws IllegalClientInputException{
+        getPlayerByUsername(username).executeAction(new PlayAssistantCard(assistantCard, getPlayerByUsername(username), usedAssistantCards));
+    }
+
     /**
      * @param current the current player of the game.
      * @return the next player that will play his turn.
      * @throws NoSuchElementException if the there's not a next player.
      */
-    public String getNextPlayerName(Player current) throws NoSuchElementException{
+    public Player getNextPlayer(Player current) throws NoSuchElementException{
         int index = players.indexOf(current);
         if(index < players.size()-1){
             currentPlayer = players.get(index+1);
-            return players.get(index+1).getUsername();
+            return players.get(index+1);
         }
         throw new NoSuchElementException("There is not a next player");
     }
@@ -189,12 +185,16 @@ public class Game extends Observable<Message> {
         drawCharacterCards(); //(PHASE 12) creates 3 character cards
         notify(new GameInfoMessage(characterCards, islands, motherNature.getPosition(), getAllSchoolBoards(), cloudTiles, generalCoinSupply));
         for(Player player: players)
-            notify(new GiveAssistantDeckMessage(player.getUsername(), player.getAssistantDeck()));
+            notify(new GiveAssistantDeckMessage(player.getUsername(), player.getAssistantDeck()));   // to review
         notify(new YourTurnMessage(currentPlayer.getUsername()));
         planningPhase();
     }
 
      // The following methods execute the PLANNING phase of the game
+
+    public void setCurrentPlayer(Player currentPlayer) {
+        this.currentPlayer = currentPlayer;
+    }
 
     /**
      * Adds the students to the cloud tiles and sets the last round flag if the bag is empty.
@@ -265,7 +265,6 @@ public class Game extends Observable<Message> {
         addStudentsToCloudTiles();
         resetPlayedCardInTurn();
         notify(new CloudTilesInfoMessage(cloudTiles));
-
     }
 
 
