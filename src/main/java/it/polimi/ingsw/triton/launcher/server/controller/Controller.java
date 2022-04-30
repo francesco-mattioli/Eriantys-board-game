@@ -1,13 +1,12 @@
 package it.polimi.ingsw.triton.launcher.server.controller;
 
-import it.polimi.ingsw.triton.launcher.client.cli.Cli;
 import it.polimi.ingsw.triton.launcher.server.model.Game;
 import it.polimi.ingsw.triton.launcher.server.model.cardeffects.CardEffect;
 import it.polimi.ingsw.triton.launcher.server.model.cardeffects.CardEffect01;
 import it.polimi.ingsw.triton.launcher.server.model.cardeffects.CardEffect03;
 import it.polimi.ingsw.triton.launcher.server.model.cardeffects.CardEffect05;
-import it.polimi.ingsw.triton.launcher.server.model.player.Player;
 import it.polimi.ingsw.triton.launcher.server.view.VirtualView;
+import it.polimi.ingsw.triton.launcher.utils.EndGameException;
 import it.polimi.ingsw.triton.launcher.utils.IllegalClientInputException;
 import it.polimi.ingsw.triton.launcher.utils.LastMoveException;
 import it.polimi.ingsw.triton.launcher.utils.message.ErrorTypeID;
@@ -77,6 +76,10 @@ public class Controller implements Observer<Message> {
 
     private void createMotherNatureStepsRequest(String username){
         getVirtualViewByUsername(username).askNumberStepsMotherNature();
+    }
+
+    private void createCloudTileMessage(String username){
+        getVirtualViewByUsername(username).askCloudTile(game.getAvailableCloudTiles());
     }
 
 
@@ -183,6 +186,32 @@ public class Controller implements Observer<Message> {
                 } catch (LastMoveException e) {
                     createMotherNatureStepsRequest(senderUsername);
                     break;
+                }
+            }
+            case NUMBER_STEPS_MOTHER_NATURE_REPLY: {
+                try {
+                    game.moveMotherNature(((MotherNatureReply) message).getNumSteps());
+                    createCloudTileMessage(game.getCurrentPlayer().getUsername());
+                } catch (IllegalClientInputException e) {
+                    getVirtualViewByUsername(game.getCurrentPlayer().getUsername()).showErrorMessage(ErrorTypeID.TOO_MANY_MOTHERNATURE_STEPS);
+                    createMotherNatureStepsRequest(game.getCurrentPlayer().getUsername());
+                } catch (EndGameException e) {
+                    game.calculateWinner();
+                }
+                break;
+            }
+            case CLOUD_TILE_REPLY: {
+                try {
+                    game.chooseCloudTile(game.getCloudTileById(((CloudTileReply)message).getSelectedCloudTileID()));
+                    game.nextGameTurn();
+                    createMoveStudentRequest(game.getCurrentPlayer().getUsername());
+                } catch (IllegalClientInputException e) {
+                    getVirtualViewByUsername(game.getCurrentPlayer().getUsername()).showErrorMessage(ErrorTypeID.ILLEGAL_MOVE);
+                    createCloudTileMessage(game.getCurrentPlayer().getUsername());
+                } catch (EndGameException e) {
+                    //TODO implement
+                } catch(NoSuchElementException e){
+                    createAssistantCardRequestMessage(game.getCurrentPlayer().getUsername());
                 }
             }
         }

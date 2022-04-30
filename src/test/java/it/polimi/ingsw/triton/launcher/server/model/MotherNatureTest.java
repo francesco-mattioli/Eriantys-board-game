@@ -1,6 +1,7 @@
 package it.polimi.ingsw.triton.launcher.server.model;
 
 import it.polimi.ingsw.triton.launcher.server.model.enums.AssistantCardType;
+import it.polimi.ingsw.triton.launcher.utils.IllegalClientInputException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -24,14 +25,24 @@ class MotherNatureTest {
 
     @Test
     void moveMotherNatureWithoutAdditionalSteps(){
-        Island position = motherNature.move(new AssistantCard(AssistantCardType.TURTLE), 5, islands);
+        Island position = null;
+        try {
+            position = motherNature.move(new AssistantCard(AssistantCardType.TURTLE), 5, islands);
+        } catch (IllegalClientInputException e) {
+            e.printStackTrace();
+        }
         assertEquals(position, islands.get(3));
     }
 
     @Test
     void moveMotherNatureWithAdditionalSteps(){
         motherNature.setAdditionalSteps(2);
-        Island island = motherNature.move(new AssistantCard(AssistantCardType.DOG), 5, islands);
+        Island island = null;
+        try {
+            island = motherNature.move(new AssistantCard(AssistantCardType.DOG), 5, islands);
+        } catch (IllegalClientInputException e) {
+            e.printStackTrace();
+        }
         assertEquals(island, islands.get(3));
     }
 

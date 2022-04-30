@@ -12,6 +12,7 @@ import it.polimi.ingsw.triton.launcher.server.model.player.SchoolBoard;
 import it.polimi.ingsw.triton.launcher.server.model.playeractions.*;
 import it.polimi.ingsw.triton.launcher.server.model.professor.ProfessorStrategyDefault;
 import it.polimi.ingsw.triton.launcher.server.model.professor.ProfessorsManager;
+import it.polimi.ingsw.triton.launcher.utils.EndGameException;
 import it.polimi.ingsw.triton.launcher.utils.IllegalClientInputException;
 import it.polimi.ingsw.triton.launcher.utils.LastMoveException;
 import it.polimi.ingsw.triton.launcher.utils.message.ErrorTypeID;
@@ -39,6 +40,7 @@ public class Game extends Observable<Message> {
     private final ArrayList<Player> players;
     private int generalCoinSupply;
     private final ArrayList<CloudTile> cloudTiles;
+    private ArrayList<CloudTile> availableCloudTiles;
     private final ArrayList<CharacterCard> characterCards;
     private Player currentPlayer;
     private MotherNature motherNature;
@@ -333,14 +335,10 @@ public class Game extends Observable<Message> {
      * Moves mother nature to another island.
      * @param numSteps the number of steps that mother nature has to do.
      */
-    public void moveMotherNature(int numSteps){
-        try{
-            Island newPosition = motherNature.move(currentPlayer.getLastPlayedAssistantCard(), numSteps, islands);
-            motherNature.setIslandOn(newPosition);
-            notify(new MotherNaturePositionMessage(newPosition));
-        }catch (IllegalArgumentException e){
-            notify(new ErrorMessage(ErrorTypeID.TOO_MANY_MOTHERNATURE_STEPS));
-        }
+    public void moveMotherNature(int numSteps) throws IllegalClientInputException, EndGameException{
+        Island newPosition = motherNature.move(currentPlayer.getLastPlayedAssistantCard(), numSteps, islands);
+        motherNature.setIslandOn(newPosition);
+        notify(new MotherNaturePositionMessage(newPosition));
         mergeNearIslands(motherNature.getPosition());
     }
 
@@ -453,54 +451,49 @@ public class Game extends Observable<Message> {
     /**
      * This method merge two or more adjacent islands with the same dominator.
      * @param motherNaturePosition the island where mother nature is located.
-     * @throws RuntimeException
+     * @throws EndGameException
      */
-    public void mergeNearIslands(Island motherNaturePosition) throws RuntimeException {
+    public void mergeNearIslands(Island motherNaturePosition) throws EndGameException {
         motherNaturePosition.updateInfluence(players, professors);
         if (motherNaturePosition.getDominator() != null) {
             if (motherNaturePosition.getDominator() == prevIsland(motherNaturePosition).getDominator()) {
                 motherNaturePosition.merge(prevIsland(motherNaturePosition));
-                notify(new MergeIslandsMessage(motherNaturePosition.getDominator().getUsername(), motherNaturePosition, prevIsland(motherNaturePosition)));
+                notify(new MergeIslandsMessage(motherNaturePosition, prevIsland(motherNaturePosition)));
                 islands.remove(prevIsland(motherNaturePosition));
                 checkNumberIslands();
             }
             if (motherNaturePosition.getDominator() == nextIsland(motherNaturePosition).getDominator()) {
                 motherNaturePosition.merge(nextIsland(motherNaturePosition));
-                notify(new MergeIslandsMessage(motherNaturePosition.getDominator().getUsername(), motherNaturePosition, nextIsland(motherNaturePosition)));
+                notify(new MergeIslandsMessage(motherNaturePosition, nextIsland(motherNaturePosition)));
                 islands.remove(nextIsland(motherNaturePosition));
                 checkNumberIslands();
             }
         }
-        ArrayList<CloudTile> availableCloudTiles = new ArrayList<>();
+        availableCloudTiles = new ArrayList<>();
         for(CloudTile cloudTile: cloudTiles){
             if(!cloudTile.isAlreadyUsed())
                 availableCloudTiles.add(cloudTile);
         }
-        Message message = new CloudTileRequest(availableCloudTiles);
-        notify(message);
     }
 
     /**
      * Manages the action of the player to choose the cloud tile.
      * @param cloudTile the cloud tile selected from the player.
      */
-    public void chooseCloudTile(CloudTile cloudTile){
-        try{
-            //currentPlayer.executeAction(new ChooseCloudTile(cloudTile, currentPlayer.getSchoolBoard()));
-        }catch (RuntimeException e){
-            notify(new ErrorMessage(ErrorTypeID.CLOUD_TILE_ALREADY_CHOSEN));
-        }
+    public void chooseCloudTile(CloudTile cloudTile) throws IllegalClientInputException{
+        currentPlayer.executeAction(new ChooseCloudTile(cloudTile, currentPlayer.getSchoolBoard()));
         cloudTile.setAlreadyUsed(true);
-        nextGameTurn();
+        notify(new InfoChosenCloudTileMessage(currentPlayer.getUsername(), currentPlayer.getSchoolBoard(), cloudTile));
+        //nextGameTurn();
     }
 
     /**
      * Checks if the number of remaining groups of islands is three.
      * @throws RuntimeException if the number of groups islands is three because the game must finish.
      */
-    private void checkNumberIslands() throws RuntimeException{
+    private void checkNumberIslands() throws EndGameException {
         if(islands.size() == 3)   //TO END
-            throw new RuntimeException("Only three groups of islands: game ended.");
+            throw new EndGameException();
     }
 
     /**
@@ -509,6 +502,7 @@ public class Game extends Observable<Message> {
      * If there is a winner, virtualViews are notified using a WinMessage
      */
     public void calculateWinner(){
+        gameState = GameState.END;
         Optional<Player> p;
         int min = Collections.min(players.stream().map(Player::getSchoolBoard).map(SchoolBoard::getNumTowers).collect(Collectors.toList()));
         int frequency = Collections.frequency(players.stream().map(Player::getSchoolBoard).map(SchoolBoard::getNumTowers).collect(Collectors.toList()), min);
@@ -543,7 +537,7 @@ public class Game extends Observable<Message> {
      * Changes current player at the end of every action phase.
      * At the end of the last player's action phase, it starts a new planning phase.
      */
-    public void nextGameTurn() {
+    public void nextGameTurn() throws EndGameException, NoSuchElementException{
         if (players.indexOf(currentPlayer) < maxNumberOfPlayers - 1){
             currentPlayer = players.get(players.indexOf(currentPlayer) + 1);
             professorsManager.setProfessorStrategy(new ProfessorStrategyDefault());
@@ -555,8 +549,10 @@ public class Game extends Observable<Message> {
             currentPlayer = players.get(0);
             notify(new YourTurnMessage(currentPlayer.getUsername()));
             planningPhase();
+            throw new NoSuchElementException("Last player has played. Begin new planning phase");
         }else{
             calculateWinner();
+            throw new EndGameException();
         }
     }
 
@@ -808,5 +804,17 @@ public class Game extends Observable<Message> {
                 return characterCard;
         }
         return null;     //We don't expect to reach this statement because we check before if there's a card with that id.
+    }
+
+    public ArrayList<CloudTile> getAvailableCloudTiles(){
+        return availableCloudTiles;
+    }
+
+    public CloudTile getCloudTileById(int cloudTileId) throws IllegalClientInputException{
+        for(CloudTile cloudTile: cloudTiles){
+            if(cloudTile.getId() == cloudTileId)
+                return cloudTile;
+        }
+        throw new IllegalClientInputException();
     }
 }

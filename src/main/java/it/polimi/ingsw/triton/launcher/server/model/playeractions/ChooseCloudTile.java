@@ -3,6 +3,7 @@ package it.polimi.ingsw.triton.launcher.server.model.playeractions;
 import it.polimi.ingsw.triton.launcher.server.model.CloudTile;
 import it.polimi.ingsw.triton.launcher.server.model.enums.Color;
 import it.polimi.ingsw.triton.launcher.server.model.player.SchoolBoard;
+import it.polimi.ingsw.triton.launcher.utils.IllegalClientInputException;
 
 public class ChooseCloudTile implements Action {
     private final CloudTile cloudTile;
@@ -33,9 +34,9 @@ public class ChooseCloudTile implements Action {
      * Moves the students from the chosen cloud tile to the entrance of the player.
      */
     @Override
-    public void execute() throws RuntimeException {
+    public void execute() throws IllegalClientInputException {
         if(isCloudTileAlreadyChosen()){
-            throw new RuntimeException("This cloud tile is already chosen");
+            throw new IllegalClientInputException();
         }else{
             for(int i = 0; i < cloudTile.getStudents().length; i++){
                 for(int j = 0; j < cloudTile.getStudents()[i]; j++){

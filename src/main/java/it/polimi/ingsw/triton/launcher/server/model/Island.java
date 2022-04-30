@@ -5,6 +5,7 @@ import it.polimi.ingsw.triton.launcher.server.model.enums.Color;
 import it.polimi.ingsw.triton.launcher.server.model.influencestrategy.InfluenceStrategy;
 import it.polimi.ingsw.triton.launcher.server.model.influencestrategy.InfluenceStrategyDefault;
 import it.polimi.ingsw.triton.launcher.server.model.player.Player;
+import it.polimi.ingsw.triton.launcher.utils.EndGameException;
 import it.polimi.ingsw.triton.launcher.utils.message.Message;
 import it.polimi.ingsw.triton.launcher.utils.message.servermessage.Broadcast.ChangeInfluenceMessage;
 import it.polimi.ingsw.triton.launcher.utils.message.servermessage.Broadcast.MoveTowerOntoIslandMessage;
@@ -37,9 +38,7 @@ public class Island extends Observable<Message> {
      * The current island's parameters will become the sum of the two islands parameters
      * @param island specifies the island to merge with the current island
      */
-    public void merge(Island island) throws IllegalArgumentException {
-        if (this.dominator != island.getDominator() || this.dominator == null)
-            throw new IllegalArgumentException("The islands must have the same dominator");
+    public void merge(Island island){
         this.dim += island.getDim();
         for (int i = 0; i < students.length; i++) {
             this.students[i] += island.getStudents()[i];
@@ -67,7 +66,7 @@ public class Island extends Observable<Message> {
      * @param players specifies the ArrayList of players
      * @param professors specifies for each professor which player has that professor
      */
-    public void updateInfluence(ArrayList<Player> players, Player[] professors) {
+    public void updateInfluence(ArrayList<Player> players, Player[] professors) throws EndGameException{
         boolean modifiedDominator = false;
         if (noEntryTiles == 0) {
             int nonDominatorPlayersInfluences[] = new int[players.size()];
@@ -112,7 +111,7 @@ public class Island extends Observable<Message> {
      * @param newDominator specifies the player that is now dominating on the island
      * @throws IllegalStateException
      */
-    public void towerInfluence(Player newDominator) throws IllegalStateException {
+    public void towerInfluence(Player newDominator) throws EndGameException {
         if (dominator != null && dominator != newDominator) {
             dominator.getSchoolBoard().moveTowerOntoSchoolBoard(dim);
         }

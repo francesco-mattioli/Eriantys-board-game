@@ -3,6 +3,7 @@ package it.polimi.ingsw.triton.launcher.server.model;
 import it.polimi.ingsw.triton.launcher.server.model.enums.Color;
 import it.polimi.ingsw.triton.launcher.server.model.enums.TowerColor;
 import it.polimi.ingsw.triton.launcher.server.model.player.SchoolBoard;
+import it.polimi.ingsw.triton.launcher.utils.EndGameException;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -33,7 +34,11 @@ class SchoolBoardTest {
     @Test
     void testMoveTowerOntoIsland() {
         int numTowers = schoolBoard.getNumTowers();
-        schoolBoard.moveTowerOntoIsland(2);
+        try {
+            schoolBoard.moveTowerOntoIsland(2);
+        } catch (EndGameException e) {
+            e.printStackTrace();
+        }
         assertEquals(numTowers - 2, schoolBoard.getNumTowers());
     }
 
@@ -43,7 +48,11 @@ class SchoolBoardTest {
     @Test
     void testMoveTowerOntoSchoolBoard() {
         int movedTowers = 3;
-        schoolBoard.moveTowerOntoIsland(movedTowers);
+        try {
+            schoolBoard.moveTowerOntoIsland(movedTowers);
+        } catch (EndGameException e) {
+            e.printStackTrace();
+        }
         int numTowersSchoolBoard = schoolBoard.getNumTowers();
         schoolBoard.moveTowerOntoSchoolBoard(movedTowers);
         assertEquals(numTowersSchoolBoard + movedTowers, schoolBoard.getNumTowers());

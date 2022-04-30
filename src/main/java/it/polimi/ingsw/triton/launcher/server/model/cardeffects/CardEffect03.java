@@ -2,6 +2,7 @@ package it.polimi.ingsw.triton.launcher.server.model.cardeffects;
 
 import it.polimi.ingsw.triton.launcher.server.model.Island;
 import it.polimi.ingsw.triton.launcher.server.model.player.Player;
+import it.polimi.ingsw.triton.launcher.utils.EndGameException;
 
 import java.util.ArrayList;
 
@@ -25,7 +26,7 @@ public class CardEffect03 implements CardEffect{
      * This method calls the updateInfluence method on the island chosen by the player.
      */
     @Override
-    public void execute() {
+    public void execute() throws EndGameException{
         island.updateInfluence(players,professors);
     }
 }

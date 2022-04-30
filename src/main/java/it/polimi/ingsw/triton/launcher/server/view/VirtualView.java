@@ -1,5 +1,6 @@
 package it.polimi.ingsw.triton.launcher.server.view;
 
+import it.polimi.ingsw.triton.launcher.server.model.CloudTile;
 import it.polimi.ingsw.triton.launcher.server.model.enums.Wizard;
 import it.polimi.ingsw.triton.launcher.utils.message.servermessage.*;
 import it.polimi.ingsw.triton.launcher.utils.message.servermessage.Requests.GameModeRequest;
@@ -55,7 +56,7 @@ public class VirtualView extends Observable<Message> implements View, Observer<M
     }
 
     @Override
-    public void askCloudTile() {
+    public void askCloudTile(ArrayList<CloudTile> availableCloudTiles) {
 
     }
 

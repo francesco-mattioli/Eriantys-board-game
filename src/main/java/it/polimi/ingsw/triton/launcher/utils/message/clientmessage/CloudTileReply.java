@@ -1,18 +1,17 @@
 package it.polimi.ingsw.triton.launcher.utils.message.clientmessage;
 
-import it.polimi.ingsw.triton.launcher.server.model.CloudTile;
 import it.polimi.ingsw.triton.launcher.utils.message.MessageType;
 
 public class CloudTileReply extends ClientMessage {
-    private final CloudTile selectedCloudTile;
+    private final int selectedCloudTileID;
 
-    public CloudTileReply(String username, CloudTile selectedCloudTile) {
+    public CloudTileReply(String username, int selectedCloudTileID) {
         super(MessageType.CLOUD_TILE_REPLY, username);
-        this.selectedCloudTile = selectedCloudTile;
+        this.selectedCloudTileID = selectedCloudTileID;
     }
 
-    public CloudTile getSelectedCloudTile() {
-        return selectedCloudTile;
+    public int getSelectedCloudTileID() {
+        return selectedCloudTileID;
     }
 
 }

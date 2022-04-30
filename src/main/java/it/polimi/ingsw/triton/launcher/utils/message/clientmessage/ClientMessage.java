@@ -1,5 +1,6 @@
 package it.polimi.ingsw.triton.launcher.utils.message.clientmessage;
 
+import it.polimi.ingsw.triton.launcher.client.ClientVisitor;
 import it.polimi.ingsw.triton.launcher.utils.message.Message;
 import it.polimi.ingsw.triton.launcher.utils.message.MessageType;
 
@@ -13,5 +14,10 @@ public class ClientMessage extends Message{
 
     public String getSenderUsername() {
         return senderUsername;
+    }
+
+    @Override
+    public void accept(ClientVisitor messageVisitor) {
+
     }
 }

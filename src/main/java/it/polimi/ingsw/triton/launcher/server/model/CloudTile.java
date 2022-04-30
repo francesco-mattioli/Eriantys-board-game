@@ -54,4 +54,8 @@ public class CloudTile {
     public void setAlreadyUsed(boolean alreadyUsed) {
         this.alreadyUsed = alreadyUsed;
     }
+
+    public int getId() {
+        return id;
+    }
 }

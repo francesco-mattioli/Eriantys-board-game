@@ -1,5 +1,6 @@
 package it.polimi.ingsw.triton.launcher.utils.message.servermessage;
 
+import it.polimi.ingsw.triton.launcher.client.ClientVisitor;
 import it.polimi.ingsw.triton.launcher.server.model.Island;
 import it.polimi.ingsw.triton.launcher.utils.message.MessageType;
 import it.polimi.ingsw.triton.launcher.utils.message.servermessage.Broadcast.BroadcastServerMessage;
@@ -10,10 +11,8 @@ import it.polimi.ingsw.triton.launcher.utils.message.servermessage.Broadcast.Bro
 public class MergeIslandsMessage extends BroadcastServerMessage {
     private final Island islandWithMotherNature;
     private final Island islandToDelete;
-    private final String usernameDominator;
-    public MergeIslandsMessage(String usernameDominator, Island islandwithMotherNature, Island islandToDelete) {
+    public MergeIslandsMessage(Island islandwithMotherNature, Island islandToDelete) {
         super(MessageType.MERGE_ISLANDS);
-        this.usernameDominator = usernameDominator;
         this.islandWithMotherNature = islandwithMotherNature;
         this.islandToDelete = islandToDelete;
     }
@@ -26,7 +25,8 @@ public class MergeIslandsMessage extends BroadcastServerMessage {
         return islandToDelete;
     }
 
-    public String getUsernameDominator() {
-        return usernameDominator;
+    @Override
+    public void accept(ClientVisitor messageVisitor) {
+
     }
 }

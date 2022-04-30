@@ -1,5 +1,6 @@
 package it.polimi.ingsw.triton.launcher.utils.message.servermessage.Broadcast;
 
+import it.polimi.ingsw.triton.launcher.client.ClientVisitor;
 import it.polimi.ingsw.triton.launcher.server.model.CloudTile;
 import it.polimi.ingsw.triton.launcher.utils.message.MessageType;
 
@@ -13,5 +14,10 @@ public class CloudTilesInfoMessage extends BroadcastServerMessage{
     public CloudTilesInfoMessage(ArrayList<CloudTile> cloudTiles) {
         super(MessageType.FILLED_CLOUD_TILES);
         this.cloudTiles = cloudTiles;
+    }
+
+    @Override
+    public void accept(ClientVisitor messageVisitor) {
+
     }
 }

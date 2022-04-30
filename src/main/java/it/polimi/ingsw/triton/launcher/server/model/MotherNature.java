@@ -1,5 +1,7 @@
 package it.polimi.ingsw.triton.launcher.server.model;
 
+import it.polimi.ingsw.triton.launcher.utils.IllegalClientInputException;
+
 import java.util.ArrayList;
 
 public class MotherNature {
@@ -27,10 +29,10 @@ public class MotherNature {
      * @return returns the islands where MotherNature has been moved on
      * @throws IllegalArgumentException if the request steps are more than the number permitted
      */
-    public Island move(AssistantCard assistantCard, int steps, ArrayList<Island> islands) throws IllegalArgumentException {
+    public Island move(AssistantCard assistantCard, int steps, ArrayList<Island> islands) throws IllegalClientInputException {
         int maxSteps = assistantCard.getType().getMaxSteps() + additionalSteps;
         if (steps > maxSteps)
-            throw new IllegalArgumentException("The number of steps exceed the maximum possible!");
+            throw new IllegalClientInputException();
         islandOn = nextMotherNaturePosition(islandOn, steps, islands);
         return islandOn;
     }

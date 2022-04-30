@@ -53,7 +53,7 @@ public class MoveStudentIntoDiningRoom implements Action {
      * a number of students which is multiple of 3.
      */
     @Override
-    public void execute() throws NullPointerException, IllegalClientInputException {
+    public void execute() throws IllegalClientInputException {
         if(isEmptyEntrance())
             throw new IllegalClientInputException();
         else if(noStudentsColorInTheEntrance())
