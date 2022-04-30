@@ -8,6 +8,7 @@ public enum ErrorTypeID {
     WRONG_USERNAME("This username doesn't exists!"),
     WRONG_COLOR("This color cannot be chosen!"),
     WRONG_WIZARD("This wizard cannot be chosen!"),
+    ILLEGAL_MOVE("This move cannot be done"),
     ASSISTANTCARD_ALREADY_CHOSEN("This assistant card is already used!"),
     TOO_MANY_MOTHERNATURE_STEPS("The number of steps exceeds the maximum possible!"),
     NULL_COLOR("Color cannot be null!"),

@@ -5,6 +5,7 @@ import it.polimi.ingsw.triton.launcher.server.model.player.AssistantDeck;
 import it.polimi.ingsw.triton.launcher.server.model.player.Player;
 import it.polimi.ingsw.triton.launcher.server.model.enums.AssistantCardType;
 import it.polimi.ingsw.triton.launcher.server.model.enums.Wizard;
+import it.polimi.ingsw.triton.launcher.utils.IllegalClientInputException;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -39,7 +40,11 @@ class PlayAssistantCardTest {
         usedAssistantCards.add(new AssistantCard(AssistantCardType.SNAKE));
         usedAssistantCards.add(new AssistantCard(AssistantCardType.TIGER));
         PlayAssistantCard pc = new PlayAssistantCard(cardToPlay, player, usedAssistantCards);
-        player.executeAction(pc);
+        try {
+            player.executeAction(pc);
+        } catch (IllegalClientInputException e) {
+            e.printStackTrace();
+        }
         assertEquals(cardToPlay, player.getLastPlayedAssistantCard());
     }
 
@@ -66,7 +71,11 @@ class PlayAssistantCardTest {
         player.getAssistantDeck().getAssistantDeck().add(uniqueCardInTheDeck);
         usedAssistantCards.add(uniqueCardInTheDeck);
         PlayAssistantCard pc = new PlayAssistantCard(uniqueCardInTheDeck, player, usedAssistantCards);
-        player.executeAction(pc);
+        try {
+            player.executeAction(pc);
+        } catch (IllegalClientInputException e) {
+            e.printStackTrace();
+        }
         assertEquals(uniqueCardInTheDeck, player.getLastPlayedAssistantCard());
     }
 
@@ -80,7 +89,11 @@ class PlayAssistantCardTest {
         usedAssistantCards.add(new AssistantCard(AssistantCardType.SNAKE));
         usedAssistantCards.add(new AssistantCard(AssistantCardType.TIGER));
         PlayAssistantCard pc = new PlayAssistantCard(cardToPlay, player, usedAssistantCards);
-        player.executeAction(pc);
+        try {
+            player.executeAction(pc);
+        } catch (IllegalClientInputException e) {
+            e.printStackTrace();
+        }
         assertEquals(initialDimDeck-1, player.getAssistantDeck().getAssistantDeck().size());
     }
 
@@ -94,7 +107,11 @@ class PlayAssistantCardTest {
         usedAssistantCards.add(new AssistantCard(AssistantCardType.TIGER));
         int initialDimDeck = usedAssistantCards.size();
         PlayAssistantCard pc = new PlayAssistantCard(cardToPlay, player, usedAssistantCards);
-        player.executeAction(pc);
+        try {
+            player.executeAction(pc);
+        } catch (IllegalClientInputException e) {
+            e.printStackTrace();
+        }
         assertEquals(initialDimDeck+1, usedAssistantCards.size());
     }
 }

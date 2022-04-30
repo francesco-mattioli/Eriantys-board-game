@@ -1,5 +1,6 @@
 package it.polimi.ingsw.triton.launcher.server.controller;
 
+import it.polimi.ingsw.triton.launcher.client.cli.Cli;
 import it.polimi.ingsw.triton.launcher.server.model.Game;
 import it.polimi.ingsw.triton.launcher.server.model.cardeffects.CardEffect;
 import it.polimi.ingsw.triton.launcher.server.model.cardeffects.CardEffect01;
@@ -8,6 +9,7 @@ import it.polimi.ingsw.triton.launcher.server.model.cardeffects.CardEffect05;
 import it.polimi.ingsw.triton.launcher.server.model.player.Player;
 import it.polimi.ingsw.triton.launcher.server.view.VirtualView;
 import it.polimi.ingsw.triton.launcher.utils.IllegalClientInputException;
+import it.polimi.ingsw.triton.launcher.utils.LastMoveException;
 import it.polimi.ingsw.triton.launcher.utils.message.ErrorTypeID;
 import it.polimi.ingsw.triton.launcher.utils.message.Message;
 import it.polimi.ingsw.triton.launcher.utils.message.clientmessage.*;
@@ -62,7 +64,7 @@ public class Controller implements Observer<Message> {
     }
 
     public void createWizardRequestMessage(String username) {
-        getVirtualViewByUsername(username).askWizard();
+        getVirtualViewByUsername(username).askWizard(game.getAvailableWizards());
     }
 
     public void createAssistantCardRequestMessage(String username) {
@@ -71,6 +73,10 @@ public class Controller implements Observer<Message> {
 
     private void createMoveStudentRequest(String username){
         getVirtualViewByUsername(username).askMoveStudentFromEntrance();
+    }
+
+    private void createMotherNatureStepsRequest(String username){
+        getVirtualViewByUsername(username).askNumberStepsMotherNature();
     }
 
 
@@ -153,19 +159,29 @@ public class Controller implements Observer<Message> {
         switch (message.getMessageType()) {
             case MOVE_STUDENT_ONTO_ISLAND: {
                 try {
-                    game.chooseAssistantCard(((ClientMessage) message).getSenderUsername(), ((AssistantCardReply) message).getChosenAssistantCard());
-                    createAssistantCardRequestMessage(game.getNextPlayer(game.getPlayerByUsername(senderUsername)).getUsername());
-                    game.setCurrentPlayer(game.getNextPlayer(game.getPlayerByUsername(senderUsername)));
+                    game.executeActionMoveStudentToIsland(((MoveStudentOntoIslandMessage)message).getStudent(), ((MoveStudentOntoIslandMessage)message).getIslandID());
+                    createMoveStudentRequest(senderUsername);
                     break;
                 } catch (IllegalClientInputException e) {
-                    getVirtualViewByUsername(senderUsername).showErrorMessage(ErrorTypeID.ASSISTANTCARD_ALREADY_CHOSEN);
-                    createWizardRequestMessage(senderUsername);
+                    getVirtualViewByUsername(senderUsername).showErrorMessage(ErrorTypeID.ILLEGAL_MOVE);
+                    createMoveStudentRequest(senderUsername);
                     break;
-                } catch (NoSuchElementException e) {
-                    createAssistantCardRequestMessage(game.getCurrentPlayer().getUsername());
-                    game.sortPlayerPerTurn();
-                    game.setCurrentPlayer(game.getPlayers().get(0));
-                    game.actionPhase();
+                } catch (LastMoveException e) {
+                    createMotherNatureStepsRequest(senderUsername);
+                    break;
+                }
+            }
+            case MOVE_STUDENT_ONTO_DININGROOM:{
+                try {
+                    game.executeActionMoveStudentToDiningRoom(((MoveStudentOntoDiningRoomMessage)message).getStudent());
+                    createMoveStudentRequest(senderUsername);
+                    break;
+                } catch (IllegalClientInputException e) {
+                    getVirtualViewByUsername(senderUsername).showErrorMessage(ErrorTypeID.ILLEGAL_MOVE);
+                    createMoveStudentRequest(senderUsername);
+                    break;
+                } catch (LastMoveException e) {
+                    createMotherNatureStepsRequest(senderUsername);
                     break;
                 }
             }

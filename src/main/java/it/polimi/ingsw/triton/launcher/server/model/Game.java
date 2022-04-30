@@ -13,6 +13,7 @@ import it.polimi.ingsw.triton.launcher.server.model.playeractions.*;
 import it.polimi.ingsw.triton.launcher.server.model.professor.ProfessorStrategyDefault;
 import it.polimi.ingsw.triton.launcher.server.model.professor.ProfessorsManager;
 import it.polimi.ingsw.triton.launcher.utils.IllegalClientInputException;
+import it.polimi.ingsw.triton.launcher.utils.LastMoveException;
 import it.polimi.ingsw.triton.launcher.utils.message.ErrorTypeID;
 import it.polimi.ingsw.triton.launcher.utils.message.servermessage.Broadcast.*;
 import it.polimi.ingsw.triton.launcher.utils.message.servermessage.CharacterCards.*;
@@ -65,6 +66,10 @@ public class Game extends Observable<Message> {
         this.usedAssistantCards = new ArrayList<>();
     }
 
+
+    public ArrayList<Wizard> getAvailableWizards() {
+        return availableWizards;
+    }
 
     /**
      * This method checks if the username entered by the player has already been chosen
@@ -271,7 +276,7 @@ public class Game extends Observable<Message> {
 
     //Action phase
     public void actionPhase(){
-        gameState = GameState.BEGIN_ACTION_PHASE;
+        gameState = GameState.ACTION_PHASE;
         createMoveStudentsMessage();
     }
 
@@ -289,27 +294,22 @@ public class Game extends Observable<Message> {
      * Executes the action of moving a player from entrance to the dining room.
      * @param student the color of the student to move
      */
-    public void executeActionMoveStudentToDiningRoom(Color student){
-        if(currentPlayer.getSchoolBoard().getEntrance()[student.ordinal()] == 0 || student == null)
-            notify(new ErrorMessage(ErrorTypeID.NO_STUDENT_WITH_COLOR_ENTRANCE));
-        else{
-            currentPlayer.executeAction(new MoveStudentIntoDiningRoom(student, currentPlayer.getWallet(), currentPlayer.getSchoolBoard()));
-            if(currentPlayer.getSchoolBoard().getDiningRoom()[student.ordinal()] % 3 == 0)
-                notify(new UpdateWalletMessage(currentPlayer.getUsername()));
-            notify(new InfoStudentIntoDiningRoomMessage(currentPlayer.getUsername()));
-            currentPlayer.setMoveCounter(currentPlayer.getMoveCounter() + 1);
-            checkNumberMoves();
-        }
+    public void executeActionMoveStudentToDiningRoom(Color student) throws LastMoveException, IllegalClientInputException {
+        currentPlayer.executeAction(new MoveStudentIntoDiningRoom(student, currentPlayer.getWallet(), currentPlayer.getSchoolBoard()));
+        if(currentPlayer.getSchoolBoard().getDiningRoom()[student.ordinal()] % 3 == 0)
+            notify(new UpdateWalletMessage(currentPlayer.getUsername()));
+        notify(new InfoStudentIntoDiningRoomMessage(currentPlayer.getUsername(), currentPlayer.getSchoolBoard()));
+        currentPlayer.setMoveCounter(currentPlayer.getMoveCounter() + 1);
+        checkNumberMoves();
     }
 
-    public void executeActionMoveStudentToIsland(Color student, int idIsland){
-        if(currentPlayer.getSchoolBoard().getEntrance()[student.ordinal()] == 0) {
-            notify(new ErrorMessage(ErrorTypeID.NO_STUDENT_WITH_COLOR_ENTRANCE));
-        }else if(currentPlayer.getSchoolBoard().getEntrance()[student.ordinal()] != 0 && !existingIsland(idIsland)){
-            notify(new ErrorMessage(ErrorTypeID.NO_ISLAND_WITH_THAT_ID));
+    public void executeActionMoveStudentToIsland(Color student, int idIsland) throws IllegalClientInputException, LastMoveException {
+        if(!existingIsland(idIsland)){
+            throw new IllegalClientInputException();
         }else{
             currentPlayer.executeAction(new MoveStudentOntoIsland(currentPlayer.getSchoolBoard(), student, findIsland(idIsland)));
             currentPlayer.setMoveCounter(currentPlayer.getMoveCounter() + 1);
+            notify(new InfoStudentOntoIslandMessage(currentPlayer.getUsername(), currentPlayer.getSchoolBoard(), findIsland(idIsland)));
             checkNumberMoves();
         }
     }
@@ -317,18 +317,15 @@ public class Game extends Observable<Message> {
     /**
      * Checks if the player has to move again a student.
      */
-    public void checkNumberMoves(){
+    public void checkNumberMoves() throws LastMoveException {
         int numberMoves;
         if(maxNumberOfPlayers == 2)
             numberMoves = 3;
         else
             numberMoves = 4;
-        if(currentPlayer.getMoveCounter() != numberMoves)
-            createMoveStudentsMessage();
-        else{
+        if(currentPlayer.getMoveCounter() == numberMoves) {
             currentPlayer.setMoveCounter(0);
-            Message message = new NumberStepsMotherNatureMessage(currentPlayer.getUsername());
-            notify(message);
+            throw new LastMoveException();
         }
     }
 
@@ -337,7 +334,6 @@ public class Game extends Observable<Message> {
      * @param numSteps the number of steps that mother nature has to do.
      */
     public void moveMotherNature(int numSteps){
-        gameState = GameState.MIDDLE_ACTION_PHASE;
         try{
             Island newPosition = motherNature.move(currentPlayer.getLastPlayedAssistantCard(), numSteps, islands);
             motherNature.setIslandOn(newPosition);
@@ -480,7 +476,6 @@ public class Game extends Observable<Message> {
             if(!cloudTile.isAlreadyUsed())
                 availableCloudTiles.add(cloudTile);
         }
-        gameState = GameState.END_ACTION_PHASE;
         Message message = new CloudTileRequest(availableCloudTiles);
         notify(message);
     }

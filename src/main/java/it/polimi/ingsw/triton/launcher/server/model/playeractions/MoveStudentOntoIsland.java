@@ -3,6 +3,7 @@ package it.polimi.ingsw.triton.launcher.server.model.playeractions;
 import it.polimi.ingsw.triton.launcher.server.model.enums.Color;
 import it.polimi.ingsw.triton.launcher.server.model.Island;
 import it.polimi.ingsw.triton.launcher.server.model.player.SchoolBoard;
+import it.polimi.ingsw.triton.launcher.utils.IllegalClientInputException;
 
 /**
  * Represents an action performed by the user.
@@ -40,11 +41,11 @@ public class MoveStudentOntoIsland implements Action {
      * Moves the student to the island selected by the user.
      */
     @Override
-    public void execute() throws RuntimeException {
+    public void execute() throws IllegalClientInputException {
         if(isEmptyEntrance())
-            throw new RuntimeException("There aren't any students in the entrance");
+            throw new IllegalClientInputException();
         else if(noStudentsColorInTheEntrance())
-            throw new RuntimeException("There aren't any" + student.name() + "students in the entrance");
+            throw new IllegalClientInputException();
         else{
             schoolBoard.removeStudentFromEntrance(student);
             islandDestination.addStudent(student);

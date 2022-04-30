@@ -4,6 +4,7 @@ import it.polimi.ingsw.triton.launcher.server.model.AssistantCard;
 import it.polimi.ingsw.triton.launcher.server.model.enums.TowerColor;
 import it.polimi.ingsw.triton.launcher.server.model.enums.Wizard;
 import it.polimi.ingsw.triton.launcher.server.model.playeractions.Action;
+import it.polimi.ingsw.triton.launcher.utils.IllegalClientInputException;
 
 public class Player {
     private final String username;
@@ -23,7 +24,7 @@ public class Player {
     /**
      * @param action to be executed
      */
-    public void executeAction(Action action) {
+    public void executeAction(Action action) throws IllegalClientInputException {
         action.execute();
     }
 

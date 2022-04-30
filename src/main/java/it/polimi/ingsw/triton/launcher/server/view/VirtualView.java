@@ -5,6 +5,7 @@ import it.polimi.ingsw.triton.launcher.utils.message.servermessage.*;
 import it.polimi.ingsw.triton.launcher.utils.message.servermessage.Requests.GameModeRequest;
 import it.polimi.ingsw.triton.launcher.utils.message.servermessage.Requests.PlayersNumberRequest;
 import it.polimi.ingsw.triton.launcher.utils.message.servermessage.Requests.TowerColorRequest;
+import it.polimi.ingsw.triton.launcher.utils.message.servermessage.Requests.WizardRequest;
 import it.polimi.ingsw.triton.launcher.utils.obs.Observable;
 import it.polimi.ingsw.triton.launcher.utils.obs.Observer;
 import it.polimi.ingsw.triton.launcher.server.ServeOneClient;
@@ -160,7 +161,7 @@ public class VirtualView extends Observable<Message> implements View, Observer<M
 
     @Override
     public void askWizard(ArrayList<Wizard> wizards) {
-
+        serveOneClient.sendMessage(new WizardRequest(wizards));
     }
 
 
