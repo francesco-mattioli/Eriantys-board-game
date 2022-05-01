@@ -4,12 +4,24 @@ import it.polimi.ingsw.triton.launcher.server.model.enums.Color;
 import it.polimi.ingsw.triton.launcher.server.model.enums.TowerColor;
 import it.polimi.ingsw.triton.launcher.utils.EndGameException;
 
+import java.util.Arrays;
+
 public class SchoolBoard {
     private final int INITIAL_NUM_TOWERS;
     private final TowerColor towerColor;
     private int numTowers;
     private int[] entrance;
     private int[] diningRoom;
+
+    @Override
+    public String toString() {
+        return "SchoolBoard{" +
+                "towerColor=" + towerColor +
+                ", numTowers=" + numTowers +
+                ", entrance=" + Arrays.toString(entrance) +
+                ", diningRoom=" + Arrays.toString(diningRoom) +
+                '}';
+    }
 
     /**
      * @param towerColor the color of towers in the school board.
