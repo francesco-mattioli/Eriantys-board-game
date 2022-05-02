@@ -7,7 +7,7 @@ import it.polimi.ingsw.triton.launcher.server.model.influencestrategy.InfluenceS
 import it.polimi.ingsw.triton.launcher.server.model.influencestrategy.InfluenceStrategyWithEffect08;
 import it.polimi.ingsw.triton.launcher.server.model.influencestrategy.InfluenceStrategyWithEffect09;
 import it.polimi.ingsw.triton.launcher.server.model.player.Player;
-import it.polimi.ingsw.triton.launcher.utils.EndGameException;
+import it.polimi.ingsw.triton.launcher.utils.exceptions.EndGameException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

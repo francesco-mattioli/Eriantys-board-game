@@ -56,7 +56,7 @@ public class VirtualView extends Observable<Message> implements View, Observer<M
     }
 
     @Override
-    public void askCloudTile(ArrayList<CloudTile> availableCloudTiles) {
+    public void askCloudTile() {
 
     }
 
@@ -219,6 +219,10 @@ public class VirtualView extends Observable<Message> implements View, Observer<M
 
     @Override
     public void askStudentsToMoveIntoDiningRoomCharCard11() {
+
+    }
+
+    public void askCharacterCardParameters(){
 
     }
 

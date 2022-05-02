@@ -1,17 +1,18 @@
 package it.polimi.ingsw.triton.launcher.server.controller;
 
 import it.polimi.ingsw.triton.launcher.server.model.Game;
-import it.polimi.ingsw.triton.launcher.server.model.cardeffects.CardEffect;
-import it.polimi.ingsw.triton.launcher.server.model.cardeffects.CardEffect01;
-import it.polimi.ingsw.triton.launcher.server.model.cardeffects.CardEffect03;
-import it.polimi.ingsw.triton.launcher.server.model.cardeffects.CardEffect05;
+import it.polimi.ingsw.triton.launcher.server.model.cardeffects.*;
 import it.polimi.ingsw.triton.launcher.server.view.VirtualView;
-import it.polimi.ingsw.triton.launcher.utils.EndGameException;
-import it.polimi.ingsw.triton.launcher.utils.IllegalClientInputException;
-import it.polimi.ingsw.triton.launcher.utils.LastMoveException;
+import it.polimi.ingsw.triton.launcher.utils.exceptions.CharacterCardWithParametersException;
+import it.polimi.ingsw.triton.launcher.utils.exceptions.EndGameException;
+import it.polimi.ingsw.triton.launcher.utils.exceptions.IllegalClientInputException;
+import it.polimi.ingsw.triton.launcher.utils.exceptions.LastMoveException;
 import it.polimi.ingsw.triton.launcher.utils.message.ErrorTypeID;
 import it.polimi.ingsw.triton.launcher.utils.message.Message;
 import it.polimi.ingsw.triton.launcher.utils.message.clientmessage.*;
+import it.polimi.ingsw.triton.launcher.utils.message.clientmessage.characterCardReply.CharacterCard01Reply;
+import it.polimi.ingsw.triton.launcher.utils.message.clientmessage.characterCardReply.CharacterCard03Reply;
+import it.polimi.ingsw.triton.launcher.utils.message.clientmessage.characterCardReply.CharacterCard05Reply;
 import it.polimi.ingsw.triton.launcher.utils.obs.Observer;
 
 import java.util.ArrayList;
@@ -41,6 +42,10 @@ public class Controller implements Observer<Message> {
         game.addPlayer(username);
     }
 
+    public void createLoginReplyMessage(String username){
+        getVirtualViewByUsername(username).showLoginReply();
+    }
+
     public void addGameObserver(VirtualView virtualView) {
         game.addObserver(virtualView);
     }
@@ -53,12 +58,14 @@ public class Controller implements Observer<Message> {
         throw new NoSuchElementException("The virtualview does not exist");
     }
 
+
+
     /**
      * Calls a method in virtualView to send the request to a player for selecting a tower color.
      *
      * @param username the receiver username of the message
      */
-    public void createTowerColorRequestMessage(String username) {
+    /*public void createTowerColorRequestMessage(String username) {
         getVirtualViewByUsername(username).askTowerColor(game.getTowerColorChosen());
     }
 
@@ -80,15 +87,14 @@ public class Controller implements Observer<Message> {
 
     private void createCloudTileMessage(String username){
         getVirtualViewByUsername(username).askCloudTile(game.getAvailableCloudTiles());
-    }
-
+    }*/
 
     /**
      * In the login phase, it selects the methods in game to setting some properties to the players.
      *
      * @param message the message received.
      */
-    private void loginPhaseSwitch(Message message) {
+    /*private void loginPhaseSwitch(Message message) {
         switch (message.getMessageType()) {
             case TOWER_COLOR_REPLY: {
                 try {
@@ -122,19 +128,15 @@ public class Controller implements Observer<Message> {
                     break;
                 }
             }
-            default: {
-                characterCardsParametersSwitch(message);
-                break;
-            }
         }
-    }
+    }*/
 
     /**
      * In the planning phase, it selects the methods in game to do some actions.
      *
      * @param message the message received.
      */
-    private void planningPhaseSwitch(Message message) {
+    /*private void planningPhaseSwitch(Message message) {
         switch (message.getMessageType()) {
             case ASSISTANT_CARD_REPLY: {
                 try {
@@ -144,7 +146,7 @@ public class Controller implements Observer<Message> {
                     break;
                 } catch (IllegalClientInputException e) {
                     getVirtualViewByUsername(senderUsername).showErrorMessage(ErrorTypeID.ASSISTANTCARD_ALREADY_CHOSEN);
-                    createWizardRequestMessage(senderUsername);
+                    createAssistantCardRequestMessage(senderUsername);
                     break;
                 } catch (NoSuchElementException e) {
                     createAssistantCardRequestMessage(game.getCurrentPlayer().getUsername());
@@ -158,7 +160,7 @@ public class Controller implements Observer<Message> {
         }
     }
 
-    private void actionPhaseSwitch(Message message) {
+    private void actionPhaseSwitch(Message message){
         switch (message.getMessageType()) {
             case MOVE_STUDENT_ONTO_ISLAND: {
                 try {
@@ -213,29 +215,59 @@ public class Controller implements Observer<Message> {
                 } catch(NoSuchElementException e){
                     createAssistantCardRequestMessage(game.getCurrentPlayer().getUsername());
                 }
+                break;
             }
+            case CHARACTER_CARD_REQUEST:{
+                try {
+                    game.useCharacterCard(((UseCharacterCardRequest)message).getCharacterCardID());
+                    characterCardsNumberSwitch(((UseCharacterCardRequest)message).getCharacterCardID());
+                    if(game.getCharacterCardByID(((UseCharacterCardRequest)message).getCharacterCardID()).hasParameters()){
+                        //ask character card parameters
+                    }
+                    else{
+                        //apply character card effect
+                    }
+                } catch (IllegalClientInputException e) {
+                    getVirtualViewByUsername(game.getCurrentPlayer().getUsername()).showErrorMessage(e.getTypeError());
+                    getVirtualViewByUsername(game.getCurrentPlayer().getUsername()).reSendLastMessage();
+                }
+                break;
+            }
+            default: characterCardsParametersSwitch(message);
         }
-    }
+    }*/
 
     /**
      * It manages the creation of the effects and calls a method in game to execute them.
      *
      * @param message the message received
      */
-    private void characterCardsParametersSwitch(Message message) {
+    /*private void characterCardsParametersSwitch(Message message) {
         CardEffect cardEffect;
         switch (message.getMessageType()) {
             case CHARACTER_CARD_01_PARAMETER:
-                cardEffect = new CardEffect01(game.getCharacterCardById(1), ((CharacterCard01Reply) message).getStudent(), ((CharacterCard01Reply) message).getIsland(), game.getBag());
-                game.useCharacterCardsWithPreparation(game.getCharacterCardById(1), cardEffect);
+                try {
+                    cardEffect = new CardEffect01(game.getCharacterCardByID(1), ((CharacterCard01Reply) message).getStudent(), ((CharacterCard01Reply) message).getIsland(), game.getBag());
+                    game.useCharacterCard(1, cardEffect);
+                } catch (IllegalClientInputException e) {
+                    e.printStackTrace();
+                }
                 break;
             case CHARACTER_CARD_03_PARAMETER:
-                cardEffect = new CardEffect03(((CharacterCard03Reply) message).getIsland(), game.getPlayers(), game.getProfessors());
-                game.useCharacterCardsWithPreparation(game.getCharacterCardById(3), cardEffect);
+                try {
+                    cardEffect = new CardEffect03(((CharacterCard03Reply) message).getIsland(), game.getPlayers(), game.getProfessors());
+                    game.useCharacterCard(3, cardEffect);
+                } catch (IllegalClientInputException e) {
+                    e.printStackTrace();
+                }
                 break;
             case CHARACTER_CARD_05_PARAMETER:
-                cardEffect = new CardEffect05(((CharacterCard05Reply) message).getIsland(), game.getCharacterCardById(5));
-                game.useCharacterCardsWithPreparation(game.getCharacterCardById(5), cardEffect);
+                try {
+                    cardEffect = new CardEffect05(((CharacterCard05Reply) message).getIsland(), game.getCharacterCardByID(5));
+                    game.useCharacterCard(5, cardEffect);
+                } catch (IllegalClientInputException e) {
+                    e.printStackTrace();
+                }
                 break;
             case CHARACTER_CARD_09_PARAMETER:
                 break;
@@ -248,26 +280,83 @@ public class Controller implements Observer<Message> {
         }
     }
 
-    @Override
-    public void update(Message message) {
-        senderUsername = ((ClientMessage) message).getSenderUsername();
-        switch (game.getGameState()) {
-            case LOGIN:
-                loginPhaseSwitch(message);
+    private void characterCardsNumberSwitch(int characterCardID){
+        CardEffect cardEffect;
+        switch (characterCardID){
+            case 1:
+                getVirtualViewByUsername(game.getCurrentPlayer().getUsername()).askStudentsToMoveOntoIslandCharCard01();
                 break;
-            case PLANNING_PHASE:
-                planningPhaseSwitch(message);
+            case 2:
+                try {
+                    cardEffect = new CardEffect02(game.getCurrentPlayer(), game.getProfessorsManager());
+                    game.useCharacterCard(characterCardID, cardEffect);
+                } catch (IllegalClientInputException e) {
+                    e.printStackTrace();
+                }
                 break;
-            case ACTION_PHASE:
-                actionPhaseSwitch(message);
+            case 3:
+                getVirtualViewByUsername(game.getCurrentPlayer().getUsername()).askIslandToCalculateInfluenceCharCard03();
+            case 4:
+                try {
+                    cardEffect = new CardEffect04(game.getMotherNature());
+                    game.useCharacterCard(characterCardID, cardEffect);
+                } catch (IllegalClientInputException e) {
+                    e.printStackTrace();
+                }
                 break;
-            default:
+            case 5:
+                getVirtualViewByUsername(game.getCurrentPlayer().getUsername()).askIslandToPutNoEntryTileCharCard05();
+                break;
+            case 6:
+                try {
+                    cardEffect = new CardEffect06(game.getIslands());
+                    game.useCharacterCard(characterCardID, cardEffect);
+                } catch (IllegalClientInputException e) {
+                    e.printStackTrace();
+                }
+                break;
+            case 7:
+                getVirtualViewByUsername(game.getCurrentPlayer().getUsername()).askStudentToSwitchFromCardToEntranceCharCard07();
+                break;
+            case 8:
+                try {
+                    cardEffect = new CardEffect08(game.getIslands());
+                    game.useCharacterCard(characterCardID, cardEffect);
+                } catch (IllegalClientInputException e) {
+                    e.printStackTrace();
+                }
+                break;
+            case 9:
+                getVirtualViewByUsername(game.getCurrentPlayer().getUsername()).askColorWithNoInfluenceCharCard09();
+                break;
+            case 10:
+                getVirtualViewByUsername(game.getCurrentPlayer().getUsername()).askStudentsToSwitchCharCard10();
+                break;
+            case 11:
+                getVirtualViewByUsername(game.getCurrentPlayer().getUsername()).askStudentsToMoveIntoDiningRoomCharCard11();
+                break;
+            case 12:
+                getVirtualViewByUsername(game.getCurrentPlayer().getUsername()).askColorCharCard12();
                 break;
         }
+    }*/
+
+    @Override
+    public void update(Message message) {
+        try {
+            ((ClientMessage)message).modifyModel(game);
+            ((ClientMessage)message).createStandardNextMessage(game, getVirtualViewByUsername(game.getCurrentPlayer().getUsername()));
+        }catch (IllegalClientInputException e) {
+            getVirtualViewByUsername(game.getCurrentPlayer().getUsername()).showErrorMessage(e.getTypeError());
+            ((ClientMessage)message).createInputErrorMessage(game, getVirtualViewByUsername(game.getCurrentPlayer().getUsername()));
+        }catch(NoSuchElementException | LastMoveException | CharacterCardWithParametersException e){
+            ((ClientMessage)message).createExceptionalNextMessage(game, getVirtualViewByUsername(game.getCurrentPlayer().getUsername()));
+        } catch (EndGameException e) {
+            game.calculateWinner();
+        }
     }
+
 }
-
-
 
 
 

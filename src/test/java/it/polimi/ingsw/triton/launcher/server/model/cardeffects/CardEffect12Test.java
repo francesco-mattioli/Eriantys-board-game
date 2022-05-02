@@ -4,6 +4,7 @@ import it.polimi.ingsw.triton.launcher.server.model.Bag;
 import it.polimi.ingsw.triton.launcher.server.model.player.Player;
 import it.polimi.ingsw.triton.launcher.server.model.enums.Color;
 import it.polimi.ingsw.triton.launcher.server.model.enums.TowerColor;
+import it.polimi.ingsw.triton.launcher.utils.exceptions.EndGameException;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -45,7 +46,11 @@ class CardEffect12Test {
     @Test
     public void removeThreeStudentsWhenPlayerHasFour(){
         playerTest1.getSchoolBoard().getDiningRoom()[Color.BLUE.ordinal()] = 4;
-        characterCard.executeEffect(new CardEffect12(Color.BLUE,players,bag));
+        try {
+            characterCard.executeEffect(new CardEffect12(Color.BLUE,players,bag));
+        } catch (EndGameException e) {
+            e.printStackTrace();
+        }
         assertEquals(1,playerTest1.getSchoolBoard().getDiningRoom()[Color.BLUE.ordinal()]);
 
     }
@@ -57,7 +62,11 @@ class CardEffect12Test {
     @Test
     public void removeThreeStudentsWhenPlayerHasTwo(){
         playerTest1.getSchoolBoard().getDiningRoom()[Color.BLUE.ordinal()] = 2;
-        characterCard.executeEffect(new CardEffect12(Color.BLUE,players,bag));
+        try {
+            characterCard.executeEffect(new CardEffect12(Color.BLUE,players,bag));
+        } catch (EndGameException e) {
+            e.printStackTrace();
+        }
         assertEquals(0,playerTest1.getSchoolBoard().getDiningRoom()[Color.BLUE.ordinal()]);
 
     }
@@ -68,7 +77,11 @@ class CardEffect12Test {
     @Test
     public void removeThreeStudentsWhenPlayerHasZero(){
         playerTest1.getSchoolBoard().getDiningRoom()[Color.BLUE.ordinal()] = 0;
-        characterCard.executeEffect(new CardEffect12(Color.BLUE,players,bag));
+        try {
+            characterCard.executeEffect(new CardEffect12(Color.BLUE,players,bag));
+        } catch (EndGameException e) {
+            e.printStackTrace();
+        }
         assertEquals(0,playerTest1.getSchoolBoard().getDiningRoom()[Color.BLUE.ordinal()]);
 
     }

@@ -4,6 +4,7 @@ import it.polimi.ingsw.triton.launcher.server.model.Bag;
 import it.polimi.ingsw.triton.launcher.server.model.player.Player;
 import it.polimi.ingsw.triton.launcher.server.model.enums.Color;
 import it.polimi.ingsw.triton.launcher.server.model.enums.TowerColor;
+import it.polimi.ingsw.triton.launcher.utils.exceptions.EndGameException;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -45,7 +46,11 @@ class CardEffect07Test {
     public void checkIfStudentSwitchedInEntrance(){
         fromCard[Color.PINK.ordinal()] = 3;
         fromSchoolBoard[Color.BLUE.ordinal()] = 3;
-        characterCard.executeEffect(new CardEffect07(characterCard.getStudents(), fromCard, fromSchoolBoard, player.getSchoolBoard()));
+        try {
+            characterCard.executeEffect(new CardEffect07(characterCard.getStudents(), fromCard, fromSchoolBoard, player.getSchoolBoard()));
+        } catch (EndGameException e) {
+            e.printStackTrace();
+        }
         assertEquals(3,player.getSchoolBoard().getEntrance()[Color.PINK.ordinal()]);
     }
 
@@ -68,7 +73,11 @@ class CardEffect07Test {
         previousBlueOnCard = characterCard.getStudents()[Color.BLUE.ordinal()];
         fromCard[Color.PINK.ordinal()] = 3;
         fromSchoolBoard[Color.BLUE.ordinal()] = 3;
-        characterCard.executeEffect(new CardEffect07(characterCard.getStudents(), fromCard, fromSchoolBoard, player.getSchoolBoard()));
+        try {
+            characterCard.executeEffect(new CardEffect07(characterCard.getStudents(), fromCard, fromSchoolBoard, player.getSchoolBoard()));
+        } catch (EndGameException e) {
+            e.printStackTrace();
+        }
         assertEquals(previousBlueOnCard + 3,characterCard.getStudents()[Color.BLUE.ordinal()]);
     }
 

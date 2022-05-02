@@ -2,7 +2,7 @@ package it.polimi.ingsw.triton.launcher.server.model.player;
 
 import it.polimi.ingsw.triton.launcher.server.model.enums.Color;
 import it.polimi.ingsw.triton.launcher.server.model.enums.TowerColor;
-import it.polimi.ingsw.triton.launcher.utils.EndGameException;
+import it.polimi.ingsw.triton.launcher.utils.exceptions.EndGameException;
 
 public class SchoolBoard {
     private final int INITIAL_NUM_TOWERS;

@@ -2,6 +2,8 @@ package it.polimi.ingsw.triton.launcher.server.model.cardeffects;
 
 import it.polimi.ingsw.triton.launcher.server.model.Bag;
 import it.polimi.ingsw.triton.launcher.server.model.enums.Color;
+import it.polimi.ingsw.triton.launcher.utils.exceptions.EndGameException;
+import it.polimi.ingsw.triton.launcher.utils.exceptions.IllegalClientInputException;
 
 public class CharacterCard {
     protected int id;
@@ -55,7 +57,7 @@ public class CharacterCard {
     /**
      * @param cardEffect is the effect that will be executed when the method is called
      */
-    public void executeEffect(CardEffect cardEffect) {
+    public void executeEffect(CardEffect cardEffect) throws EndGameException {
         cardEffect.execute();
     }
 
@@ -95,6 +97,12 @@ public class CharacterCard {
 
     public void addNoEntryTile(){
         noEntryTiles++;
+    }
+
+    public boolean hasParameters(){
+        if(id == 2 || id == 4 || id == 6 || id == 8)
+            return false;
+        return true;
     }
 
 }

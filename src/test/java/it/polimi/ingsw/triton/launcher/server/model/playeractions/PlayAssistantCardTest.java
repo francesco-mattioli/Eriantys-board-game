@@ -5,7 +5,8 @@ import it.polimi.ingsw.triton.launcher.server.model.player.AssistantDeck;
 import it.polimi.ingsw.triton.launcher.server.model.player.Player;
 import it.polimi.ingsw.triton.launcher.server.model.enums.AssistantCardType;
 import it.polimi.ingsw.triton.launcher.server.model.enums.Wizard;
-import it.polimi.ingsw.triton.launcher.utils.IllegalClientInputException;
+import it.polimi.ingsw.triton.launcher.utils.exceptions.EndGameException;
+import it.polimi.ingsw.triton.launcher.utils.exceptions.IllegalClientInputException;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -44,6 +45,8 @@ class PlayAssistantCardTest {
             player.executeAction(pc);
         } catch (IllegalClientInputException e) {
             e.printStackTrace();
+        } catch (EndGameException e) {
+            e.printStackTrace();
         }
         assertEquals(cardToPlay, player.getLastPlayedAssistantCard());
     }
@@ -75,6 +78,8 @@ class PlayAssistantCardTest {
             player.executeAction(pc);
         } catch (IllegalClientInputException e) {
             e.printStackTrace();
+        } catch (EndGameException e) {
+            e.printStackTrace();
         }
         assertEquals(uniqueCardInTheDeck, player.getLastPlayedAssistantCard());
     }
@@ -93,6 +98,8 @@ class PlayAssistantCardTest {
             player.executeAction(pc);
         } catch (IllegalClientInputException e) {
             e.printStackTrace();
+        } catch (EndGameException e) {
+            e.printStackTrace();
         }
         assertEquals(initialDimDeck-1, player.getAssistantDeck().getAssistantDeck().size());
     }
@@ -110,6 +117,8 @@ class PlayAssistantCardTest {
         try {
             player.executeAction(pc);
         } catch (IllegalClientInputException e) {
+            e.printStackTrace();
+        } catch (EndGameException e) {
             e.printStackTrace();
         }
         assertEquals(initialDimDeck+1, usedAssistantCards.size());

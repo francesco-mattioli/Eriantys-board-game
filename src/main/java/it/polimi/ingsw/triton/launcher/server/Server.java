@@ -88,6 +88,7 @@ public class Server {
         //if the player is the first one, we need to wait that he has chosen the number of players
         if (numOfClients == 0 && isUsernameValid(username)) {
             firstPlayerVirtualView=new VirtualView(serveOneClient, username);
+            firstPlayerVirtualView.showLoginReply();
             // THATS A PROBLEM!! TO SOLVE !!!!!!!!!!!!!!!!!!!!!!
             firstPlayerVirtualView.askGameMode();
             firstPlayerVirtualView.askNumOfPlayers();
@@ -100,6 +101,7 @@ public class Server {
                 controller.getVirtualViews().add(new VirtualView(serveOneClient, username));
                 controller.getVirtualViewByUsername(username).addObserver(controller);
                 controller.addGameObserver(controller.getVirtualViewByUsername(username));
+                controller.createLoginReplyMessage(username);
                 numOfClients++;
                 LOGGER.info("New player accepted");
                 LOGGER.info("Clients connected: " + this.numOfClients);

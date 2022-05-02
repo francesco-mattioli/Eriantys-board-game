@@ -4,7 +4,7 @@ import it.polimi.ingsw.triton.launcher.server.model.enums.Color;
 import it.polimi.ingsw.triton.launcher.server.model.enums.TowerColor;
 import it.polimi.ingsw.triton.launcher.server.model.enums.Wizard;
 import it.polimi.ingsw.triton.launcher.server.model.player.Player;
-import it.polimi.ingsw.triton.launcher.utils.IllegalClientInputException;
+import it.polimi.ingsw.triton.launcher.utils.exceptions.IllegalClientInputException;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

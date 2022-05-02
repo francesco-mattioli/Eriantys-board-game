@@ -1,4 +1,4 @@
-package it.polimi.ingsw.triton.launcher.utils;
+package it.polimi.ingsw.triton.launcher.utils.exceptions;
 
 public class LastMoveException extends Exception{
     public LastMoveException() {

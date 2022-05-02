@@ -4,6 +4,7 @@ import it.polimi.ingsw.triton.launcher.server.model.Bag;
 import it.polimi.ingsw.triton.launcher.server.model.player.Player;
 import it.polimi.ingsw.triton.launcher.server.model.enums.Color;
 import it.polimi.ingsw.triton.launcher.server.model.enums.TowerColor;
+import it.polimi.ingsw.triton.launcher.utils.exceptions.EndGameException;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -38,8 +39,12 @@ class CardEffect11Test {
      */
     @Test
     public void addStudentWhenDiningRoomHasZero(){
-       characterCard.executeEffect(new CardEffect11(Color.BLUE, player.getSchoolBoard(),bag,characterCard));
-       assertEquals(1,player.getSchoolBoard().getDiningRoom()[Color.BLUE.ordinal()]);
+        try {
+            characterCard.executeEffect(new CardEffect11(Color.BLUE, player.getSchoolBoard(),bag,characterCard));
+        } catch (EndGameException e) {
+            e.printStackTrace();
+        }
+        assertEquals(1,player.getSchoolBoard().getDiningRoom()[Color.BLUE.ordinal()]);
     }
 
 }

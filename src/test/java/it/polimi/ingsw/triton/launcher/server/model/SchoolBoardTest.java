@@ -3,7 +3,7 @@ package it.polimi.ingsw.triton.launcher.server.model;
 import it.polimi.ingsw.triton.launcher.server.model.enums.Color;
 import it.polimi.ingsw.triton.launcher.server.model.enums.TowerColor;
 import it.polimi.ingsw.triton.launcher.server.model.player.SchoolBoard;
-import it.polimi.ingsw.triton.launcher.utils.EndGameException;
+import it.polimi.ingsw.triton.launcher.utils.exceptions.EndGameException;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

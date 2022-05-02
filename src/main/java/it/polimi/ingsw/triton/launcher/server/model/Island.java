@@ -5,7 +5,7 @@ import it.polimi.ingsw.triton.launcher.server.model.enums.Color;
 import it.polimi.ingsw.triton.launcher.server.model.influencestrategy.InfluenceStrategy;
 import it.polimi.ingsw.triton.launcher.server.model.influencestrategy.InfluenceStrategyDefault;
 import it.polimi.ingsw.triton.launcher.server.model.player.Player;
-import it.polimi.ingsw.triton.launcher.utils.EndGameException;
+import it.polimi.ingsw.triton.launcher.utils.exceptions.EndGameException;
 import it.polimi.ingsw.triton.launcher.utils.message.Message;
 import it.polimi.ingsw.triton.launcher.utils.message.servermessage.Broadcast.ChangeInfluenceMessage;
 import it.polimi.ingsw.triton.launcher.utils.message.servermessage.Broadcast.MoveTowerOntoIslandMessage;

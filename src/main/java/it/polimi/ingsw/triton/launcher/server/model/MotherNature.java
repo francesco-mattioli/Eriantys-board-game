@@ -1,6 +1,6 @@
 package it.polimi.ingsw.triton.launcher.server.model;
 
-import it.polimi.ingsw.triton.launcher.utils.IllegalClientInputException;
+import it.polimi.ingsw.triton.launcher.utils.exceptions.IllegalClientInputException;
 
 import java.util.ArrayList;
 

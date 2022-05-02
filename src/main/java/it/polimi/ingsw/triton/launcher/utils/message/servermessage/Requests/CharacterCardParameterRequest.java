@@ -4,20 +4,16 @@ import it.polimi.ingsw.triton.launcher.client.ClientVisitor;
 import it.polimi.ingsw.triton.launcher.utils.message.MessageType;
 import it.polimi.ingsw.triton.launcher.utils.message.servermessage.ServerMessage;
 
-public class TowerColorRequest extends ServerMessage {
-    private final boolean [] chosenTowerColors;
-
-    public TowerColorRequest(boolean [] chosenTowerColors) {
-        super(MessageType.TOWER_COLOR_REQUEST);
-        this.chosenTowerColors = chosenTowerColors;
-    }
-
-    public boolean[] getAvailableTowerColors() {
-        return chosenTowerColors;
+public class CharacterCardParameterRequest extends ServerMessage {
+    private final int characterCardID;
+    public CharacterCardParameterRequest(MessageType messageType, int characterCardID) {
+        super(messageType);
+        this.characterCardID = characterCardID;
     }
 
     @Override
     public void accept(ClientVisitor messageVisitor) {
-        
+
     }
+
 }

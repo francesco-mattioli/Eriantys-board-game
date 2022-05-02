@@ -2,7 +2,7 @@ package it.polimi.ingsw.triton.launcher.server.model.cardeffects;
 
 import it.polimi.ingsw.triton.launcher.server.model.Island;
 import it.polimi.ingsw.triton.launcher.server.model.player.Player;
-import it.polimi.ingsw.triton.launcher.utils.EndGameException;
+import it.polimi.ingsw.triton.launcher.utils.exceptions.EndGameException;
 
 import java.util.ArrayList;
 

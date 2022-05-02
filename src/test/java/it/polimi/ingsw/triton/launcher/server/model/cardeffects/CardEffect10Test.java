@@ -4,6 +4,7 @@ import it.polimi.ingsw.triton.launcher.server.model.Bag;
 import it.polimi.ingsw.triton.launcher.server.model.player.Player;
 import it.polimi.ingsw.triton.launcher.server.model.enums.Color;
 import it.polimi.ingsw.triton.launcher.server.model.enums.TowerColor;
+import it.polimi.ingsw.triton.launcher.utils.exceptions.EndGameException;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -45,7 +46,11 @@ class CardEffect10Test {
     public void checkIfStudentSwitchedInEntrance(){
         fromDiningRoom[Color.PINK.ordinal()] = 3;
         fromEntrance[Color.BLUE.ordinal()] = 3;
-        characterCard.executeEffect(new CardEffect10(fromEntrance,fromDiningRoom,player.getSchoolBoard()));
+        try {
+            characterCard.executeEffect(new CardEffect10(fromEntrance,fromDiningRoom,player.getSchoolBoard()));
+        } catch (EndGameException e) {
+            e.printStackTrace();
+        }
         assertEquals(3,player.getSchoolBoard().getEntrance()[Color.PINK.ordinal()]);
     }
 
@@ -66,7 +71,11 @@ class CardEffect10Test {
     public void checkIfStudentSwitchedInDiningRoom(){
         fromDiningRoom[Color.PINK.ordinal()] = 3;
         fromEntrance[Color.BLUE.ordinal()] = 3;
-        characterCard.executeEffect(new CardEffect10(fromEntrance,fromDiningRoom,player.getSchoolBoard()));
+        try {
+            characterCard.executeEffect(new CardEffect10(fromEntrance,fromDiningRoom,player.getSchoolBoard()));
+        } catch (EndGameException e) {
+            e.printStackTrace();
+        }
         assertEquals(3,player.getSchoolBoard().getDiningRoom()[Color.BLUE.ordinal()]);
     }
 

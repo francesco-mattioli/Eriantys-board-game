@@ -12,14 +12,12 @@ import it.polimi.ingsw.triton.launcher.server.model.player.SchoolBoard;
 import it.polimi.ingsw.triton.launcher.server.model.playeractions.*;
 import it.polimi.ingsw.triton.launcher.server.model.professor.ProfessorStrategyDefault;
 import it.polimi.ingsw.triton.launcher.server.model.professor.ProfessorsManager;
-import it.polimi.ingsw.triton.launcher.utils.EndGameException;
-import it.polimi.ingsw.triton.launcher.utils.IllegalClientInputException;
-import it.polimi.ingsw.triton.launcher.utils.LastMoveException;
+import it.polimi.ingsw.triton.launcher.utils.exceptions.CharacterCardWithParametersException;
+import it.polimi.ingsw.triton.launcher.utils.exceptions.EndGameException;
+import it.polimi.ingsw.triton.launcher.utils.exceptions.IllegalClientInputException;
+import it.polimi.ingsw.triton.launcher.utils.exceptions.LastMoveException;
 import it.polimi.ingsw.triton.launcher.utils.message.ErrorTypeID;
 import it.polimi.ingsw.triton.launcher.utils.message.servermessage.Broadcast.*;
-import it.polimi.ingsw.triton.launcher.utils.message.servermessage.CharacterCards.*;
-import it.polimi.ingsw.triton.launcher.utils.message.servermessage.Requests.CloudTileRequest;
-import it.polimi.ingsw.triton.launcher.utils.message.servermessage.Requests.WizardRequest;
 import it.polimi.ingsw.triton.launcher.utils.obs.Observable;
 import it.polimi.ingsw.triton.launcher.utils.message.servermessage.*;
 import it.polimi.ingsw.triton.launcher.utils.message.Message;
@@ -120,7 +118,7 @@ public class Game extends Observable<Message> {
      */
     public void chooseTowerColor(String username, TowerColor towerColor) throws IllegalClientInputException {
         if(towerColorChosen[towerColor.ordinal()]){
-            throw new IllegalClientInputException();
+            throw new IllegalClientInputException(ErrorTypeID.WRONG_COLOR);
         }
         else{
             getPlayerByUsername(username).setSchoolBoard(towerColor, maxNumberOfPlayers);
@@ -302,7 +300,7 @@ public class Game extends Observable<Message> {
             notify(new UpdateWalletMessage(currentPlayer.getUsername()));
         notify(new InfoStudentIntoDiningRoomMessage(currentPlayer.getUsername(), currentPlayer.getSchoolBoard()));
         currentPlayer.setMoveCounter(currentPlayer.getMoveCounter() + 1);
-        checkNumberMoves();
+        checkNumberMoves();   //checks if the move was the last one throwing lastMoveException
     }
 
     public void executeActionMoveStudentToIsland(Color student, int idIsland) throws IllegalClientInputException, LastMoveException {
@@ -556,101 +554,37 @@ public class Game extends Observable<Message> {
         }
     }
 
-    /**
-     * This method creates a new message to choose the character card.
-     */
-    public void createCharacterCardsMessage(){
-        notify(new AvailableCharacterCardReply(characterCards));
-    }
 
     /**
      * Sends messages to the player to ask the parameters for some effects.
      * @param idCard the id of the selected character card
      */
-    public void manageEffectCharacterCards(int idCard){
-        int indexCard = 0;
-        boolean foundCard = false;
-        for(int i = 0; i < characterCards.size(); i++){
-            if(characterCards.get(i).getId() == idCard){
-                indexCard = i;
-                foundCard = true;
-                break;
-            }
+    public void useCharacterCard(int idCard) throws IllegalClientInputException, CharacterCardWithParametersException {
+        currentPlayer.executeAction(new UseCharacterCard(getCharacterCardByID(idCard), currentPlayer));
+        if(getCharacterCardByID(idCard).hasParameters())
+            throw new CharacterCardWithParametersException();
+    }
+
+
+    public ProfessorsManager getProfessorsManager() {
+        return professorsManager;
+    }
+
+    public CharacterCard getCharacterCardByID(int id) throws IllegalClientInputException{
+        for(CharacterCard characterCard : characterCards){
+            if(characterCard.getId() == id)
+                return  characterCard;
         }
-        if(!foundCard)
-            notify(new ErrorMessage(ErrorTypeID.CHARACTER_CARD_NOT_AVAILABLE));
-        else if(foundCard && !canBuyCharacterCard(currentPlayer, characterCards.get(indexCard))){
-            notify(new ErrorMessage(ErrorTypeID.NOT_ENOUGH_COINS));
-        }else{
-            switch (idCard){
-                case 1:
-                    notify(new CharacterCard01Request());
-                break;
-                case 3:
-                    notify(new CharacterCard03Request());
-                case 5:
-                    notify(new CharacterCard05Request());
-                break;
-                case 7:
-                    notify(new CharacterCard07Request());
-                break;
-                case 9:
-                    notify(new CharacterCard09Request());
-                break;
-                case 10:
-                    notify(new CharacterCard10Request());
-                break;
-                case 11:
-                    notify(new CharacterCard11Request());
-                break;
-                case 12:
-                    notify(new CharacterCard12Request());
-                break;
-                default:
-                    useCharacterCardWithoutPreparation(characterCards.get(indexCard));
-                break;
-            }
-        }
+        throw new IllegalClientInputException(ErrorTypeID.CHARACTER_CARD_NOT_AVAILABLE);
     }
 
     /**
-     * @param player the player who wants to play the character card.
-     * @param characterCard the character card to play.
-     * @return true if the card can be purchased, false otherwise.
-     */
-    private boolean canBuyCharacterCard(Player player, CharacterCard characterCard){
-        return player.getWallet().getValue() >= characterCard.getCost();
-    }
-
-    /**
-     * Applies the effect to the cards that don't require a preparation.
-     * @param characterCard the character card on which to apply the effect.
-     */
-    public void useCharacterCardWithoutPreparation(CharacterCard characterCard){
-        switch(characterCard.getId()){
-            case 2:
-                //currentPlayer.executeAction(new UseCharacterCard(characterCard, new CardEffect02(currentPlayer, professorsManager), currentPlayer.getWallet()));
-            break;
-            case 4:
-                //currentPlayer.executeAction(new UseCharacterCard(characterCard, new CardEffect04(motherNature), currentPlayer.getWallet()));
-            break;
-            case 6:
-                //currentPlayer.executeAction(new UseCharacterCard(characterCard, new CardEffect06(islands), currentPlayer.getWallet()));
-            break;
-            case 8:
-                //currentPlayer.executeAction(new UseCharacterCard(characterCard, new CardEffect08(islands), currentPlayer.getWallet()));
-            break;
-        }
-        notify(new InfoCharacterCardPlayedMessage(currentPlayer.getUsername(), characterCard));
-    }
-
-    /**
-     * @param characterCard the character card to play
+     * @param characterCardID the character card to play
      * @param cardEffect the effect to apply.
      */
-    public void useCharacterCardsWithPreparation(CharacterCard characterCard, CardEffect cardEffect){
-        //currentPlayer.executeAction(new UseCharacterCard(characterCard, cardEffect, currentPlayer.getWallet()));
-        notify(new InfoCharacterCardPlayedMessage(currentPlayer.getUsername(), characterCard));
+    public void applyCharacterCardEffect(int characterCardID, CardEffect cardEffect) throws IllegalClientInputException, EndGameException {
+        getCharacterCardByID(characterCardID).executeEffect(cardEffect);
+        notify(new InfoCharacterCardPlayedMessage(currentPlayer.getUsername(), getCharacterCardByID(characterCardID)));
     }
 
     /**
@@ -798,14 +732,6 @@ public class Game extends Observable<Message> {
         return gameState;
     }
 
-    public CharacterCard getCharacterCardById(int idCard){
-        for(CharacterCard characterCard: characterCards){
-            if(characterCard.getId() == idCard)
-                return characterCard;
-        }
-        return null;     //We don't expect to reach this statement because we check before if there's a card with that id.
-    }
-
     public ArrayList<CloudTile> getAvailableCloudTiles(){
         return availableCloudTiles;
     }
@@ -816,5 +742,13 @@ public class Game extends Observable<Message> {
                 return cloudTile;
         }
         throw new IllegalClientInputException();
+    }
+
+    public Island getIslandByID(int id) throws NoSuchElementException{
+        for(Island island: islands){
+            if(island.getId() == id)
+                return island;
+        }
+        throw new NoSuchElementException("The island does not exist");
     }
 }

@@ -1,16 +1,15 @@
 package it.polimi.ingsw.triton.launcher.utils.message.servermessage;
 
+import it.polimi.ingsw.triton.launcher.client.ClientVisitor;
 import it.polimi.ingsw.triton.launcher.utils.message.MessageType;
 
 public class LoginReply extends ServerMessage {
-    private boolean isNicknameAccepted;
-    private String receiverUsername;
-    public LoginReply(Boolean isNicknameAccepted, String receiverUsername) {
-        super(MessageType.LOGIN_REPLY, receiverUsername);
-        this.isNicknameAccepted = isNicknameAccepted;
+    public LoginReply() {
+        super(MessageType.LOGIN_REPLY);
     }
 
-    public boolean isNicknameAccepted() {
-        return isNicknameAccepted;
+    @Override
+    public void accept(ClientVisitor messageVisitor) {
+
     }
 }

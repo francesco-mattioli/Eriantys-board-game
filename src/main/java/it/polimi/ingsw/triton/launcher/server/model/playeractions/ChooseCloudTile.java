@@ -3,7 +3,7 @@ package it.polimi.ingsw.triton.launcher.server.model.playeractions;
 import it.polimi.ingsw.triton.launcher.server.model.CloudTile;
 import it.polimi.ingsw.triton.launcher.server.model.enums.Color;
 import it.polimi.ingsw.triton.launcher.server.model.player.SchoolBoard;
-import it.polimi.ingsw.triton.launcher.utils.IllegalClientInputException;
+import it.polimi.ingsw.triton.launcher.utils.exceptions.IllegalClientInputException;
 
 public class ChooseCloudTile implements Action {
     private final CloudTile cloudTile;

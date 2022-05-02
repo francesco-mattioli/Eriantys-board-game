@@ -4,10 +4,10 @@ import it.polimi.ingsw.triton.launcher.server.model.player.SchoolBoard;
 import it.polimi.ingsw.triton.launcher.server.model.enums.Color;
 
 public class CardEffect07 implements CardEffect{
-    private int[] fromCard;
-    private int[] fromSchoolBoard;
-    private SchoolBoard schoolBoard;
-    private int[] studentsOnCard;
+    private final int[] fromCard;
+    private final int[] fromSchoolBoard;
+    private final SchoolBoard schoolBoard;
+    private final int[] studentsOnCard;
 
     /**
      *

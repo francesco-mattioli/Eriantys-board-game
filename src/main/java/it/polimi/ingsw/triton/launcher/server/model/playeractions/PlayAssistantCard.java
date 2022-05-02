@@ -3,7 +3,7 @@ package it.polimi.ingsw.triton.launcher.server.model.playeractions;
 import it.polimi.ingsw.triton.launcher.server.model.AssistantCard;
 import it.polimi.ingsw.triton.launcher.server.model.player.AssistantDeck;
 import it.polimi.ingsw.triton.launcher.server.model.player.Player;
-import it.polimi.ingsw.triton.launcher.utils.IllegalClientInputException;
+import it.polimi.ingsw.triton.launcher.utils.exceptions.IllegalClientInputException;
 
 import java.util.ArrayList;
 

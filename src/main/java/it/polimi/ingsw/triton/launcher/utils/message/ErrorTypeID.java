@@ -18,7 +18,8 @@ public enum ErrorTypeID {
     NOT_ENOUGH_COINS("You don't have enough coins to buy this character card!"),
     CHARACTER_CARD_NOT_AVAILABLE("The character card selected is not available!"),
     NO_STUDENT_WITH_COLOR_ENTRANCE("There aren't students with that color in your entrance!"),
-    NO_ISLAND_WITH_THAT_ID("There aren't existing islands with that id!");
+    NO_ISLAND_WITH_THAT_ID("There aren't existing islands with that id!"),
+    GENERIC_CLIENT_INPUT_ERROR("Client has entered a wrong input!");
 
     private final String description;
 
