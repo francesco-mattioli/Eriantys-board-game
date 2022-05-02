@@ -1,4 +1,4 @@
-package it.polimi.ingsw.triton.launcher.utils.message.clientmessage.visitors;
+package it.polimi.ingsw.triton.launcher.server.controller.visitors;
 
 import it.polimi.ingsw.triton.launcher.server.model.Game;
 import it.polimi.ingsw.triton.launcher.server.view.VirtualView;

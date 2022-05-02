@@ -5,6 +5,7 @@ import it.polimi.ingsw.triton.launcher.server.model.cardeffects.CardEffect;
 import it.polimi.ingsw.triton.launcher.server.model.cardeffects.CardEffect08;
 import it.polimi.ingsw.triton.launcher.server.model.cardeffects.CharacterCard;
 import it.polimi.ingsw.triton.launcher.server.model.player.Wallet;
+import it.polimi.ingsw.triton.launcher.utils.exceptions.IllegalClientInputException;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -44,7 +45,11 @@ class UseCharacterCardTest {
         int coinsAmount = wallet.getValue();
         int cardCost = characterCard.getCost();
         UseCharacterCard ucc = new UseCharacterCard(characterCard, new CardEffect08(new ArrayList<>()), wallet);
-        ucc.execute();
+        try {
+            ucc.execute();
+        } catch (IllegalClientInputException e) {
+            e.printStackTrace();
+        }
         assertEquals(coinsAmount - cardCost, wallet.getValue());
     }
 
@@ -58,7 +63,11 @@ class UseCharacterCardTest {
         }
         int oldCost = characterCard.getCost();
         UseCharacterCard ucc = new UseCharacterCard(characterCard, new CardEffect08(new ArrayList<>()), wallet);
-        ucc.execute();
+        try {
+            ucc.execute();
+        } catch (IllegalClientInputException e) {
+            e.printStackTrace();
+        }
         assertEquals(oldCost+1, characterCard.getCost());
     }
 }

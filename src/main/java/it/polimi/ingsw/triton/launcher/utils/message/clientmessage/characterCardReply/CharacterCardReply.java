@@ -1,11 +1,8 @@
 package it.polimi.ingsw.triton.launcher.utils.message.clientmessage.characterCardReply;
 
-import it.polimi.ingsw.triton.launcher.server.model.Game;
-import it.polimi.ingsw.triton.launcher.server.view.VirtualView;
-import it.polimi.ingsw.triton.launcher.utils.message.MessageType;
 import it.polimi.ingsw.triton.launcher.utils.message.clientmessage.ClientMessage;
-import it.polimi.ingsw.triton.launcher.utils.message.clientmessage.visitors.ClientMessageErrorVisitor;
-import it.polimi.ingsw.triton.launcher.utils.message.clientmessage.visitors.ClientMessageStandardVisitor;
+import it.polimi.ingsw.triton.launcher.server.controller.visitors.ClientMessageErrorVisitor;
+import it.polimi.ingsw.triton.launcher.server.controller.visitors.ClientMessageStandardVisitor;
 
 public abstract class CharacterCardReply extends ClientMessage {
     public CharacterCardReply(String senderUsername) {

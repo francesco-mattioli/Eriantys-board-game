@@ -1,19 +1,16 @@
 package it.polimi.ingsw.triton.launcher.utils.message.clientmessage;
 
-import it.polimi.ingsw.triton.launcher.client.ClientVisitor;
+import it.polimi.ingsw.triton.launcher.client.ServerMessageVisitor;
 import it.polimi.ingsw.triton.launcher.server.Server;
-import it.polimi.ingsw.triton.launcher.server.model.Game;
-import it.polimi.ingsw.triton.launcher.server.view.VirtualView;
 import it.polimi.ingsw.triton.launcher.utils.exceptions.CharacterCardWithParametersException;
 import it.polimi.ingsw.triton.launcher.utils.exceptions.EndGameException;
 import it.polimi.ingsw.triton.launcher.utils.exceptions.IllegalClientInputException;
 import it.polimi.ingsw.triton.launcher.utils.exceptions.LastMoveException;
 import it.polimi.ingsw.triton.launcher.utils.message.Message;
-import it.polimi.ingsw.triton.launcher.utils.message.MessageType;
-import it.polimi.ingsw.triton.launcher.utils.message.clientmessage.visitors.ClientMessageErrorVisitor;
-import it.polimi.ingsw.triton.launcher.utils.message.clientmessage.visitors.ClientMessageExceptionalVisitor;
-import it.polimi.ingsw.triton.launcher.utils.message.clientmessage.visitors.ClientMessageModifierVisitor;
-import it.polimi.ingsw.triton.launcher.utils.message.clientmessage.visitors.ClientMessageStandardVisitor;
+import it.polimi.ingsw.triton.launcher.server.controller.visitors.ClientMessageErrorVisitor;
+import it.polimi.ingsw.triton.launcher.server.controller.visitors.ClientMessageExceptionalVisitor;
+import it.polimi.ingsw.triton.launcher.server.controller.visitors.ClientMessageModifierVisitor;
+import it.polimi.ingsw.triton.launcher.server.controller.visitors.ClientMessageStandardVisitor;
 
 import java.util.NoSuchElementException;
 
@@ -29,7 +26,7 @@ public abstract class ClientMessage extends Message{
     }
 
     @Override
-    public void accept(ClientVisitor messageVisitor) {
+    public void accept(ServerMessageVisitor messageVisitor) {
 
     }
 

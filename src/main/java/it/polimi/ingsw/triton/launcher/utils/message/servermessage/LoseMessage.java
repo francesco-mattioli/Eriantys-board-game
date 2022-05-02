@@ -1,5 +1,6 @@
 package it.polimi.ingsw.triton.launcher.utils.message.servermessage;
 
+import it.polimi.ingsw.triton.launcher.client.ServerMessageVisitor;
 import it.polimi.ingsw.triton.launcher.utils.message.MessageType;
 import it.polimi.ingsw.triton.launcher.utils.message.servermessage.Broadcast.BroadcastServerMessage;
 
@@ -9,11 +10,15 @@ import it.polimi.ingsw.triton.launcher.utils.message.servermessage.Broadcast.Bro
 public class LoseMessage extends BroadcastServerMessage {
     private final String winnerPlayer;
     public LoseMessage(String winnerPlayer) {
-        super(MessageType.LOSE);
         this.winnerPlayer = winnerPlayer;
     }
 
     public String getWinnerPlayer() {
         return winnerPlayer;
+    }
+
+    @Override
+    public void accept(ServerMessageVisitor messageVisitor) {
+
     }
 }

@@ -1,5 +1,6 @@
 package it.polimi.ingsw.triton.launcher.utils.message.servermessage;
 
+import it.polimi.ingsw.triton.launcher.client.ServerMessageVisitor;
 import it.polimi.ingsw.triton.launcher.server.model.player.AssistantDeck;
 import it.polimi.ingsw.triton.launcher.utils.message.MessageType;
 
@@ -8,12 +9,18 @@ import it.polimi.ingsw.triton.launcher.utils.message.MessageType;
  */
 public class GiveAssistantDeckMessage extends ServerMessage{
     private final AssistantDeck assistantDeck;
+    private final String receiverUsername;
     public GiveAssistantDeckMessage(String receiverUsername, AssistantDeck assistantDeck) {
-        super(MessageType.GIVE_ASSISTANT_DECK, receiverUsername);
+        this.receiverUsername=receiverUsername;
         this.assistantDeck = assistantDeck;
     }
 
     public AssistantDeck getAssistantDeck() {
         return assistantDeck;
+    }
+
+    @Override
+    public void accept(ServerMessageVisitor messageVisitor) {
+
     }
 }

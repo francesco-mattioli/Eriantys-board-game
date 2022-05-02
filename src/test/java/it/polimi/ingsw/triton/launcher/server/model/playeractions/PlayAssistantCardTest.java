@@ -45,8 +45,6 @@ class PlayAssistantCardTest {
             player.executeAction(pc);
         } catch (IllegalClientInputException e) {
             e.printStackTrace();
-        } catch (EndGameException e) {
-            e.printStackTrace();
         }
         assertEquals(cardToPlay, player.getLastPlayedAssistantCard());
     }
@@ -78,8 +76,6 @@ class PlayAssistantCardTest {
             player.executeAction(pc);
         } catch (IllegalClientInputException e) {
             e.printStackTrace();
-        } catch (EndGameException e) {
-            e.printStackTrace();
         }
         assertEquals(uniqueCardInTheDeck, player.getLastPlayedAssistantCard());
     }
@@ -98,8 +94,6 @@ class PlayAssistantCardTest {
             player.executeAction(pc);
         } catch (IllegalClientInputException e) {
             e.printStackTrace();
-        } catch (EndGameException e) {
-            e.printStackTrace();
         }
         assertEquals(initialDimDeck-1, player.getAssistantDeck().getAssistantDeck().size());
     }
@@ -117,8 +111,6 @@ class PlayAssistantCardTest {
         try {
             player.executeAction(pc);
         } catch (IllegalClientInputException e) {
-            e.printStackTrace();
-        } catch (EndGameException e) {
             e.printStackTrace();
         }
         assertEquals(initialDimDeck+1, usedAssistantCards.size());

@@ -1,11 +1,8 @@
 package it.polimi.ingsw.triton.launcher.utils.message.clientmessage.characterCardReply;
 
-import it.polimi.ingsw.triton.launcher.server.model.Game;
-import it.polimi.ingsw.triton.launcher.server.model.cardeffects.CardEffect07;
 import it.polimi.ingsw.triton.launcher.utils.exceptions.EndGameException;
 import it.polimi.ingsw.triton.launcher.utils.exceptions.IllegalClientInputException;
-import it.polimi.ingsw.triton.launcher.utils.message.MessageType;
-import it.polimi.ingsw.triton.launcher.utils.message.clientmessage.visitors.ClientMessageModifierVisitor;
+import it.polimi.ingsw.triton.launcher.server.controller.visitors.ClientMessageModifierVisitor;
 
 public class CharacterCard07Reply  extends CharacterCardReply{
     private final int[] fromCard;

@@ -4,6 +4,7 @@ import it.polimi.ingsw.triton.launcher.server.model.enums.Color;
 import it.polimi.ingsw.triton.launcher.server.model.enums.TowerColor;
 import it.polimi.ingsw.triton.launcher.server.model.player.SchoolBoard;
 import it.polimi.ingsw.triton.launcher.server.model.player.Wallet;
+import it.polimi.ingsw.triton.launcher.utils.exceptions.IllegalClientInputException;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -43,7 +44,11 @@ class MoveStudentIntoDiningRoomTest {
     void testWhenIsNotMultiple3(){
         int coins = wallet.getValue();
         MoveStudentIntoDiningRoom mv = new MoveStudentIntoDiningRoom(Color.BLUE, wallet, schoolBoard);
-        mv.execute();
+        try {
+            mv.execute();
+        } catch (IllegalClientInputException e) {
+            e.printStackTrace();
+        }
         assertEquals(coins, wallet.getValue());
     }
 
@@ -55,7 +60,11 @@ class MoveStudentIntoDiningRoomTest {
         int coins = wallet.getValue();
         MoveStudentIntoDiningRoom mv = new MoveStudentIntoDiningRoom(Color.BLUE, wallet, schoolBoard);
         for(int i = 0; i < 3; i++){
-            mv.execute();
+            try {
+                mv.execute();
+            } catch (IllegalClientInputException e) {
+                e.printStackTrace();
+            }
         }
         assertEquals(coins+1, wallet.getValue());
     }

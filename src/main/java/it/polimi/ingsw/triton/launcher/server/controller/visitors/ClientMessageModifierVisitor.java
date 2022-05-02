@@ -1,18 +1,14 @@
-package it.polimi.ingsw.triton.launcher.utils.message.clientmessage.visitors;
+package it.polimi.ingsw.triton.launcher.server.controller.visitors;
 
-import it.polimi.ingsw.triton.launcher.client.cli.Cli;
 import it.polimi.ingsw.triton.launcher.server.Server;
 import it.polimi.ingsw.triton.launcher.server.model.Game;
 import it.polimi.ingsw.triton.launcher.server.model.cardeffects.*;
-import it.polimi.ingsw.triton.launcher.server.view.VirtualView;
 import it.polimi.ingsw.triton.launcher.utils.exceptions.CharacterCardWithParametersException;
 import it.polimi.ingsw.triton.launcher.utils.exceptions.EndGameException;
 import it.polimi.ingsw.triton.launcher.utils.exceptions.IllegalClientInputException;
 import it.polimi.ingsw.triton.launcher.utils.exceptions.LastMoveException;
 import it.polimi.ingsw.triton.launcher.utils.message.clientmessage.*;
 import it.polimi.ingsw.triton.launcher.utils.message.clientmessage.characterCardReply.*;
-import it.polimi.ingsw.triton.launcher.utils.message.servermessage.Requests.CharacterCardParameterRequest;
-import it.polimi.ingsw.triton.launcher.utils.message.servermessage.Requests.MoveStudentFromEntranceMessage;
 
 public class ClientMessageModifierVisitor {
     private final Game game;

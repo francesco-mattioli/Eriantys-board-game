@@ -4,6 +4,7 @@ import it.polimi.ingsw.triton.launcher.server.model.Island;
 import it.polimi.ingsw.triton.launcher.server.model.enums.Color;
 import it.polimi.ingsw.triton.launcher.server.model.enums.TowerColor;
 import it.polimi.ingsw.triton.launcher.server.model.player.SchoolBoard;
+import it.polimi.ingsw.triton.launcher.utils.exceptions.IllegalClientInputException;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -60,7 +61,11 @@ class MoveStudentOntoIslandTest {
         int numBlueStudentsEntrance = schoolBoard.getEntrance()[Color.BLUE.ordinal()];
         int numBlueStudentsIsland = dest.getStudents()[Color.BLUE.ordinal()];
         schoolBoard.addStudentIntoEntrance(Color.RED);
-        mi.execute();
+        try {
+            mi.execute();
+        } catch (IllegalClientInputException e) {
+            e.printStackTrace();
+        }
         assertEquals(numBlueStudentsEntrance-1, schoolBoard.getEntrance()[student.ordinal()]);
         assertEquals(numBlueStudentsIsland+1, dest.getStudents()[Color.BLUE.ordinal()]);
     }

@@ -1,7 +1,7 @@
 package it.polimi.ingsw.triton.launcher.utils.message.servermessage.Broadcast;
 
 
-import it.polimi.ingsw.triton.launcher.client.ClientVisitor;
+import it.polimi.ingsw.triton.launcher.client.ServerMessageVisitor;
 import it.polimi.ingsw.triton.launcher.server.model.Island;
 import it.polimi.ingsw.triton.launcher.server.model.player.SchoolBoard;
 import it.polimi.ingsw.triton.launcher.utils.message.MessageType;
@@ -33,7 +33,7 @@ public class InfoActionPhase extends ServerMessage {
     }
 
     @Override
-    public void accept(ClientVisitor messageVisitor) {
+    public void accept(ServerMessageVisitor messageVisitor) {
 
     }
 }

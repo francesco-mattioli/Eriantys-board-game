@@ -4,6 +4,7 @@ import it.polimi.ingsw.triton.launcher.server.model.CloudTile;
 import it.polimi.ingsw.triton.launcher.server.model.enums.Color;
 import it.polimi.ingsw.triton.launcher.server.model.enums.TowerColor;
 import it.polimi.ingsw.triton.launcher.server.model.player.SchoolBoard;
+import it.polimi.ingsw.triton.launcher.utils.exceptions.IllegalClientInputException;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -41,7 +42,7 @@ class ChooseCloudTileTest {
      * Test if the cloud tile is already chosen.
      */
     @Test
-    void testIfCloudTileIsAlreadyChosen() {
+    void testIfCloudTileIsAlreadyChosen() throws IllegalClientInputException {
         ChooseCloudTile cct = new ChooseCloudTile(ct, schoolBoard);
         //ct.setStudents(Color.BLUE, Color.RED, Color.GREEN);
         ct.setStudents(Color.BLUE);
@@ -62,7 +63,11 @@ class ChooseCloudTileTest {
         ct.setStudents(Color.BLUE);
         ct.setStudents(Color.RED);
         ct.setStudents(Color.GREEN);
-        cct.execute();
+        try {
+            cct.execute();
+        } catch (IllegalClientInputException e) {
+            e.printStackTrace();
+        }
         assertEquals(0, ct.getStudents()[Color.BLUE.ordinal()]);
         assertEquals(0, ct.getStudents()[Color.RED.ordinal()]);
         assertEquals(0, ct.getStudents()[Color.GREEN.ordinal()]);
@@ -72,7 +77,7 @@ class ChooseCloudTileTest {
      * Test if the students are moved to the entrance of the school board.
      */
     @Test
-    void testIfStudentsAreMovedToEntrance(){
+    void testIfStudentsAreMovedToEntrance() throws IllegalClientInputException {
         ChooseCloudTile cct = new ChooseCloudTile(ct, schoolBoard);
         //ct.setStudents(Color.BLUE, Color.RED, Color.GREEN);
         ct.setStudents(Color.BLUE);

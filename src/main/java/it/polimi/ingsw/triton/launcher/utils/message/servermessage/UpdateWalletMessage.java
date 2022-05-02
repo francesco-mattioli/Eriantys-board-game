@@ -1,6 +1,7 @@
 package it.polimi.ingsw.triton.launcher.utils.message.servermessage;
 
-import it.polimi.ingsw.triton.launcher.client.ClientVisitor;
+
+import it.polimi.ingsw.triton.launcher.client.ServerMessageVisitor;
 import it.polimi.ingsw.triton.launcher.utils.message.MessageType;
 
 /**
@@ -9,12 +10,11 @@ import it.polimi.ingsw.triton.launcher.utils.message.MessageType;
 public class UpdateWalletMessage extends ServerMessage{
     private final String receiverUsername;
     public UpdateWalletMessage(String receiverUsername) {
-        super(MessageType.UPDATE_WALLET);
         this.receiverUsername = receiverUsername;
     }
 
     @Override
-    public void accept(ClientVisitor messageVisitor) {
+    public void accept(ServerMessageVisitor messageVisitor) {
 
     }
 

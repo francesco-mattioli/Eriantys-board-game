@@ -38,9 +38,21 @@ class GameTest {
         } catch (IllegalClientInputException e) {
             e.printStackTrace();
         }
-        game.chooseWizard("TestPlayer1", Wizard.BLUE);
-        game.chooseWizard("TestPlayer2", Wizard.GREEN);
-        game.chooseWizard("TestPlayer3", Wizard.PURPLE);
+        try {
+            game.chooseWizard("TestPlayer1", Wizard.BLUE);
+        } catch (IllegalClientInputException e) {
+            e.printStackTrace();
+        }
+        try {
+            game.chooseWizard("TestPlayer2", Wizard.GREEN);
+        } catch (IllegalClientInputException e) {
+            e.printStackTrace();
+        }
+        try {
+            game.chooseWizard("TestPlayer3", Wizard.PURPLE);
+        } catch (IllegalClientInputException e) {
+            e.printStackTrace();
+        }
 
     }
 
