@@ -18,6 +18,7 @@ import it.polimi.ingsw.triton.launcher.utils.exceptions.IllegalClientInputExcept
 import it.polimi.ingsw.triton.launcher.utils.exceptions.LastMoveException;
 import it.polimi.ingsw.triton.launcher.utils.message.ErrorTypeID;
 import it.polimi.ingsw.triton.launcher.utils.message.servermessage.Broadcast.*;
+import it.polimi.ingsw.triton.launcher.utils.message.servermessage.Requests.MoveStudentFromEntranceMessage;
 import it.polimi.ingsw.triton.launcher.utils.obs.Observable;
 import it.polimi.ingsw.triton.launcher.utils.message.servermessage.*;
 import it.polimi.ingsw.triton.launcher.utils.message.Message;
@@ -274,21 +275,21 @@ public class Game extends Observable<Message> {
 
 
 
-    //Action phase
+    /*//Action phase
     public void actionPhase(){
         gameState = GameState.ACTION_PHASE;
         createMoveStudentsMessage();
-    }
+    }*/
 
 
     /**
      * Creates the message to ask the player which students wants to move and where he wants to move to.
      */
-    private void createMoveStudentsMessage(){
+    /*private void createMoveStudentsMessage(){
         //notify(new InfoActionPhase(currentPlayer.getUsername(), getAllSchoolBoards(), islands, motherNature.getPosition()));
         Message message = new MoveStudentFromEntranceMessage(currentPlayer.getUsername());
         notify(message);
-    }
+    }*/
 
     /**
      * Executes the action of moving a player from entrance to the dining room.
@@ -750,5 +751,9 @@ public class Game extends Observable<Message> {
                 return island;
         }
         throw new NoSuchElementException("The island does not exist");
+    }
+
+    public void setGameState(GameState gameState) {
+        this.gameState = gameState;
     }
 }

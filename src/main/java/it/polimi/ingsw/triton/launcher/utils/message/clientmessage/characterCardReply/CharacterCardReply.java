@@ -17,6 +17,6 @@ public abstract class CharacterCardReply extends ClientMessage {
 
     @Override
     public void createInputErrorMessage(Game game, VirtualView virtualView) {
-
+        virtualView.reSendLastCharacterCardMessage();
     }
 }

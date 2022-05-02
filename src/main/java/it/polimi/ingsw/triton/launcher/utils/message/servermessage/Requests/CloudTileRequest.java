@@ -9,14 +9,8 @@ import java.util.ArrayList;
 
 public class CloudTileRequest extends ServerMessage {
 
-    private final ArrayList<CloudTile> availableCloudTiles;
-    public CloudTileRequest(ArrayList<CloudTile> availableCloudTiles) {
+    public CloudTileRequest() {
         super(MessageType.CLOUD_TILE_REQUEST);
-        this.availableCloudTiles = availableCloudTiles;
-    }
-
-    public ArrayList<CloudTile> getAvailableCloudTiles() {
-        return availableCloudTiles;
     }
 
     @Override

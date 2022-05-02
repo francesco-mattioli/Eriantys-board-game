@@ -16,7 +16,7 @@ import java.net.Socket;
 import java.util.NoSuchElementException;
 
 // Each player must be treated as a thread
-public class ServeOneClient implements Runnable {
+public class  ServeOneClient implements Runnable {
     private final Socket socket;
     private final Server server;
     private final int id;

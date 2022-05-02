@@ -57,7 +57,7 @@ public class UseCharacterCardRequest extends ClientMessage {
     //The character card needs some parameters
     @Override
     public void createExceptionalNextMessage(Game game, VirtualView virtualView){
-        virtualView.askCharacterCardParameters();
+        virtualView.askCharacterCardParameters(characterCardID);
     }
 
     //The character card is not available

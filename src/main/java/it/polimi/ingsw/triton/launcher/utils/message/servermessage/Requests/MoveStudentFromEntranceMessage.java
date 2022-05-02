@@ -4,16 +4,16 @@ import it.polimi.ingsw.triton.launcher.client.ClientVisitor;
 import it.polimi.ingsw.triton.launcher.utils.message.MessageType;
 import it.polimi.ingsw.triton.launcher.utils.message.servermessage.ServerMessage;
 
-public class CharacterCardParameterRequest extends ServerMessage {
-    private final int characterCardID;
-    public CharacterCardParameterRequest(int characterCardID) {
-        super(MessageType.CHARACTER_CARD_PARAMETER);
-        this.characterCardID = characterCardID;
+/**
+ * This message asks to the player which student wants to move.
+ */
+public class MoveStudentFromEntranceMessage extends ServerMessage {
+    public MoveStudentFromEntranceMessage() {
+        super(MessageType.MOVE_STUDENT_FROM_ENTRANCE);
     }
 
     @Override
     public void accept(ClientVisitor messageVisitor) {
 
     }
-
 }

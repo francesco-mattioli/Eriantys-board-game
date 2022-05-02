@@ -1,6 +1,7 @@
 package it.polimi.ingsw.triton.launcher.utils.message.clientmessage;
 
 import it.polimi.ingsw.triton.launcher.server.model.Game;
+import it.polimi.ingsw.triton.launcher.server.model.enums.GameState;
 import it.polimi.ingsw.triton.launcher.server.view.VirtualView;
 import it.polimi.ingsw.triton.launcher.utils.exceptions.EndGameException;
 import it.polimi.ingsw.triton.launcher.utils.exceptions.IllegalClientInputException;
@@ -34,6 +35,7 @@ public class CloudTileReply extends ClientMessage {
 
     @Override
     public void createExceptionalNextMessage(Game game, VirtualView virtualView) {
+        game.setGameState(GameState.PLANNING_PHASE);
         virtualView.askAssistantCard();
     }
 
