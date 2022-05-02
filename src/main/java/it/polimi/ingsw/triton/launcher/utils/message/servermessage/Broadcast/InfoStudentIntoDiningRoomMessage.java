@@ -11,7 +11,6 @@ public class InfoStudentIntoDiningRoomMessage extends BroadcastServerMessage{
     private final String playerUsername;
     private final SchoolBoard modifiedSchoolBoard;
     public InfoStudentIntoDiningRoomMessage(String playerUsername, SchoolBoard modifiedSchoolBoard) {
-        super(MessageType.INFO_STUDENT_INTO_DINING_ROOM);
         this.playerUsername = playerUsername;
         this.modifiedSchoolBoard = modifiedSchoolBoard;
     }

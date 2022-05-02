@@ -12,7 +12,6 @@ import java.util.ArrayList;
 public class CloudTilesInfoMessage extends BroadcastServerMessage{
     private ArrayList<CloudTile> cloudTiles;
     public CloudTilesInfoMessage(ArrayList<CloudTile> cloudTiles) {
-        super(MessageType.FILLED_CLOUD_TILES);
         this.cloudTiles = cloudTiles;
     }
 

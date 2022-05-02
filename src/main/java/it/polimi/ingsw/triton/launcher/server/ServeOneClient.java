@@ -6,8 +6,6 @@ import it.polimi.ingsw.triton.launcher.utils.message.clientmessage.ClientMessage
 import it.polimi.ingsw.triton.launcher.utils.message.clientmessage.GameModeReply;
 import it.polimi.ingsw.triton.launcher.utils.message.clientmessage.PlayersNumberReply;
 import it.polimi.ingsw.triton.launcher.server.view.VirtualView;
-import it.polimi.ingsw.triton.launcher.utils.message.servermessage.CharacterCards.CharacterCardMessages;
-import it.polimi.ingsw.triton.launcher.utils.message.servermessage.ErrorMessage;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;

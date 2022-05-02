@@ -9,9 +9,6 @@ import java.util.ArrayList;
 
 public class CloudTileRequest extends ServerMessage {
 
-    public CloudTileRequest() {
-        super(MessageType.CLOUD_TILE_REQUEST);
-    }
 
     @Override
     public void accept(ClientVisitor messageVisitor) {

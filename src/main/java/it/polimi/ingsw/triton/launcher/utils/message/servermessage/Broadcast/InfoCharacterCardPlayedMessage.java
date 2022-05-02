@@ -1,5 +1,6 @@
 package it.polimi.ingsw.triton.launcher.utils.message.servermessage.Broadcast;
 
+import it.polimi.ingsw.triton.launcher.client.ClientVisitor;
 import it.polimi.ingsw.triton.launcher.server.model.cardeffects.CharacterCard;
 import it.polimi.ingsw.triton.launcher.utils.message.MessageType;
 
@@ -10,7 +11,6 @@ public class InfoCharacterCardPlayedMessage extends BroadcastServerMessage{
     private final String playerUsername;
     private final CharacterCard characterCard;
     public InfoCharacterCardPlayedMessage(String playerUsername, CharacterCard characterCard) {
-        super(MessageType.INFO_CHARACTER_CARD_PLAYED);
         this.playerUsername = playerUsername;
         this.characterCard = characterCard;
     }
@@ -21,5 +21,10 @@ public class InfoCharacterCardPlayedMessage extends BroadcastServerMessage{
 
     public CharacterCard getCharacterCard() {
         return characterCard;
+    }
+
+    @Override
+    public void accept(ClientVisitor messageVisitor) {
+
     }
 }

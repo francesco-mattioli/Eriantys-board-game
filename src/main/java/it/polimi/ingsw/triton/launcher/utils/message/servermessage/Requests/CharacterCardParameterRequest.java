@@ -7,7 +7,6 @@ import it.polimi.ingsw.triton.launcher.utils.message.servermessage.ServerMessage
 public class CharacterCardParameterRequest extends ServerMessage {
     private final int characterCardID;
     public CharacterCardParameterRequest(int characterCardID) {
-        super(MessageType.CHARACTER_CARD_PARAMETER);
         this.characterCardID = characterCardID;
     }
 

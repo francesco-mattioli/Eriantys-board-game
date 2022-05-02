@@ -24,7 +24,6 @@ public class InfoStudentOntoIslandMessage extends BroadcastServerMessage{
     }
 
     public InfoStudentOntoIslandMessage(String username, SchoolBoard modifiedSchoolBoard, Island modifiedIsland) {
-        super(MessageType.INFO_STUDENT_ONTO_ISLAND);
         this.playerUsername = username;
         this.modifiedSchoolBoard = modifiedSchoolBoard;
         this.modifiedIsland = modifiedIsland;

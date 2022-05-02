@@ -6,9 +6,6 @@ import it.polimi.ingsw.triton.launcher.utils.message.servermessage.Broadcast.Bro
 
 public abstract class ServerMessage extends BroadcastServerMessage {
 
-    public ServerMessage(MessageType messageType) {
-        super(messageType);
-    }
 
     public void accept(BroadcastMessageVisitor messageVisitor){
         messageVisitor.visit(this);
