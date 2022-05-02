@@ -9,10 +9,10 @@ import it.polimi.ingsw.triton.launcher.utils.message.servermessage.Broadcast.Gen
 import it.polimi.ingsw.triton.launcher.utils.message.servermessage.Broadcast.LobbyMessage;
 import it.polimi.ingsw.triton.launcher.utils.message.servermessage.Requests.*;
 
-public class ClientVisitor {
+public class ServerMessageVisitor {
     private final ClientView clientView;
 
-    public ClientVisitor(ClientView clientView){
+    public ServerMessageVisitor(ClientView clientView){
         this.clientView=clientView;
     }
 

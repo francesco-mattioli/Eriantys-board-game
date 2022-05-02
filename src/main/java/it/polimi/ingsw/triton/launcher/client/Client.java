@@ -21,16 +21,18 @@ public class Client implements Observer<Message> {
     private ClientView clientView;
     public static final Logger LOGGER = Logger.getLogger(Client.class.getName());
 
+    /**
+     * Initializes socket and input, output streams to communicate with the server
+     * Executors.newSingleThreadExecutor() sets the thread for receiving message from server
+     */
     public Client(ClientView clientView) {
         try {
-            // initializes socket and input, output streams to communicate with the server
             socket = new Socket("127.0.0.1", 50535);
             outSocket = new ObjectOutputStream(socket.getOutputStream());
             inSocket = new ObjectInputStream(socket.getInputStream());
-            // sets the thread for receiving message from server
             this.readExecutionQueue = Executors.newSingleThreadExecutor();
-            this.receiveMessage();
             this.clientView=clientView;
+            receiveMessage();
 
         } catch (IOException e) {
             e.printStackTrace();
@@ -49,9 +51,9 @@ public class Client implements Observer<Message> {
             while (!readExecutionQueue.isShutdown()) {
                 try {
                     BroadcastServerMessage message = (BroadcastServerMessage) inSocket.readObject();
-                    Client.LOGGER.info("Received: " + message.getMessageType());
+                    Client.LOGGER.info("Received: " + message);
                     // Accept the message using Visitor Pattern
-                    message.accept(new ClientVisitor(clientView));
+                    message.accept(new ServerMessageVisitor(clientView));
                 } catch (IOException | ClassNotFoundException e) {
                     System.err.println("Error! " + e.getMessage());
                     Client.LOGGER.severe("Connection will be closed");
@@ -80,7 +82,7 @@ public class Client implements Observer<Message> {
     public void sendMessage(Message message) {
         try {
             outSocket.writeObject(message);
-            Client.LOGGER.info("Sent: " + message.getMessageType());
+            Client.LOGGER.info("Sent: " + message);
             outSocket.reset();
         } catch (IOException e) {
             e.printStackTrace();
