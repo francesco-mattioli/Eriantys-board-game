@@ -1,5 +1,6 @@
 package it.polimi.ingsw.triton.launcher.utils.message.servermessage.Broadcast;
 
+import it.polimi.ingsw.triton.launcher.client.ClientVisitor;
 import it.polimi.ingsw.triton.launcher.utils.message.MessageType;
 
 /**
@@ -9,7 +10,6 @@ public class MoveTowerToSchoolBoardMessage extends BroadcastServerMessage{
     private String usernameDominated;
     private int numTowersToSchoolBoard;
     public MoveTowerToSchoolBoardMessage(String usernameDominated, int numTowersToSchoolBoard) {
-        super(MessageType.TOWER_ON_SCHOOLBOARD);
         this.usernameDominated = usernameDominated;
         this.numTowersToSchoolBoard = numTowersToSchoolBoard;
     }
@@ -20,5 +20,10 @@ public class MoveTowerToSchoolBoardMessage extends BroadcastServerMessage{
 
     public int getNumTowersToSchoolBoard() {
         return numTowersToSchoolBoard;
+    }
+
+    @Override
+    public void accept(ClientVisitor messageVisitor) {
+
     }
 }

@@ -1,6 +1,7 @@
 package it.polimi.ingsw.triton.launcher.utils.message.servermessage.Broadcast;
 
 
+import it.polimi.ingsw.triton.launcher.client.ClientVisitor;
 import it.polimi.ingsw.triton.launcher.server.model.Island;
 import it.polimi.ingsw.triton.launcher.server.model.player.SchoolBoard;
 import it.polimi.ingsw.triton.launcher.utils.message.MessageType;
@@ -14,7 +15,6 @@ public class InfoActionPhase extends ServerMessage {
     private ArrayList<Island> islands;
     private Island motherNaturePosition;
     public InfoActionPhase(String receiverUsername, Map<String, SchoolBoard> allSchoolBoards, ArrayList<Island> islands, Island motherNaturePosition) {
-        super(MessageType.INFO_ACTION_PHASE);
         this.allSchoolBoards = allSchoolBoards;
         this.islands = islands;
         this.motherNaturePosition = motherNaturePosition;
@@ -30,5 +30,10 @@ public class InfoActionPhase extends ServerMessage {
 
     public Island getMotherNaturePosition() {
         return motherNaturePosition;
+    }
+
+    @Override
+    public void accept(ClientVisitor messageVisitor) {
+
     }
 }

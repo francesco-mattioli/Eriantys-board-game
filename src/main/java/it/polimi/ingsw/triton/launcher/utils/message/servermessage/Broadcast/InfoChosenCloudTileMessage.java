@@ -10,7 +10,6 @@ public class InfoChosenCloudTileMessage extends BroadcastServerMessage{
     private final SchoolBoard playerSchoolBoard;
     private final CloudTile cloudTile;
     public InfoChosenCloudTileMessage(String playerUsername, SchoolBoard playerSchoolBoard, CloudTile cloudTile) {
-        super(MessageType.INFO_CHOSEN_CLOUD_TILE);
         this.playerUsername = playerUsername;
         this.playerSchoolBoard = playerSchoolBoard;
         this.cloudTile = cloudTile;

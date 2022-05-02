@@ -142,7 +142,7 @@ public class Server {
             while (true) {
                 Socket connectionSocket = serverSocket.accept();
                 // The following thread will manage the socket that will be assigned to the Client
-                new Thread(new ServeOneClient(connectionSocket, this, numOfClients)).start();
+                new Thread(new ServeOneClient(connectionSocket, this)).start();
             }
         } catch (IOException e) {
             e.printStackTrace();

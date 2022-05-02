@@ -32,7 +32,7 @@ public class VirtualView extends Observable<Message> implements View, Observer<M
     }
 
     public void askNumOfPlayers(){
-        serveOneClient.sendMessage(new PlayersNumberRequest(username));
+        serveOneClient.sendMessage(new PlayersNumberRequest());
     }
 
     public void showErrorMessage(ErrorTypeID errorTypeID){

@@ -7,11 +7,7 @@ import java.io.Serializable;
 
 public abstract class Message implements Serializable {
 
-    public Message() {
-
-    }
-
-    public void accept(BroadcastMessageVisitor messageVisitor){
+     public void accept(BroadcastMessageVisitor messageVisitor){
         messageVisitor.visit(this);
     }
 
