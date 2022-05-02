@@ -67,11 +67,6 @@ public class Game extends Observable<Message> {
         this.usedAssistantCards = new ArrayList<>();
     }
 
-
-    public ArrayList<Wizard> getAvailableWizards() {
-        return availableWizards;
-    }
-
     /**
      * This method checks if the username entered by the player has already been chosen
      * @param username
@@ -198,9 +193,7 @@ public class Game extends Observable<Message> {
 
      // The following methods execute the PLANNING phase of the game
 
-    public void setCurrentPlayer(Player currentPlayer) {
-        this.currentPlayer = currentPlayer;
-    }
+
 
     /**
      * Adds the students to the cloud tiles and sets the last round flag if the bag is empty.
@@ -264,7 +257,7 @@ public class Game extends Observable<Message> {
         }
     }*/
 
-
+    //----------------------------------------------
     // Planning phase
     public void planningPhase() {
         gameState = GameState.PLANNING_PHASE;
@@ -349,8 +342,8 @@ public class Game extends Observable<Message> {
 
     //--- end of methods for the PLANNING PHASE
 
-
-    // methods for the SETUP PHASE
+    //----------------------------------------------
+    // Methods for the SETUP PHASE
     private void createIslands() {
         for (int i = 0; i < MAX_NUM_OF_ISLANDS; i++) {
             islands.add(new Island(i));
@@ -567,9 +560,6 @@ public class Game extends Observable<Message> {
     }
 
 
-    public ProfessorsManager getProfessorsManager() {
-        return professorsManager;
-    }
 
     public CharacterCard getCharacterCardByID(int id) throws IllegalClientInputException{
         for(CharacterCard characterCard : characterCards){
@@ -673,6 +663,25 @@ public class Game extends Observable<Message> {
         return mapSchoolBoards;
     }
 
+    private boolean existingIsland(int idIsland){
+        for(Island island: islands){
+            if(island.getId() == idIsland)
+                return true;
+        }
+        return false;
+    }
+
+    private Island findIsland(int idIsland){
+        for(Island island: islands){
+            if(island.getId() == idIsland)
+                return island;
+        }
+        //We don't expect to reach this statement because we check in the caller method if there's not an island with that id
+        return null;
+    }
+
+    //----------------------------------------------
+    // Getter methods
     public ArrayList<Island> getIslands() {
         return islands;
     }
@@ -713,21 +722,14 @@ public class Game extends Observable<Message> {
         return professors;
     }
 
-    private boolean existingIsland(int idIsland){
-        for(Island island: islands){
-            if(island.getId() == idIsland)
-                return true;
-        }
-        return false;
+    public ArrayList<Wizard> getAvailableWizards() {
+        return availableWizards;
     }
 
-    private Island findIsland(int idIsland){
-        for(Island island: islands){
-            if(island.getId() == idIsland)
-                return island;
-        }
-        return null;      //We don't expect to reach this statement because we check in the caller method if there's not an island with that id
+    public ProfessorsManager getProfessorsManager() {
+        return professorsManager;
     }
+
 
     public GameState getGameState() {
         return gameState;
@@ -753,7 +755,15 @@ public class Game extends Observable<Message> {
         throw new NoSuchElementException("The island does not exist");
     }
 
+
+    //----------------------------------------------
+    // Setter methods
+
     public void setGameState(GameState gameState) {
         this.gameState = gameState;
+    }
+
+    public void setCurrentPlayer(Player currentPlayer) {
+        this.currentPlayer = currentPlayer;
     }
 }
