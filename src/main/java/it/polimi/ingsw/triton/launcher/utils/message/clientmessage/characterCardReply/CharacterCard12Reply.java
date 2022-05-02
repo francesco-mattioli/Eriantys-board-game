@@ -8,6 +8,7 @@ import it.polimi.ingsw.triton.launcher.utils.exceptions.EndGameException;
 import it.polimi.ingsw.triton.launcher.utils.exceptions.IllegalClientInputException;
 import it.polimi.ingsw.triton.launcher.utils.exceptions.LastMoveException;
 import it.polimi.ingsw.triton.launcher.utils.message.MessageType;
+import it.polimi.ingsw.triton.launcher.utils.message.clientmessage.visitors.ClientMessageModifierVisitor;
 
 import java.util.NoSuchElementException;
 
@@ -15,12 +16,16 @@ public class CharacterCard12Reply extends CharacterCardReply{
     private final Color student;
 
     public CharacterCard12Reply(String senderUsername, Color student) {
-        super(MessageType.CHARACTER_CARD_12_PARAMETER, senderUsername);
+        super(senderUsername);
         this.student = student;
     }
 
     @Override
-    public void modifyModel(Game game) throws IllegalClientInputException, EndGameException{
-        game.applyCharacterCardEffect(12, new CardEffect12(student, game.getPlayers(), game.getBag()));
+    public void modifyModel(ClientMessageModifierVisitor visitor) throws IllegalClientInputException, EndGameException{
+        visitor.visitForModify(this);
+    }
+
+    public Color getStudent() {
+        return student;
     }
 }

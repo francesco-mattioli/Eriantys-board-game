@@ -13,6 +13,10 @@ import it.polimi.ingsw.triton.launcher.utils.message.clientmessage.*;
 import it.polimi.ingsw.triton.launcher.utils.message.clientmessage.characterCardReply.CharacterCard01Reply;
 import it.polimi.ingsw.triton.launcher.utils.message.clientmessage.characterCardReply.CharacterCard03Reply;
 import it.polimi.ingsw.triton.launcher.utils.message.clientmessage.characterCardReply.CharacterCard05Reply;
+import it.polimi.ingsw.triton.launcher.utils.message.clientmessage.visitors.ClientMessageErrorVisitor;
+import it.polimi.ingsw.triton.launcher.utils.message.clientmessage.visitors.ClientMessageExceptionalVisitor;
+import it.polimi.ingsw.triton.launcher.utils.message.clientmessage.visitors.ClientMessageModifierVisitor;
+import it.polimi.ingsw.triton.launcher.utils.message.clientmessage.visitors.ClientMessageStandardVisitor;
 import it.polimi.ingsw.triton.launcher.utils.obs.Observer;
 
 import java.util.ArrayList;
@@ -345,13 +349,13 @@ public class Controller implements Observer<Message> {
     @Override
     public void update(Message message) {
         try {
-            ((ClientMessage)message).modifyModel(game);
-            ((ClientMessage)message).createStandardNextMessage(game, getVirtualViewByUsername(game.getCurrentPlayer().getUsername()));
+            ((ClientMessage)message).modifyModel(new ClientMessageModifierVisitor(game));
+            ((ClientMessage)message).createStandardNextMessage(new ClientMessageStandardVisitor(game, getVirtualViewByUsername(game.getCurrentPlayer().getUsername())));
         }catch (IllegalClientInputException e) {
             getVirtualViewByUsername(game.getCurrentPlayer().getUsername()).showErrorMessage(e.getTypeError());
-            ((ClientMessage)message).createInputErrorMessage(game, getVirtualViewByUsername(game.getCurrentPlayer().getUsername()));
+            ((ClientMessage)message).createInputErrorMessage(new ClientMessageErrorVisitor(game, getVirtualViewByUsername(game.getCurrentPlayer().getUsername())));
         }catch(NoSuchElementException | LastMoveException | CharacterCardWithParametersException e){
-            ((ClientMessage)message).createExceptionalNextMessage(game, getVirtualViewByUsername(game.getCurrentPlayer().getUsername()));
+            ((ClientMessage)message).createExceptionalNextMessage(new ClientMessageExceptionalVisitor(game, getVirtualViewByUsername(game.getCurrentPlayer().getUsername())));
         } catch (EndGameException e) {
             game.calculateWinner();
         }

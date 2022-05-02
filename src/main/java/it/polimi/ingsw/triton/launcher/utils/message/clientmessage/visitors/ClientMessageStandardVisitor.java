@@ -17,66 +17,38 @@ public class ClientMessageStandardVisitor {
     }
 
     public void visitForSendStandardMessage(TowerColorReply message){
-
+        virtualView.askTowerColor(game.getTowerColorChosen());
     }
 
     public void visitForSendStandardMessage(WizardReply message){
-
+        virtualView.askWizard(game.getAvailableWizards());
     }
 
     public void visitForSendStandardMessage(AssistantCardReply message){
-
+        virtualView.askAssistantCard();
     }
 
     public void visitForSendStandardMessage(MoveStudentOntoDiningRoomMessage message){
-
+        virtualView.askMoveStudentFromEntrance();
     }
 
     public void visitForSendStandardMessage(MoveStudentOntoIslandMessage message){
-
+        virtualView.askMoveStudentFromEntrance();
     }
 
     public void visitForSendStandardMessage(MotherNatureReply message){
-
+        virtualView.askCloudTile();
     }
 
     public void visitForSendStandardMessage(CloudTileReply message){
-
+        virtualView.askMoveStudentFromEntrance();
     }
 
     public void visitForSendStandardMessage(UseCharacterCardRequest message){
-
+        virtualView.reSendLastMessage();
     }
 
-    public void visitForSendStandardMessage(CharacterCard01Reply message){
-
-    }
-
-    public void visitForSendStandardMessage(CharacterCard03Reply message){
-
-    }
-
-    public void visitForSendStandardMessage(CharacterCard05Reply message){
-
-    }
-
-    public void visitForSendStandardMessage(CharacterCard07Reply message){
-
-    }
-
-    public void visitForSendStandardMessage(CharacterCard09Reply message){
-
-    }
-
-    public void visitForSendStandardMessage(CharacterCard10Reply message){
-
-    }
-
-    public void visitForSendStandardMessage(CharacterCard11Reply message){
-
-    }
-
-    public void visitForSendStandardMessage(CharacterCard12Reply message){
+    public void visitForSendStandardMessage(CharacterCardReply message){
 
     }
 }

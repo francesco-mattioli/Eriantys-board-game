@@ -10,14 +10,17 @@ import it.polimi.ingsw.triton.launcher.utils.exceptions.IllegalClientInputExcept
 import it.polimi.ingsw.triton.launcher.utils.exceptions.LastMoveException;
 import it.polimi.ingsw.triton.launcher.utils.message.Message;
 import it.polimi.ingsw.triton.launcher.utils.message.MessageType;
+import it.polimi.ingsw.triton.launcher.utils.message.clientmessage.visitors.ClientMessageErrorVisitor;
+import it.polimi.ingsw.triton.launcher.utils.message.clientmessage.visitors.ClientMessageExceptionalVisitor;
+import it.polimi.ingsw.triton.launcher.utils.message.clientmessage.visitors.ClientMessageModifierVisitor;
+import it.polimi.ingsw.triton.launcher.utils.message.clientmessage.visitors.ClientMessageStandardVisitor;
 
 import java.util.NoSuchElementException;
 
 public abstract class ClientMessage extends Message{
     protected final String senderUsername;
 
-    public ClientMessage(MessageType messageType, String senderUsername) {
-        super(messageType);
+    public ClientMessage(String senderUsername) {
         this.senderUsername = senderUsername;
     }
 
@@ -30,13 +33,13 @@ public abstract class ClientMessage extends Message{
 
     }
 
-    public abstract void modifyModel(Game game) throws IllegalClientInputException, NoSuchElementException, LastMoveException, EndGameException, CharacterCardWithParametersException;
+    public abstract void modifyModel(ClientMessageModifierVisitor visitor) throws IllegalClientInputException, NoSuchElementException, LastMoveException, EndGameException, CharacterCardWithParametersException;
 
-    public abstract void createStandardNextMessage(Game game, VirtualView virtualView);
+    public abstract void createStandardNextMessage(ClientMessageStandardVisitor visitor);
 
-    public void createExceptionalNextMessage(Game game, VirtualView virtualView) {
+    public void createExceptionalNextMessage(ClientMessageExceptionalVisitor visitor) {
         Server.LOGGER.severe(  "Called a wrong function");
     }
 
-    public abstract void createInputErrorMessage(Game game, VirtualView virtualView);
+    public abstract void createInputErrorMessage(ClientMessageErrorVisitor visitor);
 }

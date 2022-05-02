@@ -5,6 +5,7 @@ import it.polimi.ingsw.triton.launcher.server.model.cardeffects.CardEffect07;
 import it.polimi.ingsw.triton.launcher.utils.exceptions.EndGameException;
 import it.polimi.ingsw.triton.launcher.utils.exceptions.IllegalClientInputException;
 import it.polimi.ingsw.triton.launcher.utils.message.MessageType;
+import it.polimi.ingsw.triton.launcher.utils.message.clientmessage.visitors.ClientMessageModifierVisitor;
 
 public class CharacterCard07Reply  extends CharacterCardReply{
     private final int[] fromCard;
@@ -12,14 +13,26 @@ public class CharacterCard07Reply  extends CharacterCardReply{
     private final int[] studentsOnCard;
 
     public CharacterCard07Reply(String senderUsername, int[] fromCard, int[] fromSchoolBoard, int[] studentsOnCard) {
-        super(MessageType.CHARACTER_CARD_07_PARAMETER, senderUsername);
+        super(senderUsername);
         this.fromCard = fromCard;
         this.fromSchoolBoard = fromSchoolBoard;
         this.studentsOnCard = studentsOnCard;
     }
 
     @Override
-    public void modifyModel(Game game) throws IllegalClientInputException, EndGameException{
-        game.applyCharacterCardEffect(7, new CardEffect07(studentsOnCard, fromCard, fromSchoolBoard, game.getPlayerByUsername(senderUsername).getSchoolBoard()));
+    public void modifyModel(ClientMessageModifierVisitor visitor) throws IllegalClientInputException, EndGameException{
+        visitor.visitForModify(this);
+    }
+
+    public int[] getFromCard() {
+        return fromCard;
+    }
+
+    public int[] getFromSchoolBoard() {
+        return fromSchoolBoard;
+    }
+
+    public int[] getStudentsOnCard() {
+        return studentsOnCard;
     }
 }
