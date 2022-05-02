@@ -1,10 +1,13 @@
 package it.polimi.ingsw.triton.launcher.client.cli;
 
 import it.polimi.ingsw.triton.launcher.client.model.ClientModel;
+import it.polimi.ingsw.triton.launcher.server.model.AssistantCard;
 import it.polimi.ingsw.triton.launcher.server.model.CloudTile;
 import it.polimi.ingsw.triton.launcher.server.model.Island;
+import it.polimi.ingsw.triton.launcher.server.model.enums.AssistantCardType;
 import it.polimi.ingsw.triton.launcher.server.model.enums.TowerColor;
 import it.polimi.ingsw.triton.launcher.server.model.enums.Wizard;
+import it.polimi.ingsw.triton.launcher.server.model.player.AssistantDeck;
 import it.polimi.ingsw.triton.launcher.server.model.player.SchoolBoard;
 import it.polimi.ingsw.triton.launcher.utils.message.ErrorTypeID;
 import it.polimi.ingsw.triton.launcher.utils.message.clientmessage.*;
@@ -125,7 +128,7 @@ public class Cli extends Observable<Message> implements ClientView{
     }
 
     //CHECK IF ENUMS WORKS CORRECTLY
-    //@Override
+    @Override
     public void askWizard(ArrayList<Wizard> wizards) {
         String input="";
         try {
@@ -142,22 +145,83 @@ public class Cli extends Observable<Message> implements ClientView{
         }
     }
 
-
-
-    @Override
-    public void showLobbyMessage() {
-
-    }
-
+    // TO DO
     public void showInitializedGame(ArrayList<Island> islands, ArrayList<CloudTile> cloudTiles, SchoolBoard schoolBoard){
         //professors
         // wizards are contained in the Enum
     }
 
+    // showChangePhase() con modifiche, per esempio cloud tiles riempite
+
+    // we need to play an assistant card based on the assistant card played by other players
+    // IDEA: everytime an assistant card is played, we update client model.
+    // In client model we have a map of assistantCardPlayed that we shoe when is called ask AssistantCard
+
+    // TO CHECK IF ENUM WORKS
     @Override
     public void askAssistantCard() {
+        String input="";
+        // TO DO: print asissitant cards played by other players
+        AssistantDeck assistantDeck= clientModel.getAssistantDeck();
+        try {
+            out.print("Choose an Assistant Card [ ");
+            for (AssistantCard assistantCard : assistantDeck.getAssistantDeck()) {
+                out.print(assistantCard.getType() + " ");
+            }
+            out.print("]");
+            input = readLine();
+            AssistantCard assistantCardReply=null;
+            for (AssistantCard assistantCard : assistantDeck.getAssistantDeck()){
+                if ((assistantCard.getType()).equals(AssistantCardType.valueOf(input.toUpperCase())))
+                    assistantCardReply = assistantCard;
+            }
+            notify(new AssistantCardReply(clientModel.getUsername(), assistantCardReply));
+        } catch (ExecutionException | NullPointerException e) {
+            out.println("Try again...");
+            askAssistantCard();
+        }
+    }
+
+
+
+    @Override
+    public void askMoveStudentFromEntrance() {
+        String input="";
+        SchoolBoard schoolBoard= clientModel.getSchoolBoard();
+        out.print("Choose three students to move from entrance to dining room or an island\n");
+        out.print(schoolBoard.toString());
+        out.print("To do so, type on each line [color of student, diningRoom] or [color of student, island id]\n");
+        try {
+            input = readLine();
+            String[] splittedInput = input.split(",");
+            // to do: MOVE STUDENTS
+            notify(new WizardReply(clientModel.getUsername(), Wizard.valueOf(input.toUpperCase())));
+        } catch (ExecutionException | NullPointerException e) {
+            out.println("Try again...");
+            askMoveStudentFromEntrance();
+        }
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+    // DO DELETE
+    @Override
+    public void showLobbyMessage() {
 
     }
+
+
+
+
 
     @Override
     public void showChangeInfluenceMessage() {
@@ -232,10 +296,6 @@ public class Cli extends Observable<Message> implements ClientView{
 
     }
 
-    @Override
-    public void askMoveStudentFromEntrance() {
-
-    }
 
     @Override
     public void showMoveTowerOntoIsland() {
@@ -329,6 +389,11 @@ public class Cli extends Observable<Message> implements ClientView{
 
     }
 
+    @Override
+    public void showGenericMessage(String genericMessage) {
+        out.println(genericMessage);
+    }
+
     /**
      * Read a string line using a separated thread
      *
@@ -349,10 +414,7 @@ public class Cli extends Observable<Message> implements ClientView{
     }
 
 
-    @Override
-    public void showGenericMessage(String genericMessage) {
-        out.println(genericMessage);
-    }
+
 
 }
 

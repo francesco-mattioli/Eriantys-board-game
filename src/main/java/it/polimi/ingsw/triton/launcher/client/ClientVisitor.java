@@ -1,15 +1,13 @@
 package it.polimi.ingsw.triton.launcher.client;
 
 import it.polimi.ingsw.triton.launcher.client.view.ClientView;
+import it.polimi.ingsw.triton.launcher.server.model.AssistantCard;
 import it.polimi.ingsw.triton.launcher.utils.message.MessageType;
 import it.polimi.ingsw.triton.launcher.utils.message.servermessage.*;
 import it.polimi.ingsw.triton.launcher.utils.message.servermessage.Broadcast.BroadcastServerMessage;
 import it.polimi.ingsw.triton.launcher.utils.message.servermessage.Broadcast.GenericMessage;
 import it.polimi.ingsw.triton.launcher.utils.message.servermessage.Broadcast.LobbyMessage;
-import it.polimi.ingsw.triton.launcher.utils.message.servermessage.Requests.GameModeRequest;
-import it.polimi.ingsw.triton.launcher.utils.message.servermessage.Requests.PlayersNumberRequest;
-import it.polimi.ingsw.triton.launcher.utils.message.servermessage.Requests.TowerColorRequest;
-import it.polimi.ingsw.triton.launcher.utils.message.servermessage.Requests.WizardRequest;
+import it.polimi.ingsw.triton.launcher.utils.message.servermessage.Requests.*;
 
 public class ClientVisitor {
     private final ClientView clientView;
@@ -45,6 +43,10 @@ public class ClientVisitor {
 
     public void visit(WizardRequest message){
         clientView.askWizard(message.getAvailableWizards());
+    }
+
+    public void visit(AssistantCardRequest message){
+        clientView.askAssistantCard();
     }
 
     public void visit(GenericMessage message){
