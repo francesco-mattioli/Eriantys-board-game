@@ -25,10 +25,10 @@ import java.util.concurrent.FutureTask;
 public class Cli extends Observable<Message> implements ClientView{
     private final PrintStream out;
     private ClientModel clientModel;
+
     /**
      * Instantiates a new Cli;
      * The PrintStream out variable is set to System.out, by this way System.out.println() is not replicated multiple times.
-     *
      */
     public Cli() {
         out = System.out;
@@ -89,10 +89,9 @@ public class Cli extends Observable<Message> implements ClientView{
 
     @Override
     public void askPlayersNumber() {
-        String input="";
         try {
                 out.print("Enter number of players: [2 or 3] ");
-                input = readLine();
+                String input = readLine();
                 int numOfPlayers = Integer.parseInt(input);
                 notify(new PlayersNumberReply(clientModel.getUsername(), numOfPlayers));
             } catch (ExecutionException | NumberFormatException e) {
@@ -102,11 +101,8 @@ public class Cli extends Observable<Message> implements ClientView{
     }
 
 
-
-
     @Override
     public void askTowerColor(boolean[] chosenTowerColors) {
-        String input="";
         try {
             out.print("Choose a tower color [ ");
             for(int i=0;i< chosenTowerColors.length;i++){
@@ -114,7 +110,7 @@ public class Cli extends Observable<Message> implements ClientView{
                     out.print(TowerColor.values()[i]+" ");
             }
             out.print("]");
-            input = readLine();
+            String input = readLine();
             notify(new TowerColorReply(clientModel.getUsername(), TowerColor.valueOf(input.toUpperCase())));
         } catch (ExecutionException | NullPointerException e) {
             out.println("Try again...");
@@ -127,17 +123,15 @@ public class Cli extends Observable<Message> implements ClientView{
                 "online / " + maxNumberPlayers + "players connected\n Waiting for " + (maxNumberPlayers-onlineNicknames.size()) + "players");
     }
 
-    //CHECK IF ENUMS WORKS CORRECTLY
     @Override
     public void askWizard(ArrayList<Wizard> wizards) {
-        String input="";
         try {
             out.print("Choose a Wizard [ ");
             for(Wizard wizard: wizards){
                 out.print(wizard+" ");
             }
             out.print("]");
-            input = readLine();
+            String input = readLine();
             notify(new WizardReply(clientModel.getUsername(), Wizard.valueOf(input.toUpperCase())));
         } catch (ExecutionException | NullPointerException e) {
             out.println("Try again...");
@@ -145,7 +139,8 @@ public class Cli extends Observable<Message> implements ClientView{
         }
     }
 
-    // TO DO
+
+// TO DO
     public void showInitializedGame(ArrayList<Island> islands, ArrayList<CloudTile> cloudTiles, SchoolBoard schoolBoard){
         //professors
         // wizards are contained in the Enum
@@ -398,7 +393,8 @@ public class Cli extends Observable<Message> implements ClientView{
      * Read a string line using a separated thread
      *
      * @return the string
-     * @throws ExecutionException the execution exception
+     * @throws ExecutionException   the execution exception
+     * @throws NullPointerException the null pointer exception
      */
     public String readLine() throws ExecutionException, NullPointerException {
         FutureTask<String> futureTask = new FutureTask<>(new InputReadTask());
