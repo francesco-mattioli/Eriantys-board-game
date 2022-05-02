@@ -5,8 +5,8 @@ import it.polimi.ingsw.triton.launcher.server.model.enums.GameState;
 import it.polimi.ingsw.triton.launcher.server.view.VirtualView;
 import it.polimi.ingsw.triton.launcher.utils.exceptions.EndGameException;
 import it.polimi.ingsw.triton.launcher.utils.exceptions.IllegalClientInputException;
-import it.polimi.ingsw.triton.launcher.utils.exceptions.LastMoveException;
 import it.polimi.ingsw.triton.launcher.utils.message.MessageType;
+import it.polimi.ingsw.triton.launcher.utils.message.clientmessage.visitors.ClientMessageModifierVisitor;
 
 import java.util.NoSuchElementException;
 
@@ -26,6 +26,10 @@ public class CloudTileReply extends ClientMessage {
     public void modifyModel(Game game) throws IllegalClientInputException, NoSuchElementException, EndGameException {
         game.chooseCloudTile(game.getCloudTileById(selectedCloudTileID));
         game.nextGameTurn();
+    }
+
+    public void modifyModel(ClientMessageModifierVisitor visitor) throws IllegalClientInputException, NoSuchElementException, EndGameException {
+        visitor.visitForModify(this);
     }
 
     @Override

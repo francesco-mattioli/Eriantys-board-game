@@ -4,12 +4,12 @@ import it.polimi.ingsw.triton.launcher.server.ServeOneClient;
 import it.polimi.ingsw.triton.launcher.utils.message.Message;
 import it.polimi.ingsw.triton.launcher.utils.message.servermessage.Broadcast.BroadcastServerMessage;
 
-public class MessageVisitor {
+public class BroadcastMessageVisitor {
 
     private ServeOneClient serveOneClient;
     private String username;
 
-   public MessageVisitor(ServeOneClient serveOneClient, String username){
+   public BroadcastMessageVisitor(ServeOneClient serveOneClient, String username){
        this.serveOneClient = serveOneClient;
        this.username = username;
    }

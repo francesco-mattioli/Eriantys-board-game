@@ -10,7 +10,7 @@ public abstract class ServerMessage extends BroadcastServerMessage {
         super(messageType);
     }
 
-    public void accept(MessageVisitor messageVisitor){
+    public void accept(BroadcastMessageVisitor messageVisitor){
         messageVisitor.visit(this);
     }
     public abstract void accept(ClientVisitor messageVisitor);

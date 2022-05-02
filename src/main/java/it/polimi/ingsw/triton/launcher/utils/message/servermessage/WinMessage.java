@@ -10,7 +10,7 @@ public class WinMessage extends ServerMessage {
         super(MessageType.WIN, usernameWinner);
     }
 
-    public void accept(MessageVisitor messageVisitor){
+    public void accept(BroadcastMessageVisitor messageVisitor){
         messageVisitor.visit(this);
     }
 }

@@ -1,7 +1,5 @@
 package it.polimi.ingsw.triton.launcher.server.view;
 
-import it.polimi.ingsw.triton.launcher.server.model.AssistantCard;
-import it.polimi.ingsw.triton.launcher.server.model.CloudTile;
 import it.polimi.ingsw.triton.launcher.server.model.enums.Wizard;
 import it.polimi.ingsw.triton.launcher.utils.message.servermessage.*;
 import it.polimi.ingsw.triton.launcher.utils.message.servermessage.Requests.*;
@@ -26,7 +24,7 @@ public class VirtualView extends Observable<Message> implements View, Observer<M
 
     @Override
     public void update(Message message) {
-        message.accept(new MessageVisitor(serveOneClient,this.getUsername()));
+        message.accept(new BroadcastMessageVisitor(serveOneClient,this.getUsername()));
     }
 
     public void askGameMode(){
@@ -40,9 +38,6 @@ public class VirtualView extends Observable<Message> implements View, Observer<M
     public void showErrorMessage(ErrorTypeID errorTypeID){
         serveOneClient.sendMessage(new ErrorMessage(errorTypeID));
     }
-
-
-
 
     @Override
     public void askAssistantCard() {

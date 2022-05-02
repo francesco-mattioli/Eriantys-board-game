@@ -65,10 +65,11 @@ public class Controller implements Observer<Message> {
      *
      * @param username the receiver username of the message
      */
-    /*public void createTowerColorRequestMessage(String username) {
+    public void createTowerColorRequestMessage(String username) {
         getVirtualViewByUsername(username).askTowerColor(game.getTowerColorChosen());
     }
 
+    /*
     public void createWizardRequestMessage(String username) {
         getVirtualViewByUsername(username).askWizard(game.getAvailableWizards());
     }
