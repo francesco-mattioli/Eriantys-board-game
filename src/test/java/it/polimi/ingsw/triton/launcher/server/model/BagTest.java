@@ -10,7 +10,6 @@ import java.util.NoSuchElementException;
 import static org.junit.jupiter.api.Assertions.*;
 
 class BagTest {
-
     private Bag bag;
 
     @BeforeEach
