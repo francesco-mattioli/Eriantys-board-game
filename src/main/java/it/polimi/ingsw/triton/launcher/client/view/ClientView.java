@@ -1,5 +1,6 @@
 package it.polimi.ingsw.triton.launcher.client.view;
 
+import it.polimi.ingsw.triton.launcher.client.model.ClientModel;
 import it.polimi.ingsw.triton.launcher.server.model.CloudTile;
 import it.polimi.ingsw.triton.launcher.server.model.Island;
 import it.polimi.ingsw.triton.launcher.server.model.cardeffects.CharacterCard;
@@ -10,6 +11,10 @@ import java.util.ArrayList;
 import java.util.Map;
 
 public interface ClientView extends View {
+
+    //TO DO AN ABSTRACT CLASS maybe
+    public ClientModel getClientModel();
+
     // Ask methods
     void askUsername();
 

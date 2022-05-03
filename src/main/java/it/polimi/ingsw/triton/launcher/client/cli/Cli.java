@@ -27,6 +27,7 @@ import java.util.concurrent.FutureTask;
 public class Cli extends Observable<Message> implements ClientView{
     private final PrintStream out;
     private ClientModel clientModel;
+    private final String TRY_AGAIN = "Try again...";
 
     /**
      * Instantiates a new Cli;
@@ -69,7 +70,7 @@ public class Cli extends Observable<Message> implements ClientView{
             this.clientModel.setUsername(username);
             notify(new LoginRequest(username, MessageType.LOGIN_REQUEST));
         } catch (ExecutionException e) {
-            out.println("Try again...");
+            out.println(TRY_AGAIN);
         }
 
     }
@@ -97,7 +98,7 @@ public class Cli extends Observable<Message> implements ClientView{
                 int numOfPlayers = Integer.parseInt(input);
                 notify(new PlayersNumberReply(clientModel.getUsername(), numOfPlayers));
             } catch (ExecutionException | NumberFormatException e) {
-                out.println("Try again...");
+                out.println(TRY_AGAIN);
                 askPlayersNumber();
         }
     }
@@ -120,7 +121,7 @@ public class Cli extends Observable<Message> implements ClientView{
             String input = readLine();
             notify(new TowerColorReply(clientModel.getUsername(), TowerColor.valueOf(input.toUpperCase())));
         } catch (ExecutionException | NullPointerException e) {
-            out.println("Try again...");
+            out.println(TRY_AGAIN);
             askTowerColor(chosenTowerColors);
         }
     }
@@ -138,7 +139,7 @@ public class Cli extends Observable<Message> implements ClientView{
             String input = readLine();
             notify(new WizardReply(clientModel.getUsername(), Wizard.valueOf(input.toUpperCase())));
         } catch (ExecutionException | NullPointerException e) {
-            out.println("Try again...");
+            out.println(TRY_AGAIN);
             askWizard(wizards);
         }
     }
@@ -186,7 +187,7 @@ public class Cli extends Observable<Message> implements ClientView{
             }
             notify(new AssistantCardReply(clientModel.getUsername(), assistantCardReply));
         } catch (ExecutionException | NullPointerException e) {
-            out.println("Try again...");
+            out.println(TRY_AGAIN);
             askAssistantCard();
         }
     }
@@ -206,7 +207,7 @@ public class Cli extends Observable<Message> implements ClientView{
             // to do: MOVE STUDENTS
             notify(new WizardReply(clientModel.getUsername(), Wizard.valueOf(input.toUpperCase())));
         } catch (ExecutionException | NullPointerException e) {
-            out.println("Try again...");
+            out.println(TRY_AGAIN);
             askMoveStudentFromEntrance();
         }
     }
@@ -421,6 +422,9 @@ public class Cli extends Observable<Message> implements ClientView{
     }
 
 
+    public ClientModel getClientModel(){
+        return clientModel;
+    }
 
 
 }

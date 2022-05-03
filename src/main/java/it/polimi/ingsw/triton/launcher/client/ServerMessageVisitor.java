@@ -52,6 +52,11 @@ public class ServerMessageVisitor {
         clientView.askAssistantCard();
     }
 
+    public void visit(GiveAssistantDeckMessage message){
+        // NOT SURE
+        clientView.getClientModel().setAssistantDeck(message.getAssistantDeck());
+    }
+
     public void visit(GenericMessage message){
         clientView.showGenericMessage(message.getStringMessage());
     }
@@ -59,6 +64,7 @@ public class ServerMessageVisitor {
     public void visit(GameInfoMessage message){
         clientView.showGameInfo(message.getAvailableCharacterCards(),message.getIslands(),message.getSchoolBoards(),message.getCloudTiles());
     }
+
 
 
 }

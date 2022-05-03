@@ -18,6 +18,7 @@ public class GameInfoMessage extends BroadcastServerMessage {
     private final Island motherNaturePosition;
     private final Map<String, SchoolBoard> schoolBoards;
     private final ArrayList<CloudTile> cloudTiles;
+
     public GameInfoMessage(ArrayList<CharacterCard> availableCharacterCards, ArrayList<Island> islands, Island motherNaturePosition, Map<String, SchoolBoard> schoolBoards, ArrayList<CloudTile> cloudTiles) {
         this.availableCharacterCards = availableCharacterCards;
         this.islands = islands;
