@@ -1,5 +1,7 @@
 package it.polimi.ingsw.triton.launcher.server.model;
 
+import java.util.NoSuchElementException;
+
 public class GeneralCoinSupply {
     private int coinsAmount;
 
@@ -26,7 +28,10 @@ public class GeneralCoinSupply {
     /**
      * Decrements by one coins the supply.
      */
-    public void decrement(){
-        coinsAmount--;
+    public void decrement() throws NoSuchElementException{
+        if(coinsAmount > 0)
+            coinsAmount--;
+        else
+            throw new NoSuchElementException();
     }
 }

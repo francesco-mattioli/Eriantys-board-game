@@ -6,7 +6,6 @@ import it.polimi.ingsw.triton.launcher.utils.message.MessageType;
 
 public class ErrorMessage extends ServerMessage {
     private ErrorTypeID errorTypeID;
-    private String receiverUsername;
     public ErrorMessage(ErrorTypeID errorTypeID) {
         this.errorTypeID = errorTypeID;
     }

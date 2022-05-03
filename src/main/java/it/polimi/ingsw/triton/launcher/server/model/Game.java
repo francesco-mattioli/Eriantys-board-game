@@ -289,7 +289,7 @@ public class Game extends Observable<Message> {
      */
     public void executeActionMoveStudentToDiningRoom(Color student) throws LastMoveException, IllegalClientInputException {
         boolean empty = generalCoinSupply.isEmpty();
-        currentPlayer.executeAction(new MoveStudentIntoDiningRoom(student, currentPlayer.getWallet(), currentPlayer.getSchoolBoard(), generalCoinSupply));
+        currentPlayer.executeAction(new MoveStudentIntoDiningRoom(student, currentPlayer, generalCoinSupply));
         if(currentPlayer.getSchoolBoard().getDiningRoom()[student.ordinal()] % 3 == 0 && !empty)
             notify(new UpdateWalletMessage(currentPlayer.getUsername()));
         else if(currentPlayer.getSchoolBoard().getDiningRoom()[student.ordinal()] % 3 == 0 && empty)

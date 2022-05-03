@@ -1,76 +1,59 @@
 package it.polimi.ingsw.triton.launcher.server.model.playeractions;
 
+import it.polimi.ingsw.triton.launcher.server.model.GeneralCoinSupply;
 import it.polimi.ingsw.triton.launcher.server.model.enums.Color;
 import it.polimi.ingsw.triton.launcher.server.model.enums.TowerColor;
-import it.polimi.ingsw.triton.launcher.server.model.player.SchoolBoard;
-import it.polimi.ingsw.triton.launcher.server.model.player.Wallet;
+import it.polimi.ingsw.triton.launcher.server.model.player.Player;
 import it.polimi.ingsw.triton.launcher.utils.exceptions.IllegalClientInputException;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-
 import static org.junit.jupiter.api.Assertions.*;
 
 class MoveStudentIntoDiningRoomTest {
-
-    private Wallet wallet;
-    private SchoolBoard schoolBoard;
+    private Color color;
+    private Player player;
+    private GeneralCoinSupply generalCoinSupply;
 
     @BeforeEach
     void setup() {
-        wallet = new Wallet();
-        schoolBoard = new SchoolBoard(TowerColor.BLACK, 2);
+        player = new Player("Test");
+        player.setSchoolBoard(TowerColor.BLACK, 2);
+        generalCoinSupply = new GeneralCoinSupply(3);
+        color = Color.BLUE;
     }
 
     @AfterEach
     void tearDown() {
-        wallet = null;
-        schoolBoard = null;
-    }
-}
-    /**
-     * Test when the student color is null.
-     */
-    /*
-    @Test
-    void testWhenStudentIsNull() {
-        MoveStudentIntoDiningRoom mv = new MoveStudentIntoDiningRoom(null, wallet, schoolBoard);
-        assertThrows(NullPointerException.class, mv::execute);
-    }
-    */
-
-    /**
-     * Test if the wallet is not increased after the move because it's not a multiple of 3.
-     */
-    /* LUCAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
-    @Test
-    void testWhenIsNotMultiple3(){
-        int coins = wallet.getValue();
-        MoveStudentIntoDiningRoom mv = new MoveStudentIntoDiningRoom(Color.BLUE, wallet, schoolBoard);
-        try {
-            mv.execute();
-        } catch (IllegalClientInputException e) {
-            e.printStackTrace();
-        }
-        assertEquals(coins, wallet.getValue());
+        player = null;
+        generalCoinSupply = null;
+        color = null;
     }
 
     /**
-     * Test if the wallet is increased after the move because it's a multiple of 3.
+     * Tests if the method launches an exception when the entrance of the player is empty.
      */
-    /* LUCAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
     @Test
-    void testWhenIsMultiple3(){
-        int coins = wallet.getValue();
-        MoveStudentIntoDiningRoom mv = new MoveStudentIntoDiningRoom(Color.BLUE, wallet, schoolBoard);
-        for(int i = 0; i < 3; i++){
-            try {
-                mv.execute();
-            } catch (IllegalClientInputException e) {
-                e.printStackTrace();
-            }
-        }
-        assertEquals(coins+1, wallet.getValue());
+    void checksEmptyEntrance(){
+        assertThrows(IllegalClientInputException.class, ()->new MoveStudentIntoDiningRoom(color, player, generalCoinSupply).execute());
+    }
+
+    /**
+     * Tests if the method doesn't launches an exception when the entrance of the player is not empty.
+     */
+    @Test
+    void checksNotEmptyEntrance(){
+        player.getSchoolBoard().getEntrance()[Color.BLUE.ordinal()]++;
+        assertDoesNotThrow(()->new MoveStudentIntoDiningRoom(color, player, generalCoinSupply).execute());
+    }
+
+    /**
+     * Tests if the method doesn't launches an exception when the entrance of the player is not empty.
+     */
+    @Test
+    void checksNotBlueStudentsInEntrance(){
+        player.getSchoolBoard().getEntrance()[Color.GREEN.ordinal()]++;
+        player.getSchoolBoard().getEntrance()[Color.RED.ordinal()]++;
+        assertThrows(IllegalClientInputException.class, ()->new MoveStudentIntoDiningRoom(color, player, generalCoinSupply).execute());
     }
 }
-*/

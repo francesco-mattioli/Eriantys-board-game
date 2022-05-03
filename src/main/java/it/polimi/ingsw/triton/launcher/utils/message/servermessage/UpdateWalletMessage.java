@@ -7,10 +7,9 @@ import it.polimi.ingsw.triton.launcher.utils.message.MessageType;
 /**
  * This message communicates to the current player that his wallet is increased adding 1 coin.
  */
-public class UpdateWalletMessage extends ServerMessage{
-    private final String receiverUsername;
+public class UpdateWalletMessage extends ServerMessageWithReceiver{
     public UpdateWalletMessage(String receiverUsername) {
-        this.receiverUsername = receiverUsername;
+        super(receiverUsername);
     }
 
     @Override
@@ -18,7 +17,4 @@ public class UpdateWalletMessage extends ServerMessage{
 
     }
 
-    public String getReceiverUsername() {
-        return receiverUsername;
-    }
 }
