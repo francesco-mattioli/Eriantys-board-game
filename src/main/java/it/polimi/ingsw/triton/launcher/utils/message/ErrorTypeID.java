@@ -13,7 +13,6 @@ public enum ErrorTypeID {
     TOO_MANY_MOTHERNATURE_STEPS("The number of steps exceeds the maximum possible!"),
     NULL_COLOR("Color cannot be null!"),
     EMPTY_BAG("The bag is empty; a student cannot be drawn!"),
-    EMPTY_GENERAL_COIN_SUPPLY("The general coin supply is empty! You won't receive the coin!"),
     CLOUD_TILE_ALREADY_CHOSEN("The selected cloud tile is already selected!"),
     NOT_ENOUGH_COINS("You don't have enough coins to buy this character card!"),
     CHARACTER_CARD_NOT_AVAILABLE("The character card selected is not available!"),

@@ -1,5 +1,6 @@
 package it.polimi.ingsw.triton.launcher.server.model.playeractions;
 
+import it.polimi.ingsw.triton.launcher.server.model.GeneralCoinSupply;
 import it.polimi.ingsw.triton.launcher.server.model.enums.Color;
 import it.polimi.ingsw.triton.launcher.server.model.player.SchoolBoard;
 import it.polimi.ingsw.triton.launcher.server.model.player.Wallet;
@@ -10,15 +11,18 @@ public class MoveStudentIntoDiningRoom implements Action {
     private final Wallet wallet;
     private final SchoolBoard schoolBoard;
 
+    private GeneralCoinSupply generalCoinSupply;
+
     /**
      * @param student     the color of student to move into the dining room.
      * @param wallet      contains the number of coins of a player.
      * @param schoolBoard player's school board where to add the student.
      */
-    public MoveStudentIntoDiningRoom(Color student, Wallet wallet, SchoolBoard schoolBoard) {
+    public MoveStudentIntoDiningRoom(Color student, Wallet wallet, SchoolBoard schoolBoard, GeneralCoinSupply generalCoinSupply) {
         this.student = student;
         this.wallet = wallet;
         this.schoolBoard = schoolBoard;
+        this.generalCoinSupply = generalCoinSupply;
     }
 
     /**
@@ -42,10 +46,13 @@ public class MoveStudentIntoDiningRoom implements Action {
     }
 
     /**
-     * Calls increaseValue() to add a coin in the wallet
+     * Calls increaseValue() to add a coin in the wallet and to remove a coin from the supply.
      */
-    private synchronized void updateWallet() {
-        wallet.increaseValue();
+    private void updateWallet() {
+        if(generalCoinSupply.getCoinsAmount() > 0) {
+            generalCoinSupply.decrement();
+            wallet.increaseValue();
+        }
     }
 
     /**

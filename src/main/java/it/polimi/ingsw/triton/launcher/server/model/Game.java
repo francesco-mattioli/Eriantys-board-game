@@ -36,7 +36,7 @@ public class Game extends Observable<Message> {
     private final int MAX_NUM_OF_ISLANDS = 12;
     private final int INITIAL_NUM_COINS = 20;
     private final ArrayList<Player> players;
-    private int generalCoinSupply;
+    private GeneralCoinSupply generalCoinSupply;
     private final ArrayList<CloudTile> cloudTiles;
     private ArrayList<CloudTile> availableCloudTiles;
     private final ArrayList<CharacterCard> characterCards;
@@ -58,7 +58,7 @@ public class Game extends Observable<Message> {
         this.players = new ArrayList<>();
         this.cloudTiles = new ArrayList<>();
         this.characterCards = new ArrayList<>();
-        this.generalCoinSupply = INITIAL_NUM_COINS;
+        this.generalCoinSupply = new GeneralCoinSupply(INITIAL_NUM_COINS);
         this.towerColorChosen = new boolean[maxNumberOfPlayers];
         this.availableWizards = new ArrayList<>(Arrays.asList(Wizard.values()));
         this.gameState = GameState.LOGIN;
@@ -183,7 +183,7 @@ public class Game extends Observable<Message> {
         setupEntrance(); //PHASE 10
         setupPlayers(); //PHASE 11
         drawCharacterCards(); //(PHASE 12) creates 3 character cards
-        notify(new GameInfoMessage(characterCards, islands, motherNature.getPosition(), getAllSchoolBoards(), cloudTiles, generalCoinSupply));
+        notify(new GameInfoMessage(characterCards, islands, motherNature.getPosition(), getAllSchoolBoards(), cloudTiles));
         for(Player player: players)
             notify(new GiveAssistantDeckMessage(player.getUsername(), player.getAssistantDeck()));   // to review
         notify(new YourTurnMessage(currentPlayer.getUsername()));
@@ -288,9 +288,12 @@ public class Game extends Observable<Message> {
      * @param student the color of the student to move
      */
     public void executeActionMoveStudentToDiningRoom(Color student) throws LastMoveException, IllegalClientInputException {
-        currentPlayer.executeAction(new MoveStudentIntoDiningRoom(student, currentPlayer.getWallet(), currentPlayer.getSchoolBoard()));
-        if(currentPlayer.getSchoolBoard().getDiningRoom()[student.ordinal()] % 3 == 0)
+        boolean empty = generalCoinSupply.isEmpty();
+        currentPlayer.executeAction(new MoveStudentIntoDiningRoom(student, currentPlayer.getWallet(), currentPlayer.getSchoolBoard(), generalCoinSupply));
+        if(currentPlayer.getSchoolBoard().getDiningRoom()[student.ordinal()] % 3 == 0 && !empty)
             notify(new UpdateWalletMessage(currentPlayer.getUsername()));
+        else if(currentPlayer.getSchoolBoard().getDiningRoom()[student.ordinal()] % 3 == 0 && empty)
+            notify(new EmptyGeneralCoinSupplyMessage(currentPlayer.getUsername()));
         notify(new InfoStudentIntoDiningRoomMessage(currentPlayer.getUsername(), currentPlayer.getSchoolBoard()));
         currentPlayer.setMoveCounter(currentPlayer.getMoveCounter() + 1);
         checkNumberMoves();   //checks if the move was the last one throwing lastMoveException
@@ -385,8 +388,8 @@ public class Game extends Observable<Message> {
      */
     private void setupPlayers(){
         for(Player player: players){
+            generalCoinSupply.decrement();
             player.getWallet().increaseValue();
-            generalCoinSupply--;
         }
         Random rnd = new Random();
         Player p;
@@ -553,7 +556,7 @@ public class Game extends Observable<Message> {
      * @param idCard the id of the selected character card
      */
     public void useCharacterCard(int idCard) throws IllegalClientInputException, CharacterCardWithParametersException {
-        currentPlayer.executeAction(new UseCharacterCard(getCharacterCardByID(idCard), currentPlayer));
+        currentPlayer.executeAction(new UseCharacterCard(getCharacterCardByID(idCard), currentPlayer, generalCoinSupply));
         if(getCharacterCardByID(idCard).hasParameters())
             throw new CharacterCardWithParametersException();
     }
@@ -592,30 +595,6 @@ public class Game extends Observable<Message> {
                 characterCards.add(new CharacterCard(id, 1, 0, this.bag));
                 idAlreadyChosen.add(id);
             }
-        }
-    }
-
-    /**
-     * Decreases by 1 the general coin supply.
-     * @throws RuntimeException if there aren't coins in the supply.
-     */
-    public void withdrawCoin() {
-        if(generalCoinSupply > 0)
-            generalCoinSupply--;
-        /*else
-            notify(new ErrorMessage());*/
-    }
-
-    /**
-     * Increases the general coin supply.
-     * @param coinsToDeposit the number of coins to deposit.
-     * @throws IllegalArgumentException if the number of coins to deposit is less than 0.
-     */
-    public void depositCoin(int coinsToDeposit) {
-        if(coinsToDeposit >= 0)
-            generalCoinSupply += coinsToDeposit;
-        else{
-            throw new IllegalArgumentException("Number of coins to deposit must be greater or equal than 0");
         }
     }
 
@@ -703,10 +682,6 @@ public class Game extends Observable<Message> {
 
     public Player getCurrentPlayer() {
         return currentPlayer;
-    }
-
-    public int getGeneralCoinSupply() {
-        return generalCoinSupply;
     }
 
     public ArrayList<CharacterCard> getCharacterCards() {

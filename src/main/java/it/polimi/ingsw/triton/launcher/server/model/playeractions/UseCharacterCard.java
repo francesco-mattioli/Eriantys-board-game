@@ -1,5 +1,6 @@
 package it.polimi.ingsw.triton.launcher.server.model.playeractions;
 
+import it.polimi.ingsw.triton.launcher.server.model.GeneralCoinSupply;
 import it.polimi.ingsw.triton.launcher.server.model.cardeffects.CardEffect;
 import it.polimi.ingsw.triton.launcher.server.model.cardeffects.CharacterCard;
 import it.polimi.ingsw.triton.launcher.server.model.player.Player;
@@ -14,14 +15,16 @@ import java.util.ArrayList;
 public class UseCharacterCard implements Action {
     private final CharacterCard characterCard;
     private Player currentPlayer;
+    private GeneralCoinSupply generalCoinSupply;
 
     /**
      * @param characterCard the character card that player wants to purchase.
      * @param currentPlayer specifies the player who has played the character card
      */
-    public UseCharacterCard(CharacterCard characterCard, Player currentPlayer) {
+    public UseCharacterCard(CharacterCard characterCard, Player currentPlayer, GeneralCoinSupply generalCoinSupply) {
         this.characterCard = characterCard;
         this.currentPlayer = currentPlayer;
+        this.generalCoinSupply = generalCoinSupply;
     }
 
 
@@ -33,6 +36,7 @@ public class UseCharacterCard implements Action {
         if(!canBuyCharacterCard(currentPlayer, characterCard))
             throw new IllegalClientInputException(ErrorTypeID.NOT_ENOUGH_COINS);
         currentPlayer.getWallet().decrease(characterCard.getCost());
+        generalCoinSupply.increment(characterCard.getCost());
         characterCard.increaseCost();
     }
 
