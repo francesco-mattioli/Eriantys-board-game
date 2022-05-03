@@ -6,11 +6,10 @@ import it.polimi.ingsw.triton.launcher.client.ServerMessageVisitor;
  * This message communicates to the player that the general coin supply is empty, so
  * he won't receive an additional coin after moving a student onto school board.
  */
-public class EmptyGeneralCoinSupplyMessage extends ServerMessage{
-    private final String receiverUsername;
+public class EmptyGeneralCoinSupplyMessage extends ServerMessageWithReceiver{
 
     public EmptyGeneralCoinSupplyMessage(String receiverUsername){
-        this.receiverUsername = receiverUsername;
+        super(receiverUsername);
     }
 
     @Override
@@ -18,7 +17,4 @@ public class EmptyGeneralCoinSupplyMessage extends ServerMessage{
 
     }
 
-    public String getReceiverUsername() {
-        return receiverUsername;
-    }
 }

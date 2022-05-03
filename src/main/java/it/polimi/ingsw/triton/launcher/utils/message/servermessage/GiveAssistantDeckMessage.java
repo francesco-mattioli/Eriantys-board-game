@@ -7,11 +7,10 @@ import it.polimi.ingsw.triton.launcher.utils.message.MessageType;
 /**
  * This message gives to every player his assistant deck.
  */
-public class GiveAssistantDeckMessage extends ServerMessage{
+public class GiveAssistantDeckMessage extends ServerMessageWithReceiver{
     private final AssistantDeck assistantDeck;
-    private final String receiverUsername;
     public GiveAssistantDeckMessage(String receiverUsername, AssistantDeck assistantDeck) {
-        this.receiverUsername=receiverUsername;
+        super(receiverUsername);
         this.assistantDeck = assistantDeck;
     }
 
