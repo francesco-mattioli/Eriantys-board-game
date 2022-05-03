@@ -1,10 +1,14 @@
 package it.polimi.ingsw.triton.launcher.client.model;
 
+import it.polimi.ingsw.triton.launcher.server.model.CloudTile;
+import it.polimi.ingsw.triton.launcher.server.model.Island;
+import it.polimi.ingsw.triton.launcher.server.model.cardeffects.CharacterCard;
 import it.polimi.ingsw.triton.launcher.server.model.player.AssistantDeck;
 import it.polimi.ingsw.triton.launcher.server.model.player.SchoolBoard;
 import it.polimi.ingsw.triton.launcher.utils.obs.Observable;
 
 import java.util.ArrayList;
+import java.util.Map;
 
 /**
  * This class saves the state of the game and relevant information.
@@ -12,16 +16,29 @@ import java.util.ArrayList;
 public class ClientModel extends Observable<Object> {
     private String username;
     private AssistantDeck assistantDeck;
+    private ArrayList<CharacterCard> availableCharacterCards;
+    private ArrayList<Island> islands;
+    private Map<String, SchoolBoard> schoolBoards;
+    private ArrayList<CloudTile> cloudTiles;
 
-    public SchoolBoard getSchoolBoard() {
-        return schoolBoard;
+    @Override
+    public String toString() {
+        return "ClientModel{" +
+                "assistantDeck=" + assistantDeck +
+                ", availableCharacterCards=" + availableCharacterCards +
+                ", islands=" + islands +
+                ", schoolBoards=" + schoolBoards +
+                ", cloudTiles=" + cloudTiles +
+                '}';
     }
 
-    public void setSchoolBoard(SchoolBoard schoolBoard) {
-        this.schoolBoard = schoolBoard;
+    public String getUsername() {
+        return username;
     }
 
-    private SchoolBoard schoolBoard;
+    public void setUsername(String username) {
+        this.username = username;
+    }
 
     public AssistantDeck getAssistantDeck() {
         return assistantDeck;
@@ -31,11 +48,35 @@ public class ClientModel extends Observable<Object> {
         this.assistantDeck = assistantDeck;
     }
 
-    public void setUsername(String username) {
-        this.username = username;
+    public ArrayList<CharacterCard> getAvailableCharacterCards() {
+        return availableCharacterCards;
     }
 
-    public String getUsername() {
-        return username;
+    public void setAvailableCharacterCards(ArrayList<CharacterCard> availableCharacterCards) {
+        this.availableCharacterCards = availableCharacterCards;
+    }
+
+    public ArrayList<Island> getIslands() {
+        return islands;
+    }
+
+    public void setIslands(ArrayList<Island> islands) {
+        this.islands = islands;
+    }
+
+    public Map<String, SchoolBoard> getSchoolBoards() {
+        return schoolBoards;
+    }
+
+    public void setSchoolBoards(Map<String, SchoolBoard> schoolBoards) {
+        this.schoolBoards = schoolBoards;
+    }
+
+    public ArrayList<CloudTile> getCloudTiles() {
+        return cloudTiles;
+    }
+
+    public void setCloudTiles(ArrayList<CloudTile> cloudTiles) {
+        this.cloudTiles = cloudTiles;
     }
 }

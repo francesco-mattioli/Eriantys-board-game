@@ -4,6 +4,7 @@ import it.polimi.ingsw.triton.launcher.client.model.ClientModel;
 import it.polimi.ingsw.triton.launcher.server.model.AssistantCard;
 import it.polimi.ingsw.triton.launcher.server.model.CloudTile;
 import it.polimi.ingsw.triton.launcher.server.model.Island;
+import it.polimi.ingsw.triton.launcher.server.model.cardeffects.CharacterCard;
 import it.polimi.ingsw.triton.launcher.server.model.enums.AssistantCardType;
 import it.polimi.ingsw.triton.launcher.server.model.enums.TowerColor;
 import it.polimi.ingsw.triton.launcher.server.model.enums.Wizard;
@@ -18,6 +19,7 @@ import it.polimi.ingsw.triton.launcher.utils.message.MessageType;
 import it.polimi.ingsw.triton.launcher.client.view.ClientView;
 import java.io.PrintStream;
 import java.util.ArrayList;
+import java.util.Map;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.FutureTask;
 
@@ -105,6 +107,7 @@ public class Cli extends Observable<Message> implements ClientView{
                 "/" + maxNumberPlayers + " players connected; Waiting for " + (maxNumberPlayers-onlineNicknames.size()) + " players");
     }
 
+
     @Override
     public void askTowerColor(boolean[] chosenTowerColors) {
         try {
@@ -141,11 +144,21 @@ public class Cli extends Observable<Message> implements ClientView{
     }
 
 
-// TO DO
-    public void showInitializedGame(ArrayList<Island> islands, ArrayList<CloudTile> cloudTiles, SchoolBoard schoolBoard){
-        //professors
-        // wizards are contained in the Enum
+    @Override
+    public void showGameInfo(ArrayList<CharacterCard> availableCharacterCards, ArrayList<Island> islands, Map<String, SchoolBoard> schoolBoards, ArrayList<CloudTile> cloudTiles) {
+        clientModel.setAvailableCharacterCards(availableCharacterCards);
+        clientModel.setIslands(islands);
+        clientModel.setSchoolBoards(schoolBoards);
+        clientModel.setCloudTiles(cloudTiles);
+        out.println(clientModel.toString());
     }
+
+    @Override
+    public void showGameInfo(){
+        out.println(clientModel.toString());
+    }
+
+
 
     // showChangePhase() con modifiche, per esempio cloud tiles riempite
 
@@ -183,7 +196,7 @@ public class Cli extends Observable<Message> implements ClientView{
     @Override
     public void askMoveStudentFromEntrance() {
         String input="";
-        SchoolBoard schoolBoard= clientModel.getSchoolBoard();
+        SchoolBoard schoolBoard= clientModel.getSchoolBoards().get(clientModel.getUsername());
         out.print("Choose three students to move from entrance to dining room or an island\n");
         out.print(schoolBoard.toString());
         out.print("To do so, type on each line [color of student, diningRoom] or [color of student, island id]\n");
@@ -255,10 +268,7 @@ public class Cli extends Observable<Message> implements ClientView{
 
     }
 
-    @Override
-    public void showGameInfo() {
 
-    }
 
     @Override
     public void showGenericMessage() {

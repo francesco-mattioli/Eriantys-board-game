@@ -47,7 +47,7 @@ public class GameInfoMessage extends BroadcastServerMessage {
     }
 
     @Override
-    public void accept(ServerMessageVisitor messageVisitor) {
-
+    public void accept(ServerMessageVisitor serverMessageVisitor) {
+        serverMessageVisitor.visit(this);
     }
 }
