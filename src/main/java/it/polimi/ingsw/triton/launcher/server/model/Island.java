@@ -11,9 +11,10 @@ import it.polimi.ingsw.triton.launcher.utils.message.servermessage.Broadcast.Cha
 import it.polimi.ingsw.triton.launcher.utils.message.servermessage.Broadcast.MoveTowerOntoIslandMessage;
 import it.polimi.ingsw.triton.launcher.utils.obs.Observable;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class Island extends Observable<Message> {
+public class Island extends Observable<Message> implements Serializable {
 
     private final int id;
     private int dim;

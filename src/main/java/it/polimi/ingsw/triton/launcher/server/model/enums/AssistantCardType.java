@@ -1,6 +1,8 @@
 package it.polimi.ingsw.triton.launcher.server.model.enums;
 
-public enum AssistantCardType {
+import java.io.Serializable;
+
+public enum AssistantCardType implements Serializable {
     TIGER(1,1),
     DUCK(2,1),
     CAT(3,2),

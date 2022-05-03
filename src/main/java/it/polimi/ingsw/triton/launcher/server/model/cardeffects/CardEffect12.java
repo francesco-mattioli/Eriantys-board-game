@@ -4,9 +4,10 @@ import it.polimi.ingsw.triton.launcher.server.model.Bag;
 import it.polimi.ingsw.triton.launcher.server.model.enums.Color;
 import it.polimi.ingsw.triton.launcher.server.model.player.Player;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class CardEffect12 implements CardEffect{
+public class CardEffect12 implements CardEffect, Serializable {
     private Color student;
     private ArrayList<Player> players;
     private Bag bag;

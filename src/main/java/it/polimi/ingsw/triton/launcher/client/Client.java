@@ -19,7 +19,7 @@ public class Client implements Observer<Message> {
     private ObjectOutputStream outSocket;
     private ExecutorService readExecutionQueue;
     private ClientView clientView;
-    public static final Logger LOGGER = Logger.getLogger(Client.class.getName());
+    //public static final Logger LOGGER = Logger.getLogger(Client.class.getName());
 
     /**
      * Initializes socket and input, output streams to communicate with the server
@@ -51,12 +51,12 @@ public class Client implements Observer<Message> {
             while (!readExecutionQueue.isShutdown()) {
                 try {
                     BroadcastServerMessage message = (BroadcastServerMessage) inSocket.readObject();
-                    Client.LOGGER.info("Received: " + message.getClass().getSimpleName());
+                    //Client.LOGGER.info("Received: " + message.getClass().getSimpleName());
                     // Accept the message using Visitor Pattern
                     message.accept(new ServerMessageVisitor(clientView));
                 } catch (IOException | ClassNotFoundException e) {
                     System.err.println("Error! " + e.getMessage());
-                    Client.LOGGER.severe("Connection will be closed");
+                    //Client.LOGGER.severe("Connection will be closed");
                     disconnect();
                     readExecutionQueue.shutdownNow();
                 }
@@ -82,7 +82,7 @@ public class Client implements Observer<Message> {
     public void sendMessage(Message message) {
         try {
             outSocket.writeObject(message);
-            Client.LOGGER.info("Sent: " + message.getClass().getSimpleName());
+            //Client.LOGGER.info("Sent: " + message.getClass().getSimpleName());
             outSocket.reset();
         } catch (IOException e) {
             e.printStackTrace();

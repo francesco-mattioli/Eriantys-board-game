@@ -1,8 +1,9 @@
 package it.polimi.ingsw.triton.launcher.server.model;
 
+import java.io.Serializable;
 import java.util.NoSuchElementException;
 
-public class GeneralCoinSupply {
+public class GeneralCoinSupply implements Serializable {
     private int coinsAmount;
 
     public GeneralCoinSupply(int initialNumberCoins){

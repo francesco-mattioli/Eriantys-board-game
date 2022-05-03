@@ -4,9 +4,10 @@ import it.polimi.ingsw.triton.launcher.server.model.enums.Color;
 import it.polimi.ingsw.triton.launcher.server.model.enums.TowerColor;
 import it.polimi.ingsw.triton.launcher.utils.exceptions.EndGameException;
 
+import java.io.Serializable;
 import java.util.Arrays;
 
-public class SchoolBoard {
+public class SchoolBoard implements Serializable {
     private final int INITIAL_NUM_TOWERS;
     private final TowerColor towerColor;
     private int numTowers;

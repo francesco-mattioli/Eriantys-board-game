@@ -2,7 +2,9 @@ package it.polimi.ingsw.triton.launcher.server.model.cardeffects;
 
 import it.polimi.ingsw.triton.launcher.server.model.MotherNature;
 
-public class CardEffect04 implements CardEffect{
+import java.io.Serializable;
+
+public class CardEffect04 implements CardEffect, Serializable {
     private MotherNature motherNature;
     private final int ADDITIONAL_STEPS = 2;
 

@@ -2,7 +2,9 @@ package it.polimi.ingsw.triton.launcher.server.model;
 
 import it.polimi.ingsw.triton.launcher.server.model.enums.Color;
 
-public class CloudTile {
+import java.io.Serializable;
+
+public class CloudTile implements Serializable {
     private final int id;
     private boolean alreadyUsed = false;
     private final int[] students;

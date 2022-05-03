@@ -2,9 +2,10 @@ package it.polimi.ingsw.triton.launcher.server.model;
 
 import it.polimi.ingsw.triton.launcher.utils.exceptions.IllegalClientInputException;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class MotherNature {
+public class MotherNature implements Serializable {
 
     private Island islandOn;
     private int additionalSteps;

@@ -2,8 +2,10 @@ package it.polimi.ingsw.triton.launcher.server.model;
 
 import it.polimi.ingsw.triton.launcher.server.model.enums.AssistantCardType;
 
+import java.io.Serializable;
 
-public class AssistantCard {
+
+public class AssistantCard implements Serializable {
 
     /**
      * the type of assistant card

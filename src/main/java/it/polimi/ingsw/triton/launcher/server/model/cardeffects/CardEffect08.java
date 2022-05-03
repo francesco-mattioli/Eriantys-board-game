@@ -3,9 +3,10 @@ package it.polimi.ingsw.triton.launcher.server.model.cardeffects;
 import it.polimi.ingsw.triton.launcher.server.model.Island;
 import it.polimi.ingsw.triton.launcher.server.model.influencestrategy.InfluenceStrategyWithEffect08;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class CardEffect08 implements CardEffect {
+public class CardEffect08 implements CardEffect, Serializable {
     private ArrayList<Island> islands;
 
     public CardEffect08(ArrayList<Island> islands) {

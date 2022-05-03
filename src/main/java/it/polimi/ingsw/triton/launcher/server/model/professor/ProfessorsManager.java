@@ -3,7 +3,9 @@ package it.polimi.ingsw.triton.launcher.server.model.professor;
 import it.polimi.ingsw.triton.launcher.server.model.player.Player;
 import it.polimi.ingsw.triton.launcher.server.model.enums.Color;
 
-public class ProfessorsManager {
+import java.io.Serializable;
+
+public class ProfessorsManager implements Serializable {
     private ProfessorStrategy professorStrategy;
     private final Player[] professors;
 

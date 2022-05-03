@@ -4,7 +4,9 @@ import it.polimi.ingsw.triton.launcher.server.model.Bag;
 import it.polimi.ingsw.triton.launcher.server.model.enums.Color;
 import it.polimi.ingsw.triton.launcher.server.model.Island;
 
-public class CardEffect01 implements CardEffect {
+import java.io.Serializable;
+
+public class CardEffect01 implements CardEffect, Serializable {
     private final Island island;
     private final Color student;
     private final CharacterCard characterCard;

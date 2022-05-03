@@ -1,5 +1,7 @@
 package it.polimi.ingsw.triton.launcher.server.model.enums;
 
+import java.io.Serializable;
+
 /**
  * LOGIN: includes the insert of username, number of players and tower color.
  * SETUP: includes the phase of setup before the first planning phase.
@@ -9,7 +11,7 @@ package it.polimi.ingsw.triton.launcher.server.model.enums;
  * END_ACTION_PHASE: includes the selection of the cloud tile.
  * END: ended game.
  */
-public enum GameState {
+public enum GameState implements Serializable {
     LOGIN,
     SETUP,
     PLANNING_PHASE,

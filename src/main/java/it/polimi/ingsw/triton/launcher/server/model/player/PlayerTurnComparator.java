@@ -1,8 +1,9 @@
 package it.polimi.ingsw.triton.launcher.server.model.player;
 
+import java.io.Serializable;
 import java.util.Comparator;
 
-public class PlayerTurnComparator implements Comparator<Player> {
+public class PlayerTurnComparator implements Comparator<Player>, Serializable {
 
     /**
      * @param p1 a player.

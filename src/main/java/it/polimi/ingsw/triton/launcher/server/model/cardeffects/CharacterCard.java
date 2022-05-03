@@ -5,7 +5,9 @@ import it.polimi.ingsw.triton.launcher.server.model.enums.Color;
 import it.polimi.ingsw.triton.launcher.utils.exceptions.EndGameException;
 import it.polimi.ingsw.triton.launcher.utils.exceptions.IllegalClientInputException;
 
-public class CharacterCard {
+import java.io.Serializable;
+
+public class CharacterCard implements Serializable {
     protected int id;
     protected int cost;
     protected int[] students;

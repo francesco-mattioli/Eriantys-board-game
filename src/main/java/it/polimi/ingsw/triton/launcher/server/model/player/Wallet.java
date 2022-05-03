@@ -1,6 +1,8 @@
 package it.polimi.ingsw.triton.launcher.server.model.player;
 
-public class Wallet {
+import java.io.Serializable;
+
+public class Wallet implements Serializable {
 
     private int value;
 

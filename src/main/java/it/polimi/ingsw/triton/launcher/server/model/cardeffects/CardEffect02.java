@@ -5,7 +5,9 @@ import it.polimi.ingsw.triton.launcher.server.model.player.Player;
 import it.polimi.ingsw.triton.launcher.server.model.professor.ProfessorStrategyWithEffect;
 import it.polimi.ingsw.triton.launcher.server.model.professor.ProfessorsManager;
 
-public class CardEffect02 implements CardEffect{
+import java.io.Serializable;
+
+public class CardEffect02 implements CardEffect, Serializable {
     private final ProfessorsManager professorsManager;
     private final Player player;
 

@@ -20,6 +20,6 @@ public class GiveAssistantDeckMessage extends ServerMessageWithReceiver{
 
     @Override
     public void accept(ServerMessageVisitor messageVisitor) {
-
+        messageVisitor.visit(this);
     }
 }

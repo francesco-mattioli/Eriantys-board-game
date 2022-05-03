@@ -7,7 +7,9 @@ import it.polimi.ingsw.triton.launcher.server.model.playeractions.Action;
 import it.polimi.ingsw.triton.launcher.utils.exceptions.EndGameException;
 import it.polimi.ingsw.triton.launcher.utils.exceptions.IllegalClientInputException;
 
-public class Player {
+import java.io.Serializable;
+
+public class Player implements Serializable {
     private final String username;
     private int moveCounter;
     private Wallet wallet;

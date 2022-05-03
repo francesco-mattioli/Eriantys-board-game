@@ -3,7 +3,9 @@ package it.polimi.ingsw.triton.launcher.server.model.cardeffects;
 import it.polimi.ingsw.triton.launcher.server.model.player.SchoolBoard;
 import it.polimi.ingsw.triton.launcher.server.model.enums.Color;
 
-public class CardEffect07 implements CardEffect{
+import java.io.Serializable;
+
+public class CardEffect07 implements CardEffect, Serializable {
     private final int[] fromCard;
     private final int[] fromSchoolBoard;
     private final SchoolBoard schoolBoard;

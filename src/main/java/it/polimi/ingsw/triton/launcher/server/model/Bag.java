@@ -2,10 +2,11 @@ package it.polimi.ingsw.triton.launcher.server.model;
 
 import it.polimi.ingsw.triton.launcher.server.model.enums.Color;
 
+import java.io.Serializable;
 import java.util.NoSuchElementException;
 import java.util.Random;
 
-public class Bag {
+public class Bag implements Serializable {
     private final int numPlayer;
     private final int NUM_OF_STUDENTS_FOREACH_COLOR = 26;
     private final int[] students;

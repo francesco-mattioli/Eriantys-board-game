@@ -4,9 +4,10 @@ import it.polimi.ingsw.triton.launcher.server.model.Island;
 import it.polimi.ingsw.triton.launcher.server.model.player.Player;
 import it.polimi.ingsw.triton.launcher.utils.exceptions.EndGameException;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class CardEffect03 implements CardEffect{
+public class CardEffect03 implements CardEffect, Serializable {
     private final Island island;
     private final ArrayList<Player> players;
     private Player[] professors;

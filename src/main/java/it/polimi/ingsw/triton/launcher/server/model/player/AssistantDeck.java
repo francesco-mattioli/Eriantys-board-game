@@ -4,9 +4,10 @@ import it.polimi.ingsw.triton.launcher.server.model.AssistantCard;
 import it.polimi.ingsw.triton.launcher.server.model.enums.AssistantCardType;
 import it.polimi.ingsw.triton.launcher.server.model.enums.Wizard;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class AssistantDeck {
+public class AssistantDeck implements Serializable {
     /**
      * The wizard associated with the deck
      * An ArrayList containing the cards of the same wizard

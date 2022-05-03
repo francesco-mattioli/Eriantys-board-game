@@ -4,7 +4,9 @@ import it.polimi.ingsw.triton.launcher.server.model.Bag;
 import it.polimi.ingsw.triton.launcher.server.model.enums.Color;
 import it.polimi.ingsw.triton.launcher.server.model.player.SchoolBoard;
 
-public class CardEffect11 implements CardEffect{
+import java.io.Serializable;
+
+public class CardEffect11 implements CardEffect, Serializable {
     private Color student;
     private SchoolBoard schoolBoard;
     private Bag bag;

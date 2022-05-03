@@ -1,6 +1,8 @@
 package it.polimi.ingsw.triton.launcher.server.model.enums;
 
-public enum Color {
+import java.io.Serializable;
+
+public enum Color implements Serializable {
     YELLOW,
     BLUE,
     GREEN,

@@ -2,7 +2,9 @@ package it.polimi.ingsw.triton.launcher.server.model.cardeffects;
 
 import it.polimi.ingsw.triton.launcher.server.model.Island;
 
-public class CardEffect05 implements CardEffect{
+import java.io.Serializable;
+
+public class CardEffect05 implements CardEffect, Serializable {
     private Island island;
     private CharacterCard characterCard;
 

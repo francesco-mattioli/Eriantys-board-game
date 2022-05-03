@@ -4,9 +4,10 @@ import it.polimi.ingsw.triton.launcher.server.model.enums.Color;
 import it.polimi.ingsw.triton.launcher.server.model.Island;
 import it.polimi.ingsw.triton.launcher.server.model.influencestrategy.InfluenceStrategyWithEffect09;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class CardEffect09 implements CardEffect {
+public class CardEffect09 implements CardEffect, Serializable {
     private ArrayList<Island> islands;
     private Color color;
 

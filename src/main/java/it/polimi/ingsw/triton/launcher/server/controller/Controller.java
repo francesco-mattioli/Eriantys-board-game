@@ -349,9 +349,12 @@ public class Controller implements Observer<Message> {
         }catch (IllegalClientInputException e) {
             getVirtualViewByUsername(game.getCurrentPlayer().getUsername()).showErrorMessage(e.getTypeError());
             ((ClientMessage)message).createInputErrorMessage(new ClientMessageErrorVisitor(game, getVirtualViewByUsername(game.getCurrentPlayer().getUsername())));
-        }catch(NoSuchElementException | LastMoveException | CharacterCardWithParametersException e){
+        }catch(LastMoveException | CharacterCardWithParametersException e){
             ((ClientMessage)message).createExceptionalNextMessage(new ClientMessageExceptionalVisitor(game, getVirtualViewByUsername(game.getCurrentPlayer().getUsername())));
-        } catch (EndGameException e) {
+        }catch(NoSuchElementException e) {
+            game.setCurrentPlayer(game.getPlayers().get(0));
+            ((ClientMessage)message).createExceptionalNextMessage(new ClientMessageExceptionalVisitor(game, getVirtualViewByUsername(game.getCurrentPlayer().getUsername())));
+        }catch(EndGameException e) {
             game.calculateWinner();
         }
     }

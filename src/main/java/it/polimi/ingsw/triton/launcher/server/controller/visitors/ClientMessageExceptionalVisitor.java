@@ -19,6 +19,7 @@ public class ClientMessageExceptionalVisitor {
     }
 
     public void visitForSendExceptionalMessage(WizardReply message){
+        game.setup();
         virtualView.askAssistantCard();
     }
 
