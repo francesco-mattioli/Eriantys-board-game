@@ -7,7 +7,7 @@ import it.polimi.ingsw.triton.launcher.utils.message.servermessage.ServerMessage
 public class GameModeRequest extends ServerMessage {
 
     @Override
-    public void accept(ServerMessageVisitor messageVisitor) {
-        messageVisitor.visit(this);
+    public void accept(ServerMessageVisitor serverMessageVisitor) {
+        serverMessageVisitor.visit(this);
     }
 }

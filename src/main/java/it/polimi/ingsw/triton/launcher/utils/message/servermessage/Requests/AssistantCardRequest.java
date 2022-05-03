@@ -12,7 +12,7 @@ import it.polimi.ingsw.triton.launcher.utils.message.servermessage.ServerMessage
 public class AssistantCardRequest extends ServerMessage {
 
     @Override
-    public void accept(ServerMessageVisitor message) {
-
+    public void accept(ServerMessageVisitor serverMessageVisitor) {
+        serverMessageVisitor.visit(this);
     }
 }

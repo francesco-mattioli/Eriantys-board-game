@@ -6,8 +6,8 @@ import it.polimi.ingsw.triton.launcher.utils.message.MessageType;
 public class LoginReply extends ServerMessage {
 
     @Override
-    public void accept(ServerMessageVisitor messageVisitor) {
-
+    public void accept(ServerMessageVisitor serverMessageVisitor) {
+        serverMessageVisitor.visit(this);
     }
 
 }
