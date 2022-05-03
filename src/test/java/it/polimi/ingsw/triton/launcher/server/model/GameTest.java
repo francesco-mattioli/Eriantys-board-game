@@ -226,39 +226,6 @@ class GameTest {
 
     }*/
 
-    /**
-     * Tests if the method depositCoin launches an exception when the number of coins to deposit
-     * is less than 0.
-     */
-    /*
-    @Test
-    public void depositCoinsWhenNumberOfCoinsIsLessThanZero(){
-        assertThrows(IllegalArgumentException.class, ()->game.depositCoin(-2));
-    }
-
-    /**
-     * Tests if the general coin supply is increased.
-     */
-    /*
-    @Test
-    public void depositCoinsWhenNumberOfCoinsIsCorrect(){
-        int oldSupply = game.getGeneralCoinSupply();
-        game.depositCoin(2);
-        assertEquals(oldSupply + 2, game.getGeneralCoinSupply());
-    }
-
-    /**
-     * Tests if the general coin supply is decreased by 1.
-     */
-    /*
-    @Test
-    public void withdrawCoinTest(){
-        int oldSupply = game.getGeneralCoinSupply();
-        game.withdrawCoin();
-        assertEquals(oldSupply - 1, game.getGeneralCoinSupply());
-    }
-*/
-
 
     /**
      * Tests if the id of the three character cards are different.
