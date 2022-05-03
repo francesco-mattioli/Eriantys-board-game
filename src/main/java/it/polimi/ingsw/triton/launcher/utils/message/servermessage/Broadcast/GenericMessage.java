@@ -5,14 +5,13 @@ import it.polimi.ingsw.triton.launcher.utils.message.MessageType;
 import it.polimi.ingsw.triton.launcher.utils.message.servermessage.ServerMessage;
 
 public class GenericMessage extends ServerMessage {
-    private String message;
-    private String receiverUsername;
-    public GenericMessage(String message, String receiverUsername) {
-        this.message = message;
+    private final String stringMessage;
+    public GenericMessage(String stringMessage) {
+        this.stringMessage = stringMessage;
     }
 
-    public String getMessage() {
-        return message;
+    public String getStringMessage() {
+        return stringMessage;
     }
 
     @Override

@@ -100,13 +100,17 @@ public class Cli extends Observable<Message> implements ClientView{
         }
     }
 
+    public void showLobbyMessage(ArrayList<String> onlineNicknames, int maxNumberPlayers ) {
+        out.println("There are " + onlineNicknames.size() +
+                "/" + maxNumberPlayers + " players connected; Waiting for " + (maxNumberPlayers-onlineNicknames.size()) + " players");
+    }
 
     @Override
     public void askTowerColor(boolean[] chosenTowerColors) {
         try {
             out.print("Choose a tower color [ ");
             for(int i=0;i< chosenTowerColors.length;i++){
-                if(chosenTowerColors[i])
+                if(!chosenTowerColors[i])
                     out.print(TowerColor.values()[i]+" ");
             }
             out.print("]");
@@ -118,10 +122,7 @@ public class Cli extends Observable<Message> implements ClientView{
         }
     }
 
-    public void showLobbyMessage(ArrayList<String> onlineNicknames, int maxNumberPlayers ) {
-        out.println("There are " + onlineNicknames.size() +
-                "online / " + maxNumberPlayers + "players connected\n Waiting for " + (maxNumberPlayers-onlineNicknames.size()) + "players");
-    }
+
 
     @Override
     public void askWizard(ArrayList<Wizard> wizards) {

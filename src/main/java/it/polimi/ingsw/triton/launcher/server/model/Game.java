@@ -18,7 +18,6 @@ import it.polimi.ingsw.triton.launcher.utils.exceptions.IllegalClientInputExcept
 import it.polimi.ingsw.triton.launcher.utils.exceptions.LastMoveException;
 import it.polimi.ingsw.triton.launcher.utils.message.ErrorTypeID;
 import it.polimi.ingsw.triton.launcher.utils.message.servermessage.Broadcast.*;
-import it.polimi.ingsw.triton.launcher.utils.message.servermessage.Requests.MoveStudentFromEntranceMessage;
 import it.polimi.ingsw.triton.launcher.utils.obs.Observable;
 import it.polimi.ingsw.triton.launcher.utils.message.servermessage.*;
 import it.polimi.ingsw.triton.launcher.utils.message.Message;
@@ -60,7 +59,7 @@ public class Game extends Observable<Message> {
         this.cloudTiles = new ArrayList<>();
         this.characterCards = new ArrayList<>();
         this.generalCoinSupply = INITIAL_NUM_COINS;
-        this.towerColorChosen = new boolean[TowerColor.values().length];
+        this.towerColorChosen = new boolean[maxNumberOfPlayers];
         this.availableWizards = new ArrayList<>(Arrays.asList(Wizard.values()));
         this.gameState = GameState.LOGIN;
         this.professors = new Player[Color.numOfColors()];

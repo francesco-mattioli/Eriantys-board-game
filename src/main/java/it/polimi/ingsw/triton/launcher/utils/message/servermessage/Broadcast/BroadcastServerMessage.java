@@ -7,7 +7,6 @@ import it.polimi.ingsw.triton.launcher.utils.message.servermessage.BroadcastMess
 
 public abstract class BroadcastServerMessage extends Message {
 
-
     public void accept(BroadcastMessageVisitor messageVisitor){
         messageVisitor.visit(this);
     }

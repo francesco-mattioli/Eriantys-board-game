@@ -61,7 +61,7 @@ public class Server {
             firstPlayerVirtualView.askNumOfPlayers();
             LOGGER.severe("Not valid number of players");
         } else {
-            this.maxNumPlayers = maxNumPlayers;
+            this.maxNumPlayers = maxNumPlayers; //BUG
             this.controller = new Controller(new Game(maxNumPlayers));
             controller.getVirtualViews().add(firstPlayerVirtualView);
             controller.addPlayer(username);

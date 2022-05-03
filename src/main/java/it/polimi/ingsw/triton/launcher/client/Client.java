@@ -51,7 +51,7 @@ public class Client implements Observer<Message> {
             while (!readExecutionQueue.isShutdown()) {
                 try {
                     BroadcastServerMessage message = (BroadcastServerMessage) inSocket.readObject();
-                    Client.LOGGER.info("Received: " + message);
+                    Client.LOGGER.info("Received: " + message.getClass().getSimpleName());
                     // Accept the message using Visitor Pattern
                     message.accept(new ServerMessageVisitor(clientView));
                 } catch (IOException | ClassNotFoundException e) {
@@ -82,7 +82,7 @@ public class Client implements Observer<Message> {
     public void sendMessage(Message message) {
         try {
             outSocket.writeObject(message);
-            Client.LOGGER.info("Sent: " + message);
+            Client.LOGGER.info("Sent: " + message.getClass().getSimpleName());
             outSocket.reset();
         } catch (IOException e) {
             e.printStackTrace();

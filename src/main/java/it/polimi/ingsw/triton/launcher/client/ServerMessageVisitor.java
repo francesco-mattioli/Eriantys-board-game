@@ -34,7 +34,7 @@ public class ServerMessageVisitor {
     }
 
     public void visit(TowerColorRequest message){
-        clientView.askTowerColor(message.getAvailableTowerColors());
+        clientView.askTowerColor(message.getChosenTowerColors());
     }
 
     public void visit(LobbyMessage message){
@@ -50,7 +50,7 @@ public class ServerMessageVisitor {
     }
 
     public void visit(GenericMessage message){
-        clientView.showGenericMessage(message.getMessage());
+        clientView.showGenericMessage(message.getStringMessage());
     }
 
 

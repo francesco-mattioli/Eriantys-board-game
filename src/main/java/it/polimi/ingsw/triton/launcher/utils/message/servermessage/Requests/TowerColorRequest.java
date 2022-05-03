@@ -11,7 +11,7 @@ public class TowerColorRequest extends ServerMessage {
         this.chosenTowerColors = chosenTowerColors;
     }
 
-    public boolean[] getAvailableTowerColors() {
+    public boolean[] getChosenTowerColors() {
         return chosenTowerColors;
     }
 
