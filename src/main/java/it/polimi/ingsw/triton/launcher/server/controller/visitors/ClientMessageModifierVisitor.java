@@ -32,6 +32,7 @@ public class ClientMessageModifierVisitor {
      */
     public void visitForModify(WizardReply message) throws IllegalClientInputException, ChangeTurnException {
         game.chooseWizard(message.getSenderUsername(), message.getPlayerWizard());
+        game.setNextPlayer(game.getPlayerByUsername(message.getSenderUsername()));
     }
 
     public void visitForModify(AssistantCardReply message) throws IllegalClientInputException, ChangeTurnException {

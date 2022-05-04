@@ -119,7 +119,6 @@ public class Game extends Observable<Message> {
 
     /**
      * Sets the wizard to the player and creates a new request to the next player if present.
-     * When last wizard has been chosen, we call setup method and order randomly the player arraylist
      * @param username the player's username of who sets the wizard.
      * @param wizard the wizard selected by the player.
      */
@@ -131,8 +130,6 @@ public class Game extends Observable<Message> {
             getPlayerByUsername(username).setWizard(wizard);
             availableWizards.remove(wizard);
         }
-        if(Wizard.values().length - availableWizards.size() == maxNumberOfPlayers)
-            setup();
     }
 
     /**
@@ -147,6 +144,7 @@ public class Game extends Observable<Message> {
 
     /**
      * This method is used to manage the turns in preparation and planning phases.
+     * When last wizard has been chosen, we call setup method and order randomly the player arraylist
      * @param current the current player.
      * @throws ChangeTurnException if there's not another player that has to play in the current phase.
      */
@@ -154,6 +152,11 @@ public class Game extends Observable<Message> {
         int index = players.indexOf(current);
         if(index < players.size()-1){
             currentPlayer = players.get(index+1);
+        }
+        else if(Wizard.values().length - availableWizards.size() == maxNumberOfPlayers) {
+            setup();
+            availableWizards.clear();
+            throw new ChangeTurnException();
         }
         else{
             currentPlayer = players.get(0);
