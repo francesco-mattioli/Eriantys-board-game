@@ -24,6 +24,7 @@ public class ClientMessageExceptionalVisitor {
     }
 
     public void visitForSendExceptionalMessage(AssistantCardReply message){
+        game.sortPlayerPerTurn();
         game.setGameState(GameState.ACTION_PHASE);
         virtualView.askMoveStudentFromEntrance();
     }
@@ -37,7 +38,6 @@ public class ClientMessageExceptionalVisitor {
     }
 
     public void visitForSendExceptionalMessage(CloudTileReply message){
-        game.setGameState(GameState.PLANNING_PHASE);
         virtualView.askAssistantCard();
     }
 

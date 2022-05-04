@@ -532,11 +532,11 @@ public class Game extends Observable<Message> {
      * At the end of the last player's action phase, it starts a new planning phase.
      */
     public void nextGameTurn() throws EndGameException, NoSuchElementException{
+        professorsManager.setProfessorStrategy(new ProfessorStrategyDefault());
+        for(Island island: islands)
+            island.setInfluenceStrategy(new InfluenceStrategyDefault());
         if (players.indexOf(currentPlayer) < maxNumberOfPlayers - 1){
             currentPlayer = players.get(players.indexOf(currentPlayer) + 1);
-            professorsManager.setProfessorStrategy(new ProfessorStrategyDefault());
-            for(Island island: islands)
-                island.setInfluenceStrategy(new InfluenceStrategyDefault());
             notify(new YourTurnMessage(currentPlayer.getUsername()));
         }
         else if(!lastRound && players.indexOf(currentPlayer) == maxNumberOfPlayers - 1){
