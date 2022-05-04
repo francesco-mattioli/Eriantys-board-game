@@ -5,6 +5,10 @@ import it.polimi.ingsw.triton.launcher.server.view.VirtualView;
 import it.polimi.ingsw.triton.launcher.utils.message.clientmessage.*;
 import it.polimi.ingsw.triton.launcher.utils.message.clientmessage.characterCardReply.*;
 
+/**
+ * ClientMessageErrorVisitor manages error situations in controller
+ * When user gives a wrong input, message is re-sent
+ */
 public class ClientMessageErrorVisitor {
     private final Game game;
     private final VirtualView virtualView;

@@ -7,6 +7,11 @@ import it.polimi.ingsw.triton.launcher.utils.exceptions.*;
 import it.polimi.ingsw.triton.launcher.utils.message.clientmessage.*;
 import it.polimi.ingsw.triton.launcher.utils.message.clientmessage.characterCardReply.*;
 
+
+/**
+ * ClientMessageModifierVisitor modifies parameters, basing on received messages
+ * Exceptions thrown by methods are all checked by controller
+ */
 public class ClientMessageModifierVisitor {
     private final Game game;
 
