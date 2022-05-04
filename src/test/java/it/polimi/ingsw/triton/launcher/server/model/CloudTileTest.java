@@ -22,34 +22,18 @@ class CloudTileTest {
     }
 
     /**
-     * Test if the student is added
+     * Tests if the student is added on the cloud tile.
      */
     @Test
     void addOneStudentWhenCloudTileHasZero() {
-        cloudTile.addStudent(Color.BLUE);
         int current = 0;
+        cloudTile.setStudents(Color.BLUE);
         for (int i = 0; i < cloudTile.getStudents().length; i++){
             current += cloudTile.getStudents()[i];
         }
         assertEquals(1,current);
     }
 
-    /**
-     * Test throws an exception if color == null
-     */
-    @Test
-    void addNullStudentColor(){
-        assertThrows(IllegalArgumentException.class, () -> {cloudTile.addStudent(null);});
-    }
-
-
-    /**
-     * Test throws an exception if color == null
-     */
-    /*@Test
-    void setNullColorWhenTwoPlayers(){
-        assertThrows(IllegalArgumentException.class, () -> {cloudTile.setStudents(null,Color.BLUE,Color.RED);});
-    }*/
 
     /**
      * Tests if the method throws an exception when the color is null.
@@ -58,15 +42,6 @@ class CloudTileTest {
     void setNullColor(){
         assertThrows(IllegalArgumentException.class, () -> {cloudTile.setStudents(null);});
     }
-
-
-    /**
-     * Test throws an exception if color == null
-     */
-   /* @Test
-    void setNullColorWhenThreePlayers(){
-        assertThrows(IllegalArgumentException.class, () -> {cloudTile.setStudents(null,Color.BLUE,Color.RED,Color.GREEN);});
-    }*/
 
     /**
      * Tests if removeStudentFromCloudTile throws an exception when cloudtile is empty
