@@ -31,16 +31,16 @@ class MoveStudentOntoIslandTest {
     }
 
     /**
-     * Test if the entrance of the school board has not any students
+     * Tests if the entrance of the school board has not any students.
      */
     @Test
     void testIfTheEntranceIsEmpty(){
         MoveStudentOntoIsland mi = new MoveStudentOntoIsland(schoolBoard, student, dest);
-        assertThrows(RuntimeException.class, mi::execute);
+        assertThrows(IllegalClientInputException.class, mi::execute);
     }
 
     /**
-     * Test if the entrance of the school board has not any students
+     * Tests if the entrance of the school board has not any students.
      */
     @Test
     void testIfThereIsNotStudentColor(){
@@ -48,11 +48,11 @@ class MoveStudentOntoIslandTest {
         schoolBoard.addStudentIntoEntrance(Color.RED);
         schoolBoard.addStudentIntoEntrance(Color.GREEN);
         schoolBoard.addStudentIntoEntrance(Color.YELLOW);
-        assertThrows(RuntimeException.class, mi::execute);
+        assertThrows(IllegalClientInputException.class, mi::execute);
     }
 
     /**
-     * Test if the student is removed from entrance and added to the island
+     * Tests if the student is removed from entrance and added to the island.
      */
     @Test
     void testStudentsAreMovedOntoIsland() {

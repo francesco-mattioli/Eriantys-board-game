@@ -18,7 +18,6 @@ class SchoolBoardTest {
     void setup(){
         schoolBoard = new SchoolBoard(TowerColor.BLACK, 2);
         threePlayersSchoolBoard = new SchoolBoard(TowerColor.BLACK, 3);
-
     }
 
     @AfterEach
@@ -29,10 +28,10 @@ class SchoolBoardTest {
 
     /**
      * Tests if the number of towers in the school board is decreased when
-     * the player moves them onto island.
+     * the player moves them onto island and they aren't the last ones.
      */
     @Test
-    void testMoveTowerOntoIsland() {
+    void testMoveTowerOntoIslandWhenThereAreMore() {
         int numTowers = schoolBoard.getNumTowers();
         try {
             schoolBoard.moveTowerOntoIsland(2);
@@ -43,19 +42,33 @@ class SchoolBoardTest {
     }
 
     /**
+     * Tests if the method launches an exception when the player moves the last tower.
+     */
+    @Test
+    void testMoveTowerOntoIslandWhenTheyAreTheLast() {
+        for(int i = 0; i < 7; i++){
+            try {
+                schoolBoard.moveTowerOntoIsland(1);
+            } catch (EndGameException e) {
+                e.printStackTrace();
+            }
+        }
+        assertThrows(EndGameException.class, ()->schoolBoard.moveTowerOntoIsland(1));
+    }
+
+    /**
      * Tests if the tower is added on the school board.
      */
     @Test
     void testMoveTowerOntoSchoolBoard() {
-        int movedTowers = 3;
         try {
-            schoolBoard.moveTowerOntoIsland(movedTowers);
+            schoolBoard.moveTowerOntoIsland(4);
         } catch (EndGameException e) {
             e.printStackTrace();
         }
         int numTowersSchoolBoard = schoolBoard.getNumTowers();
-        schoolBoard.moveTowerOntoSchoolBoard(movedTowers);
-        assertEquals(numTowersSchoolBoard + movedTowers, schoolBoard.getNumTowers());
+        schoolBoard.moveTowerOntoSchoolBoard(2);
+        assertEquals(numTowersSchoolBoard + 2, schoolBoard.getNumTowers());
     }
 
     /**
@@ -63,7 +76,7 @@ class SchoolBoardTest {
      */
     @Test
     void testAddStudentIntoDiningRoom() {
-        int numGreenStudents = schoolBoard.getStudentsNumber(Color.BLUE);
+        int numGreenStudents = schoolBoard.getStudentsNumber(Color.GREEN);
         schoolBoard.addStudentIntoDiningRoom(Color.GREEN);
         assertEquals(0, schoolBoard.getStudentsNumber(Color.BLUE));
         assertEquals(numGreenStudents + 1, schoolBoard.getStudentsNumber(Color.GREEN));

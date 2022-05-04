@@ -50,7 +50,7 @@ class PlayAssistantCardTest {
     }
 
     /**
-     * Tests if the method launches an exception because player can't play this card
+     * Tests if the method launches an exception because player can't play this card.
      */
     @Test
     void cannotPlayThisCard(){
@@ -58,7 +58,7 @@ class PlayAssistantCardTest {
         usedAssistantCards.add(new AssistantCard(AssistantCardType.SNAKE));
         usedAssistantCards.add(cardToPlay);
         PlayAssistantCard pc = new PlayAssistantCard(cardToPlay, player, usedAssistantCards);
-        assertThrows(RuntimeException.class, ()->player.executeAction(pc));
+        assertThrows(IllegalClientInputException.class, ()->player.executeAction(pc));
     }
 
     /**

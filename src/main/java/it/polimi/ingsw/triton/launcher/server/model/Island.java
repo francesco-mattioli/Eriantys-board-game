@@ -70,7 +70,7 @@ public class Island extends Observable<Message> implements Serializable {
     public void updateInfluence(ArrayList<Player> players, Player[] professors) throws EndGameException{
         boolean modifiedDominator = false;
         if (noEntryTiles == 0) {
-            int nonDominatorPlayersInfluences[] = new int[players.size()];
+            int[] nonDominatorPlayersInfluences = new int[players.size()];
             for(int i = 0; i < players.size(); i++){
                 if(dominator != players.get(i)){
                     nonDominatorPlayersInfluences[i] = calculateInfluence(players.get(i), professors, dominator);

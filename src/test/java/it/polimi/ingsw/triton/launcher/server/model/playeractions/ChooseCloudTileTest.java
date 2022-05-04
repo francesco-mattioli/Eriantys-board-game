@@ -28,7 +28,7 @@ class ChooseCloudTileTest {
     }
 
     /**
-     * Test if the initial number of students of cloud tile is 0.
+     * Tests if the initial number of students on the cloud tile is 0.
      */
     @Test
     void testInitialNumberStudentCloudTile() {
@@ -39,30 +39,28 @@ class ChooseCloudTileTest {
     }
 
     /**
-     * Test if the cloud tile is already chosen.
+     * Tests if the method launches an exception when the cloud tile is already chosen.
      */
     @Test
     void testIfCloudTileIsAlreadyChosen() throws IllegalClientInputException {
         ChooseCloudTile cct = new ChooseCloudTile(ct, schoolBoard);
-        //ct.setStudents(Color.BLUE, Color.RED, Color.GREEN);
         ct.setStudents(Color.BLUE);
         ct.setStudents(Color.RED);
         ct.setStudents(Color.GREEN);
         cct.execute();
         ChooseCloudTile cct2 = new ChooseCloudTile(ct, schoolBoard);
-        assertThrows(RuntimeException.class, cct2::execute);
+        assertThrows(IllegalClientInputException.class, cct2::execute);
     }
 
     /**
-     * Test if the students are removed from the cloud tile.
+     * Tests if the students are removed correctly from the cloud tile.
      */
     @Test
     void testIfStudentsAreRemovedFromCloudTile(){
-        ChooseCloudTile cct = new ChooseCloudTile(ct, schoolBoard);
-        //ct.setStudents(Color.BLUE, Color.RED, Color.GREEN);
         ct.setStudents(Color.BLUE);
         ct.setStudents(Color.RED);
         ct.setStudents(Color.GREEN);
+        ChooseCloudTile cct = new ChooseCloudTile(ct, schoolBoard);
         try {
             cct.execute();
         } catch (IllegalClientInputException e) {
@@ -74,15 +72,14 @@ class ChooseCloudTileTest {
     }
 
     /**
-     * Test if the students are moved to the entrance of the school board.
+     * Tests if the students are moved to the entrance of the school board.
      */
     @Test
     void testIfStudentsAreMovedToEntrance() throws IllegalClientInputException {
-        ChooseCloudTile cct = new ChooseCloudTile(ct, schoolBoard);
-        //ct.setStudents(Color.BLUE, Color.RED, Color.GREEN);
         ct.setStudents(Color.BLUE);
         ct.setStudents(Color.RED);
         ct.setStudents(Color.GREEN);
+        ChooseCloudTile cct = new ChooseCloudTile(ct, schoolBoard);
         cct.execute();
         assertEquals(1, schoolBoard.getEntrance()[Color.BLUE.ordinal()]);
         assertEquals(1, schoolBoard.getEntrance()[Color.RED.ordinal()]);

@@ -23,6 +23,10 @@ class MotherNatureTest {
         motherNature = new MotherNature(islands.get(10));
     }
 
+    /**
+     * Tests if mother nature moved correctly when she did 5 steps
+     * without additional steps.
+     */
     @Test
     void moveMotherNatureWithoutAdditionalSteps(){
         Island position = null;
@@ -34,6 +38,10 @@ class MotherNatureTest {
         assertEquals(position, islands.get(3));
     }
 
+    /**
+     * Tests if mother nature moved correctly when she did 5 steps
+     * with two additional steps.
+     */
     @Test
     void moveMotherNatureWithAdditionalSteps(){
         motherNature.setAdditionalSteps(2);
@@ -46,11 +54,18 @@ class MotherNatureTest {
         assertEquals(island, islands.get(3));
     }
 
+    /**
+     * Tests if mother nature launches an exception when the player chooses to move her
+     * with a number of steps which is not correct.
+     */
     @Test
     void moveMotherNatureWithIllegalArgument(){
-        assertThrows(IllegalArgumentException.class, () -> {motherNature.move(new AssistantCard(AssistantCardType.EAGLE), 5, islands);});
+        assertThrows(IllegalClientInputException.class, () -> {motherNature.move(new AssistantCard(AssistantCardType.EAGLE), 5, islands);});
     }
 
+    /**
+     * Tests if the method calculates correctly the opposite island to mother nature.
+     */
     @Test
     void oppositeIsland(){
         assertEquals(4, motherNature.getIndexOfOppositeIsland(islands));

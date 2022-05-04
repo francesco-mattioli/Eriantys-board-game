@@ -21,17 +21,6 @@ public class CloudTile implements Serializable {
     }
 
     /**
-     * Add a students in the cloudTile
-     *
-     * @param x the student to add to the cloudTile
-     */
-    public void addStudent(Color x) throws IllegalArgumentException {
-        if (x == null)
-            throw new IllegalArgumentException("Color cannot be null");
-        else students[x.ordinal()]++;
-    }
-
-    /**
      * @return the students of the cloudtile
      */
     public int[] getStudents() {
