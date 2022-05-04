@@ -2,6 +2,7 @@ package it.polimi.ingsw.triton.launcher.server.model.cardeffects;
 
 import it.polimi.ingsw.triton.launcher.server.model.Island;
 import it.polimi.ingsw.triton.launcher.utils.exceptions.IllegalClientInputException;
+import it.polimi.ingsw.triton.launcher.utils.message.ErrorTypeID;
 
 import java.io.Serializable;
 
@@ -26,7 +27,7 @@ public class CardEffect05 implements CardEffect, Serializable {
             island.setNoEntryTiles(island.getNoEntryTiles() + 1);
             island.setCharacterCard05(characterCard);
         }else{
-            throw new IllegalClientInputException();
+            throw new IllegalClientInputException(ErrorTypeID.ILLEGAL_MOVE);
         }
     }
 

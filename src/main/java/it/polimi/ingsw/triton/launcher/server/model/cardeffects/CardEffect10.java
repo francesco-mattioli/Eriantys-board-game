@@ -3,6 +3,7 @@ package it.polimi.ingsw.triton.launcher.server.model.cardeffects;
 import it.polimi.ingsw.triton.launcher.server.model.player.SchoolBoard;
 import it.polimi.ingsw.triton.launcher.server.model.enums.Color;
 import it.polimi.ingsw.triton.launcher.utils.exceptions.IllegalClientInputException;
+import it.polimi.ingsw.triton.launcher.utils.message.ErrorTypeID;
 
 import java.io.Serializable;
 
@@ -46,7 +47,7 @@ public class CardEffect10 implements CardEffect, Serializable {
                     if (fromDiningRoom[j] <= schoolBoard.getDiningRoom()[i]){
                         schoolBoard.getDiningRoom()[i] -= fromDiningRoom[j];
                     }
-                    else throw new IllegalClientInputException();
+                    else throw new IllegalClientInputException(ErrorTypeID.ILLEGAL_MOVE);
                 }
 
             }
@@ -65,7 +66,7 @@ public class CardEffect10 implements CardEffect, Serializable {
                     if (fromEntrance[j] <= schoolBoard.getEntrance()[i]){
                         schoolBoard.getEntrance()[i] -= fromEntrance[j];
                     }
-                    else throw new IllegalClientInputException();
+                    else throw new IllegalClientInputException(ErrorTypeID.ILLEGAL_MOVE);
                 }
             }
         }

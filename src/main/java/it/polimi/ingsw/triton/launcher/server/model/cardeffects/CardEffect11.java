@@ -4,6 +4,7 @@ import it.polimi.ingsw.triton.launcher.server.model.Bag;
 import it.polimi.ingsw.triton.launcher.server.model.enums.Color;
 import it.polimi.ingsw.triton.launcher.server.model.player.SchoolBoard;
 import it.polimi.ingsw.triton.launcher.utils.exceptions.IllegalClientInputException;
+import it.polimi.ingsw.triton.launcher.utils.message.ErrorTypeID;
 
 import java.io.Serializable;
 
@@ -37,7 +38,7 @@ public class CardEffect11 implements CardEffect, Serializable {
         try{
             schoolBoard.getDiningRoom()[characterCard.drawStudent(student).ordinal()]++;
         }catch (IllegalArgumentException e){
-            throw new IllegalClientInputException();
+            throw new IllegalClientInputException(ErrorTypeID.ILLEGAL_MOVE);
         }
         characterCard.addStudent(bag.drawStudent());
     }
