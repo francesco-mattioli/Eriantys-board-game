@@ -12,10 +12,7 @@ import it.polimi.ingsw.triton.launcher.server.model.player.SchoolBoard;
 import it.polimi.ingsw.triton.launcher.server.model.playeractions.*;
 import it.polimi.ingsw.triton.launcher.server.model.professor.ProfessorStrategyDefault;
 import it.polimi.ingsw.triton.launcher.server.model.professor.ProfessorsManager;
-import it.polimi.ingsw.triton.launcher.utils.exceptions.CharacterCardWithParametersException;
-import it.polimi.ingsw.triton.launcher.utils.exceptions.EndGameException;
-import it.polimi.ingsw.triton.launcher.utils.exceptions.IllegalClientInputException;
-import it.polimi.ingsw.triton.launcher.utils.exceptions.LastMoveException;
+import it.polimi.ingsw.triton.launcher.utils.exceptions.*;
 import it.polimi.ingsw.triton.launcher.utils.message.ErrorTypeID;
 import it.polimi.ingsw.triton.launcher.utils.message.servermessage.Broadcast.*;
 import it.polimi.ingsw.triton.launcher.utils.obs.Observable;
@@ -141,17 +138,18 @@ public class Game extends Observable<Message> {
     }
 
     /**
-     * @param current the current player of the game.
      * @return the next player that will play his turn.
-     * @throws NoSuchElementException if the there's not a next player.
+     * @throws ChangeTurnException if the there's not a next player.
      */
-    public Player getNextPlayer(Player current) throws NoSuchElementException{
+    public void setNextPlayer(Player current) throws ChangeTurnException{
         int index = players.indexOf(current);
         if(index < players.size()-1){
             currentPlayer = players.get(index+1);
-            return players.get(index+1);
         }
-        throw new NoSuchElementException("There is not a next player");
+        else{
+            currentPlayer = players.get(0);
+            throw new ChangeTurnException();
+        }
     }
 
     /**
@@ -531,7 +529,7 @@ public class Game extends Observable<Message> {
      * Changes current player at the end of every action phase.
      * At the end of the last player's action phase, it starts a new planning phase.
      */
-    public void nextGameTurn() throws EndGameException, NoSuchElementException{
+    public void nextGameTurn() throws EndGameException, ChangeTurnException {
         professorsManager.setProfessorStrategy(new ProfessorStrategyDefault());
         for(Island island: islands)
             island.setInfluenceStrategy(new InfluenceStrategyDefault());
@@ -543,7 +541,7 @@ public class Game extends Observable<Message> {
             currentPlayer = players.get(0);
             notify(new YourTurnMessage(currentPlayer.getUsername()));
             planningPhase();
-            throw new NoSuchElementException("Last player has played. Begin new planning phase");
+            throw new ChangeTurnException();
         }else{
             calculateWinner();
             throw new EndGameException();
@@ -721,12 +719,12 @@ public class Game extends Observable<Message> {
         throw new IllegalClientInputException();
     }
 
-    public Island getIslandByID(int id) throws NoSuchElementException{
+    public Island getIslandByID(int id) throws IllegalClientInputException{
         for(Island island: islands){
             if(island.getId() == id)
                 return island;
         }
-        throw new NoSuchElementException("The island does not exist");
+        throw new IllegalClientInputException(ErrorTypeID.NO_ISLAND_WITH_THAT_ID);
     }
 
 

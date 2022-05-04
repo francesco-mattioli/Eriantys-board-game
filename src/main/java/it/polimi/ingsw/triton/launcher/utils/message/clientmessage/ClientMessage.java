@@ -2,10 +2,7 @@ package it.polimi.ingsw.triton.launcher.utils.message.clientmessage;
 
 import it.polimi.ingsw.triton.launcher.client.ServerMessageVisitor;
 import it.polimi.ingsw.triton.launcher.server.Server;
-import it.polimi.ingsw.triton.launcher.utils.exceptions.CharacterCardWithParametersException;
-import it.polimi.ingsw.triton.launcher.utils.exceptions.EndGameException;
-import it.polimi.ingsw.triton.launcher.utils.exceptions.IllegalClientInputException;
-import it.polimi.ingsw.triton.launcher.utils.exceptions.LastMoveException;
+import it.polimi.ingsw.triton.launcher.utils.exceptions.*;
 import it.polimi.ingsw.triton.launcher.utils.message.Message;
 import it.polimi.ingsw.triton.launcher.server.controller.visitors.ClientMessageErrorVisitor;
 import it.polimi.ingsw.triton.launcher.server.controller.visitors.ClientMessageExceptionalVisitor;
@@ -30,7 +27,7 @@ public abstract class ClientMessage extends Message{
 
     }
 
-    public abstract void modifyModel(ClientMessageModifierVisitor visitor) throws IllegalClientInputException, NoSuchElementException, LastMoveException, EndGameException, CharacterCardWithParametersException;
+    public abstract void modifyModel(ClientMessageModifierVisitor visitor) throws IllegalClientInputException, NoSuchElementException, LastMoveException, EndGameException, CharacterCardWithParametersException, ChangeTurnException;
 
     public abstract void createStandardNextMessage(ClientMessageStandardVisitor visitor);
 

@@ -1,5 +1,6 @@
 package it.polimi.ingsw.triton.launcher.utils.message.clientmessage;
 
+import it.polimi.ingsw.triton.launcher.utils.exceptions.ChangeTurnException;
 import it.polimi.ingsw.triton.launcher.utils.exceptions.EndGameException;
 import it.polimi.ingsw.triton.launcher.utils.exceptions.IllegalClientInputException;
 import it.polimi.ingsw.triton.launcher.server.controller.visitors.ClientMessageErrorVisitor;
@@ -22,7 +23,7 @@ public class CloudTileReply extends ClientMessage {
     }
 
     @Override
-    public void modifyModel(ClientMessageModifierVisitor visitor) throws IllegalClientInputException, NoSuchElementException, EndGameException {
+    public void modifyModel(ClientMessageModifierVisitor visitor) throws IllegalClientInputException, EndGameException, ChangeTurnException {
         visitor.visitForModify(this);
     }
 

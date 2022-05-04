@@ -2,10 +2,7 @@ package it.polimi.ingsw.triton.launcher.server.controller;
 
 import it.polimi.ingsw.triton.launcher.server.model.Game;
 import it.polimi.ingsw.triton.launcher.server.view.VirtualView;
-import it.polimi.ingsw.triton.launcher.utils.exceptions.CharacterCardWithParametersException;
-import it.polimi.ingsw.triton.launcher.utils.exceptions.EndGameException;
-import it.polimi.ingsw.triton.launcher.utils.exceptions.IllegalClientInputException;
-import it.polimi.ingsw.triton.launcher.utils.exceptions.LastMoveException;
+import it.polimi.ingsw.triton.launcher.utils.exceptions.*;
 import it.polimi.ingsw.triton.launcher.utils.message.Message;
 import it.polimi.ingsw.triton.launcher.utils.message.clientmessage.*;
 import it.polimi.ingsw.triton.launcher.server.controller.visitors.ClientMessageErrorVisitor;
@@ -349,10 +346,7 @@ public class Controller implements Observer<Message> {
         }catch (IllegalClientInputException e) {
             getVirtualViewByUsername(game.getCurrentPlayer().getUsername()).showErrorMessage(e.getTypeError());
             ((ClientMessage)message).createInputErrorMessage(new ClientMessageErrorVisitor(game, getVirtualViewByUsername(game.getCurrentPlayer().getUsername())));
-        }catch(LastMoveException | CharacterCardWithParametersException e){
-            ((ClientMessage)message).createExceptionalNextMessage(new ClientMessageExceptionalVisitor(game, getVirtualViewByUsername(game.getCurrentPlayer().getUsername())));
-        }catch(NoSuchElementException e) {
-            game.setCurrentPlayer(game.getPlayers().get(0));
+        }catch(LastMoveException | CharacterCardWithParametersException | ChangeTurnException e){
             ((ClientMessage)message).createExceptionalNextMessage(new ClientMessageExceptionalVisitor(game, getVirtualViewByUsername(game.getCurrentPlayer().getUsername())));
         }catch(EndGameException e) {
             game.calculateWinner();

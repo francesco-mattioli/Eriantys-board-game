@@ -3,10 +3,7 @@ package it.polimi.ingsw.triton.launcher.server.controller.visitors;
 import it.polimi.ingsw.triton.launcher.server.Server;
 import it.polimi.ingsw.triton.launcher.server.model.Game;
 import it.polimi.ingsw.triton.launcher.server.model.cardeffects.*;
-import it.polimi.ingsw.triton.launcher.utils.exceptions.CharacterCardWithParametersException;
-import it.polimi.ingsw.triton.launcher.utils.exceptions.EndGameException;
-import it.polimi.ingsw.triton.launcher.utils.exceptions.IllegalClientInputException;
-import it.polimi.ingsw.triton.launcher.utils.exceptions.LastMoveException;
+import it.polimi.ingsw.triton.launcher.utils.exceptions.*;
 import it.polimi.ingsw.triton.launcher.utils.message.clientmessage.*;
 import it.polimi.ingsw.triton.launcher.utils.message.clientmessage.characterCardReply.*;
 
@@ -17,19 +14,19 @@ public class ClientMessageModifierVisitor {
         this.game = game;
     }
 
-    public void visitForModify(TowerColorReply message) throws IllegalClientInputException {
+    public void visitForModify(TowerColorReply message) throws IllegalClientInputException, ChangeTurnException {
         game.chooseTowerColor(message.getSenderUsername(), message.getPlayerColor());
-        game.setCurrentPlayer(game.getNextPlayer(game.getPlayerByUsername(message.getSenderUsername())));
+        game.setNextPlayer(game.getPlayerByUsername(message.getSenderUsername()));
     }
 
-    public void visitForModify(WizardReply message) throws IllegalClientInputException {
+    public void visitForModify(WizardReply message) throws IllegalClientInputException, ChangeTurnException {
         game.chooseWizard(message.getSenderUsername(), message.getPlayerWizard());
-        game.setCurrentPlayer(game.getNextPlayer(game.getPlayerByUsername(message.getSenderUsername())));
+        game.setNextPlayer(game.getPlayerByUsername(message.getSenderUsername()));
     }
 
-    public void visitForModify(AssistantCardReply message) throws IllegalClientInputException {
+    public void visitForModify(AssistantCardReply message) throws IllegalClientInputException, ChangeTurnException {
         game.chooseAssistantCard(message.getSenderUsername(), message.getChosenAssistantCard());
-        game.setCurrentPlayer(game.getNextPlayer(game.getPlayerByUsername(message.getSenderUsername())));
+        game.setNextPlayer(game.getPlayerByUsername(message.getSenderUsername()));
     }
 
     public void visitForModify(MoveStudentOntoDiningRoomMessage message) throws LastMoveException, IllegalClientInputException {
@@ -44,7 +41,7 @@ public class ClientMessageModifierVisitor {
         game.moveMotherNature(message.getNumSteps());
     }
 
-    public void visitForModify(CloudTileReply message) throws EndGameException, IllegalClientInputException {
+    public void visitForModify(CloudTileReply message) throws EndGameException, IllegalClientInputException, ChangeTurnException {
         game.chooseCloudTile(game.getCloudTileById(message.getSelectedCloudTileID()));
         game.nextGameTurn();
     }

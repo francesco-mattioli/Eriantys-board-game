@@ -47,7 +47,7 @@ public class ClientMessageErrorVisitor {
     }
 
     public void visitForSendErrorMessage(CharacterCardReply message){
-
+        virtualView.reSendLastCharacterCardMessage();
     }
 
 }
