@@ -19,7 +19,8 @@ public class UseCharacterCard implements Action {
 
     /**
      * @param characterCard the character card that player wants to purchase.
-     * @param currentPlayer specifies the player who has played the character card
+     * @param currentPlayer specifies the player who has played the character card.
+     * @param generalCoinSupply the general coin supply of the game.
      */
     public UseCharacterCard(CharacterCard characterCard, Player currentPlayer, GeneralCoinSupply generalCoinSupply) {
         this.characterCard = characterCard;

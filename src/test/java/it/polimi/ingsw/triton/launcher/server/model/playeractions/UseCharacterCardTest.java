@@ -1,70 +1,54 @@
 package it.polimi.ingsw.triton.launcher.server.model.playeractions;
 
 import it.polimi.ingsw.triton.launcher.server.model.Bag;
-import it.polimi.ingsw.triton.launcher.server.model.cardeffects.CardEffect;
-import it.polimi.ingsw.triton.launcher.server.model.cardeffects.CardEffect08;
+import it.polimi.ingsw.triton.launcher.server.model.GeneralCoinSupply;
 import it.polimi.ingsw.triton.launcher.server.model.cardeffects.CharacterCard;
-import it.polimi.ingsw.triton.launcher.server.model.player.Wallet;
+import it.polimi.ingsw.triton.launcher.server.model.player.Player;
 import it.polimi.ingsw.triton.launcher.utils.exceptions.IllegalClientInputException;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import java.util.ArrayList;
-
 import static org.junit.jupiter.api.Assertions.*;
-/*
+
 class UseCharacterCardTest {
     private CharacterCard characterCard;
-    private CardEffect cardEffect;
-    private Wallet wallet;
-    private Bag bag;
+    private Player player;
+    private GeneralCoinSupply generalCoinSupply;
 
     @BeforeEach
     void setup(){
-        characterCard = new CharacterCard(3, 1, 0, new Bag(2));
-        wallet = new Wallet();
+        characterCard = new CharacterCard(3, 2, 0, new Bag(2));
+        player = new Player("Test");
+        for(int i = 0; i < 5; i++)
+            player.getWallet().increaseValue();
+        generalCoinSupply = new GeneralCoinSupply(5);
     }
 
     @AfterEach
     void tearDown(){
         characterCard = null;
-        wallet = null;
-        bag = null;
-        cardEffect = null;
+        player = null;
+        generalCoinSupply = null;
     }
 
     /**
-     * Test if the card can be purchased by the player.
+     * Tests if the card can be purchased by the player.
      */
-/*
     @Test
-    void testCardCanBePurchased() {
-        for(int i = 0; i < 4; i++){
-            wallet.increaseValue();
-        }
-        int coinsAmount = wallet.getValue();
-        int cardCost = characterCard.getCost();
-        UseCharacterCard ucc = new UseCharacterCard(characterCard, new CardEffect08(new ArrayList<>()), wallet);
-        try {
-            ucc.execute();
-        } catch (IllegalClientInputException e) {
-            e.printStackTrace();
-        }
-        assertEquals(coinsAmount - cardCost, wallet.getValue());
+    void testCardCanNotBePurchased() {
+        player.getWallet().decrease(4);
+        UseCharacterCard ucc = new UseCharacterCard(characterCard, player, generalCoinSupply);
+        assertThrows(IllegalClientInputException.class, ucc::execute);
     }
 
     /**
-     * Test if the card cost is increased after using his effect.
+     * Tests if the card cost is increased after the player bought it.
      */
-/*
     @Test
-    void testCardCostIsIncreased() {
-        for(int i = 0; i < 4; i++){
-            wallet.increaseValue();
-        }
+    void checkNewPriceAfterBuyCard() {
         int oldCost = characterCard.getCost();
-        UseCharacterCard ucc = new UseCharacterCard(characterCard, new CardEffect08(new ArrayList<>()), wallet);
+        UseCharacterCard ucc = new UseCharacterCard(characterCard, player, generalCoinSupply);
         try {
             ucc.execute();
         } catch (IllegalClientInputException e) {
@@ -72,6 +56,36 @@ class UseCharacterCardTest {
         }
         assertEquals(oldCost+1, characterCard.getCost());
     }
-}
 
- */
+    /**
+     * Tests if the player's wallet is decreased correctly.
+     */
+    @Test
+    void checkWalletAfterBuyCard() {
+        int oldCost = characterCard.getCost();
+        int oldAmount = player.getWallet().getValue();
+        UseCharacterCard ucc = new UseCharacterCard(characterCard, player, generalCoinSupply);
+        try {
+            ucc.execute();
+        } catch (IllegalClientInputException e) {
+            e.printStackTrace();
+        }
+        assertEquals(oldAmount - oldCost, player.getWallet().getValue());
+    }
+
+    /**
+     * Tests if the general coin supply is increased correctly.
+     */
+    @Test
+    void checkGeneralCoinSupplyAfterBuyCard() {
+        int oldCost = characterCard.getCost();
+        int oldAmount = generalCoinSupply.getCoinsAmount();
+        UseCharacterCard ucc = new UseCharacterCard(characterCard, player, generalCoinSupply);
+        try {
+            ucc.execute();
+        } catch (IllegalClientInputException e) {
+            e.printStackTrace();
+        }
+        assertEquals(oldAmount + oldCost, generalCoinSupply.getCoinsAmount());
+    }
+}

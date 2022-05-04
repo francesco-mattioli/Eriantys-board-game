@@ -9,8 +9,6 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import java.util.NoSuchElementException;
-
 import static org.junit.jupiter.api.Assertions.*;
 
 class MoveStudentIntoDiningRoomTest {
@@ -70,7 +68,7 @@ class MoveStudentIntoDiningRoomTest {
         try {
             new MoveStudentIntoDiningRoom(color, player, generalCoinSupply).execute();
         } catch (IllegalClientInputException e) {
-            throw new RuntimeException(e);   //The test doesn't enter here.
+            e.printStackTrace();   //The test doesn't enter here.
         }
         assertEquals(oldBlueStudents + 1, player.getSchoolBoard().getDiningRoom()[color.ordinal()]);
     }
@@ -88,7 +86,7 @@ class MoveStudentIntoDiningRoomTest {
         try {
             new MoveStudentIntoDiningRoom(color, player, generalCoinSupply).execute();
         } catch (IllegalClientInputException e) {
-            throw new RuntimeException(e);    //The test doesn't enter here.
+            e.printStackTrace();   //The test doesn't enter here.
         }
         assertEquals(oldWallet + 1, player.getWallet().getValue());
     }
@@ -106,7 +104,7 @@ class MoveStudentIntoDiningRoomTest {
         try {
             new MoveStudentIntoDiningRoom(color, player, generalCoinSupply).execute();
         } catch (IllegalClientInputException e) {
-            throw new RuntimeException(e);    //The test doesn't enter here.
+            e.printStackTrace();    //The test doesn't enter here.
         }
         assertEquals(oldSupply - 1, generalCoinSupply.getCoinsAmount());
     }
@@ -127,8 +125,29 @@ class MoveStudentIntoDiningRoomTest {
         try {
             new MoveStudentIntoDiningRoom(color, player, generalCoinSupply).execute();
         } catch (IllegalClientInputException e) {
-            throw new RuntimeException(e);    //The test doesn't enter here.
+            e.printStackTrace();   //The test doesn't enter here.
         }
         assertEquals(oldSupply, generalCoinSupply.getCoinsAmount());
+    }
+
+    /**
+     * Tests if the general coin supply is not updated when the player
+     * puts a student in a position which is multiple of three and the supply is already empty.
+     */
+    @Test
+    void checksNotUpdateWalletWhenMultipleThreeAndSupplyEmpty(){
+        player.getSchoolBoard().getDiningRoom()[color.ordinal()]++;
+        player.getSchoolBoard().getDiningRoom()[color.ordinal()]++;
+        player.getSchoolBoard().getEntrance()[color.ordinal()]++;
+        for(int i = 0; i < 3; i++){
+            generalCoinSupply.decrement();
+        }
+        int oldAmount = player.getWallet().getValue();
+        try {
+            new MoveStudentIntoDiningRoom(color, player, generalCoinSupply).execute();
+        } catch (IllegalClientInputException e) {
+            e.printStackTrace();   //The test doesn't enter here.
+        }
+        assertEquals(oldAmount, player.getWallet().getValue());
     }
 }
