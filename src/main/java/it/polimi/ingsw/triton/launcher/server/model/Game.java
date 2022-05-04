@@ -65,8 +65,8 @@ public class Game extends Observable<Message> {
 
     /**
      * This method checks if the username entered by the player has already been chosen
-     * @param username
-     * @return true if the username has already been chosen else false
+     * @param username the username to check.
+     * @return true if the username has already been chosen, false otherwise.
      */
     private boolean isUsernameChosen(String username) {
         for (Player player : players) {
@@ -104,7 +104,7 @@ public class Game extends Observable<Message> {
 
 
     /**
-     * This method set the player's schoolboard with the chosen tower color
+     * This method set the player's schoolboard with the chosen tower color.
      * @param username the username of the player that has chosen the tower color.
      * @param towerColor the color of the tower.
      */
@@ -135,18 +135,18 @@ public class Game extends Observable<Message> {
 
     /**
      *
-     * @param username
-     * @param assistantCard
-     * @throws IllegalClientInputException
+     * @param username the username of the current player.
+     * @param assistantCard the assistant card to play.
+     * @throws IllegalClientInputException if the player can't play the assistant card.
      */
     public void chooseAssistantCard(String username, AssistantCard assistantCard) throws IllegalClientInputException{
         getPlayerByUsername(username).executeAction(new PlayAssistantCard(assistantCard, getPlayerByUsername(username), usedAssistantCards));
     }
 
     /**
-     * This method is used to manage the turns in preparation and planning phases
-     * @param current
-     * @throws ChangeTurnException
+     * This method is used to manage the turns in preparation and planning phases.
+     * @param current the current player.
+     * @throws ChangeTurnException if there's not another player that has to play in the current phase.
      */
     public void setNextPlayer(Player current) throws ChangeTurnException{
         int index = players.indexOf(current);
@@ -173,7 +173,7 @@ public class Game extends Observable<Message> {
     }
 
     /**
-     * This method executes the SETUP phase of the game
+     * This method executes the SETUP phase of the game.
      */
     public void setup() {
         gameState = GameState.SETUP;
@@ -237,7 +237,7 @@ public class Game extends Observable<Message> {
     }
 
     /**
-     * This method defines the game turn based on the played assistant cards
+     * This method defines the game turn based on the played assistant cards.
      */
     public void sortPlayerPerTurn() {
         players.sort(new PlayerTurnComparator());
@@ -568,7 +568,11 @@ public class Game extends Observable<Message> {
     }
 
 
-
+    /**
+     * @param id the id of the character card.
+     * @return the character card with that id.
+     * @throws IllegalClientInputException if the character card with that id doesn't exist.
+     */
     public CharacterCard getCharacterCardByID(int id) throws IllegalClientInputException{
         for(CharacterCard characterCard : characterCards){
             if(characterCard.getId() == id)
@@ -647,6 +651,10 @@ public class Game extends Observable<Message> {
         return mapSchoolBoards;
     }
 
+    /**
+     * @param idIsland the id of the island to find.
+     * @return true if the island with that id exists, false otherwise.
+     */
     private boolean existingIsland(int idIsland){
         for(Island island: islands){
             if(island.getId() == idIsland)
@@ -710,6 +718,11 @@ public class Game extends Observable<Message> {
         return availableCloudTiles;
     }
 
+    /**
+     * @param cloudTileId the id of the cloud tile to return.
+     * @return the cloud tile with the id passed by parameter.
+     * @throws IllegalClientInputException if the cloud tile with that id doesn't exist.
+     */
     public CloudTile getCloudTileById(int cloudTileId) throws IllegalClientInputException{
         for(CloudTile cloudTile: cloudTiles){
             if(cloudTile.getId() == cloudTileId)
@@ -718,6 +731,11 @@ public class Game extends Observable<Message> {
         throw new IllegalClientInputException();
     }
 
+    /**
+     * @param id the id of the island to return.
+     * @return the island with the id passed by parameter.
+     * @throws IllegalClientInputException if the island with that id doesn't exist.
+     */
     public Island getIslandByID(int id) throws IllegalClientInputException{
         for(Island island: islands){
             if(island.getId() == id)
