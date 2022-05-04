@@ -133,13 +133,20 @@ public class Game extends Observable<Message> {
         }
     }
 
+    /**
+     *
+     * @param username
+     * @param assistantCard
+     * @throws IllegalClientInputException
+     */
     public void chooseAssistantCard(String username, AssistantCard assistantCard) throws IllegalClientInputException{
         getPlayerByUsername(username).executeAction(new PlayAssistantCard(assistantCard, getPlayerByUsername(username), usedAssistantCards));
     }
 
     /**
-     * @return the next player that will play his turn.
-     * @throws ChangeTurnException if the there's not a next player.
+     * This method is used to manage the turns in preparation and planning phases
+     * @param current
+     * @throws ChangeTurnException
      */
     public void setNextPlayer(Player current) throws ChangeTurnException{
         int index = players.indexOf(current);
@@ -533,6 +540,7 @@ public class Game extends Observable<Message> {
         professorsManager.setProfessorStrategy(new ProfessorStrategyDefault());
         for(Island island: islands)
             island.setInfluenceStrategy(new InfluenceStrategyDefault());
+        setNextPlayer(currentPlayer);
         if (players.indexOf(currentPlayer) < maxNumberOfPlayers - 1){
             currentPlayer = players.get(players.indexOf(currentPlayer) + 1);
             notify(new YourTurnMessage(currentPlayer.getUsername()));

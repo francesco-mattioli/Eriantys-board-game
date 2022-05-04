@@ -15,16 +15,15 @@ import java.util.ArrayList;
 import java.util.NoSuchElementException;
 
 /**
- * Server has a reference to Controller. This reference is passed to
- * ServeOneClient, so the latter can send new data to the Controller.
- *
- * NoSuchElementException is caught when there is no next player.
+ * Controller is used to manage the game flow, using visitor pattern to modify the model and to send the correct following message, basing on CLientMessage type
+ * Controller is notified by virtual view, when a new message is received
+ * Login, number of players and game mode are not managed here, but in server
+ * Controller catches all exceptions that model throws
  */
 
 public class Controller implements Observer<Message> {
     private final Game game;
     private final ArrayList<VirtualView> virtualViews = new ArrayList<>();
-    String senderUsername;
 
     public Controller(Game game) {
         this.game = game;
@@ -338,6 +337,18 @@ public class Controller implements Observer<Message> {
         }
     }*/
 
+
+    /**
+     * This method is called by a virtual view notify
+     * @param message the message that was received from the client
+     * Received message is used to modify the model, using override ti establish what modifies I have to do
+     * modifyModel throws some exceptions, to manage the game flow correctly also in exceptional situations:
+     * 4 situations can be verified:
+     * Standard situation, the game is following the regular flow
+     * Error situation, the user gave a wrong input, so the message must be re-sent
+     * Exceptional situation, this game micro-phase is ended, so we need to start the next one. For example turn is changed.
+     * End game situations, the game is over and winner must be calculated
+     */
     @Override
     public void update(Message message) {
         try {
