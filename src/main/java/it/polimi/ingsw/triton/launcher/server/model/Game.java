@@ -120,6 +120,7 @@ public class Game extends Observable<Message> {
 
     /**
      * Sets the wizard to the player and creates a new request to the next player if present.
+     * When last wizard has been chosen, we call setup method and order randomly the player arraylist
      * @param username the player's username of who sets the wizard.
      * @param wizard the wizard selected by the player.
      */
@@ -131,6 +132,8 @@ public class Game extends Observable<Message> {
             getPlayerByUsername(username).setWizard(wizard);
             availableWizards.remove(wizard);
         }
+        if(Wizard.values().length - availableWizards.size() == maxNumberOfPlayers)
+            setup();
     }
 
     /**

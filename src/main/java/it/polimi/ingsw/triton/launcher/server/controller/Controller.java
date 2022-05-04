@@ -341,7 +341,7 @@ public class Controller implements Observer<Message> {
     /**
      * This method is called by a virtual view notify
      * @param message the message that was received from the client
-     * Received message is used to modify the model, using override ti establish what modifies I have to do
+     * Received message is used to modify the model, using overriding to establish what changes I have to do
      * modifyModel throws some exceptions, to manage the game flow correctly also in exceptional situations:
      * 4 situations can be verified:
      * Standard situation, the game is following the regular flow
