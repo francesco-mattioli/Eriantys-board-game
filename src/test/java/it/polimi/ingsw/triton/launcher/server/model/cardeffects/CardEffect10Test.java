@@ -5,6 +5,7 @@ import it.polimi.ingsw.triton.launcher.server.model.player.Player;
 import it.polimi.ingsw.triton.launcher.server.model.enums.Color;
 import it.polimi.ingsw.triton.launcher.server.model.enums.TowerColor;
 import it.polimi.ingsw.triton.launcher.utils.exceptions.EndGameException;
+import it.polimi.ingsw.triton.launcher.utils.exceptions.IllegalClientInputException;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -48,7 +49,7 @@ class CardEffect10Test {
         fromEntrance[Color.BLUE.ordinal()] = 3;
         try {
             characterCard.executeEffect(new CardEffect10(fromEntrance,fromDiningRoom,player.getSchoolBoard()));
-        } catch (EndGameException e) {
+        } catch (EndGameException | IllegalClientInputException e) {
             e.printStackTrace();
         }
         assertEquals(3,player.getSchoolBoard().getEntrance()[Color.PINK.ordinal()]);
@@ -73,7 +74,7 @@ class CardEffect10Test {
         fromEntrance[Color.BLUE.ordinal()] = 3;
         try {
             characterCard.executeEffect(new CardEffect10(fromEntrance,fromDiningRoom,player.getSchoolBoard()));
-        } catch (EndGameException e) {
+        } catch (EndGameException | IllegalClientInputException e) {
             e.printStackTrace();
         }
         assertEquals(3,player.getSchoolBoard().getDiningRoom()[Color.BLUE.ordinal()]);

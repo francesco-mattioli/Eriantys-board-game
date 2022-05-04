@@ -4,6 +4,7 @@ import it.polimi.ingsw.triton.launcher.server.model.Bag;
 import it.polimi.ingsw.triton.launcher.server.model.Island;
 import it.polimi.ingsw.triton.launcher.server.model.enums.Color;
 import it.polimi.ingsw.triton.launcher.utils.exceptions.EndGameException;
+import it.polimi.ingsw.triton.launcher.utils.exceptions.IllegalClientInputException;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -45,7 +46,7 @@ class CardEffect01Test {
         assert studentColorToDraw != -1;
         try {
             characterCard.executeEffect(new CardEffect01(characterCard, Color.values()[studentColorToDraw], island, bag));
-        } catch (EndGameException e) {
+        } catch (EndGameException | IllegalClientInputException e) {
             e.printStackTrace();
         }
         assertEquals(1,island.getStudents()[studentColorToDraw]);

@@ -3,11 +3,12 @@ package it.polimi.ingsw.triton.launcher.server.model.cardeffects;
 import it.polimi.ingsw.triton.launcher.server.model.Bag;
 import it.polimi.ingsw.triton.launcher.server.model.enums.Color;
 import it.polimi.ingsw.triton.launcher.server.model.player.SchoolBoard;
+import it.polimi.ingsw.triton.launcher.utils.exceptions.IllegalClientInputException;
 
 import java.io.Serializable;
 
 public class CardEffect11 implements CardEffect, Serializable {
-    private Color student;
+    private final Color student;
     private SchoolBoard schoolBoard;
     private Bag bag;
     private CharacterCard characterCard;
@@ -32,8 +33,12 @@ public class CardEffect11 implements CardEffect, Serializable {
      * The schoolboard is passed through the constructor.
      */
     @Override
-    public void execute() {
-        schoolBoard.getDiningRoom()[characterCard.drawStudent(student).ordinal()]++;
+    public void execute() throws IllegalClientInputException {
+        try{
+            schoolBoard.getDiningRoom()[characterCard.drawStudent(student).ordinal()]++;
+        }catch (IllegalArgumentException e){
+            throw new IllegalClientInputException();
+        }
         characterCard.addStudent(bag.drawStudent());
     }
 }
