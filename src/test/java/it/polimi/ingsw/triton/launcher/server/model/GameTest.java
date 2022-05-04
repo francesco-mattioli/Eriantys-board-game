@@ -53,7 +53,7 @@ class GameTest {
         } catch (IllegalClientInputException e) {
             e.printStackTrace();
         }
-
+        game.setup();
     }
 
     @AfterEach
@@ -276,5 +276,51 @@ class GameTest {
         game.getProfessors()[Color.GREEN.ordinal()] = game.getPlayers().get(2);
         assertEquals("Tie", game.calculateWinner());
     }*/
+
+    /**
+     * Tests if the method returns the correct island when exists.
+     */
+    @Test
+    void testGetIslandByIdWhenExists(){
+        Island island;
+        int indexIsland = 4;
+        try {
+            island = game.getIslandByID(indexIsland);
+        } catch (IllegalClientInputException e) {
+            throw new RuntimeException(e);
+        }
+        assertEquals(indexIsland, island.getId());
+    }
+
+    /**
+     * Tests if the method launches an exception when the island doesn't exists.
+     */
+    @Test
+    void testGetIslandByIdWhenNotExists(){
+        assertThrows(IllegalClientInputException.class, ()->game.getIslandByID(20));
+    }
+
+    /**
+     * Tests if the method returns the correct cloud tile when exists.
+     */
+    @Test
+    void testGetCloudTileByIdWhenExists(){
+        CloudTile cloudTile;
+        int indexCloudTile = 1;
+        try {
+            cloudTile = game.getCloudTileById(indexCloudTile);
+        } catch (IllegalClientInputException e) {
+            throw new RuntimeException(e);
+        }
+        assertEquals(indexCloudTile, cloudTile.getId());
+    }
+
+    /**
+     * Tests if the method launches an exception when the cloud tile doesn't exists.
+     */
+    @Test
+    void testGetCloudTileByIdWhenNotExists(){
+        assertThrows(IllegalClientInputException.class, ()->game.getCloudTileById(20));
+    }
 }
 
