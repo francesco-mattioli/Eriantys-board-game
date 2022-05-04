@@ -290,7 +290,7 @@ public class Game extends Observable<Message> {
 
     /**
      * Executes the action of moving a player from entrance to the dining room.
-     * @param student the color of the student to move
+     * @param student the color of the student to move.
      */
     public void executeActionMoveStudentToDiningRoom(Color student) throws LastMoveException, IllegalClientInputException {
         boolean empty = generalCoinSupply.isEmpty();
@@ -304,6 +304,12 @@ public class Game extends Observable<Message> {
         checkNumberMoves();   //checks if the move was the last one throwing lastMoveException
     }
 
+    /**
+     * @param student the color of the student to move.
+     * @param idIsland the id of the island where the player wants to move the student to.
+     * @throws IllegalClientInputException if the island doesn't exist or if there aren't students of the color specified by the player in the entrance.
+     * @throws LastMoveException if the player has moved the students three times.
+     */
     public void executeActionMoveStudentToIsland(Color student, int idIsland) throws IllegalClientInputException, LastMoveException {
         if(!existingIsland(idIsland)){
             throw new IllegalClientInputException();
@@ -389,7 +395,7 @@ public class Game extends Observable<Message> {
     }
 
     /**
-     * This method sorts the players ArrayList random, and sets correctly the current player
+     * This method sorts the players ArrayList random, and sets correctly the current player.
      */
     private void setupPlayers(){
         for(Player player: players){
@@ -440,7 +446,7 @@ public class Game extends Observable<Message> {
 
     /**
      * This method remove a player and then end the game.
-     * @param player to remove
+     * @param player the player to remove.
      */
     public void removePlayer(Player player) {
         players.remove(player);
@@ -450,7 +456,7 @@ public class Game extends Observable<Message> {
     /**
      * This method merge two or more adjacent islands with the same dominator.
      * @param motherNaturePosition the island where mother nature is located.
-     * @throws EndGameException
+     * @throws EndGameException when there are only three groups of islands.
      */
     public void mergeNearIslands(Island motherNaturePosition) throws EndGameException {
         motherNaturePosition.updateInfluence(players, professors);
@@ -497,8 +503,8 @@ public class Game extends Observable<Message> {
 
     /**
      * This methods calculates the winner when one player has the max number of towers onto islands.
-     * If two or more players have the same number of towers on islands, is called a new method for the calculation of the winner because of professors
-     * If there is a winner, virtualViews are notified using a WinMessage
+     * If two or more players have the same number of towers on islands, is called a new method for the calculation of the winner because of professors.
+     * If there is a winner, virtualViews are notified using a WinMessage.
      */
     public void calculateWinner(){
         gameState = GameState.END;
@@ -515,8 +521,8 @@ public class Game extends Observable<Message> {
 
     /**
      * This methods checks occurrences of players in list into the professors array.
-     * If one of the players has more professors than the others, he's the winner, else we have a tie
-     * In case of tie we notify virtualViews using a TieMessage, which specifies the list of the peer players
+     * If one of the players has more professors than the others, he's the winner, else we have a tie.
+     * In case of tie we notify virtualViews using a TieMessage, which specifies the list of the peer players.
      * @param list gains the list of the players that have the same number of towers, so they are potentially peer.
      */
     private void checkForTie(List<Player> list){
@@ -541,7 +547,6 @@ public class Game extends Observable<Message> {
         motherNature.resetAdditionalSteps();
         for(Island island: islands)
             island.setInfluenceStrategy(new InfluenceStrategyDefault());
-        setNextPlayer(currentPlayer);
         if (players.indexOf(currentPlayer) < maxNumberOfPlayers - 1){
             currentPlayer = players.get(players.indexOf(currentPlayer) + 1);
             notify(new YourTurnMessage(currentPlayer.getUsername()));
@@ -560,7 +565,7 @@ public class Game extends Observable<Message> {
 
     /**
      * Sends messages to the player to ask the parameters for some effects.
-     * @param idCard the id of the selected character card
+     * @param idCard the id of the selected character card.
      */
     public void useCharacterCard(int idCard) throws IllegalClientInputException, CharacterCardWithParametersException {
         currentPlayer.executeAction(new UseCharacterCard(getCharacterCardByID(idCard), currentPlayer, generalCoinSupply));
@@ -583,7 +588,7 @@ public class Game extends Observable<Message> {
     }
 
     /**
-     * @param characterCardID the character card to play
+     * @param characterCardID the character card to play.
      * @param cardEffect the effect to apply.
      */
     public void applyCharacterCardEffect(int characterCardID, CardEffect cardEffect) throws IllegalClientInputException, EndGameException {
@@ -611,8 +616,8 @@ public class Game extends Observable<Message> {
 
     /**
      *
-     * @param currentIsland
-     * @return next island on the left
+     * @param currentIsland the current island.
+     * @return next island on the left.
      */
     private Island nextIsland(Island currentIsland) {
         if (islands.indexOf(currentIsland) == islands.size() - 1) {
@@ -623,7 +628,7 @@ public class Game extends Observable<Message> {
 
     /**
      *
-     * @param currentIsland
+     * @param currentIsland the current island.
      * @return previous island on the right.
      */
     private Island prevIsland(Island currentIsland) {
