@@ -645,8 +645,7 @@ public class Game extends Observable<Message> {
      * This method removes the played assistant card from the player's deck.
      */
     private void resetPlayedCardInTurn() {
-        for (AssistantCard assistantCard : usedAssistantCards)
-            usedAssistantCards.remove(assistantCard);
+        usedAssistantCards.clear();
     }
 
     /**

@@ -114,12 +114,16 @@ public class Cli extends Observable<Message> implements ClientView{
         try {
             out.print("Choose a tower color [ ");
             for(int i=0;i< chosenTowerColors.length;i++){
-                if(!chosenTowerColors[i])
-                    out.print(TowerColor.values()[i]+" ");
+                if(!chosenTowerColors[i]) {
+                    out.print(i + " for " + TowerColor.values()[i]);
+                    if(i<chosenTowerColors.length-1)
+                        out.print(", ");
+                }
+
             }
             out.print("]");
             String input = readLine();
-            notify(new TowerColorReply(clientModel.getUsername(), TowerColor.valueOf(input.toUpperCase())));
+            notify(new TowerColorReply(clientModel.getUsername(), TowerColor.values()[Integer.parseInt(input)]));
         } catch (ExecutionException | NullPointerException e) {
             out.println(TRY_AGAIN);
             askTowerColor(chosenTowerColors);
