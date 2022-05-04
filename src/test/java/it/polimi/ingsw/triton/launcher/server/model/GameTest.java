@@ -1,5 +1,6 @@
 package it.polimi.ingsw.triton.launcher.server.model;
 
+import it.polimi.ingsw.triton.launcher.server.model.cardeffects.CharacterCard;
 import it.polimi.ingsw.triton.launcher.server.model.enums.Color;
 import it.polimi.ingsw.triton.launcher.server.model.enums.TowerColor;
 import it.polimi.ingsw.triton.launcher.server.model.enums.Wizard;
@@ -321,6 +322,29 @@ class GameTest {
     @Test
     void testGetCloudTileByIdWhenNotExists(){
         assertThrows(IllegalClientInputException.class, ()->game.getCloudTileById(20));
+    }
+
+    /**
+     * Tests if the method returns the correct character card when exists.
+     */
+    @Test
+    void testGetCharacterCardByIdWhenExists(){
+        CharacterCard characterCard;
+        int indexCharacterCard = game.getCharacterCards().get(1).getId();
+        try {
+            characterCard = game.getCharacterCardByID(indexCharacterCard);
+        } catch (IllegalClientInputException e) {
+            throw new RuntimeException(e);
+        }
+        assertEquals(indexCharacterCard, characterCard.getId());
+    }
+
+    /**
+     * Tests if the method launches an exception when the character card doesn't exists.
+     */
+    @Test
+    void testGetCharacterCardByIdWhenNotExists(){
+        assertThrows(IllegalClientInputException.class, ()->game.getCharacterCardByID(20));
     }
 }
 

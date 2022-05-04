@@ -538,6 +538,7 @@ public class Game extends Observable<Message> {
      */
     public void nextGameTurn() throws EndGameException, ChangeTurnException {
         professorsManager.setProfessorStrategy(new ProfessorStrategyDefault());
+        motherNature.resetAdditionalSteps();
         for(Island island: islands)
             island.setInfluenceStrategy(new InfluenceStrategyDefault());
         setNextPlayer(currentPlayer);
