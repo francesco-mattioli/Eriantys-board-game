@@ -757,8 +757,4 @@ public class Game extends Observable<Message> {
     public void setGameState(GameState gameState) {
         this.gameState = gameState;
     }
-
-    public void setCurrentPlayer(Player currentPlayer) {
-        this.currentPlayer = currentPlayer;
-    }
 }
