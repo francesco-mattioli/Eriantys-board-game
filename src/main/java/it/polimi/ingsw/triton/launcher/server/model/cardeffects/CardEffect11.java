@@ -35,11 +35,8 @@ public class CardEffect11 implements CardEffect, Serializable {
      */
     @Override
     public void execute() throws IllegalClientInputException {
-        try{
-            schoolBoard.getDiningRoom()[characterCard.drawStudent(student).ordinal()]++;
-        }catch (IllegalArgumentException e){
-            throw new IllegalClientInputException(ErrorTypeID.ILLEGAL_MOVE);
-        }
-        characterCard.addStudent(bag.drawStudent());
+        schoolBoard.getDiningRoom()[characterCard.drawStudent(student).ordinal()]++;
+        if(!bag.isEmpty())
+            characterCard.addStudent(bag.drawStudent());
     }
 }

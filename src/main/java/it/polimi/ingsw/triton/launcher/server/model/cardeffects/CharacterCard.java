@@ -4,6 +4,7 @@ import it.polimi.ingsw.triton.launcher.server.model.Bag;
 import it.polimi.ingsw.triton.launcher.server.model.enums.Color;
 import it.polimi.ingsw.triton.launcher.utils.exceptions.EndGameException;
 import it.polimi.ingsw.triton.launcher.utils.exceptions.IllegalClientInputException;
+import it.polimi.ingsw.triton.launcher.utils.message.ErrorTypeID;
 
 import java.io.Serializable;
 
@@ -67,11 +68,11 @@ public class CharacterCard implements Serializable {
      * @param student to draw from the CharacterCard
      * @return the color of the drawn student
      */
-    public Color drawStudent(Color student) throws IllegalArgumentException {
+    public Color drawStudent(Color student) throws IllegalClientInputException {
         if (student == null)
-            throw new IllegalArgumentException("Color cannot be null");
+            throw new IllegalClientInputException(ErrorTypeID.ILLEGAL_MOVE);
         if (students[student.ordinal()] < 1)
-            throw new IllegalArgumentException("This student is not present on the CharacterCard");
+            throw new IllegalClientInputException(ErrorTypeID.ILLEGAL_MOVE);
         else {
             // This array contains the students present on the CharacterCard
             // Decrements the counter in the position corresponding to the drawn student

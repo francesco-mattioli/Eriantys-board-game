@@ -33,11 +33,8 @@ public class CardEffect01 implements CardEffect, Serializable {
      */
     @Override
     public void execute() throws IllegalClientInputException {
-        try{
-            island.addStudent(characterCard.drawStudent(student));
+        island.addStudent(characterCard.drawStudent(student));
+        if(!bag.isEmpty())
             characterCard.addStudent(bag.drawStudent());
-        }catch (IllegalArgumentException e){
-            throw new IllegalClientInputException(ErrorTypeID.ILLEGAL_MOVE);
-        }
     }
 }

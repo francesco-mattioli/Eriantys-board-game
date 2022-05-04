@@ -18,9 +18,9 @@ public class Bag implements Serializable {
 
 
     /**
-     * Draw a random student from the bag.
+     * Draws a random student from the bag.
      *
-     * @return a random student
+     * @return a random student.
      */
     public Color drawStudent() throws NoSuchElementException {
         if(isEmpty())
@@ -43,7 +43,7 @@ public class Bag implements Serializable {
 
 
     /**
-     * Add to the bag 24 students for each color
+     * Adds to the bag 24 students for each color.
      */
     public void fillBag() {
         for (int i = 0; i < Color.numOfColors(); i++) {
@@ -52,9 +52,9 @@ public class Bag implements Serializable {
     }
 
     /**
-     * Add a student to the bag
+     * Adds a student to the bag.
      *
-     * @param color the student to add to the bag
+     * @param color the student to add to the bag.
      */
     public void addStudent(Color color) throws IllegalArgumentException {
         if (color == null)
@@ -64,9 +64,9 @@ public class Bag implements Serializable {
 
 
     /**
-     * This method checks if the bag is empty
+     * This method checks if the bag is empty.
      *
-     * @return true if the bag is empty, else return false
+     * @return true if the bag is empty, else return false.
      */
     public boolean isEmpty() {
         for (int i = 0; i < Color.numOfColors(); i++) {
@@ -77,7 +77,7 @@ public class Bag implements Serializable {
     }
 
     /**
-     * @return the array of students of the bag
+     * @return the array of students of the bag.
      */
     public int[] getStudents() {
         return students;
