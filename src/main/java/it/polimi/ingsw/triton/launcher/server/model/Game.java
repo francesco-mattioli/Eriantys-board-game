@@ -45,7 +45,6 @@ public class Game extends Observable<Message> {
     // This array must be shown to users, so they can choose a towerColor that is not already chosen.
     private final boolean[] towerColorChosen;
     private ArrayList<Wizard> availableWizards;
-    private boolean lastRound = false;
     private GameState gameState;
 
     public Game(int maxNumberOfPlayers) {
@@ -217,15 +216,13 @@ public class Game extends Observable<Message> {
                 try{
                     student = bag.drawStudent();
                 }catch(NoSuchElementException e){           //HERE we don't expect to enter
-                    lastRound = true;
-                    notify(new EmptyBagMessage());
+                    //notify(new EmptyBagMessage());
                     exit = true;
                     break;
                 }
                 cloudTile.setStudents(student);
                 if(bag.isEmpty()){
-                    lastRound = true;
-                    notify(new EmptyBagMessage());
+                    //notify(new EmptyBagMessage());
                     exit = true;
                     break;
                 }
@@ -267,7 +264,7 @@ public class Game extends Observable<Message> {
         gameState = GameState.PLANNING_PHASE;
         addStudentsToCloudTiles();
         resetPlayedCardInTurn();
-        notify(new CloudTilesInfoMessage(cloudTiles));
+        //notify(new CloudTilesInfoMessage(cloudTiles));
     }
 
 
@@ -551,7 +548,7 @@ public class Game extends Observable<Message> {
             currentPlayer = players.get(players.indexOf(currentPlayer) + 1);
             notify(new YourTurnMessage(currentPlayer.getUsername()));
         }
-        else if(!lastRound && players.indexOf(currentPlayer) == maxNumberOfPlayers - 1){
+        else if(!currentPlayer.getAssistantDeck().getAssistantDeck().isEmpty() && !bag.isEmpty() && players.indexOf(currentPlayer) == maxNumberOfPlayers - 1){
             currentPlayer = players.get(0);
             notify(new YourTurnMessage(currentPlayer.getUsername()));
             planningPhase();

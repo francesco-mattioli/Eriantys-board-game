@@ -2,6 +2,7 @@ package it.polimi.ingsw.triton.launcher.server.model.cardeffects;
 
 import it.polimi.ingsw.triton.launcher.server.model.Bag;
 import it.polimi.ingsw.triton.launcher.server.model.enums.Color;
+import it.polimi.ingsw.triton.launcher.utils.exceptions.IllegalClientInputException;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -41,7 +42,7 @@ class CharacterCardTest {
      */
     @Test
     void throwsIllegalArgumentExceptionWhenDrawingNull(){
-        assertThrows(IllegalArgumentException.class,()->{card.drawStudent(null);});
+        assertThrows(IllegalClientInputException.class,()->{card.drawStudent(null);});
     }
 
 
@@ -51,7 +52,7 @@ class CharacterCardTest {
     @Test
     void throwsIllegalArgumentExceptionWhenStudentNotPresent(){
         //Green is not present on the card
-        assertThrows(IllegalArgumentException.class,()->{card.drawStudent(Color.GREEN);});
+        assertThrows(IllegalClientInputException.class,()->{card.drawStudent(Color.GREEN);});
     }
 
     /**
@@ -68,7 +69,11 @@ class CharacterCardTest {
      */
     @Test
     void numberOfStudentsIsOneSmallerAfterDraw() {
-        Color color=card.drawStudent(Color.BLUE);
+        try {
+            Color color=card.drawStudent(Color.BLUE);
+        } catch (IllegalClientInputException e) {
+            throw new RuntimeException(e);
+        }
         int[] students = card.getStudents();
         int sum=0;
         for (int student : students) {
