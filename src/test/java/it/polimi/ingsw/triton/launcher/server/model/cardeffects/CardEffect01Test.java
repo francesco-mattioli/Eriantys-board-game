@@ -36,6 +36,16 @@ class CardEffect01Test {
     }
 
     /**
+     * This test checks if the effect launches an exception when the player wants to move a student which
+     * is not on the character card.
+     */
+    @Test
+    public void addStudentWhenCardHasNotStudentOfThatColor(){
+        characterCard.getStudents()[Color.GREEN.ordinal()] = 0;
+        assertThrows(IllegalClientInputException.class, ()->characterCard.executeEffect(new CardEffect01(characterCard, Color.GREEN, island, bag)));
+    }
+
+    /**
      * This test checks if the effect adds only one student when the island has zero.
      * We call the helper method aStudentOnTheCard() in order to execute the test
      * drawing a student that is actually on the card.
@@ -53,9 +63,9 @@ class CardEffect01Test {
     }
 
     /**
-     * This is a helper method for addStudentIntoIslandWhenHasZeroStudents
-     * @param card on which identify a student present on the card
-     * @return the student Color of a student present on the card
+     * This is a helper method for addStudentIntoIslandWhenHasZeroStudents.
+     * @param card on which identify a student present on the card.
+     * @return the student Color of a student present on the card.
      */
     public int aStudentOnTheCard(CharacterCard card){
         for(int i=0;i<card.getStudents().length;i++){

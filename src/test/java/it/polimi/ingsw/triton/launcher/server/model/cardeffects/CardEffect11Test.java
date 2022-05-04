@@ -26,6 +26,7 @@ class CardEffect11Test {
         player.setSchoolBoard(TowerColor.BLACK, 2);
         characterCard = new CharacterCard(11,0,0,bag);
         characterCard.getStudents()[Color.BLUE.ordinal()] = 1;
+        characterCard.getStudents()[Color.GREEN.ordinal()] = 0;
     }
 
     @AfterEach
@@ -36,7 +37,16 @@ class CardEffect11Test {
     }
 
     /**
-     * This test check if the effect adds only one student when the entrance has zero
+     * This test checks if the effect launches an exception when the player wants to move a student which
+     * is not on the character card.
+     */
+    @Test
+    public void addStudentWithColorNotOnTheCard(){
+        assertThrows(IllegalClientInputException.class, ()->characterCard.executeEffect(new CardEffect11(Color.GREEN, player.getSchoolBoard(),bag,characterCard)));
+    }
+
+    /**
+     * This test checks if the effect adds only one student when the entrance has zero.
      */
     @Test
     public void addStudentWhenDiningRoomHasZero(){
@@ -47,5 +57,4 @@ class CardEffect11Test {
         }
         assertEquals(1,player.getSchoolBoard().getDiningRoom()[Color.BLUE.ordinal()]);
     }
-
 }

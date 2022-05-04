@@ -41,7 +41,7 @@ class CardEffect10Test {
 
 
     /**
-     * This test checks if students are swapped correctly from the dining room to the entrance
+     * This test checks if students are swapped correctly from the dining room to the entrance.
      */
     @Test
     public void checkIfStudentSwitchedInEntrance(){
@@ -56,17 +56,17 @@ class CardEffect10Test {
     }
 
     /**
-     * This test throws an exception if entrance hasn't enough students
+     * This test throws an exception if entrance hasn't enough students.
      */
     @Test
     public void throwExceptionIfNotEnoughStudentsInEntrance(){
         fromDiningRoom[Color.PINK.ordinal()] = 3;
         fromEntrance[Color.BLUE.ordinal()] = 4;
-        assertThrows(RuntimeException.class, () -> {characterCard.executeEffect(new CardEffect10(fromEntrance,fromDiningRoom,player.getSchoolBoard()));});
+        assertThrows(IllegalClientInputException.class, () -> {characterCard.executeEffect(new CardEffect10(fromEntrance,fromDiningRoom,player.getSchoolBoard()));});
     }
 
     /**
-     * This test checks if students are swapped correctly from the entrance to the dining room
+     * This test checks if students are swapped correctly from the entrance to the dining room.
      */
     @Test
     public void checkIfStudentSwitchedInDiningRoom(){
@@ -81,14 +81,12 @@ class CardEffect10Test {
     }
 
     /**
-     * This test throws an exception if dining room hasn't enough students
+     * This test throws an exception if dining room hasn't enough students.
      */
     @Test
     public void throwExceptionIfNotEnoughStudentsInDiningRoom(){
         fromDiningRoom[Color.PINK.ordinal()] = 4;
         fromEntrance[Color.BLUE.ordinal()] = 3;
-        assertThrows(RuntimeException.class, () -> {characterCard.executeEffect(new CardEffect10(fromEntrance,fromDiningRoom,player.getSchoolBoard()));});
+        assertThrows(IllegalClientInputException.class, () -> {characterCard.executeEffect(new CardEffect10(fromEntrance,fromDiningRoom,player.getSchoolBoard()));});
     }
-
-
 }

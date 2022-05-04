@@ -41,7 +41,7 @@ class CardEffect07Test {
     }
 
     /**
-     * This test checks if students are swapped correctly from the card to the entrance
+     * This test checks if students are swapped correctly from the card to the entrance.
      */
     @Test
     public void checkIfStudentSwitchedInEntrance(){
@@ -56,17 +56,17 @@ class CardEffect07Test {
     }
 
     /**
-     * This test throws an exception if entrance hasn't enough students
+     * This test throws an exception if entrance hasn't enough students.
      */
     @Test
     public void throwExceptionIfNotEnoughStudentsInEntrance(){
         fromCard[Color.PINK.ordinal()] = 3;
         fromSchoolBoard[Color.BLUE.ordinal()] = 4;
-        assertThrows(RuntimeException.class, () -> {characterCard.executeEffect(new CardEffect07(characterCard.getStudents(), fromCard, fromSchoolBoard, player.getSchoolBoard()));});
+        assertThrows(IllegalClientInputException.class, () -> {characterCard.executeEffect(new CardEffect07(characterCard.getStudents(), fromCard, fromSchoolBoard, player.getSchoolBoard()));});
     }
 
     /**
-     * This test checks if students are swapped correctly from the entrance to the card
+     * This test checks if students are swapped correctly from the entrance to the card.
      */
     @Test
     public void checkIfStudentSwitchedInCharacterCard(){
@@ -83,13 +83,12 @@ class CardEffect07Test {
     }
 
     /**
-     * This test throws an exception if card hasn't enough students
+     * This test throws an exception if card hasn't enough students.
      */
     @Test
     public void throwExceptionIfNotEnoughStudentsOnCharacterCard(){
         fromCard[Color.PINK.ordinal()] = 4;
         fromSchoolBoard[Color.BLUE.ordinal()] = 3;
-        assertThrows(RuntimeException.class, () -> {characterCard.executeEffect(new CardEffect07(characterCard.getStudents(), fromCard, fromSchoolBoard, player.getSchoolBoard()));});
+        assertThrows(IllegalClientInputException.class, () -> {characterCard.executeEffect(new CardEffect07(characterCard.getStudents(), fromCard, fromSchoolBoard, player.getSchoolBoard()));});
     }
-
 }
