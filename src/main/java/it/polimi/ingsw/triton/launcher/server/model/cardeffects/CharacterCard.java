@@ -59,7 +59,7 @@ public class CharacterCard implements Serializable {
     /**
      * @param cardEffect is the effect that will be executed when the method is called
      */
-    public void executeEffect(CardEffect cardEffect) throws EndGameException {
+    public void executeEffect(CardEffect cardEffect) throws EndGameException, IllegalClientInputException {
         cardEffect.execute();
     }
 

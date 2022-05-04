@@ -2,6 +2,7 @@ package it.polimi.ingsw.triton.launcher.server.model.cardeffects;
 
 import it.polimi.ingsw.triton.launcher.server.model.player.SchoolBoard;
 import it.polimi.ingsw.triton.launcher.server.model.enums.Color;
+import it.polimi.ingsw.triton.launcher.utils.exceptions.IllegalClientInputException;
 
 import java.io.Serializable;
 
@@ -26,7 +27,7 @@ public class CardEffect10 implements CardEffect, Serializable {
      * This method swaps a maximum of three students from the dining room to the entrance
      */
     @Override
-    public void execute() {
+    public void execute() throws IllegalClientInputException {
         removeStudentsFromDiningRoom();
         removeStudentsFromEntrance();
         addStudentsIntoDiningRoom();
@@ -38,14 +39,14 @@ public class CardEffect10 implements CardEffect, Serializable {
      * This method remove the selected students from the dining room
      * @throws RuntimeException
      */
-    public void removeStudentsFromDiningRoom(){
+    public void removeStudentsFromDiningRoom() throws IllegalClientInputException {
         for (int i = 0; i < schoolBoard.getDiningRoom().length; i++){
             for (int j = 0; j < fromDiningRoom.length; j++){
                 if (Color.values()[i].ordinal() == Color.values()[j].ordinal()){
                     if (fromDiningRoom[j] <= schoolBoard.getDiningRoom()[i]){
                         schoolBoard.getDiningRoom()[i] -= fromDiningRoom[j];
                     }
-                    else throw new RuntimeException("There aren't enough students on the card!");
+                    else throw new IllegalClientInputException();
                 }
 
             }
@@ -57,14 +58,14 @@ public class CardEffect10 implements CardEffect, Serializable {
      * This method remove the selected students from the entrance
      * @throws RuntimeException
      */
-    public void removeStudentsFromEntrance() throws RuntimeException{
+    public void removeStudentsFromEntrance() throws RuntimeException, IllegalClientInputException {
         for (int i = 0; i < schoolBoard.getEntrance().length; i++){
             for (int j = 0; j < fromEntrance.length; j++){
                 if (Color.values()[i].ordinal() == Color.values()[j].ordinal()){
                     if (fromEntrance[j] <= schoolBoard.getEntrance()[i]){
                         schoolBoard.getEntrance()[i] -= fromEntrance[j];
                     }
-                    else throw new RuntimeException("There aren't enough students on the card!");
+                    else throw new IllegalClientInputException();
                 }
             }
         }
