@@ -48,23 +48,37 @@ class IslandTest {
         card05 = new CharacterCard(5, 2, 4, bag);
     }
 
+    /**
+     * Tests if the influence is calculated correctly with the default strategy.
+     */
     @Test
     void defaultInfluence(){
         assertEquals(3, island1.calculateInfluence(p1, professors, island1.getDominator()));
     }
 
+    /**
+     * Tests if the influence is calculated correctly with the strategy
+     * of the character card 09.
+     */
     @Test
     void strategy09Influence(){
         island1.setInfluenceStrategy(new InfluenceStrategyWithEffect09(Color.BLUE));
         assertEquals(2, island1.calculateInfluence(p1, professors, island1.getDominator()));
     }
 
+    /**
+     * Tests if the influence is calculated correctly with the strategy
+     * of the character card 08.
+     */
     @Test
     void strategy08Influence(){
         island1.setInfluenceStrategy(new InfluenceStrategyWithEffect08());
         assertEquals(5, island1.calculateInfluence(p1, professors, island1.getDominator()));
     }
 
+    /**
+     * Tests if the dominator of the island is updated after calculating the influence.
+     */
     @Test
     void updateInfluence(){
         try {
@@ -76,7 +90,7 @@ class IslandTest {
     }
 
     /**
-     * This test verifies what happens when two players have the same influence on an island and there are no towers
+     * This test verifies what happens when two players have the same influence on an island and there are no towers.
      */
     @Test
     void updateInfluenceEquals(){
@@ -91,7 +105,7 @@ class IslandTest {
     }
 
     /**
-     * This test verifies if the influence of tower is correctly calculated
+     * This test verifies if the influence of tower is correctly calculated.
      */
     @Test
     void defaultInfluenceWithTowers(){
@@ -104,7 +118,7 @@ class IslandTest {
     }
 
     /**
-     * This test verifies il the dominator is correctly calculated when some towers are already on the island
+     * This test verifies il the dominator is correctly calculated when some towers are already on the island.
      */
     @Test
     void updateInfluenceWithTowers(){
@@ -124,7 +138,7 @@ class IslandTest {
     }
 
     /**
-     * This test verifies the limit situation when two players have the same influence, but there are already towers on the island
+     * This test verifies the limit situation when two players have the same influence, but there are already towers on the island.
      */
     @Test
     void updateInfluenceEqualsWithTowers(){
@@ -145,7 +159,7 @@ class IslandTest {
     }
 
     /**
-     * This test verifies the limit situation when a player overtakes the actual dominator
+     * This test verifies the limit situation when a player overtakes the actual dominator.
      */
     @Test
     void updateInfluenceWithChangeDomination(){
@@ -166,6 +180,10 @@ class IslandTest {
         assertEquals(p2, island1.getDominator());
     }
 
+    /**
+     * Tests if the dominator is updated after calculating the influence with
+     * the strategy of the character card 06.
+     */
     @Test
     void strategy06InfluenceEqualsWithTowers(){
         island1.setInfluenceStrategy(new InfluenceStrategyWithEffect06());
@@ -177,6 +195,9 @@ class IslandTest {
         assertEquals(3, island1.calculateInfluence(p1, professors, island1.getDominator()));
     }
 
+    /**
+     * Tests if the influence is not calculated when there's a no entry tile on the island.
+     */
     @Test
     void updateInfluenceNoEntryTiles(){
         island1.setCharacterCard05(card05);
@@ -195,6 +216,10 @@ class IslandTest {
         assertEquals(0, island1.getNoEntryTiles());
     }
 
+    /**
+     * Tests if the influence is not calculated when there's a no entry tile on the island,
+     * even if the dominator should change with the default strategy.
+     */
     @Test
     void updateInfluenceNoEntryTilesWithPossibleOvertake(){
         island1.setCharacterCard05(card05);
@@ -217,6 +242,9 @@ class IslandTest {
         assertEquals(p1, island1.getDominator());
     }
 
+    /**
+     * Tests if the dimension of the resultant island is correct after merging two islands.
+     */
     @Test
     void twoMergedIslandsOfDim1ShouldHaveDim2(){
         island2.addStudent(Color.BLUE);
@@ -235,6 +263,9 @@ class IslandTest {
         assertEquals(2, island1.getDim());
     }
 
+    /**
+     * Tests if the number of students on the resultant island is correct after merging two islands.
+     */
     @Test
     void mergedIslandsHaveTheSumOfStudents(){
         island2.addStudent(Color.BLUE);
@@ -253,7 +284,7 @@ class IslandTest {
         assertEquals(3, island1.getStudents()[Color.BLUE.ordinal()]);
     }
 
-    @Test
+    /*@Test
     void mergeIslandsWithoutSameDominator(){
         island2.addStudent(Color.RED);
         try {
@@ -267,9 +298,9 @@ class IslandTest {
             e.printStackTrace();
         }
         assertThrows(IllegalArgumentException.class, () -> {island1.merge(island2);});
-    }
+    }*/
 
-    @Test
+    /*@Test
     void mergeIslandsWithNullDominator(){
         try {
             island1.updateInfluence(players, professors);
@@ -282,6 +313,5 @@ class IslandTest {
             e.printStackTrace();
         }
         assertThrows(IllegalArgumentException.class, () -> {island1.merge(island2);});
-    }
-
+    }*/
 }

@@ -23,7 +23,7 @@ class BagTest {
     }
 
     /**
-     * Test if the bag is empty throws an exception
+     * Tests if the bag is empty throws an exception
      */
     @Test
     void throwsNoSuchElementExceptionIfEmpty() {
@@ -32,7 +32,7 @@ class BagTest {
     }
 
     /**
-     * Test if after the function draw the number of students is correct
+     * Tests if after the function draw the number of students is correct
      */
     @Test
     void drawOneStudentWhenTheBagHasTwo() {
@@ -49,7 +49,7 @@ class BagTest {
 
 
     /**
-     * Test if after the function draw the number of students is correct
+     * Tests if after the function draw the number of students is correct
      */
     @Test
     void drawOneStudentWhenTheBagHasOne() {
@@ -65,7 +65,7 @@ class BagTest {
 
 
     /**
-     * Test if after the function draw the correct student color
+     * Tests if after the function draw the correct student color
      */
     @Test
     void drawCorrectStudentColor() {
@@ -111,7 +111,7 @@ class BagTest {
 
 
     /**
-     * Test if bag  his contains 120 (24 students for each color) students after fillbag()
+     * Tests if bag  his contains 120 (24 students for each color) students after fillbag()
      */
     @Test
     void fillBag() {
@@ -125,7 +125,7 @@ class BagTest {
     }
 
     /**
-     * Test throws an exception if color == null
+     * Tests throws an exception if color == null
      */
     @Test
     void addNullStudentColor(){
@@ -133,7 +133,7 @@ class BagTest {
     }
 
     /**
-     * Test if after the function add the number of students is correct
+     * Tests if after the function add the number of students is correct
      */
     @Test
     void addStudentWhenBagEmpty() {
@@ -147,7 +147,7 @@ class BagTest {
     }
 
     /**
-     * Test if the bag is empty
+     * Tests if the bag is empty
      */
     @Test
     void theBagIsEmpty() {
@@ -156,7 +156,7 @@ class BagTest {
     }
 
     /**
-     * Test if the bag is not empty
+     * Tests if the bag is not empty
      */
     @Test
     void theBagIsNotEmpty() {
