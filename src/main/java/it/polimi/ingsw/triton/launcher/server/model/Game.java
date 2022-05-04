@@ -308,9 +308,9 @@ public class Game extends Observable<Message> {
         if(!existingIsland(idIsland)){
             throw new IllegalClientInputException();
         }else{
-            currentPlayer.executeAction(new MoveStudentOntoIsland(currentPlayer.getSchoolBoard(), student, findIsland(idIsland)));
+            currentPlayer.executeAction(new MoveStudentOntoIsland(currentPlayer.getSchoolBoard(), student, getIslandByID(idIsland)));
             currentPlayer.setMoveCounter(currentPlayer.getMoveCounter() + 1);
-            notify(new InfoStudentOntoIslandMessage(currentPlayer.getUsername(), currentPlayer.getSchoolBoard(), findIsland(idIsland)));
+            notify(new InfoStudentOntoIslandMessage(currentPlayer.getUsername(), currentPlayer.getSchoolBoard(), getIslandByID(idIsland)));
             checkNumberMoves();
         }
     }
@@ -653,15 +653,6 @@ public class Game extends Observable<Message> {
                 return true;
         }
         return false;
-    }
-
-    private Island findIsland(int idIsland){
-        for(Island island: islands){
-            if(island.getId() == idIsland)
-                return island;
-        }
-        //We don't expect to reach this statement because we check in the caller method if there's not an island with that id
-        return null;
     }
 
     //----------------------------------------------
