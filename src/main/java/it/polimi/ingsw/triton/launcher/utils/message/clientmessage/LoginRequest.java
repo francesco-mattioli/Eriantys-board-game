@@ -7,6 +7,7 @@ import it.polimi.ingsw.triton.launcher.utils.exceptions.CharacterCardWithParamet
 import it.polimi.ingsw.triton.launcher.utils.exceptions.EndGameException;
 import it.polimi.ingsw.triton.launcher.utils.exceptions.IllegalClientInputException;
 import it.polimi.ingsw.triton.launcher.utils.exceptions.LastMoveException;
+import it.polimi.ingsw.triton.launcher.utils.message.servermessage.BroadcastMessageVisitor;
 
 import java.util.NoSuchElementException;
 
@@ -28,6 +29,11 @@ public class LoginRequest extends ClientMessage {
 
     @Override
     public void createInputErrorMessage(ClientMessageErrorVisitor visitor) {
+
+    }
+
+    @Override
+    public void accept(BroadcastMessageVisitor messageVisitor) {
 
     }
 }
