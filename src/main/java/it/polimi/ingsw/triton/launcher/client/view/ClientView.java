@@ -22,4 +22,40 @@ public interface ClientView extends View {
     void showGenericMessage(String genericMessage);
     void showLobbyMessage(ArrayList<String> onlineNicknames, int maxNumberPlayers );
     void showGameInfo(ArrayList<CharacterCard> availableCharacterCards, ArrayList<Island> islands, Map<String, SchoolBoard> schoolBoards, ArrayList<CloudTile> cloudTiles);
+
+    void showChangeInfluenceMessage();
+
+    void showDisconnectionMessage();
+
+    void showEmptyBagMessage();
+
+    void showErrorMessage();
+
+    void showFillCloudTilesMessage();
+
+    void showFullLobbyMessage();
+
+    void showInfoActionPhase();
+
+    void showInfoAssistantCardPlayed();
+
+    void showLoginReply();
+
+    void showMergeIslandsMessage();
+
+    void showMotherNaturePosition();
+
+    void showMoveTowerOntoIsland();
+
+    void showMoveTowerOntoSchoolBoard();
+
+    void showTieMessage();
+
+    void showWinMessage();
+
+    void showLoseMessage();
+
+    void showYourTurnMessage();
+
+    void showAvailableCharacterCard();
 }

@@ -47,11 +47,6 @@ public class VirtualView extends Observable<Message> implements View, Observer<M
     }
 
     @Override
-    public void showChangeInfluenceMessage() {
-        //IT MUST NOT BE HERE!!
-    }
-
-    @Override
     public void askCloudTile() {
         CloudTileRequest requestMessage = new CloudTileRequest();
         serveOneClient.sendMessage(requestMessage);
@@ -59,68 +54,8 @@ public class VirtualView extends Observable<Message> implements View, Observer<M
     }
 
     @Override
-    public void showDisconnectionMessage() {
-        //IT MUST NOT BE HERE
-    }
-
-    @Override
-    public void showEmptyBagMessage() {
-        //IT MUST NOT BE HERE
-    }
-
-    @Override
-    public void showErrorMessage() {
-        //IT MUST NOT BE HERE
-    }
-
-    @Override
-    public void showFillCloudTilesMessage() {
-        //IT MUST NOT BE HERE
-    }
-
-    @Override
-    public void showFullLobbyMessage() {
-        //IT MUST NOT BE HERE
-    }
-
-    @Override
-    public void showGameInfo() {
-        //IT MUST NOT BE HERE
-    }
-
-    @Override
-    public void showGenericMessage() {
-        //IT MUST NOT BE HERE
-    }
-
-    @Override
-    public void showInfoActionPhase() {
-        //IT MUST NOT BE HERE
-    }
-
-    @Override
-    public void showInfoAssistantCardPlayed() {
-        //IT MUST NOT BE HERE
-    }
-
-    @Override
-    public void showLobbyMessage() {
-        //IT MUST NOT BE HERE
-    }
-
-    @Override
     public void showLoginReply() {
-        //IT MUST NOT BE HERE
-    }
 
-    @Override
-    public void showMergeIslandsMessage() {
-        //IT MUST NOT BE HERE
-    }
-
-    @Override
-    public void showMotherNaturePosition() {
-        //IT MUST NOT BE HERE
     }
 
     @Override
@@ -128,16 +63,6 @@ public class VirtualView extends Observable<Message> implements View, Observer<M
         MoveStudentFromEntranceMessage requestMessage = new MoveStudentFromEntranceMessage();
         serveOneClient.sendMessage(requestMessage);
         lastMessage = requestMessage;
-    }
-
-    @Override
-    public void showMoveTowerOntoIsland() {
-        //IT MUST NOT BE HERE
-    }
-
-    @Override
-    public void showMoveTowerOntoSchoolBoard() {
-        //IT MUST NOT BE HERE
     }
 
     @Override
@@ -153,11 +78,6 @@ public class VirtualView extends Observable<Message> implements View, Observer<M
     }
 
     @Override
-    public void showTieMessage() {
-        //IT MUST NOT BE HERE
-    }
-
-    @Override
     public void askTowerColor(boolean[] towerColorChosen) {
         serveOneClient.sendMessage(new TowerColorRequest(towerColorChosen));
     }
@@ -165,28 +85,6 @@ public class VirtualView extends Observable<Message> implements View, Observer<M
     @Override
     public void askWizard(ArrayList<Wizard> wizards) {
         serveOneClient.sendMessage(new WizardRequest(wizards));
-    }
-
-
-    @Override
-    public void showWinMessage() {
-        //IT MUST NOT BE HERE
-    }
-
-
-    @Override
-    public void showLoseMessage() {
-        //IT MUST NOT BE HERE
-    }
-
-    @Override
-    public void showYourTurnMessage() {
-        //IT MUST NOT BE HERE
-    }
-
-    @Override
-    public void showAvailableCharacterCard() {
-        //IT MUST NOT BE HERE
     }
 
     @Override

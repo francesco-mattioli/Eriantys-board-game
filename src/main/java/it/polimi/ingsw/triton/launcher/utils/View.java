@@ -8,82 +8,39 @@ import java.util.ArrayList;
 
 public interface View {
 
-    public void askTowerColor(boolean[] towerColorChosen);
+    void askTowerColor(boolean[] towerColorChosen);
 
-    public void askWizard(ArrayList<Wizard> wizards);
+    void askWizard(ArrayList<Wizard> wizards);
 
-    public void askAssistantCard();
+    void askAssistantCard();
 
-    public void showChangeInfluenceMessage();
+    void askCloudTile();
 
-    public void askCloudTile();
+    void showLoginReply();
 
-    public void showDisconnectionMessage();
+    void askMoveStudentFromEntrance();
 
-    public void showEmptyBagMessage();
+    void askNumberStepsMotherNature();
 
-    public void showErrorMessage();
+    void askGameMode();
 
-    public void showFillCloudTilesMessage();
+    void askPlayersNumber();
 
-    public void showFullLobbyMessage();
+    void askStudentsToMoveOntoIslandCharCard01();
 
-    public void showGameInfo();
+    void askIslandToCalculateInfluenceCharCard03();
 
-    public void showGenericMessage();
+    void askIslandToPutNoEntryTileCharCard05();
 
-    public void showInfoActionPhase();
+    void askStudentToSwitchFromCardToEntranceCharCard07();
 
-    public void showInfoAssistantCardPlayed();
+    void askColorWithNoInfluenceCharCard09();
 
-    public void showLobbyMessage();
+    void askStudentsToSwitchCharCard10();
 
-    public void showLoginReply();
+    void askStudentsToMoveIntoDiningRoomCharCard11();
 
-    public void showMergeIslandsMessage();
-
-    public void showMotherNaturePosition();
-
-    public void askMoveStudentFromEntrance();
-
-    public void showMoveTowerOntoIsland();
-
-    public void showMoveTowerOntoSchoolBoard();
-
-    public void askNumberStepsMotherNature();
-
-    public void askGameMode();
-
-    public void askPlayersNumber();
-
-    public void showTieMessage();
-
-
-
-    public void showWinMessage();
-
-    public void showLoseMessage();
-
-
-    public void showYourTurnMessage();
-
-    public void showAvailableCharacterCard();
-
-    public void askStudentsToMoveOntoIslandCharCard01();
-
-    public void askIslandToCalculateInfluenceCharCard03();
-
-    public void askIslandToPutNoEntryTileCharCard05();
-
-    public void askStudentToSwitchFromCardToEntranceCharCard07();
-
-    public void askColorWithNoInfluenceCharCard09();
-
-    public void askStudentsToSwitchCharCard10();
-
-    public void askStudentsToMoveIntoDiningRoomCharCard11();
-
-    public void askColorCharCard12();
+    void askColorCharCard12();
 
     void showErrorMessage(ErrorTypeID fullLobby);
 }
