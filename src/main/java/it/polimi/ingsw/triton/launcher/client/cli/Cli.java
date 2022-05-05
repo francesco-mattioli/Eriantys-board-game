@@ -214,16 +214,14 @@ public class Cli extends Observable<Message> implements ClientView{
             SchoolBoard schoolBoard= clientModel.getSchoolBoards().get(clientModel.getUsername());
             out.print(schoolBoard.toString());
             out.println("To do so, type on each line [color of student, d (for dining room) ] or [color of student, island id]");
-            for(int i=0;i<3;i++){
-                out.println("Please, enter data: ");
-                String input = readLine();
-                String[] splittedInput = input.split(",");
-                Color color=Color.valueOf(splittedInput[0].toUpperCase());
-                if(splittedInput[1].equals("d"))
-                    notify(new MoveStudentOntoDiningRoomMessage(clientModel.getUsername(),color));
-                else
-                    notify(new MoveStudentOntoIslandMessage(clientModel.getUsername(),Integer.parseInt(splittedInput[1]),color));
-            }
+            out.println("Please, enter data: ");
+            String input = readLine();
+            String[] splittedInput = input.split(",");
+            Color color=Color.valueOf(splittedInput[0].toUpperCase());
+            if(splittedInput[1].equals("d"))
+                notify(new MoveStudentOntoDiningRoomMessage(clientModel.getUsername(),color));
+            else
+                notify(new MoveStudentOntoIslandMessage(clientModel.getUsername(),Integer.parseInt(splittedInput[1]),color));
         } catch (ExecutionException | NullPointerException e) {
             out.println(TRY_AGAIN);
             askMoveStudentFromEntrance();
