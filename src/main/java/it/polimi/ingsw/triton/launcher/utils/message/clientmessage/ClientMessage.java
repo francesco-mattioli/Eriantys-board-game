@@ -11,7 +11,7 @@ import it.polimi.ingsw.triton.launcher.server.controller.visitors.ClientMessageS
 
 import java.util.NoSuchElementException;
 
-public abstract class ClientMessage extends Message{
+public abstract class ClientMessage implements Message{
     protected final String senderUsername;
 
     public ClientMessage(String senderUsername) {

@@ -1,16 +1,15 @@
-package it.polimi.ingsw.triton.launcher.utils.message.servermessage.Broadcast;
+package it.polimi.ingsw.triton.launcher.utils.message.servermessage.infoMessage;
 
 
 import it.polimi.ingsw.triton.launcher.client.ServerMessageVisitor;
 import it.polimi.ingsw.triton.launcher.server.model.Island;
 import it.polimi.ingsw.triton.launcher.server.model.player.SchoolBoard;
-import it.polimi.ingsw.triton.launcher.utils.message.MessageType;
-import it.polimi.ingsw.triton.launcher.utils.message.servermessage.ServerMessage;
+import it.polimi.ingsw.triton.launcher.utils.message.servermessage.InfoMessage;
 
 import java.util.ArrayList;
 import java.util.Map;
 
-public class InfoActionPhase extends ServerMessage {
+public class InfoActionPhase extends InfoMessage {
     private Map<String, SchoolBoard> allSchoolBoards;
     private ArrayList<Island> islands;
     private Island motherNaturePosition;

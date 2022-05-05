@@ -1,12 +1,10 @@
 package it.polimi.ingsw.triton.launcher.client;
 
-import it.polimi.ingsw.triton.launcher.client.model.ClientModel;
 import it.polimi.ingsw.triton.launcher.client.view.ClientView;
-import it.polimi.ingsw.triton.launcher.server.model.AssistantCard;
-import it.polimi.ingsw.triton.launcher.utils.message.MessageType;
-import it.polimi.ingsw.triton.launcher.utils.message.servermessage.*;
-import it.polimi.ingsw.triton.launcher.utils.message.servermessage.Broadcast.*;
+import it.polimi.ingsw.triton.launcher.utils.message.servermessage.infoMessage.*;
 import it.polimi.ingsw.triton.launcher.utils.message.servermessage.Requests.*;
+import it.polimi.ingsw.triton.launcher.utils.message.servermessage.infoMessage.infoMessageWithReceiver.GiveAssistantDeckMessage;
+import it.polimi.ingsw.triton.launcher.utils.message.servermessage.infoMessage.infoMessageWithReceiver.LoginReply;
 
 public class ServerMessageVisitor {
     private final ClientView clientView;

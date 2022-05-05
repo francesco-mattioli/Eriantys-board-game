@@ -1,11 +1,11 @@
-package it.polimi.ingsw.triton.launcher.utils.message.servermessage.Broadcast;
+package it.polimi.ingsw.triton.launcher.utils.message.servermessage.infoMessage;
 
 
 import it.polimi.ingsw.triton.launcher.client.ServerMessageVisitor;
 import it.polimi.ingsw.triton.launcher.server.model.Island;
-import it.polimi.ingsw.triton.launcher.utils.message.MessageType;
+import it.polimi.ingsw.triton.launcher.utils.message.servermessage.InfoMessage;
 
-public class MotherNaturePositionMessage extends BroadcastServerMessage {
+public class MotherNaturePositionMessage extends InfoMessage {
     private final Island motherNaturePosition;
     public MotherNaturePositionMessage(Island motherNaturePosition) {
         this.motherNaturePosition = motherNaturePosition;

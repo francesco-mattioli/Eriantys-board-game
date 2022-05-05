@@ -1,12 +1,12 @@
-package it.polimi.ingsw.triton.launcher.utils.message.servermessage.Broadcast;
+package it.polimi.ingsw.triton.launcher.utils.message.servermessage.infoMessage;
 
 
 import it.polimi.ingsw.triton.launcher.client.ServerMessageVisitor;
 import it.polimi.ingsw.triton.launcher.server.model.CloudTile;
 import it.polimi.ingsw.triton.launcher.server.model.player.SchoolBoard;
-import it.polimi.ingsw.triton.launcher.utils.message.MessageType;
+import it.polimi.ingsw.triton.launcher.utils.message.servermessage.InfoMessage;
 
-public class InfoChosenCloudTileMessage extends BroadcastServerMessage{
+public class InfoChosenCloudTileMessage extends InfoMessage {
     private final String playerUsername;
     private final SchoolBoard playerSchoolBoard;
     private final CloudTile cloudTile;

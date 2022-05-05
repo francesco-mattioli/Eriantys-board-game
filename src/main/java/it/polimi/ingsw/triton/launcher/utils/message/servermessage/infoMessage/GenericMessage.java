@@ -1,10 +1,9 @@
-package it.polimi.ingsw.triton.launcher.utils.message.servermessage.Broadcast;
+package it.polimi.ingsw.triton.launcher.utils.message.servermessage.infoMessage;
 
 import it.polimi.ingsw.triton.launcher.client.ServerMessageVisitor;
-import it.polimi.ingsw.triton.launcher.utils.message.MessageType;
-import it.polimi.ingsw.triton.launcher.utils.message.servermessage.ServerMessage;
+import it.polimi.ingsw.triton.launcher.utils.message.servermessage.InfoMessage;
 
-public class GenericMessage extends ServerMessage {
+public class GenericMessage extends InfoMessage {
     private final String stringMessage;
     public GenericMessage(String stringMessage) {
         this.stringMessage = stringMessage;

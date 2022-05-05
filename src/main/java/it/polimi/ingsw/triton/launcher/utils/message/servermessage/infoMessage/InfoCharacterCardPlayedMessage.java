@@ -1,14 +1,14 @@
-package it.polimi.ingsw.triton.launcher.utils.message.servermessage.Broadcast;
+package it.polimi.ingsw.triton.launcher.utils.message.servermessage.infoMessage;
 
 
 import it.polimi.ingsw.triton.launcher.client.ServerMessageVisitor;
 import it.polimi.ingsw.triton.launcher.server.model.cardeffects.CharacterCard;
-import it.polimi.ingsw.triton.launcher.utils.message.MessageType;
+import it.polimi.ingsw.triton.launcher.utils.message.servermessage.InfoMessage;
 
 /**
  * This message communicates to the players which character card was selected by the player.
  */
-public class InfoCharacterCardPlayedMessage extends BroadcastServerMessage{
+public class InfoCharacterCardPlayedMessage extends InfoMessage {
     private final String playerUsername;
     private final CharacterCard characterCard;
     public InfoCharacterCardPlayedMessage(String playerUsername, CharacterCard characterCard) {

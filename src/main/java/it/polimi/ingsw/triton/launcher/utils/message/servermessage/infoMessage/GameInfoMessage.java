@@ -1,18 +1,19 @@
-package it.polimi.ingsw.triton.launcher.utils.message.servermessage.Broadcast;
+package it.polimi.ingsw.triton.launcher.utils.message.servermessage.infoMessage;
 
 import it.polimi.ingsw.triton.launcher.client.ServerMessageVisitor;
 import it.polimi.ingsw.triton.launcher.server.model.CloudTile;
 import it.polimi.ingsw.triton.launcher.server.model.Island;
 import it.polimi.ingsw.triton.launcher.server.model.cardeffects.CharacterCard;
 import it.polimi.ingsw.triton.launcher.server.model.player.SchoolBoard;
-import it.polimi.ingsw.triton.launcher.utils.message.MessageType;
+import it.polimi.ingsw.triton.launcher.utils.message.servermessage.InfoMessage;
+
 import java.util.ArrayList;
 import java.util.Map;
 
 /**
  * This message communicates to all the players the info of the game.
  */
-public class GameInfoMessage extends BroadcastServerMessage {
+public class GameInfoMessage extends InfoMessage {
     private final ArrayList<CharacterCard> availableCharacterCards;
     private final ArrayList<Island> islands;
     private final Island motherNaturePosition;

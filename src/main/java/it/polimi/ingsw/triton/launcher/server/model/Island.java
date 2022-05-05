@@ -7,8 +7,8 @@ import it.polimi.ingsw.triton.launcher.server.model.influencestrategy.InfluenceS
 import it.polimi.ingsw.triton.launcher.server.model.player.Player;
 import it.polimi.ingsw.triton.launcher.utils.exceptions.EndGameException;
 import it.polimi.ingsw.triton.launcher.utils.message.Message;
-import it.polimi.ingsw.triton.launcher.utils.message.servermessage.Broadcast.ChangeInfluenceMessage;
-import it.polimi.ingsw.triton.launcher.utils.message.servermessage.Broadcast.MoveTowerOntoIslandMessage;
+import it.polimi.ingsw.triton.launcher.utils.message.servermessage.infoMessage.ChangeInfluenceMessage;
+import it.polimi.ingsw.triton.launcher.utils.message.servermessage.infoMessage.MoveTowerOntoIslandMessage;
 import it.polimi.ingsw.triton.launcher.utils.obs.Observable;
 
 import java.io.Serializable;
