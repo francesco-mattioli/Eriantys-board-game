@@ -9,7 +9,6 @@ import it.polimi.ingsw.triton.launcher.server.model.player.SchoolBoard;
 import it.polimi.ingsw.triton.launcher.utils.obs.Observable;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Map;
 
 /**
@@ -22,6 +21,7 @@ public class ClientModel extends Observable<Object> {
     private ArrayList<Island> islands;
     private Map<String, SchoolBoard> schoolBoards;
     private ArrayList<CloudTile> cloudTiles;
+    private Island motherNaturePosition;
 
     @Override
     public String toString() {
@@ -31,7 +31,8 @@ public class ClientModel extends Observable<Object> {
                 ", \n- availableCharacterCards=" + printAvailableCharacterCard() +
                 ", \n- schoolBoards=\n\t" + schoolBoards +
                 ", \n- cloudTiles =" + printCloudTiles() +
-                ", \n- motherNaturePosition =" +
+                ", \n- islands =" + printIslands() +
+                ", \n- motherNaturePosition =" + motherNaturePosition.toString() +
                 '}';
     }
 
@@ -99,6 +100,20 @@ public class ClientModel extends Observable<Object> {
         return results;
     }
 
+    public String printIslands(){
+        String results = " ";
+        for (Island island: islands) {
+            results += island.toString();
+        }
+        return results;
+    }
 
 
+    public Island getMotherNaturePosition() {
+        return motherNaturePosition;
+    }
+
+    public void setMotherNaturePosition(Island motherNaturePosition) {
+        this.motherNaturePosition = motherNaturePosition;
+    }
 }

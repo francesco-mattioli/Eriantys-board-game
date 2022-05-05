@@ -13,6 +13,7 @@ import it.polimi.ingsw.triton.launcher.utils.obs.Observable;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 public class Island extends Observable<Message> implements Serializable {
 
@@ -165,5 +166,13 @@ public class Island extends Observable<Message> implements Serializable {
 
     public void setDominator(Player dominator) {
         this.dominator = dominator;
+    }
+
+    public String toString(){
+        return "{id: " + id +"," +
+                "dimension: " + dim + "," +
+                "dominator: " + dominator + "," +
+                "students: " + Arrays.toString(students) + "," +
+                "number no entry tiles: " + noEntryTiles + "}";
     }
 }

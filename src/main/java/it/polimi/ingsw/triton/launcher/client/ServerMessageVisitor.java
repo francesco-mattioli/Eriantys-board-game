@@ -1,6 +1,7 @@
 package it.polimi.ingsw.triton.launcher.client;
 
 import it.polimi.ingsw.triton.launcher.client.view.ClientView;
+import it.polimi.ingsw.triton.launcher.utils.message.servermessage.ServerMessage;
 import it.polimi.ingsw.triton.launcher.utils.message.servermessage.infoMessage.*;
 import it.polimi.ingsw.triton.launcher.utils.message.servermessage.Requests.*;
 import it.polimi.ingsw.triton.launcher.utils.message.servermessage.infoMessage.infoMessageWithReceiver.GiveAssistantDeckMessage;
@@ -14,7 +15,7 @@ public class ServerMessageVisitor {
     }
 
 
-    public void visit(BroadcastServerMessage message){
+    public void visit(ServerMessage message){
         // DEFAULT METHOD, otherwise it does not work
         clientView.showGenericMessage("GRPOW");
     }
@@ -64,7 +65,7 @@ public class ServerMessageVisitor {
     }
 
     public void visit(GameInfoMessage message){
-        clientView.showGameInfo(message.getAvailableCharacterCards(),message.getIslands(),message.getSchoolBoards(),message.getCloudTiles());
+        clientView.showGameInfo(message.getAvailableCharacterCards(),message.getIslands(),message.getSchoolBoards(),message.getCloudTiles(), message.getMotherNaturePosition());
     }
 
     public void visit(CloudTileRequest message){

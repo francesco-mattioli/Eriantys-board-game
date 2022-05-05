@@ -22,7 +22,7 @@ public interface ClientView extends View {
     // Show methods
     void showGenericMessage(String genericMessage);
     void showLobbyMessage(ArrayList<String> onlineNicknames, int maxNumberPlayers );
-    void showGameInfo(ArrayList<CharacterCard> availableCharacterCards, ArrayList<Island> islands, Map<String, SchoolBoard> schoolBoards, ArrayList<CloudTile> cloudTiles);
+    void showGameInfo(ArrayList<CharacterCard> availableCharacterCards, ArrayList<Island> islands, Map<String, SchoolBoard> schoolBoards, ArrayList<CloudTile> cloudTiles, Island motherNaturePosition);
 
     void showChangeInfluenceMessage();
 
