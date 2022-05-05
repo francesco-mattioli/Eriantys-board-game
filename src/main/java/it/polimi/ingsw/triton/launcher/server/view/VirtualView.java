@@ -55,7 +55,7 @@ public class VirtualView extends Observable<Message> implements View, Observer<M
 
     @Override
     public void showLoginReply() {
-        //Todo implement
+        serveOneClient.sendMessage(new LoginReply());
     }
 
     @Override
@@ -80,46 +80,6 @@ public class VirtualView extends Observable<Message> implements View, Observer<M
     @Override
     public void askWizard(ArrayList<Wizard> wizards) {
         serveOneClient.sendMessage(new WizardRequest(wizards));
-    }
-
-    @Override
-    public void askStudentsToMoveOntoIslandCharCard01() {
-        //IT MUST NOT BE HERE
-    }
-
-    @Override
-    public void askIslandToCalculateInfluenceCharCard03() {
-        //IT MUST NOT BE HERE
-    }
-
-    @Override
-    public void askIslandToPutNoEntryTileCharCard05() {
-        //IT MUST NOT BE HERE
-    }
-
-    @Override
-    public void askStudentToSwitchFromCardToEntranceCharCard07() {
-        //IT MUST NOT BE HERE
-    }
-
-    @Override
-    public void askColorWithNoInfluenceCharCard09() {
-        //IT MUST NOT BE HERE
-    }
-
-    @Override
-    public void askStudentsToSwitchCharCard10() {
-        //IT MUST NOT BE HERE
-    }
-
-    @Override
-    public void askStudentsToMoveIntoDiningRoomCharCard11() {
-        //IT MUST NOT BE HERE
-    }
-
-    @Override
-    public void askColorCharCard12() {
-        //IT MUST NOT BE HERE
     }
 
     public void askCharacterCardParameters(int id){
