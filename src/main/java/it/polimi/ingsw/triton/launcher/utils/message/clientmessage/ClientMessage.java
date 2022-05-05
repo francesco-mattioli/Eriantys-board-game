@@ -1,6 +1,6 @@
 package it.polimi.ingsw.triton.launcher.utils.message.clientmessage;
 
-import it.polimi.ingsw.triton.launcher.client.ServerMessageVisitor;
+
 import it.polimi.ingsw.triton.launcher.server.Server;
 import it.polimi.ingsw.triton.launcher.utils.exceptions.*;
 import it.polimi.ingsw.triton.launcher.utils.message.Message;

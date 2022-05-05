@@ -12,7 +12,7 @@ import it.polimi.ingsw.triton.launcher.utils.View;
 
 import java.util.ArrayList;
 
-public class VirtualView extends Observable<Message> implements View, Observer<Message> {
+public class VirtualView extends Observable<Message> implements View, Observer<InfoMessage> {
     private ServeOneClient serveOneClient;
     private String username;
     private Message lastMessage;
@@ -24,8 +24,8 @@ public class VirtualView extends Observable<Message> implements View, Observer<M
     }
 
     @Override
-    public void update(Message message) {
-        ((InfoMessage)message).accept(new InfoMessageVisitor(serveOneClient, username));
+    public void update(InfoMessage message) {
+        message.accept(new InfoMessageVisitor(serveOneClient, username));
     }
 
     public void askGameMode(){
