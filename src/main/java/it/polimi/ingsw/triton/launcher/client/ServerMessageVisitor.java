@@ -33,7 +33,7 @@ public class ServerMessageVisitor {
     }
 
     public void visit(PlayersNumberRequest message){
-        clientView.askPlayersNumber();
+        clientView.askNumOfPlayers();
     }
 
     public void visit(TowerColorRequest message){
@@ -53,8 +53,11 @@ public class ServerMessageVisitor {
     }
 
     public void visit(GiveAssistantDeckMessage message){
-        // NOT SURE
         clientView.getClientModel().setAssistantDeck(message.getAssistantDeck());
+    }
+
+    public void visit(MoveStudentFromEntranceMessage message){
+        clientView.askMoveStudentFromEntrance();
     }
 
     public void visit(GenericMessage message){

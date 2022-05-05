@@ -6,6 +6,7 @@ import it.polimi.ingsw.triton.launcher.server.model.CloudTile;
 import it.polimi.ingsw.triton.launcher.server.model.Island;
 import it.polimi.ingsw.triton.launcher.server.model.cardeffects.CharacterCard;
 import it.polimi.ingsw.triton.launcher.server.model.enums.AssistantCardType;
+import it.polimi.ingsw.triton.launcher.server.model.enums.Color;
 import it.polimi.ingsw.triton.launcher.server.model.enums.TowerColor;
 import it.polimi.ingsw.triton.launcher.server.model.enums.Wizard;
 import it.polimi.ingsw.triton.launcher.server.model.player.AssistantDeck;
@@ -41,13 +42,12 @@ public class Cli extends Observable<Message> implements ClientView{
      * Print the logo and welcome the player.
      */
     public void start() {
-        out.println("\n" +
+        out.print("\n" +
                 "  _____   ____    ___      _      _   _   _____  __   __  ____  \n" +
                 " | ____| |  _ \\  |_ _|    / \\    | \\ | | |_   _| \\ \\ / / / ___| \n" +
                 " |  _|   | |_) |  | |    / _ \\   |  \\| |   | |    \\ V /  \\___ \\ \n" +
                 " | |___  |  _ <   | |   / ___ \\  | |\\  |   | |     | |    ___) |\n" +
-                " |_____| |_| \\_\\ |___| /_/   \\_\\ |_| \\_|   |_|     |_|   |____/ \n" +
-                "                                                                \n");
+                " |_____| |_| \\_\\ |___| /_/   \\_\\ |_| \\_|   |_|     |_|   |____/ \n");
         out.println("Welcome to Eriantys!");
         init();
     }
@@ -91,21 +91,21 @@ public class Cli extends Observable<Message> implements ClientView{
     }
 
     @Override
-    public void askPlayersNumber() {
+    public void askNumOfPlayers() {
         try {
-                out.print("Enter number of players: [2 or 3] ");
+                out.print("Enter number of players [2 or 3]: ");
                 String input = readLine();
                 int numOfPlayers = Integer.parseInt(input);
                 notify(new PlayersNumberReply(clientModel.getUsername(), numOfPlayers));
             } catch (ExecutionException | NumberFormatException e) {
                 out.println(TRY_AGAIN);
-                askPlayersNumber();
+                askNumOfPlayers();
         }
     }
 
     public void showLobbyMessage(ArrayList<String> onlineNicknames, int maxNumberPlayers ) {
         out.println("There are " + onlineNicknames.size() +
-                "/" + maxNumberPlayers + " players connected; Waiting for " + (maxNumberPlayers-onlineNicknames.size()) + " players");
+                " out of " + maxNumberPlayers + " players connected; Waiting for " + (maxNumberPlayers-onlineNicknames.size()) + " players...");
     }
 
 
@@ -121,7 +121,7 @@ public class Cli extends Observable<Message> implements ClientView{
                 }
 
             }
-            out.print("]");
+            out.print(" ]: ");
             String input = readLine();
             notify(new TowerColorReply(clientModel.getUsername(), TowerColor.values()[Integer.parseInt(input)]));
         } catch (ExecutionException | NullPointerException e) {
@@ -139,7 +139,7 @@ public class Cli extends Observable<Message> implements ClientView{
             for(Wizard wizard: wizards){
                 out.print(wizard+" ");
             }
-            out.print("]");
+            out.print("]: ");
             String input = readLine();
             notify(new WizardReply(clientModel.getUsername(), Wizard.valueOf(input.toUpperCase())));
         } catch (ExecutionException | NullPointerException e) {
@@ -158,12 +158,6 @@ public class Cli extends Observable<Message> implements ClientView{
         out.println(clientModel.toString());
     }
 
-    @Override
-    public void showGameInfo(){
-        out.println(clientModel.toString());
-    }
-
-
 
     // showChangePhase() con modifiche, per esempio cloud tiles riempite
 
@@ -174,16 +168,19 @@ public class Cli extends Observable<Message> implements ClientView{
     // TO CHECK IF ENUM WORKS
     @Override
     public void askAssistantCard() {
-        String input="";
-        // TO DO: print asissitant cards played by other players
+        // TO DO: print assistant cards played by other players
         AssistantDeck assistantDeck= clientModel.getAssistantDeck();
         try {
-            out.print("Choose an Assistant Card [ ");
+            out.print("Draw an Assistant Card\n[ ");
+            int count=0;
             for (AssistantCard assistantCard : assistantDeck.getAssistantDeck()) {
-                out.print(assistantCard.getType() + " ");
+                out.print(assistantCard.getType().name() + ", value: "+ assistantCard.getType().getValue() + ", maximum steps: "+assistantCard.getType().getMaxSteps());
+                count++;
+                if(count<assistantDeck.getAssistantDeck().size()-1)
+                    out.print("\n");
             }
-            out.print("]");
-            input = readLine();
+            out.print(" ]: ");
+            String input = readLine();
             AssistantCard assistantCardReply=null;
             for (AssistantCard assistantCard : assistantDeck.getAssistantDeck()){
                 if ((assistantCard.getType()).equals(AssistantCardType.valueOf(input.toUpperCase())))
@@ -200,16 +197,22 @@ public class Cli extends Observable<Message> implements ClientView{
 
     @Override
     public void askMoveStudentFromEntrance() {
-        String input="";
-        SchoolBoard schoolBoard= clientModel.getSchoolBoards().get(clientModel.getUsername());
-        out.print("Choose three students to move from entrance to dining room or an island\n");
-        out.print(schoolBoard.toString());
-        out.print("To do so, type on each line [color of student, diningRoom] or [color of student, island id]\n");
         try {
-            input = readLine();
-            String[] splittedInput = input.split(",");
-            // to do: MOVE STUDENTS
-            notify(new WizardReply(clientModel.getUsername(), Wizard.valueOf(input.toUpperCase())));
+            out.println("Choose three students to move from entrance to dining room or an island");
+            out.print(clientModel.getIslands());
+            SchoolBoard schoolBoard= clientModel.getSchoolBoards().get(clientModel.getUsername());
+            out.print(schoolBoard.toString());
+            out.println("To do so, type on each line [color of student, d (for dining room) ] or [color of student, island id]");
+            for(int i=0;i<3;i++){
+                out.println("Please, enter data:");
+                String input = readLine();
+                String[] splittedInput = input.split(",");
+                Color color=Color.valueOf(splittedInput[0].toUpperCase());
+                if(splittedInput[1].equals("d"))
+                    notify(new MoveStudentOntoDiningRoomMessage(clientModel.getUsername(),color));
+                else
+                    notify(new MoveStudentOntoIslandMessage(clientModel.getUsername(),Integer.parseInt(splittedInput[1]),color));
+            }
         } catch (ExecutionException | NullPointerException e) {
             out.println(TRY_AGAIN);
             askMoveStudentFromEntrance();
@@ -225,13 +228,6 @@ public class Cli extends Observable<Message> implements ClientView{
 
 
 
-
-
-    // DO DELETE
-    @Override
-    public void showLobbyMessage() {
-
-    }
 
 
 
@@ -270,13 +266,6 @@ public class Cli extends Observable<Message> implements ClientView{
 
     @Override
     public void showFullLobbyMessage() {
-
-    }
-
-
-
-    @Override
-    public void showGenericMessage() {
 
     }
 

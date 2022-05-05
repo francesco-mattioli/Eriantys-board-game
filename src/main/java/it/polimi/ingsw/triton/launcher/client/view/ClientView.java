@@ -18,8 +18,6 @@ public interface ClientView extends View {
     // Ask methods
     void askUsername();
 
-    void askNumOfPlayers;
-
     // Show methods
     void showGenericMessage(String genericMessage);
     void showLobbyMessage(ArrayList<String> onlineNicknames, int maxNumberPlayers );

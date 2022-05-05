@@ -5,6 +5,7 @@ import it.polimi.ingsw.triton.launcher.utils.message.clientmessage.ClientMessage
 import it.polimi.ingsw.triton.launcher.utils.message.clientmessage.GameModeReply;
 import it.polimi.ingsw.triton.launcher.utils.message.clientmessage.LoginRequest;
 import it.polimi.ingsw.triton.launcher.utils.message.clientmessage.PlayersNumberReply;
+import it.polimi.ingsw.triton.launcher.utils.message.servermessage.Broadcast.BroadcastServerMessage;
 import it.polimi.ingsw.triton.launcher.utils.message.servermessage.Broadcast.GenericMessage;
 import it.polimi.ingsw.triton.launcher.utils.message.servermessage.Broadcast.LobbyMessage;
 
@@ -13,6 +14,8 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.util.NoSuchElementException;
+
+import static it.polimi.ingsw.triton.launcher.server.Server.LOGGER;
 
 /**
  * Each player must be treated as a thread
@@ -56,24 +59,21 @@ public class  ServeOneClient implements Runnable {
                 ClientMessage message = (ClientMessage)inSocket.readObject();
                 if (message instanceof LoginRequest) {
                     server.lobby(this, message.getSenderUsername());
-                    Server.LOGGER.info("Received new login request");
                 }
                 else if (message instanceof GameModeReply) {
                     server.setGameMode(message.getSenderUsername(),((GameModeReply) message).isExpertMode());
-                    Server.LOGGER.info("Received game mode response");
                 }
                 else if (message instanceof PlayersNumberReply) {
                     server.activateGame(message.getSenderUsername(),((PlayersNumberReply) message).getPlayersNumber());
-                    Server.LOGGER.info("Received number of players response");
                 }
                 else {
                     server.getController().getVirtualViewByUsername(message.getSenderUsername()).notify(message);
-                    Server.LOGGER.info("Received new " + message + " message");
                 }
+                LOGGER.info("Received: " + message.getClass().getSimpleName());
             }
         } catch (IOException | NoSuchElementException | ClassNotFoundException e) {
             System.err.println("Error! " + e.getMessage());
-            Server.LOGGER.severe(e.getMessage());
+            LOGGER.severe(e.getMessage());
         } finally {
             close();
         }
@@ -88,6 +88,7 @@ public class  ServeOneClient implements Runnable {
         try {
             outSocket.reset();
             outSocket.writeObject(message);
+            LOGGER.info("Sent: "+message.getClass().getSimpleName());
             outSocket.flush();
         } catch (IOException e) {
             e.printStackTrace();

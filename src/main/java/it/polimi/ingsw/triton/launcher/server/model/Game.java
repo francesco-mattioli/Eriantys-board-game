@@ -149,9 +149,9 @@ public class Game extends Observable<Message> {
      * @throws ChangeTurnException if there's not another player that has to play in the current phase.
      */
     public void setNextPlayer(Player current) throws ChangeTurnException{
-        int index = players.indexOf(current);
-        if(index < players.size()-1){
-            currentPlayer = players.get(index+1);
+        int indexOfCurrentPlayer = players.indexOf(current);
+        if(indexOfCurrentPlayer < players.size()-1){
+            currentPlayer = players.get(indexOfCurrentPlayer+1);
         }
         else if(Wizard.values().length - availableWizards.size() == maxNumberOfPlayers) {
             setup();
@@ -193,9 +193,9 @@ public class Game extends Observable<Message> {
         setupEntrance(); //PHASE 10
         setupPlayers(); //PHASE 11
         drawCharacterCards(); //(PHASE 12) creates 3 character cards
-        notify(new GameInfoMessage(characterCards, islands, motherNature.getPosition(), getAllSchoolBoards(), cloudTiles));
         for(Player player: players)
             notify(new GiveAssistantDeckMessage(player.getUsername(), player.getAssistantDeck()));   // to review
+        notify(new GameInfoMessage(characterCards, islands, motherNature.getPosition(), getAllSchoolBoards(), cloudTiles));
         notify(new YourTurnMessage(currentPlayer.getUsername()));
         planningPhase();
     }
