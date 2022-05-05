@@ -252,7 +252,16 @@ public class Cli extends Observable<Message> implements ClientView{
 
     @Override
     public void askCloudTile() {
-
+        try {
+            out.println("Choose a cloud tile to withdraw the students");
+            out.println("Select the id of the cloud tile you choose:");
+            out.println(clientModel.printCloudTiles());
+            String input = readLine();
+            notify(new CloudTileReply(clientModel.getUsername(), Integer.parseInt(input)));
+        } catch (ExecutionException | NumberFormatException e) {
+            out.println(TRY_AGAIN);
+            askCloudTile();
+        }
     }
 
     @Override
