@@ -26,21 +26,7 @@ public interface View {
 
     void askGameMode();
 
-    void askStudentsToMoveOntoIslandCharCard01();
-
-    void askIslandToCalculateInfluenceCharCard03();
-
-    void askIslandToPutNoEntryTileCharCard05();
-
-    void askStudentToSwitchFromCardToEntranceCharCard07();
-
-    void askColorWithNoInfluenceCharCard09();
-
-    void askStudentsToSwitchCharCard10();
-
-    void askStudentsToMoveIntoDiningRoomCharCard11();
-
-    void askColorCharCard12();
+    void askCharacterCardParameters(int id);
 
     void showErrorMessage(ErrorTypeID fullLobby);
 }
