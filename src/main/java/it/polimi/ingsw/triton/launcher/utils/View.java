@@ -10,6 +10,8 @@ public interface View {
 
     void askTowerColor(boolean[] towerColorChosen);
 
+    void askNumOfPlayers();
+
     void askWizard(ArrayList<Wizard> wizards);
 
     void askAssistantCard();
@@ -23,8 +25,6 @@ public interface View {
     void askNumberStepsMotherNature();
 
     void askGameMode();
-
-    void askPlayersNumber();
 
     void askStudentsToMoveOntoIslandCharCard01();
 

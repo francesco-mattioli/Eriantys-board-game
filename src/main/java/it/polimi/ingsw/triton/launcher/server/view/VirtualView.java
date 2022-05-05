@@ -55,7 +55,7 @@ public class VirtualView extends Observable<Message> implements View, Observer<M
 
     @Override
     public void showLoginReply() {
-
+        //Todo implement
     }
 
     @Override
@@ -70,11 +70,6 @@ public class VirtualView extends Observable<Message> implements View, Observer<M
         MotherNatureRequest requestMessage = new MotherNatureRequest();
         serveOneClient.sendMessage(requestMessage);
         lastMessage = requestMessage;
-    }
-
-    @Override
-    public void askPlayersNumber() {
-        //TODO IMPLEMENT
     }
 
     @Override
