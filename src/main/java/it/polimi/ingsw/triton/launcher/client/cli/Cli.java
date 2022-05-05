@@ -91,6 +91,11 @@ public class Cli extends Observable<Message> implements ClientView{
     }
 
     @Override
+    public void askCharacterCardParameters(int id) {
+
+    }
+
+    @Override
     public void askNumOfPlayers() {
         try {
                 out.print("Enter number of players [2 or 3]: ");
@@ -348,45 +353,6 @@ public class Cli extends Observable<Message> implements ClientView{
 
     }
 
-    @Override
-    public void askStudentsToMoveOntoIslandCharCard01() {
-
-    }
-
-    @Override
-    public void askIslandToCalculateInfluenceCharCard03() {
-
-    }
-
-    @Override
-    public void askIslandToPutNoEntryTileCharCard05() {
-
-    }
-
-    @Override
-    public void askStudentToSwitchFromCardToEntranceCharCard07() {
-
-    }
-
-    @Override
-    public void askColorWithNoInfluenceCharCard09() {
-
-    }
-
-    @Override
-    public void askStudentsToSwitchCharCard10() {
-
-    }
-
-    @Override
-    public void askStudentsToMoveIntoDiningRoomCharCard11() {
-
-    }
-
-    @Override
-    public void askColorCharCard12() {
-
-    }
 
     @Override
     public void showErrorMessage(ErrorTypeID fullLobby) {
