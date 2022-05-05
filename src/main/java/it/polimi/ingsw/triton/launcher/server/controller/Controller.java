@@ -3,6 +3,7 @@ package it.polimi.ingsw.triton.launcher.server.controller;
 import it.polimi.ingsw.triton.launcher.server.model.Game;
 import it.polimi.ingsw.triton.launcher.server.view.VirtualView;
 import it.polimi.ingsw.triton.launcher.utils.exceptions.*;
+import it.polimi.ingsw.triton.launcher.utils.message.ErrorTypeID;
 import it.polimi.ingsw.triton.launcher.utils.message.Message;
 import it.polimi.ingsw.triton.launcher.utils.message.clientmessage.*;
 import it.polimi.ingsw.triton.launcher.server.controller.visitors.ClientMessageErrorVisitor;
@@ -351,17 +352,21 @@ public class Controller implements Observer<Message> {
      */
     @Override
     public void update(Message message) {
-        try {
-            ((ClientMessage)message).modifyModel(new ClientMessageModifierVisitor(game));
-            ((ClientMessage)message).createStandardNextMessage(new ClientMessageStandardVisitor(game, getVirtualViewByUsername(game.getCurrentPlayer().getUsername())));
-        }catch (IllegalClientInputException e) {
-            getVirtualViewByUsername(game.getCurrentPlayer().getUsername()).showErrorMessage(e.getTypeError());
-            ((ClientMessage)message).createInputErrorMessage(new ClientMessageErrorVisitor(game, getVirtualViewByUsername(game.getCurrentPlayer().getUsername())));
-        }catch(LastMoveException | CharacterCardWithParametersException | ChangeTurnException e){
-            ((ClientMessage)message).createExceptionalNextMessage(new ClientMessageExceptionalVisitor(game, getVirtualViewByUsername(game.getCurrentPlayer().getUsername())));
-        }catch(EndGameException e) {
-            game.calculateWinner();
+        if(((ClientMessage)message).getSenderUsername().equals(game.getCurrentPlayer())) {
+            try {
+                ((ClientMessage) message).modifyModel(new ClientMessageModifierVisitor(game));
+                ((ClientMessage) message).createStandardNextMessage(new ClientMessageStandardVisitor(game, getVirtualViewByUsername(game.getCurrentPlayer().getUsername())));
+            } catch (IllegalClientInputException e) {
+                getVirtualViewByUsername(game.getCurrentPlayer().getUsername()).showErrorMessage(e.getTypeError());
+                ((ClientMessage) message).createInputErrorMessage(new ClientMessageErrorVisitor(game, getVirtualViewByUsername(game.getCurrentPlayer().getUsername())));
+            } catch (LastMoveException | CharacterCardWithParametersException | ChangeTurnException e) {
+                ((ClientMessage) message).createExceptionalNextMessage(new ClientMessageExceptionalVisitor(game, getVirtualViewByUsername(game.getCurrentPlayer().getUsername())));
+            } catch (EndGameException e) {
+                game.calculateWinner();
+            }
         }
+        else
+            getVirtualViewByUsername(game.getCurrentPlayer().getUsername()).showErrorMessage(ErrorTypeID.NOT_YOUR_TURN);
     }
 
 }
