@@ -1,6 +1,7 @@
 package it.polimi.ingsw.triton.launcher.server.view;
 
 import it.polimi.ingsw.triton.launcher.server.model.enums.Wizard;
+import it.polimi.ingsw.triton.launcher.utils.message.clientmessage.ClientMessage;
 import it.polimi.ingsw.triton.launcher.utils.message.servermessage.*;
 import it.polimi.ingsw.triton.launcher.utils.message.servermessage.Requests.*;
 import it.polimi.ingsw.triton.launcher.utils.message.servermessage.infoMessage.infoMessageWithReceiver.LoginReply;
@@ -12,7 +13,7 @@ import it.polimi.ingsw.triton.launcher.utils.View;
 
 import java.util.ArrayList;
 
-public class VirtualView extends Observable<Message> implements View, Observer<InfoMessage> {
+public class VirtualView extends Observable<ClientMessage> implements View, Observer<InfoMessage> {
     private ServeOneClient serveOneClient;
     private String username;
     private Message lastMessage;

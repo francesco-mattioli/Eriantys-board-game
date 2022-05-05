@@ -22,7 +22,7 @@ import java.util.NoSuchElementException;
  * Controller catches all exceptions that model throws
  */
 
-public class Controller implements Observer<Message> {
+public class Controller implements Observer<ClientMessage> {
     private final Game game;
     private final ArrayList<VirtualView> virtualViews = new ArrayList<>();
 
@@ -351,22 +351,24 @@ public class Controller implements Observer<Message> {
      * End game situations, the game is over and winner must be calculated
      */
     @Override
-    public void update(Message message) {
-        if(((ClientMessage)message).getSenderUsername().equals(game.getCurrentPlayer().getUsername())) {
+    public void update(ClientMessage message) {
+        //if(message.getSenderUsername().equals(game.getCurrentPlayer().getUsername())) {
             try {
-                ((ClientMessage) message).modifyModel(new ClientMessageModifierVisitor(game));
-                ((ClientMessage) message).createStandardNextMessage(new ClientMessageStandardVisitor(game, getVirtualViewByUsername(game.getCurrentPlayer().getUsername())));
+                message.modifyModel(new ClientMessageModifierVisitor(game));
+                message.createStandardNextMessage(new ClientMessageStandardVisitor(game, getVirtualViewByUsername(game.getCurrentPlayer().getUsername())));
             } catch (IllegalClientInputException e) {
                 getVirtualViewByUsername(game.getCurrentPlayer().getUsername()).showErrorMessage(e.getTypeError());
-                ((ClientMessage) message).createInputErrorMessage(new ClientMessageErrorVisitor(game, getVirtualViewByUsername(game.getCurrentPlayer().getUsername())));
+                message.createInputErrorMessage(new ClientMessageErrorVisitor(game, getVirtualViewByUsername(game.getCurrentPlayer().getUsername())));
             } catch (LastMoveException | CharacterCardWithParametersException | ChangeTurnException e) {
-                ((ClientMessage) message).createExceptionalNextMessage(new ClientMessageExceptionalVisitor(game, getVirtualViewByUsername(game.getCurrentPlayer().getUsername())));
+                message.createExceptionalNextMessage(new ClientMessageExceptionalVisitor(game, getVirtualViewByUsername(game.getCurrentPlayer().getUsername())));
             } catch (EndGameException e) {
                 game.calculateWinner();
             }
-        }
+        /*}
         else
             getVirtualViewByUsername(game.getCurrentPlayer().getUsername()).showErrorMessage(ErrorTypeID.NOT_YOUR_TURN);
+         */
+
     }
 
 }
