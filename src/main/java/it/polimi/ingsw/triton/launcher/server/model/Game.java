@@ -141,6 +141,8 @@ public class Game extends Observable<InfoMessage> {
      */
     public void chooseAssistantCard(String username, AssistantCard assistantCard) throws IllegalClientInputException{
         getPlayerByUsername(username).executeAction(new PlayAssistantCard(assistantCard, getPlayerByUsername(username), usedAssistantCards));
+        if(usedAssistantCards.size() == maxNumberOfPlayers)
+            sortPlayerPerTurn();
         notify(new InfoAssistantCardPlayedMessage(currentPlayer.getUsername(),assistantCard));
     }
 
