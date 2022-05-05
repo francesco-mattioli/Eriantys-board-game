@@ -246,6 +246,7 @@ public class Game extends Observable<InfoMessage> {
      */
     public void sortPlayerPerTurn() {
         players.sort(new PlayerTurnComparator());
+        currentPlayer = players.get(0);
     }
 
     /**
