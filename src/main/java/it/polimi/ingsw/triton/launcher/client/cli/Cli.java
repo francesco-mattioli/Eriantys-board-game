@@ -210,9 +210,12 @@ public class Cli extends Observable<Message> implements ClientView{
     public void askMoveStudentFromEntrance() {
         try {
             out.println("Choose three students to move from entrance to dining room or an island");
-            out.print(clientModel.getIslands());
+            out.print("Islands:\n");
+            out.println(clientModel.getIslands());
+            out.print("\n");
             SchoolBoard schoolBoard= clientModel.getSchoolBoards().get(clientModel.getUsername());
-            out.print(schoolBoard.toString());
+            out.print("Your SchoolBoard:");
+            out.println(schoolBoard.toString());
             out.println("To do so, type on each line [color of student, d (for dining room) ] or [color of student, island id]");
             out.println("Please, enter data: ");
             String input = readLine();
@@ -252,8 +255,10 @@ public class Cli extends Observable<Message> implements ClientView{
     public void askCloudTile() {
         try {
             out.println("Choose a cloud tile to withdraw the students");
-            out.println("Select the id of the cloud tile you choose:");
+            out.print("CloudTiles:");
             out.println(clientModel.printCloudTiles());
+            out.println("Select the id of the cloud tile you choose:");
+
             String input = readLine();
             notify(new CloudTileReply(clientModel.getUsername(), Integer.parseInt(input)));
         } catch (ExecutionException | NumberFormatException e) {
@@ -326,7 +331,7 @@ public class Cli extends Observable<Message> implements ClientView{
     @Override
     public void askNumberStepsMotherNature() {
         try {
-            out.println("Mother nature is on the island: " + clientModel.getMotherNaturePosition().toString());
+            out.println("Mother nature is on the island: " + clientModel.getMotherNaturePosition().getId());
             out.print("Insert the number of steps that mother nature has to do: ");
             String input = readLine();
             notify(new MotherNatureReply(clientModel.getUsername(), Integer.parseInt(input)));

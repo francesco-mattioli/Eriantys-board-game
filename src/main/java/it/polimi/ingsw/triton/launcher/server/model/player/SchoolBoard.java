@@ -16,7 +16,7 @@ public class SchoolBoard implements Serializable {
 
     @Override
     public String toString() {
-        return  "SchoolBoard{" +
+        return  "\n\tSchoolBoard{" +
                 "towerColor=" + towerColor +
                 ", numTowers=" + numTowers +
                 ", entrance [YELLOW, BLUE, GREEN, RED, PINK]=" + Arrays.toString(entrance) +
