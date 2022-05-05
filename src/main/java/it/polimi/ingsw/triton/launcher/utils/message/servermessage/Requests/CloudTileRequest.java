@@ -13,6 +13,6 @@ public class CloudTileRequest extends ServerMessage {
 
     @Override
     public void accept(ServerMessageVisitor messageVisitor) {
-
+        messageVisitor.visit(this);
     }
 }

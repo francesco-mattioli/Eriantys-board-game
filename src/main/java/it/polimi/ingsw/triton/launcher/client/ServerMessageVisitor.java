@@ -69,6 +69,10 @@ public class ServerMessageVisitor {
         clientView.showGameInfo(message.getAvailableCharacterCards(),message.getIslands(),message.getSchoolBoards(),message.getCloudTiles());
     }
 
+    public void visit(CloudTileRequest message){
+        clientView.askCloudTile();
+    }
+
 
 
 }
