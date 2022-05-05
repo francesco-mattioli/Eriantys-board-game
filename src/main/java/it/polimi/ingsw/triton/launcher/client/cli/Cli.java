@@ -67,7 +67,7 @@ public class Cli extends Observable<Message> implements ClientView{
         try {
             String username = readLine();
             this.clientModel.setUsername(username);
-            notify(new LoginRequest(username, MessageType.LOGIN_REQUEST));
+            notify(new LoginRequest(username));
         } catch (ExecutionException e) {
             out.println(TRY_AGAIN);
         }

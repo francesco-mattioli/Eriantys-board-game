@@ -12,7 +12,7 @@ import java.util.NoSuchElementException;
 
 public class LoginRequest extends ClientMessage {
 
-    public LoginRequest(String username, MessageType messageType) {
+    public LoginRequest(String username) {
         super(username);
     }
 

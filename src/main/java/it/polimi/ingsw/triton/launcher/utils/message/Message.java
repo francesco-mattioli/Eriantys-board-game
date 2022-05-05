@@ -7,8 +7,6 @@ import java.io.Serializable;
 
 public interface Message extends Serializable {
 
-    public void accept(BroadcastMessageVisitor messageVisitor);
 
-    public void accept(ServerMessageVisitor messageVisitor);
 
 }

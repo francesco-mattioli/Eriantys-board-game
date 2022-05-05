@@ -22,11 +22,6 @@ public abstract class ClientMessage implements Message{
         return senderUsername;
     }
 
-    @Override
-    public void accept(ServerMessageVisitor messageVisitor) {
-
-    }
-
     public abstract void modifyModel(ClientMessageModifierVisitor visitor) throws IllegalClientInputException, NoSuchElementException, LastMoveException, EndGameException, CharacterCardWithParametersException, ChangeTurnException;
 
     public abstract void createStandardNextMessage(ClientMessageStandardVisitor visitor);

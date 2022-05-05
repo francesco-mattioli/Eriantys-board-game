@@ -352,7 +352,7 @@ public class Controller implements Observer<Message> {
      */
     @Override
     public void update(Message message) {
-        if(((ClientMessage)message).getSenderUsername().equals(game.getCurrentPlayer())) {
+        if(((ClientMessage)message).getSenderUsername().equals(game.getCurrentPlayer().getUsername())) {
             try {
                 ((ClientMessage) message).modifyModel(new ClientMessageModifierVisitor(game));
                 ((ClientMessage) message).createStandardNextMessage(new ClientMessageStandardVisitor(game, getVirtualViewByUsername(game.getCurrentPlayer().getUsername())));
