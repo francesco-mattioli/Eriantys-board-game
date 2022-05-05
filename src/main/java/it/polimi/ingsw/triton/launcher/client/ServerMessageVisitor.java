@@ -52,6 +52,8 @@ public class ServerMessageVisitor {
         clientView.askAssistantCard();
     }
 
+    public void visit()
+
     public void visit(GiveAssistantDeckMessage message){
         clientView.getClientModel().setAssistantDeck(message.getAssistantDeck());
     }
