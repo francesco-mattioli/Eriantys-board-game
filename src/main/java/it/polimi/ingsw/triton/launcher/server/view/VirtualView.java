@@ -25,7 +25,7 @@ public class VirtualView extends Observable<Message> implements View, Observer<M
 
     @Override
     public void update(Message message) {
-        message.accept(new BroadcastMessageVisitor(serveOneClient,this.getUsername()));
+        ((InfoMessage)message).accept(new InfoMessageVisitor(serveOneClient, username));
     }
 
     public void askGameMode(){
