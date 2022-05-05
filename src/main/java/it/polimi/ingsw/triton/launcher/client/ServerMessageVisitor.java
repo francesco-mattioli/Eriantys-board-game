@@ -73,6 +73,10 @@ public class ServerMessageVisitor {
         clientView.askCloudTile();
     }
 
+    public void visit(MotherNatureRequest message){
+        clientView.askNumberStepsMotherNature();
+    }
+
 
 
 }
