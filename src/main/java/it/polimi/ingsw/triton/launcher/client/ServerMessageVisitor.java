@@ -5,10 +5,7 @@ import it.polimi.ingsw.triton.launcher.client.view.ClientView;
 import it.polimi.ingsw.triton.launcher.server.model.AssistantCard;
 import it.polimi.ingsw.triton.launcher.utils.message.MessageType;
 import it.polimi.ingsw.triton.launcher.utils.message.servermessage.*;
-import it.polimi.ingsw.triton.launcher.utils.message.servermessage.Broadcast.BroadcastServerMessage;
-import it.polimi.ingsw.triton.launcher.utils.message.servermessage.Broadcast.GameInfoMessage;
-import it.polimi.ingsw.triton.launcher.utils.message.servermessage.Broadcast.GenericMessage;
-import it.polimi.ingsw.triton.launcher.utils.message.servermessage.Broadcast.LobbyMessage;
+import it.polimi.ingsw.triton.launcher.utils.message.servermessage.Broadcast.*;
 import it.polimi.ingsw.triton.launcher.utils.message.servermessage.Requests.*;
 
 public class ServerMessageVisitor {
@@ -52,7 +49,9 @@ public class ServerMessageVisitor {
         clientView.askAssistantCard();
     }
 
-    public void visit()
+    public void visit(InfoAssistantCardPlayedMessage message){
+        clientView.showInfoAssistantCardPlayed(message.getCurrentPlayerUsername(),message.getAssistantCardPlayed());
+    }
 
     public void visit(GiveAssistantDeckMessage message){
         clientView.getClientModel().setAssistantDeck(message.getAssistantDeck());

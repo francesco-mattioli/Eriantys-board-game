@@ -158,6 +158,9 @@ public class Cli extends Observable<Message> implements ClientView{
         out.println(clientModel.toString());
     }
 
+    public void showChangePhase(){
+
+    }
 
     // showChangePhase() con modifiche, per esempio cloud tiles riempite
 
@@ -193,7 +196,10 @@ public class Cli extends Observable<Message> implements ClientView{
         }
     }
 
-
+    @Override
+    public void showInfoAssistantCardPlayed(String username, AssistantCard assistantCard) {
+        out.println("Player: "+username+ " has played " + assistantCard.toString());
+    }
 
     @Override
     public void askMoveStudentFromEntrance() {
@@ -204,7 +210,7 @@ public class Cli extends Observable<Message> implements ClientView{
             out.print(schoolBoard.toString());
             out.println("To do so, type on each line [color of student, d (for dining room) ] or [color of student, island id]");
             for(int i=0;i<3;i++){
-                out.println("Please, enter data:");
+                out.println("Please, enter data: ");
                 String input = readLine();
                 String[] splittedInput = input.split(",");
                 Color color=Color.valueOf(splittedInput[0].toUpperCase());
@@ -218,6 +224,7 @@ public class Cli extends Observable<Message> implements ClientView{
             askMoveStudentFromEntrance();
         }
     }
+
 
 
 
@@ -274,10 +281,7 @@ public class Cli extends Observable<Message> implements ClientView{
 
     }
 
-    @Override
-    public void showInfoAssistantCardPlayed() {
 
-    }
 
 
 
