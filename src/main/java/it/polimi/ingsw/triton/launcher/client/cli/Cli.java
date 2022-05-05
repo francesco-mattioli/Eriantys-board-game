@@ -154,11 +154,12 @@ public class Cli extends Observable<Message> implements ClientView{
 
 
     @Override
-    public void showGameInfo(ArrayList<CharacterCard> availableCharacterCards, ArrayList<Island> islands, Map<String, SchoolBoard> schoolBoards, ArrayList<CloudTile> cloudTiles) {
+    public void showGameInfo(ArrayList<CharacterCard> availableCharacterCards, ArrayList<Island> islands, Map<String, SchoolBoard> schoolBoards, ArrayList<CloudTile> cloudTiles, Island motherNaturePosition) {
         clientModel.setAvailableCharacterCards(availableCharacterCards);
         clientModel.setIslands(islands);
         clientModel.setSchoolBoards(schoolBoards);
         clientModel.setCloudTiles(cloudTiles);
+        clientModel.setMotherNaturePosition(motherNaturePosition);
         out.println(clientModel.toString());
     }
 
@@ -327,7 +328,7 @@ public class Cli extends Observable<Message> implements ClientView{
     @Override
     public void askNumberStepsMotherNature() {
         try {
-            out.println("Mother nature is on the island: "); //To finish
+            out.println("Mother nature is on the island: " + clientModel.getMotherNaturePosition().toString());
             out.print("Insert the number of steps that mother nature has to do: ");
             String input = readLine();
             notify(new MotherNatureReply(clientModel.getUsername(), Integer.parseInt(input)));

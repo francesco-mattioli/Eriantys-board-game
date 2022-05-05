@@ -64,7 +64,7 @@ public class ServerMessageVisitor {
     }
 
     public void visit(GameInfoMessage message){
-        clientView.showGameInfo(message.getAvailableCharacterCards(),message.getIslands(),message.getSchoolBoards(),message.getCloudTiles());
+        clientView.showGameInfo(message.getAvailableCharacterCards(),message.getIslands(),message.getSchoolBoards(),message.getCloudTiles(), message.getMotherNaturePosition());
     }
 
     public void visit(CloudTileRequest message){
