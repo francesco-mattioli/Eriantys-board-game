@@ -143,10 +143,10 @@ public class Game extends Observable<InfoMessage> {
      */
     public void chooseAssistantCard(String username, AssistantCard assistantCard) throws IllegalClientInputException, ChangeTurnException {
         getPlayerByUsername(username).executeAction(new PlayAssistantCard(assistantCard, getPlayerByUsername(username), usedAssistantCards));
+        notify(new InfoAssistantCardPlayedMessage(currentPlayer.getUsername(),assistantCard));
         if(usedAssistantCards.size() == maxNumberOfPlayers)
             sortPlayerPerTurn();
         else setNextPlayer(currentPlayer);
-        notify(new InfoAssistantCardPlayedMessage(currentPlayer.getUsername(),assistantCard));
     }
 
     /**
@@ -249,9 +249,10 @@ public class Game extends Observable<InfoMessage> {
     /**
      * This method defines the game turn based on the played assistant cards.
      */
-    public void sortPlayerPerTurn() {
+    public void sortPlayerPerTurn() throws ChangeTurnException {
         players.sort(new PlayerTurnComparator());
         currentPlayer = players.get(0);
+        throw new ChangeTurnException();
     }
 
     /**
