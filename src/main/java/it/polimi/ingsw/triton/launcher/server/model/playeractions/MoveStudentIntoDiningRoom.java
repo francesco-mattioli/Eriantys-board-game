@@ -5,8 +5,8 @@ import it.polimi.ingsw.triton.launcher.server.model.enums.Color;
 import it.polimi.ingsw.triton.launcher.server.model.player.Player;
 import it.polimi.ingsw.triton.launcher.utils.exceptions.IllegalClientInputException;
 import it.polimi.ingsw.triton.launcher.utils.message.Message;
-import it.polimi.ingsw.triton.launcher.utils.message.servermessage.EmptyGeneralCoinSupplyMessage;
-import it.polimi.ingsw.triton.launcher.utils.message.servermessage.UpdateWalletMessage;
+import it.polimi.ingsw.triton.launcher.utils.message.servermessage.infoMessage.infoMessageWithReceiver.EmptyGeneralCoinSupplyMessage;
+import it.polimi.ingsw.triton.launcher.utils.message.servermessage.infoMessage.infoMessageWithReceiver.UpdateWalletMessage;
 import it.polimi.ingsw.triton.launcher.utils.obs.Observable;
 
 import java.util.NoSuchElementException;

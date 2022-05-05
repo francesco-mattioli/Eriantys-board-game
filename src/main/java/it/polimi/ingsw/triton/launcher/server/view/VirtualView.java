@@ -3,6 +3,7 @@ package it.polimi.ingsw.triton.launcher.server.view;
 import it.polimi.ingsw.triton.launcher.server.model.enums.Wizard;
 import it.polimi.ingsw.triton.launcher.utils.message.servermessage.*;
 import it.polimi.ingsw.triton.launcher.utils.message.servermessage.Requests.*;
+import it.polimi.ingsw.triton.launcher.utils.message.servermessage.infoMessage.infoMessageWithReceiver.LoginReply;
 import it.polimi.ingsw.triton.launcher.utils.obs.Observable;
 import it.polimi.ingsw.triton.launcher.utils.obs.Observer;
 import it.polimi.ingsw.triton.launcher.server.ServeOneClient;
@@ -55,7 +56,7 @@ public class VirtualView extends Observable<Message> implements View, Observer<M
 
     @Override
     public void showLoginReply() {
-        serveOneClient.sendMessage(new LoginReply());
+        serveOneClient.sendMessage(new LoginReply(username));
     }
 
     @Override

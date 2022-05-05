@@ -1,13 +1,13 @@
-package it.polimi.ingsw.triton.launcher.utils.message.servermessage;
+package it.polimi.ingsw.triton.launcher.utils.message.servermessage.infoMessage.infoMessageWithReceiver;
 
 import it.polimi.ingsw.triton.launcher.client.ServerMessageVisitor;
 import it.polimi.ingsw.triton.launcher.server.model.player.AssistantDeck;
-import it.polimi.ingsw.triton.launcher.utils.message.MessageType;
+import it.polimi.ingsw.triton.launcher.utils.message.servermessage.InfoWithReceiverMessage;
 
 /**
  * This message gives to every player his assistant deck.
  */
-public class GiveAssistantDeckMessage extends ServerMessageWithReceiver{
+public class GiveAssistantDeckMessage extends InfoWithReceiverMessage {
     private final AssistantDeck assistantDeck;
     public GiveAssistantDeckMessage(String receiverUsername, AssistantDeck assistantDeck) {
         super(receiverUsername);

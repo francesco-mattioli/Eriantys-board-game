@@ -1,12 +1,12 @@
-package it.polimi.ingsw.triton.launcher.utils.message.servermessage.Broadcast;
+package it.polimi.ingsw.triton.launcher.utils.message.servermessage.infoMessage;
 
 
 import it.polimi.ingsw.triton.launcher.client.ServerMessageVisitor;
-import it.polimi.ingsw.triton.launcher.utils.message.MessageType;
+import it.polimi.ingsw.triton.launcher.utils.message.servermessage.InfoMessage;
 
 import java.util.ArrayList;
 
-public class LobbyMessage extends BroadcastServerMessage {
+public class LobbyMessage extends InfoMessage {
     private final ArrayList<String> onlineNicknames;
     private final int maxNumberPlayers;
     public LobbyMessage(ArrayList<String> onlineNicknames, int maxNumberPlayers) {

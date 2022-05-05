@@ -1,11 +1,12 @@
-package it.polimi.ingsw.triton.launcher.utils.message.servermessage.Broadcast;
+package it.polimi.ingsw.triton.launcher.utils.message.servermessage.Requests;
+
 
 import it.polimi.ingsw.triton.launcher.client.ServerMessageVisitor;
-import it.polimi.ingsw.triton.launcher.utils.message.Message;
-import it.polimi.ingsw.triton.launcher.utils.message.MessageType;
 import it.polimi.ingsw.triton.launcher.utils.message.servermessage.BroadcastMessageVisitor;
+import it.polimi.ingsw.triton.launcher.utils.message.servermessage.ServerMessage;
 
-public abstract class BroadcastServerMessage extends Message {
+public abstract class AskMessage extends ServerMessage {
+
 
     public void accept(BroadcastMessageVisitor messageVisitor){
         messageVisitor.visit(this);

@@ -5,12 +5,10 @@ import it.polimi.ingsw.triton.launcher.utils.message.servermessage.BroadcastMess
 
 import java.io.Serializable;
 
-public abstract class Message implements Serializable {
+public interface Message extends Serializable {
 
-     public void accept(BroadcastMessageVisitor messageVisitor){
-        messageVisitor.visit(this);
-    }
+    public void accept(BroadcastMessageVisitor messageVisitor);
 
-    public abstract void accept(ServerMessageVisitor messageVisitor);
+    public void accept(ServerMessageVisitor messageVisitor);
 
 }

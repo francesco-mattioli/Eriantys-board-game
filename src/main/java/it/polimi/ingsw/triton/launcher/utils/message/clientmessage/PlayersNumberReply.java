@@ -7,7 +7,6 @@ import it.polimi.ingsw.triton.launcher.utils.exceptions.CharacterCardWithParamet
 import it.polimi.ingsw.triton.launcher.utils.exceptions.EndGameException;
 import it.polimi.ingsw.triton.launcher.utils.exceptions.IllegalClientInputException;
 import it.polimi.ingsw.triton.launcher.utils.exceptions.LastMoveException;
-import it.polimi.ingsw.triton.launcher.utils.message.MessageType;
 
 import java.util.NoSuchElementException;
 

@@ -1,13 +1,13 @@
-package it.polimi.ingsw.triton.launcher.utils.message.servermessage.Broadcast;
+package it.polimi.ingsw.triton.launcher.utils.message.servermessage.infoMessage;
 
 import it.polimi.ingsw.triton.launcher.client.ServerMessageVisitor;
 import it.polimi.ingsw.triton.launcher.server.model.Island;
-import it.polimi.ingsw.triton.launcher.utils.message.MessageType;
+import it.polimi.ingsw.triton.launcher.utils.message.servermessage.InfoMessage;
 
 /**
  * This message communicates to the players that an island has a new dominator.
  */
-public class ChangeInfluenceMessage extends BroadcastServerMessage{
+public class ChangeInfluenceMessage extends InfoMessage {
     private Island islandWithNewInfluence;
     private String usernameDominator;
 

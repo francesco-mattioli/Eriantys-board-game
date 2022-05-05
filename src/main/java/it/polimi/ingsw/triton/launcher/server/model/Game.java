@@ -14,9 +14,11 @@ import it.polimi.ingsw.triton.launcher.server.model.professor.ProfessorStrategyD
 import it.polimi.ingsw.triton.launcher.server.model.professor.ProfessorsManager;
 import it.polimi.ingsw.triton.launcher.utils.exceptions.*;
 import it.polimi.ingsw.triton.launcher.utils.message.ErrorTypeID;
-import it.polimi.ingsw.triton.launcher.utils.message.servermessage.Broadcast.*;
+import it.polimi.ingsw.triton.launcher.utils.message.servermessage.infoMessage.*;
+import it.polimi.ingsw.triton.launcher.utils.message.servermessage.infoMessage.infoMessageWithReceiver.EmptyGeneralCoinSupplyMessage;
+import it.polimi.ingsw.triton.launcher.utils.message.servermessage.infoMessage.infoMessageWithReceiver.GiveAssistantDeckMessage;
+import it.polimi.ingsw.triton.launcher.utils.message.servermessage.infoMessage.infoMessageWithReceiver.UpdateWalletMessage;
 import it.polimi.ingsw.triton.launcher.utils.obs.Observable;
-import it.polimi.ingsw.triton.launcher.utils.message.servermessage.*;
 import it.polimi.ingsw.triton.launcher.utils.message.Message;
 
 import java.util.*;
@@ -197,7 +199,7 @@ public class Game extends Observable<Message> {
         for(Player player: players)
             notify(new GiveAssistantDeckMessage(player.getUsername(), player.getAssistantDeck()));   // to review
         notify(new GameInfoMessage(characterCards, islands, motherNature.getPosition(), getAllSchoolBoards(), cloudTiles));
-        notify(new YourTurnMessage(currentPlayer.getUsername()));
+        notify(new ChangeTurnMessage(currentPlayer.getUsername()));
         planningPhase();
     }
 
@@ -553,11 +555,11 @@ public class Game extends Observable<Message> {
             island.setInfluenceStrategy(new InfluenceStrategyDefault());
         if (players.indexOf(currentPlayer) < maxNumberOfPlayers - 1){
             currentPlayer = players.get(players.indexOf(currentPlayer) + 1);
-            notify(new YourTurnMessage(currentPlayer.getUsername()));
+            notify(new ChangeTurnMessage(currentPlayer.getUsername()));
         }
         else if(!currentPlayer.getAssistantDeck().getAssistantDeck().isEmpty() && !bag.isEmpty() && players.indexOf(currentPlayer) == maxNumberOfPlayers - 1){
             currentPlayer = players.get(0);
-            notify(new YourTurnMessage(currentPlayer.getUsername()));
+            notify(new ChangeTurnMessage(currentPlayer.getUsername()));
             planningPhase();
             throw new ChangeTurnException();
         }else{

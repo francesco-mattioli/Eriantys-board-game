@@ -1,12 +1,12 @@
-package it.polimi.ingsw.triton.launcher.utils.message.servermessage.Broadcast;
+package it.polimi.ingsw.triton.launcher.utils.message.servermessage.infoMessage;
 
 
 import it.polimi.ingsw.triton.launcher.client.ServerMessageVisitor;
 import it.polimi.ingsw.triton.launcher.server.model.Island;
 import it.polimi.ingsw.triton.launcher.server.model.player.SchoolBoard;
-import it.polimi.ingsw.triton.launcher.utils.message.MessageType;
+import it.polimi.ingsw.triton.launcher.utils.message.servermessage.InfoMessage;
 
-public class InfoStudentOntoIslandMessage extends BroadcastServerMessage{
+public class InfoStudentOntoIslandMessage extends InfoMessage {
 
     private final String playerUsername;
     private final SchoolBoard modifiedSchoolBoard;
