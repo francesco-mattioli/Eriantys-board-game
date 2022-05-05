@@ -32,8 +32,8 @@ public class ClientModel extends Observable<Object> {
                 ", \n- schoolBoards=\n\t" + schoolBoards +
                 ", \n- cloudTiles =" + printCloudTiles() +
                 ", \n- islands =" + printIslands() +
-                ", \n- motherNaturePosition =" + motherNaturePosition.toString() +
-                '}';
+                ", \n- motherNature is on island " + motherNaturePosition.getId() +
+                "\n}";
     }
 
     public String getUsername() {
