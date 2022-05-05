@@ -14,6 +14,7 @@ import it.polimi.ingsw.triton.launcher.server.model.professor.ProfessorStrategyD
 import it.polimi.ingsw.triton.launcher.server.model.professor.ProfessorsManager;
 import it.polimi.ingsw.triton.launcher.utils.exceptions.*;
 import it.polimi.ingsw.triton.launcher.utils.message.ErrorTypeID;
+import it.polimi.ingsw.triton.launcher.utils.message.servermessage.ServerMessage;
 import it.polimi.ingsw.triton.launcher.utils.message.servermessage.infoMessage.*;
 import it.polimi.ingsw.triton.launcher.utils.message.servermessage.infoMessage.infoMessageWithReceiver.EmptyGeneralCoinSupplyMessage;
 import it.polimi.ingsw.triton.launcher.utils.message.servermessage.infoMessage.infoMessageWithReceiver.GiveAssistantDeckMessage;
@@ -24,7 +25,7 @@ import it.polimi.ingsw.triton.launcher.utils.message.Message;
 import java.util.*;
 import java.util.stream.Collectors;
 
-public class Game extends Observable<Message> {
+public class Game extends Observable<ServerMessage> {
 
     public static final String NAME_SERVER = "eriantys";
     private final ArrayList<Island> islands;

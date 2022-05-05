@@ -9,7 +9,6 @@ import it.polimi.ingsw.triton.launcher.server.model.player.SchoolBoard;
 import it.polimi.ingsw.triton.launcher.utils.obs.Observable;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Map;
 
 /**

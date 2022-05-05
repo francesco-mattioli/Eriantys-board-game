@@ -1,7 +1,7 @@
 package it.polimi.ingsw.triton.launcher.client;
 
 import it.polimi.ingsw.triton.launcher.client.view.ClientView;
-import it.polimi.ingsw.triton.launcher.utils.message.servermessage.infoMessage.BroadcastServerMessage;
+import it.polimi.ingsw.triton.launcher.utils.message.servermessage.ServerMessage;
 import it.polimi.ingsw.triton.launcher.utils.obs.Observer;
 import it.polimi.ingsw.triton.launcher.utils.message.Message;
 
@@ -49,7 +49,7 @@ public class Client implements Observer<Message> {
 
             while (!readExecutionQueue.isShutdown()) {
                 try {
-                    BroadcastServerMessage message = (BroadcastServerMessage) inSocket.readObject();
+                    ServerMessage message = (ServerMessage) inSocket.readObject();
                     //Client.LOGGER.info("Received: " + message.getClass().getSimpleName());
                     // Accept the message using Visitor Pattern
                     message.accept(new ServerMessageVisitor(clientView));

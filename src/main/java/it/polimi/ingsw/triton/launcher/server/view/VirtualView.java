@@ -12,7 +12,7 @@ import it.polimi.ingsw.triton.launcher.utils.View;
 
 import java.util.ArrayList;
 
-public class VirtualView extends Observable<Message> implements View, Observer<Message> {
+public class VirtualView extends Observable<Message> implements View, Observer<ServerMessage> {
     private ServeOneClient serveOneClient;
     private String username;
     private Message lastMessage;
@@ -24,7 +24,7 @@ public class VirtualView extends Observable<Message> implements View, Observer<M
     }
 
     @Override
-    public void update(Message message) {
+    public void update(ServerMessage message) {
         message.accept(new BroadcastMessageVisitor(serveOneClient,this.getUsername()));
     }
 
