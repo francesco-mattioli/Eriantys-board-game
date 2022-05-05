@@ -37,7 +37,6 @@ public class ClientMessageModifierVisitor {
 
     public void visitForModify(AssistantCardReply message) throws IllegalClientInputException, ChangeTurnException {
         game.chooseAssistantCard(message.getSenderUsername(), message.getChosenAssistantCard());
-        game.setNextPlayer(game.getPlayerByUsername(message.getSenderUsername()));
     }
 
     public void visitForModify(MoveStudentOntoDiningRoomMessage message) throws LastMoveException, IllegalClientInputException {
