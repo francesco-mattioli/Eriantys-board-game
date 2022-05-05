@@ -31,6 +31,7 @@ public class ClientModel extends Observable<Object> {
                 ", \n- availableCharacterCards=" + printAvailableCharacterCard() +
                 ", \n- schoolBoards=\n\t" + schoolBoards +
                 ", \n- cloudTiles =" + printCloudTiles() +
+                ", \n- motherNaturePosition =" +
                 '}';
     }
 

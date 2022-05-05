@@ -129,7 +129,7 @@ public class Cli extends Observable<Message> implements ClientView{
             out.print(" ]: ");
             String input = readLine();
             notify(new TowerColorReply(clientModel.getUsername(), TowerColor.values()[Integer.parseInt(input)]));
-        } catch (ExecutionException | NullPointerException e) {
+        } catch (ExecutionException | NullPointerException | NumberFormatException e) {
             out.println(TRY_AGAIN);
             askTowerColor(chosenTowerColors);
         }
@@ -327,7 +327,15 @@ public class Cli extends Observable<Message> implements ClientView{
 
     @Override
     public void askNumberStepsMotherNature() {
-
+        try {
+            out.println("Mother nature is on the island: "); //To finish
+            out.print("Insert the number of steps that mother nature has to do: ");
+            String input = readLine();
+            notify(new MotherNatureReply(clientModel.getUsername(), Integer.parseInt(input)));
+        } catch (ExecutionException | NumberFormatException e) {
+            out.println(TRY_AGAIN);
+            askNumberStepsMotherNature();
+        }
     }
 
 
