@@ -182,10 +182,10 @@ public class Cli extends Observable<Message> implements ClientView{
             out.print("Draw an Assistant Card\n[ ");
             int count=0;
             for (AssistantCard assistantCard : assistantDeck.getAssistantDeck()) {
-                out.print(assistantCard.getType().name() + ", value: "+ assistantCard.getType().getValue() + ", maximum steps: "+assistantCard.getType().getMaxSteps());
+                out.print(assistantCard.toString());
                 count++;
-                if(count<assistantDeck.getAssistantDeck().size()-1)
-                    out.print("\n");
+                /*if(count<assistantDeck.getAssistantDeck().size()-1)
+                    out.print("\n");*/
             }
             out.print(" ]: ");
             String input = readLine();

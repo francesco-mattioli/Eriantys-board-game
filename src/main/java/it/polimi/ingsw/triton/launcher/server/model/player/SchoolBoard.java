@@ -19,8 +19,8 @@ public class SchoolBoard implements Serializable {
         return  "SchoolBoard{" +
                 "towerColor=" + towerColor +
                 ", numTowers=" + numTowers +
-                ", entrance=" + Arrays.toString(entrance) +
-                ", diningRoom=" + Arrays.toString(diningRoom) +
+                ", entrance [YELLOW, BLUE, GREEN, RED, PINK]=" + Arrays.toString(entrance) +
+                ", diningRoom [YELLOW, BLUE, GREEN, RED, PINK]=" + Arrays.toString(diningRoom) +
                 "}\n\t";
     }
 

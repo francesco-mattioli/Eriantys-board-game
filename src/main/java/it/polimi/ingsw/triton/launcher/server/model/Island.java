@@ -169,10 +169,10 @@ public class Island extends Observable<Message> implements Serializable {
     }
 
     public String toString(){
-        return "{id: " + id +"," +
+        return "\n\t{id: " + id +"," +
                 "dimension: " + dim + "," +
                 "dominator: " + dominator + "," +
-                "students: " + Arrays.toString(students) + "," +
+                "students [YELLOW, BLUE, GREEN, RED, PINK]: " + Arrays.toString(students) + "," +
                 "number no entry tiles: " + noEntryTiles + "}";
     }
 }

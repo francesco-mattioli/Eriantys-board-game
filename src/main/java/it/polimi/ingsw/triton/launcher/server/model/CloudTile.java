@@ -53,6 +53,6 @@ public class CloudTile implements Serializable {
 
     @Override
     public String toString(){
-        return "\n\tCloudTile " +  getId() + "=" + Arrays.toString(students);
+        return "\n\tCloudTile " +  getId() + " [YELLOW, BLUE, GREEN, RED, PINK]=" + Arrays.toString(students);
     }
 }
