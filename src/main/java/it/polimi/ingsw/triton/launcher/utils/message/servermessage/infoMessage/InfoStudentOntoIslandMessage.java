@@ -9,29 +9,29 @@ import it.polimi.ingsw.triton.launcher.utils.message.servermessage.InfoMessage;
 public class InfoStudentOntoIslandMessage extends InfoMessage {
 
     private final String playerUsername;
-    private final SchoolBoard modifiedSchoolBoard;
-    private final Island modifiedIsland;
+    private final SchoolBoard schoolBoard;
+    private final Island island;
 
     public String getPlayerUsername() {
         return playerUsername;
     }
 
-    public SchoolBoard getModifiedSchoolBoard() {
-        return modifiedSchoolBoard;
+    public SchoolBoard getSchoolBoard() {
+        return schoolBoard;
     }
 
-    public Island getModifiedIsland() {
-        return modifiedIsland;
+    public Island getIsland() {
+        return island;
     }
 
-    public InfoStudentOntoIslandMessage(String username, SchoolBoard modifiedSchoolBoard, Island modifiedIsland) {
+    public InfoStudentOntoIslandMessage(String username, SchoolBoard schoolBoard, Island island) {
         this.playerUsername = username;
-        this.modifiedSchoolBoard = modifiedSchoolBoard;
-        this.modifiedIsland = modifiedIsland;
+        this.schoolBoard = schoolBoard;
+        this.island = island;
     }
 
     @Override
-    public void accept(ServerMessageVisitor messageVisitor) {
-
+    public void accept(ServerMessageVisitor serverMessageVisitor) {
+        serverMessageVisitor.visit(this);
     }
 }

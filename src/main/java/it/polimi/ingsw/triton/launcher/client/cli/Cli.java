@@ -184,12 +184,8 @@ public class Cli extends Observable<Message> implements ClientView{
         AssistantDeck assistantDeck= clientModel.getAssistantDeck();
         try {
             out.print(ANSI_BOLDGREEN + "Draw an Assistant Card\n[ " + ANSI_RESET + ANSI_GREEN);
-            int count=0;
             for (AssistantCard assistantCard : assistantDeck.getAssistantDeck()) {
                 out.print(assistantCard.toString());
-                count++;
-                /*if(count<assistantDeck.getAssistantDeck().size()-1)
-                    out.print("\n");*/
             }
             out.print(ANSI_BOLDGREEN + " ]: " + ANSI_RESET);
             String input = readLine();
@@ -235,21 +231,6 @@ public class Cli extends Observable<Message> implements ClientView{
         }
     }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     @Override
     public void showChangeInfluenceMessage() {
 
@@ -269,6 +250,7 @@ public class Cli extends Observable<Message> implements ClientView{
             askCloudTile();
         }
     }
+
 
     @Override
     public void showDisconnectionMessage() {
@@ -375,6 +357,8 @@ public class Cli extends Observable<Message> implements ClientView{
     public void showAvailableCharacterCard() {
 
     }
+
+
 
 
     @Override

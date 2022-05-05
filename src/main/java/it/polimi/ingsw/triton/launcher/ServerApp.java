@@ -1,4 +1,4 @@
-package it.polimi.ingsw.triton.launcher.server;
+package it.polimi.ingsw.triton.launcher;
 
 import it.polimi.ingsw.triton.launcher.server.Server;
 

@@ -17,7 +17,7 @@ public class ChangeTurnMessage extends InfoMessage {
     }
 
     @Override
-    public void accept(ServerMessageVisitor messageVisitor) {
-
+    public void accept(ServerMessageVisitor serverMessageVisitor) {
+        serverMessageVisitor.visit(this);
     }
 }

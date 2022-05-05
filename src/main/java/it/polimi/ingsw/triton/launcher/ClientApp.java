@@ -1,4 +1,4 @@
-package it.polimi.ingsw.triton.launcher.client;
+package it.polimi.ingsw.triton.launcher;
 
 import it.polimi.ingsw.triton.launcher.client.cli.Cli;
 

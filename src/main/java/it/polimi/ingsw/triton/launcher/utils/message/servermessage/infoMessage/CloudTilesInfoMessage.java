@@ -15,8 +15,12 @@ public class CloudTilesInfoMessage extends InfoMessage {
         this.cloudTiles = cloudTiles;
     }
 
-    @Override
-    public void accept(ServerMessageVisitor messageVisitor) {
+    public ArrayList<CloudTile> getCloudTiles() {
+        return cloudTiles;
+    }
 
+    @Override
+    public void accept(ServerMessageVisitor serverMessageVisitor) {
+        serverMessageVisitor.visit(this);
     }
 }

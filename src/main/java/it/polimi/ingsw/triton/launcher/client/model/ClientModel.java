@@ -68,12 +68,24 @@ public class ClientModel extends Observable<Object> {
         this.islands = islands;
     }
 
+    public void setIsland(Island newIsland) {
+        for (Island island : islands) {
+            if (island.getId() == newIsland.getId())
+                islands.set(islands.indexOf(island), newIsland);
+        }
+    }
+
+
     public Map<String, SchoolBoard> getSchoolBoards() {
         return schoolBoards;
     }
 
     public void setSchoolBoards(Map<String, SchoolBoard> schoolBoards) {
         this.schoolBoards = schoolBoards;
+    }
+
+    public void setSchoolBoard(String username,SchoolBoard schoolBoard){
+        this.schoolBoards.put(username,schoolBoard);
     }
 
     public ArrayList<CloudTile> getCloudTiles() {
@@ -83,6 +95,15 @@ public class ClientModel extends Observable<Object> {
     public void setCloudTiles(ArrayList<CloudTile> cloudTiles) {
         this.cloudTiles = cloudTiles;
     }
+
+    public void setCloudTile(CloudTile newCloudTile) {
+        for (CloudTile cloudTile : cloudTiles) {
+            if (cloudTile.getId() == newCloudTile.getId())
+                cloudTiles.set(cloudTiles.indexOf(cloudTile), newCloudTile);
+        }
+    }
+
+
 
     public String printCloudTiles(){
         String results = " ";
