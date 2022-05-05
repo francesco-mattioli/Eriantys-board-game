@@ -28,6 +28,10 @@ public class Cli extends Observable<Message> implements ClientView{
     private final PrintStream out;
     private ClientModel clientModel;
     private final String TRY_AGAIN = "Try again...";
+    public static final String ANSI_RESET = "\u001B[0m";
+    public static final String ANSI_BOLDGREEN = "\u001B[1;32m";
+    public static final String ANSI_GREEN = "\u001B[32m";
+
 
     /**
      * Instantiates a new Cli;
@@ -63,7 +67,7 @@ public class Cli extends Observable<Message> implements ClientView{
 
     @Override
     public void askUsername() {
-        out.print("Enter your username: ");
+        out.print(ANSI_BOLDGREEN + "Enter your username: " + ANSI_RESET);
         try {
             String username = readLine();
             this.clientModel.setUsername(username);
@@ -78,7 +82,7 @@ public class Cli extends Observable<Message> implements ClientView{
         String input="";
         do{
             try {
-                out.print("You are the first player\nPlease, select a game mode [N for normal mode, E for expert mode]: ");
+                out.print("You are the first player\n" + ANSI_BOLDGREEN + "Please, select a game mode [N for normal mode, E for expert mode]: " + ANSI_RESET);
                 input = readLine();
             } catch (ExecutionException e) {
                 out.println("You should type N or E. Try again...");
@@ -97,7 +101,7 @@ public class Cli extends Observable<Message> implements ClientView{
     @Override
     public void askNumOfPlayers() {
         try {
-                out.print("Enter number of players [2 or 3]: ");
+                out.print(ANSI_BOLDGREEN + "Enter number of players [2 or 3]: " + ANSI_RESET);
                 String input = readLine();
                 int numOfPlayers = Integer.parseInt(input);
                 notify(new PlayersNumberReply(clientModel.getUsername(), numOfPlayers));
@@ -116,7 +120,7 @@ public class Cli extends Observable<Message> implements ClientView{
     @Override
     public void askTowerColor(boolean[] chosenTowerColors) {
         try {
-            out.print("Choose a tower color [ ");
+            out.print(ANSI_BOLDGREEN + "Choose a tower color [ ");
             for(int i=0;i< chosenTowerColors.length;i++){
                 if(!chosenTowerColors[i]) {
                     out.print(i + " for " + TowerColor.values()[i]);
@@ -125,7 +129,7 @@ public class Cli extends Observable<Message> implements ClientView{
                 }
 
             }
-            out.print(" ]: ");
+            out.print(" ]: " + ANSI_RESET);
             String input = readLine();
             notify(new TowerColorReply(clientModel.getUsername(), TowerColor.values()[Integer.parseInt(input)]));
         } catch (ExecutionException | NullPointerException | NumberFormatException e) {
@@ -139,11 +143,11 @@ public class Cli extends Observable<Message> implements ClientView{
     @Override
     public void askWizard(ArrayList<Wizard> wizards) {
         try {
-            out.print("Choose a Wizard [ ");
+            out.print(ANSI_BOLDGREEN + "Choose a Wizard [ ");
             for(Wizard wizard: wizards){
                 out.print(wizard+" ");
             }
-            out.print("]: ");
+            out.print("]: " + ANSI_RESET);
             String input = readLine();
             notify(new WizardReply(clientModel.getUsername(), Wizard.valueOf(input.toUpperCase())));
         } catch (ExecutionException | NullPointerException e) {
@@ -179,7 +183,7 @@ public class Cli extends Observable<Message> implements ClientView{
         // TO DO: print assistant cards played by other players
         AssistantDeck assistantDeck= clientModel.getAssistantDeck();
         try {
-            out.print("Draw an Assistant Card\n[ ");
+            out.print(ANSI_BOLDGREEN + "Draw an Assistant Card\n[ " + ANSI_RESET + ANSI_GREEN);
             int count=0;
             for (AssistantCard assistantCard : assistantDeck.getAssistantDeck()) {
                 out.print(assistantCard.toString());
@@ -187,7 +191,7 @@ public class Cli extends Observable<Message> implements ClientView{
                 /*if(count<assistantDeck.getAssistantDeck().size()-1)
                     out.print("\n");*/
             }
-            out.print(" ]: ");
+            out.print(ANSI_BOLDGREEN + " ]: " + ANSI_RESET);
             String input = readLine();
             AssistantCard assistantCardReply=null;
             for (AssistantCard assistantCard : assistantDeck.getAssistantDeck()){
@@ -209,7 +213,7 @@ public class Cli extends Observable<Message> implements ClientView{
     @Override
     public void askMoveStudentFromEntrance() {
         try {
-            out.println("Choose three students to move from entrance to dining room or an island");
+            out.println(ANSI_GREEN + "Choose three students to move from entrance to dining room or an island");
             out.print("Islands:\n");
             out.println(clientModel.getIslands());
             out.print("\n");
@@ -217,7 +221,7 @@ public class Cli extends Observable<Message> implements ClientView{
             out.print("Your SchoolBoard:");
             out.println(schoolBoard.toString());
             out.println("To do so, type on each line [color of student, d (for dining room) ] or [color of student, island id]");
-            out.println("Please, enter data: ");
+            out.println(ANSI_BOLDGREEN + "Please, enter data: " + ANSI_RESET);
             String input = readLine();
             String[] splittedInput = input.split(",");
             Color color=Color.valueOf(splittedInput[0].toUpperCase());
@@ -254,11 +258,10 @@ public class Cli extends Observable<Message> implements ClientView{
     @Override
     public void askCloudTile() {
         try {
-            out.println("Choose a cloud tile to withdraw the students");
+            out.println(ANSI_GREEN + "Choose a cloud tile to withdraw the students");
             out.print("CloudTiles:");
             out.println(clientModel.printCloudTiles());
-            out.println("Select the id of the cloud tile you choose:");
-
+            out.println(ANSI_BOLDGREEN + "Select the id of the cloud tile you choose:" + ANSI_RESET);
             String input = readLine();
             notify(new CloudTileReply(clientModel.getUsername(), Integer.parseInt(input)));
         } catch (ExecutionException | NumberFormatException e) {
@@ -332,7 +335,7 @@ public class Cli extends Observable<Message> implements ClientView{
     public void askNumberStepsMotherNature() {
         try {
             out.println("Mother nature is on the island: " + clientModel.getMotherNaturePosition().getId());
-            out.print("Insert the number of steps that mother nature has to do: ");
+            out.print(ANSI_BOLDGREEN + "Insert the number of steps that mother nature has to do: " + ANSI_RESET);
             String input = readLine();
             notify(new MotherNatureReply(clientModel.getUsername(), Integer.parseInt(input)));
         } catch (ExecutionException | NumberFormatException e) {
