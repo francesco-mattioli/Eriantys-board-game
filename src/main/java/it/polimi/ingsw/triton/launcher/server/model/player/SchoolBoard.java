@@ -16,12 +16,12 @@ public class SchoolBoard implements Serializable {
 
     @Override
     public String toString() {
-        return "SchoolBoard{" +
+        return  "SchoolBoard{" +
                 "towerColor=" + towerColor +
                 ", numTowers=" + numTowers +
                 ", entrance=" + Arrays.toString(entrance) +
                 ", diningRoom=" + Arrays.toString(diningRoom) +
-                '}';
+                "}\n\t";
     }
 
     /**

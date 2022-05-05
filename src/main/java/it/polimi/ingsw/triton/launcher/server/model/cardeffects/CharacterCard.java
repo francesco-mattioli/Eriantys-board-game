@@ -7,6 +7,7 @@ import it.polimi.ingsw.triton.launcher.utils.exceptions.IllegalClientInputExcept
 import it.polimi.ingsw.triton.launcher.utils.message.ErrorTypeID;
 
 import java.io.Serializable;
+import java.util.Arrays;
 
 public class CharacterCard implements Serializable {
     protected int id;
@@ -106,6 +107,17 @@ public class CharacterCard implements Serializable {
         if(id == 2 || id == 4 || id == 6 || id == 8)
             return false;
         return true;
+    }
+
+    public String toString(){
+        if (id == 1 || id == 6 || id == 11){
+            return "\n\tCharacterCard " + id + ": { Cost: " + cost + ", Students = " + Arrays.toString(students) + " }";
+        }
+        if (id == 5){
+            return "\n\tCharacterCard " + id + ": { Cost: " + cost + ", No Entry Tiles: " + noEntryTiles + " }";
+        }
+
+        else return "\n\tCharacterCard " + id + ": { Cost: " + cost  + " }";
     }
 
 }

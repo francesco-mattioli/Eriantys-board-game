@@ -29,4 +29,9 @@ public class AssistantCard implements Serializable {
     public AssistantCardType getType() {
         return assistantCardType;
     }
+
+    @Override
+    public String toString(){
+        return "\t" + assistantCardType.name() + ", value: " + assistantCardType.getValue() + ", max steps: " + assistantCardType.getValue() + "\n";
+    }
 }

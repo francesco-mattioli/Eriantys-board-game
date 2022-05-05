@@ -1,5 +1,6 @@
 package it.polimi.ingsw.triton.launcher.client.model;
 
+import it.polimi.ingsw.triton.launcher.server.model.AssistantCard;
 import it.polimi.ingsw.triton.launcher.server.model.CloudTile;
 import it.polimi.ingsw.triton.launcher.server.model.Island;
 import it.polimi.ingsw.triton.launcher.server.model.cardeffects.CharacterCard;
@@ -8,6 +9,7 @@ import it.polimi.ingsw.triton.launcher.server.model.player.SchoolBoard;
 import it.polimi.ingsw.triton.launcher.utils.obs.Observable;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Map;
 
 /**
@@ -23,12 +25,12 @@ public class ClientModel extends Observable<Object> {
 
     @Override
     public String toString() {
+
         return "ClientModel{" +
-                "assistantDeck=" + assistantDeck +
-                ", availableCharacterCards=" + availableCharacterCards +
-                ", islands=" + islands +
-                ", schoolBoards=" + schoolBoards +
-                ", cloudTiles=" + cloudTiles +
+                " \n- assistantDeck=" + assistantDeck.toString() +
+                ", \n- availableCharacterCards=" + printAvailableCharacterCard() +
+                ", \n- schoolBoards=\n\t" + schoolBoards +
+                ", \n- cloudTiles =" + printCloudTiles() +
                 '}';
     }
 
@@ -79,4 +81,23 @@ public class ClientModel extends Observable<Object> {
     public void setCloudTiles(ArrayList<CloudTile> cloudTiles) {
         this.cloudTiles = cloudTiles;
     }
+
+    public String printCloudTiles(){
+        String results = " ";
+        for (CloudTile cloudTile: cloudTiles) {
+            results += cloudTile.toString();
+        }
+        return results;
+    }
+
+    public String printAvailableCharacterCard(){
+        String results = " ";
+        for (CharacterCard characterCard : availableCharacterCards) {
+            results += characterCard.toString();
+        }
+        return results;
+    }
+
+
+
 }
