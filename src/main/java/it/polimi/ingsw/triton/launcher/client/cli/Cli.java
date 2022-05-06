@@ -93,10 +93,7 @@ public class Cli extends Observable<Message> implements ClientView{
         notify(new GameModeReply(clientModel.getUsername(), expertMode));
     }
 
-    @Override
-    public void askCharacterCardParameters(int id) {
 
-    }
 
     @Override
     public void askNumOfPlayers() {
@@ -137,7 +134,6 @@ public class Cli extends Observable<Message> implements ClientView{
             askTowerColor(chosenTowerColors);
         }
     }
-
 
 
     @Override
@@ -221,19 +217,48 @@ public class Cli extends Observable<Message> implements ClientView{
             String input = readLine();
             String[] splittedInput = input.split(",");
             Color color=Color.valueOf(splittedInput[0].toUpperCase());
-            if(splittedInput[1].equals("d"))
+            if(splittedInput[1].replaceAll(" ", "").equals("d"))
                 notify(new MoveStudentOntoDiningRoomMessage(clientModel.getUsername(),color));
             else
-                notify(new MoveStudentOntoIslandMessage(clientModel.getUsername(),Integer.parseInt(splittedInput[1]),color));
+                notify(new MoveStudentOntoIslandMessage(clientModel.getUsername(),Integer.parseInt(splittedInput[1].replaceAll(" ", "")),color));
         } catch (ExecutionException | NullPointerException e) {
             out.println(TRY_AGAIN);
             askMoveStudentFromEntrance();
         }
     }
 
+
+    @Override
+    public void askNumberStepsMotherNature() {
+        try {
+            out.println("Mother nature is on the island: " + clientModel.getMotherNaturePosition().getId());
+            out.print(ANSI_BOLDGREEN + "Insert the number of steps that mother nature has to do: " + ANSI_RESET);
+            String input = readLine();
+            notify(new MotherNatureReply(clientModel.getUsername(), Integer.parseInt(input)));
+        } catch (ExecutionException | NumberFormatException e) {
+            out.println(TRY_AGAIN);
+            askNumberStepsMotherNature();
+        }
+    }
+
+    @Override
+    public void showMotherNaturePosition() {
+        // tell the user where mother nature is
+        // remember to update the client model in the visitor, see eriantys specifics!!!
+    }
+
     @Override
     public void showChangeInfluenceMessage() {
+        // tell who dominates the island now
+        // when TIE, there is no dominator. CHECK HOW WE DO IN GAME AND TELL THIS SITUATION TO THE USER
+        // remember to update the client model in the visitor, see eriantys specifics!!!
 
+    }
+
+    @Override
+    public void showMergeIslandsMessage() {
+        // tell what happened and show arraylist of islands
+        // remember to update the client model in the visitor, see eriantys specifics!!!
     }
 
     @Override
@@ -251,6 +276,10 @@ public class Cli extends Observable<Message> implements ClientView{
         }
     }
 
+    @Override
+    public void askCharacterCardParameters(int id) {
+
+    }
 
     @Override
     public void showDisconnectionMessage() {
@@ -292,15 +321,9 @@ public class Cli extends Observable<Message> implements ClientView{
 
     }
 
-    @Override
-    public void showMergeIslandsMessage() {
 
-    }
 
-    @Override
-    public void showMotherNaturePosition() {
 
-    }
 
 
     @Override
@@ -313,18 +336,7 @@ public class Cli extends Observable<Message> implements ClientView{
 
     }
 
-    @Override
-    public void askNumberStepsMotherNature() {
-        try {
-            out.println("Mother nature is on the island: " + clientModel.getMotherNaturePosition().getId());
-            out.print(ANSI_BOLDGREEN + "Insert the number of steps that mother nature has to do: " + ANSI_RESET);
-            String input = readLine();
-            notify(new MotherNatureReply(clientModel.getUsername(), Integer.parseInt(input)));
-        } catch (ExecutionException | NumberFormatException e) {
-            out.println(TRY_AGAIN);
-            askNumberStepsMotherNature();
-        }
-    }
+
 
 
 
