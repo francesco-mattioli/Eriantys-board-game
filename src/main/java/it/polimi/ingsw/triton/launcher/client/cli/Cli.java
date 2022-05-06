@@ -245,7 +245,10 @@ public class Cli extends Observable<Message> implements ClientView{
     }
 
     @Override
-    public void showMergeIslandsMessage() {
+    public void showMergeIslandsMessage(int islandWithMotherNatureID, int islandToDeleteID) {
+        out.println("The island " + islandWithMotherNatureID + " is now merged with the island " + islandToDeleteID);
+        out.println("These are the remaining islands:");
+        out.println(clientModel.printIslands());
         // tell what happened and show arraylist of islands
         // remember to update the client model in the visitor, see eriantys specifics!!!
     }

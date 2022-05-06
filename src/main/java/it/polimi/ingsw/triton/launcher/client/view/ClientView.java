@@ -39,7 +39,7 @@ public interface ClientView extends View {
 
     void showLoginReply();
 
-    void showMergeIslandsMessage();
+    void showMergeIslandsMessage(int islandWithMotherNatureID, int islandToDeleteID);
 
     void showMotherNaturePosition(Island motherNaturePosition);
 
