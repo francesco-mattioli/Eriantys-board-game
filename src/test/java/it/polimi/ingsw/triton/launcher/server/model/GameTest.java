@@ -5,6 +5,7 @@ import it.polimi.ingsw.triton.launcher.server.model.enums.Color;
 import it.polimi.ingsw.triton.launcher.server.model.enums.TowerColor;
 import it.polimi.ingsw.triton.launcher.server.model.enums.Wizard;
 import it.polimi.ingsw.triton.launcher.server.model.player.Player;
+import it.polimi.ingsw.triton.launcher.utils.exceptions.ChangeTurnException;
 import it.polimi.ingsw.triton.launcher.utils.exceptions.IllegalClientInputException;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -28,30 +29,42 @@ class GameTest {
             game.chooseTowerColor("TestPlayer1",TowerColor.WHITE);
         } catch (IllegalClientInputException e) {
             e.printStackTrace();
+        } catch (ChangeTurnException e) {
+            e.printStackTrace();
         }
         try {
             game.chooseTowerColor("TestPlayer2",TowerColor.BLACK);
         } catch (IllegalClientInputException e) {
+            e.printStackTrace();
+        } catch (ChangeTurnException e) {
             e.printStackTrace();
         }
         try {
             game.chooseTowerColor("TestPlayer3",TowerColor.GREY);
         } catch (IllegalClientInputException e) {
             e.printStackTrace();
+        } catch (ChangeTurnException e) {
+            e.printStackTrace();
         }
         try {
             game.chooseWizard("TestPlayer1", Wizard.BLUE);
         } catch (IllegalClientInputException e) {
+            e.printStackTrace();
+        } catch (ChangeTurnException e) {
             e.printStackTrace();
         }
         try {
             game.chooseWizard("TestPlayer2", Wizard.GREEN);
         } catch (IllegalClientInputException e) {
             e.printStackTrace();
+        } catch (ChangeTurnException e) {
+            e.printStackTrace();
         }
         try {
             game.chooseWizard("TestPlayer3", Wizard.PURPLE);
         } catch (IllegalClientInputException e) {
+            e.printStackTrace();
+        } catch (ChangeTurnException e) {
             e.printStackTrace();
         }
         game.setup();

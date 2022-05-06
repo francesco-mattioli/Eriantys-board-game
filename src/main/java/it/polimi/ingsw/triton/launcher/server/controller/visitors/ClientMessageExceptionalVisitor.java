@@ -40,7 +40,6 @@ public class ClientMessageExceptionalVisitor {
      * @param message
      */
     public void visitForSendExceptionalMessage(AssistantCardReply message){
-        game.setGameState(GameState.ACTION_PHASE);
         virtualView.askMoveStudentFromEntrance();
     }
 

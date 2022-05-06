@@ -108,7 +108,7 @@ public class Game extends Observable<InfoMessage> {
      * @param username the username of the player that has chosen the tower color.
      * @param towerColor the color of the tower.
      */
-    public void chooseTowerColor(String username, TowerColor towerColor) throws IllegalClientInputException {
+    public void chooseTowerColor(String username, TowerColor towerColor) throws IllegalClientInputException, ChangeTurnException {
         if(towerColorChosen[towerColor.ordinal()]){
             throw new IllegalClientInputException(ErrorTypeID.WRONG_COLOR);
         }
@@ -116,6 +116,7 @@ public class Game extends Observable<InfoMessage> {
             getPlayerByUsername(username).setSchoolBoard(towerColor, maxNumberOfPlayers);
             towerColorChosen[towerColor.ordinal()] = true;
         }
+        setNextPlayer(currentPlayer);
     }
 
     /**
@@ -123,7 +124,7 @@ public class Game extends Observable<InfoMessage> {
      * @param username the player's username of who sets the wizard.
      * @param wizard the wizard selected by the player.
      */
-    public void chooseWizard(String username, Wizard wizard) throws IllegalClientInputException {
+    public void chooseWizard(String username, Wizard wizard) throws IllegalClientInputException, ChangeTurnException {
         if(!availableWizards.contains(wizard)){
             throw new IllegalClientInputException();
         }
@@ -131,6 +132,7 @@ public class Game extends Observable<InfoMessage> {
             getPlayerByUsername(username).setWizard(wizard);
             availableWizards.remove(wizard);
         }
+        setNextPlayer(currentPlayer);
     }
 
     /**
@@ -144,8 +146,11 @@ public class Game extends Observable<InfoMessage> {
     public void chooseAssistantCard(String username, AssistantCard assistantCard) throws IllegalClientInputException, ChangeTurnException {
         getPlayerByUsername(username).executeAction(new PlayAssistantCard(assistantCard, getPlayerByUsername(username), usedAssistantCards));
         notify(new InfoAssistantCardPlayedMessage(currentPlayer.getUsername(),assistantCard));
-        if(usedAssistantCards.size() == maxNumberOfPlayers)
+        if(usedAssistantCards.size() == maxNumberOfPlayers) {
             sortPlayerPerTurn();
+            gameState = GameState.ACTION_PHASE;
+            notify(new ChangePhaseMessage(gameState));
+        }
         else setNextPlayer(currentPlayer);
     }
 
@@ -161,8 +166,10 @@ public class Game extends Observable<InfoMessage> {
             currentPlayer = players.get(indexOfCurrentPlayer+1);
         }
         else if(Wizard.values().length - availableWizards.size() == maxNumberOfPlayers) {
-            setup();
+            setup();    //setup method sorts random the player arrayList
             availableWizards.clear();
+            gameState = GameState.PLANNING_PHASE;
+            notify(new ChangePhaseMessage(gameState));
             throw new ChangeTurnException();
         }
         else{
@@ -277,6 +284,7 @@ public class Game extends Observable<InfoMessage> {
     // Planning phase
     public void planningPhase() {
         gameState = GameState.PLANNING_PHASE;
+        notify(new ChangePhaseMessage(gameState));
         addStudentsToCloudTiles();
         resetPlayedCardInTurn();
         //notify(new CloudTilesInfoMessage(cloudTiles));
@@ -497,11 +505,11 @@ public class Game extends Observable<InfoMessage> {
      * Manages the action of the player to choose the cloud tile.
      * @param cloudTile the cloud tile selected from the player.
      */
-    public void chooseCloudTile(CloudTile cloudTile) throws IllegalClientInputException{
+    public void chooseCloudTile(CloudTile cloudTile) throws IllegalClientInputException, ChangeTurnException, EndGameException {
         currentPlayer.executeAction(new ChooseCloudTile(cloudTile, currentPlayer.getSchoolBoard()));
         cloudTile.setAlreadyUsed(true);
         notify(new InfoChosenCloudTileMessage(currentPlayer.getUsername(), currentPlayer.getSchoolBoard(), cloudTile));
-        //nextGameTurn();
+        nextGameTurn();
     }
 
     /**
@@ -520,6 +528,7 @@ public class Game extends Observable<InfoMessage> {
      */
     public void calculateWinner(){
         gameState = GameState.END;
+        notify(new ChangePhaseMessage(gameState));
         Optional<Player> p;
         int min = Collections.min(players.stream().map(Player::getSchoolBoard).map(SchoolBoard::getNumTowers).collect(Collectors.toList()));
         int frequency = Collections.frequency(players.stream().map(Player::getSchoolBoard).map(SchoolBoard::getNumTowers).collect(Collectors.toList()), min);

@@ -21,7 +21,6 @@ public class ClientMessageModifierVisitor {
 
     public void visitForModify(TowerColorReply message) throws IllegalClientInputException, ChangeTurnException {
         game.chooseTowerColor(message.getSenderUsername(), message.getPlayerColor());
-        game.setNextPlayer(game.getPlayerByUsername(message.getSenderUsername()));
     }
 
     /**
@@ -32,7 +31,6 @@ public class ClientMessageModifierVisitor {
      */
     public void visitForModify(WizardReply message) throws IllegalClientInputException, ChangeTurnException {
         game.chooseWizard(message.getSenderUsername(), message.getPlayerWizard());
-        game.setNextPlayer(game.getPlayerByUsername(message.getSenderUsername()));
     }
 
     public void visitForModify(AssistantCardReply message) throws IllegalClientInputException, ChangeTurnException {
@@ -53,7 +51,6 @@ public class ClientMessageModifierVisitor {
 
     public void visitForModify(CloudTileReply message) throws EndGameException, IllegalClientInputException, ChangeTurnException {
         game.chooseCloudTile(game.getCloudTileById(message.getSelectedCloudTileID()));
-        game.nextGameTurn();
     }
 
     public void visitForModify(UseCharacterCardRequest message) throws IllegalClientInputException, CharacterCardWithParametersException, EndGameException {
