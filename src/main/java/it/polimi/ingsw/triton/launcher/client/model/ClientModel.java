@@ -84,6 +84,13 @@ public class ClientModel extends Observable<Object> {
         }
     }
 
+    public void removeIsland(Island islandToDelete){
+        for (Island island : islands) {
+            if (island.getId() == islandToDelete.getId())
+                islands.remove(island);
+        }
+    }
+
 
     public Map<String, SchoolBoard> getSchoolBoards() {
         return schoolBoards;
