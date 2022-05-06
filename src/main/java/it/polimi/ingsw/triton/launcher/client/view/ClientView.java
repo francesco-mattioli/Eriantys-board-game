@@ -24,7 +24,7 @@ public interface ClientView extends View {
     void showLobbyMessage(ArrayList<String> onlineNicknames, int maxNumberPlayers );
     void showGameInfo(ArrayList<CharacterCard> availableCharacterCards, ArrayList<Island> islands, Map<String, SchoolBoard> schoolBoards, ArrayList<CloudTile> cloudTiles, Island motherNaturePosition);
 
-    void showDisconnectionMessage();
+    void showDisconnectionMessage(String disconnectedUsername);
 
     void showEmptyBagMessage();
 
