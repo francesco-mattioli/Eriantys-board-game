@@ -34,9 +34,6 @@ public interface ClientView extends View {
 
     void showFillCloudTilesMessage();
 
-    void showFullLobbyMessage();
-
-    void showInfoActionPhase();
 
     void showInfoAssistantCardPlayed(String username, AssistantCard assistantCard);
 
