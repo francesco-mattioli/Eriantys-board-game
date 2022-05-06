@@ -16,4 +16,7 @@ public class WinMessage extends InfoMessage {
     public void accept(ServerMessageVisitor messageVisitor) {
 
     }
+    public String getReceiverUsername(){
+        return receiverUsername;
+    }
 }
