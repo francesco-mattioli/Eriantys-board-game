@@ -44,7 +44,7 @@ public interface ClientView extends View {
 
     void showMergeIslandsMessage();
 
-    void showMotherNaturePosition();
+    void showMotherNaturePosition(Island motherNaturePosition);
 
     void showMoveTowerOntoIsland();
 

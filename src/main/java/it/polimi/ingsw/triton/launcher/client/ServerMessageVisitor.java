@@ -1,6 +1,7 @@
 package it.polimi.ingsw.triton.launcher.client;
 
 import it.polimi.ingsw.triton.launcher.client.view.ClientView;
+import it.polimi.ingsw.triton.launcher.server.model.Island;
 import it.polimi.ingsw.triton.launcher.utils.message.servermessage.Requests.*;
 import it.polimi.ingsw.triton.launcher.utils.message.servermessage.ServerMessage;
 import it.polimi.ingsw.triton.launcher.utils.message.servermessage.infoMessage.*;
@@ -84,6 +85,7 @@ public class ServerMessageVisitor {
 
     public void visit(MotherNaturePositionMessage message) {
         clientView.getClientModel().setMotherNaturePosition(message.getMotherNaturePosition());
+        clientView.showMotherNaturePosition(message.getMotherNaturePosition());
     }
 
     public void visit(InfoChosenCloudTileMessage message) {
@@ -112,6 +114,8 @@ public class ServerMessageVisitor {
     public void visit(MotherNatureRequest message) {
         clientView.askNumberStepsMotherNature();
     }
+
+
 
 
 }

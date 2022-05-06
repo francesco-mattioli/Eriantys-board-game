@@ -235,7 +235,8 @@ public class Cli extends Observable<Message> implements ClientView{
     }
 
     @Override
-    public void showMotherNaturePosition() {
+    public void showMotherNaturePosition(Island motherNaturePosition) {
+        out.println("Mother nature has been moved.\nMother nature is on the island: " + motherNaturePosition.getId());
         // tell the user where mother nature is
         // remember to update the client model in the visitor, see eriantys specifics!!!
     }
