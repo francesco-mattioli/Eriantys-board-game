@@ -9,7 +9,7 @@ import it.polimi.ingsw.triton.launcher.utils.obs.Observable;
 import it.polimi.ingsw.triton.launcher.utils.obs.Observer;
 import it.polimi.ingsw.triton.launcher.server.ServeOneClient;
 import it.polimi.ingsw.triton.launcher.utils.message.*;
-import it.polimi.ingsw.triton.launcher.utils.View;
+import it.polimi.ingsw.triton.launcher.client.view.View;
 
 import java.util.ArrayList;
 

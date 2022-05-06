@@ -1,4 +1,4 @@
-package it.polimi.ingsw.triton.launcher.utils;
+package it.polimi.ingsw.triton.launcher.client.view;
 
 
 import it.polimi.ingsw.triton.launcher.server.model.enums.Wizard;

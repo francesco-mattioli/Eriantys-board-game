@@ -2,6 +2,7 @@ package it.polimi.ingsw.triton.launcher.client;
 
 import it.polimi.ingsw.triton.launcher.client.view.ClientView;
 import it.polimi.ingsw.triton.launcher.utils.message.ErrorTypeID;
+import it.polimi.ingsw.triton.launcher.utils.message.clientmessage.MoveStudentOntoIslandMessage;
 import it.polimi.ingsw.triton.launcher.utils.message.servermessage.ErrorMessage;
 import it.polimi.ingsw.triton.launcher.utils.message.servermessage.Requests.*;
 import it.polimi.ingsw.triton.launcher.utils.message.servermessage.ServerMessage;
@@ -75,6 +76,10 @@ public class ServerMessageVisitor {
         clientView.getClientModel().setAssistantDeck(message.getAssistantDeck());
     }
 
+    public void visit(ChangePhaseMessage message){
+        clientView.showChangePhase(message.getGameState());
+    }
+
     public void visit(MoveStudentFromEntranceMessage message) {
         clientView.askMoveStudentFromEntrance();
     }
@@ -92,6 +97,7 @@ public class ServerMessageVisitor {
         clientView.getClientModel().setMotherNaturePosition(message.getMotherNaturePosition());
         clientView.showGenericMessage("Mother nature has been moved.\nMother nature is on the island: " + message.getMotherNaturePosition().getId());
     }
+
 
     public void visit(ChangeInfluenceMessage message){
         clientView.getClientModel().setIsland(message.getIslandWithNewInfluence());
@@ -129,6 +135,12 @@ public class ServerMessageVisitor {
 
     public void visit(MoveTowerOntoIslandMessage message){
         clientView.getClientModel().setIsland(message.getIsland());
+        clientView.showMoveTowerOntoIsland(message.getIsland().getId());
+    }
+
+    public void visit(MoveTowerOntoSchoolBoardMessage message){
+        clientView.getClientModel().setSchoolBoard(message.getUsernameDominated(), message.getSchoolBoard());
+        clientView.showMoveTowerOntoSchoolBoard(message.getUsernameDominated(), message.getSchoolBoard());
     }
 
     public void visit(EmptyBagMessage message){

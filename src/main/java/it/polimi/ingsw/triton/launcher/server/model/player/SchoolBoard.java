@@ -1,6 +1,6 @@
 package it.polimi.ingsw.triton.launcher.server.model.player;
 
-import it.polimi.ingsw.triton.launcher.client.cli.Utility;
+import it.polimi.ingsw.triton.launcher.utils.Utility;
 import it.polimi.ingsw.triton.launcher.server.model.enums.Color;
 import it.polimi.ingsw.triton.launcher.server.model.enums.TowerColor;
 import it.polimi.ingsw.triton.launcher.utils.exceptions.EndGameException;

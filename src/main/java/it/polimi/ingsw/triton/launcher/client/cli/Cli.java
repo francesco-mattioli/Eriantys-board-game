@@ -5,10 +5,7 @@ import it.polimi.ingsw.triton.launcher.server.model.AssistantCard;
 import it.polimi.ingsw.triton.launcher.server.model.CloudTile;
 import it.polimi.ingsw.triton.launcher.server.model.Island;
 import it.polimi.ingsw.triton.launcher.server.model.cardeffects.CharacterCard;
-import it.polimi.ingsw.triton.launcher.server.model.enums.AssistantCardType;
-import it.polimi.ingsw.triton.launcher.server.model.enums.Color;
-import it.polimi.ingsw.triton.launcher.server.model.enums.TowerColor;
-import it.polimi.ingsw.triton.launcher.server.model.enums.Wizard;
+import it.polimi.ingsw.triton.launcher.server.model.enums.*;
 import it.polimi.ingsw.triton.launcher.server.model.player.AssistantDeck;
 import it.polimi.ingsw.triton.launcher.server.model.player.SchoolBoard;
 import it.polimi.ingsw.triton.launcher.utils.message.ErrorTypeID;
@@ -27,15 +24,16 @@ import java.util.concurrent.FutureTask;
 public class Cli extends Observable<Message> implements ClientView{
     private final PrintStream out;
     private ClientModel clientModel;
-    private final String TRY_AGAIN = "Try again...";
+    private static final String TRY_AGAIN = "Try again...";
     public static final String ANSI_RESET = "\u001B[0m";
     public static final String ANSI_BOLDGREEN = "\u001B[1;32m";
     public static final String ANSI_GREEN = "\u001B[32m";
     public static final String ANSI_RED = "\u001B[31m";
     public static final String ANSI_BLUE = "\u001B[34m";
     public static final String ANSI_YELLOW = "\u001B[33m";
+    public static final String ANSI_BOLDYELLOW = "\u001B[1;33m";
     public static final String ANSI_PINK = "\u001B[35m";
-
+    private static final String commandForCharacterCard="--playCC";
 
 
     /**
@@ -80,6 +78,11 @@ public class Cli extends Observable<Message> implements ClientView{
             out.println(TRY_AGAIN);
         }
 
+    }
+
+    @Override
+    public void showLoginReply() {
+        // to implement when we redo lobby and decouple info message between server and game
     }
 
     public void askGameMode() {
@@ -167,8 +170,8 @@ public class Cli extends Observable<Message> implements ClientView{
         out.println(clientModel.toString());
     }
 
-    public void showChangePhase(){
-        //tell the user a new phase is started
+    public void showChangePhase(GameState gameState){
+        out.println(ANSI_BOLDYELLOW+" ---"+gameState.name()+"---"+ANSI_RESET);
     }
 
 
@@ -212,7 +215,7 @@ public class Cli extends Observable<Message> implements ClientView{
             out.println("To do so, type on each line [color of student, d (for dining room) ] or [color of student, island id]");
             out.println(ANSI_BOLDGREEN + "Please, enter data: " + ANSI_RESET);
             String input = readLine();
-            if(input.equals("--playCC"))
+            if(input.equals(commandForCharacterCard))
                 showAndPlayCharacterCard();
             else {
                 String[] splittedInput = input.split(",");
@@ -235,10 +238,10 @@ public class Cli extends Observable<Message> implements ClientView{
             out.println("Mother nature is on the island: " + clientModel.getMotherNaturePosition().getId());
             out.print(ANSI_BOLDGREEN + "Insert the number of steps that mother nature has to do: " + ANSI_RESET);
             String input = readLine();
-            if(input.equals("--playCC"))
+            if(input.equals(commandForCharacterCard))
                 showAndPlayCharacterCard();
             else
-            notify(new MotherNatureReply(clientModel.getUsername(), Integer.parseInt(input)));
+                notify(new MotherNatureReply(clientModel.getUsername(), Integer.parseInt(input)));
         } catch (ExecutionException | NumberFormatException | NullPointerException e) {
             out.println(TRY_AGAIN);
             askNumberStepsMotherNature();
@@ -254,7 +257,7 @@ public class Cli extends Observable<Message> implements ClientView{
             out.println(clientModel.printCloudTiles());
             out.println(ANSI_BOLDGREEN + "Select the id of the cloud tile you choose:" + ANSI_RESET);
             String input = readLine();
-            if(input.equals("--playCC"))
+            if(input.equals(commandForCharacterCard))
                 showAndPlayCharacterCard();
             else
                 notify(new CloudTileReply(clientModel.getUsername(), Integer.parseInt(input)));
@@ -286,32 +289,17 @@ public class Cli extends Observable<Message> implements ClientView{
         out.println("Every player will not draw any students from the cloud tiles");
     }
 
-
-
     @Override
-    public void showFillCloudTilesMessage() {
-
-    }
-
-
-
-    @Override
-    public void showLoginReply() {
-        // to implement when we redo lobby and decouple infomessage between server and game
-    }
-
-
-
-    @Override
-    public void showMoveTowerOntoIsland() {
-
+    public void showMoveTowerOntoIsland(int islandId) {
+        out.println("A tower has been moved onto island "+islandId);
+        clientModel.printIslands();
     }
 
     @Override
-    public void showMoveTowerOntoSchoolBoard() {
-
+    public void showMoveTowerOntoSchoolBoard(String username,SchoolBoard schoolBoard) {
+        out.println("A tower has been moved back onto "+username+"'s school board");
+        out.println(clientModel.getSchoolBoards().get(username).toString());
     }
-
 
 
 

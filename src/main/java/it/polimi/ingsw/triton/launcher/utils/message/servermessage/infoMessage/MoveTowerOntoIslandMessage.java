@@ -19,7 +19,7 @@ public class MoveTowerOntoIslandMessage extends InfoMessage {
     }
 
     @Override
-    public void accept(ServerMessageVisitor messageVisitor) {
-        messageVisitor.visit(this);
+    public void accept(ServerMessageVisitor serverMessageVisitor) {
+        serverMessageVisitor.visit(this);
     }
 }
