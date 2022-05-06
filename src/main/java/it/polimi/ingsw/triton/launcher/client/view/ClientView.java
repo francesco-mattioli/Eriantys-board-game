@@ -24,7 +24,7 @@ public interface ClientView extends View {
     void showLobbyMessage(ArrayList<String> onlineNicknames, int maxNumberPlayers );
     void showGameInfo(ArrayList<CharacterCard> availableCharacterCards, ArrayList<Island> islands, Map<String, SchoolBoard> schoolBoards, ArrayList<CloudTile> cloudTiles, Island motherNaturePosition);
 
-    void showChangeInfluenceMessage();
+    void showChangeInfluenceMessage(Island islandWithNewInfluence, String usernameDominator);
 
     void showDisconnectionMessage();
 
@@ -39,7 +39,7 @@ public interface ClientView extends View {
 
     void showLoginReply();
 
-    void showMergeIslandsMessage();
+    void showMergeIslandsMessage(int islandWithMotherNatureID, int islandToDeleteID);
 
     void showMotherNaturePosition(Island motherNaturePosition);
 
