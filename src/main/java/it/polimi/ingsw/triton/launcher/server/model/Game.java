@@ -34,18 +34,18 @@ public class Game extends Observable<InfoMessage> {
     private final int MAX_NUM_OF_ISLANDS = 12;
     private final int INITIAL_NUM_COINS = 20;
     private final ArrayList<Player> players;
-    private GeneralCoinSupply generalCoinSupply;
+    private final GeneralCoinSupply generalCoinSupply;
     private final ArrayList<CloudTile> cloudTiles;
     private ArrayList<CloudTile> availableCloudTiles;
     private final ArrayList<CharacterCard> characterCards;
     private Player currentPlayer;
     private MotherNature motherNature;
-    private Player[] professors;
+    private final Player[] professors;
     private ProfessorsManager professorsManager;
-    private ArrayList<AssistantCard> usedAssistantCards;
+    private final ArrayList<AssistantCard> usedAssistantCards;
     // This array must be shown to users, so they can choose a towerColor that is not already chosen.
     private final boolean[] towerColorChosen;
-    private ArrayList<Wizard> availableWizards;
+    private final ArrayList<Wizard> availableWizards;
     private GameState gameState;
     boolean notFullCloudTiles = false;
 
