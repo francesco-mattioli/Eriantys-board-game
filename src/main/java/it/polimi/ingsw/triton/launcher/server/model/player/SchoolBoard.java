@@ -1,5 +1,6 @@
 package it.polimi.ingsw.triton.launcher.server.model.player;
 
+import it.polimi.ingsw.triton.launcher.client.cli.Utility;
 import it.polimi.ingsw.triton.launcher.server.model.enums.Color;
 import it.polimi.ingsw.triton.launcher.server.model.enums.TowerColor;
 import it.polimi.ingsw.triton.launcher.utils.exceptions.EndGameException;
@@ -19,8 +20,8 @@ public class SchoolBoard implements Serializable {
         return  "\n\tSchoolBoard{" +
                 "towerColor=" + towerColor +
                 ", numTowers=" + numTowers +
-                ", entrance [YELLOW, BLUE, GREEN, RED, PINK]=" + Arrays.toString(entrance) +
-                ", diningRoom [YELLOW, BLUE, GREEN, RED, PINK]=" + Arrays.toString(diningRoom) +
+                ", entrance=" + Utility.printColoredStudents(entrance) +
+                ", diningRoom=" + Utility.printColoredStudents(diningRoom) +
                 "}\n\t";
     }
 
@@ -115,5 +116,7 @@ public class SchoolBoard implements Serializable {
         else
             throw new IllegalArgumentException("No students of color " + student.name() + " at entrance");
     }
+
+
 
 }

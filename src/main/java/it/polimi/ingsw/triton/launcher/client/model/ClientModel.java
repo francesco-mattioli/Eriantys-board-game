@@ -108,6 +108,9 @@ public class ClientModel extends Observable<Object> {
         return cloudTiles;
     }
 
+    /**
+     * @param cloudTiles is the new list to substitute
+     */
     public void setCloudTiles(ArrayList<CloudTile> cloudTiles) {
         this.cloudTiles = cloudTiles;
     }
@@ -119,6 +122,12 @@ public class ClientModel extends Observable<Object> {
         }
     }
 
+    /**
+     * @param newCloudTile to remove, indeed it has no more students on it
+     */
+    public void removeCloudTile(CloudTile newCloudTile){
+        cloudTiles.removeIf(cloudTile -> cloudTile.getId() == newCloudTile.getId());
+    }
 
 
     public String printCloudTiles(){

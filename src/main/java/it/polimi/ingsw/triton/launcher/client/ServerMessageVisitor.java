@@ -104,7 +104,7 @@ public class ServerMessageVisitor {
 
     public void visit(InfoChosenCloudTileMessage message) {
         clientView.getClientModel().setSchoolBoard(message.getPlayerUsername(), message.getPlayerSchoolBoard());
-        clientView.getClientModel().setCloudTile(message.getCloudTile());
+        clientView.getClientModel().removeCloudTile(message.getCloudTile());
     }
 
     public void visit(CloudTileRequest message) {
