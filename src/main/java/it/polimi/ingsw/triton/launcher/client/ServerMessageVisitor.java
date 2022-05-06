@@ -87,19 +87,20 @@ public class ServerMessageVisitor {
 
     public void visit(MotherNaturePositionMessage message) {
         clientView.getClientModel().setMotherNaturePosition(message.getMotherNaturePosition());
-        clientView.showMotherNaturePosition(message.getMotherNaturePosition());
+        clientView.showGenericMessage("Mother nature has been moved.\nMother nature is on the island: " + message.getMotherNaturePosition().getId());
     }
 
     public void visit(ChangeInfluenceMessage message){
         clientView.getClientModel().setIsland(message.getIslandWithNewInfluence());
-        clientView.showChangeInfluenceMessage(message.getIslandWithNewInfluence(), message.getUsernameDominator());
+        clientView.showGenericMessage("The island " + message.getIslandWithNewInfluence().getId() + "has a new dominator. " + "The new dominator is: " + message.getUsernameDominator());
     }
 
     public void visit(MergeIslandsMessage message){
         clientView.getClientModel().setIsland(message.getIslandWithMotherNature());
         clientView.getClientModel().setMotherNaturePosition(message.getIslandWithMotherNature());
         clientView.getClientModel().removeIsland(message.getIslandToDelete());
-        clientView.showMergeIslandsMessage(message.getIslandWithMotherNature().getId(), message.getIslandToDelete().getId());
+        clientView.showGenericMessage("The island " + message.getIslandWithMotherNature().getId() + " is now merged with the island " + message.getIslandToDelete().getId());
+        clientView.showGenericMessage("These are the remaining islands: "+clientView.getClientModel().printIslands());
     }
 
     public void visit(InfoChosenCloudTileMessage message) {

@@ -239,22 +239,6 @@ public class Cli extends Observable<Message> implements ClientView{
         }
     }
 
-    @Override
-    public void showMotherNaturePosition(Island motherNaturePosition) {
-        out.println("Mother nature has been moved.\nMother nature is on the island: " + motherNaturePosition.getId());
-    }
-
-    @Override
-    public void showChangeInfluenceMessage(Island islandWithNewInfluence, String usernameDominator) {
-        out.println("The island " + islandWithNewInfluence.getId() + "has a new dominator. " + "The new dominator is: " + usernameDominator);
-    }
-
-    @Override
-    public void showMergeIslandsMessage(int islandWithMotherNatureID, int islandToDeleteID) {
-        out.println("The island " + islandWithMotherNatureID + " is now merged with the island " + islandToDeleteID);
-        out.println("These are the remaining islands:");
-        out.println(clientModel.printIslands());
-    }
 
     @Override
     public void askCloudTile() {
