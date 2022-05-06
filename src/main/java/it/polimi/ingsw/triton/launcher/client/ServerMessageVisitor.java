@@ -88,6 +88,11 @@ public class ServerMessageVisitor {
         clientView.showMotherNaturePosition(message.getMotherNaturePosition());
     }
 
+    public void visit(ChangeInfluenceMessage message){
+        clientView.getClientModel().setIsland(message.getIslandWithNewInfluence());
+        clientView.showChangeInfluenceMessage(message.getIslandWithNewInfluence(), message.getUsernameDominator());
+    }
+
     public void visit(InfoChosenCloudTileMessage message) {
         clientView.getClientModel().setSchoolBoard(message.getPlayerUsername(), message.getPlayerSchoolBoard());
         clientView.getClientModel().setCloudTile(message.getCloudTile());
