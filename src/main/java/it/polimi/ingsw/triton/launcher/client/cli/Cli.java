@@ -278,7 +278,8 @@ public class Cli extends Observable<Message> implements ClientView{
 
     @Override
     public void showEmptyBagMessage() {
-
+        out.println("The bag is empty! The game will finish at the end of last player's turn");
+        out.println("Every player will not draw any students from the cloud tiles");
     }
 
     @Override

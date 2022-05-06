@@ -129,6 +129,10 @@ public class ServerMessageVisitor {
         clientView.askNumberStepsMotherNature();
     }
 
+    public void visit(EmptyBagMessage message){
+        clientView.showEmptyBagMessage();
+    }
+
 
 
 

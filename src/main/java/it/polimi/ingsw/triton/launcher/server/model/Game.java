@@ -236,15 +236,18 @@ public class Game extends Observable<InfoMessage> {
             cloudTile.setAlreadyUsed(false);
             for(int i = 0; i < numStudents; i++){
                 try{
-                    student = bag.drawStudent();
+                    if(!bag.isEmpty())
+                        student = bag.drawStudent();
+                    else{
+                        exit = true;
+                        break;
+                    }
                 }catch(NoSuchElementException e){           //HERE we don't expect to enter
-                    //notify(new EmptyBagMessage());
                     exit = true;
                     break;
                 }
                 cloudTile.setStudents(student);
                 if(bag.isEmpty()){
-                    //notify(new EmptyBagMessage());
                     exit = true;
                     break;
                 }
