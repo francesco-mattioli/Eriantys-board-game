@@ -96,6 +96,8 @@ public class Game extends Observable<InfoMessage> {
     public void addPlayer(String username) throws IllegalArgumentException {
         if(!isUsernameChosen(username) && !username.equals(Game.NAME_SERVER)){
             players.add(new Player(username));
+            if(players.size() == 1)
+                currentPlayer = players.get(0);
             notify(new LobbyMessage(getAllUsernames(players), maxNumberOfPlayers));
         }
         else

@@ -23,12 +23,6 @@ public class ClientMessageModifierVisitor {
         game.chooseTowerColor(message.getSenderUsername(), message.getPlayerColor());
     }
 
-    /**
-     * In this case setNextPlayer is not called because the players array sorting is made randomly in setup game
-     * @param message
-     * @throws IllegalClientInputException
-     * @throws ChangeTurnException
-     */
     public void visitForModify(WizardReply message) throws IllegalClientInputException, ChangeTurnException {
         game.chooseWizard(message.getSenderUsername(), message.getPlayerWizard());
     }
