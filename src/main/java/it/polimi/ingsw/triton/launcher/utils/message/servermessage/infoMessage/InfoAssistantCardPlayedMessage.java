@@ -26,7 +26,7 @@ public class InfoAssistantCardPlayedMessage extends InfoMessage {
     }
 
     @Override
-    public void accept(ServerMessageVisitor messageVisitor) {
-
+    public void accept(ServerMessageVisitor serverMessageVisitor) {
+        serverMessageVisitor.visit(this);
     }
 }
