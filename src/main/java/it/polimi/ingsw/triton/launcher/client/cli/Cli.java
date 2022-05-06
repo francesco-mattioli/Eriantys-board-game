@@ -164,19 +164,12 @@ public class Cli extends Observable<Message> implements ClientView{
     }
 
     public void showChangePhase(){
-
+        //tell the user a new phase is started
     }
 
-    // showChangePhase() con modifiche, per esempio cloud tiles riempite
 
-    // we need to play an assistant card based on the assistant card played by other players
-    // IDEA: everytime an assistant card is played, we update client model.
-    // In client model we have a map of assistantCardPlayed that we shoe when is called ask AssistantCard
-
-    // TO CHECK IF ENUM WORKS
     @Override
     public void askAssistantCard() {
-        // TO DO: print assistant cards played by other players
         AssistantDeck assistantDeck= clientModel.getAssistantDeck();
         try {
             out.print(ANSI_BOLDGREEN + "Draw an Assistant Card\n[ " + ANSI_RESET + ANSI_GREEN);
