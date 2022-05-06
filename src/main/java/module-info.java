@@ -13,4 +13,6 @@ module it.polimi.ingsw.triton.launcher {
 
     opens it.polimi.ingsw.triton.launcher.client.gui to javafx.fxml;
     exports it.polimi.ingsw.triton.launcher.client.gui;
+    exports it.polimi.ingsw.triton.launcher.client.gui.scenes;
+    opens it.polimi.ingsw.triton.launcher.client.gui.scenes to javafx.fxml;
 }
