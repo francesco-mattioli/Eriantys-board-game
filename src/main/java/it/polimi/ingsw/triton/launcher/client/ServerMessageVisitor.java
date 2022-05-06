@@ -2,6 +2,7 @@ package it.polimi.ingsw.triton.launcher.client;
 
 import it.polimi.ingsw.triton.launcher.client.view.ClientView;
 import it.polimi.ingsw.triton.launcher.server.model.Island;
+import it.polimi.ingsw.triton.launcher.utils.message.clientmessage.MoveStudentOntoIslandMessage;
 import it.polimi.ingsw.triton.launcher.utils.message.servermessage.Requests.*;
 import it.polimi.ingsw.triton.launcher.utils.message.servermessage.ServerMessage;
 import it.polimi.ingsw.triton.launcher.utils.message.servermessage.infoMessage.*;
@@ -142,6 +143,10 @@ public class ServerMessageVisitor {
 
     public void visit(DisconnectionMessage message){
         clientView.showDisconnectionMessage(message.getDisconnectedUsername());
+    }
+
+    public void visit(MoveTowerOntoIslandMessage message){
+        clientView.getClientModel().setIsland(message.getIsland());
     }
 
 }
