@@ -47,6 +47,7 @@ public class Game extends Observable<InfoMessage> {
     private final boolean[] towerColorChosen;
     private ArrayList<Wizard> availableWizards;
     private GameState gameState;
+    boolean notFullCloudTiles = false;
 
     public Game(int maxNumberOfPlayers) {
         this.islands = new ArrayList<>();
@@ -225,7 +226,6 @@ public class Game extends Observable<InfoMessage> {
      * It sends messages to communicate the new filled cloud tiles and if the bag is empty.
      */
     public void addStudentsToCloudTiles(){
-        boolean exit = false;
         Color student;
         int numStudents;
         if(maxNumberOfPlayers == 2)
@@ -239,20 +239,20 @@ public class Game extends Observable<InfoMessage> {
                     if(!bag.isEmpty())
                         student = bag.drawStudent();
                     else{
-                        exit = true;
+                        notFullCloudTiles = true;
                         break;
                     }
                 }catch(NoSuchElementException e){           //HERE we don't expect to enter
-                    exit = true;
+                    notFullCloudTiles = true;
                     break;
                 }
                 cloudTile.setStudents(student);
                 if(bag.isEmpty()){
-                    exit = true;
+                    notFullCloudTiles = true;
                     break;
                 }
             }
-            if(exit)
+            if(notFullCloudTiles)
                 break;
         }
         notify(new CloudTilesInfoMessage(cloudTiles));
@@ -365,11 +365,13 @@ public class Game extends Observable<InfoMessage> {
      * Moves mother nature to another island.
      * @param numSteps the number of steps that mother nature has to do.
      */
-    public void moveMotherNature(int numSteps) throws IllegalClientInputException, EndGameException{
+    public void moveMotherNature(int numSteps) throws IllegalClientInputException, EndGameException, ChangeTurnException {
         Island newPosition = motherNature.move(currentPlayer.getLastPlayedAssistantCard(), numSteps, islands);
         motherNature.setIslandOn(newPosition);
         notify(new MotherNaturePositionMessage(newPosition));
         mergeNearIslands(motherNature.getPosition());
+        if(notFullCloudTiles)
+            nextGameTurn();
     }
 
 

@@ -39,7 +39,7 @@ public class ClientMessageModifierVisitor {
         game.executeActionMoveStudentToIsland(message.getStudent(), message.getIslandID());
     }
 
-    public void visitForModify(MotherNatureReply message) throws IllegalClientInputException, EndGameException {
+    public void visitForModify(MotherNatureReply message) throws IllegalClientInputException, EndGameException, ChangeTurnException {
         game.moveMotherNature(message.getNumSteps());
     }
 

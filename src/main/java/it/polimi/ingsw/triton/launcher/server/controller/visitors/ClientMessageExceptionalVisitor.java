@@ -59,6 +59,15 @@ public class ClientMessageExceptionalVisitor {
         virtualView.askNumberStepsMotherNature();
     }
 
+
+    /**
+     * Not all cloud tiles are full, so players have not to choose the cloud tile and turn goes on without that micro-phase
+     * @param message
+     */
+    public void visitForSendExceptionalMessage(MotherNatureReply message){
+        virtualView.askMoveStudentFromEntrance();
+    }
+
     /**
      * Last player has chosen his cloudtile, so we need to restart with planning phase and ask first player a new assistant card
      * @param message
