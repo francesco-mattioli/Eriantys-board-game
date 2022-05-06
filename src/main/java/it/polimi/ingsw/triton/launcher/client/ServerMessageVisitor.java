@@ -1,9 +1,7 @@
 package it.polimi.ingsw.triton.launcher.client;
 
 import it.polimi.ingsw.triton.launcher.client.view.ClientView;
-import it.polimi.ingsw.triton.launcher.server.model.Island;
 import it.polimi.ingsw.triton.launcher.utils.message.ErrorTypeID;
-import it.polimi.ingsw.triton.launcher.utils.message.clientmessage.MoveStudentOntoIslandMessage;
 import it.polimi.ingsw.triton.launcher.utils.message.servermessage.ErrorMessage;
 import it.polimi.ingsw.triton.launcher.utils.message.servermessage.Requests.*;
 import it.polimi.ingsw.triton.launcher.utils.message.servermessage.ServerMessage;
@@ -67,7 +65,7 @@ public class ServerMessageVisitor {
     public void visit(InfoAssistantCardPlayedMessage message) {
         if (message.getCurrentPlayerUsername().equals(clientView.getClientModel().getUsername())) {
             clientView.getClientModel().setLastAssistantCardPlayed(message.getAssistantCardPlayed());
-            clientView.getClientModel().getAssistantDeck().getAssistantDeck().remove(message.getAssistantCardPlayed());
+            clientView.getClientModel().removeCard(message.getAssistantCardPlayed());
         }
         else
             clientView.showInfoAssistantCardPlayed(message.getCurrentPlayerUsername(), message.getAssistantCardPlayed());
