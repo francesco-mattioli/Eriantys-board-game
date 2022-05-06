@@ -22,6 +22,7 @@ public class ClientModel extends Observable<Object> {
     private Map<String, SchoolBoard> schoolBoards;
     private ArrayList<CloudTile> cloudTiles;
     private Island motherNaturePosition;
+    private AssistantCard lastAssistantCardPlayed;
 
     @Override
     public String toString() {
@@ -50,6 +51,14 @@ public class ClientModel extends Observable<Object> {
 
     public void setAssistantDeck(AssistantDeck assistantDeck) {
         this.assistantDeck = assistantDeck;
+    }
+
+    public AssistantCard getLastAssistantCardPlayed() {
+        return lastAssistantCardPlayed;
+    }
+
+    public void setLastAssistantCardPlayed(AssistantCard lastAssistantCardPlayed) {
+        this.lastAssistantCardPlayed = lastAssistantCardPlayed;
     }
 
     public ArrayList<CharacterCard> getAvailableCharacterCards() {
