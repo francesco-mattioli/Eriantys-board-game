@@ -5,7 +5,6 @@ import it.polimi.ingsw.triton.launcher.client.cli.Cli;
 public class ClientApp {
 
     public static void main(String[] args) {
-
         /**
          * Default mode: GUI
          */

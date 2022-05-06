@@ -331,12 +331,12 @@ public class Cli extends Observable<Message> implements ClientView{
 
     @Override
     public void showWinMessage() {
-
+        out.println("Congratulations! You're the Winner!");
     }
 
     @Override
-    public void showLoseMessage() {
-
+    public void showLoseMessage(String winnerUsername) {
+        out.println("You Lose! The Winner is: " + winnerUsername);
     }
 
 

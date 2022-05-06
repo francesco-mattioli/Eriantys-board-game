@@ -133,8 +133,10 @@ public class ServerMessageVisitor {
         clientView.showEmptyBagMessage();
     }
 
-    public void visit(DisconnectionMessage message){
-        clientView.showDisconnectionMessage(message.getDisconnectedUsername());
+    public void visit(WinMessage message){
+        if(clientView.getClientModel().getUsername().equals(message.getReceiverUsername()))
+            clientView.showWinMessage();
+        else clientView.showLoseMessage(message.getReceiverUsername());
     }
 
 

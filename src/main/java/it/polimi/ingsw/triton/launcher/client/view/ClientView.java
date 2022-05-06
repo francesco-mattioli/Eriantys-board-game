@@ -51,7 +51,7 @@ public interface ClientView extends View {
 
     void showWinMessage();
 
-    void showLoseMessage();
+    void showLoseMessage(String winnerUsername);
 
     void showYourTurnMessage();
 
