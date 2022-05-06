@@ -115,6 +115,18 @@ public class ServerMessageVisitor {
         clientView.askNumberStepsMotherNature();
     }
 
+    public void visit(MergeIslandsMessage message){
+        for(Island island: clientView.getClientModel().getIslands()){
+            if(island.getId() == message.getIslandWithMotherNature().getId()) {
+                island.merge(message.getIslandToDelete());
+                clientView.getClientModel().setMotherNaturePosition(island);
+                break;
+            }
+        }
+        clientView.getClientModel().getIslands().remove(message.getIslandToDelete());
+        clientView.showMergeIslandsMessage(message.getIslandWithMotherNature().getId(), message.getIslandToDelete().getId());
+    }
+
 
 
 

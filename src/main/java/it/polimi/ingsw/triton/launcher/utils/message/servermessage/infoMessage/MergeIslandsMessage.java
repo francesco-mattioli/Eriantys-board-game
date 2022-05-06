@@ -26,6 +26,6 @@ public class MergeIslandsMessage extends InfoMessage {
 
     @Override
     public void accept(ServerMessageVisitor messageVisitor) {
-
+        messageVisitor.visit(this);
     }
 }
