@@ -44,6 +44,12 @@ public class ServerMessageVisitor {
         clientView.askWizard(message.getAvailableWizards());
     }
 
+    public void visit(ChangeTurnMessage message){
+        if(message.getCurrentUsername().equals(clientView.getClientModel().getUsername()))
+            clientView.showGenericMessage("It's your turn!");
+        else
+            clientView.showGenericMessage("It's "+message.getCurrentUsername()+"'s turn!");
+    }
 
     public void visit(AssistantCardRequest message) {
         clientView.askAssistantCard();
@@ -85,11 +91,12 @@ public class ServerMessageVisitor {
         clientView.getClientModel().setCloudTile(message.getCloudTile());
     }
 
-    public void visit(ChangeTurnMessage message){
-        if(message.getCurrentUsername().equals(clientView.getClientModel().getUsername()))
-            clientView.showGenericMessage("It's your turn!");
-        else
-            clientView.showGenericMessage("It's "+message.getCurrentUsername()+"'s turn!");
+    public void visit(CloudTileRequest message) {
+        clientView.askCloudTile();
+    }
+
+    public void visit(CloudTilesInfoMessage message) {
+        clientView.getClientModel().setCloudTiles(message.getCloudTiles());
     }
 
     public void visit(GenericMessage message) {
@@ -100,13 +107,7 @@ public class ServerMessageVisitor {
         clientView.showGameInfo(message.getAvailableCharacterCards(), message.getIslands(), message.getSchoolBoards(), message.getCloudTiles(), message.getMotherNaturePosition());
     }
 
-    public void visit(CloudTileRequest message) {
-        clientView.askCloudTile();
-    }
 
-    public void visit(CloudTilesInfoMessage message) {
-        clientView.getClientModel().setCloudTiles(message.getCloudTiles());
-    }
 
     public void visit(MotherNatureRequest message) {
         clientView.askNumberStepsMotherNature();
