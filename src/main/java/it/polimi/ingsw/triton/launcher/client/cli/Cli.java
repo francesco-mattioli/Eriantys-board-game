@@ -237,16 +237,11 @@ public class Cli extends Observable<Message> implements ClientView{
     @Override
     public void showMotherNaturePosition(Island motherNaturePosition) {
         out.println("Mother nature has been moved.\nMother nature is on the island: " + motherNaturePosition.getId());
-        // tell the user where mother nature is
-        // remember to update the client model in the visitor, see eriantys specifics!!!
     }
 
     @Override
     public void showChangeInfluenceMessage(Island islandWithNewInfluence, String usernameDominator) {
-        // tell who dominates the island now
-        // when TIE, there is no dominator. CHECK HOW WE DO IN GAME AND TELL THIS SITUATION TO THE USER
-        // remember to update the client model in the visitor, see eriantys specifics!!!
-
+        out.println("The island " + islandWithNewInfluence.getId() + "has a new dominator. " + "The new dominator is: " + usernameDominator);
     }
 
     @Override
