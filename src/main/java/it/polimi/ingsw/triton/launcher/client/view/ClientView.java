@@ -28,7 +28,6 @@ public interface ClientView extends View {
 
     void showEmptyBagMessage();
 
-    void showErrorMessage();
 
     void showFillCloudTilesMessage();
 

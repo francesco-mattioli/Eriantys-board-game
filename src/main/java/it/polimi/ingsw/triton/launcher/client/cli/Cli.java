@@ -75,7 +75,6 @@ public class Cli extends Observable<Message> implements ClientView{
         out.print(ANSI_BOLDGREEN + "Enter your username: " + ANSI_RESET);
         try {
             String username = readLine();
-            this.clientModel.setUsername(username);
             notify(new LoginRequest(username));
         } catch (ExecutionException e) {
             out.println(TRY_AGAIN);
@@ -215,10 +214,10 @@ public class Cli extends Observable<Message> implements ClientView{
             String input = readLine();
             String[] splittedInput = input.split(",");
             Color color=Color.valueOf(splittedInput[0].toUpperCase());
-            if(splittedInput[1].replaceAll(" ", "").equals("d"))
+            if(removeSpaces(splittedInput[1]).equals("d"))
                 notify(new MoveStudentOntoDiningRoomMessage(clientModel.getUsername(),color));
             else
-                notify(new MoveStudentOntoIslandMessage(clientModel.getUsername(),Integer.parseInt(splittedInput[1].replaceAll(" ", "")),color));
+                notify(new MoveStudentOntoIslandMessage(clientModel.getUsername(),Integer.parseInt(removeSpaces(splittedInput[1])),color));
         } catch (ExecutionException | NullPointerException e) {
             out.println(TRY_AGAIN);
             askMoveStudentFromEntrance();
@@ -261,8 +260,13 @@ public class Cli extends Observable<Message> implements ClientView{
     }
 
     @Override
-    public void showDisconnectionMessage() {
-        out.println("A player has disconnected! The game is finished.");
+    public void showErrorMessage(ErrorTypeID errorTypeID) {
+        out.println(errorTypeID.getDescription());
+    }
+
+    @Override
+    public void showDisconnectionMessage(String disconnectedUsername) {
+        out.println(disconnectedUsername + " has disconnected! The game is finished.");
         System.exit(1);
     }
 
@@ -272,10 +276,6 @@ public class Cli extends Observable<Message> implements ClientView{
         out.println("Every player will not draw any students from the cloud tiles");
     }
 
-    @Override
-    public void showErrorMessage() {
-
-    }
 
 
     @Override
@@ -338,15 +338,25 @@ public class Cli extends Observable<Message> implements ClientView{
 
 
 
-
-    @Override
-    public void showErrorMessage(ErrorTypeID fullLobby) {
-
-    }
-
     @Override
     public void showGenericMessage(String genericMessage) {
         out.println(genericMessage);
+    }
+
+    private void managePlayCharacterCard(){
+        try {
+            out.println(clientModel.getAvailableCharacterCards().toString());
+            out.print("Please, choose a character card id to play: ");
+            String input=readLine();
+            notify(new UseCharacterCardRequest(clientModel.getUsername(),Integer.parseInt(removeSpaces(input))));
+        } catch (ExecutionException | NumberFormatException e) {
+            out.println(TRY_AGAIN);
+            managePlayCharacterCard();
+        }
+    }
+
+    private String removeSpaces(String string){
+        return string.replace(" ", "");
     }
 
     /**
@@ -359,14 +369,17 @@ public class Cli extends Observable<Message> implements ClientView{
     public String readLine() throws ExecutionException, NullPointerException {
         FutureTask<String> futureTask = new FutureTask<>(new InputReadTask());
         new Thread(futureTask).start();
-        // METTERE A POSTO LA QUESTIONE DEL NULL
         try {
-            return futureTask.get();
+            String input=futureTask.get();
+                if(input.equals("--playCC"))
+                    managePlayCharacterCard();
+                else
+                    return input;
         } catch (InterruptedException e) {
             futureTask.cancel(true);
             Thread.currentThread().interrupt();
         }
-        throw new NullPointerException("the methods had read a null string");
+        throw new NullPointerException("The method had read a null string");
     }
 
 
