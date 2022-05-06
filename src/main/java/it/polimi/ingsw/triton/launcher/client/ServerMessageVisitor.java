@@ -87,6 +87,7 @@ public class ServerMessageVisitor {
 
     public void visit(InfoStudentOntoIslandMessage message) {
         clientView.getClientModel().setIsland(message.getIsland());
+        clientView.getClientModel().setSchoolBoard(message.getPlayerUsername(), message.getSchoolBoard());
     }
 
     public void visit(MotherNaturePositionMessage message) {
@@ -124,9 +125,12 @@ public class ServerMessageVisitor {
         clientView.showGameInfo(message.getAvailableCharacterCards(), message.getIslands(), message.getSchoolBoards(), message.getCloudTiles(), message.getMotherNaturePosition());
     }
 
-
     public void visit(MotherNatureRequest message) {
         clientView.askNumberStepsMotherNature();
+    }
+
+    public void visit(MoveTowerOntoIslandMessage message){
+        clientView.getClientModel().setIsland(message.getIsland());
     }
 
     public void visit(EmptyBagMessage message){
@@ -141,10 +145,6 @@ public class ServerMessageVisitor {
 
     public void visit(DisconnectionMessage message){
         clientView.showDisconnectionMessage();
-    }
-
-    public void visit(MoveTowerOntoIslandMessage message){
-        clientView.getClientModel().setIsland(message.getIsland());
     }
 
     public void visit(GenericMessage message) {

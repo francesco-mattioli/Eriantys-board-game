@@ -25,13 +25,6 @@ public class MoveStudentOntoIsland implements Action {
         this.islandDestination = islandDestination;
     }
 
-    private boolean isEmptyEntrance(){
-        int numStudentsEntrance = 0;
-        for(int i = 0; i < schoolBoard.getEntrance().length; i++){
-            numStudentsEntrance += schoolBoard.getEntrance()[i];
-        }
-        return numStudentsEntrance == 0;
-    }
 
     private boolean noStudentsColorInTheEntrance(){
         return schoolBoard.getEntrance()[student.ordinal()] == 0;
@@ -42,7 +35,7 @@ public class MoveStudentOntoIsland implements Action {
      */
     @Override
     public void execute() throws IllegalClientInputException {
-        if(isEmptyEntrance())
+        if(schoolBoard.isEntranceEmpty())
             throw new IllegalClientInputException();
         else if(noStudentsColorInTheEntrance())
             throw new IllegalClientInputException();
