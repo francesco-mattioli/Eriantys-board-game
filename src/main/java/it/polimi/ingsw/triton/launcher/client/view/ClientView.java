@@ -34,9 +34,6 @@ public interface ClientView extends View {
 
     void showFillCloudTilesMessage();
 
-    void showFullLobbyMessage();
-
-    void showInfoActionPhase();
 
     void showInfoAssistantCardPlayed(String username, AssistantCard assistantCard);
 
@@ -44,7 +41,7 @@ public interface ClientView extends View {
 
     void showMergeIslandsMessage();
 
-    void showMotherNaturePosition();
+    void showMotherNaturePosition(Island motherNaturePosition);
 
     void showMoveTowerOntoIsland();
 

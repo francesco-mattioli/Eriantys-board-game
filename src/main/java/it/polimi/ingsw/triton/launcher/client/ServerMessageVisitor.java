@@ -1,6 +1,7 @@
 package it.polimi.ingsw.triton.launcher.client;
 
 import it.polimi.ingsw.triton.launcher.client.view.ClientView;
+import it.polimi.ingsw.triton.launcher.server.model.Island;
 import it.polimi.ingsw.triton.launcher.utils.message.servermessage.Requests.*;
 import it.polimi.ingsw.triton.launcher.utils.message.servermessage.ServerMessage;
 import it.polimi.ingsw.triton.launcher.utils.message.servermessage.infoMessage.*;
@@ -17,7 +18,7 @@ public class ServerMessageVisitor {
 
     public void visit(ServerMessage message) {
         // DEFAULT METHOD, otherwise it does not work
-        clientView.showGenericMessage("GRPOW");
+        clientView.showGenericMessage("This string should not be printed");
     }
 
     public void visit(LoginReply message) {
@@ -60,8 +61,10 @@ public class ServerMessageVisitor {
      * Otherwise, show the played card and who played it.
      */
     public void visit(InfoAssistantCardPlayedMessage message) {
-        if (message.getCurrentPlayerUsername().equals(clientView.getClientModel().getUsername()))
+        if (message.getCurrentPlayerUsername().equals(clientView.getClientModel().getUsername())) {
+            clientView.getClientModel().setLastAssistantCardPlayed(message.getAssistantCardPlayed());
             clientView.getClientModel().getAssistantDeck().getAssistantDeck().remove(message.getAssistantCardPlayed());
+        }
         else
             clientView.showInfoAssistantCardPlayed(message.getCurrentPlayerUsername(), message.getAssistantCardPlayed());
     }
@@ -84,6 +87,7 @@ public class ServerMessageVisitor {
 
     public void visit(MotherNaturePositionMessage message) {
         clientView.getClientModel().setMotherNaturePosition(message.getMotherNaturePosition());
+        clientView.showMotherNaturePosition(message.getMotherNaturePosition());
     }
 
     public void visit(InfoChosenCloudTileMessage message) {
@@ -112,6 +116,8 @@ public class ServerMessageVisitor {
     public void visit(MotherNatureRequest message) {
         clientView.askNumberStepsMotherNature();
     }
+
+
 
 
 }

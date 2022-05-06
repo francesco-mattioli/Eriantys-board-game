@@ -17,6 +17,6 @@ public class MotherNaturePositionMessage extends InfoMessage {
 
     @Override
     public void accept(ServerMessageVisitor messageVisitor) {
-
+        messageVisitor.visit(this);
     }
 }
