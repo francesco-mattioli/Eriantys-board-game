@@ -10,6 +10,10 @@ public abstract class InfoWithReceiverMessage extends InfoMessage {
         this.receiverUsername = receiverUsername;
     }
 
+    public String getReceiverUsername() {
+        return receiverUsername;
+    }
+
     @Override
     public void accept(InfoMessageVisitor visitor) {
         visitor.visit(this);
