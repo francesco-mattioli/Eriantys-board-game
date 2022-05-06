@@ -1,6 +1,15 @@
 package it.polimi.ingsw.triton.launcher.client.cli;
 
 public class Utility {
+    private static final Utility instance = new Utility();
+
+    private Utility(){
+    }
+
+    public static Utility getInstance(){
+        return instance;
+    }
+
     public static final String ANSI_RESET = "\u001B[0m";
     public static final String ANSI_GREEN = "\u001B[32m";
     public static final String ANSI_RED = "\u001B[31m";

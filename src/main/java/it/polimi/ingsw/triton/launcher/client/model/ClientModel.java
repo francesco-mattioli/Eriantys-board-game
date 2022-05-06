@@ -27,10 +27,10 @@ public class ClientModel extends Observable<Object> {
     @Override
     public String toString() {
 
-        return "ClientModel{" +
-                " \n- assistantDeck=" + assistantDeck.toString() +
-                ", \n- availableCharacterCards=" + printAvailableCharacterCard() +
-                ", \n- schoolBoards=\n\t" + schoolBoards +
+        return "{" +
+                " \n- assistantDeck = " + assistantDeck.toString() +
+                ", \n- availableCharacterCards = " + printAvailableCharacterCard() +
+                ", \n- schoolBoards = \n\t" + schoolBoards +
                 ", \n- cloudTiles =" + printCloudTiles() +
                 ", \n- islands =" + printIslands() +
                 ", \n- motherNature is on island " + motherNaturePosition.getId() +

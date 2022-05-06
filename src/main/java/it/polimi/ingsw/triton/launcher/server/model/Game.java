@@ -212,7 +212,7 @@ public class Game extends Observable<InfoMessage> {
         drawCharacterCards(); //(PHASE 12) creates 3 character cards
         for(Player player: players)
             notify(new GiveAssistantDeckMessage(player.getUsername(), player.getAssistantDeck()));   // to review
-        notify(new GameInfoMessage(characterCards, islands, motherNature.getPosition(), getAllSchoolBoards(), cloudTiles, Arrays.stream(professors).map(p-> p.getUsername()).toArray(String[]::new)));
+        notify(new GameInfoMessage(characterCards, islands, motherNature.getPosition(), getAllSchoolBoards(), cloudTiles, new String[professors.length]));
         notify(new ChangeTurnMessage(currentPlayer.getUsername()));
         planningPhase();
     }
