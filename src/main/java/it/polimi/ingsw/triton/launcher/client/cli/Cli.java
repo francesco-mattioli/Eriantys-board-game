@@ -299,27 +299,12 @@ public class Cli extends Observable<Message> implements ClientView{
 
     }
 
-    @Override
-    public void showFullLobbyMessage() {
-
-    }
-
-    @Override
-    public void showInfoActionPhase() {
-
-    }
-
-
-
 
 
     @Override
     public void showLoginReply() {
-
+        // to implement when we redo lobby and decouple infomessage between server and game
     }
-
-
-
 
 
 
