@@ -11,6 +11,7 @@ public class InfoStudentOntoIslandMessage extends InfoMessage {
     private final String playerUsername;
     private final SchoolBoard schoolBoard;
     private final Island island;
+    private final String[] professors;
 
     public String getPlayerUsername() {
         return playerUsername;
@@ -24,10 +25,11 @@ public class InfoStudentOntoIslandMessage extends InfoMessage {
         return island;
     }
 
-    public InfoStudentOntoIslandMessage(String username, SchoolBoard schoolBoard, Island island) {
+    public InfoStudentOntoIslandMessage(String username, SchoolBoard schoolBoard, Island island, String[] professors) {
         this.playerUsername = username;
         this.schoolBoard = schoolBoard;
         this.island = island;
+        this.professors = professors;
     }
 
     @Override

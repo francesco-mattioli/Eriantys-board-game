@@ -19,13 +19,15 @@ public class GameInfoMessage extends InfoMessage {
     private final Island motherNaturePosition;
     private final Map<String, SchoolBoard> schoolBoards;
     private final ArrayList<CloudTile> cloudTiles;
+    private final String[] professors;
 
-    public GameInfoMessage(ArrayList<CharacterCard> availableCharacterCards, ArrayList<Island> islands, Island motherNaturePosition, Map<String, SchoolBoard> schoolBoards, ArrayList<CloudTile> cloudTiles) {
+    public GameInfoMessage(ArrayList<CharacterCard> availableCharacterCards, ArrayList<Island> islands, Island motherNaturePosition, Map<String, SchoolBoard> schoolBoards, ArrayList<CloudTile> cloudTiles, String[] professors) {
         this.availableCharacterCards = availableCharacterCards;
         this.islands = islands;
         this.motherNaturePosition = motherNaturePosition;
         this.schoolBoards = schoolBoards;
         this.cloudTiles = cloudTiles;
+        this.professors = professors;
     }
 
     public ArrayList<CharacterCard> getAvailableCharacterCards() {

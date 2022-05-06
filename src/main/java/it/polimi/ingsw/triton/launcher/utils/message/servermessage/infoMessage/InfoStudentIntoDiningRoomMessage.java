@@ -10,9 +10,12 @@ import it.polimi.ingsw.triton.launcher.utils.message.servermessage.InfoMessage;
 public class InfoStudentIntoDiningRoomMessage extends InfoMessage {
     private final String playerUsername;
     private final SchoolBoard schoolBoard;
-    public InfoStudentIntoDiningRoomMessage(String playerUsername, SchoolBoard schoolBoard) {
+    private final String[] professors;
+
+    public InfoStudentIntoDiningRoomMessage(String playerUsername, SchoolBoard schoolBoard, String[] professors) {
         this.playerUsername = playerUsername;
         this.schoolBoard = schoolBoard;
+        this.professors = professors;
     }
 
     public String getPlayerUsername() {

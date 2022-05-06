@@ -211,7 +211,7 @@ public class Game extends Observable<InfoMessage> {
         drawCharacterCards(); //(PHASE 12) creates 3 character cards
         for(Player player: players)
             notify(new GiveAssistantDeckMessage(player.getUsername(), player.getAssistantDeck()));   // to review
-        notify(new GameInfoMessage(characterCards, islands, motherNature.getPosition(), getAllSchoolBoards(), cloudTiles));
+        notify(new GameInfoMessage(characterCards, islands, motherNature.getPosition(), getAllSchoolBoards(), cloudTiles, Arrays.stream(professors).map(p-> p.getUsername()).toArray(String[]::new)));
         notify(new ChangeTurnMessage(currentPlayer.getUsername()));
         planningPhase();
     }
@@ -321,7 +321,7 @@ public class Game extends Observable<InfoMessage> {
             notify(new UpdateWalletMessage(currentPlayer.getUsername()));
         else if(currentPlayer.getSchoolBoard().getDiningRoom()[student.ordinal()] % 3 == 0 && empty)
             notify(new EmptyGeneralCoinSupplyMessage(currentPlayer.getUsername()));
-        notify(new InfoStudentIntoDiningRoomMessage(currentPlayer.getUsername(), currentPlayer.getSchoolBoard()));
+        notify(new InfoStudentIntoDiningRoomMessage(currentPlayer.getUsername(), currentPlayer.getSchoolBoard(),Arrays.stream(professors).map(p-> p.getUsername()).toArray(String[]::new)));
         currentPlayer.setMoveCounter(currentPlayer.getMoveCounter() + 1);
         checkNumberMoves();   //checks if the move was the last one throwing lastMoveException
     }
@@ -338,7 +338,7 @@ public class Game extends Observable<InfoMessage> {
         }else{
             currentPlayer.executeAction(new MoveStudentOntoIsland(currentPlayer.getSchoolBoard(), student, getIslandByID(idIsland)));
             currentPlayer.setMoveCounter(currentPlayer.getMoveCounter() + 1);
-            notify(new InfoStudentOntoIslandMessage(currentPlayer.getUsername(), currentPlayer.getSchoolBoard(), getIslandByID(idIsland)));
+            notify(new InfoStudentOntoIslandMessage(currentPlayer.getUsername(), currentPlayer.getSchoolBoard(), getIslandByID(idIsland), Arrays.stream(professors).map(p-> p.getUsername()).toArray(String[]::new)));
             checkNumberMoves();
         }
     }
@@ -510,7 +510,7 @@ public class Game extends Observable<InfoMessage> {
     public void chooseCloudTile(CloudTile cloudTile) throws IllegalClientInputException, ChangeTurnException, EndGameException {
         currentPlayer.executeAction(new ChooseCloudTile(cloudTile, currentPlayer.getSchoolBoard()));
         cloudTile.setAlreadyUsed(true);
-        notify(new InfoChosenCloudTileMessage(currentPlayer.getUsername(), currentPlayer.getSchoolBoard(), cloudTile));
+        notify(new InfoChosenCloudTileMessage(currentPlayer.getUsername(), currentPlayer.getSchoolBoard(), cloudTile, Arrays.stream(professors).map(p-> p.getUsername()).toArray(String[]::new)));
         nextGameTurn();
     }
 
