@@ -1,5 +1,6 @@
 package it.polimi.ingsw.triton.launcher.server.model.cardeffects;
 
+import it.polimi.ingsw.triton.launcher.client.cli.Utility;
 import it.polimi.ingsw.triton.launcher.server.model.Bag;
 import it.polimi.ingsw.triton.launcher.server.model.enums.Color;
 import it.polimi.ingsw.triton.launcher.utils.exceptions.EndGameException;
@@ -111,7 +112,7 @@ public class CharacterCard implements Serializable {
 
     public String toString(){
         if (id == 1 || id == 6 || id == 11){
-            return "\n\tCharacterCard " + id + ": { Cost: " + cost + ", Students [YELLOW, BLUE, GREEN, RED, PINK] = " + Arrays.toString(students) + " }";
+            return "\n\tCharacterCard " + id + ": { Cost: " + cost + ", Students=" + Utility.printColoredStudents(students) + " }";
         }
         if (id == 5){
             return "\n\tCharacterCard " + id + ": { Cost: " + cost + ", No Entry Tiles: " + noEntryTiles + " }";
@@ -119,6 +120,7 @@ public class CharacterCard implements Serializable {
 
         else return "\n\tCharacterCard " + id + ": { Cost: " + cost  + " }";
     }
+
 
 }
 

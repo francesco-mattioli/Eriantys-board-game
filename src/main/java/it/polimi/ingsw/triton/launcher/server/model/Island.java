@@ -1,5 +1,6 @@
 package it.polimi.ingsw.triton.launcher.server.model;
 
+import it.polimi.ingsw.triton.launcher.client.cli.Utility;
 import it.polimi.ingsw.triton.launcher.server.model.cardeffects.CharacterCard;
 import it.polimi.ingsw.triton.launcher.server.model.enums.Color;
 import it.polimi.ingsw.triton.launcher.server.model.influencestrategy.InfluenceStrategy;
@@ -172,7 +173,8 @@ public class Island extends Observable<Message> implements Serializable {
         return "\n\t{id: " + id +"," +
                 "dimension: " + dim + "," +
                 "dominator: " + dominator + "," +
-                "students [YELLOW, BLUE, GREEN, RED, PINK]: " + Arrays.toString(students) + "," +
+                "students=" + Utility.printColoredStudents(students) + "," +
                 "number no entry tiles: " + noEntryTiles + "}";
     }
+
 }
