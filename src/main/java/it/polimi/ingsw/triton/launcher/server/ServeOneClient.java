@@ -70,9 +70,8 @@ public class  ServeOneClient implements Runnable {
                 LOGGER.info("Received: " + message.getClass().getSimpleName());
             }
         }catch (SocketException e){
-            LOGGER.severe("Cannot receive message because closed");
-            server.removeDisconnectedPlayers();
-            close();
+            LOGGER.severe("Cannot receive message because connection with client dropped!");
+            server.disconnectPlayers();
         } catch (IOException | NoSuchElementException | ClassNotFoundException e) {
             System.err.println("Error! " + e.getMessage());
             LOGGER.severe(e.getMessage());
@@ -93,7 +92,7 @@ public class  ServeOneClient implements Runnable {
             LOGGER.info("Sent: "+message.getClass().getSimpleName());
             outSocket.flush();
         } catch (SocketException e) {
-            LOGGER.severe("Cannot send message because disconnected");
+            LOGGER.severe("Cannot send message "+message.getClass().getSimpleName()+" because connection with client dropped!");
             close();
         } catch(IOException e){
             e.printStackTrace();

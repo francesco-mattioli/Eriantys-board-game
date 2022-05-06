@@ -156,7 +156,7 @@ public class Server {
         }
     }
 
-    public synchronized void removeDisconnectedPlayers(){
-        controller.removePlayersForDisconnection();
+    public synchronized void disconnectPlayers(){
+        controller.disconnectPlayers();
     }
 }

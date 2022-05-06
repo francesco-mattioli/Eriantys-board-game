@@ -476,9 +476,8 @@ public class Game extends Observable<InfoMessage> {
     /**
      * This method remove a player and then end the game.
      */
-    public void removePlayers() {
+    public void disconnectPlayers() {
         notify(new DisconnectionMessage());
-        players.clear();
         endGame();
     }
 
