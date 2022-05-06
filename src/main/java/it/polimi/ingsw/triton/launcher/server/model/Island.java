@@ -122,7 +122,7 @@ public class Island extends Observable<Message> implements Serializable {
         }
         if (newDominator != null && dominator != newDominator) {
             newDominator.getSchoolBoard().moveTowerOntoIsland(dim);
-            notify(new MoveTowerOntoIslandMessage(newDominator.getUsername(), this));
+            notify(new MoveTowerOntoIslandMessage(this));
         }
         dominator = newDominator;
     }

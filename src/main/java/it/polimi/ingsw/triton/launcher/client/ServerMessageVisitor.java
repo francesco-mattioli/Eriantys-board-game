@@ -2,6 +2,9 @@ package it.polimi.ingsw.triton.launcher.client;
 
 import it.polimi.ingsw.triton.launcher.client.view.ClientView;
 import it.polimi.ingsw.triton.launcher.server.model.Island;
+import it.polimi.ingsw.triton.launcher.utils.message.ErrorTypeID;
+import it.polimi.ingsw.triton.launcher.utils.message.clientmessage.MoveStudentOntoIslandMessage;
+import it.polimi.ingsw.triton.launcher.utils.message.servermessage.ErrorMessage;
 import it.polimi.ingsw.triton.launcher.utils.message.servermessage.Requests.*;
 import it.polimi.ingsw.triton.launcher.utils.message.servermessage.ServerMessage;
 import it.polimi.ingsw.triton.launcher.utils.message.servermessage.infoMessage.*;
@@ -22,6 +25,7 @@ public class ServerMessageVisitor {
     }
 
     public void visit(LoginReply message) {
+        clientView.getClientModel().setUsername(message.getReceiverUsername());
         clientView.showGenericMessage("Username accepted");
     }
 
@@ -116,14 +120,9 @@ public class ServerMessageVisitor {
         clientView.getClientModel().setCloudTiles(message.getCloudTiles());
     }
 
-    public void visit(GenericMessage message) {
-        clientView.showGenericMessage(message.getStringMessage());
-    }
-
     public void visit(GameInfoMessage message) {
         clientView.showGameInfo(message.getAvailableCharacterCards(), message.getIslands(), message.getSchoolBoards(), message.getCloudTiles(), message.getMotherNaturePosition());
     }
-
 
 
     public void visit(MotherNatureRequest message) {
@@ -142,6 +141,23 @@ public class ServerMessageVisitor {
 
     public void visit(DisconnectionMessage message){
         clientView.showDisconnectionMessage(message.getDisconnectedUsername());
+    }
+
+    public void visit(MoveTowerOntoIslandMessage message){
+        clientView.getClientModel().setIsland(message.getIsland());
+    }
+
+    public void visit(GenericMessage message) {
+        clientView.showGenericMessage(message.getStringMessage());
+    }
+
+    public void visit(ErrorMessage message){
+        if(message.getErrorTypeID().equals(ErrorTypeID.USERNAME_ALREADY_CHOSEN)){
+            clientView.showErrorMessage(message.getErrorTypeID());
+            clientView.askUsername();
+        }
+        else
+            clientView.showErrorMessage(message.getErrorTypeID());
     }
 
 }

@@ -27,6 +27,10 @@ public class MoveTowerToSchoolBoardMessage extends InfoMessage {
         return schoolBoard;
     }
 
+    public String[] getProfessors() {
+        return professors;
+    }
+
     @Override
     public void accept(ServerMessageVisitor messageVisitor) {
 
