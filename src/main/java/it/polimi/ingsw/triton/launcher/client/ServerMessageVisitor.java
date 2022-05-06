@@ -133,7 +133,9 @@ public class ServerMessageVisitor {
         clientView.showEmptyBagMessage();
     }
 
-
+    public void visit(DisconnectionMessage message){
+        clientView.showDisconnectionMessage(message.getDisconnectedUsername());
+    }
 
 
 }

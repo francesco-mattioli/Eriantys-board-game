@@ -26,7 +26,7 @@ public interface ClientView extends View {
 
     void showChangeInfluenceMessage(Island islandWithNewInfluence, String usernameDominator);
 
-    void showDisconnectionMessage();
+    void showDisconnectionMessage(String disconnectedUsername);
 
     void showEmptyBagMessage();
 
