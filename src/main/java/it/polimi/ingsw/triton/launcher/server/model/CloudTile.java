@@ -1,5 +1,6 @@
 package it.polimi.ingsw.triton.launcher.server.model;
 
+import it.polimi.ingsw.triton.launcher.client.cli.Utility;
 import it.polimi.ingsw.triton.launcher.server.model.enums.Color;
 
 import java.io.Serializable;
@@ -9,6 +10,7 @@ public class CloudTile implements Serializable {
     private final int id;
     private boolean alreadyUsed = false;
     private final int[] students;
+
 
     public CloudTile(int id) {
         this.students = new int[5];
@@ -53,6 +55,8 @@ public class CloudTile implements Serializable {
 
     @Override
     public String toString(){
-        return "\n\tCloudTile " +  getId() + " [YELLOW, BLUE, GREEN, RED, PINK]=" + Arrays.toString(students);
+        return "\n\tCloudTile " +  getId() + ": " + Utility.printColoredStudents(students);
     }
+
+
 }

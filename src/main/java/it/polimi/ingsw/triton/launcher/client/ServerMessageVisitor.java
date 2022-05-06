@@ -95,9 +95,16 @@ public class ServerMessageVisitor {
         clientView.showChangeInfluenceMessage(message.getIslandWithNewInfluence(), message.getUsernameDominator());
     }
 
+    public void visit(MergeIslandsMessage message){
+        clientView.getClientModel().setIsland(message.getIslandWithMotherNature());
+        clientView.getClientModel().setMotherNaturePosition(message.getIslandWithMotherNature());
+        clientView.getClientModel().removeIsland(message.getIslandToDelete());
+        clientView.showMergeIslandsMessage(message.getIslandWithMotherNature().getId(), message.getIslandToDelete().getId());
+    }
+
     public void visit(InfoChosenCloudTileMessage message) {
         clientView.getClientModel().setSchoolBoard(message.getPlayerUsername(), message.getPlayerSchoolBoard());
-        clientView.getClientModel().setCloudTile(message.getCloudTile());
+        clientView.getClientModel().removeCloudTile(message.getCloudTile());
     }
 
     public void visit(CloudTileRequest message) {
@@ -122,16 +129,8 @@ public class ServerMessageVisitor {
         clientView.askNumberStepsMotherNature();
     }
 
-    public void visit(MergeIslandsMessage message){
-        for(Island island: clientView.getClientModel().getIslands()){
-            if(island.getId() == message.getIslandWithMotherNature().getId()) {
-                island.merge(message.getIslandToDelete());
-                clientView.getClientModel().setMotherNaturePosition(island);
-                break;
-            }
-        }
-        clientView.getClientModel().getIslands().remove(message.getIslandToDelete());
-        clientView.showMergeIslandsMessage(message.getIslandWithMotherNature().getId(), message.getIslandToDelete().getId());
+    public void visit(EmptyBagMessage message){
+        clientView.showEmptyBagMessage();
     }
 
 
