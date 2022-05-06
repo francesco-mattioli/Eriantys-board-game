@@ -261,8 +261,8 @@ public class Cli extends Observable<Message> implements ClientView{
     }
 
     @Override
-    public void showDisconnectionMessage(String disconnectedUsername) {
-        out.println(disconnectedUsername + " has disconnected! The game is finished.");
+    public void showDisconnectionMessage() {
+        out.println("A player has disconnected! The game is finished.");
         System.exit(1);
     }
 

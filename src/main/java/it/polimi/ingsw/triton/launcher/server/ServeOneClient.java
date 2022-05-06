@@ -10,6 +10,7 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
+import java.net.SocketException;
 import java.util.NoSuchElementException;
 
 import static it.polimi.ingsw.triton.launcher.server.Server.LOGGER;
@@ -68,6 +69,10 @@ public class  ServeOneClient implements Runnable {
                 }
                 LOGGER.info("Received: " + message.getClass().getSimpleName());
             }
+        }catch (SocketException e){
+            LOGGER.severe("Cannot receive message because closed");
+            server.removeDisconnectedPlayers();
+            close();
         } catch (IOException | NoSuchElementException | ClassNotFoundException e) {
             System.err.println("Error! " + e.getMessage());
             LOGGER.severe(e.getMessage());
@@ -87,7 +92,10 @@ public class  ServeOneClient implements Runnable {
             outSocket.writeObject(message);
             LOGGER.info("Sent: "+message.getClass().getSimpleName());
             outSocket.flush();
-        } catch (IOException e) {
+        } catch (SocketException e) {
+            LOGGER.severe("Cannot send message because disconnected");
+            close();
+        } catch(IOException e){
             e.printStackTrace();
         }
     }
@@ -103,6 +111,7 @@ public class  ServeOneClient implements Runnable {
         active = false;
         try {
             socket.close();
+            Thread.currentThread().interrupt();
         } catch (IOException e) {
             e.printStackTrace();
         }
