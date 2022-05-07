@@ -58,11 +58,6 @@ public class Gui implements ClientView {
     }
 
     @Override
-    public void showErrorMessage() {
-
-    }
-
-    @Override
     public void showFillCloudTilesMessage() {
 
     }
