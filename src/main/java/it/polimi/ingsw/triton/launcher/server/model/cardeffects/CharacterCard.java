@@ -1,6 +1,6 @@
 package it.polimi.ingsw.triton.launcher.server.model.cardeffects;
 
-import it.polimi.ingsw.triton.launcher.client.cli.Utility;
+import it.polimi.ingsw.triton.launcher.utils.Utility;
 import it.polimi.ingsw.triton.launcher.server.model.Bag;
 import it.polimi.ingsw.triton.launcher.server.model.enums.Color;
 import it.polimi.ingsw.triton.launcher.utils.exceptions.EndGameException;
@@ -8,7 +8,6 @@ import it.polimi.ingsw.triton.launcher.utils.exceptions.IllegalClientInputExcept
 import it.polimi.ingsw.triton.launcher.utils.message.ErrorTypeID;
 
 import java.io.Serializable;
-import java.util.Arrays;
 
 public class CharacterCard implements Serializable {
     protected int id;

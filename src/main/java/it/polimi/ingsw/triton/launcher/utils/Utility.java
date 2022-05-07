@@ -1,4 +1,4 @@
-package it.polimi.ingsw.triton.launcher.client.cli;
+package it.polimi.ingsw.triton.launcher.utils;
 
 public class Utility {
     private static final Utility instance = new Utility();

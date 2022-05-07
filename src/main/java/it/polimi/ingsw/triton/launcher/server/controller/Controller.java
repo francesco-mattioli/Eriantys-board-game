@@ -95,4 +95,8 @@ public class Controller implements Observer<ClientMessage> {
         return virtualViews;
     }
 
+    public void disconnectPlayers(){
+        game.disconnectPlayers();
+        virtualViews.clear();
+    }
 }

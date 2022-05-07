@@ -53,6 +53,10 @@ public class ClientModel extends Observable<Object> {
         this.assistantDeck = assistantDeck;
     }
 
+    public void removeCard(AssistantCard assistantCardToRemove) {
+        assistantDeck.getAssistantDeck().removeIf(assistantCard -> assistantCard.getType().getValue() == assistantCardToRemove.getType().getValue());
+    }
+
     public AssistantCard getLastAssistantCardPlayed() {
         return lastAssistantCardPlayed;
     }
@@ -84,7 +88,7 @@ public class ClientModel extends Observable<Object> {
         }
     }
 
-    public void removeIsland(Island islandToDelete){
+    public void removeIsland(Island islandToDelete) {
         for (Island island : islands) {
             if (island.getId() == islandToDelete.getId())
                 islands.remove(island);
@@ -100,8 +104,8 @@ public class ClientModel extends Observable<Object> {
         this.schoolBoards = schoolBoards;
     }
 
-    public void setSchoolBoard(String username,SchoolBoard schoolBoard){
-        this.schoolBoards.put(username,schoolBoard);
+    public void setSchoolBoard(String username, SchoolBoard schoolBoard) {
+        this.schoolBoards.put(username, schoolBoard);
     }
 
     public ArrayList<CloudTile> getCloudTiles() {
@@ -125,20 +129,20 @@ public class ClientModel extends Observable<Object> {
     /**
      * @param newCloudTile to remove, indeed it has no more students on it
      */
-    public void removeCloudTile(CloudTile newCloudTile){
+    public void removeCloudTile(CloudTile newCloudTile) {
         cloudTiles.removeIf(cloudTile -> cloudTile.getId() == newCloudTile.getId());
     }
 
 
-    public String printCloudTiles(){
+    public String printCloudTiles() {
         String results = " ";
-        for (CloudTile cloudTile: cloudTiles) {
+        for (CloudTile cloudTile : cloudTiles) {
             results += cloudTile.toString();
         }
         return results;
     }
 
-    public String printAvailableCharacterCard(){
+    public String printAvailableCharacterCard() {
         String results = " ";
         for (CharacterCard characterCard : availableCharacterCards) {
             results += characterCard.toString();
@@ -146,9 +150,9 @@ public class ClientModel extends Observable<Object> {
         return results;
     }
 
-    public String printIslands(){
+    public String printIslands() {
         String results = " ";
-        for (Island island: islands) {
+        for (Island island : islands) {
             results += island.toString();
         }
         return results;

@@ -134,4 +134,6 @@ class SchoolBoardTest {
         assertEquals(8, schoolBoard.getNumTowers());
         assertEquals(6, threePlayersSchoolBoard.getNumTowers());
     }
+
+
 }
