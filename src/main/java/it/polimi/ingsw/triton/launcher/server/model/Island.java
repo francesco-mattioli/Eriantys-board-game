@@ -1,6 +1,6 @@
 package it.polimi.ingsw.triton.launcher.server.model;
 
-import it.polimi.ingsw.triton.launcher.client.cli.Utility;
+import it.polimi.ingsw.triton.launcher.utils.Utility;
 import it.polimi.ingsw.triton.launcher.server.model.cardeffects.CharacterCard;
 import it.polimi.ingsw.triton.launcher.server.model.enums.Color;
 import it.polimi.ingsw.triton.launcher.server.model.influencestrategy.InfluenceStrategy;
@@ -10,7 +10,7 @@ import it.polimi.ingsw.triton.launcher.utils.exceptions.EndGameException;
 import it.polimi.ingsw.triton.launcher.utils.message.Message;
 import it.polimi.ingsw.triton.launcher.utils.message.servermessage.infoMessage.ChangeInfluenceMessage;
 import it.polimi.ingsw.triton.launcher.utils.message.servermessage.infoMessage.MoveTowerOntoIslandMessage;
-import it.polimi.ingsw.triton.launcher.utils.message.servermessage.infoMessage.MoveTowerToSchoolBoardMessage;
+import it.polimi.ingsw.triton.launcher.utils.message.servermessage.infoMessage.MoveTowerOntoSchoolBoardMessage;
 import it.polimi.ingsw.triton.launcher.utils.obs.Observable;
 
 import java.io.Serializable;
@@ -118,11 +118,11 @@ public class Island extends Observable<Message> implements Serializable {
     public void towerInfluence(Player newDominator, Player [] professors)  throws EndGameException {
         if (dominator != null && dominator != newDominator) {
             dominator.getSchoolBoard().moveTowerOntoSchoolBoard(dim);
-            notify(new MoveTowerToSchoolBoardMessage(dominator.getUsername(), dominator.getSchoolBoard(), Arrays.stream(professors).map(p-> p.getUsername()).toArray(String[]::new)));
+            notify(new MoveTowerOntoSchoolBoardMessage(dominator.getUsername(), dominator.getSchoolBoard(), Arrays.stream(professors).map(p-> p.getUsername()).toArray(String[]::new)));
         }
         if (newDominator != null && dominator != newDominator) {
             newDominator.getSchoolBoard().moveTowerOntoIsland(dim);
-            notify(new MoveTowerOntoIslandMessage(newDominator.getUsername(), this));
+            notify(new MoveTowerOntoIslandMessage(this));
         }
         dominator = newDominator;
     }

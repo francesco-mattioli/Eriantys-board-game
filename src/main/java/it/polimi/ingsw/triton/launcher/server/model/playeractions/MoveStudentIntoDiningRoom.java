@@ -13,8 +13,8 @@ import java.util.NoSuchElementException;
 
 public class MoveStudentIntoDiningRoom extends Observable<Message> implements Action {
     private final Color student;
-    private Player currentPlayer;
-    private GeneralCoinSupply generalCoinSupply;
+    private final Player currentPlayer;
+    private final GeneralCoinSupply generalCoinSupply;
 
     /**
      * @param student     the color of student to move into the dining room.
@@ -33,14 +33,6 @@ public class MoveStudentIntoDiningRoom extends Observable<Message> implements Ac
      */
     private boolean isMultiple3(Color studentColor) {
         return (currentPlayer.getSchoolBoard().getStudentsNumber(studentColor) % 3) == 0;
-    }
-
-    private boolean isEmptyEntrance(){
-        int numStudentsEntrance = 0;
-        for(int i = 0; i < currentPlayer.getSchoolBoard().getEntrance().length; i++){
-            numStudentsEntrance += currentPlayer.getSchoolBoard().getEntrance()[i];
-        }
-        return numStudentsEntrance == 0;
     }
 
     private boolean noStudentsColorInTheEntrance(){
@@ -66,11 +58,12 @@ public class MoveStudentIntoDiningRoom extends Observable<Message> implements Ac
      */
     @Override
     public void execute() throws IllegalClientInputException {
-        if(isEmptyEntrance())
+        if(currentPlayer.getSchoolBoard().isEntranceEmpty())
             throw new IllegalClientInputException();
         else if(noStudentsColorInTheEntrance())
             throw new IllegalClientInputException();
         else{
+            currentPlayer.getSchoolBoard().removeStudentFromEntrance(student);
             currentPlayer.getSchoolBoard().addStudentIntoDiningRoom(student);
             if (isMultiple3(student))
                 updateWallet();

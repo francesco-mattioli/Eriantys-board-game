@@ -1,6 +1,6 @@
 package it.polimi.ingsw.triton.launcher.server.model.player;
 
-import it.polimi.ingsw.triton.launcher.client.cli.Utility;
+import it.polimi.ingsw.triton.launcher.utils.Utility;
 import it.polimi.ingsw.triton.launcher.server.model.enums.Color;
 import it.polimi.ingsw.triton.launcher.server.model.enums.TowerColor;
 import it.polimi.ingsw.triton.launcher.utils.exceptions.EndGameException;
@@ -9,32 +9,20 @@ import java.io.Serializable;
 import java.util.Arrays;
 
 public class SchoolBoard implements Serializable {
-    private final int INITIAL_NUM_TOWERS;
     private final TowerColor towerColor;
+    private final int[] entrance;
+    private final int[] diningRoom;
     private int numTowers;
-    private int[] entrance;
-    private int[] diningRoom;
-
-    @Override
-    public String toString() {
-        return  "\n\tSchoolBoard{" +
-                "towerColor=" + towerColor +
-                ", numTowers=" + numTowers +
-                ", entrance=" + Utility.printColoredStudents(entrance) +
-                ", diningRoom=" + Utility.printColoredStudents(diningRoom) +
-                "}\n\t";
-    }
 
     /**
      * @param towerColor the color of towers in the school board.
      */
     public SchoolBoard(TowerColor towerColor, int numPlayers) {
         this.towerColor = towerColor;
-        if(numPlayers == 2)
-            INITIAL_NUM_TOWERS = 8;
+        if (numPlayers == 2)
+            this.numTowers = 8;
         else
-            INITIAL_NUM_TOWERS = 6;
-        this.numTowers = INITIAL_NUM_TOWERS;
+            this.numTowers = 6;
         this.entrance = new int[5];
         this.diningRoom = new int[5];
     }
@@ -57,12 +45,13 @@ public class SchoolBoard implements Serializable {
 
     /**
      * Moves the towers from the school board to the island
-     * @param dim the number of towers to move
+     *
+     * @param numOfTowerToMove is equal to the dimensione of the island
      * @throws RuntimeException if the player has not other towers on the school board so the game is ended.
      */
-    public void moveTowerOntoIsland(int dim) throws EndGameException {
-        numTowers -= dim;
-        if(numTowers <= 0){
+    public void moveTowerOntoIsland(int numOfTowerToMove) throws EndGameException {
+        numTowers -= numOfTowerToMove;
+        if (numTowers <= 0) {
             numTowers = 0;
             throw new EndGameException();
         }
@@ -71,10 +60,10 @@ public class SchoolBoard implements Serializable {
     /**
      * Removes the towers from the island and put them into the school board.
      *
-     * @param dim the number of towers to add in the school board.
+     * @param numOfTowerToMove is equal to the dimensione of the island
      */
-    public void moveTowerOntoSchoolBoard(int dim) {
-        numTowers += dim;
+    public void moveTowerOntoSchoolBoard(int numOfTowerToMove) {
+        numTowers += numOfTowerToMove;
     }
 
     /**
@@ -105,10 +94,10 @@ public class SchoolBoard implements Serializable {
     }
 
     /**
-     * Removes a student with a specified color from the entrance.
+     * Removes a student of a specified color from entrance.
      *
      * @param student the color of the student to remove.
-     * @throws RuntimeException when there are no students of the specified color at the entrance.
+     * @throws RuntimeException when there are no students of the specified color in the entrance.
      */
     public void removeStudentFromEntrance(Color student) throws IllegalArgumentException {
         if (entrance[student.ordinal()] > 0)
@@ -117,6 +106,18 @@ public class SchoolBoard implements Serializable {
             throw new IllegalArgumentException("No students of color " + student.name() + " at entrance");
     }
 
+    public boolean isEntranceEmpty() {
+        return Arrays.stream(entrance).sum() == 0;
+    }
 
+    @Override
+    public String toString() {
+        return "\n\tSchoolBoard{" +
+                "towerColor=" + towerColor +
+                ", numTowers=" + numTowers +
+                ", entrance=" + Utility.printColoredStudents(entrance) +
+                ", diningRoom=" + Utility.printColoredStudents(diningRoom) +
+                "}\n\t";
+    }
 
 }

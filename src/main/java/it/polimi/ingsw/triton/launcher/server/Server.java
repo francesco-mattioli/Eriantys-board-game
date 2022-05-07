@@ -155,4 +155,8 @@ public class Server {
             }
         }
     }
+
+    public synchronized void disconnectPlayers(){
+        controller.disconnectPlayers();
+    }
 }

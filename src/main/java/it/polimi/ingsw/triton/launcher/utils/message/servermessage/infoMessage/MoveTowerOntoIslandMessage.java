@@ -9,15 +9,9 @@ import it.polimi.ingsw.triton.launcher.utils.message.servermessage.InfoMessage;
  * This message communicates to the players that one player has moved his towers onto an island.
  */
 public class MoveTowerOntoIslandMessage extends InfoMessage {
-    private String usernameDominator;
-    private Island island;
-    public MoveTowerOntoIslandMessage(String usernameDominator, Island island) {
-        this.usernameDominator = usernameDominator;
+    private final Island island;
+    public MoveTowerOntoIslandMessage(Island island) {
         this.island = island;
-    }
-
-    public String getUsernameDominator() {
-        return usernameDominator;
     }
 
     public Island getIsland() {
@@ -25,7 +19,7 @@ public class MoveTowerOntoIslandMessage extends InfoMessage {
     }
 
     @Override
-    public void accept(ServerMessageVisitor messageVisitor) {
-
+    public void accept(ServerMessageVisitor serverMessageVisitor) {
+        serverMessageVisitor.visit(this);
     }
 }

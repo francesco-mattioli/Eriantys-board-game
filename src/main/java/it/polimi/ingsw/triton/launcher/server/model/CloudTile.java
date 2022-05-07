@@ -1,10 +1,9 @@
 package it.polimi.ingsw.triton.launcher.server.model;
 
-import it.polimi.ingsw.triton.launcher.client.cli.Utility;
+import it.polimi.ingsw.triton.launcher.utils.Utility;
 import it.polimi.ingsw.triton.launcher.server.model.enums.Color;
 
 import java.io.Serializable;
-import java.util.Arrays;
 
 public class CloudTile implements Serializable {
     private final int id;
