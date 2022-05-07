@@ -1,5 +1,8 @@
 package it.polimi.ingsw.triton.launcher.client.gui.scenes;
 
+import it.polimi.ingsw.triton.launcher.utils.message.Message;
+import it.polimi.ingsw.triton.launcher.utils.message.clientmessage.ClientMessage;
+import it.polimi.ingsw.triton.launcher.utils.obs.Observable;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -12,7 +15,7 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 
-public class MenuSceneController {
+public class MenuSceneController extends Observable<Message> {
 
     @FXML
     Button joinButton;

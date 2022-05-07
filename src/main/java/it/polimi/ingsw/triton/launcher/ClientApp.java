@@ -1,6 +1,8 @@
 package it.polimi.ingsw.triton.launcher;
 
 import it.polimi.ingsw.triton.launcher.client.cli.Cli;
+import it.polimi.ingsw.triton.launcher.client.gui.GuiApplication;
+import javafx.application.Application;
 
 public class ClientApp {
 
@@ -8,7 +10,7 @@ public class ClientApp {
         /**
          * Default mode: GUI
          */
-        boolean cliParam = true;
+        boolean cliParam = false;
 
         for (String arg : args) {
             if (arg.equals("--cli")) {
@@ -22,7 +24,7 @@ public class ClientApp {
             cli.start();
         } else {
             System.out.println("Qui va il metodo per lanciare GUI");
-            //LAUNCH GUI
+            Application.launch(GuiApplication.class);
         }
     }
 }
