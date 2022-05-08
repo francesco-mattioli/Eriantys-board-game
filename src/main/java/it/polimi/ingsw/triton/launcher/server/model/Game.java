@@ -262,6 +262,7 @@ public class Game extends Observable<InfoMessage> {
     public void sortPlayerPerTurn() throws ChangeTurnException {
         players.sort(new PlayerTurnComparator());
         currentPlayer = players.get(0);
+        notify(new ChangeTurnMessage(currentPlayer.getUsername()));
         throw new ChangeTurnException();
     }
 
