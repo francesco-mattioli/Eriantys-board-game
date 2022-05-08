@@ -198,7 +198,6 @@ public class Game extends Observable<InfoMessage> {
      * This method executes the SETUP phase of the game.
      */
     public void setup() {
-        gameState = GameState.SETUP;
         createIslands(); //PHASE 1
         setupMotherNature(); //PHASE 2
         setupBag(); //PART 1 OF PHASE 3

@@ -275,6 +275,8 @@ public class Cli extends Observable<Message> implements ClientView{
     @Override
     public void showErrorMessage(ErrorTypeID errorTypeID) {
         out.println(errorTypeID.getDescription());
+        if(errorTypeID == ErrorTypeID.FULL_LOBBY)
+            System.exit(1);
     }
 
     @Override

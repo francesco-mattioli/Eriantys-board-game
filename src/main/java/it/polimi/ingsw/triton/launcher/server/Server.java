@@ -95,7 +95,7 @@ public class Server {
             LOGGER.info("First player has logged. Waiting for game mode and number of players...");
         }
         //in this case, the player can be added to the game. His virtualview cam be created and added to the ArrayList
-        else if (numOfClients <= maxNumPlayers && isUsernameValid(username)) {
+        else if (numOfClients < maxNumPlayers && isUsernameValid(username)) {
             try {
                 controller.addPlayer(username);
                 controller.getVirtualViews().add(new VirtualView(serveOneClient, username));
@@ -130,6 +130,7 @@ public class Server {
         else {
             VirtualView virtualView = new VirtualView(serveOneClient, username);
             virtualView.showErrorMessage(ErrorTypeID.FULL_LOBBY);
+            serveOneClient.close();
             LOGGER.severe("Player not accepted, lobby was already full");
         }
     }
