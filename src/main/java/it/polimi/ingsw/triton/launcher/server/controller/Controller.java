@@ -1,6 +1,7 @@
 package it.polimi.ingsw.triton.launcher.server.controller;
 
 import it.polimi.ingsw.triton.launcher.server.model.Game;
+import it.polimi.ingsw.triton.launcher.server.model.enums.GameState;
 import it.polimi.ingsw.triton.launcher.server.view.VirtualView;
 import it.polimi.ingsw.triton.launcher.utils.exceptions.*;
 import it.polimi.ingsw.triton.launcher.utils.message.ErrorTypeID;
@@ -40,6 +41,7 @@ public class Controller implements Observer<ClientMessage> {
      * @param username the receiver username of the message
      */
     public void createTowerColorRequestMessage(String username) {
+        game.setGameState(GameState.SETUP);
         getVirtualViewByUsername(username).askTowerColor(game.getTowerColorChosen());
     }
 
@@ -96,7 +98,9 @@ public class Controller implements Observer<ClientMessage> {
     }
 
     public void disconnectPlayers(){
-        game.disconnectPlayers();
-        virtualViews.clear();
+        if(game.getGameState() != GameState.LOGIN) {
+            game.disconnectPlayers();
+            virtualViews.clear();
+        }
     }
 }

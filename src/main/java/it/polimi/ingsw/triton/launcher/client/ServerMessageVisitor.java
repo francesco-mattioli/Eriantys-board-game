@@ -86,11 +86,15 @@ public class ServerMessageVisitor {
 
     public void visit(InfoStudentIntoDiningRoomMessage message) {
         clientView.getClientModel().setSchoolBoard(message.getPlayerUsername(), message.getSchoolBoard());
+        if(!clientView.getClientModel().getUsername().equals(message.getPlayerUsername()))
+            clientView.showGenericMessage(message.getMoveDescription());
     }
 
     public void visit(InfoStudentOntoIslandMessage message) {
         clientView.getClientModel().setIsland(message.getIsland());
         clientView.getClientModel().setSchoolBoard(message.getPlayerUsername(), message.getSchoolBoard());
+        if(!clientView.getClientModel().getUsername().equals(message.getPlayerUsername()))
+            clientView.showGenericMessage(message.getMoveDescription());
     }
 
     public void visit(MotherNaturePositionMessage message) {
@@ -151,6 +155,17 @@ public class ServerMessageVisitor {
         if(clientView.getClientModel().getUsername().equals(message.getReceiverUsername()))
             clientView.showWinMessage();
         else clientView.showLoseMessage(message.getReceiverUsername());
+    }
+
+    public void visit(TieMessage message){
+        if(message.getPlayers().contains(clientView.getClientModel().getUsername()))
+            clientView.showTieMessage();
+        else{
+            String loserMessage = "";
+            for(String username: message.getPlayers())
+                loserMessage += username + " ";
+            clientView.showGenericMessage(loserMessage + "have tied");
+        }
     }
 
     public void visit(DisconnectionMessage message){

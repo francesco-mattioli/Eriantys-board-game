@@ -77,7 +77,6 @@ public class Cli extends Observable<Message> implements ClientView{
         } catch (ExecutionException e) {
             out.println(TRY_AGAIN);
         }
-
     }
 
     @Override
@@ -110,13 +109,19 @@ public class Cli extends Observable<Message> implements ClientView{
                 String input = readLine();
                 int numOfPlayers = Integer.parseInt(input);
                 notify(new PlayersNumberReply(clientModel.getUsername(), numOfPlayers));
-        } catch (ExecutionException | NumberFormatException e) {
+        } catch (ExecutionException e) {
+            out.println(TRY_AGAIN);
+        }catch(NumberFormatException e){
             out.println(TRY_AGAIN);
             askNumOfPlayers();
         }
     }
 
     public void showLobbyMessage(ArrayList<String> onlineNicknames, int maxNumberPlayers ) {
+        out.println("ONLINE PLAYERS:");
+        for(String username: onlineNicknames){
+            System.out.println("- " + username);
+        }
         out.println("There are " + onlineNicknames.size() +
                 " out of " + maxNumberPlayers + " players connected; Waiting for " + (maxNumberPlayers-onlineNicknames.size()) + " players...");
     }
@@ -136,7 +141,9 @@ public class Cli extends Observable<Message> implements ClientView{
             out.print(" ]: " + ANSI_RESET);
             String input = readLine();
             notify(new TowerColorReply(clientModel.getUsername(), TowerColor.values()[Integer.parseInt(input)]));
-        } catch (ExecutionException | NullPointerException | NumberFormatException e) {
+        } catch (ExecutionException e) {
+            out.println(TRY_AGAIN);
+        }catch(NullPointerException | NumberFormatException | ArrayIndexOutOfBoundsException e){
             out.println(TRY_AGAIN);
             askTowerColor(chosenTowerColors);
         }
@@ -153,7 +160,9 @@ public class Cli extends Observable<Message> implements ClientView{
             out.print("]: " + ANSI_RESET);
             String input = readLine();
             notify(new WizardReply(clientModel.getUsername(), Wizard.valueOf(input.toUpperCase())));
-        } catch (ExecutionException | NullPointerException e) {
+        } catch (ExecutionException e) {
+            out.println(TRY_AGAIN);
+        }catch(IllegalArgumentException | NullPointerException e){
             out.println(TRY_AGAIN);
             askWizard(wizards);
         }
@@ -191,7 +200,9 @@ public class Cli extends Observable<Message> implements ClientView{
                     assistantCardReply = assistantCard;
             }
             notify(new AssistantCardReply(clientModel.getUsername(), assistantCardReply));
-        } catch (ExecutionException | NullPointerException e) {
+        } catch (ExecutionException e) {
+            out.println(TRY_AGAIN);
+        } catch(NullPointerException | IllegalArgumentException e){
             out.println(TRY_AGAIN);
             askAssistantCard();
         }
@@ -261,7 +272,9 @@ public class Cli extends Observable<Message> implements ClientView{
                 showAndPlayCharacterCard();
             else
                 notify(new CloudTileReply(clientModel.getUsername(), Integer.parseInt(input)));
-        } catch (ExecutionException | NumberFormatException | NullPointerException e) {
+        } catch (ExecutionException e) {
+            out.println(TRY_AGAIN);
+        } catch (NumberFormatException | NullPointerException e){
             out.println(TRY_AGAIN);
             askCloudTile();
         }
@@ -275,6 +288,8 @@ public class Cli extends Observable<Message> implements ClientView{
     @Override
     public void showErrorMessage(ErrorTypeID errorTypeID) {
         out.println(errorTypeID.getDescription());
+        if(errorTypeID == ErrorTypeID.FULL_LOBBY)
+            System.exit(1);
     }
 
     @Override
@@ -306,7 +321,7 @@ public class Cli extends Observable<Message> implements ClientView{
 
     @Override
     public void showTieMessage() {
-
+        out.println("You have tied");
     }
 
 

@@ -14,6 +14,10 @@ public class TieMessage extends InfoMessage {
 
     @Override
     public void accept(ServerMessageVisitor messageVisitor) {
+        messageVisitor.visit(this);
+    }
 
+    public List<String> getPlayers() {
+        return players;
     }
 }

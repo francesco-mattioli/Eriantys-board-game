@@ -7,7 +7,6 @@ import java.util.ArrayList;
 
 public class WizardRequest extends AskMessage {
     private final ArrayList<Wizard> availableWizards;
-    private String receiverUsername;
     public WizardRequest(ArrayList<Wizard> availableWizards) {
         this.availableWizards = availableWizards;
     }
