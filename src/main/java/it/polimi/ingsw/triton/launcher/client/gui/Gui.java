@@ -31,6 +31,11 @@ public class Gui extends Observable<Message> implements ClientView {
     private ClientModel clientModel;
     private Client client;
     private Stage stage;
+
+    public void setActiveStage(Stage activeStage) {
+        this.activeStage = activeStage;
+    }
+
     private Stage activeStage;
 
     public Gui(){
@@ -43,34 +48,12 @@ public class Gui extends Observable<Message> implements ClientView {
         return clientModel;
     }
 
-
-    public void showMenu(){
-        client = new Client(this);
-        this.addObserver(client);
-        this.clientModel=new ClientModel();
-        Platform.runLater(() -> {
-            Stage stage = new Stage();
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/menu-scene.fxml"));
-            Parent root = null;
-            try {
-                root = loader.load();
-                ((MenuSceneController)loader.getController()).addObserver(client);
-                Scene scene = new Scene(root);
-                stage.setScene(scene) ;
-                stage.show();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        });
-    }
-
     @Override
     public void askUsername() {
         client = new Client(this);
         this.addObserver(client);
         this.clientModel=new ClientModel();
         Platform.runLater(() -> {
-            //Stage stage = new Stage();
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/login-scene.fxml"));
             Parent root = null;
             try {
