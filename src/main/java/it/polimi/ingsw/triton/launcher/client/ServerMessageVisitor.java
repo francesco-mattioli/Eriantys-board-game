@@ -153,6 +153,17 @@ public class ServerMessageVisitor {
         else clientView.showLoseMessage(message.getReceiverUsername());
     }
 
+    public void visit(TieMessage message){
+        if(message.getPlayers().contains(clientView.getClientModel().getUsername()))
+            clientView.showTieMessage();
+        else{
+            String loserMessage = "";
+            for(String username: message.getPlayers())
+                loserMessage += username + " ";
+            clientView.showGenericMessage(loserMessage + "have tied");
+        }
+    }
+
     public void visit(DisconnectionMessage message){
         clientView.showDisconnectionMessage();
     }

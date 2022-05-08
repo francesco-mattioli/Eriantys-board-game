@@ -306,7 +306,7 @@ public class Cli extends Observable<Message> implements ClientView{
 
     @Override
     public void showTieMessage() {
-
+        out.println("You have tied");
     }
 
 
