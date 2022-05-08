@@ -32,13 +32,19 @@ public class NumOfPlayersSceneController extends Observable<Message> {
     @FXML
     ToggleGroup playersGroup;
 
+    private String username;
+
+    public void setUsername(String username){
+        this.username = username;
+    }
+
     public void confirm(ActionEvent event) throws IOException {
         int numPlayers;
         if(rdb2.isPressed())
-            numPlayers =2;
+            numPlayers = 2;
         else
             numPlayers = 3;
-        //notify(new PlayersNumberReply("username", numPlayers));
+        notify(new PlayersNumberReply(username, numPlayers));
     }
 
 }

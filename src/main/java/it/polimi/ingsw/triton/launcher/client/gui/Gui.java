@@ -121,6 +121,8 @@ public class Gui extends Observable<Message> implements ClientView {
             Parent root = null;
             try {
                 root = loader.load();
+                ((NumOfPlayersSceneController)loader.getController()).addObserver(client);
+                ((NumOfPlayersSceneController)loader.getController()).setUsername(clientModel.getUsername());
                 Scene scene = new Scene(root);
                 stage.setScene(scene) ;
                 stage.show();

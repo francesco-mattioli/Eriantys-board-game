@@ -30,6 +30,8 @@ public class LoginSceneController extends Observable<Message> {
     @FXML
     TextField loginTextField;
 
+
+
     public void login(ActionEvent event) throws IOException {
         String username = loginTextField.getText();
         notify(new LoginRequest(username));
