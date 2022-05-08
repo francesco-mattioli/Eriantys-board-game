@@ -151,8 +151,7 @@ public class Game extends Observable<InfoMessage> {
         notify(new InfoAssistantCardPlayedMessage(currentPlayer.getUsername(),assistantCard));
         if(usedAssistantCards.size() == maxNumberOfPlayers) {
             sortPlayerPerTurn();
-            gameState = GameState.ACTION_PHASE;
-            notify(new ChangePhaseMessage(gameState));
+            setGameState(GameState.ACTION_PHASE);
         }
         else setNextPlayer(currentPlayer);
     }
@@ -172,7 +171,7 @@ public class Game extends Observable<InfoMessage> {
             setup();    //setup method sorts random the player arrayList
             availableWizards.clear();
             gameState = GameState.PLANNING_PHASE;
-            notify(new ChangePhaseMessage(gameState));
+            //notify(new ChangePhaseMessage(gameState));
             throw new ChangeTurnException();
         }
         else{
@@ -287,8 +286,7 @@ public class Game extends Observable<InfoMessage> {
     //----------------------------------------------
     // Planning phase
     public void planningPhase() {
-        gameState = GameState.PLANNING_PHASE;
-        notify(new ChangePhaseMessage(gameState));
+        setGameState(GameState.PLANNING_PHASE);
         addStudentsToCloudTiles();
         resetPlayedCardInTurn();
         //notify(new CloudTilesInfoMessage(cloudTiles));
@@ -476,6 +474,7 @@ public class Game extends Observable<InfoMessage> {
      * This method remove a player and then end the game.
      */
     public void disconnectPlayers() {
+        setGameState(GameState.END);
         notify(new DisconnectionMessage());
         endGame();
     }
@@ -534,8 +533,7 @@ public class Game extends Observable<InfoMessage> {
      * If there is a winner, virtualViews are notified using a WinMessage.
      */
     public void calculateWinner(){
-        gameState = GameState.END;
-        notify(new ChangePhaseMessage(gameState));
+        setGameState(GameState.END);
         Optional<Player> p;
         int min = Collections.min(players.stream().map(Player::getSchoolBoard).map(SchoolBoard::getNumTowers).collect(Collectors.toList()));
         int frequency = Collections.frequency(players.stream().map(Player::getSchoolBoard).map(SchoolBoard::getNumTowers).collect(Collectors.toList()), min);
@@ -787,5 +785,8 @@ public class Game extends Observable<InfoMessage> {
 
     public void setGameState(GameState gameState) {
         this.gameState = gameState;
+        if(gameState == GameState.PLANNING_PHASE || gameState == GameState.ACTION_PHASE || gameState == GameState.END){
+            notify(new ChangePhaseMessage(gameState));
+        }
     }
 }

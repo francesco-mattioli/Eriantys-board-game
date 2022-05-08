@@ -200,7 +200,9 @@ public class Cli extends Observable<Message> implements ClientView{
                     assistantCardReply = assistantCard;
             }
             notify(new AssistantCardReply(clientModel.getUsername(), assistantCardReply));
-        } catch (ExecutionException | NullPointerException e) {
+        } catch (ExecutionException e) {
+            out.println(TRY_AGAIN);
+        } catch(NullPointerException | IllegalArgumentException e){
             out.println(TRY_AGAIN);
             askAssistantCard();
         }
