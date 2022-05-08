@@ -141,7 +141,9 @@ public class Cli extends Observable<Message> implements ClientView{
             out.print(" ]: " + ANSI_RESET);
             String input = readLine();
             notify(new TowerColorReply(clientModel.getUsername(), TowerColor.values()[Integer.parseInt(input)]));
-        } catch (ExecutionException | NullPointerException | NumberFormatException e) {
+        } catch (ExecutionException e) {
+            out.println(TRY_AGAIN);
+        }catch(NullPointerException | NumberFormatException e){
             out.println(TRY_AGAIN);
             askTowerColor(chosenTowerColors);
         }
@@ -158,7 +160,9 @@ public class Cli extends Observable<Message> implements ClientView{
             out.print("]: " + ANSI_RESET);
             String input = readLine();
             notify(new WizardReply(clientModel.getUsername(), Wizard.valueOf(input.toUpperCase())));
-        } catch (ExecutionException | NullPointerException e) {
+        } catch (ExecutionException e) {
+            out.println(TRY_AGAIN);
+        }catch(IllegalArgumentException | NullPointerException e){
             out.println(TRY_AGAIN);
             askWizard(wizards);
         }
