@@ -143,7 +143,7 @@ public class Cli extends Observable<Message> implements ClientView{
             notify(new TowerColorReply(clientModel.getUsername(), TowerColor.values()[Integer.parseInt(input)]));
         } catch (ExecutionException e) {
             out.println(TRY_AGAIN);
-        }catch(NullPointerException | NumberFormatException e){
+        }catch(NullPointerException | NumberFormatException | ArrayIndexOutOfBoundsException e){
             out.println(TRY_AGAIN);
             askTowerColor(chosenTowerColors);
         }

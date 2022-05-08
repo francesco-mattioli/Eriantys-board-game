@@ -86,11 +86,15 @@ public class ServerMessageVisitor {
 
     public void visit(InfoStudentIntoDiningRoomMessage message) {
         clientView.getClientModel().setSchoolBoard(message.getPlayerUsername(), message.getSchoolBoard());
+        if(!clientView.getClientModel().getUsername().equals(message.getPlayerUsername()))
+            clientView.showGenericMessage(message.getMoveDescription());
     }
 
     public void visit(InfoStudentOntoIslandMessage message) {
         clientView.getClientModel().setIsland(message.getIsland());
         clientView.getClientModel().setSchoolBoard(message.getPlayerUsername(), message.getSchoolBoard());
+        if(!clientView.getClientModel().getUsername().equals(message.getPlayerUsername()))
+            clientView.showGenericMessage(message.getMoveDescription());
     }
 
     public void visit(MotherNaturePositionMessage message) {

@@ -321,7 +321,8 @@ public class Game extends Observable<InfoMessage> {
             notify(new UpdateWalletMessage(currentPlayer.getUsername()));
         else if(currentPlayer.getSchoolBoard().getDiningRoom()[student.ordinal()] % 3 == 0 && empty)
             notify(new EmptyGeneralCoinSupplyMessage(currentPlayer.getUsername()));
-        notify(new InfoStudentIntoDiningRoomMessage(currentPlayer.getUsername(), currentPlayer.getSchoolBoard(),professorsWithUsernameOwner()));
+        String moveDescription = currentPlayer.getUsername() + " has moved a " + student.name().toLowerCase() + " student in his dining room";
+        notify(new InfoStudentIntoDiningRoomMessage(currentPlayer.getUsername(), currentPlayer.getSchoolBoard(),professorsWithUsernameOwner(), moveDescription));
         currentPlayer.setMoveCounter(currentPlayer.getMoveCounter() + 1);
         checkNumberMoves();   //checks if the move was the last one throwing lastMoveException
     }
@@ -340,7 +341,8 @@ public class Game extends Observable<InfoMessage> {
         }else{
             currentPlayer.executeAction(new MoveStudentOntoIsland(currentPlayer.getSchoolBoard(), student, getIslandByID(idIsland)));
             currentPlayer.setMoveCounter(currentPlayer.getMoveCounter() + 1);
-            notify(new InfoStudentOntoIslandMessage(currentPlayer.getUsername(), currentPlayer.getSchoolBoard(), getIslandByID(idIsland), professorsWithUsernameOwner()));
+            String moveDescription = currentPlayer.getUsername() + " has moved a " + student.name().toLowerCase() + " student on the island " + idIsland;
+            notify(new InfoStudentOntoIslandMessage(currentPlayer.getUsername(), currentPlayer.getSchoolBoard(), getIslandByID(idIsland), professorsWithUsernameOwner(), moveDescription));
             checkNumberMoves();
         }
     }
