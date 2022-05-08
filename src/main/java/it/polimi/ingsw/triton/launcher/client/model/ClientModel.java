@@ -73,6 +73,14 @@ public class ClientModel extends Observable<Object> {
         this.availableCharacterCards = availableCharacterCards;
     }
 
+    public CharacterCard getCharacterCardById(int id){
+        for(CharacterCard characterCard: availableCharacterCards){
+            if(characterCard.getId() == id)
+                return characterCard;
+        }
+        return null;
+    }
+
     public ArrayList<Island> getIslands() {
         return islands;
     }

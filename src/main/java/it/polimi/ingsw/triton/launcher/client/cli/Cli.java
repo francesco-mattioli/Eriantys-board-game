@@ -10,6 +10,7 @@ import it.polimi.ingsw.triton.launcher.server.model.player.AssistantDeck;
 import it.polimi.ingsw.triton.launcher.server.model.player.SchoolBoard;
 import it.polimi.ingsw.triton.launcher.utils.message.ErrorTypeID;
 import it.polimi.ingsw.triton.launcher.utils.message.clientmessage.*;
+import it.polimi.ingsw.triton.launcher.utils.message.clientmessage.characterCardReply.*;
 import it.polimi.ingsw.triton.launcher.utils.obs.Observable;
 import it.polimi.ingsw.triton.launcher.client.Client;
 import it.polimi.ingsw.triton.launcher.utils.message.Message;
@@ -283,7 +284,189 @@ public class Cli extends Observable<Message> implements ClientView{
 
     @Override
     public void askCharacterCardParameters(int id) {
+        switch (id){
+            case 1:
+                askCharCard01();
+                break;
+            case 3:
+                askCharCard03();
+                break;
+            case 5:
+                askCharCard05();
+                break;
+            case 7:
+                askCharCard07();
+                break;
+            case 9:
+                askCharCard09();
+                break;
+            case 10:
+                askCharCard10();
+                break;
+            case 11:
+                askCharCard11();
+                break;
+            case 12:
+                askCharCard12();
+                break;
+            default:
+                showErrorMessage(ErrorTypeID.CHARACTER_CARD_NOT_AVAILABLE);
+                showAndPlayCharacterCard();
+                break;
+        }
+    }
 
+    public void askCharCard01(){
+        out.print(ANSI_BLUE + "Choose the color of the student to move to an island:" + ANSI_RESET);
+        try {
+            String input = readLine();
+            Color studentToMove = Color.valueOf(input.toUpperCase());
+            out.print("Choose the id of the island: ");
+            input = readLine();
+            notify(new CharacterCard01Reply(clientModel.getUsername(), studentToMove, Integer.parseInt(input)));
+        } catch (ExecutionException e) {
+            out.println(TRY_AGAIN);
+        } catch (IllegalArgumentException e){
+            out.println(TRY_AGAIN);
+            askCharCard01();
+        }
+    }
+
+    public void askCharCard03(){
+        out.print(ANSI_BLUE + "Select the island where you want to calculate the influence:" + ANSI_RESET);
+        try {
+            String input = readLine();
+            notify(new CharacterCard03Reply(clientModel.getUsername(), Integer.parseInt(input)));
+        } catch (NumberFormatException e){
+            out.println(TRY_AGAIN);
+            askCharCard03();
+        }
+        catch (ExecutionException e) {
+            out.println(TRY_AGAIN);
+        }
+    }
+
+    public void askCharCard05(){
+        out.print(ANSI_BLUE + "Select the island where to put a no entry tile:" + ANSI_RESET);
+        try {
+            String input = readLine();
+            notify(new CharacterCard05Reply(clientModel.getUsername(), Integer.parseInt(input)));
+        } catch (NumberFormatException e){
+            out.println(TRY_AGAIN);
+            askCharCard05();
+        }
+        catch (ExecutionException e) {
+            out.println(TRY_AGAIN);
+        }
+    }
+
+    public void askCharCard07(){   //To check if it's correct
+        int repeat = 0;
+        Color color;
+        String inputFromCard = "";
+        String inputFromSchoolBoard = "";
+        int [] fromCard = new int[5];
+        int [] fromSchoolBoard = new int[5];
+        out.println(ANSI_BLUE + "Swap up to three students between this card and your schoolboard" + ANSI_RESET);
+        do{
+            out.print((repeat + 1) + ANSI_BLUE + " - student from this card (press enter if you want to stop): " + ANSI_RESET);
+            try {
+                repeat++;
+                inputFromCard = readLine();
+                if(inputFromCard.equals(""))
+                    break;
+                color = Color.valueOf(inputFromCard.toUpperCase());
+                fromCard[color.ordinal()]++;
+                out.print((repeat + 1) + ANSI_BLUE + " - student from your school board: " + ANSI_RESET);
+                inputFromSchoolBoard = readLine();
+                color = Color.valueOf(inputFromSchoolBoard.toUpperCase());
+                fromSchoolBoard[color.ordinal()]++;
+            } catch (IllegalArgumentException e){
+                out.println(TRY_AGAIN);
+                askCharCard07();
+            }
+            catch (ExecutionException e) {
+                out.println(TRY_AGAIN);
+            }
+        }while (repeat < 3);
+        notify(new CharacterCard07Reply(clientModel.getUsername(), fromCard, fromSchoolBoard, clientModel.getCharacterCardById(7).getStudents()));
+    }
+
+    public void askCharCard09(){
+        out.print(ANSI_BLUE + "Select the color that will not count in the calculation of the influence: " + ANSI_RESET);
+        try {
+            String input = readLine();
+            Color color = Color.valueOf(input.toUpperCase());
+            notify(new CharacterCard09Reply(clientModel.getUsername(), color));
+        } catch(IllegalArgumentException e){
+            out.println(TRY_AGAIN);
+            askCharCard09();
+        }
+        catch (ExecutionException e) {
+            out.println(TRY_AGAIN);
+        }
+    }
+
+    public void askCharCard10(){
+        int repeat = 0;
+        Color color;
+        String inputFromDiningRoom = "";
+        String inputFromEntrance = "";
+        int [] fromEntrance = new int[5];
+        int [] fromDiningRoom = new int[5];
+        out.println(ANSI_BLUE + "Swap up to two students between your entrance and your dining room" + ANSI_RESET);
+        do{
+            out.print((repeat + 1) + ANSI_BLUE + " - student from the entrance (press enter if you want to stop): " + ANSI_RESET);
+            try {
+                repeat++;
+                inputFromEntrance = readLine();
+                if(inputFromEntrance.equals(""))
+                    break;
+                color = Color.valueOf(inputFromEntrance.toUpperCase());
+                fromEntrance[color.ordinal()]++;
+                out.print((repeat + 1) + ANSI_BLUE + " - student from your school board: " + ANSI_RESET);
+                inputFromDiningRoom = readLine();
+                color = Color.valueOf(inputFromDiningRoom.toUpperCase());
+                fromDiningRoom[color.ordinal()]++;
+            } catch (IllegalArgumentException e){
+                out.println(TRY_AGAIN);
+                askCharCard10();
+            }
+            catch (ExecutionException e) {
+                out.println(TRY_AGAIN);
+            }
+        }while (repeat < 2);
+        notify(new CharacterCard10Reply(clientModel.getUsername(), fromEntrance, fromDiningRoom));
+    }
+
+    public void askCharCard11(){
+        out.print(ANSI_BLUE + "Select the color of the student you want to move to your dining room: " + ANSI_RESET);
+        try {
+            String input = readLine();
+            Color color = Color.valueOf(input.toUpperCase());
+            notify(new CharacterCard11Reply(clientModel.getUsername(), color));
+        } catch (IllegalArgumentException e){
+            out.println(TRY_AGAIN);
+            askCharCard11();
+        }
+        catch (ExecutionException e) {
+            out.println(TRY_AGAIN);
+        }
+    }
+
+    public void askCharCard12(){
+        out.print(ANSI_BLUE + "Select the color of the student to put in the bag: " + ANSI_RESET);
+        try {
+            String input = readLine();
+            Color color = Color.valueOf(input.toUpperCase());
+            notify(new CharacterCard12Reply(clientModel.getUsername(), color));
+        } catch (IllegalArgumentException e){
+            out.println(TRY_AGAIN);
+            askCharCard12();
+        }
+        catch (ExecutionException e) {
+            out.println(TRY_AGAIN);
+        }
     }
 
     @Override
@@ -360,10 +543,12 @@ public class Cli extends Observable<Message> implements ClientView{
     private void showAndPlayCharacterCard(){
         try {
             out.println(clientModel.getAvailableCharacterCards().toString());
-            out.print("Please, choose a character card id to play: ");
+            out.print(ANSI_BLUE + "Please, choose a character card id to play: " + ANSI_RESET);
             String input=readLine();
             notify(new UseCharacterCardRequest(clientModel.getUsername(),Integer.parseInt(removeSpaces(input))));
-        } catch (ExecutionException | NumberFormatException e) {
+        } catch (ExecutionException e) {
+            out.println(TRY_AGAIN);
+        } catch(NumberFormatException e){
             out.println(TRY_AGAIN);
             showAndPlayCharacterCard();
         }

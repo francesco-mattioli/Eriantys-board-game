@@ -12,7 +12,10 @@ public class CharacterCardParameterRequest extends AskMessage {
 
     @Override
     public void accept(ServerMessageVisitor messageVisitor) {
-
+        messageVisitor.visit(this);
     }
 
+    public int getCharacterCardID() {
+        return characterCardID;
+    }
 }

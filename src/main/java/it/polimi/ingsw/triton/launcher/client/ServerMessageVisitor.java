@@ -153,6 +153,10 @@ public class ServerMessageVisitor {
         clientView.showEmptyBagMessage();
     }
 
+    public void visit(CharacterCardParameterRequest message){
+        clientView.askCharacterCardParameters(message.getCharacterCardID());
+    }
+
     public void visit(WinMessage message){
         if(clientView.getClientModel().getUsername().equals(message.getReceiverUsername()))
             clientView.showWinMessage();
