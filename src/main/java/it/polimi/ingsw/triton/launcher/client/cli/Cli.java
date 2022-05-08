@@ -220,6 +220,7 @@ public class Cli extends Observable<Message> implements ClientView{
             out.print("Islands:\n");
             out.println(clientModel.getIslands());
             out.print("\n");
+            out.print(clientModel.printOtherSchoolBoards());
             SchoolBoard schoolBoard= clientModel.getSchoolBoards().get(clientModel.getUsername());
             out.print("Your SchoolBoard:");
             out.println(schoolBoard.toString());
@@ -263,7 +264,7 @@ public class Cli extends Observable<Message> implements ClientView{
     @Override
     public void askCloudTile() {
         try {
-            out.println(ANSI_GREEN + "Choose a cloud tile to withdraw the students");
+            out.println(ANSI_GREEN + "Choose a cloud tile to withdraw the students" + ANSI_RESET);
             out.print("CloudTiles:");
             out.println(clientModel.printCloudTiles());
             out.println(ANSI_BOLDGREEN + "Select the id of the cloud tile you choose:" + ANSI_RESET);

@@ -158,6 +158,15 @@ public class ClientModel extends Observable<Object> {
         return results;
     }
 
+    public String printOtherSchoolBoards(){
+        String results = "";
+        for(Map.Entry<String, SchoolBoard> schoolBoardEntry: schoolBoards.entrySet()){
+            if(!schoolBoardEntry.getKey().equals(username))
+                results += schoolBoardEntry.getKey() + "'s SchoolBoard: " + schoolBoardEntry.getValue().toString() + "\n";
+        }
+        return results;
+    }
+
 
     public Island getMotherNaturePosition() {
         return motherNaturePosition;
