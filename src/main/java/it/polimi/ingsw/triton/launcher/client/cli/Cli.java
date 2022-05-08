@@ -272,7 +272,9 @@ public class Cli extends Observable<Message> implements ClientView{
                 showAndPlayCharacterCard();
             else
                 notify(new CloudTileReply(clientModel.getUsername(), Integer.parseInt(input)));
-        } catch (ExecutionException | NumberFormatException | NullPointerException e) {
+        } catch (ExecutionException e) {
+            out.println(TRY_AGAIN);
+        } catch (NumberFormatException | NullPointerException e){
             out.println(TRY_AGAIN);
             askCloudTile();
         }
