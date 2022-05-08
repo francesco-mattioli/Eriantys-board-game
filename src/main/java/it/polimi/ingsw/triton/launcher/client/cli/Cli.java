@@ -77,7 +77,6 @@ public class Cli extends Observable<Message> implements ClientView{
         } catch (ExecutionException e) {
             out.println(TRY_AGAIN);
         }
-
     }
 
     @Override
@@ -110,13 +109,19 @@ public class Cli extends Observable<Message> implements ClientView{
                 String input = readLine();
                 int numOfPlayers = Integer.parseInt(input);
                 notify(new PlayersNumberReply(clientModel.getUsername(), numOfPlayers));
-        } catch (ExecutionException | NumberFormatException e) {
+        } catch (ExecutionException e) {
+            out.println(TRY_AGAIN);
+        }catch(NumberFormatException e){
             out.println(TRY_AGAIN);
             askNumOfPlayers();
         }
     }
 
     public void showLobbyMessage(ArrayList<String> onlineNicknames, int maxNumberPlayers ) {
+        out.println("ONLINE PLAYERS:");
+        for(String username: onlineNicknames){
+            System.out.println("- " + username);
+        }
         out.println("There are " + onlineNicknames.size() +
                 " out of " + maxNumberPlayers + " players connected; Waiting for " + (maxNumberPlayers-onlineNicknames.size()) + " players...");
     }

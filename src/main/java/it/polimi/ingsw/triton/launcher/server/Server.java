@@ -64,10 +64,10 @@ public class Server {
             this.maxNumPlayers = maxNumPlayers; //BUG
             this.controller = new Controller(new Game(maxNumPlayers));
             controller.getVirtualViews().add(firstPlayerVirtualView);
-            controller.addPlayer(username);
-            numOfClients++;
             controller.getVirtualViewByUsername(username).addObserver(controller);
             controller.addGameObserver(controller.getVirtualViewByUsername(username));
+            controller.addPlayer(username);
+            numOfClients++;
             semaphore.release();
             LOGGER.info("The game was instanced for " + maxNumPlayers + " players");
             LOGGER.info("Clients connected: " + this.numOfClients);
@@ -97,10 +97,10 @@ public class Server {
         //in this case, the player can be added to the game. His virtualview cam be created and added to the ArrayList
         else if (numOfClients < maxNumPlayers && isUsernameValid(username)) {
             try {
-                controller.addPlayer(username);
                 controller.getVirtualViews().add(new VirtualView(serveOneClient, username));
                 controller.getVirtualViewByUsername(username).addObserver(controller);
                 controller.addGameObserver(controller.getVirtualViewByUsername(username));
+                controller.addPlayer(username);
                 controller.createLoginReplyMessage(username);
                 numOfClients++;
                 LOGGER.info("New player accepted");
