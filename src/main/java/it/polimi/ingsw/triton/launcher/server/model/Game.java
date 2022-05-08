@@ -517,7 +517,8 @@ public class Game extends Observable<InfoMessage> {
     public void chooseCloudTile(CloudTile cloudTile) throws IllegalClientInputException, ChangeTurnException, EndGameException {
         currentPlayer.executeAction(new ChooseCloudTile(cloudTile, currentPlayer.getSchoolBoard()));
         cloudTile.setAlreadyUsed(true);
-        notify(new InfoChosenCloudTileMessage(currentPlayer.getUsername(), currentPlayer.getSchoolBoard(), cloudTile, professorsWithUsernameOwner()));
+        String choiceDescription = currentPlayer.getUsername() + " has chosen the cloud tile " + cloudTile.getId();
+        notify(new InfoChosenCloudTileMessage(currentPlayer.getUsername(), currentPlayer.getSchoolBoard(), cloudTile, professorsWithUsernameOwner(), choiceDescription));
         nextGameTurn();
     }
 

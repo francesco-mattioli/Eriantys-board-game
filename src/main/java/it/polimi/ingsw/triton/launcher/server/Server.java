@@ -100,8 +100,8 @@ public class Server {
                 controller.getVirtualViews().add(new VirtualView(serveOneClient, username));
                 controller.getVirtualViewByUsername(username).addObserver(controller);
                 controller.addGameObserver(controller.getVirtualViewByUsername(username));
-                controller.addPlayer(username);
                 controller.createLoginReplyMessage(username);
+                controller.addPlayer(username);
                 numOfClients++;
                 LOGGER.info("New player accepted");
                 LOGGER.info("Clients connected: " + this.numOfClients);

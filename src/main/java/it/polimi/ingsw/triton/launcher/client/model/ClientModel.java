@@ -73,6 +73,14 @@ public class ClientModel extends Observable<Object> {
         this.availableCharacterCards = availableCharacterCards;
     }
 
+    public CharacterCard getCharacterCardById(int id){
+        for(CharacterCard characterCard: availableCharacterCards){
+            if(characterCard.getId() == id)
+                return characterCard;
+        }
+        return null;
+    }
+
     public ArrayList<Island> getIslands() {
         return islands;
     }
@@ -154,6 +162,15 @@ public class ClientModel extends Observable<Object> {
         String results = " ";
         for (Island island : islands) {
             results += island.toString();
+        }
+        return results;
+    }
+
+    public String printOtherSchoolBoards(){
+        String results = "";
+        for(Map.Entry<String, SchoolBoard> schoolBoardEntry: schoolBoards.entrySet()){
+            if(!schoolBoardEntry.getKey().equals(username))
+                results += schoolBoardEntry.getKey() + "'s SchoolBoard: " + schoolBoardEntry.getValue().toString() + "\n";
         }
         return results;
     }
