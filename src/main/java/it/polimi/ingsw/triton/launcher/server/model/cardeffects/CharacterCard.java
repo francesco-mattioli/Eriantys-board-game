@@ -15,7 +15,6 @@ public class CharacterCard implements Serializable {
     protected int[] students;
     protected int noEntryTiles;
     protected Bag bag;
-    private CardEffect cardEffect;
 
 
     /**
@@ -120,6 +119,9 @@ public class CharacterCard implements Serializable {
         else return "\n\tCharacterCard " + id + ": { Cost: " + cost  + " }";
     }
 
+    public String studentsToString(){
+        return "students on the card = " + Utility.printColoredStudents(students);
+    }
 
 }
 
