@@ -10,6 +10,7 @@ import it.polimi.ingsw.triton.launcher.utils.message.servermessage.infoMessage.i
 import it.polimi.ingsw.triton.launcher.utils.message.servermessage.infoMessage.infoMessageWithReceiver.LoginReply;
 import it.polimi.ingsw.triton.launcher.utils.message.servermessage.infoMessage.infoMessageWithReceiver.UpdateWalletMessage;
 
+
 public class ServerMessageVisitor {
     private final ClientView clientView;
 
