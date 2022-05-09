@@ -326,6 +326,7 @@ public class Game extends Observable<InfoMessage> {
             notify(new UpdateWalletMessage(currentPlayer.getUsername()));
         else if(currentPlayer.getSchoolBoard().getDiningRoom()[student.ordinal()] % 3 == 0 && empty)
             notify(new EmptyGeneralCoinSupplyMessage(currentPlayer.getUsername()));
+        professorsManager.updateProfessors(currentPlayer, student, professors);
         String moveDescription = currentPlayer.getUsername() + " has moved a " + student.name().toLowerCase() + " student in his dining room";
         notify(new InfoStudentIntoDiningRoomMessage(currentPlayer.getUsername(), currentPlayer.getSchoolBoard(),professorsWithUsernameOwner(), moveDescription));
         currentPlayer.setMoveCounter(currentPlayer.getMoveCounter() + 1);
@@ -708,7 +709,8 @@ public class Game extends Observable<InfoMessage> {
     }
 
     private String[] professorsWithUsernameOwner(){
-        return Arrays.stream(professors).filter(Objects::nonNull).map(Player::getUsername).toArray(String[]::new);
+        //return Arrays.stream(professors).map(Player::getUsername).toArray(String[]::new);
+        return Arrays.stream(professors).map(p->{if(p == null) return "_"; else return p.getUsername();}).toArray(String[]::new);
     }
 
     //----------------------------------------------

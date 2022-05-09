@@ -50,6 +50,10 @@ public class GameInfoMessage extends InfoMessage {
         return cloudTiles;
     }
 
+    public String[] getProfessors() {
+        return professors;
+    }
+
     @Override
     public void accept(ServerMessageVisitor serverMessageVisitor) {
         serverMessageVisitor.visit(this);

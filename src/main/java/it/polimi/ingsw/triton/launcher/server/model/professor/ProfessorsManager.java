@@ -7,10 +7,9 @@ import java.io.Serializable;
 
 public class ProfessorsManager implements Serializable {
     private ProfessorStrategy professorStrategy;
-    private final Player[] professors;
 
     public ProfessorsManager() {
-        this.professors = new Player[5];
+        setProfessorStrategy(new ProfessorStrategyDefault());
     }
 
     /**
@@ -18,7 +17,7 @@ public class ProfessorsManager implements Serializable {
      * @param player candidate for the professor dominance
      * @param color of the professor to check
      */
-    public void updateProfessors(Player player, Color color) {
+    public void updateProfessors(Player player, Color color, Player[] professors) {
         professorStrategy.execute(player,color,professors);
     }
 
@@ -35,14 +34,5 @@ public class ProfessorsManager implements Serializable {
      */
     public void resetProfessorStrategy() {
         professorStrategy = new ProfessorStrategyDefault();
-    }
-
-
-    /**
-     * method that returns profesors array
-     * @return the professors array
-     */
-    public Player[] getProfessors() {
-        return professors;
     }
 }
