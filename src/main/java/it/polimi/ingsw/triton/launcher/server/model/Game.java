@@ -290,6 +290,10 @@ public class Game extends Observable<InfoMessage> {
         setGameState(GameState.PLANNING_PHASE);
         addStudentsToCloudTiles();
         resetPlayedCardInTurn();
+        // Need to set false the already played  boolean attriobute
+        for(Player player : players){
+            player.resetAlreadyPlayedAnCharacterCard();
+        }
         //notify(new CloudTilesInfoMessage(cloudTiles));
     }
 
@@ -597,10 +601,15 @@ public class Game extends Observable<InfoMessage> {
      * Sends messages to the player to ask the parameters for some effects.
      * @param idCard the id of the selected character card.
      */
-    public void useCharacterCard(int idCard) throws IllegalClientInputException, CharacterCardWithParametersException {
-        currentPlayer.executeAction(new UseCharacterCard(getCharacterCardByID(idCard), currentPlayer, generalCoinSupply));
-        if(getCharacterCardByID(idCard).hasParameters())
-            throw new CharacterCardWithParametersException();
+    public void useCharacterCard(String username,int idCard) throws IllegalClientInputException, CharacterCardWithParametersException {
+        if(getPlayerByUsername(username).hasAlreadyPlayedACharacterCard()) {
+            throw new IllegalClientInputException(ErrorTypeID.CHARACTER_CARD_ALREADY_PLAYED);
+        }
+        else {
+            currentPlayer.executeAction(new UseCharacterCard(getCharacterCardByID(idCard), currentPlayer, generalCoinSupply));
+            if (getCharacterCardByID(idCard).hasParameters())
+                throw new CharacterCardWithParametersException();
+        }
     }
 
 
