@@ -366,9 +366,9 @@ public class Cli extends Observable<Message> implements ClientView{
                 repeat++;
                 // choose the student to swap on card, then update fromCard array to send to Server
                 out.println(clientModel.getCharacterCardById(7).studentsToString());
-                out.print("Enter the "+ordinal(repeat) + ANSI_BLUE + " student from this card (press enter if you want to stop): " + ANSI_RESET);
+                out.print(ANSI_BLUE + "Enter the "+ordinal(repeat) + " student from this card (press enter if you want to stop): " + ANSI_RESET);
                 String inputFromCard = readLine();
-                if(inputFromCard.equals("\n")) //to test
+                if(inputFromCard.isEmpty()) //to test
                     break;
                 Color color = Color.valueOf(inputFromCard.toUpperCase());
                 fromCard[color.ordinal()]++;
@@ -505,7 +505,7 @@ public class Cli extends Observable<Message> implements ClientView{
     @Override
     public void showMoveTowerOntoSchoolBoard(String username,SchoolBoard schoolBoard) {
         out.println("A tower has been moved back onto "+username+"'s school board");
-        out.println(clientModel.getSchoolBoards().get(username).toString());
+        //out.println(clientModel.getSchoolBoards().get(username).toString());
     }
 
     @Override

@@ -1,7 +1,7 @@
 package it.polimi.ingsw.triton.launcher.server.model;
 
 import it.polimi.ingsw.triton.launcher.server.model.enums.Color;
-import it.polimi.ingsw.triton.launcher.utils.message.Message;
+import it.polimi.ingsw.triton.launcher.utils.message.servermessage.InfoMessage;
 import it.polimi.ingsw.triton.launcher.utils.message.servermessage.infoMessage.EmptyBagMessage;
 import it.polimi.ingsw.triton.launcher.utils.obs.Observable;
 
@@ -9,7 +9,7 @@ import java.io.Serializable;
 import java.util.NoSuchElementException;
 import java.util.Random;
 
-public class Bag extends Observable<Message> implements Serializable {
+public class Bag extends Observable<InfoMessage> implements Serializable {
     private final int numPlayer;
     private final int NUM_OF_STUDENTS_FOREACH_COLOR = 26;
     private final int[] students;
