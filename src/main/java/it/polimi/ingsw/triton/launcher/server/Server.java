@@ -139,7 +139,7 @@ public class Server {
             while (true) {
                 Socket connectionSocket = serverSocket.accept();
                 // After 1 minute (=60'000 secs) the connection with client is closed
-                connectionSocket.setSoTimeout(10000);
+                connectionSocket.setSoTimeout(60000);
                 // The following thread will manage the socket that will be assigned to the Client
                 new Thread(new ServeOneClient(connectionSocket, this)).start();
             }
