@@ -9,6 +9,7 @@ import it.polimi.ingsw.triton.launcher.utils.message.servermessage.infoMessage.*
 import it.polimi.ingsw.triton.launcher.utils.message.servermessage.infoMessage.infoMessageWithReceiver.GiveAssistantDeckMessage;
 import it.polimi.ingsw.triton.launcher.utils.message.servermessage.infoMessage.infoMessageWithReceiver.LoginReply;
 
+
 public class ServerMessageVisitor {
     private final ClientView clientView;
 
