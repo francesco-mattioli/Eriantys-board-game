@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.layout.AnchorPane?>
+
+
+<AnchorPane fx:id="towerColorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="329.0" prefWidth="459.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.triton.launcher.client.gui.scenes.TowerColorSceneController">
+   <children>
+      <ComboBox fx:id="cmbTowerColor" layoutX="155.0" layoutY="152.0" prefHeight="25.0" prefWidth="152.0" promptText="Select Tower Color" />
+      <Button fx:id="selectButton" layoutX="202.0" layoutY="227.0" mnemonicParsing="false" text="Select!" />
+   </children>
+</AnchorPane>

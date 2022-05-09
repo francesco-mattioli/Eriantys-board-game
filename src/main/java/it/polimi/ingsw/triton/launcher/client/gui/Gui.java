@@ -1,9 +1,7 @@
 package it.polimi.ingsw.triton.launcher.client.gui;
 
 import it.polimi.ingsw.triton.launcher.client.Client;
-import it.polimi.ingsw.triton.launcher.client.gui.scenes.LoginSceneController;
-import it.polimi.ingsw.triton.launcher.client.gui.scenes.MenuSceneController;
-import it.polimi.ingsw.triton.launcher.client.gui.scenes.NumOfPlayersSceneController;
+import it.polimi.ingsw.triton.launcher.client.gui.scenes.*;
 import it.polimi.ingsw.triton.launcher.client.model.ClientModel;
 import it.polimi.ingsw.triton.launcher.client.view.ClientView;
 import it.polimi.ingsw.triton.launcher.server.model.AssistantCard;
@@ -11,6 +9,7 @@ import it.polimi.ingsw.triton.launcher.server.model.CloudTile;
 import it.polimi.ingsw.triton.launcher.server.model.Island;
 import it.polimi.ingsw.triton.launcher.server.model.cardeffects.CharacterCard;
 import it.polimi.ingsw.triton.launcher.server.model.enums.GameState;
+import it.polimi.ingsw.triton.launcher.server.model.enums.TowerColor;
 import it.polimi.ingsw.triton.launcher.server.model.enums.Wizard;
 import it.polimi.ingsw.triton.launcher.server.model.player.SchoolBoard;
 import it.polimi.ingsw.triton.launcher.utils.message.ErrorTypeID;
@@ -21,10 +20,12 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
 import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Map;
 
 public class Gui extends Observable<Message> implements ClientView {
@@ -61,6 +62,50 @@ public class Gui extends Observable<Message> implements ClientView {
                 ((LoginSceneController)loader.getController()).addObserver(client);
                 Scene scene = new Scene(root);
                 stage.setScene(scene);
+                stage.show();
+                if (activeStage != null)
+                    activeStage.close();
+                activeStage = stage;
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        });
+    }
+
+    @Override
+    public void askNumOfPlayers() {
+        Platform.runLater(() -> {
+            Stage stage = new Stage();
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/numOfPlayers-scene.fxml"));
+            Parent root = null;
+            try {
+                root = loader.load();
+                ((NumOfPlayersSceneController)loader.getController()).addObserver(client);
+                ((NumOfPlayersSceneController)loader.getController()).setUsername(clientModel.getUsername());
+                Scene scene = new Scene(root);
+                stage.setScene(scene) ;
+                stage.show();
+                if (activeStage != null)
+                    activeStage.close();
+                activeStage = stage;
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        });
+    }
+
+    @Override
+    public void askGameMode() {
+        Platform.runLater(() -> {
+            Stage stage = new Stage();
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/gameMode-scene.fxml"));
+            Parent root = null;
+            try {
+                root = loader.load();
+                ((GameModeSceneController)loader.getController()).addObserver(client);
+                ((GameModeSceneController)loader.getController()).setUsername(clientModel.getUsername());
+                Scene scene = new Scene(root);
+                stage.setScene(scene) ;
                 stage.show();
                 if (activeStage != null)
                     activeStage.close();
@@ -110,19 +155,19 @@ public class Gui extends Observable<Message> implements ClientView {
 
     @Override
     public void askTowerColor(boolean[] towerColorChosen) {
-
-    }
-
-    @Override
-    public void askNumOfPlayers() {
         Platform.runLater(() -> {
             Stage stage = new Stage();
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/numOfPlayers-scene.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/towerColor-scene.fxml"));
             Parent root = null;
             try {
                 root = loader.load();
-                ((NumOfPlayersSceneController)loader.getController()).addObserver(client);
-                ((NumOfPlayersSceneController)loader.getController()).setUsername(clientModel.getUsername());
+                ((TowerColorSceneController)loader.getController()).addObserver(client);
+                ((TowerColorSceneController)loader.getController()).setUsername(clientModel.getUsername());
+                for (int i = 0; i < towerColorChosen.length; i++){
+                    if (towerColorChosen[i]){
+                        ((TowerColorSceneController)loader.getController()).getCmbTowerColor().getItems().add(TowerColor.values()[i]);
+                    }
+                }
                 Scene scene = new Scene(root);
                 stage.setScene(scene) ;
                 stage.show();
@@ -135,9 +180,41 @@ public class Gui extends Observable<Message> implements ClientView {
         });
     }
 
+
+
     @Override
     public void askWizard(ArrayList<Wizard> wizards) {
-
+        Platform.runLater(() -> {
+            Stage stage = new Stage();
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/wizard-scene.fxml"));
+            Parent root = null;
+            try {
+                root = loader.load();
+                ((WizardSceneController)loader.getController()).addObserver(client);
+                ((WizardSceneController)loader.getController()).setUsername(clientModel.getUsername());
+                Map<Image,Wizard> wizardsImages = new HashMap<>();
+                for (Wizard wizard: wizards) {
+                    if (wizard.equals(Wizard.YELLOW))
+                        wizardsImages.put(new Image(getClass().getResourceAsStream("/Images/Wizards/Yellow-Wizard")),wizard);
+                    if (wizard.equals(Wizard.GREEN))
+                        wizardsImages.put(new Image(getClass().getResourceAsStream("/Images/Wizards/Green-Wizard")),wizard);
+                    if (wizard.equals(Wizard.BLUE))
+                        wizardsImages.put(new Image(getClass().getResourceAsStream("/Images/Wizards/Blue-Wizard")),wizard);
+                    if (wizard.equals(Wizard.PURPLE))
+                        wizardsImages.put(new Image(getClass().getResourceAsStream("/Images/Wizards/Purple-Wizard")),wizard);
+                }
+                ((WizardSceneController)loader.getController()).setWizards(wizardsImages);
+                ((WizardSceneController)loader.getController()).getWizardImageView().setImage((Image) wizardsImages.keySet().toArray()[0]);
+                Scene scene = new Scene(root);
+                stage.setScene(scene) ;
+                stage.show();
+                if (activeStage != null)
+                    activeStage.close();
+                activeStage = stage;
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        });
     }
 
     @Override
@@ -175,10 +252,7 @@ public class Gui extends Observable<Message> implements ClientView {
 
     }
 
-    @Override
-    public void askGameMode() {
 
-    }
 
     @Override
     public void askCharacterCardParameters(int id) {
