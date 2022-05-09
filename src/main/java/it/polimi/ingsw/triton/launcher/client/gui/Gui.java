@@ -8,6 +8,7 @@ import it.polimi.ingsw.triton.launcher.server.model.AssistantCard;
 import it.polimi.ingsw.triton.launcher.server.model.CloudTile;
 import it.polimi.ingsw.triton.launcher.server.model.Island;
 import it.polimi.ingsw.triton.launcher.server.model.cardeffects.CharacterCard;
+import it.polimi.ingsw.triton.launcher.server.model.enums.AssistantCardType;
 import it.polimi.ingsw.triton.launcher.server.model.enums.GameState;
 import it.polimi.ingsw.triton.launcher.server.model.enums.TowerColor;
 import it.polimi.ingsw.triton.launcher.server.model.enums.Wizard;
@@ -31,18 +32,13 @@ import java.util.Map;
 public class Gui extends Observable<Message> implements ClientView {
     private ClientModel clientModel;
     private Client client;
-    private Stage stage;
+    private Stage mainStage;
+    private Stage activeStage;
+    private GameState actualGamePhase;
 
-    public void setActiveStage(Stage activeStage) {
+    public Gui(Stage activeStage) {
         this.activeStage = activeStage;
     }
-
-    private Stage activeStage;
-
-    public Gui(){
-        stage = new Stage();
-    }
-
 
     @Override
     public ClientModel getClientModel() {
@@ -61,11 +57,7 @@ public class Gui extends Observable<Message> implements ClientView {
                 root = loader.load();
                 ((LoginSceneController)loader.getController()).addObserver(client);
                 Scene scene = new Scene(root);
-                stage.setScene(scene);
-                stage.show();
-                if (activeStage != null)
-                    activeStage.close();
-                activeStage = stage;
+                activeStage.setScene(scene);
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -93,7 +85,8 @@ public class Gui extends Observable<Message> implements ClientView {
 
     @Override
     public void showChangePhase(GameState gameState) {
-
+        //if(gameState.equals(GameState.PLANNING_PHASE) && actualGamePhase.equals(GameState.SETUP))
+        //TODO IMPLEMENT
     }
 
     @Override
@@ -116,7 +109,6 @@ public class Gui extends Observable<Message> implements ClientView {
     @Override
     public void askTowerColor(boolean[] towerColorChosen) {
         Platform.runLater(() -> {
-            Stage stage = new Stage();
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/towerColor-scene.fxml"));
             Parent root = null;
             try {
@@ -132,11 +124,7 @@ public class Gui extends Observable<Message> implements ClientView {
                 ((TowerColorSceneController)loader.getController()).setTowerColorMap(towerColorMap);
                 ((TowerColorSceneController)loader.getController()).getTowerColorChoice().getItems().addAll(towerColorMap.keySet());
                 Scene scene = new Scene(root);
-                stage.setScene(scene) ;
-                stage.show();
-                if (activeStage != null)
-                    activeStage.close();
-                activeStage = stage;
+                activeStage.setScene(scene);
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -146,7 +134,6 @@ public class Gui extends Observable<Message> implements ClientView {
     @Override
     public void askNumPlayersAndGameMode() {
         Platform.runLater(() -> {
-            Stage stage = new Stage();
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/gameModeAndNumOfPlayers-scene.fxml"));
             Parent root = null;
             try {
@@ -154,11 +141,7 @@ public class Gui extends Observable<Message> implements ClientView {
                 ((GameModeAndNumOfPlayersSceneController)loader.getController()).addObserver(client);
                 ((GameModeAndNumOfPlayersSceneController)loader.getController()).setUsername(clientModel.getUsername());
                 Scene scene = new Scene(root);
-                stage.setScene(scene) ;
-                stage.show();
-                if (activeStage != null)
-                    activeStage.close();
-                activeStage = stage;
+                activeStage.setScene(scene) ;
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -169,7 +152,6 @@ public class Gui extends Observable<Message> implements ClientView {
     @Override
     public void askWizard(ArrayList<Wizard> wizards) {
         Platform.runLater(() -> {
-            Stage stage = new Stage();
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/wizard-scene.fxml"));
             Parent root = null;
             try {
@@ -197,11 +179,7 @@ public class Gui extends Observable<Message> implements ClientView {
                     ((WizardSceneController)loader.getController()).getRightSwitch().setOpacity(0.5);
                 }
                 Scene scene = new Scene(root);
-                stage.setScene(scene) ;
-                stage.show();
-                if (activeStage != null)
-                    activeStage.close();
-                activeStage = stage;
+                activeStage.setScene(scene);
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -210,7 +188,51 @@ public class Gui extends Observable<Message> implements ClientView {
 
     @Override
     public void askAssistantCard() {
-
+        Platform.runLater(() -> {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/assistantCard-scene.fxml"));
+            Parent root = null;
+            try {
+                root = loader.load();
+                ((AssistantCardSceneController)loader.getController()).addObserver(client);
+                ((AssistantCardSceneController)loader.getController()).setUsername(clientModel.getUsername());
+                Map<Image,AssistantCard> assistantCardImages = new HashMap<>();
+                String currentPath = new java.io.File("src/main/resources/Images/AssistantCards").getAbsolutePath().replace('\\','/');
+                for (AssistantCard assistantCard: clientModel.getAssistantDeck().getAssistantDeck()) {
+                    if (assistantCard.getType().equals(AssistantCardType.CAT))
+                        assistantCardImages.put(new Image("file:" + currentPath + "/Cat.png"),assistantCard);
+                    if (assistantCard.getType().equals(AssistantCardType.DOG))
+                        assistantCardImages.put(new Image("file:" + currentPath + "/Dog.png"),assistantCard);
+                    if (assistantCard.getType().equals(AssistantCardType.SNAKE))
+                        assistantCardImages.put(new Image("file:" + currentPath + "/Snake.png"),assistantCard);
+                    if (assistantCard.getType().equals(AssistantCardType.TIGER))
+                        assistantCardImages.put(new Image("file:" + currentPath + "/Tiger.png"),assistantCard);
+                    if (assistantCard.getType().equals(AssistantCardType.EAGLE))
+                        assistantCardImages.put(new Image("file:" + currentPath + "/Eagle.png"),assistantCard);
+                    if (assistantCard.getType().equals(AssistantCardType.TURTLE))
+                        assistantCardImages.put(new Image("file:" + currentPath + "/Turtle.png"),assistantCard);
+                    if (assistantCard.getType().equals(AssistantCardType.DUCK))
+                        assistantCardImages.put(new Image("file:" + currentPath + "/Duck.png"),assistantCard);
+                    if (assistantCard.getType().equals(AssistantCardType.ELEPHANT))
+                        assistantCardImages.put(new Image("file:" + currentPath + "/Elephant.png"),assistantCard);
+                    if (assistantCard.getType().equals(AssistantCardType.OCTOPUS))
+                        assistantCardImages.put(new Image("file:" + currentPath + "/Octopus.png"),assistantCard);
+                    if (assistantCard.getType().equals(AssistantCardType.FOX))
+                        assistantCardImages.put(new Image("file:" + currentPath + "/Fox.png"),assistantCard);
+                }
+                ((AssistantCardSceneController)loader.getController()).setAssistantCards(assistantCardImages);
+                ((AssistantCardSceneController)loader.getController()).getAssistantCardImageView().setImage((Image) assistantCardImages.keySet().toArray()[0]);
+                ((AssistantCardSceneController)loader.getController()).getLeftSwitch().setFill(Color.GRAY);
+                ((AssistantCardSceneController)loader.getController()).getLeftSwitch().setOpacity(0.5);
+                if(assistantCardImages.size() == 1) {
+                    ((WizardSceneController)loader.getController()).getRightSwitch().setFill(Color.GRAY);
+                    ((WizardSceneController)loader.getController()).getRightSwitch().setOpacity(0.5);
+                }
+                Scene scene = new Scene(root);
+                activeStage.setScene(scene);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        });
     }
 
     @Override

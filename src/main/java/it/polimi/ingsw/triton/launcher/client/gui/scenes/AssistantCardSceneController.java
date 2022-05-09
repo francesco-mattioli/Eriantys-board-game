@@ -1,8 +1,8 @@
 package it.polimi.ingsw.triton.launcher.client.gui.scenes;
 
-import it.polimi.ingsw.triton.launcher.server.model.enums.Wizard;
+import it.polimi.ingsw.triton.launcher.server.model.AssistantCard;
 import it.polimi.ingsw.triton.launcher.utils.message.Message;
-import it.polimi.ingsw.triton.launcher.utils.message.clientmessage.WizardReply;
+import it.polimi.ingsw.triton.launcher.utils.message.clientmessage.AssistantCardReply;
 import it.polimi.ingsw.triton.launcher.utils.obs.Observable;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -16,10 +16,9 @@ import javafx.scene.shape.Polygon;
 
 import java.util.Map;
 
-public class WizardSceneController extends Observable<Message> {
-
+public class AssistantCardSceneController extends Observable<Message> {
     @FXML
-    AnchorPane wizardPane;
+    AnchorPane assistantCardPane;
 
     @FXML
     Button selectButton;
@@ -31,14 +30,14 @@ public class WizardSceneController extends Observable<Message> {
     Polygon rightSwitch;
 
     @FXML
-    ImageView wizardImageView;
+    ImageView assistantCardImageView;
 
     private String username;
-    private Map<Image,Wizard> wizards;
-    private int shownWizard = 0;
+    private Map<Image, AssistantCard> assistantCards;
+    private int shownAssistantCard = 0;
 
-    public void setWizards(Map<Image, Wizard> wizards) {
-        this.wizards = wizards;
+    public void setAssistantCards(Map<Image, AssistantCard> assistantCards) {
+        this.assistantCards = assistantCards;
     }
 
     public void setUsername(String username){
@@ -53,24 +52,24 @@ public class WizardSceneController extends Observable<Message> {
         return rightSwitch;
     }
 
-    public ImageView getWizardImageView(){
-        return wizardImageView;
+    public ImageView getAssistantCardImageView() {
+        return assistantCardImageView;
     }
 
     public void select(ActionEvent event){
-        Wizard selectedWizard = wizards.get(wizardImageView.getImage());
-        notify(new WizardReply(username, selectedWizard));
+        AssistantCard selectedAssistantCard = assistantCards.get(assistantCardImageView.getImage());
+        notify(new AssistantCardReply(username, selectedAssistantCard));
         selectButton.setDisable(true);
     }
 
     public void switchLeft(MouseEvent event){
-        if (shownWizard > 0){
-            wizardImageView.setImage((Image) wizards.keySet().toArray()[shownWizard-1]);
-            shownWizard--;
+        if (shownAssistantCard > 0){
+            assistantCardImageView.setImage((Image) assistantCards.keySet().toArray()[shownAssistantCard-1]);
+            shownAssistantCard--;
             rightSwitch.setFill(Color.BLUE);
             rightSwitch.setOpacity(1);
         }
-        if (shownWizard == 0){
+        if (shownAssistantCard == 0){
             leftSwitch.setFill(Color.GRAY);
             leftSwitch.setOpacity(0.5);
         }
@@ -78,17 +77,16 @@ public class WizardSceneController extends Observable<Message> {
     }
 
     public void switchRight(MouseEvent event){
-        if (shownWizard < wizards.size() - 1){
-            wizardImageView.setImage((Image) wizards.keySet().toArray()[shownWizard+1]);
-            shownWizard++;
+        if (shownAssistantCard < assistantCards.size() - 1){
+            assistantCardImageView.setImage((Image) assistantCards.keySet().toArray()[shownAssistantCard+1]);
+            shownAssistantCard++;
             leftSwitch.setFill(Color.BLUE);
             leftSwitch.setOpacity(1);
         }
-        if (shownWizard == wizards.size() - 1){
+        if (shownAssistantCard == assistantCards.size() - 1){
             rightSwitch.setFill(Color.GRAY);
             rightSwitch.setOpacity(0.5);
         }
 
     }
-
 }
