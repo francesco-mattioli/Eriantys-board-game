@@ -6,6 +6,7 @@ import it.polimi.ingsw.triton.launcher.server.model.Island;
 import it.polimi.ingsw.triton.launcher.server.model.cardeffects.CharacterCard;
 import it.polimi.ingsw.triton.launcher.server.model.player.AssistantDeck;
 import it.polimi.ingsw.triton.launcher.server.model.player.SchoolBoard;
+import it.polimi.ingsw.triton.launcher.utils.Utility;
 import it.polimi.ingsw.triton.launcher.utils.obs.Observable;
 
 import java.util.ArrayList;
@@ -24,6 +25,8 @@ public class ClientModel extends Observable<Object> {
     private Island motherNaturePosition;
     private AssistantCard lastAssistantCardPlayed;
 
+    private String[] professors;
+
     @Override
     public String toString() {
 
@@ -34,6 +37,7 @@ public class ClientModel extends Observable<Object> {
                 ", \n- cloudTiles =" + printCloudTiles() +
                 ", \n- islands =" + printIslands() +
                 ", \n- motherNature is on island " + motherNaturePosition.getId() +
+                ", \n- professors: " + Utility.printColoredProfessorsOnTable(professors) +
                 "\n}";
     }
 
@@ -103,10 +107,7 @@ public class ClientModel extends Observable<Object> {
     }
 
     public void removeIsland(Island islandToDelete) {
-        for (Island island : islands) {
-            if (island.getId() == islandToDelete.getId())
-                islands.remove(island);
-        }
+        islands.removeIf(island -> island.getId() == islandToDelete.getId());
     }
 
     public Map<String, SchoolBoard> getSchoolBoards() {
@@ -175,13 +176,31 @@ public class ClientModel extends Observable<Object> {
         return results;
     }
 
+    public String printYourSchoolBoard(){
+        String results = "";
+        for(Map.Entry<String, SchoolBoard> schoolBoardEntry: schoolBoards.entrySet()){
+            if(schoolBoardEntry.getKey().equals(username)) {
+                results += "Your SchoolBoard: " + schoolBoardEntry.getValue().toString();
+                results += "\tProfessors: " + printProfessors(schoolBoardEntry.getKey()) + "\n\n";
+                break;
+            }
+        }
+        return results;
+    }
+
     public String printOtherSchoolBoards(){
         String results = "";
         for(Map.Entry<String, SchoolBoard> schoolBoardEntry: schoolBoards.entrySet()){
-            if(!schoolBoardEntry.getKey().equals(username))
-                results += schoolBoardEntry.getKey() + "'s SchoolBoard: " + schoolBoardEntry.getValue().toString() + "\n";
+            if(!schoolBoardEntry.getKey().equals(username)) {
+                results += schoolBoardEntry.getKey() + "'s SchoolBoard: " + schoolBoardEntry.getValue().toString();
+                results += "\tProfessors: " + printProfessors(schoolBoardEntry.getKey()) + "\n\n";
+            }
         }
         return results;
+    }
+
+    public String printProfessors(String owner){
+        return Utility.printColoredProfessorsOnSchoolBoard(professors, owner);
     }
 
 
@@ -191,5 +210,13 @@ public class ClientModel extends Observable<Object> {
 
     public void setMotherNaturePosition(Island motherNaturePosition) {
         this.motherNaturePosition = motherNaturePosition;
+    }
+
+    public String[] getProfessors() {
+        return professors;
+    }
+
+    public void setProfessors(String[] professors) {
+        this.professors = professors;
     }
 }

@@ -36,4 +36,8 @@ public class InfoStudentIntoDiningRoomMessage extends InfoMessage {
     public String getMoveDescription() {
         return moveDescription;
     }
+
+    public String[] getProfessors() {
+        return professors;
+    }
 }

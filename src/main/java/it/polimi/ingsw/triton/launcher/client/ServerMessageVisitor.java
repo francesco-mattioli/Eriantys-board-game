@@ -81,6 +81,7 @@ public class ServerMessageVisitor {
 
     public void visit(InfoStudentIntoDiningRoomMessage message) {
         clientView.getClientModel().setSchoolBoard(message.getPlayerUsername(), message.getSchoolBoard());
+        clientView.getClientModel().setProfessors(message.getProfessors());
         if(!clientView.getClientModel().getUsername().equals(message.getPlayerUsername()))
             clientView.showGenericMessage(message.getMoveDescription());
     }
@@ -175,7 +176,7 @@ public class ServerMessageVisitor {
     }
 
     public void visit(GameInfoMessage message) {
-        clientView.showGameInfo(message.getAvailableCharacterCards(), message.getIslands(), message.getSchoolBoards(), message.getCloudTiles(), message.getMotherNaturePosition());
+        clientView.showGameInfo(message.getAvailableCharacterCards(), message.getIslands(), message.getSchoolBoards(), message.getCloudTiles(), message.getMotherNaturePosition(), message.getProfessors());
     }
 
     public void visit(GenericMessage message) {
