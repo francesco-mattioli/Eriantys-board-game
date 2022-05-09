@@ -11,7 +11,6 @@ import it.polimi.ingsw.triton.launcher.server.model.player.SchoolBoard;
 import it.polimi.ingsw.triton.launcher.utils.message.ErrorTypeID;
 import it.polimi.ingsw.triton.launcher.utils.message.clientmessage.*;
 import it.polimi.ingsw.triton.launcher.utils.message.clientmessage.characterCardReply.*;
-import it.polimi.ingsw.triton.launcher.utils.message.servermessage.Requests.PlayersNumberAndGameModeRequest;
 import it.polimi.ingsw.triton.launcher.utils.obs.Observable;
 import it.polimi.ingsw.triton.launcher.client.Client;
 import it.polimi.ingsw.triton.launcher.utils.message.Message;
@@ -127,8 +126,12 @@ public class Cli extends Observable<Message> implements ClientView{
         for(String username: onlineNicknames){
             System.out.println("- " + username);
         }
-        out.println("There are " + onlineNicknames.size() +
+        if(maxNumberPlayers-onlineNicknames.size() != 0)
+            out.println("There are " + onlineNicknames.size() +
                 " out of " + maxNumberPlayers + " players connected; Waiting for " + (maxNumberPlayers-onlineNicknames.size()) + " players...");
+        else
+            out.println("There are " + onlineNicknames.size() +
+                    " out of " + maxNumberPlayers + " players connected; The game is starting...");
     }
 
 
@@ -362,11 +365,11 @@ public class Cli extends Observable<Message> implements ClientView{
         int [] fromCard = new int[5];
         int [] fromSchoolBoard = new int[5];
         out.println(ANSI_BLUE + "Swap up to three students between this card and your school board" + ANSI_RESET);
+        out.println(clientModel.getCharacterCardById(7).studentsToString());
         do{
             try {
                 repeat++;
                 // choose the student to swap on card, then update fromCard array to send to Server
-                out.println(clientModel.getCharacterCardById(7).studentsToString());
                 out.print(ANSI_BLUE + "Enter the "+ordinal(repeat) + " student from this card (press enter if you want to stop): " + ANSI_RESET);
                 String inputFromCard = readLine();
                 if(inputFromCard.isEmpty()) //to test
@@ -532,6 +535,7 @@ public class Cli extends Observable<Message> implements ClientView{
 
     private void showAndPlayCharacterCard(){
         try {
+            out.println(clientModel.printWallet());
             out.println(clientModel.getAvailableCharacterCards().toString());
             out.print(ANSI_BLUE + "Please, choose a character card id to play: " + ANSI_RESET);
             String input=readLine();

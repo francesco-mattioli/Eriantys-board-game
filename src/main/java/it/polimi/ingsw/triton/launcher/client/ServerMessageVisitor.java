@@ -8,6 +8,7 @@ import it.polimi.ingsw.triton.launcher.utils.message.servermessage.ServerMessage
 import it.polimi.ingsw.triton.launcher.utils.message.servermessage.infoMessage.*;
 import it.polimi.ingsw.triton.launcher.utils.message.servermessage.infoMessage.infoMessageWithReceiver.GiveAssistantDeckMessage;
 import it.polimi.ingsw.triton.launcher.utils.message.servermessage.infoMessage.infoMessageWithReceiver.LoginReply;
+import it.polimi.ingsw.triton.launcher.utils.message.servermessage.infoMessage.infoMessageWithReceiver.UpdateWalletMessage;
 
 public class ServerMessageVisitor {
     private final ClientView clientView;
@@ -69,6 +70,13 @@ public class ServerMessageVisitor {
 
     public void visit(GiveAssistantDeckMessage message) {
         clientView.getClientModel().setAssistantDeck(message.getAssistantDeck());
+    }
+
+    public void visit(UpdateWalletMessage message){
+        if(clientView.getClientModel().getUsername().equals(message.getReceiverUsername())) {
+            clientView.getClientModel().setWallet(message.getWallet());
+            clientView.showGenericMessage(clientView.getClientModel().printWallet());
+        }
     }
 
     public void visit(ChangePhaseMessage message){

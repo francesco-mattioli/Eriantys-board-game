@@ -46,7 +46,7 @@ public class MoveStudentIntoDiningRoom extends Observable<InfoMessage> implement
         try{
             generalCoinSupply.decrement();
             currentPlayer.getWallet().increaseValue();
-            notify(new UpdateWalletMessage(currentPlayer.getUsername()));
+            notify(new UpdateWalletMessage(currentPlayer.getUsername(), currentPlayer.getWallet().getValue()));
         }catch (NoSuchElementException e){
             notify(new EmptyGeneralCoinSupplyMessage(currentPlayer.getUsername()));
         }

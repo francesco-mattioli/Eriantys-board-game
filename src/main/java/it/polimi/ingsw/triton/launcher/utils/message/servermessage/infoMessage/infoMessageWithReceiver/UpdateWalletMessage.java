@@ -2,19 +2,25 @@ package it.polimi.ingsw.triton.launcher.utils.message.servermessage.infoMessage.
 
 
 import it.polimi.ingsw.triton.launcher.client.ServerMessageVisitor;
+import it.polimi.ingsw.triton.launcher.server.model.player.Wallet;
 import it.polimi.ingsw.triton.launcher.utils.message.servermessage.InfoWithReceiverMessage;
 
 /**
  * This message communicates to the current player that his wallet is increased adding 1 coin.
  */
 public class UpdateWalletMessage extends InfoWithReceiverMessage {
-    public UpdateWalletMessage(String receiverUsername) {
+    private final int wallet;
+    public UpdateWalletMessage(String receiverUsername, int wallet) {
         super(receiverUsername);
+        this.wallet = wallet;
     }
 
     @Override
     public void accept(ServerMessageVisitor messageVisitor) {
-
+        messageVisitor.visit(this);
     }
 
+    public int getWallet() {
+        return wallet;
+    }
 }

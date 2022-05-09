@@ -208,8 +208,10 @@ public class Game extends Observable<InfoMessage> {
         setupEntrance(); //PHASE 10
         setupPlayers(); //PHASE 11
         drawCharacterCards(); //(PHASE 12) creates 3 character cards
-        for(Player player: players)
+        for(Player player: players) {
             notify(new GiveAssistantDeckMessage(player.getUsername(), player.getAssistantDeck()));   // to review
+            notify(new UpdateWalletMessage(player.getUsername(), player.getWallet().getValue()));
+        }
         notify(new GameInfoMessage(characterCards, islands, motherNature.getPosition(), getAllSchoolBoards(), cloudTiles, new String[professors.length]));
         notify(new ChangeTurnMessage(currentPlayer.getUsername()));
         planningPhase();
@@ -323,7 +325,7 @@ public class Game extends Observable<InfoMessage> {
         boolean empty = generalCoinSupply.isEmpty();
         currentPlayer.executeAction(new MoveStudentIntoDiningRoom(student, currentPlayer, generalCoinSupply));
         if(currentPlayer.getSchoolBoard().getDiningRoom()[student.ordinal()] % 3 == 0 && !empty)
-            notify(new UpdateWalletMessage(currentPlayer.getUsername()));
+            notify(new UpdateWalletMessage(currentPlayer.getUsername(), currentPlayer.getWallet().getValue()));
         else if(currentPlayer.getSchoolBoard().getDiningRoom()[student.ordinal()] % 3 == 0 && empty)
             notify(new EmptyGeneralCoinSupplyMessage(currentPlayer.getUsername()));
         professorsManager.updateProfessors(currentPlayer, student, professors);
@@ -608,6 +610,7 @@ public class Game extends Observable<InfoMessage> {
         }
         else {
             currentPlayer.executeAction(new UseCharacterCard(getCharacterCardByID(idCard), currentPlayer, generalCoinSupply));
+            notify(new UpdateWalletMessage(currentPlayer.getUsername(), currentPlayer.getWallet().getValue()));
             if (getCharacterCardByID(idCard).hasParameters())
                 throw new CharacterCardWithParametersException();
         }
