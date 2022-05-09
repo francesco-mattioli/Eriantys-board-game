@@ -8,6 +8,7 @@ import it.polimi.ingsw.triton.launcher.utils.message.servermessage.ServerMessage
 import it.polimi.ingsw.triton.launcher.utils.message.servermessage.infoMessage.*;
 import it.polimi.ingsw.triton.launcher.utils.message.servermessage.infoMessage.infoMessageWithReceiver.GiveAssistantDeckMessage;
 import it.polimi.ingsw.triton.launcher.utils.message.servermessage.infoMessage.infoMessageWithReceiver.LoginReply;
+import it.polimi.ingsw.triton.launcher.utils.message.servermessage.infoMessage.infoMessageWithReceiver.UpdateWalletMessage;
 
 
 public class ServerMessageVisitor {
@@ -72,6 +73,13 @@ public class ServerMessageVisitor {
         clientView.getClientModel().setAssistantDeck(message.getAssistantDeck());
     }
 
+    public void visit(UpdateWalletMessage message){
+        if(clientView.getClientModel().getUsername().equals(message.getReceiverUsername())) {
+            clientView.getClientModel().setWallet(message.getWallet());
+            clientView.showGenericMessage(clientView.getClientModel().printWallet());
+        }
+    }
+
     public void visit(ChangePhaseMessage message){
         clientView.showChangePhase(message.getGameState());
     }
@@ -102,7 +110,11 @@ public class ServerMessageVisitor {
 
     public void visit(ChangeInfluenceMessage message){
         clientView.getClientModel().setIsland(message.getIslandWithNewInfluence());
-        clientView.showGenericMessage("The island " + message.getIslandWithNewInfluence().getId() + "has a new dominator. " + "The new dominator is: " + message.getUsernameDominator());
+        clientView.getClientModel().setMotherNaturePosition(message.getIslandWithNewInfluence());
+        if(message.getUsernameDominator().equals(clientView.getClientModel().getUsername()))
+            clientView.showGenericMessage("You are the new dominator of the island " + message.getIslandWithNewInfluence().getId());
+        else
+            clientView.showGenericMessage("The island " + message.getIslandWithNewInfluence().getId() + " has a new dominator. " + "The new dominator is: " + message.getUsernameDominator());
     }
 
     public void visit(MergeIslandsMessage message){
@@ -134,6 +146,7 @@ public class ServerMessageVisitor {
 
     public void visit(MoveTowerOntoIslandMessage message){
         clientView.getClientModel().setIsland(message.getIsland());
+        clientView.getClientModel().setSchoolBoard(message.getDominatorUsername(), message.getSchoolBoardDominator());
         clientView.showMoveTowerOntoIsland(message.getIsland().getId());
     }
 

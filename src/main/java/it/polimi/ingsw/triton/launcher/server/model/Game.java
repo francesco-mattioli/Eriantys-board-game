@@ -51,6 +51,7 @@ public class Game extends Observable<InfoMessage> {
 
     public Game(int maxNumberOfPlayers) {
         this.islands = new ArrayList<>();
+        createIslands();
         this.maxNumberOfPlayers = maxNumberOfPlayers;
         this.bag = new Bag(maxNumberOfPlayers);
         this.players = new ArrayList<>();
@@ -161,14 +162,14 @@ public class Game extends Observable<InfoMessage> {
      * When last wizard has been chosen, we call setup method and order randomly the player arraylist
      * @param current the current player.
      * @throws ChangeTurnException if there's not another player that has to play in the current phase.
-     */
-    public void setNextPlayer(Player current) throws ChangeTurnException{
-        int indexOfCurrentPlayer = players.indexOf(current);
-        if(indexOfCurrentPlayer < players.size()-1){
-            currentPlayer = players.get(indexOfCurrentPlayer+1);
-        }
-        else if(Wizard.values().length - availableWizards.size() == maxNumberOfPlayers) {
-            setup();    //setup method sorts random the player arrayList
+                    */
+            public void setNextPlayer(Player current) throws ChangeTurnException{
+                int indexOfCurrentPlayer = players.indexOf(current);
+                if(indexOfCurrentPlayer < players.size()-1){
+                    currentPlayer = players.get(indexOfCurrentPlayer+1);
+                }
+                else if(Wizard.values().length - availableWizards.size() == maxNumberOfPlayers) {
+                    setup();    //setup method sorts random the player arrayList
             availableWizards.clear();
             gameState = GameState.PLANNING_PHASE;
             //notify(new ChangePhaseMessage(gameState));
@@ -197,7 +198,6 @@ public class Game extends Observable<InfoMessage> {
      * This method executes the SETUP phase of the game.
      */
     public void setup() {
-        createIslands(); //PHASE 1
         setupMotherNature(); //PHASE 2
         setupBag(); //PART 1 OF PHASE 3
         setupIslands(); //PART 2 OF PHASE 3
@@ -208,8 +208,10 @@ public class Game extends Observable<InfoMessage> {
         setupEntrance(); //PHASE 10
         setupPlayers(); //PHASE 11
         drawCharacterCards(); //(PHASE 12) creates 3 character cards
-        for(Player player: players)
+        for(Player player: players) {
             notify(new GiveAssistantDeckMessage(player.getUsername(), player.getAssistantDeck()));   // to review
+            notify(new UpdateWalletMessage(player.getUsername(), player.getWallet().getValue()));
+        }
         notify(new GameInfoMessage(characterCards, islands, motherNature.getPosition(), getAllSchoolBoards(), cloudTiles, new String[professors.length]));
         notify(new ChangeTurnMessage(currentPlayer.getUsername()));
         planningPhase();
@@ -323,7 +325,7 @@ public class Game extends Observable<InfoMessage> {
         boolean empty = generalCoinSupply.isEmpty();
         currentPlayer.executeAction(new MoveStudentIntoDiningRoom(student, currentPlayer, generalCoinSupply));
         if(currentPlayer.getSchoolBoard().getDiningRoom()[student.ordinal()] % 3 == 0 && !empty)
-            notify(new UpdateWalletMessage(currentPlayer.getUsername()));
+            notify(new UpdateWalletMessage(currentPlayer.getUsername(), currentPlayer.getWallet().getValue()));
         else if(currentPlayer.getSchoolBoard().getDiningRoom()[student.ordinal()] % 3 == 0 && empty)
             notify(new EmptyGeneralCoinSupplyMessage(currentPlayer.getUsername()));
         professorsManager.updateProfessors(currentPlayer, student, professors);
@@ -608,6 +610,7 @@ public class Game extends Observable<InfoMessage> {
         }
         else {
             currentPlayer.executeAction(new UseCharacterCard(getCharacterCardByID(idCard), currentPlayer, generalCoinSupply));
+            notify(new UpdateWalletMessage(currentPlayer.getUsername(), currentPlayer.getWallet().getValue()));
             if (getCharacterCardByID(idCard).hasParameters())
                 throw new CharacterCardWithParametersException();
         }

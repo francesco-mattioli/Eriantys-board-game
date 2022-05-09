@@ -4,14 +4,14 @@ import it.polimi.ingsw.triton.launcher.server.model.GeneralCoinSupply;
 import it.polimi.ingsw.triton.launcher.server.model.enums.Color;
 import it.polimi.ingsw.triton.launcher.server.model.player.Player;
 import it.polimi.ingsw.triton.launcher.utils.exceptions.IllegalClientInputException;
-import it.polimi.ingsw.triton.launcher.utils.message.Message;
+import it.polimi.ingsw.triton.launcher.utils.message.servermessage.InfoMessage;
 import it.polimi.ingsw.triton.launcher.utils.message.servermessage.infoMessage.infoMessageWithReceiver.EmptyGeneralCoinSupplyMessage;
 import it.polimi.ingsw.triton.launcher.utils.message.servermessage.infoMessage.infoMessageWithReceiver.UpdateWalletMessage;
 import it.polimi.ingsw.triton.launcher.utils.obs.Observable;
 
 import java.util.NoSuchElementException;
 
-public class MoveStudentIntoDiningRoom extends Observable<Message> implements Action {
+public class MoveStudentIntoDiningRoom extends Observable<InfoMessage> implements Action {
     private final Color student;
     private final Player currentPlayer;
     private final GeneralCoinSupply generalCoinSupply;
@@ -46,7 +46,7 @@ public class MoveStudentIntoDiningRoom extends Observable<Message> implements Ac
         try{
             generalCoinSupply.decrement();
             currentPlayer.getWallet().increaseValue();
-            notify(new UpdateWalletMessage(currentPlayer.getUsername()));
+            notify(new UpdateWalletMessage(currentPlayer.getUsername(), currentPlayer.getWallet().getValue()));
         }catch (NoSuchElementException e){
             notify(new EmptyGeneralCoinSupplyMessage(currentPlayer.getUsername()));
         }

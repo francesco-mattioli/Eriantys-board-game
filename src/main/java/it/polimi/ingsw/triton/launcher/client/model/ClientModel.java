@@ -27,6 +27,8 @@ public class ClientModel extends Observable<Object> {
 
     private String[] professors;
 
+    private int wallet;
+
     @Override
     public String toString() {
 
@@ -126,6 +128,15 @@ public class ClientModel extends Observable<Object> {
         this.schoolBoards.put(username, schoolBoard);
     }
 
+    public String printWallet(){
+        String results = "Your Wallet: " + wallet;
+        if(wallet == 1)
+            results += " coin";
+        else
+            results += " coins";
+        return results;
+    }
+
     public ArrayList<CloudTile> getCloudTiles() {
         return cloudTiles;
     }
@@ -218,5 +229,13 @@ public class ClientModel extends Observable<Object> {
 
     public void setProfessors(String[] professors) {
         this.professors = professors;
+    }
+
+    public int getWallet(){
+        return wallet;
+    }
+
+    public void setWallet(int value){
+        this.wallet = value;
     }
 }
