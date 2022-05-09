@@ -15,7 +15,7 @@ public class InfoCharacterCardPlayedMessage extends InfoMessage {
     public InfoCharacterCardPlayedMessage(String playerUsername, CharacterCard characterCard) {
         this.playerUsername = playerUsername;
         this.characterCard = characterCard;
-        this.choiceDescription = playerUsername + " has played the character card " + characterCard.getId();
+        this.choiceDescription = playerUsername + " has just played the character card " + characterCard.getId();
     }
 
     public String getPlayerUsername() {

@@ -131,10 +131,6 @@ public class ServerMessageVisitor {
         clientView.getClientModel().setCloudTiles(message.getCloudTiles());
     }
 
-    public void visit(GameInfoMessage message) {
-        clientView.showGameInfo(message.getAvailableCharacterCards(), message.getIslands(), message.getSchoolBoards(), message.getCloudTiles(), message.getMotherNaturePosition());
-    }
-
     public void visit(MotherNatureRequest message) {
         clientView.askNumberStepsMotherNature();
     }
@@ -153,15 +149,14 @@ public class ServerMessageVisitor {
         clientView.showEmptyBagMessage();
     }
 
-    public void visit(CharacterCardParameterRequest message){
-        clientView.askCharacterCardParameters(message.getCharacterCardID());
+    public void visit(InfoCharacterCardPlayedMessage message){
+        if(clientView.getClientModel().getUsername().equals(message.getPlayerUsername()))
+            clientView.showGenericMessage(message.getChoiceDescription());
+        clientView.getClientModel().setAvailableCharacterCard(message.getCharacterCard());
     }
 
-    public void visit(InfoCharacterCardPlayedMessage message){
-        clientView.getClientModel().getAvailableCharacterCards().remove(clientView.getClientModel().getCharacterCardById(message.getCharacterCard().getId()));
-        clientView.getClientModel().getAvailableCharacterCards().add(message.getCharacterCard());
-        if(!clientView.getClientModel().getUsername().equals(message.getPlayerUsername()))
-                clientView.showGenericMessage(message.getChoiceDescription());
+    public void visit(CharacterCardParameterRequest message){
+        clientView.askCharacterCardParameters(message.getCharacterCardID());
     }
 
     public void visit(WinMessage message){
@@ -181,8 +176,8 @@ public class ServerMessageVisitor {
         }
     }
 
-    public void visit(DisconnectionMessage message){
-        clientView.showDisconnectionMessage();
+    public void visit(GameInfoMessage message) {
+        clientView.showGameInfo(message.getAvailableCharacterCards(), message.getIslands(), message.getSchoolBoards(), message.getCloudTiles(), message.getMotherNaturePosition());
     }
 
     public void visit(GenericMessage message) {
@@ -197,5 +192,10 @@ public class ServerMessageVisitor {
         else
             clientView.showErrorMessage(message.getErrorTypeID());
     }
+
+    public void visit(DisconnectionMessage message){
+        clientView.showDisconnectionMessage();
+    }
+
 
 }

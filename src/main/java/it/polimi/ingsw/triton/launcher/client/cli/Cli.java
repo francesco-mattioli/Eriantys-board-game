@@ -249,7 +249,7 @@ public class Cli extends Observable<Message> implements ClientView{
     public void askNumberStepsMotherNature() {
         try {
             out.println("Mother nature is on the island: " + clientModel.getMotherNaturePosition().getId());
-            out.print(ANSI_BOLDGREEN + "Insert the number of steps that mother nature has to do: " + ANSI_RESET);
+            out.print(ANSI_BOLDGREEN + "Enter the number of steps that mother nature has to do: " + ANSI_RESET);
             String input = readLine();
             if(input.equals(commandForCharacterCard))
                 showAndPlayCharacterCard();

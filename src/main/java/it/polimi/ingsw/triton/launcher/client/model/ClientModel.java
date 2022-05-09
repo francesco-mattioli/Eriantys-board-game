@@ -73,6 +73,12 @@ public class ClientModel extends Observable<Object> {
         this.availableCharacterCards = availableCharacterCards;
     }
 
+    public void setAvailableCharacterCard(CharacterCard newCharacterCard) {
+        CharacterCard characterCardToUpdate = getCharacterCardById(newCharacterCard.getId());
+        availableCharacterCards.set(availableCharacterCards.indexOf(characterCardToUpdate),newCharacterCard);
+    }
+
+
     public CharacterCard getCharacterCardById(int id){
         for(CharacterCard characterCard: availableCharacterCards){
             if(characterCard.getId() == id)
