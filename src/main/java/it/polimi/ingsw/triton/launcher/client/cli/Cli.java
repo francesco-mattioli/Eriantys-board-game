@@ -35,7 +35,7 @@ public class Cli extends Observable<Message> implements ClientView{
     public static final String ANSI_YELLOW = "\u001B[33m";
     public static final String ANSI_BOLDYELLOW = "\u001B[1;33m";
     public static final String ANSI_PINK = "\u001B[35m";
-    private static final String commandForCharacterCard="--playCC";
+    public static final String commandForCharacterCard="--playCC";
 
 
     /**
