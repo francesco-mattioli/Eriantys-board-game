@@ -47,11 +47,15 @@ public class ClientMessageModifierVisitor {
         game.chooseCloudTile(game.getCloudTileById(message.getSelectedCloudTileID()));
     }
 
+
     public void visitForModify(UseCharacterCardRequest message) throws IllegalClientInputException, CharacterCardWithParametersException, EndGameException {
-        game.useCharacterCard(message.getCharacterCardID());
+        game.useCharacterCard(message.getSenderUsername(),message.getCharacterCardID());
+        // If the player has not played a character card ability yet, set true the attribute that indicates so.
+        // Otherwise, an IllegalClientInputException is thrown.
+        game.getPlayerByUsername(message.getSenderUsername()).setTrueHasAlreadyPlayedACharacterCard();
         switch (message.getCharacterCardID()){
             case 2:
-                game.applyCharacterCardEffect(message.getCharacterCardID(), new CardEffect02(game.getCurrentPlayer(), game.getProfessorsManager()));
+                game.applyCharacterCardEffect(message.getCharacterCardID(), new CardEffect02(game.getCurrentPlayer(), game.getProfessorsManager(), game.getProfessors()));
                 break;
             case 4:
                 game.applyCharacterCardEffect(message.getCharacterCardID(), new CardEffect04(game.getMotherNature()));

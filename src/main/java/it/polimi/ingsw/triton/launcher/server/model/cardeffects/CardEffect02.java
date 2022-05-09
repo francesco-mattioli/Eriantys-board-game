@@ -11,9 +11,12 @@ public class CardEffect02 implements CardEffect, Serializable {
     private final ProfessorsManager professorsManager;
     private final Player player;
 
-    public CardEffect02(Player player,ProfessorsManager professorsManager){
+    private final Player[] professors;
+
+    public CardEffect02(Player player,ProfessorsManager professorsManager, Player[] professors){
         this.professorsManager = professorsManager;
         this.player=player;
+        this.professors = professors;
     }
 
     /**
@@ -26,7 +29,7 @@ public class CardEffect02 implements CardEffect, Serializable {
     public void execute() {
         professorsManager.setProfessorStrategy(new ProfessorStrategyWithEffect());
         for(Color color: Color.values())
-            professorsManager.updateProfessors(player,color);
+            professorsManager.updateProfessors(player,color, professors);
         // remember to set the strategy to default when the turn is over
     }
 }

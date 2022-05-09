@@ -54,7 +54,7 @@ public class Client implements Observer<Message> {
                     // Accept the message using Visitor Pattern
                     message.accept(new ServerMessageVisitor(clientView));
                 } catch (IOException | ClassNotFoundException e) {
-                    Client.LOGGER.severe("Error: " + e.getMessage()+ " Connection will be closed");
+                    Client.LOGGER.severe("Error: " + e.getMessage()+ ": Connection will be closed");
                     disconnect();
                     readExecutionQueue.shutdownNow();
                 }

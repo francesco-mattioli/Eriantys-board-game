@@ -35,7 +35,7 @@ public class Cli extends Observable<Message> implements ClientView{
     public static final String ANSI_YELLOW = "\u001B[33m";
     public static final String ANSI_BOLDYELLOW = "\u001B[1;33m";
     public static final String ANSI_PINK = "\u001B[35m";
-    private static final String commandForCharacterCard="--playCC";
+    public static final String commandForCharacterCard="--playCC";
 
 
     /**
@@ -174,12 +174,13 @@ public class Cli extends Observable<Message> implements ClientView{
 
 
     @Override
-    public void showGameInfo(ArrayList<CharacterCard> availableCharacterCards, ArrayList<Island> islands, Map<String, SchoolBoard> schoolBoards, ArrayList<CloudTile> cloudTiles, Island motherNaturePosition) {
+    public void showGameInfo(ArrayList<CharacterCard> availableCharacterCards, ArrayList<Island> islands, Map<String, SchoolBoard> schoolBoards, ArrayList<CloudTile> cloudTiles, Island motherNaturePosition, String[] professors) {
         clientModel.setAvailableCharacterCards(availableCharacterCards);
         clientModel.setIslands(islands);
         clientModel.setSchoolBoards(schoolBoards);
         clientModel.setCloudTiles(cloudTiles);
         clientModel.setMotherNaturePosition(motherNaturePosition);
+        clientModel.setProfessors(professors);
         out.println(clientModel.toString());
     }
 
@@ -225,9 +226,7 @@ public class Cli extends Observable<Message> implements ClientView{
             out.println(clientModel.getIslands());
             out.print("\n");
             out.print(clientModel.printOtherSchoolBoards());
-            SchoolBoard schoolBoard= clientModel.getSchoolBoards().get(clientModel.getUsername());
-            out.print("Your SchoolBoard:");
-            out.println(schoolBoard.toString());
+            out.println(clientModel.printYourSchoolBoard());
             out.println("To do so, type on each line [color of student, d (for dining room) ] or [color of student, island id]");
             out.println(ANSI_BOLDGREEN + "Please, enter data: " + ANSI_RESET);
             String input = readLine();
@@ -429,7 +428,7 @@ public class Cli extends Observable<Message> implements ClientView{
             try {
                 repeat++;
                 // choose the student to swap on entrance, then update fromEntrance array to send to Server
-                out.println(getClientModel().getMySchoolBoard().toString());
+                out.println(clientModel.printYourSchoolBoard());
                 out.print("Enter the "+ordinal(repeat) + ANSI_BLUE + " student from the entrance (press enter if you want to stop): " + ANSI_RESET);
                 String inputFromEntrance = readLine();
                 if(inputFromEntrance.equals("\n"))
@@ -451,7 +450,7 @@ public class Cli extends Observable<Message> implements ClientView{
     }
 
     public void askCharCard11(){
-        out.println(getClientModel().getMySchoolBoard().toString());
+        out.println(clientModel.printYourSchoolBoard());
         out.print(ANSI_BLUE + "Enter the color of the student you want to move into your dining room: " + ANSI_RESET);
         try {
             String input = readLine();
@@ -464,7 +463,7 @@ public class Cli extends Observable<Message> implements ClientView{
     }
 
     public void askCharCard12(){
-        out.println(getClientModel().getMySchoolBoard().toString());
+        out.println(clientModel.printYourSchoolBoard());
         out.println("Enter a color of student: every player (including yourself) must return 3 students of that color from their Dining Room to the bag.");
         out.println("If any player has fewer than 3 students of that color, return as many students as they have.");
         out.print(ANSI_BLUE + "Enter the color: " + ANSI_RESET);
