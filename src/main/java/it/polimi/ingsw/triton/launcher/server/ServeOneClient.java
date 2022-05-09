@@ -10,6 +10,7 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.net.SocketException;
+import java.net.SocketTimeoutException;
 import java.util.NoSuchElementException;
 
 import static it.polimi.ingsw.triton.launcher.server.Server.LOGGER;
@@ -35,13 +36,13 @@ public class  ServeOneClient implements Runnable {
             outSocket = new ObjectOutputStream(socketClient.getOutputStream());
             inSocket = new ObjectInputStream(socketClient.getInputStream());
         } catch (IOException e) {
-            e.printStackTrace();
+            LOGGER.severe("Cannot create input and output stream socket!");
         }
     }
 
     @Override
     public void run() {
-        handleConnection();
+        receiveMessage();
     }
 
     /**
@@ -50,7 +51,7 @@ public class  ServeOneClient implements Runnable {
      * Otherwise, it notifies the VirtualView that manages the message and interact with the Controller.
      * In this case, the Game has already been instantiated.
      */
-    public void handleConnection() {
+    public void receiveMessage() {
         try {
             while (isActive()) {
                 ClientMessage message = (ClientMessage)inSocket.readObject();
@@ -58,27 +59,25 @@ public class  ServeOneClient implements Runnable {
                     server.lobby(this, message.getSenderUsername());
                 }
                 else if (message instanceof PlayersNumberAndGameModeReply) {
-                    server.setGameMode(message.getSenderUsername(),((PlayersNumberAndGameModeReply) message).isExpertMode());
-                    server.activateGame(message.getSenderUsername(),((PlayersNumberAndGameModeReply) message).getPlayersNumber());
+                    server.activateGame(message.getSenderUsername(),((PlayersNumberAndGameModeReply) message).getPlayersNumber(),((PlayersNumberAndGameModeReply) message).isExpertMode());
                 }
                 else {
                     server.getController().getVirtualViewByUsername(message.getSenderUsername()).notify(message);
                 }
-                LOGGER.info("Received: " + message.getClass().getSimpleName());
+                LOGGER.info("Received: " + message.getClass().getSimpleName() +" at port: "+socket.getPort());
             }
-        }catch (SocketException e){
-            LOGGER.severe("Cannot receive message because connection with client dropped!");
+        }catch (SocketTimeoutException e){
+            LOGGER.severe("Cannot receive message at port "+socket.getPort()+" because connection with client dropped! Disconnecting players...");
             server.disconnectPlayers();
         } catch (IOException | NoSuchElementException | ClassNotFoundException e) {
-            System.err.println("Error! " + e.getMessage());
-            LOGGER.severe(e.getMessage());
+            LOGGER.severe(e.getMessage()+" error receiving a message at port: "+socket.getPort());
         } finally {
             close();
         }
     }
 
     /**
-     * This method is called by VirtualView to send messages to the Client.
+     * This method is called by VirtualView for sending messages to Client.
      *
      * @param message the message
      */
@@ -86,13 +85,17 @@ public class  ServeOneClient implements Runnable {
         try {
             outSocket.reset();
             outSocket.writeObject(message);
-            LOGGER.info("Sent: "+message.getClass().getSimpleName());
+            LOGGER.info("Sent: "+message.getClass().getSimpleName()+" at port: "+socket.getPort());
             outSocket.flush();
+        }catch(SocketTimeoutException e){
+            LOGGER.severe("Connection dropped due to timeout of socket at port: "+socket.getPort());
+            close();
         } catch (SocketException e) {
-            LOGGER.severe("Cannot send message "+message.getClass().getSimpleName()+" because connection with client dropped!");
+            LOGGER.severe("Cannot send message "+message.getClass().getSimpleName()+" at port: "+socket.getPort() +" because connection with client dropped!");
             close();
         } catch(IOException e){
-            e.printStackTrace();
+            LOGGER.severe("Connection dropped due to IOException at port: "+socket.getPort());
+            close();
         }
     }
 

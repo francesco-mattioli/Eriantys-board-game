@@ -1,5 +1,6 @@
 package it.polimi.ingsw.triton.launcher.server;
 
+import it.polimi.ingsw.triton.launcher.client.cli.Cli;
 import it.polimi.ingsw.triton.launcher.server.controller.Controller;
 import it.polimi.ingsw.triton.launcher.server.model.Game;
 import it.polimi.ingsw.triton.launcher.utils.message.ErrorTypeID;
@@ -33,19 +34,12 @@ public class Server {
     }
 
     public boolean isUsernameValid(String username) { // to add check server name if it is useful
-        return username.length() != 0 && !username.equals(" ");
+        return username.length() != 0 && !username.equals(" ") && !username.equals(Cli.commandForCharacterCard);
     }
 
     private boolean checkMaxNumPlayers(int num) {
         return (num == 2 || num == 3);
     }
-
-    public void setGameMode(String username, boolean expertMode){
-        this.expertMode=expertMode;
-        LOGGER.severe("Game mode was set");
-    }
-
-
 
     /**
      * This method is called when the first player decides the max number of players.
@@ -55,19 +49,23 @@ public class Server {
      * @param maxNumPlayers decided by the first player
      * @param username      of the first player
      */
-    public void activateGame(String username,int maxNumPlayers) {
+    public void activateGame(String username,int maxNumPlayers, boolean expertMode) {
         if (!checkMaxNumPlayers(maxNumPlayers)) {
             firstPlayerVirtualView.showErrorMessage(ErrorTypeID.WRONG_PLAYERS_NUMBER);
             firstPlayerVirtualView.askNumPlayersAndGameMode();
             LOGGER.severe("Not valid number of players");
         } else {
-            this.maxNumPlayers = maxNumPlayers; //BUG
+            this.maxNumPlayers = maxNumPlayers;
+            LOGGER.severe("Number of players was set");
+            this.expertMode=expertMode;
+            LOGGER.severe("Game mode was set");
             this.controller = new Controller(new Game(maxNumPlayers));
             controller.getVirtualViews().add(firstPlayerVirtualView);
             controller.getVirtualViewByUsername(username).addObserver(controller);
             controller.addGameObserver(controller.getVirtualViewByUsername(username));
             controller.addPlayer(username);
             numOfClients++;
+            // When the Game Mode and number of players were set, release the semaphore
             semaphore.release();
             LOGGER.info("The game was instanced for " + maxNumPlayers + " players");
             LOGGER.info("Clients connected: " + this.numOfClients);
@@ -92,7 +90,7 @@ public class Server {
             firstPlayerVirtualView.askNumPlayersAndGameMode();
             LOGGER.info("First player has logged. Waiting for game mode and number of players...");
         }
-        //in this case, the player can be added to the game. His virtualview cam be created and added to the ArrayList
+        //in this case, the player can be added to the game. His virtual view can be created and added to the ArrayList
         else if (numOfClients < maxNumPlayers && isUsernameValid(username)) {
             try {
                 controller.getVirtualViews().add(new VirtualView(serveOneClient, username));
@@ -140,6 +138,8 @@ public class Server {
             serverSocket = new ServerSocket(PORT);
             while (true) {
                 Socket connectionSocket = serverSocket.accept();
+                // After 1 minute (=60'000 secs) the connection with client is closed
+                connectionSocket.setSoTimeout(60000);
                 // The following thread will manage the socket that will be assigned to the Client
                 new Thread(new ServeOneClient(connectionSocket, this)).start();
             }

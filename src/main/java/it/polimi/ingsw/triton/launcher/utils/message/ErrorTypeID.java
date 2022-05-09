@@ -19,7 +19,8 @@ public enum ErrorTypeID {
     NO_STUDENT_WITH_COLOR_ENTRANCE("There aren't students with that color in your entrance!"),
     NO_ISLAND_WITH_THAT_ID("There aren't existing islands with that id!"),
     GENERIC_CLIENT_INPUT_ERROR("Client has entered a wrong input!"),
-    NOT_YOUR_TURN("It's not your turn, wait!");
+    NOT_YOUR_TURN("It's not your turn, wait!"),
+    CHARACTER_CARD_ALREADY_PLAYED("Cannot use a Character Card ability more than once per turn!");
 
     private final String description;
 

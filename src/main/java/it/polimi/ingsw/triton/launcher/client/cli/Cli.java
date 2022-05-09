@@ -35,7 +35,7 @@ public class Cli extends Observable<Message> implements ClientView{
     public static final String ANSI_YELLOW = "\u001B[33m";
     public static final String ANSI_BOLDYELLOW = "\u001B[1;33m";
     public static final String ANSI_PINK = "\u001B[35m";
-    private static final String commandForCharacterCard="--playCC";
+    public static final String commandForCharacterCard="--playCC";
 
 
     /**
@@ -508,15 +508,10 @@ public class Cli extends Observable<Message> implements ClientView{
         out.println(clientModel.getSchoolBoards().get(username).toString());
     }
 
-
-
-
     @Override
     public void showTieMessage() {
         out.println("You have tied");
     }
-
-
 
     @Override
     public void showWinMessage() {
@@ -527,21 +522,6 @@ public class Cli extends Observable<Message> implements ClientView{
     public void showLoseMessage(String winnerUsername) {
         out.println("You Lose! The winner is: " + winnerUsername);
     }
-
-
-
-
-    @Override
-    public void showYourTurnMessage() {
-
-    }
-
-    @Override
-    public void showAvailableCharacterCard() {
-
-    }
-
-
 
     @Override
     public void showGenericMessage(String genericMessage) {
