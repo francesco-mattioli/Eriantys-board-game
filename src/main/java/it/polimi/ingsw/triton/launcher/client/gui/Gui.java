@@ -20,6 +20,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
+import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -189,6 +190,12 @@ public class Gui extends Observable<Message> implements ClientView {
                 }
                 ((WizardSceneController)loader.getController()).setWizards(wizardsImages);
                 ((WizardSceneController)loader.getController()).getWizardImageView().setImage((Image) wizardsImages.keySet().toArray()[0]);
+                ((WizardSceneController)loader.getController()).getLeftSwitch().setFill(Color.GRAY);
+                ((WizardSceneController)loader.getController()).getLeftSwitch().setOpacity(0.5);
+                if(wizards.size() == 1) {
+                    ((WizardSceneController)loader.getController()).getRightSwitch().setFill(Color.GRAY);
+                    ((WizardSceneController)loader.getController()).getRightSwitch().setOpacity(0.5);
+                }
                 Scene scene = new Scene(root);
                 stage.setScene(scene) ;
                 stage.show();

@@ -45,6 +45,14 @@ public class WizardSceneController extends Observable<Message> {
         this.username = username;
     }
 
+    public Polygon getLeftSwitch() {
+        return leftSwitch;
+    }
+
+    public Polygon getRightSwitch() {
+        return rightSwitch;
+    }
+
     public ImageView getWizardImageView(){
         return wizardImageView;
     }
