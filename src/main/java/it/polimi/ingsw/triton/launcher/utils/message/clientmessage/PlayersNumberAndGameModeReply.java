@@ -10,17 +10,22 @@ import it.polimi.ingsw.triton.launcher.utils.exceptions.LastMoveException;
 
 import java.util.NoSuchElementException;
 
-public class PlayersNumberReply extends ClientMessage {
+public class PlayersNumberAndGameModeReply extends ClientMessage {
     private final int playersNumber;
+    private final boolean expertMode;
 
-
-    public PlayersNumberReply(String username, int playersNumber) {
+    public PlayersNumberAndGameModeReply(String username, int playersNumber, boolean expertMode) {
         super(username);
         this.playersNumber = playersNumber;
+        this.expertMode = expertMode;
     }
 
     public int getPlayersNumber() {
         return playersNumber;
+    }
+
+    public boolean isExpertMode(){
+        return expertMode;
     }
 
 

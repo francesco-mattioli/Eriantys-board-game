@@ -2,7 +2,6 @@ package it.polimi.ingsw.triton.launcher.client;
 
 import it.polimi.ingsw.triton.launcher.client.view.ClientView;
 import it.polimi.ingsw.triton.launcher.utils.message.ErrorTypeID;
-import it.polimi.ingsw.triton.launcher.utils.message.clientmessage.MoveStudentOntoIslandMessage;
 import it.polimi.ingsw.triton.launcher.utils.message.servermessage.ErrorMessage;
 import it.polimi.ingsw.triton.launcher.utils.message.servermessage.Requests.*;
 import it.polimi.ingsw.triton.launcher.utils.message.servermessage.ServerMessage;
@@ -28,12 +27,8 @@ public class ServerMessageVisitor {
         clientView.showGenericMessage("Username accepted");
     }
 
-    public void visit(GameModeRequest message) {
-        clientView.askGameMode();
-    }
-
-    public void visit(PlayersNumberRequest message) {
-        clientView.askNumOfPlayers();
+    public void visit(PlayersNumberAndGameModeRequest message) {
+        clientView.askNumPlayersAndGameMode();
     }
 
     public void visit(TowerColorRequest message) {
@@ -131,10 +126,6 @@ public class ServerMessageVisitor {
         clientView.getClientModel().setCloudTiles(message.getCloudTiles());
     }
 
-    public void visit(GameInfoMessage message) {
-        clientView.showGameInfo(message.getAvailableCharacterCards(), message.getIslands(), message.getSchoolBoards(), message.getCloudTiles(), message.getMotherNaturePosition());
-    }
-
     public void visit(MotherNatureRequest message) {
         clientView.askNumberStepsMotherNature();
     }
@@ -151,6 +142,15 @@ public class ServerMessageVisitor {
 
     public void visit(EmptyBagMessage message){
         clientView.showEmptyBagMessage();
+    }
+
+    public void visit(InfoCharacterCardPlayedMessage message){
+        clientView.getClientModel().setAvailableCharacterCard(message.getCharacterCard());
+        clientView.getClientModel().setIslands(message.getUpdatedIslands());
+        clientView.getClientModel().setSchoolBoards(message.getUpdatedSchoolBoards());
+        if(!clientView.getClientModel().getUsername().equals(message.getPlayerUsername()))
+            clientView.showGenericMessage(message.getChoiceDescription());
+        System.out.println(clientView.getClientModel().toString());
     }
 
     public void visit(CharacterCardParameterRequest message){
@@ -174,8 +174,8 @@ public class ServerMessageVisitor {
         }
     }
 
-    public void visit(DisconnectionMessage message){
-        clientView.showDisconnectionMessage();
+    public void visit(GameInfoMessage message) {
+        clientView.showGameInfo(message.getAvailableCharacterCards(), message.getIslands(), message.getSchoolBoards(), message.getCloudTiles(), message.getMotherNaturePosition());
     }
 
     public void visit(GenericMessage message) {
@@ -190,5 +190,10 @@ public class ServerMessageVisitor {
         else
             clientView.showErrorMessage(message.getErrorTypeID());
     }
+
+    public void visit(DisconnectionMessage message){
+        clientView.showDisconnectionMessage();
+    }
+
 
 }

@@ -73,6 +73,12 @@ public class ClientModel extends Observable<Object> {
         this.availableCharacterCards = availableCharacterCards;
     }
 
+    public void setAvailableCharacterCard(CharacterCard newCharacterCard) {
+        CharacterCard characterCardToUpdate = getCharacterCardById(newCharacterCard.getId());
+        availableCharacterCards.set(availableCharacterCards.indexOf(characterCardToUpdate),newCharacterCard);
+    }
+
+
     public CharacterCard getCharacterCardById(int id){
         for(CharacterCard characterCard: availableCharacterCards){
             if(characterCard.getId() == id)
@@ -103,13 +109,16 @@ public class ClientModel extends Observable<Object> {
         }
     }
 
-
     public Map<String, SchoolBoard> getSchoolBoards() {
         return schoolBoards;
     }
 
     public void setSchoolBoards(Map<String, SchoolBoard> schoolBoards) {
         this.schoolBoards = schoolBoards;
+    }
+
+    public SchoolBoard getMySchoolBoard(){
+        return schoolBoards.get(this.username);
     }
 
     public void setSchoolBoard(String username, SchoolBoard schoolBoard) {

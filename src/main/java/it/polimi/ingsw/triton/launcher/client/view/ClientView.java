@@ -32,9 +32,6 @@ public interface ClientView extends View {
     void showMoveTowerOntoSchoolBoard(String username,SchoolBoard schoolBoard);
     void showWinMessage();
     void showLoseMessage(String winnerUsername);
-
-
     void showTieMessage();
-    void showYourTurnMessage();
-    void showAvailableCharacterCard();
+
 }

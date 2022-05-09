@@ -29,12 +29,8 @@ public class VirtualView extends Observable<ClientMessage> implements View, Obse
         message.accept(new InfoMessageVisitor(serveOneClient, username));
     }
 
-    public void askGameMode(){
-        serveOneClient.sendMessage(new GameModeRequest());
-    }
-
-    public void askNumOfPlayers(){
-        serveOneClient.sendMessage(new PlayersNumberRequest());
+    public void askNumPlayersAndGameMode(){
+        serveOneClient.sendMessage(new PlayersNumberAndGameModeRequest());
     }
 
     public void showErrorMessage(ErrorTypeID errorTypeID){
