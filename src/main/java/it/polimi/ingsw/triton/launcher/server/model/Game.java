@@ -623,7 +623,7 @@ public class Game extends Observable<InfoMessage> {
      */
     public void applyCharacterCardEffect(int characterCardID, CardEffect cardEffect) throws IllegalClientInputException, EndGameException {
         getCharacterCardByID(characterCardID).executeEffect(cardEffect);
-        notify(new InfoCharacterCardPlayedMessage(currentPlayer.getUsername(), getCharacterCardByID(characterCardID)));
+        notify(new InfoCharacterCardPlayedMessage(currentPlayer.getUsername(), getCharacterCardByID(characterCardID), islands, getAllSchoolBoards()));
     }
 
     /**

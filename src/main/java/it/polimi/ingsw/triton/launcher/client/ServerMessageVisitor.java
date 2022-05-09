@@ -150,9 +150,12 @@ public class ServerMessageVisitor {
     }
 
     public void visit(InfoCharacterCardPlayedMessage message){
-        if(clientView.getClientModel().getUsername().equals(message.getPlayerUsername()))
-            clientView.showGenericMessage(message.getChoiceDescription());
         clientView.getClientModel().setAvailableCharacterCard(message.getCharacterCard());
+        clientView.getClientModel().setIslands(message.getUpdatedIslands());
+        clientView.getClientModel().setSchoolBoards(message.getUpdatedSchoolBoards());
+        if(!clientView.getClientModel().getUsername().equals(message.getPlayerUsername()))
+            clientView.showGenericMessage(message.getChoiceDescription());
+        System.out.println(clientView.getClientModel().toString());
     }
 
     public void visit(CharacterCardParameterRequest message){

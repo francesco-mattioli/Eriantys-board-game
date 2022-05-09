@@ -218,7 +218,7 @@ public class Cli extends Observable<Message> implements ClientView{
     public void askMoveStudentFromEntrance() {
         try {
             out.println(ANSI_GREEN + "Choose three students to move from entrance to dining room or an island");
-            out.print("Islands:\n");
+            out.print("Islands:\n" + ANSI_RESET);
             out.println(clientModel.getIslands());
             out.print("\n");
             out.print(clientModel.printOtherSchoolBoards());
@@ -321,7 +321,7 @@ public class Cli extends Observable<Message> implements ClientView{
         try {
             String input = readLine();
             Color studentToMove = Color.valueOf(input.toUpperCase());
-            out.print("Choose the id of the island: ");
+            out.print(ANSI_BLUE + "Choose the id of the island: " + ANSI_RESET);
             input = readLine();
             notify(new CharacterCard01Reply(clientModel.getUsername(), studentToMove, Integer.parseInt(input)));
         } catch (ExecutionException e) {
@@ -471,7 +471,7 @@ public class Cli extends Observable<Message> implements ClientView{
 
     @Override
     public void showErrorMessage(ErrorTypeID errorTypeID) {
-        out.println(errorTypeID.getDescription());
+        out.println(ANSI_RED + errorTypeID.getDescription() + ANSI_RESET);
         if(errorTypeID == ErrorTypeID.FULL_LOBBY)
             System.exit(1);
     }
