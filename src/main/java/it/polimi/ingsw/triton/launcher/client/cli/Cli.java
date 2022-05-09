@@ -372,7 +372,7 @@ public class Cli extends Observable<Message> implements ClientView{
                 // choose the student to swap on card, then update fromCard array to send to Server
                 out.print(ANSI_BLUE + "Enter the "+ordinal(repeat) + " student from this card (press enter if you want to stop): " + ANSI_RESET);
                 String inputFromCard = readLine();
-                if(inputFromCard.isEmpty()) //to test
+                if(inputFromCard.isEmpty())
                     break;
                 Color color = Color.valueOf(inputFromCard.toUpperCase());
                 fromCard[color.ordinal()]++;
@@ -435,7 +435,7 @@ public class Cli extends Observable<Message> implements ClientView{
                 out.println(clientModel.printYourSchoolBoard());
                 out.print("Enter the "+ordinal(repeat) + ANSI_BLUE + " student from the entrance (press enter if you want to stop): " + ANSI_RESET);
                 String inputFromEntrance = readLine();
-                if(inputFromEntrance.equals("\n"))
+                if(inputFromEntrance.isEmpty())
                     break;
                 Color color = Color.valueOf(inputFromEntrance.toUpperCase());
                 fromEntrance[color.ordinal()]++;

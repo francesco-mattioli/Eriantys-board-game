@@ -649,7 +649,7 @@ public class Game extends Observable<InfoMessage> {
         int id;
         while(characterCards.size() < 3){
             randomNumber = new Random();
-            id = randomNumber.nextInt(12);
+            id = randomNumber.nextInt(12) + 1;
             if(!idAlreadyChosen.contains(id)){
                 characterCards.add(new CharacterCard(id, 1, 0, this.bag));
                 idAlreadyChosen.add(id);
