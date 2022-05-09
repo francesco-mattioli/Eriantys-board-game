@@ -11,9 +11,11 @@ import it.polimi.ingsw.triton.launcher.utils.message.servermessage.InfoMessage;
 public class InfoCharacterCardPlayedMessage extends InfoMessage {
     private final String playerUsername;
     private final CharacterCard characterCard;
+    private final String choiceDescription;
     public InfoCharacterCardPlayedMessage(String playerUsername, CharacterCard characterCard) {
         this.playerUsername = playerUsername;
         this.characterCard = characterCard;
+        this.choiceDescription = playerUsername + " has played the character card " + characterCard.getId();
     }
 
     public String getPlayerUsername() {
@@ -26,6 +28,10 @@ public class InfoCharacterCardPlayedMessage extends InfoMessage {
 
     @Override
     public void accept(ServerMessageVisitor messageVisitor) {
+        messageVisitor.visit(this);
+    }
 
+    public String getChoiceDescription() {
+        return choiceDescription;
     }
 }

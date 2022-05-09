@@ -157,6 +157,13 @@ public class ServerMessageVisitor {
         clientView.askCharacterCardParameters(message.getCharacterCardID());
     }
 
+    public void visit(InfoCharacterCardPlayedMessage message){
+        clientView.getClientModel().getAvailableCharacterCards().remove(clientView.getClientModel().getCharacterCardById(message.getCharacterCard().getId()));
+        clientView.getClientModel().getAvailableCharacterCards().add(message.getCharacterCard());
+        if(!clientView.getClientModel().getUsername().equals(message.getPlayerUsername()))
+                clientView.showGenericMessage(message.getChoiceDescription());
+    }
+
     public void visit(WinMessage message){
         if(clientView.getClientModel().getUsername().equals(message.getReceiverUsername()))
             clientView.showWinMessage();
