@@ -17,7 +17,6 @@ import it.polimi.ingsw.triton.launcher.utils.message.Message;
 import it.polimi.ingsw.triton.launcher.utils.obs.Observable;
 import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
@@ -72,49 +71,8 @@ public class Gui extends Observable<Message> implements ClientView {
         });
     }
 
-    @Override
-    public void askNumOfPlayers() {
-        Platform.runLater(() -> {
-            Stage stage = new Stage();
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/numOfPlayers-scene.fxml"));
-            Parent root = null;
-            try {
-                root = loader.load();
-                ((NumOfPlayersSceneController)loader.getController()).addObserver(client);
-                ((NumOfPlayersSceneController)loader.getController()).setUsername(clientModel.getUsername());
-                Scene scene = new Scene(root);
-                stage.setScene(scene) ;
-                stage.show();
-                if (activeStage != null)
-                    activeStage.close();
-                activeStage = stage;
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        });
-    }
 
-    @Override
-    public void askGameMode() {
-        Platform.runLater(() -> {
-            Stage stage = new Stage();
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/gameMode-scene.fxml"));
-            Parent root = null;
-            try {
-                root = loader.load();
-                ((GameModeSceneController)loader.getController()).addObserver(client);
-                ((GameModeSceneController)loader.getController()).setUsername(clientModel.getUsername());
-                Scene scene = new Scene(root);
-                stage.setScene(scene) ;
-                stage.show();
-                if (activeStage != null)
-                    activeStage.close();
-                activeStage = stage;
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        });
-    }
+
 
     @Override
     public void showGenericMessage(String genericMessage) {
@@ -163,11 +121,36 @@ public class Gui extends Observable<Message> implements ClientView {
                 root = loader.load();
                 ((TowerColorSceneController)loader.getController()).addObserver(client);
                 ((TowerColorSceneController)loader.getController()).setUsername(clientModel.getUsername());
+                Map<String, TowerColor> towerColorMap = new HashMap<>();
                 for (int i = 0; i < towerColorChosen.length; i++){
-                    if (towerColorChosen[i]){
-                        ((TowerColorSceneController)loader.getController()).getCmbTowerColor().getItems().add(TowerColor.values()[i]);
+                    if (!towerColorChosen[i]){
+                        towerColorMap.put(TowerColor.values()[i].name(), TowerColor.values()[i]);
                     }
                 }
+                ((TowerColorSceneController)loader.getController()).setTowerColorMap(towerColorMap);
+                ((TowerColorSceneController)loader.getController()).getTowerColorChoice().getItems().addAll(towerColorMap.keySet());
+                Scene scene = new Scene(root);
+                stage.setScene(scene) ;
+                stage.show();
+                if (activeStage != null)
+                    activeStage.close();
+                activeStage = stage;
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        });
+    }
+
+    @Override
+    public void askNumPlayersAndGameMode() {
+        Platform.runLater(() -> {
+            Stage stage = new Stage();
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/gameModeAndNumOfPlayers-scene.fxml"));
+            Parent root = null;
+            try {
+                root = loader.load();
+                ((GameModeAndNumOfPlayersSceneController)loader.getController()).addObserver(client);
+                ((GameModeAndNumOfPlayersSceneController)loader.getController()).setUsername(clientModel.getUsername());
                 Scene scene = new Scene(root);
                 stage.setScene(scene) ;
                 stage.show();
@@ -181,7 +164,6 @@ public class Gui extends Observable<Message> implements ClientView {
     }
 
 
-
     @Override
     public void askWizard(ArrayList<Wizard> wizards) {
         Platform.runLater(() -> {
@@ -193,15 +175,16 @@ public class Gui extends Observable<Message> implements ClientView {
                 ((WizardSceneController)loader.getController()).addObserver(client);
                 ((WizardSceneController)loader.getController()).setUsername(clientModel.getUsername());
                 Map<Image,Wizard> wizardsImages = new HashMap<>();
+                String currentPath = new java.io.File("src/main/resources/Images/Wizards").getAbsolutePath().replace('\\','/');
                 for (Wizard wizard: wizards) {
                     if (wizard.equals(Wizard.YELLOW))
-                        wizardsImages.put(new Image(getClass().getResourceAsStream("/Images/Wizards/Yellow-Wizard")),wizard);
+                        wizardsImages.put(new Image("file:" + currentPath + "/Yellow-Wizard.png"),wizard);
                     if (wizard.equals(Wizard.GREEN))
-                        wizardsImages.put(new Image(getClass().getResourceAsStream("/Images/Wizards/Green-Wizard")),wizard);
+                        wizardsImages.put(new Image("file:" + currentPath + "/Green-Wizard.png"),wizard);
                     if (wizard.equals(Wizard.BLUE))
-                        wizardsImages.put(new Image(getClass().getResourceAsStream("/Images/Wizards/Blue-Wizard")),wizard);
+                        wizardsImages.put(new Image("file:" + currentPath + "/Blue-Wizard.png"),wizard);
                     if (wizard.equals(Wizard.PURPLE))
-                        wizardsImages.put(new Image(getClass().getResourceAsStream("/Images/Wizards/Purple-Wizard")),wizard);
+                        wizardsImages.put(new Image("file:" + currentPath + "/Purple-Wizard.png"),wizard);
                 }
                 ((WizardSceneController)loader.getController()).setWizards(wizardsImages);
                 ((WizardSceneController)loader.getController()).getWizardImageView().setImage((Image) wizardsImages.keySet().toArray()[0]);
@@ -280,13 +263,6 @@ public class Gui extends Observable<Message> implements ClientView {
 
     }
 
-    @Override
-    public void showYourTurnMessage() {
 
-    }
 
-    @Override
-    public void showAvailableCharacterCard() {
-
-    }
 }

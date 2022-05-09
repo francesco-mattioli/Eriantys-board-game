@@ -52,6 +52,7 @@ public class WizardSceneController extends Observable<Message> {
     public void select(ActionEvent event){
         Wizard selectedWizard = wizards.get(wizardImageView.getImage());
         notify(new WizardReply(username, selectedWizard));
+        selectButton.setDisable(true);
     }
 
     public void switchLeft(MouseEvent event){

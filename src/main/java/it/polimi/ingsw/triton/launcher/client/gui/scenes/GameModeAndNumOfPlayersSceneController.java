@@ -1,8 +1,7 @@
 package it.polimi.ingsw.triton.launcher.client.gui.scenes;
 
 import it.polimi.ingsw.triton.launcher.utils.message.Message;
-import it.polimi.ingsw.triton.launcher.utils.message.clientmessage.GameModeReply;
-import it.polimi.ingsw.triton.launcher.utils.message.clientmessage.PlayersNumberReply;
+import it.polimi.ingsw.triton.launcher.utils.message.clientmessage.PlayersNumberAndGameModeReply;
 import it.polimi.ingsw.triton.launcher.utils.obs.Observable;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -13,7 +12,7 @@ import javafx.scene.layout.AnchorPane;
 
 import java.io.IOException;
 
-public class GameModeSceneController extends Observable<Message> {
+public class GameModeAndNumOfPlayersSceneController extends Observable<Message> {
     @FXML
     Button confirmButton;
 
@@ -27,7 +26,16 @@ public class GameModeSceneController extends Observable<Message> {
     RadioButton rdbExpert;
 
     @FXML
+    RadioButton rdb2Players;
+
+    @FXML
+    RadioButton rdb3Players;
+
+    @FXML
     ToggleGroup modeGroup;
+
+    @FXML
+    ToggleGroup numOfPlayersGroup;
 
     private String username;
 
@@ -36,6 +44,10 @@ public class GameModeSceneController extends Observable<Message> {
     }
 
     public void confirm(ActionEvent event) throws IOException {
-        notify(new GameModeReply(username, rdbExpert.isSelected()));
+        int numOfPlayers = 2;
+        if (rdb3Players.isSelected())
+            numOfPlayers = 3;
+        notify(new PlayersNumberAndGameModeReply(username, numOfPlayers,rdbExpert.isSelected()));
+        confirmButton.setDisable(true);
     }
 }

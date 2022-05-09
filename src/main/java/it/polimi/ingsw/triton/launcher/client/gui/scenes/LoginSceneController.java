@@ -35,5 +35,6 @@ public class LoginSceneController extends Observable<Message> {
     public void login(ActionEvent event) throws IOException {
         String username = loginTextField.getText();
         notify(new LoginRequest(username));
+        loginButton.setDisable(true);
     }
 }
