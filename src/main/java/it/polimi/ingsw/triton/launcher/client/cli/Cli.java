@@ -11,6 +11,7 @@ import it.polimi.ingsw.triton.launcher.server.model.player.SchoolBoard;
 import it.polimi.ingsw.triton.launcher.utils.message.ErrorTypeID;
 import it.polimi.ingsw.triton.launcher.utils.message.clientmessage.*;
 import it.polimi.ingsw.triton.launcher.utils.message.clientmessage.characterCardReply.*;
+import it.polimi.ingsw.triton.launcher.utils.message.servermessage.Requests.PlayersNumberAndGameModeRequest;
 import it.polimi.ingsw.triton.launcher.utils.obs.Observable;
 import it.polimi.ingsw.triton.launcher.client.Client;
 import it.polimi.ingsw.triton.launcher.utils.message.Message;
@@ -85,37 +86,39 @@ public class Cli extends Observable<Message> implements ClientView{
         // to implement when we redo lobby and decouple info message between server and game
     }
 
-    public void askGameMode() {
+    public boolean askGameMode() {
         String input="";
-        do{
-            try {
+        try{
+            do{
                 out.print("You are the first player\n" + ANSI_BOLDGREEN + "Please, select a game mode [N for normal mode, E for expert mode]: " + ANSI_RESET);
                 input = readLine();
-            } catch (ExecutionException e) {
-                out.println("You should type N or E. Try again...");
-            }
-
-        }while(!(input.equalsIgnoreCase("E") || input.equalsIgnoreCase("N")));
+            }while(!(input.equalsIgnoreCase("E") || input.equalsIgnoreCase("N")));
+        } catch (ExecutionException e){
+            out.println("You should type N or E. Try again...");
+            askGameMode();
+        }
         // if input is E, expertMode is true
-        boolean expertMode= input.equalsIgnoreCase("E");
-        notify(new GameModeReply(clientModel.getUsername(), expertMode));
+        return input.equalsIgnoreCase("E");
     }
 
-
-
-    @Override
-    public void askNumOfPlayers() {
+    public int askNumOfPlayers() {
+        int numPlayers = 2;
         try {
                 out.print(ANSI_BOLDGREEN + "Enter number of players [2 or 3]: " + ANSI_RESET);
                 String input = readLine();
-                int numOfPlayers = Integer.parseInt(input);
-                notify(new PlayersNumberReply(clientModel.getUsername(), numOfPlayers));
-        } catch (ExecutionException e) {
-            out.println(TRY_AGAIN);
-        }catch(NumberFormatException e){
+                numPlayers = Integer.parseInt(input);
+        } catch(ExecutionException | NumberFormatException e){
             out.println(TRY_AGAIN);
             askNumOfPlayers();
         }
+        return numPlayers;
+    }
+
+    @Override
+    public void askNumPlayersAndGameMode(){
+        boolean expertMode = askGameMode();
+        int numOfPlayers = askNumOfPlayers();
+        notify(new PlayersNumberAndGameModeReply(clientModel.getUsername(), numOfPlayers, expertMode));
     }
 
     public void showLobbyMessage(ArrayList<String> onlineNicknames, int maxNumberPlayers ) {

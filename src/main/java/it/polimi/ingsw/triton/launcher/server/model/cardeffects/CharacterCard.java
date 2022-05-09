@@ -110,7 +110,7 @@ public class CharacterCard implements Serializable {
     }
 
     public String toString(){
-        if (id == 1 || id == 6 || id == 11){
+        if (id == 1 || id == 7 || id == 11){
             return "\n\tCharacterCard " + id + ": { Cost: " + cost + ", Students=" + Utility.printColoredStudents(students) + " }";
         }
         if (id == 5){

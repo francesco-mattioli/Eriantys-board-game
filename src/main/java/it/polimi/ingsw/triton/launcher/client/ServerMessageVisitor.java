@@ -2,7 +2,6 @@ package it.polimi.ingsw.triton.launcher.client;
 
 import it.polimi.ingsw.triton.launcher.client.view.ClientView;
 import it.polimi.ingsw.triton.launcher.utils.message.ErrorTypeID;
-import it.polimi.ingsw.triton.launcher.utils.message.clientmessage.MoveStudentOntoIslandMessage;
 import it.polimi.ingsw.triton.launcher.utils.message.servermessage.ErrorMessage;
 import it.polimi.ingsw.triton.launcher.utils.message.servermessage.Requests.*;
 import it.polimi.ingsw.triton.launcher.utils.message.servermessage.ServerMessage;
@@ -28,12 +27,8 @@ public class ServerMessageVisitor {
         clientView.showGenericMessage("Username accepted");
     }
 
-    public void visit(GameModeRequest message) {
-        clientView.askGameMode();
-    }
-
-    public void visit(PlayersNumberRequest message) {
-        clientView.askNumOfPlayers();
+    public void visit(PlayersNumberAndGameModeRequest message) {
+        clientView.askNumPlayersAndGameMode();
     }
 
     public void visit(TowerColorRequest message) {

@@ -21,6 +21,7 @@ public class CardEffect03 implements CardEffect, Serializable {
     public CardEffect03(Island island, ArrayList<Player> players,Player[] professors){
         this.island = island;
         this.players = players;
+        this.professors = professors;
     }
 
     /**
