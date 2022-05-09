@@ -58,7 +58,7 @@ public class Server {
     public void activateGame(String username,int maxNumPlayers) {
         if (!checkMaxNumPlayers(maxNumPlayers)) {
             firstPlayerVirtualView.showErrorMessage(ErrorTypeID.WRONG_PLAYERS_NUMBER);
-            firstPlayerVirtualView.askNumOfPlayers();
+            firstPlayerVirtualView.askNumPlayersAndGameMode();
             LOGGER.severe("Not valid number of players");
         } else {
             this.maxNumPlayers = maxNumPlayers; //BUG
@@ -89,9 +89,7 @@ public class Server {
         if (numOfClients == 0 && isUsernameValid(username)) {
             firstPlayerVirtualView=new VirtualView(serveOneClient, username);
             firstPlayerVirtualView.showLoginReply();
-            // THATS A PROBLEM!! TO SOLVE !!!!!!!!!!!!!!!!!!!!!!
-            firstPlayerVirtualView.askGameMode();
-            firstPlayerVirtualView.askNumOfPlayers();
+            firstPlayerVirtualView.askNumPlayersAndGameMode();
             LOGGER.info("First player has logged. Waiting for game mode and number of players...");
         }
         //in this case, the player can be added to the game. His virtualview cam be created and added to the ArrayList

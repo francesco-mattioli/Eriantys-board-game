@@ -2,9 +2,8 @@ package it.polimi.ingsw.triton.launcher.server;
 
 import it.polimi.ingsw.triton.launcher.utils.message.Message;
 import it.polimi.ingsw.triton.launcher.utils.message.clientmessage.ClientMessage;
-import it.polimi.ingsw.triton.launcher.utils.message.clientmessage.GameModeReply;
 import it.polimi.ingsw.triton.launcher.utils.message.clientmessage.LoginRequest;
-import it.polimi.ingsw.triton.launcher.utils.message.clientmessage.PlayersNumberReply;
+import it.polimi.ingsw.triton.launcher.utils.message.clientmessage.PlayersNumberAndGameModeReply;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -46,7 +45,7 @@ public class  ServeOneClient implements Runnable {
     }
 
     /**
-     * If the message is LoginRequest, GameModeReply or PlayersNumberReply, it is handled as a particular message.
+     * If the message is LoginRequest, GameModeReply or PlayersNumberAndGameModeReply, it is handled as a particular message.
      * This is because the Game has not been instantiated yet.
      * Otherwise, it notifies the VirtualView that manages the message and interact with the Controller.
      * In this case, the Game has already been instantiated.
@@ -58,11 +57,9 @@ public class  ServeOneClient implements Runnable {
                 if (message instanceof LoginRequest) {
                     server.lobby(this, message.getSenderUsername());
                 }
-                else if (message instanceof GameModeReply) {
-                    server.setGameMode(message.getSenderUsername(),((GameModeReply) message).isExpertMode());
-                }
-                else if (message instanceof PlayersNumberReply) {
-                    server.activateGame(message.getSenderUsername(),((PlayersNumberReply) message).getPlayersNumber());
+                else if (message instanceof PlayersNumberAndGameModeReply) {
+                    server.setGameMode(message.getSenderUsername(),((PlayersNumberAndGameModeReply) message).isExpertMode());
+                    server.activateGame(message.getSenderUsername(),((PlayersNumberAndGameModeReply) message).getPlayersNumber());
                 }
                 else {
                     server.getController().getVirtualViewByUsername(message.getSenderUsername()).notify(message);
