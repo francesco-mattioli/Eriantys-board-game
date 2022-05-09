@@ -8,8 +8,8 @@ import it.polimi.ingsw.triton.launcher.utils.message.servermessage.InfoMessage;
  * This message communicates to the players that an island has a new dominator.
  */
 public class ChangeInfluenceMessage extends InfoMessage {
-    private Island islandWithNewInfluence;
-    private String usernameDominator;
+    private final Island islandWithNewInfluence;
+    private final String usernameDominator;
 
     public ChangeInfluenceMessage(Island islandWithNewInfluence, String usernameDominator) {
         this.islandWithNewInfluence = islandWithNewInfluence;

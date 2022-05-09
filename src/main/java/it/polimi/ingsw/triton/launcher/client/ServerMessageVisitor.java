@@ -101,7 +101,11 @@ public class ServerMessageVisitor {
 
     public void visit(ChangeInfluenceMessage message){
         clientView.getClientModel().setIsland(message.getIslandWithNewInfluence());
-        clientView.showGenericMessage("The island " + message.getIslandWithNewInfluence().getId() + "has a new dominator. " + "The new dominator is: " + message.getUsernameDominator());
+        clientView.getClientModel().setMotherNaturePosition(message.getIslandWithNewInfluence());
+        if(message.getUsernameDominator().equals(clientView.getClientModel().getUsername()))
+            clientView.showGenericMessage("You are the new dominator of the island " + message.getIslandWithNewInfluence().getId());
+        else
+            clientView.showGenericMessage("The island " + message.getIslandWithNewInfluence().getId() + " has a new dominator. " + "The new dominator is: " + message.getUsernameDominator());
     }
 
     public void visit(MergeIslandsMessage message){
@@ -133,6 +137,7 @@ public class ServerMessageVisitor {
 
     public void visit(MoveTowerOntoIslandMessage message){
         clientView.getClientModel().setIsland(message.getIsland());
+        clientView.getClientModel().setSchoolBoard(message.getDominatorUsername(), message.getSchoolBoardDominator());
         clientView.showMoveTowerOntoIsland(message.getIsland().getId());
     }
 

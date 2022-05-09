@@ -51,6 +51,7 @@ public class Game extends Observable<InfoMessage> {
 
     public Game(int maxNumberOfPlayers) {
         this.islands = new ArrayList<>();
+        createIslands();
         this.maxNumberOfPlayers = maxNumberOfPlayers;
         this.bag = new Bag(maxNumberOfPlayers);
         this.players = new ArrayList<>();
@@ -161,14 +162,14 @@ public class Game extends Observable<InfoMessage> {
      * When last wizard has been chosen, we call setup method and order randomly the player arraylist
      * @param current the current player.
      * @throws ChangeTurnException if there's not another player that has to play in the current phase.
-     */
-    public void setNextPlayer(Player current) throws ChangeTurnException{
-        int indexOfCurrentPlayer = players.indexOf(current);
-        if(indexOfCurrentPlayer < players.size()-1){
-            currentPlayer = players.get(indexOfCurrentPlayer+1);
-        }
-        else if(Wizard.values().length - availableWizards.size() == maxNumberOfPlayers) {
-            setup();    //setup method sorts random the player arrayList
+                    */
+            public void setNextPlayer(Player current) throws ChangeTurnException{
+                int indexOfCurrentPlayer = players.indexOf(current);
+                if(indexOfCurrentPlayer < players.size()-1){
+                    currentPlayer = players.get(indexOfCurrentPlayer+1);
+                }
+                else if(Wizard.values().length - availableWizards.size() == maxNumberOfPlayers) {
+                    setup();    //setup method sorts random the player arrayList
             availableWizards.clear();
             gameState = GameState.PLANNING_PHASE;
             //notify(new ChangePhaseMessage(gameState));
@@ -197,7 +198,6 @@ public class Game extends Observable<InfoMessage> {
      * This method executes the SETUP phase of the game.
      */
     public void setup() {
-        createIslands(); //PHASE 1
         setupMotherNature(); //PHASE 2
         setupBag(); //PART 1 OF PHASE 3
         setupIslands(); //PART 2 OF PHASE 3

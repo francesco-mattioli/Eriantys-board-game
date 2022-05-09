@@ -7,7 +7,7 @@ import it.polimi.ingsw.triton.launcher.server.model.influencestrategy.InfluenceS
 import it.polimi.ingsw.triton.launcher.server.model.influencestrategy.InfluenceStrategyDefault;
 import it.polimi.ingsw.triton.launcher.server.model.player.Player;
 import it.polimi.ingsw.triton.launcher.utils.exceptions.EndGameException;
-import it.polimi.ingsw.triton.launcher.utils.message.Message;
+import it.polimi.ingsw.triton.launcher.utils.message.servermessage.InfoMessage;
 import it.polimi.ingsw.triton.launcher.utils.message.servermessage.infoMessage.ChangeInfluenceMessage;
 import it.polimi.ingsw.triton.launcher.utils.message.servermessage.infoMessage.MoveTowerOntoIslandMessage;
 import it.polimi.ingsw.triton.launcher.utils.message.servermessage.infoMessage.MoveTowerOntoSchoolBoardMessage;
@@ -16,8 +16,9 @@ import it.polimi.ingsw.triton.launcher.utils.obs.Observable;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.logging.Logger;
 
-public class Island extends Observable<Message> implements Serializable {
+public class Island extends Observable<InfoMessage> implements Serializable {
 
     private final int id;
     private int dim;
@@ -118,13 +119,15 @@ public class Island extends Observable<Message> implements Serializable {
     public void towerInfluence(Player newDominator, Player [] professors)  throws EndGameException {
         if (dominator != null && dominator != newDominator) {
             dominator.getSchoolBoard().moveTowerOntoSchoolBoard(dim);
+            dominator = newDominator;
             notify(new MoveTowerOntoSchoolBoardMessage(dominator.getUsername(), dominator.getSchoolBoard(), Arrays.stream(professors).map(p-> p.getUsername()).toArray(String[]::new)));
         }
         if (newDominator != null && dominator != newDominator) {
             newDominator.getSchoolBoard().moveTowerOntoIsland(dim);
-            notify(new MoveTowerOntoIslandMessage(this));
+            dominator = newDominator;
+            notify(new MoveTowerOntoIslandMessage(this, newDominator.getUsername(), newDominator.getSchoolBoard()));
         }
-        dominator = newDominator;
+        //dominator = newDominator;
     }
 
     /**
@@ -163,6 +166,13 @@ public class Island extends Observable<Message> implements Serializable {
         return dominator;
     }
 
+    public String getDominatorEvenIfNull(){
+        if(dominator == null)
+            return "/";
+        else
+            return dominator.getUsername();
+    }
+
     public void setDim(int dim) {
         this.dim = dim;
     }
@@ -174,7 +184,7 @@ public class Island extends Observable<Message> implements Serializable {
     public String toString(){
         return "\n\t{id: " + id +"," +
                 "dimension: " + dim + "," +
-                "dominator: " + dominator + "," +
+                "dominator: " + getDominatorEvenIfNull() + "," +
                 "students=" + Utility.printColoredStudents(students) + "," +
                 "number no entry tiles: " + noEntryTiles + "}";
     }

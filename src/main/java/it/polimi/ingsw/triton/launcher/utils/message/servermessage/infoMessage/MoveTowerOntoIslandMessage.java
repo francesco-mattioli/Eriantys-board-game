@@ -3,6 +3,7 @@ package it.polimi.ingsw.triton.launcher.utils.message.servermessage.infoMessage;
 
 import it.polimi.ingsw.triton.launcher.client.ServerMessageVisitor;
 import it.polimi.ingsw.triton.launcher.server.model.Island;
+import it.polimi.ingsw.triton.launcher.server.model.player.SchoolBoard;
 import it.polimi.ingsw.triton.launcher.utils.message.servermessage.InfoMessage;
 
 /**
@@ -10,8 +11,12 @@ import it.polimi.ingsw.triton.launcher.utils.message.servermessage.InfoMessage;
  */
 public class MoveTowerOntoIslandMessage extends InfoMessage {
     private final Island island;
-    public MoveTowerOntoIslandMessage(Island island) {
+    private final String dominatorUsername;
+    private final SchoolBoard schoolBoardDominator;
+    public MoveTowerOntoIslandMessage(Island island, String dominatorUsername, SchoolBoard schoolBoardDominator) {
         this.island = island;
+        this.dominatorUsername = dominatorUsername;
+        this.schoolBoardDominator = schoolBoardDominator;
     }
 
     public Island getIsland() {
@@ -21,5 +26,13 @@ public class MoveTowerOntoIslandMessage extends InfoMessage {
     @Override
     public void accept(ServerMessageVisitor serverMessageVisitor) {
         serverMessageVisitor.visit(this);
+    }
+
+    public String getDominatorUsername() {
+        return dominatorUsername;
+    }
+
+    public SchoolBoard getSchoolBoardDominator() {
+        return schoolBoardDominator;
     }
 }

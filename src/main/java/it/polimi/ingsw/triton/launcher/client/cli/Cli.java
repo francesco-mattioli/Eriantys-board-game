@@ -26,6 +26,7 @@ import java.util.concurrent.FutureTask;
 public class Cli extends Observable<Message> implements ClientView{
     private final PrintStream out;
     private ClientModel clientModel;
+    Thread inputReadThread;
     private static final String TRY_AGAIN = "Try again...";
     public static final String ANSI_RESET = "\u001B[0m";
     public static final String ANSI_BOLDGREEN = "\u001B[1;32m";
@@ -366,9 +367,9 @@ public class Cli extends Observable<Message> implements ClientView{
                 repeat++;
                 // choose the student to swap on card, then update fromCard array to send to Server
                 out.println(clientModel.getCharacterCardById(7).studentsToString());
-                out.print("Enter the "+ordinal(repeat) + ANSI_BLUE + " student from this card (press enter if you want to stop): " + ANSI_RESET);
+                out.print(ANSI_BLUE + "Enter the "+ordinal(repeat) + " student from this card (press enter if you want to stop): " + ANSI_RESET);
                 String inputFromCard = readLine();
-                if(inputFromCard.equals("\n")) //to test
+                if(inputFromCard.isEmpty()) //to test
                     break;
                 Color color = Color.valueOf(inputFromCard.toUpperCase());
                 fromCard[color.ordinal()]++;
@@ -486,6 +487,7 @@ public class Cli extends Observable<Message> implements ClientView{
 
     @Override
     public void showDisconnectionMessage() {
+        inputReadThread.interrupt();
         out.println("A player has disconnected! The game is finished.");
         System.exit(1);
     }
@@ -505,7 +507,7 @@ public class Cli extends Observable<Message> implements ClientView{
     @Override
     public void showMoveTowerOntoSchoolBoard(String username,SchoolBoard schoolBoard) {
         out.println("A tower has been moved back onto "+username+"'s school board");
-        out.println(clientModel.getSchoolBoards().get(username).toString());
+        //out.println(clientModel.getSchoolBoards().get(username).toString());
     }
 
     @Override
@@ -555,7 +557,8 @@ public class Cli extends Observable<Message> implements ClientView{
      */
     public String readLine() throws ExecutionException, NullPointerException {
         FutureTask<String> futureTask = new FutureTask<>(new InputReadTask());
-        new Thread(futureTask).start();
+        this.inputReadThread = new Thread(futureTask);
+        inputReadThread.start();
         try {
             return futureTask.get();
         } catch (InterruptedException e) {
