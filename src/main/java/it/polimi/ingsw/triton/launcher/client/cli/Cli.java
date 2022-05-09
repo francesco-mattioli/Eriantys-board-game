@@ -506,15 +506,10 @@ public class Cli extends Observable<Message> implements ClientView{
         out.println(clientModel.getSchoolBoards().get(username).toString());
     }
 
-
-
-
     @Override
     public void showTieMessage() {
         out.println("You have tied");
     }
-
-
 
     @Override
     public void showWinMessage() {
@@ -525,21 +520,6 @@ public class Cli extends Observable<Message> implements ClientView{
     public void showLoseMessage(String winnerUsername) {
         out.println("You Lose! The winner is: " + winnerUsername);
     }
-
-
-
-
-    @Override
-    public void showYourTurnMessage() {
-
-    }
-
-    @Override
-    public void showAvailableCharacterCard() {
-
-    }
-
-
 
     @Override
     public void showGenericMessage(String genericMessage) {
