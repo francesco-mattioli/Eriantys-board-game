@@ -85,9 +85,10 @@ public class Gui extends Observable<Message> implements ClientView {
     }
 
     @Override
-    public void showGameInfo(ArrayList<CharacterCard> availableCharacterCards, ArrayList<Island> islands, Map<String, SchoolBoard> schoolBoards, ArrayList<CloudTile> cloudTiles, Island motherNaturePosition) {
+    public void showGameInfo(ArrayList<CharacterCard> availableCharacterCards, ArrayList<Island> islands, Map<String, SchoolBoard> schoolBoards, ArrayList<CloudTile> cloudTiles, Island motherNaturePosition, String[] professors) {
 
     }
+
 
     @Override
     public void showChangePhase(GameState gameState) {
