@@ -109,13 +109,16 @@ public class ClientModel extends Observable<Object> {
         }
     }
 
-
     public Map<String, SchoolBoard> getSchoolBoards() {
         return schoolBoards;
     }
 
     public void setSchoolBoards(Map<String, SchoolBoard> schoolBoards) {
         this.schoolBoards = schoolBoards;
+    }
+
+    public SchoolBoard getMySchoolBoard(){
+        return schoolBoards.get(this.username);
     }
 
     public void setSchoolBoard(String username, SchoolBoard schoolBoard) {
