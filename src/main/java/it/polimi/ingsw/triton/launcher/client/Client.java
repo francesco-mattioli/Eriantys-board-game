@@ -17,7 +17,7 @@ public class Client implements Observer<Message> {
     private Socket socket;
     private ObjectInputStream inSocket;
     private ObjectOutputStream outSocket;
-    private ExecutorService readExecutionQueue;
+    private ExecutorService receiveExecutionQueue;
     private ClientView clientView;
     public static final Logger LOGGER = Logger.getLogger(Client.class.getName());
 
@@ -27,13 +27,18 @@ public class Client implements Observer<Message> {
      */
     public Client(ClientView clientView) {
         try {
-            socket = new Socket("127.0.0.1", 50535);
+            socket = new Socket();
+            /* To implement timeout client-side, it is necessary to define SocketAddress.
+            SocketAddress socketAddress = new InetSocketAddress("127.0.0.1", 50535);
+            socket.connect(socketAddress,5000);
+            */
+            // without timeout
+            socket= new Socket("127.0.0.1", 50535);
             outSocket = new ObjectOutputStream(socket.getOutputStream());
             inSocket = new ObjectInputStream(socket.getInputStream());
-            this.readExecutionQueue = Executors.newSingleThreadExecutor();
+            this.receiveExecutionQueue = Executors.newSingleThreadExecutor();
             this.clientView=clientView;
             receiveMessage();
-
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -42,13 +47,13 @@ public class Client implements Observer<Message> {
 
     /**
      * Receive message from the server.
-     * Create a thread for reading and manage the message.
+     * Create a thread for receiving and manage the message.
      * Based on the message class type, it calls the right method in the Client View using the Visitor Pattern
      */
     public void receiveMessage() {
-        readExecutionQueue.execute(() -> {
+        receiveExecutionQueue.execute(() -> {
 
-            while (!readExecutionQueue.isShutdown()) {
+            while (!receiveExecutionQueue.isShutdown()) {
                 try {
                     ServerMessage message = (ServerMessage) inSocket.readObject();
                     // Accept the message using Visitor Pattern
@@ -56,7 +61,7 @@ public class Client implements Observer<Message> {
                 } catch (IOException | ClassNotFoundException e) {
                     Client.LOGGER.severe("Error: " + e.getMessage()+ ": Connection will be closed");
                     disconnect();
-                    readExecutionQueue.shutdownNow();
+                    receiveExecutionQueue.shutdownNow();
                 }
             }
         });
@@ -92,7 +97,7 @@ public class Client implements Observer<Message> {
     public void disconnect() {
         try {
             if (!socket.isClosed()) {
-                readExecutionQueue.shutdownNow();
+                receiveExecutionQueue.shutdownNow();
                 socket.close();
             }
         } catch (IOException e) {

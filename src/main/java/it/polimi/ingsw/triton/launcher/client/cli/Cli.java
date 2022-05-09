@@ -26,6 +26,7 @@ import java.util.concurrent.FutureTask;
 public class Cli extends Observable<Message> implements ClientView{
     private final PrintStream out;
     private ClientModel clientModel;
+    Thread inputReadThread;
     private static final String TRY_AGAIN = "Try again...";
     public static final String ANSI_RESET = "\u001B[0m";
     public static final String ANSI_BOLDGREEN = "\u001B[1;32m";
@@ -486,6 +487,7 @@ public class Cli extends Observable<Message> implements ClientView{
 
     @Override
     public void showDisconnectionMessage() {
+        inputReadThread.interrupt();
         out.println("A player has disconnected! The game is finished.");
         System.exit(1);
     }
@@ -555,7 +557,8 @@ public class Cli extends Observable<Message> implements ClientView{
      */
     public String readLine() throws ExecutionException, NullPointerException {
         FutureTask<String> futureTask = new FutureTask<>(new InputReadTask());
-        new Thread(futureTask).start();
+        this.inputReadThread = new Thread(futureTask);
+        inputReadThread.start();
         try {
             return futureTask.get();
         } catch (InterruptedException e) {

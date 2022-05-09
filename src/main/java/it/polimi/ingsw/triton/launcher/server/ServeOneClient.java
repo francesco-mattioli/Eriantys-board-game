@@ -68,10 +68,10 @@ public class  ServeOneClient implements Runnable {
             }
         }catch (SocketTimeoutException e){
             LOGGER.severe("Cannot receive message at port "+socket.getPort()+" because connection with client dropped! Disconnecting players...");
-            server.disconnectPlayers();
         } catch (IOException | NoSuchElementException | ClassNotFoundException e) {
             LOGGER.severe(e.getMessage()+" error receiving a message at port: "+socket.getPort());
         } finally {
+            server.disconnectPlayers();
             close();
         }
     }
