@@ -71,7 +71,7 @@ public class Utility {
             else if(i == 3)
                 results += ANSI_RED + "X" + ANSI_RESET + ",";
             else if(i == 4)
-                results += ANSI_PINK + "X" + ANSI_RESET + ",";
+                results += ANSI_PINK + "X" + ANSI_RESET + "]";
         }
         return results;
     }
