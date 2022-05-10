@@ -6,6 +6,7 @@ import it.polimi.ingsw.triton.launcher.utils.message.servermessage.ErrorMessage;
 import it.polimi.ingsw.triton.launcher.utils.message.servermessage.Requests.*;
 import it.polimi.ingsw.triton.launcher.utils.message.servermessage.ServerMessage;
 import it.polimi.ingsw.triton.launcher.utils.message.servermessage.infoMessage.*;
+import it.polimi.ingsw.triton.launcher.utils.message.servermessage.infoMessage.infoMessageWithReceiver.EmptyGeneralCoinSupplyMessage;
 import it.polimi.ingsw.triton.launcher.utils.message.servermessage.infoMessage.infoMessageWithReceiver.GiveAssistantDeckMessage;
 import it.polimi.ingsw.triton.launcher.utils.message.servermessage.infoMessage.infoMessageWithReceiver.LoginReply;
 import it.polimi.ingsw.triton.launcher.utils.message.servermessage.infoMessage.infoMessageWithReceiver.UpdateWalletMessage;
@@ -195,6 +196,11 @@ public class ServerMessageVisitor {
 
     public void visit(GenericMessage message) {
         clientView.showGenericMessage(message.getStringMessage());
+    }
+
+    public void visit(EmptyGeneralCoinSupplyMessage message){
+        if(message.getReceiverUsername().equals(clientView.getClientModel().getUsername()))
+            clientView.showGenericMessage("Sorry, you can't get the coin because the general coin supply is empty!");
     }
 
     public void visit(ErrorMessage message){

@@ -35,6 +35,9 @@ public class MoveStudentIntoDiningRoom extends Observable<InfoMessage> implement
         return (currentPlayer.getSchoolBoard().getStudentsNumber(studentColor) % 3) == 0;
     }
 
+    /**
+     * @return true if the player's entrance is empty, false otherwise.
+     */
     private boolean noStudentsColorInTheEntrance(){
         return currentPlayer.getSchoolBoard().getEntrance()[student.ordinal()] == 0;
     }
