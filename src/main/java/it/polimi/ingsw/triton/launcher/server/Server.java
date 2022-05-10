@@ -21,11 +21,10 @@ public class Server {
     private int numOfClients;
     private Controller controller;
     private int maxNumPlayers = 0;
-    private boolean expertMode;
     private VirtualView firstPlayerVirtualView;
 
     public Server(int PORT) {
-        Server.PORT = PORT;
+        this.PORT = PORT;
         this.numOfClients = 0;
         LOGGER.info("Clients connected: " + this.numOfClients);
     }
