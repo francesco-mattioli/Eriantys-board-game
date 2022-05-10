@@ -4,8 +4,8 @@ import it.polimi.ingsw.triton.launcher.client.cli.Cli;
 import it.polimi.ingsw.triton.launcher.server.controller.Controller;
 import it.polimi.ingsw.triton.launcher.server.model.ExpertGame;
 import it.polimi.ingsw.triton.launcher.server.model.Game;
-import it.polimi.ingsw.triton.launcher.utils.message.ErrorTypeID;
 import it.polimi.ingsw.triton.launcher.server.view.VirtualView;
+import it.polimi.ingsw.triton.launcher.utils.message.ErrorTypeID;
 
 import java.io.IOException;
 import java.net.ServerSocket;
@@ -15,18 +15,17 @@ import java.util.logging.Logger;
 
 
 public class Server {
+    public static final Logger LOGGER = Logger.getLogger(Server.class.getName());
     public static int PORT;
+    private final Semaphore semaphore = new Semaphore(1);
     private int numOfClients;
     private Controller controller;
-    private final Semaphore semaphore = new Semaphore(1);
     private int maxNumPlayers = 0;
-    private boolean expertMode;
     private VirtualView firstPlayerVirtualView;
-    public static final Logger LOGGER = Logger.getLogger(Server.class.getName());
 
     public Server(int PORT) {
-        Server.PORT = PORT;
-        this.numOfClients=0;
+        this.PORT = PORT;
+        this.numOfClients = 0;
         LOGGER.info("Clients connected: " + this.numOfClients);
     }
 
@@ -50,7 +49,7 @@ public class Server {
      * @param maxNumPlayers decided by the first player
      * @param username      of the first player
      */
-    public void activateGame(String username,int maxNumPlayers, boolean expertMode) {
+    public void activateGame(String username, int maxNumPlayers, boolean expertMode) {
         if (!checkMaxNumPlayers(maxNumPlayers)) {
             firstPlayerVirtualView.showErrorMessage(ErrorTypeID.WRONG_PLAYERS_NUMBER);
             firstPlayerVirtualView.askNumPlayersAndGameMode();
@@ -59,10 +58,10 @@ public class Server {
             this.maxNumPlayers = maxNumPlayers;
             LOGGER.severe("Number of players was set");
             Game game;
-            if(expertMode)
-                game=new ExpertGame(maxNumPlayers);
+            if (expertMode)
+                game = ExpertGame.instance(maxNumPlayers);
             else
-                game= new Game(maxNumPlayers);
+                game = Game.instance(maxNumPlayers);
             this.controller = new Controller(game);
             LOGGER.severe("Game instantiated");
             controller.getVirtualViews().add(firstPlayerVirtualView);
@@ -90,7 +89,7 @@ public class Server {
         semaphore.acquireUninterruptibly();
         //if the player is the first one, we need to wait that he has chosen the number of players
         if (numOfClients == 0 && isUsernameValid(username)) {
-            firstPlayerVirtualView=new VirtualView(serveOneClient, username);
+            firstPlayerVirtualView = new VirtualView(serveOneClient, username);
             firstPlayerVirtualView.showLoginReply();
             firstPlayerVirtualView.askNumPlayersAndGameMode();
             LOGGER.info("First player has logged. Waiting for game mode and number of players...");
@@ -160,7 +159,7 @@ public class Server {
         }
     }
 
-    public synchronized void disconnectPlayers(){
+    public synchronized void disconnectPlayers() {
         controller.disconnectPlayers();
     }
 }

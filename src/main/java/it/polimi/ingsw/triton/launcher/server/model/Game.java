@@ -23,7 +23,7 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 public class Game extends Observable<InfoMessage> {
-
+    private static Game instance;
     protected final ArrayList<Island> islands;
     protected final Bag bag;
     private final int maxNumberOfPlayers;
@@ -41,7 +41,13 @@ public class Game extends Observable<InfoMessage> {
     // The following array must be shown to users, so they can choose a towerColor that is not already chosen.
     protected final boolean[] towerColorChosen;
 
-    public Game(int maxNumberOfPlayers) {
+    public static Game instance(int maxNumberOfPlayers){
+        if(instance==null)
+            instance=new Game(maxNumberOfPlayers);
+        return instance;
+    }
+
+    protected Game(int maxNumberOfPlayers) {
         this.islands = new ArrayList<>();
         createIslands();
         this.maxNumberOfPlayers = maxNumberOfPlayers;
@@ -106,7 +112,7 @@ public class Game extends Observable<InfoMessage> {
      */
     public void chooseTowerColor(String username, TowerColor towerColor) throws IllegalClientInputException, ChangeTurnException {
         if(towerColorChosen[towerColor.ordinal()]){
-            throw new IllegalClientInputException(ErrorTypeID.WRONG_COLOR);
+            throw new IllegalClientInputException(ErrorTypeID.TOWER_COLOR_ALREADY_CHOSEN);
         }
         else{
             getPlayerByUsername(username).setSchoolBoard(towerColor, maxNumberOfPlayers);
@@ -123,7 +129,7 @@ public class Game extends Observable<InfoMessage> {
      */
     public void chooseWizard(String username, Wizard wizard) throws IllegalClientInputException, ChangeTurnException {
         if(!availableWizards.contains(wizard)){
-            throw new IllegalClientInputException(ErrorTypeID.WRONG_WIZARD);
+            throw new IllegalClientInputException(ErrorTypeID.WIZARD_ALREADY_CHOSEN);
         }
         else{
             getPlayerByUsername(username).setWizard(wizard);
@@ -199,9 +205,8 @@ public class Game extends Observable<InfoMessage> {
         //PHASE 7, 8 & 9 are done when the player logs in for the first time
         setupEntrance(); //PHASE 10
         setupPlayers(); //PHASE 11
-        for(Player player: players) {
-            notify(new GiveAssistantDeckMessage(player.getUsername(), player.getAssistantDeck()));   // to review
-        }
+        for(Player player: players)
+            notify(new GiveAssistantDeckMessage(player.getUsername(), player.getAssistantDeck()));
         notify(new GameInfoMessage(islands, motherNature.getPosition(), getAllSchoolBoards(), cloudTiles, new String[professors.length]));
         notify(new ChangeTurnMessage(currentPlayer.getUsername()));
         planningPhase();
@@ -598,7 +603,7 @@ public class Game extends Observable<InfoMessage> {
     }
 
     public void endGame() {
-        //close connection
+        this.instance=null;
     }
 
     //GETTERS ----------------------------------------------

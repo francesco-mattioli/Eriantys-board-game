@@ -22,7 +22,7 @@ public class ServerApp {
         try {
             server.run();
         } catch (IOException e) {
-            System.err.println("Impossible to initialize the server: " + e.getMessage() + "!");
+            Server.LOGGER.severe("Impossible to initialize the server: " + e.getMessage() + "!");
         }
         Server.LOGGER.info("Server listening on port " + Server.PORT);
     }
