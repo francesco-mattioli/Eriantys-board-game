@@ -24,12 +24,9 @@ import java.util.stream.Collectors;
 
 public class Game extends Observable<InfoMessage> {
 
-        protected final ArrayList<Island> islands;
+    protected final ArrayList<Island> islands;
     protected final Bag bag;
     private final int maxNumberOfPlayers;
-    private final int NUM_OF_STUDENTS_COLORS = Color.values().length;
-    private final int MAX_NUM_OF_ISLANDS = 12;
-
     protected final ArrayList<Player> players;
     protected final ArrayList<CloudTile> cloudTiles;
     protected ArrayList<CloudTile> availableCloudTiles;
@@ -38,11 +35,11 @@ public class Game extends Observable<InfoMessage> {
     protected final Player[] professors;
     protected ProfessorsManager professorsManager;
     protected final ArrayList<AssistantCard> usedAssistantCards;
-    // This array must be shown to users, so they can choose a towerColor that is not already chosen.
-    protected final boolean[] towerColorChosen;
     protected final ArrayList<Wizard> availableWizards;
     protected GameState gameState;
     boolean notFullCloudTiles = false;
+    // The following array must be shown to users, so they can choose a towerColor that is not already chosen.
+    protected final boolean[] towerColorChosen;
 
     public Game(int maxNumberOfPlayers) {
         this.islands = new ArrayList<>();
@@ -59,7 +56,7 @@ public class Game extends Observable<InfoMessage> {
     }
 
     /**
-     * This method checks if the username entered by the player has already been chosen
+     * This method checks, ignoring CAPSLOCK, if the username entered by the player has already been chosen
      * @param username the username to check.
      * @return true if the username has already been chosen, false otherwise.
      */
@@ -86,24 +83,26 @@ public class Game extends Observable<InfoMessage> {
      * Checks the username.
      * If the username is correct, it adds it to the players array.
      * @param username the username of the player.
-     * @throws IllegalArgumentException if the username is not correct (already used).
+     * @throws IllegalArgumentException if the username is not correct (already used). This exception is caught by lobby() method in Server.
      */
     public void addPlayer(String username) throws IllegalArgumentException {
         if(!isUsernameChosen(username)){
             players.add(new Player(username));
+            // Set currentPlayer to the first one who logs in.
             if(players.size() == 1)
                 currentPlayer = players.get(0);
             notify(new LobbyMessage(getAllUsernames(players), maxNumberOfPlayers));
         }
         else
-            throw new IllegalArgumentException("Username already chosen");    //caught by lobby method in server
+            throw new IllegalArgumentException("Username already chosen");
     }
 
 
     /**
-     * This method set the player's schoolboard with the chosen tower color.
+     * This method set the player's school board with the chosen tower color.
      * @param username the username of the player that has chosen the tower color.
      * @param towerColor the color of the tower.
+     * @throws IllegalClientInputException when the user's chosen tower color has already been chosen.
      */
     public void chooseTowerColor(String username, TowerColor towerColor) throws IllegalClientInputException, ChangeTurnException {
         if(towerColorChosen[towerColor.ordinal()]){
@@ -117,13 +116,14 @@ public class Game extends Observable<InfoMessage> {
     }
 
     /**
-     * Sets the wizard to the player and creates a new request to the next player if present.
+     * Set the wizard to the player and create a new request to the next player if present.
      * @param username the player's username of who sets the wizard.
      * @param wizard the wizard selected by the player.
+     * @throws IllegalClientInputException when the user's chosen wizard has already been chosen.
      */
     public void chooseWizard(String username, Wizard wizard) throws IllegalClientInputException, ChangeTurnException {
         if(!availableWizards.contains(wizard)){
-            throw new IllegalClientInputException();
+            throw new IllegalClientInputException(ErrorTypeID.WRONG_WIZARD);
         }
         else{
             getPlayerByUsername(username).setWizard(wizard);
@@ -133,12 +133,12 @@ public class Game extends Observable<InfoMessage> {
     }
 
     /**
-     *
+     * When last player has chosen an assistant card, sort players ArrayList based on assistant cards value.
+     * Otherwise, set next player that should choose an assistant card.
      * @param username the username of the current player.
      * @param assistantCard the assistant card to play.
      * @throws IllegalClientInputException if the player can't play the assistant card.
-     * when last player has chosen assistant card, we sort array basing on assistant cards value
-     * else we correctly set next player
+     *
      */
     public void chooseAssistantCard(String username, AssistantCard assistantCard) throws IllegalClientInputException, ChangeTurnException {
         getPlayerByUsername(username).executeAction(new PlayAssistantCard(assistantCard, getPlayerByUsername(username), usedAssistantCards));
@@ -155,17 +155,16 @@ public class Game extends Observable<InfoMessage> {
      * When last wizard has been chosen, we call setup method and order randomly the player arraylist
      * @param current the current player.
      * @throws ChangeTurnException if there's not another player that has to play in the current phase.
-                    */
-            public void setNextPlayer(Player current) throws ChangeTurnException{
-                int indexOfCurrentPlayer = players.indexOf(current);
-                if(indexOfCurrentPlayer < players.size()-1){
-                    currentPlayer = players.get(indexOfCurrentPlayer+1);
-                }
-                else if(Wizard.values().length - availableWizards.size() == maxNumberOfPlayers) {
-                    setup();    //setup method sorts random the player arrayList
+     */
+    public void setNextPlayer(Player current) throws ChangeTurnException{
+        int indexOfCurrentPlayer = players.indexOf(current);
+        if(indexOfCurrentPlayer < players.size()-1){
+            currentPlayer = players.get(indexOfCurrentPlayer+1);
+        }
+        else if(Wizard.values().length - availableWizards.size() == maxNumberOfPlayers) {
+            setup();
             availableWizards.clear();
             gameState = GameState.PLANNING_PHASE;
-            //notify(new ChangePhaseMessage(gameState));
             throw new ChangeTurnException();
         }
         else{
@@ -207,10 +206,6 @@ public class Game extends Observable<InfoMessage> {
         notify(new ChangeTurnMessage(currentPlayer.getUsername()));
         planningPhase();
     }
-
-     // The following methods execute the PLANNING phase of the game
-
-
 
     /**
      * Adds the students to the cloud tiles and sets the last round flag if the bag is empty.
@@ -264,7 +259,6 @@ public class Game extends Observable<InfoMessage> {
         setGameState(GameState.PLANNING_PHASE);
         addStudentsToCloudTiles();
         resetPlayedCardInTurn();
-        //notify(new CloudTilesInfoMessage(cloudTiles));
     }
 
 
@@ -290,7 +284,7 @@ public class Game extends Observable<InfoMessage> {
      * @throws LastMoveException if the player has moved the students three times.
      */
     public void executeActionMoveStudentToIsland(Color student, int idIsland) throws IllegalClientInputException, LastMoveException {
-        if(!existingIsland(idIsland)){
+        if(!existsIsland(idIsland)){
             throw new IllegalClientInputException();
         }else{
             currentPlayer.executeAction(new MoveStudentOntoIsland(currentPlayer.getSchoolBoard(), student, getIslandByID(idIsland)));
@@ -332,7 +326,7 @@ public class Game extends Observable<InfoMessage> {
 
     // Methods for the SETUP PHASE
     private void createIslands() {
-        for (int i = 0; i < MAX_NUM_OF_ISLANDS; i++) {
+        for (int i = 0; i < 12; i++) {
             islands.add(new Island(i));
         }
     }
@@ -350,7 +344,7 @@ public class Game extends Observable<InfoMessage> {
      * This method places two students for each color into the bag.
      */
     protected void setupBag() {
-        for (int i = 0; i < NUM_OF_STUDENTS_COLORS; i++) {
+        for (int i = 0; i < Color.values().length; i++) {
             for (int j = 0; j < 2; j++)
                 bag.addStudent(Color.values()[i]);
         }
@@ -407,19 +401,6 @@ public class Game extends Observable<InfoMessage> {
     }
 
 
-    public void endGame() {
-        //close connection
-    }
-
-    /**
-     * This method remove a player and then end the game.
-     */
-    public void disconnectPlayers() {
-        setGameState(GameState.END);
-        notify(new DisconnectionMessage());
-        endGame();
-    }
-
     /**
      * This method merge two or more adjacent islands with the same dominator.
      * @param motherNaturePosition the island where mother nature is located.
@@ -470,7 +451,7 @@ public class Game extends Observable<InfoMessage> {
     }
 
     /**
-     * This methods calculates the winner when one player has the max number of towers onto islands.
+     * This method calculates the winner when one player has the max number of towers onto islands.
      * If two or more players have the same number of towers on islands, is called a new method for the calculation of the winner because of professors.
      * If there is a winner, virtualViews are notified using a WinMessage.
      */
@@ -488,7 +469,7 @@ public class Game extends Observable<InfoMessage> {
 
 
     /**
-     * This methods checks occurrences of players in list into the professors array.
+     * This method checks occurrences of players in list into the professors array.
      * If one of the players has more professors than the others, he's the winner, else we have a tie.
      * In case of tie we notify virtualViews using a TieMessage, which specifies the list of the peer players.
      * @param list gains the list of the players that have the same number of towers, so they are potentially peer.
@@ -545,7 +526,7 @@ public class Game extends Observable<InfoMessage> {
 
     public ArrayList<CharacterCard> getCharacterCards() {
         // This method is implemented by ExpertGame
-        return null;
+        return new ArrayList<>();
     }
 
 
@@ -595,7 +576,7 @@ public class Game extends Observable<InfoMessage> {
      * @param idIsland the id of the island to find.
      * @return true if the island with that id exists, false otherwise.
      */
-    private boolean existingIsland(int idIsland){
+    private boolean existsIsland(int idIsland){
         for(Island island: islands){
             if(island.getId() == idIsland)
                 return true;
@@ -604,12 +585,23 @@ public class Game extends Observable<InfoMessage> {
     }
 
     protected String[] professorsWithUsernameOwner(){
-        //return Arrays.stream(professors).map(Player::getUsername).toArray(String[]::new);
         return Arrays.stream(professors).map(p->{if(p == null) return "_"; else return p.getUsername();}).toArray(String[]::new);
     }
 
-    //----------------------------------------------
-    // Getter methods
+    /**
+     * This method remove a player and then end the game.
+     */
+    public void disconnectPlayers() {
+        setGameState(GameState.END);
+        notify(new DisconnectionMessage());
+        endGame();
+    }
+
+    public void endGame() {
+        //close connection
+    }
+
+    //GETTERS ----------------------------------------------
     public ArrayList<Island> getIslands() {
         return islands;
     }
@@ -686,8 +678,7 @@ public class Game extends Observable<InfoMessage> {
     }
 
 
-    //----------------------------------------------
-    // Setter methods
+    // SETTERS ----------------------------------------------
 
     public void setGameState(GameState gameState) {
         this.gameState = gameState;
