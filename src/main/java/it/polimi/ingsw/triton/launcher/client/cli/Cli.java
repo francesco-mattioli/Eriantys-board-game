@@ -93,9 +93,10 @@ public class Cli extends Observable<Message> implements ClientView{
 
     public boolean askGameMode() {
         String input="";
+        out.println("You are the first player");
         try{
             do{
-                out.print("You are the first player\n" + ANSI_BOLDGREEN + "Please, select a game mode [N for normal mode, E for expert mode]: " + ANSI_RESET);
+                out.print(ANSI_BOLDGREEN + "Please, select a game mode [N for normal mode, E for expert mode]: " + ANSI_RESET);
                 input = readLine();
             }while(!(input.equalsIgnoreCase("E") || input.equalsIgnoreCase("N")));
         } catch (NullPointerException e){
@@ -260,6 +261,11 @@ public class Cli extends Observable<Message> implements ClientView{
     @Override
     public void askNumberStepsMotherNature() {
         try {
+            out.print("Islands:\n" + ANSI_RESET);
+            out.println(clientModel.getIslands());
+            out.print("\n");
+            out.print(clientModel.printOtherSchoolBoards());
+            out.println(clientModel.printYourSchoolBoard());
             out.println("Mother nature is on the island: " + clientModel.getMotherNaturePosition().getId());
             out.print(ANSI_BOLDGREEN + "Enter the number of steps that mother nature has to do: " + ANSI_RESET);
             String input = readLine();

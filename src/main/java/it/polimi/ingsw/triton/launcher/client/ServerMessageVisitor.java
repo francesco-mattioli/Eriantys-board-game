@@ -108,6 +108,10 @@ public class ServerMessageVisitor {
         clientView.showGenericMessage("Mother nature has been moved.\nMother nature is on the island: " + message.getMotherNaturePosition().getId());
     }
 
+    public void visit(UpdateIslandWithNoEntryTilesMessage message){
+        clientView.getClientModel().setIsland(message.getIslandToUpdate());
+    }
+
 
     public void visit(ChangeInfluenceMessage message){
         clientView.getClientModel().setIsland(message.getIslandWithNewInfluence());

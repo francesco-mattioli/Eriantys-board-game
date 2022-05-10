@@ -34,6 +34,7 @@ public class ClientModel extends Observable<Object> {
     public String toString() {
         if(expertMode)
             return "{" +
+                    "\n- Game with expert rules" +
                     " \n- assistantDeck = " + assistantDeck.toString() +
                     ", \n- availableCharacterCards = " + printAvailableCharacterCard() +
                     ", \n- schoolBoards = \n\t" + schoolBoards +
@@ -44,6 +45,7 @@ public class ClientModel extends Observable<Object> {
                     "\n}";
         else
             return "{" +
+                "\n- Game with simplified rules" +
                 " \n- assistantDeck = " + assistantDeck.toString() +
                 ", \n- schoolBoards = \n\t" + schoolBoards +
                 ", \n- cloudTiles =" + printCloudTiles() +
