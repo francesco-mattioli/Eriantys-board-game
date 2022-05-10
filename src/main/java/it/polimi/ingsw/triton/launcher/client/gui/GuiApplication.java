@@ -20,7 +20,7 @@ public class GuiApplication extends Application {
 
     @Override
     public void start(Stage stage) throws Exception {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/menu-scene.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/main-scene.fxml"));
         root = loader.load();
         String currentPath = new java.io.File("src/main/resources/Images/EriantysLogo.png").getAbsolutePath().replace('\\','/');
         Image img = new Image("file:" + currentPath);
