@@ -23,8 +23,15 @@ import java.util.Random;
 public class ExpertGame extends Game{
     private final GeneralCoinSupply generalCoinSupply;
     private final ArrayList<CharacterCard> characterCards;
+    private static ExpertGame instance;
 
-    public ExpertGame(int maxNumberOfPlayers) {
+    public static ExpertGame instance(int maxNumberOfPlayers){
+        if(instance==null)
+            instance=new ExpertGame(maxNumberOfPlayers);
+        return instance;
+    }
+
+    private ExpertGame(int maxNumberOfPlayers) {
         super(maxNumberOfPlayers);
         this.characterCards = new ArrayList<>();
         this.generalCoinSupply = new GeneralCoinSupply(20);
@@ -35,23 +42,23 @@ public class ExpertGame extends Game{
      */
     @Override
     public void setup() {
-        setupMotherNature(); //PHASE 2
-        setupBag(); //PART 1 OF PHASE 3
-        setupIslands(); //PART 2 OF PHASE 3
-        bag.fillBag(); //PHASE 4
-        createCloudTiles(); //PHASE 5
-        this.professorsManager = new ProfessorsManager(); //PHASE 6
+        super.setupMotherNature(); //PHASE 2
+        super.setupBag(); //PART 1 OF PHASE 3
+        super.setupIslands(); //PART 2 OF PHASE 3
+        super.bag.fillBag(); //PHASE 4
+        super.createCloudTiles(); //PHASE 5
+        super.professorsManager = new ProfessorsManager(); //PHASE 6
         //PHASE 7, 8 & 9 are done when the player logs in for the first time
-        setupEntrance(); //PHASE 10
-        setupPlayers(); //PHASE 11
-        drawCharacterCards(); //(PHASE 12) creates 3 character cards
+        super.setupEntrance(); //PHASE 10
+        this.setupPlayers(); //PHASE 11
+        this.drawCharacterCards(); //(PHASE 12) creates 3 character cards
         for(Player player: players) {
             notify(new GiveAssistantDeckMessage(player.getUsername(), player.getAssistantDeck()));   // to review
             notify(new UpdateWalletMessage(player.getUsername(), player.getWallet().getValue()));
         }
         notify(new ExpertGameInfoMessage(characterCards, islands, motherNature.getPosition(), getAllSchoolBoards(), cloudTiles, new String[professors.length]));
         notify(new ChangeTurnMessage(currentPlayer.getUsername()));
-        planningPhase();
+        this.planningPhase();
     }
 
     /**

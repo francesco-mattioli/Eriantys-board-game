@@ -30,8 +30,6 @@ public class GameInfoMessage extends InfoMessage {
         this.professors = professors;
     }
 
-
-
     public ArrayList<Island> getIslands() {
         return islands;
     }
