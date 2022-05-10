@@ -24,8 +24,7 @@ import java.util.stream.Collectors;
 
 public class Game extends Observable<InfoMessage> {
 
-    public static final String NAME_SERVER = "eriantys";
-    protected final ArrayList<Island> islands;
+        protected final ArrayList<Island> islands;
     protected final Bag bag;
     private final int maxNumberOfPlayers;
     private final int NUM_OF_STUDENTS_COLORS = Color.values().length;
@@ -90,7 +89,7 @@ public class Game extends Observable<InfoMessage> {
      * @throws IllegalArgumentException if the username is not correct (already used).
      */
     public void addPlayer(String username) throws IllegalArgumentException {
-        if(!isUsernameChosen(username) && !username.equals(Game.NAME_SERVER)){
+        if(!isUsernameChosen(username)){
             players.add(new Player(username));
             if(players.size() == 1)
                 currentPlayer = players.get(0);
