@@ -84,7 +84,7 @@ public class ClientMessageModifierVisitor {
     }
 
     public void visitForModify(CharacterCard07Reply message) throws IllegalClientInputException, EndGameException {
-        game.applyCharacterCardEffect(7, new CardEffect07(message.getStudentsOnCard(), message.getFromCard(), message.getFromSchoolBoard(), game.getPlayerByUsername(message.getSenderUsername()).getSchoolBoard()));
+        game.applyCharacterCardEffect(7, new CardEffect07(game.getCharacterCardByID(7),message.getStudentsOnCard(), message.getFromCard(), message.getFromSchoolBoard(), game.getPlayerByUsername(message.getSenderUsername()).getSchoolBoard()));
     }
 
     public void visitForModify(CharacterCard09Reply message) throws IllegalClientInputException, EndGameException {

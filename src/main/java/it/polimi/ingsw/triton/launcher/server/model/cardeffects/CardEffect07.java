@@ -13,6 +13,8 @@ public class CardEffect07 implements CardEffect, Serializable {
     private final SchoolBoard schoolBoard;
     private final int[] studentsOnCard;
 
+    private CharacterCard characterCard;
+
     /**
      *
      * @param studentsOnCard the six students on the card
@@ -20,11 +22,12 @@ public class CardEffect07 implements CardEffect, Serializable {
      * @param fromSchoolBoard students to take from the entrance
      * @param schoolBoard
      */
-    public CardEffect07(int[] studentsOnCard, int[] fromCard, int[] fromSchoolBoard, SchoolBoard schoolBoard){
+    public CardEffect07(CharacterCard characterCard, int[] studentsOnCard, int[] fromCard, int[] fromSchoolBoard, SchoolBoard schoolBoard){
         this.fromCard = fromCard;
         this.fromSchoolBoard = fromSchoolBoard;
         this.schoolBoard = schoolBoard;
         this.studentsOnCard = studentsOnCard;
+        this.characterCard = characterCard;
     }
 
     /**
@@ -98,6 +101,7 @@ public class CardEffect07 implements CardEffect, Serializable {
                     studentsOnCard[j] += fromSchoolBoard[i];
             }
         }
+        characterCard.students = studentsOnCard;
     }
 
 }
