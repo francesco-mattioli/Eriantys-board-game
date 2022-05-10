@@ -14,15 +14,15 @@ import java.util.Map;
  * This message communicates to all the players the info of the game.
  */
 public class GameInfoMessage extends InfoMessage {
-    private final ArrayList<CharacterCard> availableCharacterCards;
+
     private final ArrayList<Island> islands;
     private final Island motherNaturePosition;
     private final Map<String, SchoolBoard> schoolBoards;
     private final ArrayList<CloudTile> cloudTiles;
     private final String[] professors;
+    protected boolean expertMode=false;
 
-    public GameInfoMessage(ArrayList<CharacterCard> availableCharacterCards, ArrayList<Island> islands, Island motherNaturePosition, Map<String, SchoolBoard> schoolBoards, ArrayList<CloudTile> cloudTiles, String[] professors) {
-        this.availableCharacterCards = availableCharacterCards;
+    public GameInfoMessage(ArrayList<Island> islands, Island motherNaturePosition, Map<String, SchoolBoard> schoolBoards, ArrayList<CloudTile> cloudTiles, String[] professors) {
         this.islands = islands;
         this.motherNaturePosition = motherNaturePosition;
         this.schoolBoards = schoolBoards;
@@ -30,9 +30,7 @@ public class GameInfoMessage extends InfoMessage {
         this.professors = professors;
     }
 
-    public ArrayList<CharacterCard> getAvailableCharacterCards() {
-        return availableCharacterCards;
-    }
+
 
     public ArrayList<Island> getIslands() {
         return islands;

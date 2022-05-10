@@ -2,6 +2,7 @@ package it.polimi.ingsw.triton.launcher.server;
 
 import it.polimi.ingsw.triton.launcher.client.cli.Cli;
 import it.polimi.ingsw.triton.launcher.server.controller.Controller;
+import it.polimi.ingsw.triton.launcher.server.model.ExpertGame;
 import it.polimi.ingsw.triton.launcher.server.model.Game;
 import it.polimi.ingsw.triton.launcher.utils.message.ErrorTypeID;
 import it.polimi.ingsw.triton.launcher.server.view.VirtualView;
@@ -57,9 +58,13 @@ public class Server {
         } else {
             this.maxNumPlayers = maxNumPlayers;
             LOGGER.severe("Number of players was set");
-            this.expertMode=expertMode;
-            LOGGER.severe("Game mode was set");
-            this.controller = new Controller(new Game(maxNumPlayers));
+            Game game;
+            if(expertMode)
+                game=new ExpertGame(maxNumPlayers);
+            else
+                game= new Game(maxNumPlayers);
+            this.controller = new Controller(game);
+            LOGGER.severe("Game instantiated");
             controller.getVirtualViews().add(firstPlayerVirtualView);
             controller.getVirtualViewByUsername(username).addObserver(controller);
             controller.addGameObserver(controller.getVirtualViewByUsername(username));

@@ -24,6 +24,7 @@ public class ClientModel extends Observable<Object> {
     private ArrayList<CloudTile> cloudTiles;
     private Island motherNaturePosition;
     private AssistantCard lastAssistantCardPlayed;
+    private boolean expertMode;
 
     private String[] professors;
 
@@ -31,16 +32,26 @@ public class ClientModel extends Observable<Object> {
 
     @Override
     public String toString() {
-
-        return "{" +
+        if(expertMode)
+            return "{" +
+                    " \n- assistantDeck = " + assistantDeck.toString() +
+                    ", \n- availableCharacterCards = " + printAvailableCharacterCard() +
+                    ", \n- schoolBoards = \n\t" + schoolBoards +
+                    ", \n- cloudTiles =" + printCloudTiles() +
+                    ", \n- islands =" + printIslands() +
+                    ", \n- motherNature is on island " + motherNaturePosition.getId() +
+                    ", \n- professors: " + Utility.printColoredProfessorsOnTable(professors) +
+                    "\n}";
+        else
+            return "{" +
                 " \n- assistantDeck = " + assistantDeck.toString() +
-                ", \n- availableCharacterCards = " + printAvailableCharacterCard() +
                 ", \n- schoolBoards = \n\t" + schoolBoards +
                 ", \n- cloudTiles =" + printCloudTiles() +
                 ", \n- islands =" + printIslands() +
                 ", \n- motherNature is on island " + motherNaturePosition.getId() +
                 ", \n- professors: " + Utility.printColoredProfessorsOnTable(professors) +
                 "\n}";
+
     }
 
     public String getUsername() {
@@ -237,5 +248,13 @@ public class ClientModel extends Observable<Object> {
 
     public void setWallet(int value){
         this.wallet = value;
+    }
+
+    public boolean isExpertMode() {
+        return expertMode;
+    }
+
+    public void setExpertMode(boolean expertMode) {
+        this.expertMode = expertMode;
     }
 }

@@ -135,6 +135,8 @@ public class Cli extends Observable<Message> implements ClientView{
     }
 
 
+
+
     @Override
     public void askTowerColor(boolean[] chosenTowerColors) {
         try {
@@ -176,6 +178,16 @@ public class Cli extends Observable<Message> implements ClientView{
     @Override
     public void showGameInfo(ArrayList<CharacterCard> availableCharacterCards, ArrayList<Island> islands, Map<String, SchoolBoard> schoolBoards, ArrayList<CloudTile> cloudTiles, Island motherNaturePosition, String[] professors) {
         clientModel.setAvailableCharacterCards(availableCharacterCards);
+        clientModel.setIslands(islands);
+        clientModel.setSchoolBoards(schoolBoards);
+        clientModel.setCloudTiles(cloudTiles);
+        clientModel.setMotherNaturePosition(motherNaturePosition);
+        clientModel.setProfessors(professors);
+        out.println(clientModel.toString());
+    }
+
+    @Override
+    public void showGameInfo(ArrayList<Island> islands, Map<String, SchoolBoard> schoolBoards, ArrayList<CloudTile> cloudTiles, Island motherNaturePosition, String[] professors) {
         clientModel.setIslands(islands);
         clientModel.setSchoolBoards(schoolBoards);
         clientModel.setCloudTiles(cloudTiles);
@@ -228,7 +240,7 @@ public class Cli extends Observable<Message> implements ClientView{
             out.println("To do so, type on each line [color of student, d (for dining room) ] or [color of student, island id]");
             out.println(ANSI_BOLDGREEN + "Please, enter data: " + ANSI_RESET);
             String input = readLine();
-            if(input.equals(commandForCharacterCard))
+            if(input.equals(commandForCharacterCard)&& clientModel.isExpertMode())
                 showAndPlayCharacterCard();
             else {
                 String[] splittedInput = input.split(",");
@@ -251,7 +263,7 @@ public class Cli extends Observable<Message> implements ClientView{
             out.println("Mother nature is on the island: " + clientModel.getMotherNaturePosition().getId());
             out.print(ANSI_BOLDGREEN + "Enter the number of steps that mother nature has to do: " + ANSI_RESET);
             String input = readLine();
-            if(input.equals(commandForCharacterCard))
+            if(input.equals(commandForCharacterCard)&& clientModel.isExpertMode())
                 showAndPlayCharacterCard();
             else
                 notify(new MotherNatureReply(clientModel.getUsername(), Integer.parseInt(input)));
@@ -270,7 +282,7 @@ public class Cli extends Observable<Message> implements ClientView{
             out.println(clientModel.printCloudTiles());
             out.println(ANSI_BOLDGREEN + "Enter the id of the cloud tile you choose: " + ANSI_RESET);
             String input = readLine();
-            if(input.equals(commandForCharacterCard))
+            if(input.equals(commandForCharacterCard)&& clientModel.isExpertMode())
                 showAndPlayCharacterCard();
             else
                 notify(new CloudTileReply(clientModel.getUsername(), Integer.parseInt(input)));
