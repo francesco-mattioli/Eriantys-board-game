@@ -24,21 +24,36 @@ public class ClientModel extends Observable<Object> {
     private ArrayList<CloudTile> cloudTiles;
     private Island motherNaturePosition;
     private AssistantCard lastAssistantCardPlayed;
+    private boolean expertMode;
 
     private String[] professors;
 
+    private int wallet;
+
     @Override
     public String toString() {
-
-        return "{" +
+        if(expertMode)
+            return "{" +
+                    "\n- Game with expert rules" +
+                    " \n- assistantDeck = " + assistantDeck.toString() +
+                    ", \n- availableCharacterCards = " + printAvailableCharacterCard() +
+                    ", \n- schoolBoards = \n\t" + schoolBoards +
+                    ", \n- cloudTiles =" + printCloudTiles() +
+                    ", \n- islands =" + printIslands() +
+                    ", \n- motherNature is on island " + motherNaturePosition.getId() +
+                    ", \n- professors: " + Utility.printColoredProfessorsOnTable(professors) +
+                    "\n}";
+        else
+            return "{" +
+                "\n- Game with simplified rules" +
                 " \n- assistantDeck = " + assistantDeck.toString() +
-                ", \n- availableCharacterCards = " + printAvailableCharacterCard() +
                 ", \n- schoolBoards = \n\t" + schoolBoards +
                 ", \n- cloudTiles =" + printCloudTiles() +
                 ", \n- islands =" + printIslands() +
                 ", \n- motherNature is on island " + motherNaturePosition.getId() +
                 ", \n- professors: " + Utility.printColoredProfessorsOnTable(professors) +
                 "\n}";
+
     }
 
     public String getUsername() {
@@ -124,6 +139,15 @@ public class ClientModel extends Observable<Object> {
 
     public void setSchoolBoard(String username, SchoolBoard schoolBoard) {
         this.schoolBoards.put(username, schoolBoard);
+    }
+
+    public String printWallet(){
+        String results = "Your Wallet: " + wallet;
+        if(wallet == 1)
+            results += " coin";
+        else
+            results += " coins";
+        return results;
     }
 
     public ArrayList<CloudTile> getCloudTiles() {
@@ -218,5 +242,21 @@ public class ClientModel extends Observable<Object> {
 
     public void setProfessors(String[] professors) {
         this.professors = professors;
+    }
+
+    public int getWallet(){
+        return wallet;
+    }
+
+    public void setWallet(int value){
+        this.wallet = value;
+    }
+
+    public boolean isExpertMode() {
+        return expertMode;
+    }
+
+    public void setExpertMode(boolean expertMode) {
+        this.expertMode = expertMode;
     }
 }

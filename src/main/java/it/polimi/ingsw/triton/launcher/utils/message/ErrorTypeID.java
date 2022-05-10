@@ -2,12 +2,11 @@ package it.polimi.ingsw.triton.launcher.utils.message;
 
 public enum ErrorTypeID {
     USERNAME_ALREADY_CHOSEN("This username is already used!"),
-    WRONG_PLAYERS_NUMBER("The number of players must be 2 or 3!"),
     FORBIDDEN_USERNAME("Username is not correct!"),
+    WRONG_PLAYERS_NUMBER("The number of players must be 2 or 3!"),
     FULL_LOBBY("Lobby is full!"),
-    WRONG_USERNAME("This username doesn't exists!"),
-    WRONG_COLOR("This color cannot be chosen!"),
-    WRONG_WIZARD("This wizard cannot be chosen!"),
+    TOWER_COLOR_ALREADY_CHOSEN("This tower color is already chosen!"),
+    WIZARD_ALREADY_CHOSEN("This wizard is already chosen!"),
     ILLEGAL_MOVE("This move cannot be done"),
     ASSISTANTCARD_ALREADY_CHOSEN("This assistant card is already used!"),
     TOO_MANY_MOTHERNATURE_STEPS("The number of steps exceeds the maximum possible!"),

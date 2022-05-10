@@ -6,8 +6,11 @@ import it.polimi.ingsw.triton.launcher.utils.message.servermessage.ErrorMessage;
 import it.polimi.ingsw.triton.launcher.utils.message.servermessage.Requests.*;
 import it.polimi.ingsw.triton.launcher.utils.message.servermessage.ServerMessage;
 import it.polimi.ingsw.triton.launcher.utils.message.servermessage.infoMessage.*;
+import it.polimi.ingsw.triton.launcher.utils.message.servermessage.infoMessage.infoMessageWithReceiver.EmptyGeneralCoinSupplyMessage;
 import it.polimi.ingsw.triton.launcher.utils.message.servermessage.infoMessage.infoMessageWithReceiver.GiveAssistantDeckMessage;
 import it.polimi.ingsw.triton.launcher.utils.message.servermessage.infoMessage.infoMessageWithReceiver.LoginReply;
+import it.polimi.ingsw.triton.launcher.utils.message.servermessage.infoMessage.infoMessageWithReceiver.UpdateWalletMessage;
+
 
 public class ServerMessageVisitor {
     private final ClientView clientView;
@@ -24,7 +27,7 @@ public class ServerMessageVisitor {
 
     public void visit(LoginReply message) {
         clientView.getClientModel().setUsername(message.getReceiverUsername());
-        clientView.showGenericMessage("Username accepted");
+        clientView.showGenericMessage("Username accepted! Welcome to Eriantys " + message.getReceiverUsername() + "!");
     }
 
     public void visit(PlayersNumberAndGameModeRequest message) {
@@ -71,6 +74,13 @@ public class ServerMessageVisitor {
         clientView.getClientModel().setAssistantDeck(message.getAssistantDeck());
     }
 
+    public void visit(UpdateWalletMessage message){
+        if(clientView.getClientModel().getUsername().equals(message.getReceiverUsername())) {
+            clientView.getClientModel().setWallet(message.getWallet());
+            clientView.showGenericMessage(clientView.getClientModel().printWallet());
+        }
+    }
+
     public void visit(ChangePhaseMessage message){
         clientView.showChangePhase(message.getGameState());
     }
@@ -96,6 +106,10 @@ public class ServerMessageVisitor {
     public void visit(MotherNaturePositionMessage message) {
         clientView.getClientModel().setMotherNaturePosition(message.getMotherNaturePosition());
         clientView.showGenericMessage("Mother nature has been moved.\nMother nature is on the island: " + message.getMotherNaturePosition().getId());
+    }
+
+    public void visit(UpdateIslandWithNoEntryTilesMessage message){
+        clientView.getClientModel().setIsland(message.getIslandToUpdate());
     }
 
 
@@ -181,11 +195,23 @@ public class ServerMessageVisitor {
     }
 
     public void visit(GameInfoMessage message) {
+        clientView.getClientModel().setExpertMode(false);
+        clientView.showGameInfo(message.getIslands(), message.getSchoolBoards(), message.getCloudTiles(), message.getMotherNaturePosition(), message.getProfessors());
+    }
+
+    public void visit(ExpertGameInfoMessage message){
+        clientView.getClientModel().setExpertMode(true);
         clientView.showGameInfo(message.getAvailableCharacterCards(), message.getIslands(), message.getSchoolBoards(), message.getCloudTiles(), message.getMotherNaturePosition(), message.getProfessors());
+
     }
 
     public void visit(GenericMessage message) {
         clientView.showGenericMessage(message.getStringMessage());
+    }
+
+    public void visit(EmptyGeneralCoinSupplyMessage message){
+        if(message.getReceiverUsername().equals(clientView.getClientModel().getUsername()))
+            clientView.showGenericMessage("Sorry, you can't get the coin because the general coin supply is empty!");
     }
 
     public void visit(ErrorMessage message){

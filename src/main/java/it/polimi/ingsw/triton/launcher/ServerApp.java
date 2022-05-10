@@ -12,7 +12,7 @@ public class ServerApp {
             server.run();
             Server.LOGGER.info("Server listening on port " + Server.PORT);
         } catch (IOException e) {
-            System.err.println("Impossible to initialize the server: " + e.getMessage() + "!");
+            Server.LOGGER.severe("Impossible to initialize the server: " + e.getMessage() + "!");
         }
     }
 }

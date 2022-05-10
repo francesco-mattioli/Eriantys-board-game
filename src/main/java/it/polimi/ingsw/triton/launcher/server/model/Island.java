@@ -11,6 +11,7 @@ import it.polimi.ingsw.triton.launcher.utils.message.servermessage.InfoMessage;
 import it.polimi.ingsw.triton.launcher.utils.message.servermessage.infoMessage.ChangeInfluenceMessage;
 import it.polimi.ingsw.triton.launcher.utils.message.servermessage.infoMessage.MoveTowerOntoIslandMessage;
 import it.polimi.ingsw.triton.launcher.utils.message.servermessage.infoMessage.MoveTowerOntoSchoolBoardMessage;
+import it.polimi.ingsw.triton.launcher.utils.message.servermessage.infoMessage.UpdateIslandWithNoEntryTilesMessage;
 import it.polimi.ingsw.triton.launcher.utils.obs.Observable;
 
 import java.io.Serializable;
@@ -98,6 +99,7 @@ public class Island extends Observable<InfoMessage> implements Serializable {
         } else {
             characterCard05.addNoEntryTile();
             noEntryTiles--;
+            notify(new UpdateIslandWithNoEntryTilesMessage(this));
         }
     }
 
@@ -119,7 +121,6 @@ public class Island extends Observable<InfoMessage> implements Serializable {
     public void towerInfluence(Player newDominator, Player [] professors)  throws EndGameException {
         if (dominator != null && dominator != newDominator) {
             dominator.getSchoolBoard().moveTowerOntoSchoolBoard(dim);
-            dominator = newDominator;
             notify(new MoveTowerOntoSchoolBoardMessage(dominator.getUsername(), dominator.getSchoolBoard(), Arrays.stream(professors).map(p-> p.getUsername()).toArray(String[]::new)));
         }
         if (newDominator != null && dominator != newDominator) {

@@ -22,6 +22,8 @@ public interface ClientView extends View {
     // Show methods
     void showGenericMessage(String genericMessage);
     void showLobbyMessage(ArrayList<String> onlineNicknames, int maxNumberPlayers );
+    void showGameInfo(ArrayList<Island> islands, Map<String, SchoolBoard> schoolBoards, ArrayList<CloudTile> cloudTiles, Island motherNaturePosition, String[] professors);
+    // the following gameInfo is for expertMode
     void showGameInfo(ArrayList<CharacterCard> availableCharacterCards, ArrayList<Island> islands, Map<String, SchoolBoard> schoolBoards, ArrayList<CloudTile> cloudTiles, Island motherNaturePosition, String[] professors);
     void showChangePhase(GameState gameState);
     void showDisconnectionMessage();

@@ -30,10 +30,12 @@ class MoveStudentIntoDiningRoomTest {
         generalCoinSupply = null;
         color = null;
     }
+}
 
     /**
      * Tests if the method launches an exception when the entrance of the player is empty.
      */
+    /*
     @Test
     void checksEmptyEntrance(){
         assertThrows(IllegalClientInputException.class, ()->new MoveStudentIntoDiningRoom(color, player, generalCoinSupply).execute());
@@ -42,6 +44,7 @@ class MoveStudentIntoDiningRoomTest {
     /**
      * Tests if the method doesn't launches an exception when the entrance of the player is not empty.
      */
+    /*
     @Test
     void checksNotEmptyEntrance(){
         player.getSchoolBoard().getEntrance()[Color.BLUE.ordinal()]++;
@@ -51,6 +54,7 @@ class MoveStudentIntoDiningRoomTest {
     /**
      * Tests if the method launches an exception when the player has not blue students in the entrance.
      */
+    /*
     @Test
     void checksNotBlueStudentsInEntrance(){
         player.getSchoolBoard().getEntrance()[Color.GREEN.ordinal()]++;
@@ -61,6 +65,7 @@ class MoveStudentIntoDiningRoomTest {
     /**
      * Tests if the dining room corresponding to blue color is correctly updated.
      */
+    /*
     @Test
     void checksBlueStudentAddedInEntranceNotMultipleThree(){
         player.getSchoolBoard().getEntrance()[color.ordinal()]++;
@@ -77,6 +82,7 @@ class MoveStudentIntoDiningRoomTest {
      * Tests if the player's wallet is increased when he puts a student in a position which
      * is multiple of three and the supply is not empty.
      */
+    /*
     @Test
     void checksUpdateWalletWhenMultipleThreeAndSupplyNotEmpty(){
         player.getSchoolBoard().getDiningRoom()[color.ordinal()]++;
@@ -95,6 +101,7 @@ class MoveStudentIntoDiningRoomTest {
      * Tests if the general coin supply is decreased when the player
      * puts a student in a position which is multiple of three and the supply is not empty.
      */
+    /*
     @Test
     void checksUpdateSupplyWhenMultipleThreeAndSupplyNotEmpty(){
         player.getSchoolBoard().getDiningRoom()[color.ordinal()]++;
@@ -113,6 +120,7 @@ class MoveStudentIntoDiningRoomTest {
      * Tests if the general coin supply is not updated when the player
      * puts a student in a position which is multiple of three and the supply is already empty.
      */
+    /*
     @Test
     void checksUpdateSupplyWhenMultipleThreeAndSupplyEmpty(){
         player.getSchoolBoard().getDiningRoom()[color.ordinal()]++;
@@ -134,6 +142,7 @@ class MoveStudentIntoDiningRoomTest {
      * Tests if the general coin supply is not updated when the player
      * puts a student in a position which is multiple of three and the supply is already empty.
      */
+    /*
     @Test
     void checksNotUpdateWalletWhenMultipleThreeAndSupplyEmpty(){
         player.getSchoolBoard().getDiningRoom()[color.ordinal()]++;
@@ -150,4 +159,4 @@ class MoveStudentIntoDiningRoomTest {
         }
         assertEquals(oldAmount, player.getWallet().getValue());
     }
-}
+    */
