@@ -48,7 +48,7 @@ class CardEffect07Test {
         fromCard[Color.PINK.ordinal()] = 3;
         fromSchoolBoard[Color.BLUE.ordinal()] = 3;
         try {
-            characterCard.executeEffect(new CardEffect07(characterCard.getStudents(), fromCard, fromSchoolBoard, player.getSchoolBoard()));
+            characterCard.executeEffect(new CardEffect07(characterCard,characterCard.getStudents(), fromCard, fromSchoolBoard, player.getSchoolBoard()));
         } catch (EndGameException | IllegalClientInputException e) {
             e.printStackTrace();
         }
@@ -62,7 +62,7 @@ class CardEffect07Test {
     public void throwExceptionIfNotEnoughStudentsInEntrance(){
         fromCard[Color.PINK.ordinal()] = 3;
         fromSchoolBoard[Color.BLUE.ordinal()] = 4;
-        assertThrows(IllegalClientInputException.class, () -> {characterCard.executeEffect(new CardEffect07(characterCard.getStudents(), fromCard, fromSchoolBoard, player.getSchoolBoard()));});
+        assertThrows(IllegalClientInputException.class, () -> {characterCard.executeEffect(new CardEffect07(characterCard, characterCard.getStudents(), fromCard, fromSchoolBoard, player.getSchoolBoard()));});
     }
 
     /**
@@ -75,7 +75,7 @@ class CardEffect07Test {
         fromCard[Color.PINK.ordinal()] = 3;
         fromSchoolBoard[Color.BLUE.ordinal()] = 3;
         try {
-            characterCard.executeEffect(new CardEffect07(characterCard.getStudents(), fromCard, fromSchoolBoard, player.getSchoolBoard()));
+            characterCard.executeEffect(new CardEffect07(characterCard, characterCard.getStudents(), fromCard, fromSchoolBoard, player.getSchoolBoard()));
         } catch (EndGameException | IllegalClientInputException e) {
             e.printStackTrace();
         }
@@ -89,6 +89,6 @@ class CardEffect07Test {
     public void throwExceptionIfNotEnoughStudentsOnCharacterCard(){
         fromCard[Color.PINK.ordinal()] = 4;
         fromSchoolBoard[Color.BLUE.ordinal()] = 3;
-        assertThrows(IllegalClientInputException.class, () -> {characterCard.executeEffect(new CardEffect07(characterCard.getStudents(), fromCard, fromSchoolBoard, player.getSchoolBoard()));});
+        assertThrows(IllegalClientInputException.class, () -> {characterCard.executeEffect(new CardEffect07(characterCard, characterCard.getStudents(), fromCard, fromSchoolBoard, player.getSchoolBoard()));});
     }
 }
