@@ -16,6 +16,8 @@ public interface ClientView extends View {
     //TO DO AN ABSTRACT CLASS maybe
     ClientModel getClientModel();
 
+    void askServerAddressAndPort();
+
     // Ask methods
     void askUsername();
 
