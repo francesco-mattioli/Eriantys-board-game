@@ -3,10 +3,8 @@ package it.polimi.ingsw.triton.launcher.server.model;
 import it.polimi.ingsw.triton.launcher.server.model.cardeffects.CardEffect;
 import it.polimi.ingsw.triton.launcher.server.model.cardeffects.CharacterCard;
 import it.polimi.ingsw.triton.launcher.server.model.enums.Color;
-import it.polimi.ingsw.triton.launcher.server.model.enums.GameState;
 import it.polimi.ingsw.triton.launcher.server.model.player.Player;
 import it.polimi.ingsw.triton.launcher.server.model.playeractions.ExpertMoveStudentIntoDiningRoom;
-import it.polimi.ingsw.triton.launcher.server.model.playeractions.MoveStudentIntoDiningRoom;
 import it.polimi.ingsw.triton.launcher.server.model.playeractions.UseCharacterCard;
 import it.polimi.ingsw.triton.launcher.server.model.professor.ProfessorsManager;
 import it.polimi.ingsw.triton.launcher.utils.exceptions.CharacterCardWithParametersException;
@@ -25,17 +23,17 @@ import java.util.Random;
 public class ExpertGame extends Game{
     private final GeneralCoinSupply generalCoinSupply;
     private final ArrayList<CharacterCard> characterCards;
-    private final int INITIAL_NUM_COINS = 20;
 
     public ExpertGame(int maxNumberOfPlayers) {
         super(maxNumberOfPlayers);
         this.characterCards = new ArrayList<>();
-        this.generalCoinSupply = new GeneralCoinSupply(INITIAL_NUM_COINS);
+        this.generalCoinSupply = new GeneralCoinSupply(20);
     }
 
     /**
      * This method executes the SETUP phase of the game.
      */
+    @Override
     public void setup() {
         setupMotherNature(); //PHASE 2
         setupBag(); //PART 1 OF PHASE 3
@@ -59,6 +57,7 @@ public class ExpertGame extends Game{
     /**
      * This method sorts the players ArrayList random, and sets correctly the current player.
      */
+    @Override
     protected void setupPlayers(){
         for(Player player: players){
             generalCoinSupply.decrement();
@@ -67,14 +66,16 @@ public class ExpertGame extends Game{
         super.setupPlayers();
     }
 
+    @Override
     public void planningPhase() {
         super.planningPhase();
-        // Need to set false the already played  boolean attriobute
+        // Need to set false the already played  boolean attribute
         for(Player player : players){
             player.resetAlreadyPlayedAnCharacterCard();
         }
     }
 
+    @Override
     public void executeActionMoveStudentToDiningRoom(Color student) throws LastMoveException, IllegalClientInputException {
         boolean empty = generalCoinSupply.isEmpty();
         currentPlayer.executeAction(new ExpertMoveStudentIntoDiningRoom(student, currentPlayer, generalCoinSupply));
@@ -111,6 +112,7 @@ public class ExpertGame extends Game{
      * Sends messages to the player to ask the parameters for some effects.
      * @param idCard the id of the selected character card.
      */
+    @Override
     public void useCharacterCard(String username,int idCard) throws IllegalClientInputException, CharacterCardWithParametersException {
         if(getPlayerByUsername(username).hasAlreadyPlayedACharacterCard()) {
             throw new IllegalClientInputException(ErrorTypeID.CHARACTER_CARD_ALREADY_PLAYED);
@@ -127,12 +129,13 @@ public class ExpertGame extends Game{
      * @param characterCardID the character card to play.
      * @param cardEffect the effect to apply.
      */
+    @Override
     public void applyCharacterCardEffect(int characterCardID, CardEffect cardEffect) throws IllegalClientInputException, EndGameException {
         getCharacterCardByID(characterCardID).executeEffect(cardEffect);
         notify(new InfoCharacterCardPlayedMessage(currentPlayer.getUsername(), getCharacterCardByID(characterCardID), islands, getAllSchoolBoards()));
     }
 
-
+    @Override
     public ArrayList<CharacterCard> getCharacterCards() {
         return characterCards;
     }
@@ -142,6 +145,7 @@ public class ExpertGame extends Game{
      * @return the character card with that id.
      * @throws IllegalClientInputException if the character card with that id doesn't exist.
      */
+    @Override
     public CharacterCard getCharacterCardByID(int id) throws IllegalClientInputException{
         for(CharacterCard characterCard : characterCards){
             if(characterCard.getId() == id)
