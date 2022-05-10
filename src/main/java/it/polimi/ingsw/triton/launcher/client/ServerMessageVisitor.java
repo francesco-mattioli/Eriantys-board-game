@@ -27,7 +27,7 @@ public class ServerMessageVisitor {
 
     public void visit(LoginReply message) {
         clientView.getClientModel().setUsername(message.getReceiverUsername());
-        clientView.showGenericMessage("Username accepted");
+        clientView.showGenericMessage("Username accepted! Welcome to Eriantys " + message.getReceiverUsername() + "!");
     }
 
     public void visit(PlayersNumberAndGameModeRequest message) {
