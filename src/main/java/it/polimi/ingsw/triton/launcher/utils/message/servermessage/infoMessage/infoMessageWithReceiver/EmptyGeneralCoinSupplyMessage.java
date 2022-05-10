@@ -15,7 +15,7 @@ public class EmptyGeneralCoinSupplyMessage extends InfoWithReceiverMessage {
 
     @Override
     public void accept(ServerMessageVisitor messageVisitor) {
-
+        messageVisitor.visit(this);
     }
 
 }
