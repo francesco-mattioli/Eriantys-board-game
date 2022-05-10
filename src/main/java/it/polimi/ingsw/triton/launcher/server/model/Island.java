@@ -121,7 +121,6 @@ public class Island extends Observable<InfoMessage> implements Serializable {
     public void towerInfluence(Player newDominator, Player [] professors)  throws EndGameException {
         if (dominator != null && dominator != newDominator) {
             dominator.getSchoolBoard().moveTowerOntoSchoolBoard(dim);
-            dominator = newDominator;
             notify(new MoveTowerOntoSchoolBoardMessage(dominator.getUsername(), dominator.getSchoolBoard(), Arrays.stream(professors).map(p-> p.getUsername()).toArray(String[]::new)));
         }
         if (newDominator != null && dominator != newDominator) {
