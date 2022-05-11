@@ -15,8 +15,6 @@ import it.polimi.ingsw.triton.launcher.utils.obs.Observable;
 import it.polimi.ingsw.triton.launcher.client.Client;
 import it.polimi.ingsw.triton.launcher.utils.message.Message;
 import it.polimi.ingsw.triton.launcher.client.view.ClientView;
-
-import java.io.IOException;
 import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.Map;
@@ -74,7 +72,7 @@ public class Cli extends Observable<Message> implements ClientView{
 
     public void askIpAddress(){
         String defaultIp = "localhost";
-        String ip = "";
+        String ip;
         while (true){
             out.print("Please, enter the ip address of the server [default: " + defaultIp + "]:");
             ip = readLine();

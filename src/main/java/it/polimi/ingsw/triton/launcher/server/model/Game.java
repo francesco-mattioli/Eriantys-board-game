@@ -603,7 +603,7 @@ public class Game extends Observable<InfoMessage> {
     }
 
     public void endGame() {
-        this.instance=null;
+        instance=null;
     }
 
     //GETTERS ----------------------------------------------
