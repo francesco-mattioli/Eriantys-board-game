@@ -4,6 +4,7 @@ import it.polimi.ingsw.triton.launcher.server.model.enums.Color;
 import it.polimi.ingsw.triton.launcher.server.model.enums.TowerColor;
 import it.polimi.ingsw.triton.launcher.server.model.player.SchoolBoard;
 import it.polimi.ingsw.triton.launcher.utils.exceptions.EndGameException;
+import it.polimi.ingsw.triton.launcher.utils.exceptions.IllegalClientInputException;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -77,9 +78,29 @@ class SchoolBoardTest {
     @Test
     void testAddStudentIntoDiningRoom() {
         int numGreenStudents = schoolBoard.getStudentsNumber(Color.GREEN);
-        schoolBoard.addStudentIntoDiningRoom(Color.GREEN);
+        try {
+            schoolBoard.addStudentIntoDiningRoom(Color.GREEN);
+        } catch (IllegalClientInputException e) {
+            throw new RuntimeException(e);
+        }
         assertEquals(0, schoolBoard.getStudentsNumber(Color.BLUE));
         assertEquals(numGreenStudents + 1, schoolBoard.getStudentsNumber(Color.GREEN));
+    }
+
+    /**
+     * Tests if the method launches an exception when the dining room of a color
+     * is full and the player tries to add another student.
+     */
+    @Test
+    void testAddStudentIntoDiningRoomWhenFull() {
+        for(int i = 0; i < 10; i++){
+            try {
+                schoolBoard.addStudentIntoDiningRoom(Color.GREEN);
+            } catch (IllegalClientInputException e) {
+                throw new RuntimeException(e);
+            }
+        }
+        assertThrows(IllegalClientInputException.class, ()->schoolBoard.addStudentIntoDiningRoom(Color.GREEN));
     }
 
     /**
@@ -100,7 +121,11 @@ class SchoolBoardTest {
     @Test
     void getStudentsNumber() {
         assertEquals(0, schoolBoard.getStudentsNumber(Color.GREEN));
-        schoolBoard.addStudentIntoDiningRoom(Color.GREEN);
+        try {
+            schoolBoard.addStudentIntoDiningRoom(Color.GREEN);
+        } catch (IllegalClientInputException e) {
+            throw new RuntimeException(e);
+        }
         assertEquals(1, schoolBoard.getStudentsNumber(Color.GREEN));
     }
 
