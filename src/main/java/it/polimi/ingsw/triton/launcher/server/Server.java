@@ -110,7 +110,6 @@ public class Server {
                 if (numOfClients == maxNumPlayers) {
                     controller.createTowerColorRequestMessage(controller.getVirtualViews().get(0).getUsername());
                     LOGGER.info("Last player accepted. Lobby is now full");
-                    semaphore.release();
                 }
             } catch (IllegalArgumentException e) {
                 VirtualView virtualView = new VirtualView(serveOneClient, username);
