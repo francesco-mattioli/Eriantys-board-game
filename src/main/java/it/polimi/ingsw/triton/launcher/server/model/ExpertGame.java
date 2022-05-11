@@ -143,6 +143,11 @@ public class ExpertGame extends Game{
     }
 
     @Override
+    public void endGame(){
+        instance = null;
+    }
+
+    @Override
     public ArrayList<CharacterCard> getCharacterCards() {
         return characterCards;
     }
