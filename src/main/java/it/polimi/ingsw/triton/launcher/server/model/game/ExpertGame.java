@@ -10,7 +10,6 @@ import it.polimi.ingsw.triton.launcher.server.model.enums.Wizard;
 import it.polimi.ingsw.triton.launcher.server.model.player.Player;
 import it.polimi.ingsw.triton.launcher.server.model.playeractions.ExpertMoveStudentIntoDiningRoom;
 import it.polimi.ingsw.triton.launcher.server.model.playeractions.UseCharacterCard;
-import it.polimi.ingsw.triton.launcher.server.model.professor.ProfessorsManager;
 import it.polimi.ingsw.triton.launcher.utils.exceptions.*;
 import it.polimi.ingsw.triton.launcher.utils.message.ErrorTypeID;
 import it.polimi.ingsw.triton.launcher.utils.message.servermessage.infoMessage.*;
@@ -61,6 +60,7 @@ public class ExpertGame extends GameDecorator {
      * @param towerColor the color of the tower.
      * @throws IllegalClientInputException when the user's chosen tower color has already been chosen.
      */
+    @Override
     public void chooseTowerColor(String username, TowerColor towerColor) throws IllegalClientInputException, ChangeTurnException {
         if(game.getTowerColorChosen()[towerColor.ordinal()]){
             throw new IllegalClientInputException(ErrorTypeID.TOWER_COLOR_ALREADY_CHOSEN);
@@ -69,7 +69,7 @@ public class ExpertGame extends GameDecorator {
             getPlayerByUsername(username).setSchoolBoard(towerColor, game.getMaxNumberOfPlayers());
             game.getTowerColorChosen()[towerColor.ordinal()] = true;
         }
-        setNextPlayer(game.getCurrentPlayer());
+        this.setNextPlayer(game.getCurrentPlayer());
     }
 
     /**
@@ -78,6 +78,7 @@ public class ExpertGame extends GameDecorator {
      * @param wizard the wizard selected by the player.
      * @throws IllegalClientInputException when the user's chosen wizard has already been chosen.
      */
+    @Override
     public void chooseWizard(String username, Wizard wizard) throws IllegalClientInputException, ChangeTurnException {
         if(!game.getAvailableWizards().contains(wizard)){
             throw new IllegalClientInputException(ErrorTypeID.WIZARD_ALREADY_CHOSEN);
@@ -86,7 +87,7 @@ public class ExpertGame extends GameDecorator {
             getPlayerByUsername(username).setWizard(wizard);
             game.getAvailableWizards().remove(wizard);
         }
-        setNextPlayer(game.getCurrentPlayer());
+        this.setNextPlayer(game.getCurrentPlayer());
     }
 
 
@@ -95,22 +96,22 @@ public class ExpertGame extends GameDecorator {
      */
     @Override
     public void setup() {
-        game.setupMotherNature(); //PHASE 2
-        game.setupBag(); //PART 1 OF PHASE 3
-        game.setupIslands(); //PART 2 OF PHASE 3
+        setupMotherNature(); //PHASE 2
+        setupBag(); //PART 1 OF PHASE 3
+        setupIslands(); //PART 2 OF PHASE 3
         game.getBag().fillBag(); //PHASE 4
-        game.createCloudTiles(); //PHASE 5
+        createCloudTiles(); //PHASE 5
         //PHASE 6 in constructor
         //PHASE 7, 8 & 9 are done when the player logs in for the first time
-        game.setupEntrance(); //PHASE 10
+        setupEntrance(); //PHASE 10
         this.setupPlayers(); //PHASE 11
         this.drawCharacterCards(); //(PHASE 12) creates 3 character cards
         for(Player player: game.getPlayers()) {
-            game.notify(new GiveAssistantDeckMessage(player.getUsername(), player.getAssistantDeck()));   // to review
-            game.notify(new UpdateWalletMessage(player.getUsername(), player.getWallet().getValue()));
+            notify(new GiveAssistantDeckMessage(player.getUsername(), player.getAssistantDeck()));   // to review
+            notify(new UpdateWalletMessage(player.getUsername(), player.getWallet().getValue()));
         }
-        game.notify(new ExpertGameInfoMessage(characterCards, game.getIslands(), game.getMotherNature().getPosition(), game.getAllSchoolBoards(), game.getCloudTiles(), new String[game.getProfessors().length]));
-        game.notify(new ChangeTurnMessage(game.getCurrentPlayer().getUsername()));
+        notify(new ExpertGameInfoMessage(characterCards, game.getIslands(), game.getMotherNature().getPosition(), game.getAllSchoolBoards(), game.getCloudTiles(), new String[game.getProfessors().length]));
+        notify(new ChangeTurnMessage(game.getCurrentPlayer().getUsername()));
         this.planningPhase();
     }
 
@@ -140,12 +141,12 @@ public class ExpertGame extends GameDecorator {
         boolean empty = generalCoinSupply.isEmpty();
         game.getCurrentPlayer().executeAction(new ExpertMoveStudentIntoDiningRoom(student, game.getCurrentPlayer(), generalCoinSupply));
         if(game.getCurrentPlayer().getSchoolBoard().getDiningRoom()[student.ordinal()] % 3 == 0 && !empty)
-            game.notify(new UpdateWalletMessage(game.getCurrentPlayer().getUsername(), game.getCurrentPlayer().getWallet().getValue()));
+            notify(new UpdateWalletMessage(game.getCurrentPlayer().getUsername(), game.getCurrentPlayer().getWallet().getValue()));
         else if(game.getCurrentPlayer().getSchoolBoard().getDiningRoom()[student.ordinal()] % 3 == 0 && empty)
-            game.notify(new EmptyGeneralCoinSupplyMessage(game.getCurrentPlayer().getUsername()));
+            notify(new EmptyGeneralCoinSupplyMessage(game.getCurrentPlayer().getUsername()));
         game.getProfessorsManager().updateProfessors(game.getCurrentPlayer(), student, game.getProfessors());
         String moveDescription = game.getCurrentPlayer().getUsername() + " has moved a " + student.name().toLowerCase() + " student in his dining room";
-        game.notify(new InfoStudentIntoDiningRoomMessage(game.getCurrentPlayer().getUsername(), game.getCurrentPlayer().getSchoolBoard(),game.professorsWithUsernameOwner(), moveDescription));
+        notify(new InfoStudentIntoDiningRoomMessage(game.getCurrentPlayer().getUsername(), game.getCurrentPlayer().getSchoolBoard(),game.professorsWithUsernameOwner(), moveDescription));
         game.getCurrentPlayer().setMoveCounter(game.getCurrentPlayer().getMoveCounter() + 1);
         game.checkNumberMoves();   //checks if the move was the last one throwing lastMoveException
     }
@@ -179,7 +180,7 @@ public class ExpertGame extends GameDecorator {
         }
         else {
             game.getCurrentPlayer().executeAction(new UseCharacterCard(getCharacterCardByID(idCard), game.getCurrentPlayer(), generalCoinSupply));
-            game.notify(new UpdateWalletMessage(game.getCurrentPlayer().getUsername(), game.getCurrentPlayer().getWallet().getValue()));
+            notify(new UpdateWalletMessage(game.getCurrentPlayer().getUsername(), game.getCurrentPlayer().getWallet().getValue()));
             if (getCharacterCardByID(idCard).hasParameters())
                 throw new CharacterCardWithParametersException();
         }
@@ -192,7 +193,7 @@ public class ExpertGame extends GameDecorator {
     @Override
     public void applyCharacterCardEffect(int characterCardID, CardEffect cardEffect) throws IllegalClientInputException, EndGameException {
         getCharacterCardByID(characterCardID).executeEffect(cardEffect);
-        game.notify(new InfoCharacterCardPlayedMessage(game.getCurrentPlayer().getUsername(), getCharacterCardByID(characterCardID), game.getIslands(), game.getAllSchoolBoards()));
+        notify(new InfoCharacterCardPlayedMessage(game.getCurrentPlayer().getUsername(), getCharacterCardByID(characterCardID), game.getIslands(), game.getAllSchoolBoards()));
     }
 
     @Override

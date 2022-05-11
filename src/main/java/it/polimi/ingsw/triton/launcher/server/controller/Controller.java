@@ -1,6 +1,5 @@
 package it.polimi.ingsw.triton.launcher.server.controller;
 
-import it.polimi.ingsw.triton.launcher.server.model.game.Game;
 import it.polimi.ingsw.triton.launcher.server.model.Island;
 import it.polimi.ingsw.triton.launcher.server.model.enums.GameState;
 import it.polimi.ingsw.triton.launcher.server.model.game.GameMode;

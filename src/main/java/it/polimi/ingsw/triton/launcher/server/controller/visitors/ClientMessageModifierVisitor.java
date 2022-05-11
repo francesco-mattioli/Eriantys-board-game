@@ -1,7 +1,6 @@
 package it.polimi.ingsw.triton.launcher.server.controller.visitors;
 
 import it.polimi.ingsw.triton.launcher.server.Server;
-import it.polimi.ingsw.triton.launcher.server.model.game.Game;
 import it.polimi.ingsw.triton.launcher.server.model.cardeffects.*;
 import it.polimi.ingsw.triton.launcher.server.model.game.GameMode;
 import it.polimi.ingsw.triton.launcher.utils.exceptions.*;

@@ -10,14 +10,12 @@ import it.polimi.ingsw.triton.launcher.server.model.enums.Wizard;
 import it.polimi.ingsw.triton.launcher.server.model.player.Player;
 import it.polimi.ingsw.triton.launcher.server.model.player.SchoolBoard;
 import it.polimi.ingsw.triton.launcher.server.model.professor.ProfessorsManager;
-import it.polimi.ingsw.triton.launcher.server.view.VirtualView;
 import it.polimi.ingsw.triton.launcher.utils.exceptions.*;
-import it.polimi.ingsw.triton.launcher.utils.message.servermessage.InfoMessage;
 
 import java.util.ArrayList;
 import java.util.Map;
 
-public class GameDecorator implements GameMode{
+public class GameDecorator extends GameMode{
     protected GameMode game;
 
     public GameDecorator(GameMode game) {
@@ -179,10 +177,6 @@ public class GameDecorator implements GameMode{
         return game.getAvailableWizards();
     }
 
-    @Override
-    public void addObserver(VirtualView virtualView) {
-        game.addObserver(virtualView);
-    }
 
     @Override
     public void setupMotherNature() {
@@ -212,11 +206,6 @@ public class GameDecorator implements GameMode{
     @Override
     public void checkNumberMoves() throws LastMoveException {
         game.checkNumberMoves();
-    }
-
-    @Override
-    public void notify(InfoMessage message) {
-        game.notify(message);
     }
 
     @Override

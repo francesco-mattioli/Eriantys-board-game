@@ -24,7 +24,7 @@ import it.polimi.ingsw.triton.launcher.utils.obs.Observable;
 import java.util.*;
 import java.util.stream.Collectors;
 
-public class Game extends Observable<InfoMessage> implements GameMode{
+public class Game extends GameMode{
     protected final ArrayList<Island> islands;
     protected final Bag bag;
     private final int maxNumberOfPlayers;
@@ -640,15 +640,9 @@ public class Game extends Observable<InfoMessage> implements GameMode{
         return availableWizards;
     }
 
-    @Override
-    public void addObserver(VirtualView virtualView) {
-        super.addObserver(virtualView);
-    }
-
     public ProfessorsManager getProfessorsManager() {
         return professorsManager;
     }
-
 
     public GameState getGameState() {
         return gameState;

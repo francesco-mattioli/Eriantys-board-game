@@ -10,92 +10,54 @@ import it.polimi.ingsw.triton.launcher.server.model.enums.Wizard;
 import it.polimi.ingsw.triton.launcher.server.model.player.Player;
 import it.polimi.ingsw.triton.launcher.server.model.player.SchoolBoard;
 import it.polimi.ingsw.triton.launcher.server.model.professor.ProfessorsManager;
-import it.polimi.ingsw.triton.launcher.server.view.VirtualView;
 import it.polimi.ingsw.triton.launcher.utils.exceptions.*;
-import it.polimi.ingsw.triton.launcher.utils.message.Message;
 import it.polimi.ingsw.triton.launcher.utils.message.servermessage.InfoMessage;
-import it.polimi.ingsw.triton.launcher.utils.message.servermessage.infoMessage.infoMessageWithReceiver.GiveAssistantDeckMessage;
 import it.polimi.ingsw.triton.launcher.utils.obs.Observable;
-import it.polimi.ingsw.triton.launcher.utils.obs.Observer;
 
 import java.util.ArrayList;
 import java.util.Map;
 
-public interface GameMode {
-    void setup();
-    void setupPlayers();
-    void planningPhase();
-    void executeActionMoveStudentToDiningRoom(Color student) throws LastMoveException, IllegalClientInputException;
-    void useCharacterCard(String username,int idCard) throws IllegalClientInputException, CharacterCardWithParametersException;
-    void applyCharacterCardEffect(int characterCardID, CardEffect cardEffect) throws IllegalClientInputException, EndGameException;
-    ArrayList<CharacterCard> getCharacterCards();
-    CharacterCard getCharacterCardByID(int id) throws IllegalClientInputException;
-
-    void setGameState(GameState setup);
-    boolean[] getTowerColorChosen();
-    Player getCurrentPlayer();
-    void calculateWinner();
-    void addPlayer(String username);
-    ArrayList<Island> getIslands();
-
-    GameState getGameState();
-
-    void disconnectPlayers();
-
-    ArrayList<Player> getPlayers();
-
-    void chooseTowerColor(String senderUsername, TowerColor playerColor) throws IllegalClientInputException, ChangeTurnException;
-
-    void chooseWizard(String senderUsername, Wizard playerWizard) throws IllegalClientInputException, ChangeTurnException;
-
-    void chooseAssistantCard(String senderUsername, AssistantCard chosenAssistantCard) throws IllegalClientInputException, ChangeTurnException;
-
-    void executeActionMoveStudentToIsland(Color student, int islandID) throws IllegalClientInputException, LastMoveException;
-
-    void moveMotherNature(int numSteps) throws IllegalClientInputException, EndGameException, ChangeTurnException;
-
-    CloudTile getCloudTileById(int selectedCloudTileID) throws IllegalClientInputException;
-
-    void chooseCloudTile(CloudTile cloudTileById) throws IllegalClientInputException, ChangeTurnException, EndGameException;
-
-    Player getPlayerByUsername(String senderUsername);
-
-    MotherNature getMotherNature();
-
-    ProfessorsManager getProfessorsManager();
-
-    Player[] getProfessors();
-
-    Island getIslandByID(int islandID) throws IllegalClientInputException;
-
-    Bag getBag();
-
-    ArrayList<Wizard> getAvailableWizards();
-
-    void addObserver(VirtualView virtualView);
-
-    void setupMotherNature();
-
-    void setupBag();
-
-    void setupIslands();
-
-    void createCloudTiles();
-
-    void setupEntrance();
-
-    void checkNumberMoves() throws LastMoveException;
-
-
-    void notify(InfoMessage message);
-
-    Map<String, SchoolBoard> getAllSchoolBoards();
-
-    ArrayList<CloudTile> getCloudTiles();
-
-    String[] professorsWithUsernameOwner();
-
-    int getMaxNumberOfPlayers();
-
-    void setCurrentPlayer(Player player);
+public abstract class GameMode extends Observable<InfoMessage>{
+    abstract void setup();
+    abstract void setupPlayers();
+    abstract void planningPhase();
+    public abstract void executeActionMoveStudentToDiningRoom(Color student) throws LastMoveException, IllegalClientInputException;
+    public abstract void useCharacterCard(String username, int idCard) throws IllegalClientInputException, CharacterCardWithParametersException;
+    public abstract void applyCharacterCardEffect(int characterCardID, CardEffect cardEffect) throws IllegalClientInputException, EndGameException;
+    abstract ArrayList<CharacterCard> getCharacterCards();
+    public abstract CharacterCard getCharacterCardByID(int id) throws IllegalClientInputException;
+    public abstract void setGameState(GameState setup);
+    public abstract boolean[] getTowerColorChosen();
+    public abstract Player getCurrentPlayer();
+    public abstract void calculateWinner();
+    public abstract void addPlayer(String username);
+    public abstract ArrayList<Island> getIslands();
+    public abstract GameState getGameState();
+    public abstract void disconnectPlayers();
+    public abstract ArrayList<Player> getPlayers();
+    public abstract void chooseTowerColor(String senderUsername, TowerColor playerColor) throws IllegalClientInputException, ChangeTurnException;
+    public abstract void chooseWizard(String senderUsername, Wizard playerWizard) throws IllegalClientInputException, ChangeTurnException;
+    public abstract void chooseAssistantCard(String senderUsername, AssistantCard chosenAssistantCard) throws IllegalClientInputException, ChangeTurnException;
+    public abstract void executeActionMoveStudentToIsland(Color student, int islandID) throws IllegalClientInputException, LastMoveException;
+    public abstract void moveMotherNature(int numSteps) throws IllegalClientInputException, EndGameException, ChangeTurnException;
+    public abstract CloudTile getCloudTileById(int selectedCloudTileID) throws IllegalClientInputException;
+    public abstract void chooseCloudTile(CloudTile cloudTileById) throws IllegalClientInputException, ChangeTurnException, EndGameException;
+    public abstract Player getPlayerByUsername(String senderUsername);
+    public abstract MotherNature getMotherNature();
+    public abstract ProfessorsManager getProfessorsManager();
+    public abstract Player[] getProfessors();
+    public abstract Island getIslandByID(int islandID) throws IllegalClientInputException;
+    public abstract Bag getBag();
+    public abstract ArrayList<Wizard> getAvailableWizards();
+    abstract void setupMotherNature();
+    abstract void setupBag();
+    abstract void setupIslands();
+    abstract void createCloudTiles();
+    abstract void setupEntrance();
+    abstract void checkNumberMoves() throws LastMoveException;
+    abstract Map<String, SchoolBoard> getAllSchoolBoards();
+    abstract ArrayList<CloudTile> getCloudTiles();
+    abstract String[] professorsWithUsernameOwner();
+    abstract int getMaxNumberOfPlayers();
+    abstract void setCurrentPlayer(Player player);
 }
