@@ -215,7 +215,7 @@ public class ServerMessageVisitor {
     }
 
     public void visit(ErrorMessage message){
-        if(message.getErrorTypeID().equals(ErrorTypeID.USERNAME_ALREADY_CHOSEN)){
+        if(message.getErrorTypeID().equals(ErrorTypeID.USERNAME_ALREADY_CHOSEN) || message.getErrorTypeID().equals(ErrorTypeID.FORBIDDEN_USERNAME)){
             clientView.showErrorMessage(message.getErrorTypeID());
             clientView.askUsername();
         }

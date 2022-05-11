@@ -15,6 +15,8 @@ import it.polimi.ingsw.triton.launcher.utils.obs.Observable;
 import it.polimi.ingsw.triton.launcher.client.Client;
 import it.polimi.ingsw.triton.launcher.utils.message.Message;
 import it.polimi.ingsw.triton.launcher.client.view.ClientView;
+
+import java.io.IOException;
 import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.Map;
@@ -121,8 +123,7 @@ public class Cli extends Observable<Message> implements ClientView{
                 input = readLine();
             }while(!(input.equalsIgnoreCase("E") || input.equalsIgnoreCase("N")));
         } catch (NullPointerException e){
-            out.println("You should type N or E. Try again...");
-            askGameMode();
+            showAbortMessage();
         }
         // if input is E, expertMode is true
         return input.equalsIgnoreCase("E");
@@ -134,9 +135,11 @@ public class Cli extends Observable<Message> implements ClientView{
                 out.print(ANSI_BOLDGREEN + "Enter number of players [2 or 3]: " + ANSI_RESET);
                 String input = readLine();
                 numPlayers = Integer.parseInt(input);
-        } catch(NullPointerException | NumberFormatException e){
+        } catch(NumberFormatException e){
             out.println(TRY_AGAIN);
             askNumOfPlayers();
+        } catch (NullPointerException e){
+            showAbortMessage();
         }
         return numPlayers;
     }
@@ -173,9 +176,11 @@ public class Cli extends Observable<Message> implements ClientView{
             out.print(" ]: " + ANSI_RESET);
             String input = readLine();
             notify(new TowerColorReply(clientModel.getUsername(), TowerColor.values()[Integer.parseInt(input)]));
-        }catch(NullPointerException | NumberFormatException | ArrayIndexOutOfBoundsException e){
+        }catch(NumberFormatException | ArrayIndexOutOfBoundsException e){
             out.println(TRY_AGAIN);
             askTowerColor(chosenTowerColors);
+        } catch (NullPointerException e){
+            showAbortMessage();
         }
     }
 
@@ -190,9 +195,11 @@ public class Cli extends Observable<Message> implements ClientView{
             out.print("]: " + ANSI_RESET);
             String input = readLine();
             notify(new WizardReply(clientModel.getUsername(), Wizard.valueOf(input.toUpperCase())));
-        }catch(IllegalArgumentException | NullPointerException e){
+        }catch(IllegalArgumentException e){
             out.println(TRY_AGAIN);
             askWizard(wizards);
+        }catch (NullPointerException e){
+            showAbortMessage();
         }
     }
 
@@ -239,9 +246,11 @@ public class Cli extends Observable<Message> implements ClientView{
                     assistantCardReply = assistantCard;
             }
             notify(new AssistantCardReply(clientModel.getUsername(), assistantCardReply));
-        } catch(NullPointerException | IllegalArgumentException e){
+        } catch(IllegalArgumentException e){
             out.println(TRY_AGAIN);
             askAssistantCard();
+        } catch (NullPointerException e){
+            showAbortMessage();
         }
     }
 
@@ -272,9 +281,11 @@ public class Cli extends Observable<Message> implements ClientView{
                 else
                     notify(new MoveStudentOntoIslandMessage(clientModel.getUsername(), Integer.parseInt(removeSpaces(splittedInput[1])), color));
             }
-        } catch (NullPointerException | IllegalArgumentException e) {
+        } catch (IllegalArgumentException e) {
             out.println(TRY_AGAIN);
             askMoveStudentFromEntrance();
+        } catch (NullPointerException e){
+            showAbortMessage();
         }
     }
 
@@ -294,9 +305,11 @@ public class Cli extends Observable<Message> implements ClientView{
                 showAndPlayCharacterCard();
             else
                 notify(new MotherNatureReply(clientModel.getUsername(), Integer.parseInt(input)));
-        } catch (NumberFormatException | NullPointerException e) {
+        } catch (NumberFormatException e) {
             out.println(TRY_AGAIN);
             askNumberStepsMotherNature();
+        } catch (NullPointerException e){
+            showAbortMessage();
         }
     }
 
@@ -314,9 +327,11 @@ public class Cli extends Observable<Message> implements ClientView{
             else
                 notify(new CloudTileReply(clientModel.getUsername(), Integer.parseInt(input)));
         }
-        catch (NumberFormatException | NullPointerException e){
+        catch (NumberFormatException e){
             out.println(TRY_AGAIN);
             askCloudTile();
+        } catch (NullPointerException e){
+            showAbortMessage();
         }
     }
 
@@ -363,9 +378,11 @@ public class Cli extends Observable<Message> implements ClientView{
             out.print(ANSI_BLUE + "Choose the id of the island: " + ANSI_RESET);
             input = readLine();
             notify(new CharacterCard01Reply(clientModel.getUsername(), studentToMove, Integer.parseInt(input)));
-        } catch (NumberFormatException | NullPointerException e){
+        } catch (NumberFormatException e){
             out.println(TRY_AGAIN);
             askCharCard01();
+        } catch (NullPointerException e){
+            showAbortMessage();
         }
     }
 
@@ -375,9 +392,11 @@ public class Cli extends Observable<Message> implements ClientView{
             out.println(clientModel.printIslands());
             String input = readLine();
             notify(new CharacterCard03Reply(clientModel.getUsername(), Integer.parseInt(input)));
-        } catch (NumberFormatException | NullPointerException e){
+        } catch (NumberFormatException e){
             out.println(TRY_AGAIN);
             askCharCard03();
+        } catch (NullPointerException e){
+            showAbortMessage();
         }
     }
 
@@ -387,9 +406,11 @@ public class Cli extends Observable<Message> implements ClientView{
             out.println(clientModel.printIslands());
             String input = readLine();
             notify(new CharacterCard05Reply(clientModel.getUsername(), Integer.parseInt(input)));
-        } catch (NumberFormatException | NullPointerException e){
+        } catch (NumberFormatException e){
             out.println(TRY_AGAIN);
             askCharCard05();
+        } catch (NullPointerException e){
+            showAbortMessage();
         }
     }
 
@@ -417,9 +438,12 @@ public class Cli extends Observable<Message> implements ClientView{
                 color = Color.valueOf(inputFromSchoolBoard.toUpperCase());
                 fromSchoolBoard[color.ordinal()]++;
 
-            } catch (NullPointerException e){
+            }catch (IllegalArgumentException e){
                 out.println(TRY_AGAIN);
                 askCharCard07();
+            }
+            catch (NullPointerException e){
+                showAbortMessage();
             }
         }while (repeat < 3);
         notify(new CharacterCard07Reply(clientModel.getUsername(), fromCard, fromSchoolBoard, clientModel.getCharacterCardById(7).getStudents()));
@@ -450,9 +474,12 @@ public class Cli extends Observable<Message> implements ClientView{
             String input = readLine();
             Color color = Color.valueOf(input.toUpperCase());
             notify(new CharacterCard09Reply(clientModel.getUsername(), color));
-        } catch (NullPointerException e) {
+        } catch (IllegalArgumentException e){
             out.println(TRY_AGAIN);
             askCharCard09();
+        }
+        catch (NullPointerException e) {
+            showAbortMessage();
         }
     }
 
@@ -478,9 +505,12 @@ public class Cli extends Observable<Message> implements ClientView{
                 String inputFromDiningRoom = readLine();
                 color = Color.valueOf(inputFromDiningRoom.toUpperCase());
                 fromDiningRoom[color.ordinal()]++;
-            } catch (NullPointerException e){
+            } catch (IllegalArgumentException e){
                 out.println(TRY_AGAIN);
                 askCharCard10();
+            }
+            catch (NullPointerException e){
+                showAbortMessage();
             }
         }while (repeat < 2);
         notify(new CharacterCard10Reply(clientModel.getUsername(), fromEntrance, fromDiningRoom));
@@ -493,9 +523,12 @@ public class Cli extends Observable<Message> implements ClientView{
             String input = readLine();
             Color color = Color.valueOf(input.toUpperCase());
             notify(new CharacterCard11Reply(clientModel.getUsername(), color));
-        } catch (NullPointerException e){
+        } catch (IllegalArgumentException e){
             out.println(TRY_AGAIN);
             askCharCard11();
+        }
+        catch (NullPointerException e){
+            showAbortMessage();
         }
     }
 
@@ -508,9 +541,11 @@ public class Cli extends Observable<Message> implements ClientView{
             String input = readLine();
             Color color = Color.valueOf(input.toUpperCase());
             notify(new CharacterCard12Reply(clientModel.getUsername(), color));
-        } catch (NullPointerException e){
+        } catch (IllegalArgumentException e){
             out.println(TRY_AGAIN);
             askCharCard12();
+        } catch (NullPointerException e){
+            showAbortMessage();
         }
     }
 
@@ -524,7 +559,7 @@ public class Cli extends Observable<Message> implements ClientView{
     @Override
     public void showDisconnectionMessage() {
         inputReadThread.interrupt();
-        out.println("A player has disconnected! The game is finished.");
+        out.println(ANSI_RED + "A player has disconnected! The game is finished." + ANSI_RESET);
         System.exit(1);
     }
 
@@ -574,11 +609,16 @@ public class Cli extends Observable<Message> implements ClientView{
             String input=readLine();
             notify(new UseCharacterCardRequest(clientModel.getUsername(),Integer.parseInt(removeSpaces(input))));
         } catch (NullPointerException e) {
-            out.println(TRY_AGAIN);
+            System.exit(1);
         } catch(NumberFormatException e){
             out.println(TRY_AGAIN);
             showAndPlayCharacterCard();
         }
+    }
+
+    public void showAbortMessage(){
+        out.println(ANSI_RED + "Connection with server dropped! Quit..." + ANSI_RESET);
+        System.exit(1);
     }
 
     private String removeSpaces(String string){
@@ -603,6 +643,7 @@ public class Cli extends Observable<Message> implements ClientView{
             Thread.currentThread().interrupt();
         }catch(ExecutionException e){
             readLine();
+            Thread.currentThread().interrupt();
         }
         throw new NullPointerException("The method had read a null string");
     }

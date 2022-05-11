@@ -4,6 +4,7 @@ import it.polimi.ingsw.triton.launcher.server.model.CloudTile;
 import it.polimi.ingsw.triton.launcher.server.model.enums.Color;
 import it.polimi.ingsw.triton.launcher.server.model.player.SchoolBoard;
 import it.polimi.ingsw.triton.launcher.utils.exceptions.IllegalClientInputException;
+import it.polimi.ingsw.triton.launcher.utils.message.ErrorTypeID;
 
 public class ChooseCloudTile implements Action {
     private final CloudTile cloudTile;
@@ -31,7 +32,7 @@ public class ChooseCloudTile implements Action {
     @Override
     public void execute() throws IllegalClientInputException {
         if(isCloudTileAlreadyChosen()){
-            throw new IllegalClientInputException();
+            throw new IllegalClientInputException(ErrorTypeID.CLOUD_TILE_ALREADY_CHOSEN);
         }else{
             for(int i = 0; i < cloudTile.getStudents().length; i++){
                 for(int j = 0; j < cloudTile.getStudents()[i]; j++){

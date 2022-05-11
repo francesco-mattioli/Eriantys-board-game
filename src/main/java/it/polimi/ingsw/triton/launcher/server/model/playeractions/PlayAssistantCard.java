@@ -4,6 +4,7 @@ import it.polimi.ingsw.triton.launcher.server.model.AssistantCard;
 import it.polimi.ingsw.triton.launcher.server.model.player.AssistantDeck;
 import it.polimi.ingsw.triton.launcher.server.model.player.Player;
 import it.polimi.ingsw.triton.launcher.utils.exceptions.IllegalClientInputException;
+import it.polimi.ingsw.triton.launcher.utils.message.ErrorTypeID;
 
 import java.util.ArrayList;
 
@@ -72,7 +73,7 @@ public class PlayAssistantCard implements Action {
                 player.setLastPlayedAssistantCard(assistantCardToPlay);
                 player.getAssistantDeck().removeCard(assistantCardToPlay);
             } else
-                throw new IllegalClientInputException();
+                throw new IllegalClientInputException(ErrorTypeID.ASSISTANTCARD_ALREADY_CHOSEN);
         } else {
             player.setLastPlayedAssistantCard(assistantCardToPlay);
             player.getAssistantDeck().removeCard(assistantCardToPlay);

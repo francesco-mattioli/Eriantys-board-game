@@ -38,4 +38,6 @@ public interface ClientView extends View {
     void showLoseMessage(String winnerUsername);
     void showTieMessage();
 
+    void showAbortMessage();
+
 }

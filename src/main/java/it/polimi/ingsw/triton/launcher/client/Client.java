@@ -21,7 +21,7 @@ public class Client implements Observer<Message> {
     private ObjectOutputStream outSocket;
     private ExecutorService receiveExecutionQueue;
     private ExecutorService visitExecutionQueue;
-    private ClientView clientView;
+    private final ClientView clientView;
     public static final Logger LOGGER = Logger.getLogger(Client.class.getName());
 
     private final int port = 50535;
@@ -60,10 +60,11 @@ public class Client implements Observer<Message> {
                     // Accept the message using Visitor Pattern
                     visitExecutionQueue.execute(() ->message.accept(new ServerMessageVisitor(clientView)));
                 } catch (IOException | ClassNotFoundException e) {
-                    Client.LOGGER.severe("Error: " + e.getMessage()+ ": Connection will be closed");
+                    //Client.LOGGER.severe("Error: " + e.getMessage()+ ": Connection will be closed");
                     disconnect();
                     receiveExecutionQueue.shutdownNow();
                     visitExecutionQueue.shutdownNow();
+                    clientView.showAbortMessage();
                 }
             }
         });

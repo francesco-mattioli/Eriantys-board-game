@@ -125,6 +125,7 @@ public class Server {
             virtualView.showErrorMessage(ErrorTypeID.FORBIDDEN_USERNAME);
             LOGGER.severe("Player not accepted, username not available");
             LOGGER.info("Clients connected: " + this.numOfClients);
+            semaphore.release();
         }
         //in this case, lobby is already full so an other player cannot be added
         else {
