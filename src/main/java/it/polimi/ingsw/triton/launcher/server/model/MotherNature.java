@@ -33,7 +33,7 @@ public class MotherNature implements Serializable {
      */
     public Island move(AssistantCard assistantCard, int steps, ArrayList<Island> islands) throws IllegalClientInputException {
         int maxSteps = assistantCard.getType().getMaxSteps() + additionalSteps;
-        if (steps > maxSteps)
+        if (steps > maxSteps || steps < 0)
             throw new IllegalClientInputException(ErrorTypeID.TOO_MANY_MOTHERNATURE_STEPS);
         islandOn = nextMotherNaturePosition(islandOn, steps, islands);
         return islandOn;
