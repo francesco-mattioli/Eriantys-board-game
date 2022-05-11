@@ -556,8 +556,8 @@ public class Cli extends Observable<Message> implements ClientView{
 
     @Override
     public void showDisconnectionMessage() {
-        inputReadThread.interrupt();
         out.println(ANSI_RED + "A player has disconnected! The game is finished." + ANSI_RESET);
+        inputReadThread.interrupt();
         System.exit(1);
     }
 

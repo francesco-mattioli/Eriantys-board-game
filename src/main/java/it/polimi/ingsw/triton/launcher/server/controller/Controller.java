@@ -3,6 +3,7 @@ package it.polimi.ingsw.triton.launcher.server.controller;
 import it.polimi.ingsw.triton.launcher.server.model.Game;
 import it.polimi.ingsw.triton.launcher.server.model.Island;
 import it.polimi.ingsw.triton.launcher.server.model.enums.GameState;
+import it.polimi.ingsw.triton.launcher.server.model.player.Player;
 import it.polimi.ingsw.triton.launcher.server.view.VirtualView;
 import it.polimi.ingsw.triton.launcher.utils.exceptions.*;
 import it.polimi.ingsw.triton.launcher.utils.message.ErrorTypeID;
@@ -105,5 +106,12 @@ public class Controller implements Observer<ClientMessage> {
             game.disconnectPlayers();
             virtualViews.clear();
         }
+    }
+
+    public ArrayList<String> getPlayersUsernames(){
+        ArrayList<String> usernames = new ArrayList<>();
+        for(Player player: game.getPlayers())
+            usernames.add(player.getUsername());
+        return usernames;
     }
 }

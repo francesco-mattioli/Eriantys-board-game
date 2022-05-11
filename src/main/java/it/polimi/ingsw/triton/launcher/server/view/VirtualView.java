@@ -98,4 +98,8 @@ public class VirtualView extends Observable<ClientMessage> implements View, Obse
         return username;
     }
 
+    public ServeOneClient getServeOneClient(){
+        return serveOneClient;
+    }
+
 }

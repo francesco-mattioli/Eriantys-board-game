@@ -10,6 +10,7 @@ import it.polimi.ingsw.triton.launcher.utils.message.ErrorTypeID;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.Iterator;
 import java.util.concurrent.Semaphore;
 import java.util.logging.Logger;
 
@@ -164,5 +165,16 @@ public class Server {
     public synchronized void disconnectPlayers() {
         numOfClients = 0;
         controller.disconnectPlayers();
+    }
+
+    public void disconnect(ServeOneClient soc){
+        Iterator<VirtualView> iterator = controller.getVirtualViews().iterator();
+        while (iterator.hasNext()){
+            VirtualView vv = iterator.next();
+            if(vv.getServeOneClient() == soc && controller.getPlayersUsernames().contains(vv.getUsername())){
+                disconnectPlayers();
+                break;
+            }
+        }
     }
 }
