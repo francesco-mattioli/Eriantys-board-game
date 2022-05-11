@@ -24,6 +24,8 @@ public class Client implements Observer<Message> {
     private ClientView clientView;
     public static final Logger LOGGER = Logger.getLogger(Client.class.getName());
 
+    private final int port = 50535;
+
     /**
      * Initializes socket and input, output streams to communicate with the server
      * Executors.newSingleThreadExecutor() sets the thread for receiving message from server
@@ -84,13 +86,12 @@ public class Client implements Observer<Message> {
             */
             // without timeout
             try {
-                int port = Integer.parseInt(((UpdatedServerInfoMessage)message).getServerInfo().get("port"));
-                socket= new Socket(((UpdatedServerInfoMessage)message).getServerInfo().get("address"), port);
+                socket= new Socket(((UpdatedServerInfoMessage)message).getServerInfo(), port);
                 outSocket = new ObjectOutputStream(socket.getOutputStream());
                 inSocket = new ObjectInputStream(socket.getInputStream());
             } catch (IOException e) {
                 clientView.showGenericMessage("Cannot connect to this server!");
-                clientView.askServerAddressAndPort();
+                clientView.askIpAddress();
             }
             this.receiveExecutionQueue = Executors.newSingleThreadExecutor();
             this.visitExecutionQueue = Executors.newSingleThreadExecutor();

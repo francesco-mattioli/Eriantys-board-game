@@ -17,7 +17,6 @@ import it.polimi.ingsw.triton.launcher.utils.message.Message;
 import it.polimi.ingsw.triton.launcher.client.view.ClientView;
 import java.io.PrintStream;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.FutureTask;
@@ -68,20 +67,10 @@ public class Cli extends Observable<Message> implements ClientView{
     public void init(){
         this.addObserver(new Client(this));
         this.clientModel=new ClientModel();
-        askServerAddressAndPort();
+        askIpAddress();
     }
 
-    @Override
-    public void askServerAddressAndPort(){
-        Map<String, String> serverInfo = new HashMap<>();
-        String ip = askIpAddress();
-        String port = askServerPort();
-        serverInfo.put("ip", ip);
-        serverInfo.put("port", port);
-        notify(new UpdatedServerInfoMessage(serverInfo));
-    }
-
-    private String askIpAddress(){
+    public void askIpAddress(){
         String defaultIp = "localhost";
         String ip = "";
         while (true){
@@ -94,30 +83,7 @@ public class Cli extends Observable<Message> implements ClientView{
             else if(isCorrectIpAddress(ip))
                 break;
         }
-        return ip;
-    }
-
-    private String askServerPort(){
-        int numberPort;
-        String portInput = "";
-        String defaultPort = "50535";
-        while (true){
-            out.print("Please, enter the port of the server [default: " + defaultPort + "]:");
-            portInput = readLine();
-            if(portInput.isEmpty()){
-                portInput = defaultPort;
-                break;
-            }else{
-                try{
-                    numberPort = Integer.parseInt(portInput);
-                    if(numberPort >= 1 && numberPort <= 65535)
-                        break;
-                }catch (NumberFormatException e){
-                    out.println("Invalid port");
-                }
-            }
-        }
-        return portInput;
+        notify(new UpdatedServerInfoMessage(ip));
     }
 
     private boolean isCorrectIpAddress(String address){
