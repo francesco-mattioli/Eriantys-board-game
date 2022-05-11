@@ -105,6 +105,7 @@ public class Server {
                 numOfClients++;
                 LOGGER.info("New player accepted");
                 LOGGER.info("Clients connected: " + this.numOfClients);
+                semaphore.release();
                 //in this case, the player added is the last one, so after this the game can be started and next players will be rejected
                 if (numOfClients == maxNumPlayers) {
                     controller.createTowerColorRequestMessage(controller.getVirtualViews().get(0).getUsername());
@@ -161,6 +162,7 @@ public class Server {
     }
 
     public synchronized void disconnectPlayers() {
+        numOfClients = 0;
         controller.disconnectPlayers();
     }
 }
