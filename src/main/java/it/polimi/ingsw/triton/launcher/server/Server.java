@@ -2,15 +2,16 @@ package it.polimi.ingsw.triton.launcher.server;
 
 import it.polimi.ingsw.triton.launcher.client.cli.Cli;
 import it.polimi.ingsw.triton.launcher.server.controller.Controller;
-import it.polimi.ingsw.triton.launcher.server.model.ExpertGame;
-import it.polimi.ingsw.triton.launcher.server.model.Game;
+import it.polimi.ingsw.triton.launcher.server.model.game.ExpertGame;
+import it.polimi.ingsw.triton.launcher.server.model.game.Game;
+import it.polimi.ingsw.triton.launcher.server.model.game.GameMode;
 import it.polimi.ingsw.triton.launcher.server.view.VirtualView;
 import it.polimi.ingsw.triton.launcher.utils.message.ErrorTypeID;
 
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.util.Iterator;
+import java.util.*;
 import java.util.concurrent.Semaphore;
 import java.util.logging.Logger;
 
@@ -58,12 +59,13 @@ public class Server {
         } else {
             this.maxNumPlayers = maxNumPlayers;
             LOGGER.severe("Number of players was set");
-            Game game;
-            if (expertMode)
-                game = ExpertGame.instance(maxNumPlayers);
+            GameMode game = new Game(maxNumPlayers);
+            if (expertMode) {
+                GameMode expertGame = new ExpertGame(game);
+                this.controller = new Controller(expertGame);
+            }
             else
-                game = Game.instance(maxNumPlayers);
-            this.controller = new Controller(game);
+                this.controller = new Controller(game);
             LOGGER.severe("Game instantiated");
             controller.getVirtualViews().add(firstPlayerVirtualView);
             controller.getVirtualViewByUsername(username).addObserver(controller);
@@ -106,7 +108,6 @@ public class Server {
                 numOfClients++;
                 LOGGER.info("New player accepted");
                 LOGGER.info("Clients connected: " + this.numOfClients);
-                semaphore.release();
                 //in this case, the player added is the last one, so after this the game can be started and next players will be rejected
                 if (numOfClients == maxNumPlayers) {
                     controller.createTowerColorRequestMessage(controller.getVirtualViews().get(0).getUsername());
