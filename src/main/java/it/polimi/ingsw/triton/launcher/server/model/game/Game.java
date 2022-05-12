@@ -178,7 +178,6 @@ public class Game extends GameMode{
         else if(Wizard.values().length - availableWizards.size() == maxNumberOfPlayers) {
             setup();
             availableWizards.clear();
-            gameState = GameState.PLANNING_PHASE;
             throw new ChangeTurnException();
         }
         else{
