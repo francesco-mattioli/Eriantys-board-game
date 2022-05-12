@@ -40,6 +40,7 @@ public class Gui extends Observable<Message> implements ClientView {
     private Client client;
     private Stage mainStage;
     private Stage activeStage;
+    private FXMLLoader mainLoader;
     private GameState actualGamePhase = GameState.SETUP;
 
     public Gui(Stage activeStage) {
@@ -122,6 +123,9 @@ public class Gui extends Observable<Message> implements ClientView {
 
     @Override
     public void showInfoAssistantCardPlayed(String username, AssistantCard assistantCard) {
+        String currentPath = new java.io.File( "src/main/resources/Images/AssistantCards").getAbsolutePath().replace('\\','/');
+        ImageView imageView = (ImageView)(((MainScene2PlayersController)mainLoader.getController()).getMySchoolBoardPane().getChildren().get(3));
+        imageView.setImage(new Image("file:" + currentPath + assistantCard.getType().getImagePath()));
 
     }
 
@@ -223,6 +227,7 @@ public class Gui extends Observable<Message> implements ClientView {
                 }
                 Scene scene = new Scene(root);
                 activeStage.setScene(scene);
+                activeStage.show();
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -294,14 +299,14 @@ public class Gui extends Observable<Message> implements ClientView {
 
     private void initializeMainStage(){
         Platform.runLater(() -> {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/main-scene.fxml"));
+            mainLoader = new FXMLLoader(getClass().getResource("/main-scene.fxml"));
             Parent root = null;
             try {
-                root = loader.load();
+                root = mainLoader.load();
                 Scene scene = new Scene(root);
                 mainStage = new Stage();
                 mainStage.setFullScreen(true);
-                List<Node> studentsOnMyDiningRoom = ((MainScene2PlayersController)loader.getController()).getMyDiningRoomGrid().getChildren();
+                List<Node> studentsOnMyDiningRoom = ((MainScene2PlayersController)mainLoader.getController()).getMyDiningRoomGrid().getChildren();
                 int offset = 0;
                 for(int i = 0; i < clientModel.getMySchoolBoard().getDiningRoom().length; i++){
                     for(int j = 0; j<clientModel.getMySchoolBoard().getDiningRoom()[i]; j++) {
@@ -309,7 +314,7 @@ public class Gui extends Observable<Message> implements ClientView {
                     }
                     offset+=10;
                 }
-                List<Node> studentsOnMyEntrance = ((MainScene2PlayersController)loader.getController()).getMyEntranceGrid().getChildren();
+                List<Node> studentsOnMyEntrance = ((MainScene2PlayersController)mainLoader.getController()).getMyEntranceGrid().getChildren();
                 offset = 0;
                 String currentPath = new java.io.File("src/main/resources/Images/Students").getAbsolutePath().replace('\\','/');
                 for(int i = 0; i < clientModel.getMySchoolBoard().getEntrance().length; i++){
@@ -320,7 +325,7 @@ public class Gui extends Observable<Message> implements ClientView {
                     }
                 }
                 currentPath = new java.io.File("src/main/resources/Images/Islands").getAbsolutePath().replace('\\','/');
-                List<Node> islands = ((MainScene2PlayersController)loader.getController()).getIslandPane().getChildren();
+                List<Node> islands = ((MainScene2PlayersController)mainLoader.getController()).getIslandPane().getChildren();
                 int dim1 = clientModel.getIslands().size()/2;
                 int dim2 = clientModel.getIslands().size() - dim1;
                 TilePane superiorGrid = new TilePane();
@@ -358,6 +363,9 @@ public class Gui extends Observable<Message> implements ClientView {
                 inferiorGrid.setHgap(100);
                 islands.add(superiorGrid);
                 islands.add(inferiorGrid);
+                currentPath = new java.io.File( "src/main/resources/Images/Wizards").getAbsolutePath().replace('\\','/');
+                ImageView imageView = (ImageView)(((MainScene2PlayersController)mainLoader.getController()).getMySchoolBoardPane().getChildren().get(2));
+                imageView.setImage(new Image("file:" + currentPath + clientModel.getAssistantDeck().getWizard().getImagePath()));
                 mainStage.setScene(scene);
                 mainStage.show();
                 activeStage.close();
