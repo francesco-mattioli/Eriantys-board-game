@@ -16,6 +16,7 @@ import java.util.logging.Logger;
 
 
 public class Server {
+    private static Server instance;
     public static final Logger LOGGER = Logger.getLogger(Server.class.getName());
     public static int PORT;
     private Controller controller;
@@ -23,8 +24,15 @@ public class Server {
     private final List<VirtualView> waitingList;
     private boolean starting=false;
 
-    public Server(int PORT) {
-        Server.PORT = PORT;
+    public static Server instance(int PORT){
+        if(instance == null)
+            instance=new Server(PORT);
+        return instance;
+
+    }
+
+    private Server(int PORT) {
+        Server.PORT=PORT;
         this.game=Game.instance(3);
         this.controller=new Controller(game);
         this.waitingList=new ArrayList<>();
