@@ -25,24 +25,32 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 public class Game extends GameMode{
-    protected final ArrayList<Island> islands;
-    protected final Bag bag;
+    private static Game instance;
+    private final ArrayList<Island> islands;
+    private final Bag bag;
     private int maxNumberOfPlayers;
-    protected final ArrayList<Player> players;
-    protected final ArrayList<CloudTile> cloudTiles;
-    protected ArrayList<CloudTile> availableCloudTiles;
-    protected Player currentPlayer;
-    protected MotherNature motherNature;
-    protected final Player[] professors;
-    protected ProfessorsManager professorsManager;
-    protected final ArrayList<AssistantCard> usedAssistantCards;
-    protected final ArrayList<Wizard> availableWizards;
-    protected GameState gameState;
-    boolean notFullCloudTiles = false;
+    private final ArrayList<Player> players;
+    private final ArrayList<CloudTile> cloudTiles;
+    private ArrayList<CloudTile> availableCloudTiles;
+    private Player currentPlayer;
+    private MotherNature motherNature;
+    private final Player[] professors;
+    private ProfessorsManager professorsManager;
+    private final ArrayList<AssistantCard> usedAssistantCards;
+    private final ArrayList<Wizard> availableWizards;
+    private GameState gameState;
+    private boolean notFullCloudTiles = false;
     // The following array must be shown to users, so they can choose a towerColor that is not already chosen.
-    protected final boolean[] towerColorChosen;
+    private final boolean[] towerColorChosen;
 
-    public Game(int maxNumberOfPlayers) {
+    public static Game instance(int maxNumberOfPlayers){
+        if(instance==null)
+            instance=new Game(maxNumberOfPlayers);
+        return instance;
+    }
+
+
+    private Game(int maxNumberOfPlayers) {
         this.islands = new ArrayList<>();
         createIslands();
         this.maxNumberOfPlayers = maxNumberOfPlayers;
@@ -595,11 +603,12 @@ public class Game extends GameMode{
     public void disconnectPlayers() {
         setGameState(GameState.END);
         notify(new DisconnectionMessage());
-        //endGame();
+        endGame();
     }
 
-    public void endGame() {
-    //    instance=null;
+
+    private static void endGame() {
+        instance=null;
     }
 
     //GETTERS ----------------------------------------------

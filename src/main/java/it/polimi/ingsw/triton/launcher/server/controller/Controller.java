@@ -70,7 +70,7 @@ public class Controller implements Observer<ClientMessage> {
                 message.createExceptionalNextMessage(new ClientMessageExceptionalVisitor(game, getVirtualViewByUsername(game.getCurrentPlayer().getUsername())));
             } catch (EndGameException e) {
                 game.calculateWinner();
-                game.endGame();
+                disconnectPlayers();
             }
         /*}
         else

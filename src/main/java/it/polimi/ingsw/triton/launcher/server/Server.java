@@ -21,10 +21,11 @@ public class Server {
     private Controller controller;
     private GameMode game;
     private List<VirtualView> waitingList;
+    private boolean starting=false;
 
     public Server(int PORT) {
         Server.PORT = PORT;
-        this.game=new Game(2);
+        this.game=Game.instance(2);
         this.controller=new Controller(game);
         this.waitingList=new ArrayList<>();
         LOGGER.info("Clients connected: " + 0);
@@ -50,7 +51,7 @@ public class Server {
      * @param username      of the first player
      */
     public void activateGame(String username, int maxNumPlayers, boolean expertMode) {
-        if (!checkMaxNumPlayers(maxNumPlayers)) {
+        if (!isNumberOfPlayersValid(maxNumPlayers)) {
             waitingList.get(0).showErrorMessage(ErrorTypeID.WRONG_PLAYERS_NUMBER);
             waitingList.get(0).askNumPlayersAndGameMode();
             LOGGER.severe("Not valid number of players");
@@ -62,17 +63,23 @@ public class Server {
                 game.removeObserver(waitingList.get(waitingList.size()-1)); // DO ALSO FORT ISLANDS!!!!!!!!!!!!!!!!!
                 waitingList.remove(waitingList.get(waitingList.size()-1));
             }
-            if (expertMode)
-                this.controller.setGame(new ExpertGame(game));
-            controller.createTowerColorRequestMessage(waitingList.get(0).getUsername());
+            if(maxNumPlayers==waitingList.size()){
+                game.setMaxNumberOfPlayers(maxNumPlayers);
+                if (expertMode)
+                    this.controller.setGame(new ExpertGame(game));
+                controller.createTowerColorRequestMessage(waitingList.get(0).getUsername());
+            }else{
+                waitingList.get(0).showGenericMessage("Waiting for "+(maxNumPlayers-waitingList.size())+" to connect...");
+                starting=true;
+            }
+
             LOGGER.info("Clients connected: " + waitingList.size());
         }
    }
 
+
     /**
-     * This method adds players to the game
-     * We use a semaphore that locks the execution until the first player has chosen the number of players
-     * numOfClients is very important to establish which player is the first one, so he has to choose the number of players
+     * If it's the first player
      *
      * @param serveOneClient
      * @param username
@@ -81,21 +88,18 @@ public class Server {
         waitingList.add(new VirtualView(serveOneClient, username));
         controller.addVirtualView(waitingList.get(waitingList.size()-1));
         try {
-            if (waitingList.size() == 1) {
-                controller.addPlayer(username);
-                waitingList.get(0).showLoginReply();
-                waitingList.get(0).addObserver(controller);
-                controller.addGameObserver(waitingList.get(0));
-                LOGGER.info("First player has logged. Waiting for game mode and number of players...");
-            } else if (waitingList.size() <= 3) {
+            if (waitingList.size() <= 3) {
                 controller.addPlayer(username);
                 waitingList.get(waitingList.size() - 1).showLoginReply();
                 waitingList.get(waitingList.size() - 1).addObserver(controller);
                 controller.addGameObserver(waitingList.get(waitingList.size() - 1));
                 LOGGER.info("New player accepted");
-                waitingList.get(waitingList.size() - 1).showGenericMessage("Game will start as soon as the first players chooses number of players...");
+                if(waitingList.size()>1 && !starting)
+                    waitingList.get(waitingList.size() - 1).showGenericMessage("Game will start as soon as the first player chooses number of players...");
                 if(waitingList.size()==2)
                     waitingList.get(0).askNumPlayersAndGameMode();
+                if(waitingList.size()==3 && starting)
+                    controller.createTowerColorRequestMessage(waitingList.get(0).getUsername());
             }else{
                 waitingList.get(waitingList.size() - 1).showErrorMessage(ErrorTypeID.FULL_LOBBY);
                 waitingList.remove(waitingList.size() - 1);
@@ -114,7 +118,7 @@ public class Server {
     }
 
 
-    private boolean checkMaxNumPlayers(int num) {
+    private boolean isNumberOfPlayersValid(int num) {
         return (num == 2 || num == 3);
     }
 
@@ -145,7 +149,6 @@ public class Server {
 
     public void disconnectPlayers() {
         waitingList.clear();
-
         controller.disconnectPlayers();
     }
 

@@ -98,11 +98,6 @@ public class GameDecorator extends GameMode{
     }
 
     @Override
-    public void disconnectPlayers() {
-        game.disconnectPlayers();
-    }
-
-    @Override
     public ArrayList<Player> getPlayers() {
         return game.getPlayers();
     }
@@ -229,12 +224,17 @@ public class GameDecorator extends GameMode{
     }
 
     @Override
+    public void setMaxNumberOfPlayers(int maxNumberOfPlayers){
+        game.setMaxNumberOfPlayers(maxNumberOfPlayers);
+    }
+
+    @Override
     public void setCurrentPlayer(Player player) {
         game.setCurrentPlayer(player);
     }
 
     @Override
-    public void endGame() {
-        game.endGame();
+    public void disconnectPlayers() {
+        game.disconnectPlayers();
     }
 }
