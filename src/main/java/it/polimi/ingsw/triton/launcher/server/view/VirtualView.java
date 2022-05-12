@@ -4,6 +4,7 @@ import it.polimi.ingsw.triton.launcher.server.model.enums.Wizard;
 import it.polimi.ingsw.triton.launcher.utils.message.clientmessage.ClientMessage;
 import it.polimi.ingsw.triton.launcher.utils.message.servermessage.*;
 import it.polimi.ingsw.triton.launcher.utils.message.servermessage.Requests.*;
+import it.polimi.ingsw.triton.launcher.utils.message.servermessage.infoMessage.GenericMessage;
 import it.polimi.ingsw.triton.launcher.utils.message.servermessage.infoMessage.infoMessageWithReceiver.LoginReply;
 import it.polimi.ingsw.triton.launcher.utils.obs.Observable;
 import it.polimi.ingsw.triton.launcher.utils.obs.Observer;
@@ -56,6 +57,10 @@ public class VirtualView extends Observable<ClientMessage> implements View, Obse
         serveOneClient.sendMessage(new LoginReply(username));
     }
 
+    public void showGenericMessage(String message){
+        serveOneClient.sendMessage(new GenericMessage(message));
+    }
+
     @Override
     public void askMoveStudentFromEntrance() {
         MoveStudentFromEntranceMessage requestMessage = new MoveStudentFromEntranceMessage();
@@ -96,6 +101,10 @@ public class VirtualView extends Observable<ClientMessage> implements View, Obse
 
     public String getUsername() {
         return username;
+    }
+
+    public ServeOneClient getServeOneClient(){
+        return serveOneClient;
     }
 
 }

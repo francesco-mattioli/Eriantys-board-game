@@ -16,6 +16,8 @@ public interface ClientView extends View {
     //TO DO AN ABSTRACT CLASS maybe
     ClientModel getClientModel();
 
+    void askIpAddress();
+
     // Ask methods
     void askUsername();
 
@@ -35,5 +37,7 @@ public interface ClientView extends View {
     void showWinMessage();
     void showLoseMessage(String winnerUsername);
     void showTieMessage();
+
+    void showAbortMessage();
 
 }

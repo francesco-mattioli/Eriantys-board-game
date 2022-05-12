@@ -1,6 +1,7 @@
 package it.polimi.ingsw.triton.launcher.client;
 
 import it.polimi.ingsw.triton.launcher.client.view.ClientView;
+import it.polimi.ingsw.triton.launcher.utils.message.clientmessage.UpdatedServerInfoMessage;
 import it.polimi.ingsw.triton.launcher.utils.message.servermessage.ServerMessage;
 import it.polimi.ingsw.triton.launcher.utils.message.servermessage.infoMessage.DisconnectionMessage;
 import it.polimi.ingsw.triton.launcher.utils.obs.Observer;
@@ -20,31 +21,17 @@ public class Client implements Observer<Message> {
     private ObjectOutputStream outSocket;
     private ExecutorService receiveExecutionQueue;
     private ExecutorService visitExecutionQueue;
-    private ClientView clientView;
+    private final ClientView clientView;
     public static final Logger LOGGER = Logger.getLogger(Client.class.getName());
+
+    private final int port = 50535;
 
     /**
      * Initializes socket and input, output streams to communicate with the server
      * Executors.newSingleThreadExecutor() sets the thread for receiving message from server
      */
     public Client(ClientView clientView) {
-        try {
-            socket = new Socket();
-            /* To implement timeout client-side, it is necessary to define SocketAddress.
-            SocketAddress socketAddress = new InetSocketAddress("127.0.0.1", 50535);
-            socket.connect(socketAddress,5000);
-            */
-            // without timeout
-            socket= new Socket("127.0.0.1", 50535);
-            outSocket = new ObjectOutputStream(socket.getOutputStream());
-            inSocket = new ObjectInputStream(socket.getInputStream());
-            this.receiveExecutionQueue = Executors.newSingleThreadExecutor();
-            this.visitExecutionQueue = Executors.newSingleThreadExecutor();
-            this.clientView=clientView;
-            receiveMessage();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        this.clientView = clientView;
     }
 
 
@@ -73,10 +60,11 @@ public class Client implements Observer<Message> {
                     // Accept the message using Visitor Pattern
                     visitExecutionQueue.execute(() ->message.accept(new ServerMessageVisitor(clientView)));
                 } catch (IOException | ClassNotFoundException e) {
-                    Client.LOGGER.severe("Error: " + e.getMessage()+ ": Connection will be closed");
+                    //Client.LOGGER.severe("Error: " + e.getMessage()+ ": Connection will be closed");
                     disconnect();
                     receiveExecutionQueue.shutdownNow();
                     visitExecutionQueue.shutdownNow();
+                    clientView.showAbortMessage();
                 }
             }
         });
@@ -91,7 +79,28 @@ public class Client implements Observer<Message> {
      */
     @Override
     public void update(Message message) {
-        sendMessage(message);
+        if(message instanceof UpdatedServerInfoMessage){
+            socket = new Socket();
+            /* To implement timeout client-side, it is necessary to define SocketAddress.
+            SocketAddress socketAddress = new InetSocketAddress("127.0.0.1", 50535);
+            socket.connect(socketAddress,5000);
+            */
+            // without timeout
+            try {
+                socket= new Socket(((UpdatedServerInfoMessage)message).getServerInfo(), port);
+                outSocket = new ObjectOutputStream(socket.getOutputStream());
+                inSocket = new ObjectInputStream(socket.getInputStream());
+            } catch (IOException e) {
+                clientView.showGenericMessage("Cannot connect to this server!");
+                clientView.askIpAddress();
+            }
+            this.receiveExecutionQueue = Executors.newSingleThreadExecutor();
+            this.visitExecutionQueue = Executors.newSingleThreadExecutor();
+            receiveMessage();
+            clientView.askUsername();
+        }
+        else
+            sendMessage(message);
     }
 
     /**

@@ -71,7 +71,7 @@ public class  ServeOneClient implements Runnable {
         } catch (IOException | NoSuchElementException | ClassNotFoundException e) {
             LOGGER.severe(e.getMessage()+" error receiving a message at port: "+socket.getPort());
         } finally {
-            server.disconnectPlayers();
+            server.disconnect(this);
             close();
         }
     }

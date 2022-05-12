@@ -4,6 +4,8 @@ import it.polimi.ingsw.triton.launcher.utils.Utility;
 import it.polimi.ingsw.triton.launcher.server.model.enums.Color;
 import it.polimi.ingsw.triton.launcher.server.model.enums.TowerColor;
 import it.polimi.ingsw.triton.launcher.utils.exceptions.EndGameException;
+import it.polimi.ingsw.triton.launcher.utils.exceptions.IllegalClientInputException;
+import it.polimi.ingsw.triton.launcher.utils.message.ErrorTypeID;
 
 import java.io.Serializable;
 import java.util.Arrays;
@@ -71,8 +73,11 @@ public class SchoolBoard implements Serializable {
      *
      * @param color the color of the student to insert.
      */
-    public void addStudentIntoDiningRoom(Color color) {
-        diningRoom[color.ordinal()]++;
+    public void addStudentIntoDiningRoom(Color color) throws IllegalClientInputException {
+        if(diningRoom[color.ordinal()] < 10)
+            diningRoom[color.ordinal()]++;
+        else
+            throw new IllegalClientInputException(ErrorTypeID.DINING_ROOM_OF_COLOR_IS_FULL);
     }
 
     /**

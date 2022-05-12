@@ -4,6 +4,7 @@ import it.polimi.ingsw.triton.launcher.server.model.GeneralCoinSupply;
 import it.polimi.ingsw.triton.launcher.server.model.enums.Color;
 import it.polimi.ingsw.triton.launcher.server.model.player.Player;
 import it.polimi.ingsw.triton.launcher.utils.exceptions.IllegalClientInputException;
+import it.polimi.ingsw.triton.launcher.utils.message.ErrorTypeID;
 import it.polimi.ingsw.triton.launcher.utils.message.servermessage.InfoMessage;
 import it.polimi.ingsw.triton.launcher.utils.message.servermessage.infoMessage.infoMessageWithReceiver.EmptyGeneralCoinSupplyMessage;
 import it.polimi.ingsw.triton.launcher.utils.message.servermessage.infoMessage.infoMessageWithReceiver.UpdateWalletMessage;
@@ -40,10 +41,8 @@ public class MoveStudentIntoDiningRoom extends Observable<InfoMessage> implement
      */
     @Override
     public void execute() throws IllegalClientInputException {
-        if(currentPlayer.getSchoolBoard().isEntranceEmpty())
-            throw new IllegalClientInputException();
-        else if(noStudentsColorInTheEntrance())
-            throw new IllegalClientInputException();
+        if(currentPlayer.getSchoolBoard().isEntranceEmpty() || noStudentsColorInTheEntrance())
+            throw new IllegalClientInputException(ErrorTypeID.NO_STUDENT_WITH_COLOR_ENTRANCE);
         else{
             currentPlayer.getSchoolBoard().removeStudentFromEntrance(student);
             currentPlayer.getSchoolBoard().addStudentIntoDiningRoom(student);

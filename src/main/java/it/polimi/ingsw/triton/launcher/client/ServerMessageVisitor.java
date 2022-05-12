@@ -120,6 +120,7 @@ public class ServerMessageVisitor {
             clientView.showGenericMessage("You are the new dominator of the island " + message.getIslandWithNewInfluence().getId());
         else
             clientView.showGenericMessage("The island " + message.getIslandWithNewInfluence().getId() + " has a new dominator. " + "The new dominator is: " + message.getUsernameDominator());
+        clientView.getClientModel().printIslands();
     }
 
     public void visit(MergeIslandsMessage message){
@@ -226,7 +227,7 @@ public class ServerMessageVisitor {
     }
 
     public void visit(ErrorMessage message){
-        if(message.getErrorTypeID().equals(ErrorTypeID.USERNAME_ALREADY_CHOSEN)){
+        if(message.getErrorTypeID().equals(ErrorTypeID.USERNAME_ALREADY_CHOSEN) || message.getErrorTypeID().equals(ErrorTypeID.FORBIDDEN_USERNAME)){
             clientView.showErrorMessage(message.getErrorTypeID());
             clientView.askUsername();
         }

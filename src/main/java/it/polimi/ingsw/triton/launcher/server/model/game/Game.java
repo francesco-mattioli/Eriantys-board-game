@@ -1,5 +1,6 @@
-package it.polimi.ingsw.triton.launcher.server.model;
+package it.polimi.ingsw.triton.launcher.server.model.game;
 
+import it.polimi.ingsw.triton.launcher.server.model.*;
 import it.polimi.ingsw.triton.launcher.server.model.cardeffects.CardEffect;
 import it.polimi.ingsw.triton.launcher.server.model.cardeffects.CharacterCard;
 import it.polimi.ingsw.triton.launcher.server.model.enums.Color;
@@ -13,6 +14,7 @@ import it.polimi.ingsw.triton.launcher.server.model.player.SchoolBoard;
 import it.polimi.ingsw.triton.launcher.server.model.playeractions.*;
 import it.polimi.ingsw.triton.launcher.server.model.professor.ProfessorStrategyDefault;
 import it.polimi.ingsw.triton.launcher.server.model.professor.ProfessorsManager;
+import it.polimi.ingsw.triton.launcher.server.view.VirtualView;
 import it.polimi.ingsw.triton.launcher.utils.exceptions.*;
 import it.polimi.ingsw.triton.launcher.utils.message.ErrorTypeID;
 import it.polimi.ingsw.triton.launcher.utils.message.servermessage.InfoMessage;
@@ -22,11 +24,10 @@ import it.polimi.ingsw.triton.launcher.utils.obs.Observable;
 import java.util.*;
 import java.util.stream.Collectors;
 
-public class Game extends Observable<InfoMessage> {
-    private static Game instance;
+public class Game extends GameMode{
     protected final ArrayList<Island> islands;
     protected final Bag bag;
-    private final int maxNumberOfPlayers;
+    private int maxNumberOfPlayers;
     protected final ArrayList<Player> players;
     protected final ArrayList<CloudTile> cloudTiles;
     protected ArrayList<CloudTile> availableCloudTiles;
@@ -41,13 +42,7 @@ public class Game extends Observable<InfoMessage> {
     // The following array must be shown to users, so they can choose a towerColor that is not already chosen.
     protected final boolean[] towerColorChosen;
 
-    public static Game instance(int maxNumberOfPlayers){
-        if(instance==null)
-            instance=new Game(maxNumberOfPlayers);
-        return instance;
-    }
-
-    protected Game(int maxNumberOfPlayers) {
+    public Game(int maxNumberOfPlayers) {
         this.islands = new ArrayList<>();
         createIslands();
         this.maxNumberOfPlayers = maxNumberOfPlayers;
@@ -59,6 +54,7 @@ public class Game extends Observable<InfoMessage> {
         this.gameState = GameState.LOGIN;
         this.professors = new Player[Color.numOfColors()];
         this.usedAssistantCards = new ArrayList<>();
+        this.professorsManager = new ProfessorsManager(); // PHASE 6
     }
 
     /**
@@ -155,6 +151,7 @@ public class Game extends Observable<InfoMessage> {
         }
         else setNextPlayer(currentPlayer);
     }
+
 
     /**
      * This method is used to manage the turns in preparation and planning phases.
@@ -339,7 +336,7 @@ public class Game extends Observable<InfoMessage> {
     /**
      * This method places mother nature on a random island.
      */
-    protected void setupMotherNature() {
+    public void setupMotherNature() {
         Random random = new Random();
         int randomIndex = random.nextInt(islands.size());
         motherNature = new MotherNature(islands.get(randomIndex));
@@ -348,7 +345,7 @@ public class Game extends Observable<InfoMessage> {
     /**
      * This method places two students for each color into the bag.
      */
-    protected void setupBag() {
+    public void setupBag() {
         for (int i = 0; i < Color.values().length; i++) {
             for (int j = 0; j < 2; j++)
                 bag.addStudent(Color.values()[i]);
@@ -358,7 +355,7 @@ public class Game extends Observable<InfoMessage> {
     /**
      * This method places two students on every island except the one with mother nature and the one in front of it.
      */
-    protected void setupIslands() {
+    public void setupIslands() {
         for (Island island : islands) {
             if (island.getId() != motherNature.getIndexOfOppositeIsland(islands) && island.getId() != motherNature.getPosition().getId()) {
                 island.addStudent(bag.drawStudent());
@@ -369,7 +366,7 @@ public class Game extends Observable<InfoMessage> {
     /**
      * This method sorts the players ArrayList random, and sets correctly the current player.
      */
-    protected void setupPlayers(){
+    public void setupPlayers(){
         Random rnd = new Random();
         Player p;
         for(int i = 0; i<players.size(); i++){
@@ -384,7 +381,7 @@ public class Game extends Observable<InfoMessage> {
     /**
      * This method creates the cloud tiles, one per player.
      */
-    protected void createCloudTiles() {
+    public void createCloudTiles() {
         for (int i = 0; i < maxNumberOfPlayers; i++) {
             cloudTiles.add(new CloudTile(i));
         }
@@ -394,7 +391,7 @@ public class Game extends Observable<InfoMessage> {
      * This method add seven students into the entrance when there are two players.
      * This method add nine students into the entrance when there are three players.
      */
-    protected void setupEntrance() {
+    public void setupEntrance() {
         int studentsToMove = 7;
         if (this.maxNumberOfPlayers == 3)
             studentsToMove = 9;
@@ -511,7 +508,6 @@ public class Game extends Observable<InfoMessage> {
             planningPhase();
             throw new ChangeTurnException();
         }else{
-            calculateWinner();
             throw new EndGameException();
         }
     }
@@ -589,7 +585,7 @@ public class Game extends Observable<InfoMessage> {
         return false;
     }
 
-    protected String[] professorsWithUsernameOwner(){
+    public String[] professorsWithUsernameOwner(){
         return Arrays.stream(professors).map(p->{if(p == null) return "_"; else return p.getUsername();}).toArray(String[]::new);
     }
 
@@ -599,11 +595,11 @@ public class Game extends Observable<InfoMessage> {
     public void disconnectPlayers() {
         setGameState(GameState.END);
         notify(new DisconnectionMessage());
-        endGame();
+        //endGame();
     }
 
     public void endGame() {
-        this.instance=null;
+    //    instance=null;
     }
 
     //GETTERS ----------------------------------------------
@@ -647,7 +643,6 @@ public class Game extends Observable<InfoMessage> {
         return professorsManager;
     }
 
-
     public GameState getGameState() {
         return gameState;
     }
@@ -682,8 +677,22 @@ public class Game extends Observable<InfoMessage> {
         throw new IllegalClientInputException(ErrorTypeID.NO_ISLAND_WITH_THAT_ID);
     }
 
+    public int getMaxNumberOfPlayers() {
+        return maxNumberOfPlayers;
+    }
+
+
 
     // SETTERS ----------------------------------------------
+
+
+    public void setMaxNumberOfPlayers(int maxNumberOfPlayers) {
+        this.maxNumberOfPlayers = maxNumberOfPlayers;
+    }
+
+    public void setCurrentPlayer(Player currentPlayer) {
+        this.currentPlayer = currentPlayer;
+    }
 
     public void setGameState(GameState gameState) {
         this.gameState = gameState;

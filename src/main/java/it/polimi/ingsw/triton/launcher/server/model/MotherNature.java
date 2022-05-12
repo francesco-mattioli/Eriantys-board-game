@@ -1,6 +1,7 @@
 package it.polimi.ingsw.triton.launcher.server.model;
 
 import it.polimi.ingsw.triton.launcher.utils.exceptions.IllegalClientInputException;
+import it.polimi.ingsw.triton.launcher.utils.message.ErrorTypeID;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -32,8 +33,8 @@ public class MotherNature implements Serializable {
      */
     public Island move(AssistantCard assistantCard, int steps, ArrayList<Island> islands) throws IllegalClientInputException {
         int maxSteps = assistantCard.getType().getMaxSteps() + additionalSteps;
-        if (steps > maxSteps)
-            throw new IllegalClientInputException();
+        if (steps > maxSteps || steps < 0)
+            throw new IllegalClientInputException(ErrorTypeID.TOO_MANY_MOTHERNATURE_STEPS);
         islandOn = nextMotherNaturePosition(islandOn, steps, islands);
         return islandOn;
     }

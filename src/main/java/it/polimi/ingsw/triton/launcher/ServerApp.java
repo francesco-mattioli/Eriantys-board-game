@@ -7,12 +7,23 @@ import java.io.IOException;
 public class ServerApp {
     public static void main(String[] args) {
         Server server;
+        int port = 50535;
+
         try {
-            server = new Server(50535);
+            for(int i = 0; i< args.length; i++){
+                if(args.length >= 2 && args[i].equals("--port"))
+                    port = Integer.parseInt(args[i + 1]);
+            }
+        } catch (NumberFormatException e) {
+            Server.LOGGER.severe("Invalid port. Using default port");
+        }
+
+        server = new Server(port);
+        try {
             server.run();
-            Server.LOGGER.info("Server listening on port " + Server.PORT);
         } catch (IOException e) {
             Server.LOGGER.severe("Impossible to initialize the server: " + e.getMessage() + "!");
         }
+        Server.LOGGER.info("Server listening on port " + Server.PORT);
     }
 }
