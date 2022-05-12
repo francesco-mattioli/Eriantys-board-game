@@ -511,7 +511,6 @@ public class Game extends Observable<InfoMessage> {
             planningPhase();
             throw new ChangeTurnException();
         }else{
-            calculateWinner();
             throw new EndGameException();
         }
     }
