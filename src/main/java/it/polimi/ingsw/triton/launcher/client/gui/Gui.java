@@ -23,6 +23,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
@@ -310,8 +311,7 @@ public class Gui extends Observable<Message> implements ClientView {
             try {
                 root = loader.load();
                 Scene scene = new Scene(root);
-                Stage stage = new Stage();
-                stage.setFullScreen(true);
+                mainStage.setFullScreen(true);
                 List<Node> studentsOnMyDiningRoom = ((MainScene2PlayersController)loader.getController()).getMyDiningRoomGrid().getChildren();
                 int offset = 0;
                 for(int i = 0; i < clientModel.getMySchoolBoard().getDiningRoom().length; i++){
@@ -339,8 +339,10 @@ public class Gui extends Observable<Message> implements ClientView {
                         offset++;
                     }
                 }
-                stage.setScene(scene);;
-                stage.show();
+                currentPath = new java.io.File("src/main/resources/Images/Islands").getAbsolutePath().replace('\\','/');
+                List<Node> islands = ((MainScene2PlayersController)loader.getController()).getIslandPane().getChildren();
+                mainStage.setScene(scene);
+                mainStage.show();
                 activeStage.close();
             } catch (IOException e) {
                 e.printStackTrace();
