@@ -10,7 +10,7 @@ public class ClientApp {
         /**
          * Default mode: GUI
          */
-        boolean cliParam = false;
+        boolean cliParam = true;
 
         for (String arg : args) {
             if (arg.equals("--cli")) {
