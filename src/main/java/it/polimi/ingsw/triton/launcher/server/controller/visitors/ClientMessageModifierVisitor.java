@@ -1,8 +1,8 @@
 package it.polimi.ingsw.triton.launcher.server.controller.visitors;
 
 import it.polimi.ingsw.triton.launcher.server.Server;
-import it.polimi.ingsw.triton.launcher.server.model.Game;
 import it.polimi.ingsw.triton.launcher.server.model.cardeffects.*;
+import it.polimi.ingsw.triton.launcher.server.model.game.GameMode;
 import it.polimi.ingsw.triton.launcher.utils.exceptions.*;
 import it.polimi.ingsw.triton.launcher.utils.message.clientmessage.*;
 import it.polimi.ingsw.triton.launcher.utils.message.clientmessage.characterCardReply.*;
@@ -13,9 +13,9 @@ import it.polimi.ingsw.triton.launcher.utils.message.clientmessage.characterCard
  * Exceptions thrown by methods are all checked by controller
  */
 public class ClientMessageModifierVisitor {
-    private final Game game;
+    private final GameMode game;
 
-    public ClientMessageModifierVisitor(Game game) {
+    public ClientMessageModifierVisitor(GameMode game) {
         this.game = game;
     }
 

@@ -1,13 +1,12 @@
 package it.polimi.ingsw.triton.launcher.server.controller;
 
-import it.polimi.ingsw.triton.launcher.server.model.Game;
 import it.polimi.ingsw.triton.launcher.server.model.Island;
 import it.polimi.ingsw.triton.launcher.server.model.enums.GameState;
+import it.polimi.ingsw.triton.launcher.server.model.game.ExpertGame;
+import it.polimi.ingsw.triton.launcher.server.model.game.GameMode;
 import it.polimi.ingsw.triton.launcher.server.model.player.Player;
 import it.polimi.ingsw.triton.launcher.server.view.VirtualView;
 import it.polimi.ingsw.triton.launcher.utils.exceptions.*;
-import it.polimi.ingsw.triton.launcher.utils.message.ErrorTypeID;
-import it.polimi.ingsw.triton.launcher.utils.message.Message;
 import it.polimi.ingsw.triton.launcher.utils.message.clientmessage.*;
 import it.polimi.ingsw.triton.launcher.server.controller.visitors.ClientMessageErrorVisitor;
 import it.polimi.ingsw.triton.launcher.server.controller.visitors.ClientMessageExceptionalVisitor;
@@ -26,10 +25,10 @@ import java.util.NoSuchElementException;
  */
 
 public class Controller implements Observer<ClientMessage> {
-    private final Game game;
+    private GameMode game;
     private final ArrayList<VirtualView> virtualViews = new ArrayList<>();
 
-    public Controller(Game game) {
+    public Controller(GameMode game) {
         this.game = game;
     }
 
@@ -95,7 +94,7 @@ public class Controller implements Observer<ClientMessage> {
             if (vw.getUsername().equals(username))
                 return vw;
         }
-        throw new NoSuchElementException("The virtualview does not exist");
+        throw new NoSuchElementException("The Virtual View does not exist");
     }
 
     public ArrayList<VirtualView> getVirtualViews() {
@@ -103,6 +102,8 @@ public class Controller implements Observer<ClientMessage> {
     }
 
     public void disconnectPlayers(){
+        for(VirtualView virtualView: virtualViews)
+            virtualView.removeObserver(this);
         if(game.getGameState() != GameState.LOGIN) {
             game.disconnectPlayers();
             virtualViews.clear();
@@ -114,5 +115,13 @@ public class Controller implements Observer<ClientMessage> {
         for(Player player: game.getPlayers())
             usernames.add(player.getUsername());
         return usernames;
+    }
+
+    public void setGame(GameMode game) {
+        this.game=game;
+    }
+
+    public void addVirtualView(VirtualView virtualView) {
+        this.virtualViews.add(virtualView);
     }
 }

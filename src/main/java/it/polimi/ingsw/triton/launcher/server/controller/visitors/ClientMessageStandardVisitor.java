@@ -1,6 +1,7 @@
 package it.polimi.ingsw.triton.launcher.server.controller.visitors;
 
-import it.polimi.ingsw.triton.launcher.server.model.Game;
+import it.polimi.ingsw.triton.launcher.server.model.game.Game;
+import it.polimi.ingsw.triton.launcher.server.model.game.GameMode;
 import it.polimi.ingsw.triton.launcher.server.view.VirtualView;
 import it.polimi.ingsw.triton.launcher.utils.message.clientmessage.*;
 import it.polimi.ingsw.triton.launcher.utils.message.clientmessage.characterCardReply.*;
@@ -10,10 +11,10 @@ import it.polimi.ingsw.triton.launcher.utils.message.clientmessage.characterCard
  * In javadoc of every method is specified the particular standard situation
  */
 public class ClientMessageStandardVisitor {
-    private final Game game;
+    private final GameMode game;
     private final VirtualView virtualView;
 
-    public ClientMessageStandardVisitor(Game game, VirtualView virtualView) {
+    public ClientMessageStandardVisitor(GameMode game, VirtualView virtualView) {
         this.game = game;
         this.virtualView = virtualView;
     }
