@@ -21,7 +21,7 @@ class CardEffect01Test {
 
     @BeforeEach
     public void setUp(){
-        bag = new Bag(2);
+        bag = new Bag();
         bag.fillBag();
         island = new Island(1);
         characterCard = new CharacterCard(1,0,0,bag);

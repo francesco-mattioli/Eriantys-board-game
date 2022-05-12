@@ -70,7 +70,7 @@ public class Controller implements Observer<ClientMessage> {
                 message.createExceptionalNextMessage(new ClientMessageExceptionalVisitor(game, getVirtualViewByUsername(game.getCurrentPlayer().getUsername())));
             } catch (EndGameException e) {
                 game.calculateWinner();
-                disconnectPlayers();
+                disconnectAllPlayers();
             }
         /*}
         else
@@ -85,9 +85,6 @@ public class Controller implements Observer<ClientMessage> {
             island.addObserver(virtualView);
     }
 
-    public void addPlayer(String username) throws IllegalArgumentException {
-        game.addPlayer(username);
-    }
 
     public VirtualView getVirtualViewByUsername(String username) throws NoSuchElementException {
         for (VirtualView vw : virtualViews) {
@@ -101,13 +98,11 @@ public class Controller implements Observer<ClientMessage> {
         return virtualViews;
     }
 
-    public void disconnectPlayers(){
+    public void disconnectAllPlayers(){
         for(VirtualView virtualView: virtualViews)
             virtualView.removeObserver(this);
-        if(game.getGameState() != GameState.LOGIN) {
-            game.disconnectPlayers();
-            virtualViews.clear();
-        }
+        game.disconnectPlayers();
+        virtualViews.clear();
     }
 
     public ArrayList<String> getPlayersUsernames(){

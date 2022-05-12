@@ -20,26 +20,16 @@ public class Server {
     public static int PORT;
     private Controller controller;
     private GameMode game;
-    private List<VirtualView> waitingList;
+    private final List<VirtualView> waitingList;
     private boolean starting=false;
 
     public Server(int PORT) {
         Server.PORT = PORT;
-        this.game=Game.instance(2);
+        this.game=Game.instance(3);
         this.controller=new Controller(game);
         this.waitingList=new ArrayList<>();
         LOGGER.info("Clients connected: " + 0);
     }
-
-    public Controller getController() {
-        return controller;
-    }
-
-    //MOVE IN GAME
-    public boolean isUsernameValid(String username) {
-        return username.length() != 0 && !username.equals(" ") && !username.equals(Cli.commandForCharacterCard);
-    }
-
 
 
     /**
@@ -68,6 +58,8 @@ public class Server {
                 if (expertMode)
                     this.controller.setGame(new ExpertGame(game));
                 controller.createTowerColorRequestMessage(waitingList.get(0).getUsername());
+                waitingList.clear();
+
             }else{
                 waitingList.get(0).showGenericMessage("Waiting for "+(maxNumPlayers-waitingList.size())+" to connect...");
                 starting=true;
@@ -89,7 +81,7 @@ public class Server {
         controller.addVirtualView(waitingList.get(waitingList.size()-1));
         try {
             if (waitingList.size() <= 3) {
-                controller.addPlayer(username);
+                game.addPlayer(username);
                 waitingList.get(waitingList.size() - 1).showLoginReply();
                 waitingList.get(waitingList.size() - 1).addObserver(controller);
                 controller.addGameObserver(waitingList.get(waitingList.size() - 1));
@@ -98,8 +90,10 @@ public class Server {
                     waitingList.get(waitingList.size() - 1).showGenericMessage("Game will start as soon as the first player chooses number of players...");
                 if(waitingList.size()==2)
                     waitingList.get(0).askNumPlayersAndGameMode();
-                if(waitingList.size()==3 && starting)
+                if(waitingList.size()==3 && starting) {
                     controller.createTowerColorRequestMessage(waitingList.get(0).getUsername());
+                    waitingList.clear();
+                }
             }else{
                 waitingList.get(waitingList.size() - 1).showErrorMessage(ErrorTypeID.FULL_LOBBY);
                 waitingList.remove(waitingList.size() - 1);
@@ -118,9 +112,7 @@ public class Server {
     }
 
 
-    private boolean isNumberOfPlayersValid(int num) {
-        return (num == 2 || num == 3);
-    }
+
 
 
     public void run() throws IOException {
@@ -147,19 +139,25 @@ public class Server {
         }
     }
 
-    public void disconnectPlayers() {
-        waitingList.clear();
-        controller.disconnectPlayers();
+
+    public synchronized void disconnectAllPlayers(){
+        controller.disconnectAllPlayers();
+        resetServer();
     }
 
-    public synchronized void disconnect(ServeOneClient soc){
-        Iterator<VirtualView> iterator = controller.getVirtualViews().iterator();
-        while (iterator.hasNext()){
-            VirtualView vv = iterator.next();
-            if(vv.getServeOneClient() == soc && controller.getPlayersUsernames().contains(vv.getUsername())){
-                disconnectPlayers();
-                break;
-            }
-        }
+    public void resetServer(){
+        waitingList.clear();
+        game=Game.instance(3);
+        controller=new Controller(game);
+    }
+
+    // PRIVATE HELPER METHODS
+    private boolean isNumberOfPlayersValid(int num) {
+        return (num == 2 || num == 3);
+    }
+
+    // GETTERS
+    public Controller getController() {
+        return controller;
     }
 }

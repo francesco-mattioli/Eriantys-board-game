@@ -1,5 +1,6 @@
 package it.polimi.ingsw.triton.launcher.server.model.game;
 
+import it.polimi.ingsw.triton.launcher.client.cli.Cli;
 import it.polimi.ingsw.triton.launcher.server.model.*;
 import it.polimi.ingsw.triton.launcher.server.model.cardeffects.CardEffect;
 import it.polimi.ingsw.triton.launcher.server.model.cardeffects.CharacterCard;
@@ -41,7 +42,7 @@ public class Game extends GameMode{
     private GameState gameState;
     private boolean notFullCloudTiles = false;
     // The following array must be shown to users, so they can choose a towerColor that is not already chosen.
-    private final boolean[] towerColorChosen;
+    private boolean[] towerColorChosen;
 
     public static Game instance(int maxNumberOfPlayers){
         if(instance==null)
@@ -54,7 +55,7 @@ public class Game extends GameMode{
         this.islands = new ArrayList<>();
         createIslands();
         this.maxNumberOfPlayers = maxNumberOfPlayers;
-        this.bag = new Bag(maxNumberOfPlayers);
+        this.bag = new Bag();
         this.players = new ArrayList<>();
         this.cloudTiles = new ArrayList<>();
         this.towerColorChosen = new boolean[maxNumberOfPlayers];
@@ -96,6 +97,8 @@ public class Game extends GameMode{
      * @throws IllegalArgumentException if the username is not correct (already used). This exception is caught by lobby() method in Server.
      */
     public void addPlayer(String username) throws IllegalArgumentException {
+        if(username.length() == 0 || username.equals(" ") || username.equals(Cli.commandForCharacterCard))
+            throw new IllegalArgumentException("Illegal username");
         if(!isUsernameChosen(username)){
             players.add(new Player(username));
             // Set currentPlayer to the first one who logs in.
@@ -697,6 +700,7 @@ public class Game extends GameMode{
 
     public void setMaxNumberOfPlayers(int maxNumberOfPlayers) {
         this.maxNumberOfPlayers = maxNumberOfPlayers;
+        this.towerColorChosen = new boolean[maxNumberOfPlayers];
     }
 
     public void setCurrentPlayer(Player currentPlayer) {

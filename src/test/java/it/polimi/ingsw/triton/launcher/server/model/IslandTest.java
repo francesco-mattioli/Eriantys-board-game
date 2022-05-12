@@ -44,7 +44,7 @@ class IslandTest {
         island1.addStudent(Color.GREEN);
         island1.addStudent(Color.RED);
         island1.addStudent(Color.PINK);
-        Bag bag = new Bag(10);
+        Bag bag = new Bag();
         card05 = new CharacterCard(5, 2, 4, bag);
     }
 

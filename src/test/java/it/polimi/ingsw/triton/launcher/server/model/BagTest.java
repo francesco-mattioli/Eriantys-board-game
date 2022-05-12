@@ -14,7 +14,7 @@ class BagTest {
 
     @BeforeEach
     void setUp() {
-        bag = new Bag(2);
+        bag = new Bag();
     }
 
     @AfterEach
