@@ -45,7 +45,6 @@ public class ExpertGame extends GameDecorator {
         else if(Wizard.values().length - game.getAvailableWizards().size() == game.getMaxNumberOfPlayers()) {
             setup();
             game.getAvailableWizards().clear();
-            game.setGameState(GameState.PLANNING_PHASE);
             throw new ChangeTurnException();
         }
         else{

@@ -204,26 +204,7 @@ public class Cli extends Observable<Message> implements ClientView{
 
 
     @Override
-    public void showGameInfo(ArrayList<CharacterCard> availableCharacterCards, ArrayList<Island> islands, Map<String, SchoolBoard> schoolBoards, ArrayList<CloudTile> cloudTiles, Island motherNaturePosition, String[] professors,Map<String,Wizard> chosenWizardsPerUsername) {
-        clientModel.setAvailableCharacterCards(availableCharacterCards);
-        clientModel.setIslands(islands);
-        clientModel.setSchoolBoards(schoolBoards);
-        clientModel.setCloudTiles(cloudTiles);
-        clientModel.setMotherNaturePosition(motherNaturePosition);
-        clientModel.setProfessors(professors);
-        clientModel.setChosenWizardsPerUsername(chosenWizardsPerUsername);
-        out.println(clientModel.toString());
-    }
-
-    @Override
-    public void showGameInfo(ArrayList<Island> islands, Map<String, SchoolBoard> schoolBoards, ArrayList<CloudTile> cloudTiles, Island motherNaturePosition, String[] professors,Map<String,Wizard> chosenWizardsPerUsername) {
-        clientModel.setIslands(islands);
-        clientModel.setSchoolBoards(schoolBoards);
-        clientModel.setCloudTiles(cloudTiles);
-        clientModel.setMotherNaturePosition(motherNaturePosition);
-        clientModel.setProfessors(professors);
-        clientModel.setProfessors(professors);
-        clientModel.setChosenWizardsPerUsername(chosenWizardsPerUsername);
+    public void showGameInfo() {
         out.println(clientModel.toString());
     }
 
