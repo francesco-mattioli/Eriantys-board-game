@@ -357,28 +357,6 @@ public class Gui extends Observable<Message> implements ClientView {
                 }
                 currentPath = new java.io.File("src/main/resources/Images/Islands").getAbsolutePath().replace('\\','/');
                 List<Node> islands = ((MainScene2PlayersController)loader.getController()).getIslandPane().getChildren();
-                int dim1 = clientModel.getIslands().size()/2;
-                GridPane superiorGrid = new GridPane();
-                GridPane inferiorGrid = new GridPane();
-                for(int i = 0; i<clientModel.getIslands().size(); i++){
-                    if(i<dim1){
-                        HBox box = new HBox();
-                        for(int j=0; j<clientModel.getIslands().get(i).getDim(); j++){
-                            box.getChildren().add(new ImageView(new Image("file:" + currentPath + "Island1.png")));
-                        }
-                        superiorGrid.add(box, 0,i);
-                    }
-                    else{
-                        HBox box = new HBox();
-                        for(int j=0; j<clientModel.getIslands().get(i).getDim(); j++){
-                            box.getChildren().add(new ImageView(new Image("file:" + currentPath + "Island1.png")));
-                        }
-                        inferiorGrid.add(box, 0,i-dim1);
-                    }
-                }
-                islands.add(superiorGrid);
-                islands.add(inferiorGrid);
-                inferiorGrid.setLayoutY(200);
                 mainStage.setScene(scene);
                 mainStage.show();
                 activeStage.close();
