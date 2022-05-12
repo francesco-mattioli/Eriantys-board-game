@@ -56,6 +56,7 @@ public abstract class GameMode extends Observable<InfoMessage>{
     abstract void setupEntrance();
     abstract void checkNumberMoves() throws LastMoveException;
     abstract Map<String, SchoolBoard> getAllSchoolBoards();
+    abstract Map<String,Wizard> getAllChosenWizards();
     public abstract ArrayList<CloudTile> getCloudTiles();
     abstract String[] professorsWithUsernameOwner();
     public abstract int getMaxNumberOfPlayers();

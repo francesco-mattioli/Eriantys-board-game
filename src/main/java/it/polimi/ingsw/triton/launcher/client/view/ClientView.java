@@ -6,6 +6,7 @@ import it.polimi.ingsw.triton.launcher.server.model.CloudTile;
 import it.polimi.ingsw.triton.launcher.server.model.Island;
 import it.polimi.ingsw.triton.launcher.server.model.cardeffects.CharacterCard;
 import it.polimi.ingsw.triton.launcher.server.model.enums.GameState;
+import it.polimi.ingsw.triton.launcher.server.model.enums.Wizard;
 import it.polimi.ingsw.triton.launcher.server.model.player.SchoolBoard;
 
 import java.util.ArrayList;
@@ -24,9 +25,9 @@ public interface ClientView extends View {
     // Show methods
     void showGenericMessage(String genericMessage);
     void showLobbyMessage(ArrayList<String> onlineNicknames);
-    void showGameInfo(ArrayList<Island> islands, Map<String, SchoolBoard> schoolBoards, ArrayList<CloudTile> cloudTiles, Island motherNaturePosition, String[] professors);
+    void showGameInfo(ArrayList<Island> islands, Map<String, SchoolBoard> schoolBoards, ArrayList<CloudTile> cloudTiles, Island motherNaturePosition, String[] professors,Map<String, Wizard> chosenWizardsPerUsername);
     // the following gameInfo is for expertMode
-    void showGameInfo(ArrayList<CharacterCard> availableCharacterCards, ArrayList<Island> islands, Map<String, SchoolBoard> schoolBoards, ArrayList<CloudTile> cloudTiles, Island motherNaturePosition, String[] professors);
+    void showGameInfo(ArrayList<CharacterCard> availableCharacterCards, ArrayList<Island> islands, Map<String, SchoolBoard> schoolBoards, ArrayList<CloudTile> cloudTiles, Island motherNaturePosition, String[] professors,Map<String,Wizard> chosenWizardsPerUsername);
     void showChangePhase(GameState gameState);
     void showDisconnectionMessage();
     void showEmptyBagMessage();

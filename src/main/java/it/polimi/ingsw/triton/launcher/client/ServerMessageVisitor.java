@@ -197,12 +197,12 @@ public class ServerMessageVisitor {
 
     public void visit(GameInfoMessage message) {
         clientView.getClientModel().setExpertMode(false);
-        clientView.showGameInfo(message.getIslands(), message.getSchoolBoards(), message.getCloudTiles(), message.getMotherNaturePosition(), message.getProfessors());
+        clientView.showGameInfo(message.getIslands(), message.getSchoolBoards(), message.getCloudTiles(), message.getMotherNaturePosition(), message.getProfessors(),message.getChosenWizardsPerUsername());
     }
 
     public void visit(ExpertGameInfoMessage message){
         clientView.getClientModel().setExpertMode(true);
-        clientView.showGameInfo(message.getAvailableCharacterCards(), message.getIslands(), message.getSchoolBoards(), message.getCloudTiles(), message.getMotherNaturePosition(), message.getProfessors());
+        clientView.showGameInfo(message.getAvailableCharacterCards(), message.getIslands(), message.getSchoolBoards(), message.getCloudTiles(), message.getMotherNaturePosition(), message.getProfessors(),message.getChosenWizardsPerUsername());
 
     }
 

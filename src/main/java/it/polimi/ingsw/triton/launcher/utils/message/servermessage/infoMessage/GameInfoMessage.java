@@ -4,6 +4,7 @@ import it.polimi.ingsw.triton.launcher.client.ServerMessageVisitor;
 import it.polimi.ingsw.triton.launcher.server.model.CloudTile;
 import it.polimi.ingsw.triton.launcher.server.model.Island;
 import it.polimi.ingsw.triton.launcher.server.model.cardeffects.CharacterCard;
+import it.polimi.ingsw.triton.launcher.server.model.enums.Wizard;
 import it.polimi.ingsw.triton.launcher.server.model.player.SchoolBoard;
 import it.polimi.ingsw.triton.launcher.utils.message.servermessage.InfoMessage;
 
@@ -21,13 +22,15 @@ public class GameInfoMessage extends InfoMessage {
     private final ArrayList<CloudTile> cloudTiles;
     private final String[] professors;
     protected boolean expertMode=false;
+    private Map<String,Wizard> chosenWizardsPerUsername;
 
-    public GameInfoMessage(ArrayList<Island> islands, Island motherNaturePosition, Map<String, SchoolBoard> schoolBoards, ArrayList<CloudTile> cloudTiles, String[] professors) {
+    public GameInfoMessage(ArrayList<Island> islands, Island motherNaturePosition, Map<String, SchoolBoard> schoolBoards, ArrayList<CloudTile> cloudTiles, String[] professors, Map<String, Wizard> chosenWizardsPerUsername) {
         this.islands = islands;
         this.motherNaturePosition = motherNaturePosition;
         this.schoolBoards = schoolBoards;
         this.cloudTiles = cloudTiles;
         this.professors = professors;
+        this.chosenWizardsPerUsername=chosenWizardsPerUsername;
     }
 
     public ArrayList<Island> getIslands() {
@@ -48,6 +51,10 @@ public class GameInfoMessage extends InfoMessage {
 
     public String[] getProfessors() {
         return professors;
+    }
+
+    public Map<String, Wizard> getChosenWizardsPerUsername() {
+        return chosenWizardsPerUsername;
     }
 
     @Override
