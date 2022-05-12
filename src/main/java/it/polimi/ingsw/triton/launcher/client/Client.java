@@ -97,7 +97,7 @@ public class Client implements Observer<Message> {
             this.receiveExecutionQueue = Executors.newSingleThreadExecutor();
             this.visitExecutionQueue = Executors.newSingleThreadExecutor();
             receiveMessage();
-            clientView.askUsername();
+            //clientView.askUsername();
         }
         else
             sendMessage(message);

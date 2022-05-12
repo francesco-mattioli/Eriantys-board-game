@@ -15,6 +15,7 @@ import it.polimi.ingsw.triton.launcher.server.model.enums.Wizard;
 import it.polimi.ingsw.triton.launcher.server.model.player.SchoolBoard;
 import it.polimi.ingsw.triton.launcher.utils.message.ErrorTypeID;
 import it.polimi.ingsw.triton.launcher.utils.message.Message;
+import it.polimi.ingsw.triton.launcher.utils.message.clientmessage.UpdatedServerInfoMessage;
 import it.polimi.ingsw.triton.launcher.utils.obs.Observable;
 import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
@@ -24,8 +25,11 @@ import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
+import org.controlsfx.control.spreadsheet.GridBase;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -50,10 +54,16 @@ public class Gui extends Observable<Message> implements ClientView {
     }
 
     @Override
+    public void askIpAddress() {
+
+    }
+
+    @Override
     public void askUsername() {
         client = new Client(this);
         this.addObserver(client);
         this.clientModel=new ClientModel();
+        notify(new UpdatedServerInfoMessage("localhost"));
         Platform.runLater(() -> {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/login-scene.fxml"));
             Parent root = null;
@@ -295,6 +305,11 @@ public class Gui extends Observable<Message> implements ClientView {
     }
 
     @Override
+    public void showAbortMessage() {
+
+    }
+
+    @Override
     public void showWinMessage() {
 
     }
@@ -311,6 +326,7 @@ public class Gui extends Observable<Message> implements ClientView {
             try {
                 root = loader.load();
                 Scene scene = new Scene(root);
+                mainStage  = new Stage();
                 mainStage.setFullScreen(true);
                 List<Node> studentsOnMyDiningRoom = ((MainScene2PlayersController)loader.getController()).getMyDiningRoomGrid().getChildren();
                 int offset = 0;
@@ -341,6 +357,28 @@ public class Gui extends Observable<Message> implements ClientView {
                 }
                 currentPath = new java.io.File("src/main/resources/Images/Islands").getAbsolutePath().replace('\\','/');
                 List<Node> islands = ((MainScene2PlayersController)loader.getController()).getIslandPane().getChildren();
+                int dim1 = clientModel.getIslands().size()/2;
+                GridPane superiorGrid = new GridPane();
+                GridPane inferiorGrid = new GridPane();
+                for(int i = 0; i<clientModel.getIslands().size(); i++){
+                    if(i<dim1){
+                        HBox box = new HBox();
+                        for(int j=0; j<clientModel.getIslands().get(i).getDim(); j++){
+                            box.getChildren().add(new ImageView(new Image("file:" + currentPath + "Island1.png")));
+                        }
+                        superiorGrid.add(box, 0,i);
+                    }
+                    else{
+                        HBox box = new HBox();
+                        for(int j=0; j<clientModel.getIslands().get(i).getDim(); j++){
+                            box.getChildren().add(new ImageView(new Image("file:" + currentPath + "Island1.png")));
+                        }
+                        inferiorGrid.add(box, 0,i-dim1);
+                    }
+                }
+                islands.add(superiorGrid);
+                islands.add(inferiorGrid);
+                inferiorGrid.setLayoutY(200);
                 mainStage.setScene(scene);
                 mainStage.show();
                 activeStage.close();
