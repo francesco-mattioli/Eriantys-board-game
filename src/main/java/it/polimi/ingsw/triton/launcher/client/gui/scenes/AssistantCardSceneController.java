@@ -13,6 +13,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Polygon;
+import javafx.stage.Stage;
 
 import java.util.Map;
 
@@ -56,10 +57,14 @@ public class AssistantCardSceneController extends Observable<Message> {
         return assistantCardImageView;
     }
 
+    Stage stage;
+
     public void select(ActionEvent event){
         AssistantCard selectedAssistantCard = assistantCards.get(assistantCardImageView.getImage());
         notify(new AssistantCardReply(username, selectedAssistantCard));
         selectButton.setDisable(true);
+        stage = (Stage) assistantCardPane.getScene().getWindow();
+        stage.close();
     }
 
     public void switchLeft(MouseEvent event){
