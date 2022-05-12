@@ -18,15 +18,18 @@ import it.polimi.ingsw.triton.launcher.utils.message.Message;
 import it.polimi.ingsw.triton.launcher.utils.obs.Observable;
 import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class Gui extends Observable<Message> implements ClientView {
@@ -34,7 +37,7 @@ public class Gui extends Observable<Message> implements ClientView {
     private Client client;
     private Stage mainStage;
     private Stage activeStage;
-    private GameState actualGamePhase;
+    private GameState actualGamePhase = GameState.SETUP;
 
     public Gui(Stage activeStage) {
         this.activeStage = activeStage;
@@ -78,6 +81,11 @@ public class Gui extends Observable<Message> implements ClientView {
     }
 
     @Override
+    public void showGameInfo(ArrayList<Island> islands, Map<String, SchoolBoard> schoolBoards, ArrayList<CloudTile> cloudTiles, Island motherNaturePosition, String[] professors) {
+
+    }
+
+    @Override
     public void showGameInfo(ArrayList<CharacterCard> availableCharacterCards, ArrayList<Island> islands, Map<String, SchoolBoard> schoolBoards, ArrayList<CloudTile> cloudTiles, Island motherNaturePosition, String[] professors) {
 
     }
@@ -85,8 +93,10 @@ public class Gui extends Observable<Message> implements ClientView {
 
     @Override
     public void showChangePhase(GameState gameState) {
-        //if(gameState.equals(GameState.PLANNING_PHASE) && actualGamePhase.equals(GameState.SETUP))
-        //TODO IMPLEMENT
+        if(gameState==(GameState.PLANNING_PHASE) && actualGamePhase==(GameState.SETUP)){
+            initializeMainStage();
+        }
+        actualGamePhase = gameState;
     }
 
     @Override
@@ -293,6 +303,49 @@ public class Gui extends Observable<Message> implements ClientView {
 
     }
 
-
+    private void initializeMainStage(){
+        Platform.runLater(() -> {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/main-scene.fxml"));
+            Parent root = null;
+            try {
+                root = loader.load();
+                Scene scene = new Scene(root);
+                Stage stage = new Stage();
+                stage.setFullScreen(true);
+                List<Node> studentsOnMyDiningRoom = ((MainScene2PlayersController)loader.getController()).getMyDiningRoomGrid().getChildren();
+                int offset = 0;
+                for(int i = 0; i < clientModel.getMySchoolBoard().getDiningRoom().length; i++){
+                    for(int j = 0; j<clientModel.getMySchoolBoard().getDiningRoom()[i]; j++) {
+                        ((ImageView)(studentsOnMyDiningRoom.get(offset+j))).setVisible(true);
+                    }
+                    offset+=10;
+                }
+                List<Node> studentsOnMyEntrance = ((MainScene2PlayersController)loader.getController()).getMyEntranceGrid().getChildren();
+                offset = 0;
+                String currentPath = new java.io.File("src/main/resources/Images/Students").getAbsolutePath().replace('\\','/');
+                for(int i = 0; i < clientModel.getMySchoolBoard().getEntrance().length; i++){
+                    for(int j = 0; j<clientModel.getMySchoolBoard().getEntrance()[i]; j++) {
+                        if(i == 0)
+                            ((ImageView)(studentsOnMyEntrance.get(offset))).setImage(new Image("file:"+currentPath+"/YellowStudent.png"));
+                        if(i==1)
+                            ((ImageView)(studentsOnMyEntrance.get(offset))).setImage(new Image("file:"+currentPath+"/BlueStudent.png"));
+                        if(i==2)
+                            ((ImageView)(studentsOnMyEntrance.get(offset))).setImage(new Image("file:"+currentPath+"/GreenStudent.png"));
+                        if(i==3)
+                            ((ImageView)(studentsOnMyEntrance.get(offset))).setImage(new Image("file:"+currentPath+"/RedStudent.png"));
+                        if(i==4)
+                            ((ImageView)(studentsOnMyEntrance.get(offset))).setImage(new Image("file:"+currentPath+"/PinkStudent.png"));
+                        ((ImageView)(studentsOnMyEntrance.get(offset))).setVisible(true);
+                        offset++;
+                    }
+                }
+                stage.setScene(scene);;
+                stage.show();
+                activeStage.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        });
+    }
 
 }

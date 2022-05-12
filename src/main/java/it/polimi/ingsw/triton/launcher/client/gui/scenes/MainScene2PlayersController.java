@@ -7,17 +7,70 @@ import javafx.scene.Node;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.shape.Circle;
 
 public class MainScene2PlayersController extends Observable<Message> {
 
     @FXML
-    GridPane schoolboard2DiningRoom;
+    AnchorPane mainPane;
 
+    @FXML
+    AnchorPane mySchoolBoardPane;
 
+    @FXML
+    GridPane moneyPane;
 
-    public void clickOnDiningRoom(MouseEvent event){
+    @FXML
+    AnchorPane mySchoolBoard;
+
+    @FXML
+    GridPane myDiningRoomGrid;
+
+    @FXML
+    GridPane myEntranceGrid;
+
+    @FXML
+    GridPane myProfessorsGrid;
+
+    @FXML
+    GridPane myTowerGrid;
+
+    @FXML
+    AnchorPane otherSchoolBoardPane;
+
+    @FXML
+    AnchorPane islandPane;
+
+    @FXML
+    AnchorPane studentsIslandPane;
+
+    public GridPane getMyDiningRoomGrid() {
+        return myDiningRoomGrid;
     }
 
+    public GridPane getMyEntranceGrid() {
+        return myEntranceGrid;
+    }
+
+    public GridPane getMyProfessorsGrid() {
+        return myProfessorsGrid;
+    }
+
+    public GridPane getMyTowerGrid() {
+        return myTowerGrid;
+    }
+
+    public AnchorPane getMySchoolBoardPane() {
+        return mySchoolBoardPane;
+    }
+
+    public AnchorPane getOtherSchoolBoardPane() {
+        return otherSchoolBoardPane;
+    }
+
+    public AnchorPane getIslandPane() {
+        return islandPane;
+    }
 }
