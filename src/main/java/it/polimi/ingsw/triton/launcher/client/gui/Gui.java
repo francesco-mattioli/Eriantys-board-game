@@ -16,6 +16,7 @@ import it.polimi.ingsw.triton.launcher.server.model.enums.Wizard;
 import it.polimi.ingsw.triton.launcher.server.model.player.SchoolBoard;
 import it.polimi.ingsw.triton.launcher.utils.message.ErrorTypeID;
 import it.polimi.ingsw.triton.launcher.utils.message.Message;
+import it.polimi.ingsw.triton.launcher.utils.message.clientmessage.UpdatedServerInfoMessage;
 import it.polimi.ingsw.triton.launcher.utils.obs.Observable;
 
 import javafx.application.Platform;
@@ -60,6 +61,7 @@ public class Gui extends Observable<Message> implements ClientView {
         client = new Client(this);
         this.addObserver(client);
         this.clientModel=new ClientModel();
+        notify(new UpdatedServerInfoMessage("localhost"));
         Platform.runLater(() -> {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/login-scene.fxml"));
             Parent root = null;
@@ -325,6 +327,7 @@ public class Gui extends Observable<Message> implements ClientView {
             try {
                 root = loader.load();
                 Scene scene = new Scene(root);
+                mainStage = new Stage();
                 mainStage.setFullScreen(true);
                 List<Node> studentsOnMyDiningRoom = ((MainScene2PlayersController)loader.getController()).getMyDiningRoomGrid().getChildren();
                 int offset = 0;
