@@ -27,13 +27,13 @@ import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.TilePane;
 import javafx.stage.Stage;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class Gui extends Observable<Message> implements ClientView {
     private ClientModel clientModel;
@@ -180,14 +180,6 @@ public class Gui extends Observable<Message> implements ClientView {
                 Map<Image,Wizard> wizardsImages = new HashMap<>();
                 String currentPath = new java.io.File("src/main/resources/Images/Wizards").getAbsolutePath().replace('\\','/');
                 for (Wizard wizard: wizards) {
-                    /*if (wizard.equals(Wizard.YELLOW))
-                        wizardsImages.put(new Image("file:" + currentPath + "/Yellow-Wizard.png"),wizard);
-                    if (wizard.equals(Wizard.GREEN))
-                        wizardsImages.put(new Image("file:" + currentPath + "/Green-Wizard.png"),wizard);
-                    if (wizard.equals(Wizard.BLUE))
-                        wizardsImages.put(new Image("file:" + currentPath + "/Blue-Wizard.png"),wizard);
-                    if (wizard.equals(Wizard.PURPLE))
-                        wizardsImages.put(new Image("file:" + currentPath + "/Purple-Wizard.png"),wizard);*/
                     wizardsImages.put(new Image("file:" + currentPath + wizard.getImagePath()),wizard);
 
                 }
@@ -219,26 +211,6 @@ public class Gui extends Observable<Message> implements ClientView {
                 Map<Image,AssistantCard> assistantCardImages = new HashMap<>();
                 String currentPath = new java.io.File("src/main/resources/Images/AssistantCards").getAbsolutePath().replace('\\','/');
                 for (AssistantCard assistantCard: clientModel.getAssistantDeck().getAssistantDeck()) {
-                    /*if (assistantCard.getType().equals(AssistantCardType.CAT))
-                        assistantCardImages.put(new Image("file:" + currentPath + "/Cat.png"),assistantCard);
-                    if (assistantCard.getType().equals(AssistantCardType.DOG))
-                        assistantCardImages.put(new Image("file:" + currentPath + "/Dog.png"),assistantCard);
-                    if (assistantCard.getType().equals(AssistantCardType.SNAKE))
-                        assistantCardImages.put(new Image("file:" + currentPath + "/Snake.png"),assistantCard);
-                    if (assistantCard.getType().equals(AssistantCardType.TIGER))
-                        assistantCardImages.put(new Image("file:" + currentPath + "/Tiger.png"),assistantCard);
-                    if (assistantCard.getType().equals(AssistantCardType.EAGLE))
-                        assistantCardImages.put(new Image("file:" + currentPath + "/Eagle.png"),assistantCard);
-                    if (assistantCard.getType().equals(AssistantCardType.TURTLE))
-                        assistantCardImages.put(new Image("file:" + currentPath + "/Turtle.png"),assistantCard);
-                    if (assistantCard.getType().equals(AssistantCardType.DUCK))
-                        assistantCardImages.put(new Image("file:" + currentPath + "/Duck.png"),assistantCard);
-                    if (assistantCard.getType().equals(AssistantCardType.ELEPHANT))
-                        assistantCardImages.put(new Image("file:" + currentPath + "/Elephant.png"),assistantCard);
-                    if (assistantCard.getType().equals(AssistantCardType.OCTOPUS))
-                        assistantCardImages.put(new Image("file:" + currentPath + "/Octopus.png"),assistantCard);
-                    if (assistantCard.getType().equals(AssistantCardType.FOX))
-                        assistantCardImages.put(new Image("file:" + currentPath + "/Fox.png"),assistantCard);*/
                     assistantCardImages.put(new Image("file:" + currentPath + assistantCard.getType().getImagePath()),assistantCard);
                 }
                 ((AssistantCardSceneController)loader.getController()).setAssistantCards(assistantCardImages);
@@ -342,16 +314,6 @@ public class Gui extends Observable<Message> implements ClientView {
                 String currentPath = new java.io.File("src/main/resources/Images/Students").getAbsolutePath().replace('\\','/');
                 for(int i = 0; i < clientModel.getMySchoolBoard().getEntrance().length; i++){
                     for(int j = 0; j<clientModel.getMySchoolBoard().getEntrance()[i]; j++) {
-                        /*if(i == 0)
-                            ((ImageView)(studentsOnMyEntrance.get(offset))).setImage(new Image("file:"+currentPath+"/YellowStudent.png"));
-                        if(i==1)
-                            ((ImageView)(studentsOnMyEntrance.get(offset))).setImage(new Image("file:"+currentPath+"/BlueStudent.png"));
-                        if(i==2)
-                            ((ImageView)(studentsOnMyEntrance.get(offset))).setImage(new Image("file:"+currentPath+"/GreenStudent.png"));
-                        if(i==3)
-                            ((ImageView)(studentsOnMyEntrance.get(offset))).setImage(new Image("file:"+currentPath+"/RedStudent.png"));
-                        if(i==4)
-                            ((ImageView)(studentsOnMyEntrance.get(offset))).setImage(new Image("file:"+currentPath+"/PinkStudent.png"));*/
                         ((ImageView)(studentsOnMyEntrance.get(offset))).setImage(new Image("file:" + currentPath + Color.values()[i].getStudentImagePath()));
                         ((ImageView)(studentsOnMyEntrance.get(offset))).setVisible(true);
                         offset++;
@@ -359,6 +321,43 @@ public class Gui extends Observable<Message> implements ClientView {
                 }
                 currentPath = new java.io.File("src/main/resources/Images/Islands").getAbsolutePath().replace('\\','/');
                 List<Node> islands = ((MainScene2PlayersController)loader.getController()).getIslandPane().getChildren();
+                int dim1 = clientModel.getIslands().size()/2;
+                int dim2 = clientModel.getIslands().size() - dim1;
+                TilePane superiorGrid = new TilePane();
+                TilePane inferiorGrid = new TilePane();
+                superiorGrid.setPrefRows(1);
+                superiorGrid.setPrefColumns(dim1);
+                inferiorGrid.setPrefRows(1);
+                inferiorGrid.setPrefColumns(dim2);
+                List<Node> superiorList = new ArrayList<>();
+                List<Node> inferiorList = new ArrayList<>();
+                for(int i = 0; i<clientModel.getIslands().size(); i++){
+                    HBox box = new HBox();
+                    for(int j = 0; j < clientModel.getIslands().get(i).getDim(); j++){
+                        Image image = new Image("file:" + currentPath + "/Island1.png");
+                        ImageView imageView = new ImageView(image);
+                        imageView.setFitWidth(100);
+                        imageView.setFitHeight(100);
+                        box.getChildren().add(imageView);
+                        if(i < dim1){
+                            superiorList.add(box);
+                        }
+                        else {
+                            inferiorList.add(box);
+                        }
+                    }
+                }
+                superiorGrid.getChildren().addAll(superiorList);
+                Collections.reverse(inferiorList);
+                inferiorGrid.getChildren().addAll(inferiorList);
+                superiorGrid.setLayoutX(0);
+                superiorGrid.setLayoutY(0);
+                superiorGrid.setHgap(100);
+                inferiorGrid.setLayoutX(0);
+                inferiorGrid.setLayoutY(200);
+                inferiorGrid.setHgap(100);
+                islands.add(superiorGrid);
+                islands.add(inferiorGrid);
                 mainStage.setScene(scene);
                 mainStage.show();
                 activeStage.close();
@@ -367,5 +366,4 @@ public class Gui extends Observable<Message> implements ClientView {
             }
         });
     }
-
 }
