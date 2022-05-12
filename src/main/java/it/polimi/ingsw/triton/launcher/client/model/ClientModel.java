@@ -37,15 +37,15 @@ public class ClientModel extends Observable<Object> {
             result += "\n- EXPERT GAME:" ;
         else
             result += "\n- GAME:" ;
-        result+=    " \n- assistantDeck = " + assistantDeck.toString() +
+        result+=    " \n- " + assistantDeck.toString() +
                     ", \n- players' wizards: " + chosenWizardsPerUsername.toString()+
-                    ", \n- schoolBoards = \n\t" + schoolBoards +
-                    ", \n- cloudTiles =" + printCloudTiles() +
+                    ", \n- schoolBoards: \n\t" + printAllSchoolBoards() +
+                    ", \n- cloudTiles:" + printCloudTiles() +
                     ", \n- islands =" + printIslands() +
                     ", \n- motherNature is on island " + motherNaturePosition.getId() +
                     ", \n- professors: " + Utility.printColoredProfessorsOnTable(professors);
         if(expertMode)
-            result += ", \n- availableCharacterCards = " + printAvailableCharacterCard();
+            result += ", \n- availableCharacterCards: " + printAvailableCharacterCard();
         result+="\n}";
         return result;
     }
@@ -213,6 +213,14 @@ public class ClientModel extends Observable<Object> {
                 results += schoolBoardEntry.getKey() + "'s SchoolBoard: " + schoolBoardEntry.getValue().toString();
                 results += "\tProfessors: " + printProfessors(schoolBoardEntry.getKey()) + "\n\n";
             }
+        }
+        return results;
+    }
+
+    public String printAllSchoolBoards(){
+        String results = "";
+        for(Map.Entry<String, SchoolBoard> schoolBoardEntry: schoolBoards.entrySet()){
+            results += schoolBoardEntry.getKey() + "'s SchoolBoard: " + schoolBoardEntry.getValue().toString();
         }
         return results;
     }
