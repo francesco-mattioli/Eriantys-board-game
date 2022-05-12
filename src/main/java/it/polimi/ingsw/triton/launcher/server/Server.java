@@ -59,6 +59,7 @@ public class Server {
                 game.getPlayers().remove(game.getPlayers().size() - 1);
                 waitingList.get(waitingList.size()-1).removeObserver(controller);
                 game.removeObserver(waitingList.get(waitingList.size()-1)); // DO ALSO FORT ISLANDS!!!!!!!!!!!!!!!!!
+                controller.getVirtualViews().remove(waitingList.size() - 1);
                 waitingList.remove(waitingList.get(waitingList.size()-1));
             }
             if(maxNumPlayers==waitingList.size()){
@@ -119,7 +120,7 @@ public class Server {
             VirtualView virtualView = waitingList.get(waitingList.size() - 1);
             virtualView.showErrorMessage(ErrorTypeID.USERNAME_ALREADY_CHOSEN);
             waitingList.remove(virtualView);
-            controller.getVirtualViews().remove(waitingList.get(waitingList.size() - 1));
+            controller.getVirtualViews().remove(virtualView);
             LOGGER.severe("Player not accepted, username already chosen");
             LOGGER.info("Clients connected: " + this.waitingList.size());
         }
