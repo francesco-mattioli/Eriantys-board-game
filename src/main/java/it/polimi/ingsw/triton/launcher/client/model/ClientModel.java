@@ -4,6 +4,7 @@ import it.polimi.ingsw.triton.launcher.server.model.AssistantCard;
 import it.polimi.ingsw.triton.launcher.server.model.CloudTile;
 import it.polimi.ingsw.triton.launcher.server.model.Island;
 import it.polimi.ingsw.triton.launcher.server.model.cardeffects.CharacterCard;
+import it.polimi.ingsw.triton.launcher.server.model.enums.Wizard;
 import it.polimi.ingsw.triton.launcher.server.model.player.AssistantDeck;
 import it.polimi.ingsw.triton.launcher.server.model.player.SchoolBoard;
 import it.polimi.ingsw.triton.launcher.utils.Utility;
@@ -25,35 +26,28 @@ public class ClientModel extends Observable<Object> {
     private Island motherNaturePosition;
     private AssistantCard lastAssistantCardPlayed;
     private boolean expertMode;
-
     private String[] professors;
-
     private int wallet;
+    private Map<String, Wizard> chosenWizardsPerUsername;
 
     @Override
     public String toString() {
+        String result = "{";
         if(expertMode)
-            return "{" +
-                    "\n- Game with expert rules" +
-                    " \n- assistantDeck = " + assistantDeck.toString() +
-                    ", \n- availableCharacterCards = " + printAvailableCharacterCard() +
+            result += "\n- EXPERT GAME:" ;
+        else
+            result += "\n- GAME:" ;
+        result+=    " \n- assistantDeck = " + assistantDeck.toString() +
+                    ", \n- players' wizards: " + chosenWizardsPerUsername.toString()+
                     ", \n- schoolBoards = \n\t" + schoolBoards +
                     ", \n- cloudTiles =" + printCloudTiles() +
                     ", \n- islands =" + printIslands() +
                     ", \n- motherNature is on island " + motherNaturePosition.getId() +
-                    ", \n- professors: " + Utility.printColoredProfessorsOnTable(professors) +
-                    "\n}";
-        else
-            return "{" +
-                "\n- Game with simplified rules" +
-                " \n- assistantDeck = " + assistantDeck.toString() +
-                ", \n- schoolBoards = \n\t" + schoolBoards +
-                ", \n- cloudTiles =" + printCloudTiles() +
-                ", \n- islands =" + printIslands() +
-                ", \n- motherNature is on island " + motherNaturePosition.getId() +
-                ", \n- professors: " + Utility.printColoredProfessorsOnTable(professors) +
-                "\n}";
-
+                    ", \n- professors: " + Utility.printColoredProfessorsOnTable(professors);
+        if(expertMode)
+            result += ", \n- availableCharacterCards = " + printAvailableCharacterCard();
+        result+="\n}";
+        return result;
     }
 
     public String getUsername() {
@@ -258,5 +252,13 @@ public class ClientModel extends Observable<Object> {
 
     public void setExpertMode(boolean expertMode) {
         this.expertMode = expertMode;
+    }
+
+    public Map<String, Wizard> getChosenWizardsPerUsername() {
+        return chosenWizardsPerUsername;
+    }
+
+    public void setChosenWizardsPerUsername(Map<String, Wizard> chosenWizardsPerUsername) {
+        this.chosenWizardsPerUsername = chosenWizardsPerUsername;
     }
 }

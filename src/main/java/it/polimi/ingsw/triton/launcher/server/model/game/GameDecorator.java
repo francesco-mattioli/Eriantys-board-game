@@ -237,4 +237,9 @@ public class GameDecorator extends GameMode{
     public void disconnectPlayers() {
         game.disconnectPlayers();
     }
+
+    @Override
+    public Map<String,Wizard> getAllChosenWizards(){
+        return game.getAllChosenWizards();
+    }
 }

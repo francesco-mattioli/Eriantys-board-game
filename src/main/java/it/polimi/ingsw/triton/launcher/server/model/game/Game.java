@@ -215,10 +215,11 @@ public class Game extends GameMode{
         setupPlayers(); //PHASE 11
         for(Player player: players)
             notify(new GiveAssistantDeckMessage(player.getUsername(), player.getAssistantDeck()));
-        notify(new GameInfoMessage(islands, motherNature.getPosition(), getAllSchoolBoards(), cloudTiles, new String[professors.length]));
+        notify(new GameInfoMessage(islands, motherNature.getPosition(), getAllSchoolBoards(), cloudTiles, new String[professors.length],getAllChosenWizards()));
         notify(new ChangeTurnMessage(currentPlayer.getUsername()));
         planningPhase();
     }
+
 
     /**
      * Adds the students to the cloud tiles and sets the last round flag if the bag is empty.
@@ -582,6 +583,14 @@ public class Game extends GameMode{
             mapSchoolBoards.put(player.getUsername(), player.getSchoolBoard());
         }
         return mapSchoolBoards;
+    }
+
+    public Map<String,Wizard> getAllChosenWizards(){
+        Map<String,Wizard> chosenWizardsPerUsername= new HashMap<>();
+        for(Player player: players){
+            chosenWizardsPerUsername.put(player.getUsername(), player.getAssistantDeck().getWizard());
+        }
+        return chosenWizardsPerUsername;
     }
 
     /**
