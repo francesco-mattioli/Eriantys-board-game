@@ -27,7 +27,7 @@ public class ServerMessageVisitor {
 
     public void visit(LoginReply message) {
         clientView.getClientModel().setUsername(message.getReceiverUsername());
-        clientView.showGenericMessage("Username accepted! Welcome to Eriantys " + message.getReceiverUsername() + "!");
+        clientView.showLoginReply();
     }
 
     public void visit(PlayersNumberAndGameModeRequest message) {
@@ -39,7 +39,7 @@ public class ServerMessageVisitor {
     }
 
     public void visit(LobbyMessage message) {
-        clientView.showLobbyMessage(message.getOnlineNicknames(), message.getMaxNumberPlayers());
+        clientView.showLobbyMessage(message.getOnlineNicknames());
     }
 
     public void visit(WizardRequest message) {

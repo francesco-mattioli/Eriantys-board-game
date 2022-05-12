@@ -89,10 +89,12 @@ public class Server {
         controller.addVirtualView(waitingList.get(waitingList.size()-1));
         try {
             if (waitingList.size() <= 3) {
+                // --- Adding observer/observable relations
+                controller.addGameObserver(waitingList.get(waitingList.size() - 1));
+                waitingList.get(waitingList.size() - 1).addObserver(controller);
+                // --- end
                 game.addPlayer(username);
                 waitingList.get(waitingList.size() - 1).showLoginReply();
-                waitingList.get(waitingList.size() - 1).addObserver(controller);
-                controller.addGameObserver(waitingList.get(waitingList.size() - 1));
                 LOGGER.info("New player accepted");
                 if(waitingList.size()>1 && !starting)
                     waitingList.get(waitingList.size() - 1).showGenericMessage("Game will start as soon as the first player chooses number of players...");
@@ -110,6 +112,10 @@ public class Server {
                 serveOneClient.close();
             }
         } catch (IllegalArgumentException e) {
+            // --- Undoing observer/observable relations
+            controller.removeGameObserver(waitingList.get(waitingList.size() - 1));
+            waitingList.get(waitingList.size() - 1).removeObserver(controller);
+            // --- end
             VirtualView virtualView = waitingList.get(waitingList.size() - 1);
             virtualView.showErrorMessage(ErrorTypeID.USERNAME_ALREADY_CHOSEN);
             waitingList.remove(virtualView);

@@ -85,6 +85,12 @@ public class Controller implements Observer<ClientMessage> {
             island.addObserver(virtualView);
     }
 
+    public void removeGameObserver(VirtualView virtualView){
+        game.removeObserver(virtualView);
+        for(Island island: game.getIslands())
+            island.removeObserver(virtualView);
+    }
+
 
     public VirtualView getVirtualViewByUsername(String username) throws NoSuchElementException {
         for (VirtualView vw : virtualViews) {
