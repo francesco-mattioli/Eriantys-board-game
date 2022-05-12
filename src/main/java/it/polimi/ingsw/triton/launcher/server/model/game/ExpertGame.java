@@ -107,11 +107,11 @@ public class ExpertGame extends GameDecorator {
         this.setupPlayers(); //PHASE 11
         this.drawCharacterCards(); //(PHASE 12) creates 3 character cards
         for(Player player: game.getPlayers()) {
-            notify(new GiveAssistantDeckMessage(player.getUsername(), player.getAssistantDeck()));   // to review
-            notify(new UpdateWalletMessage(player.getUsername(), player.getWallet().getValue()));
+            game.notify(new GiveAssistantDeckMessage(player.getUsername(), player.getAssistantDeck()));   // to review
+            game.notify(new UpdateWalletMessage(player.getUsername(), player.getWallet().getValue()));
         }
-        notify(new ExpertGameInfoMessage(characterCards, game.getIslands(), game.getMotherNature().getPosition(), game.getAllSchoolBoards(), game.getCloudTiles(), new String[game.getProfessors().length]));
-        notify(new ChangeTurnMessage(game.getCurrentPlayer().getUsername()));
+        game.notify(new ExpertGameInfoMessage(characterCards, game.getIslands(), game.getMotherNature().getPosition(), game.getAllSchoolBoards(), game.getCloudTiles(), new String[game.getProfessors().length]));
+        game.notify(new ChangeTurnMessage(game.getCurrentPlayer().getUsername()));
         this.planningPhase();
     }
 
@@ -141,12 +141,12 @@ public class ExpertGame extends GameDecorator {
         boolean empty = generalCoinSupply.isEmpty();
         game.getCurrentPlayer().executeAction(new ExpertMoveStudentIntoDiningRoom(student, game.getCurrentPlayer(), generalCoinSupply));
         if(game.getCurrentPlayer().getSchoolBoard().getDiningRoom()[student.ordinal()] % 3 == 0 && !empty)
-            notify(new UpdateWalletMessage(game.getCurrentPlayer().getUsername(), game.getCurrentPlayer().getWallet().getValue()));
+            game.notify(new UpdateWalletMessage(game.getCurrentPlayer().getUsername(), game.getCurrentPlayer().getWallet().getValue()));
         else if(game.getCurrentPlayer().getSchoolBoard().getDiningRoom()[student.ordinal()] % 3 == 0 && empty)
-            notify(new EmptyGeneralCoinSupplyMessage(game.getCurrentPlayer().getUsername()));
+            game.notify(new EmptyGeneralCoinSupplyMessage(game.getCurrentPlayer().getUsername()));
         game.getProfessorsManager().updateProfessors(game.getCurrentPlayer(), student, game.getProfessors());
         String moveDescription = game.getCurrentPlayer().getUsername() + " has moved a " + student.name().toLowerCase() + " student in his dining room";
-        notify(new InfoStudentIntoDiningRoomMessage(game.getCurrentPlayer().getUsername(), game.getCurrentPlayer().getSchoolBoard(),game.professorsWithUsernameOwner(), moveDescription));
+        game.notify(new InfoStudentIntoDiningRoomMessage(game.getCurrentPlayer().getUsername(), game.getCurrentPlayer().getSchoolBoard(),game.professorsWithUsernameOwner(), moveDescription));
         game.getCurrentPlayer().setMoveCounter(game.getCurrentPlayer().getMoveCounter() + 1);
         game.checkNumberMoves();   //checks if the move was the last one throwing lastMoveException
     }
@@ -180,7 +180,7 @@ public class ExpertGame extends GameDecorator {
         }
         else {
             game.getCurrentPlayer().executeAction(new UseCharacterCard(getCharacterCardByID(idCard), game.getCurrentPlayer(), generalCoinSupply));
-            notify(new UpdateWalletMessage(game.getCurrentPlayer().getUsername(), game.getCurrentPlayer().getWallet().getValue()));
+            game.notify(new UpdateWalletMessage(game.getCurrentPlayer().getUsername(), game.getCurrentPlayer().getWallet().getValue()));
             if (getCharacterCardByID(idCard).hasParameters())
                 throw new CharacterCardWithParametersException();
         }
@@ -193,7 +193,7 @@ public class ExpertGame extends GameDecorator {
     @Override
     public void applyCharacterCardEffect(int characterCardID, CardEffect cardEffect) throws IllegalClientInputException, EndGameException {
         getCharacterCardByID(characterCardID).executeEffect(cardEffect);
-        notify(new InfoCharacterCardPlayedMessage(game.getCurrentPlayer().getUsername(), getCharacterCardByID(characterCardID), game.getIslands(), game.getAllSchoolBoards()));
+        game.notify(new InfoCharacterCardPlayedMessage(game.getCurrentPlayer().getUsername(), getCharacterCardByID(characterCardID), game.getIslands(), game.getAllSchoolBoards()));
     }
 
     @Override

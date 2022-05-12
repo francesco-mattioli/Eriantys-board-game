@@ -27,7 +27,7 @@ import java.util.stream.Collectors;
 public class Game extends GameMode{
     protected final ArrayList<Island> islands;
     protected final Bag bag;
-    private final int maxNumberOfPlayers;
+    private int maxNumberOfPlayers;
     protected final ArrayList<Player> players;
     protected final ArrayList<CloudTile> cloudTiles;
     protected ArrayList<CloudTile> availableCloudTiles;
@@ -686,6 +686,10 @@ public class Game extends GameMode{
 
     // SETTERS ----------------------------------------------
 
+
+    public void setMaxNumberOfPlayers(int maxNumberOfPlayers) {
+        this.maxNumberOfPlayers = maxNumberOfPlayers;
+    }
 
     public void setCurrentPlayer(Player currentPlayer) {
         this.currentPlayer = currentPlayer;

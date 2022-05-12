@@ -12,36 +12,34 @@ import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.*;
-import java.util.concurrent.Semaphore;
 import java.util.logging.Logger;
 
 
 public class Server {
     public static final Logger LOGGER = Logger.getLogger(Server.class.getName());
     public static int PORT;
-    private final Semaphore semaphore = new Semaphore(1);
-    private int numOfClients;
     private Controller controller;
-    private int maxNumPlayers = 0;
-    private VirtualView firstPlayerVirtualView;
+    private GameMode game;
+    private List<VirtualView> waitingList;
 
     public Server(int PORT) {
-        this.PORT = PORT;
-        this.numOfClients = 0;
-        LOGGER.info("Clients connected: " + this.numOfClients);
+        Server.PORT = PORT;
+        this.game=new Game(2);
+        this.controller=new Controller(game);
+        this.waitingList=new ArrayList<>();
+        LOGGER.info("Clients connected: " + 0);
     }
 
     public Controller getController() {
         return controller;
     }
 
-    public boolean isUsernameValid(String username) { // to add check server name if it is useful
+    //MOVE IN GAME
+    public boolean isUsernameValid(String username) {
         return username.length() != 0 && !username.equals(" ") && !username.equals(Cli.commandForCharacterCard);
     }
 
-    private boolean checkMaxNumPlayers(int num) {
-        return (num == 2 || num == 3);
-    }
+
 
     /**
      * This method is called when the first player decides the max number of players.
@@ -53,32 +51,23 @@ public class Server {
      */
     public void activateGame(String username, int maxNumPlayers, boolean expertMode) {
         if (!checkMaxNumPlayers(maxNumPlayers)) {
-            firstPlayerVirtualView.showErrorMessage(ErrorTypeID.WRONG_PLAYERS_NUMBER);
-            firstPlayerVirtualView.askNumPlayersAndGameMode();
+            waitingList.get(0).showErrorMessage(ErrorTypeID.WRONG_PLAYERS_NUMBER);
+            waitingList.get(0).askNumPlayersAndGameMode();
             LOGGER.severe("Not valid number of players");
         } else {
-            this.maxNumPlayers = maxNumPlayers;
-            LOGGER.severe("Number of players was set");
-            GameMode game = new Game(maxNumPlayers);
-            if (expertMode) {
-                GameMode expertGame = new ExpertGame(game);
-                this.controller = new Controller(expertGame);
+            if(maxNumPlayers< waitingList.size()) {
+                waitingList.get(waitingList.size() - 1).showErrorMessage(ErrorTypeID.FULL_LOBBY);
+                game.getPlayers().remove(game.getPlayers().size() - 1);
+                waitingList.get(waitingList.size()-1).removeObserver(controller);
+                game.removeObserver(waitingList.get(waitingList.size()-1)); // DO ALSO FORT ISLANDS!!!!!!!!!!!!!!!!!
+                waitingList.remove(waitingList.get(waitingList.size()-1));
             }
-            else
-                this.controller = new Controller(game);
-            LOGGER.severe("Game instantiated");
-            controller.getVirtualViews().add(firstPlayerVirtualView);
-            controller.getVirtualViewByUsername(username).addObserver(controller);
-            controller.addGameObserver(controller.getVirtualViewByUsername(username));
-            controller.addPlayer(username);
-            numOfClients++;
-            // When the Game Mode and number of players were set, release the semaphore
-            semaphore.release();
-            LOGGER.info("The game was instanced for " + maxNumPlayers + " players");
-            LOGGER.info("Clients connected: " + this.numOfClients);
+            if (expertMode)
+                this.controller.setGame(new ExpertGame(game));
+            controller.createTowerColorRequestMessage(waitingList.get(0).getUsername());
+            LOGGER.info("Clients connected: " + waitingList.size());
         }
-
-    }
+   }
 
     /**
      * This method adds players to the game
@@ -89,55 +78,46 @@ public class Server {
      * @param username
      */
     public synchronized void lobby(ServeOneClient serveOneClient, String username) {
-        semaphore.acquireUninterruptibly();
-        //if the player is the first one, we need to wait that he has chosen the number of players
-        if (numOfClients == 0 && isUsernameValid(username)) {
-            firstPlayerVirtualView = new VirtualView(serveOneClient, username);
-            firstPlayerVirtualView.showLoginReply();
-            firstPlayerVirtualView.askNumPlayersAndGameMode();
-            LOGGER.info("First player has logged. Waiting for game mode and number of players...");
-        }
-        //in this case, the player can be added to the game. His virtual view can be created and added to the ArrayList
-        else if (numOfClients < maxNumPlayers && isUsernameValid(username)) {
-            try {
-                controller.getVirtualViews().add(new VirtualView(serveOneClient, username));
-                controller.getVirtualViewByUsername(username).addObserver(controller);
-                controller.addGameObserver(controller.getVirtualViewByUsername(username));
-                controller.createLoginReplyMessage(username);
+        waitingList.add(new VirtualView(serveOneClient, username));
+        controller.addVirtualView(waitingList.get(waitingList.size()-1));
+        try {
+            if (waitingList.size() == 1) {
                 controller.addPlayer(username);
-                numOfClients++;
+                waitingList.get(0).showLoginReply();
+                waitingList.get(0).addObserver(controller);
+                controller.addGameObserver(waitingList.get(0));
+                LOGGER.info("First player has logged. Waiting for game mode and number of players...");
+            } else if (waitingList.size() <= 3) {
+                controller.addPlayer(username);
+                waitingList.get(waitingList.size() - 1).showLoginReply();
+                waitingList.get(waitingList.size() - 1).addObserver(controller);
+                controller.addGameObserver(waitingList.get(waitingList.size() - 1));
                 LOGGER.info("New player accepted");
-                LOGGER.info("Clients connected: " + this.numOfClients);
-                //in this case, the player added is the last one, so after this the game can be started and next players will be rejected
-                if (numOfClients == maxNumPlayers) {
-                    controller.createTowerColorRequestMessage(controller.getVirtualViews().get(0).getUsername());
-                    LOGGER.info("Last player accepted. Lobby is now full");
-                }
-            } catch (IllegalArgumentException e) {
-                VirtualView virtualView = new VirtualView(serveOneClient, username);
-                virtualView.showErrorMessage(ErrorTypeID.USERNAME_ALREADY_CHOSEN);
-                LOGGER.severe("Player not accepted, username already chosen");
-                LOGGER.info("Clients connected: " + this.numOfClients);
-            } finally {
-                semaphore.release();
+                waitingList.get(waitingList.size() - 1).showGenericMessage("Game will start as soon as the first players chooses number of players...");
+                if(waitingList.size()==2)
+                    waitingList.get(0).askNumPlayersAndGameMode();
+            }else{
+                waitingList.get(waitingList.size() - 1).showErrorMessage(ErrorTypeID.FULL_LOBBY);
+                waitingList.remove(waitingList.size() - 1);
+                controller.getVirtualViews().remove(waitingList.get(waitingList.size() - 1));
+                LOGGER.severe("Player not accepted, lobby was already full");
+                serveOneClient.close();
             }
-        }
-        //in this case, the username is not valid
-        else if (!isUsernameValid(username)) {
-            VirtualView virtualView = new VirtualView(serveOneClient, username);
-            virtualView.showErrorMessage(ErrorTypeID.FORBIDDEN_USERNAME);
-            LOGGER.severe("Player not accepted, username not available");
-            LOGGER.info("Clients connected: " + this.numOfClients);
-            semaphore.release();
-        }
-        //in this case, lobby is already full so an other player cannot be added
-        else {
-            VirtualView virtualView = new VirtualView(serveOneClient, username);
-            virtualView.showErrorMessage(ErrorTypeID.FULL_LOBBY);
-            serveOneClient.close();
-            LOGGER.severe("Player not accepted, lobby was already full");
+        } catch (IllegalArgumentException e) {
+            VirtualView virtualView = waitingList.get(waitingList.size() - 1);
+            virtualView.showErrorMessage(ErrorTypeID.USERNAME_ALREADY_CHOSEN);
+            waitingList.remove(virtualView);
+            controller.getVirtualViews().remove(waitingList.get(waitingList.size() - 1));
+            LOGGER.severe("Player not accepted, username already chosen");
+            LOGGER.info("Clients connected: " + this.waitingList.size());
         }
     }
+
+
+    private boolean checkMaxNumPlayers(int num) {
+        return (num == 2 || num == 3);
+    }
+
 
     public void run() throws IOException {
         ServerSocket serverSocket = null;
@@ -146,8 +126,8 @@ public class Server {
             serverSocket = new ServerSocket(PORT);
             while (true) {
                 Socket connectionSocket = serverSocket.accept();
-                // After 2 minute (=120'000 secs) the connection with client is closed
-                connectionSocket.setSoTimeout(120000);
+                // After 6 minutes (=360'000 secs) the connection with client is closed
+                connectionSocket.setSoTimeout(360000);
                 // The following thread will manage the socket that will be assigned to the Client
                 new Thread(new ServeOneClient(connectionSocket, this)).start();
             }
@@ -164,7 +144,6 @@ public class Server {
     }
 
     public synchronized void disconnectPlayers() {
-        numOfClients = 0;
         controller.disconnectPlayers();
     }
 

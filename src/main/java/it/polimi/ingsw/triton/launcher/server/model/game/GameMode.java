@@ -58,6 +58,6 @@ public abstract class GameMode extends Observable<InfoMessage>{
     abstract Map<String, SchoolBoard> getAllSchoolBoards();
     abstract ArrayList<CloudTile> getCloudTiles();
     abstract String[] professorsWithUsernameOwner();
-    abstract int getMaxNumberOfPlayers();
+    public abstract int getMaxNumberOfPlayers();
     abstract void setCurrentPlayer(Player player);
 }
