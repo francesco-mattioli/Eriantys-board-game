@@ -11,11 +11,13 @@ import it.polimi.ingsw.triton.launcher.server.model.cardeffects.CharacterCard;
 import it.polimi.ingsw.triton.launcher.server.model.enums.AssistantCardType;
 import it.polimi.ingsw.triton.launcher.server.model.enums.GameState;
 import it.polimi.ingsw.triton.launcher.server.model.enums.TowerColor;
+import it.polimi.ingsw.triton.launcher.server.model.enums.Color;
 import it.polimi.ingsw.triton.launcher.server.model.enums.Wizard;
 import it.polimi.ingsw.triton.launcher.server.model.player.SchoolBoard;
 import it.polimi.ingsw.triton.launcher.utils.message.ErrorTypeID;
 import it.polimi.ingsw.triton.launcher.utils.message.Message;
 import it.polimi.ingsw.triton.launcher.utils.obs.Observable;
+
 import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
@@ -24,7 +26,6 @@ import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -47,6 +48,11 @@ public class Gui extends Observable<Message> implements ClientView {
     @Override
     public ClientModel getClientModel() {
         return clientModel;
+    }
+
+    @Override
+    public void askIpAddress() {
+
     }
 
     @Override
@@ -172,21 +178,23 @@ public class Gui extends Observable<Message> implements ClientView {
                 Map<Image,Wizard> wizardsImages = new HashMap<>();
                 String currentPath = new java.io.File("src/main/resources/Images/Wizards").getAbsolutePath().replace('\\','/');
                 for (Wizard wizard: wizards) {
-                    if (wizard.equals(Wizard.YELLOW))
+                    /*if (wizard.equals(Wizard.YELLOW))
                         wizardsImages.put(new Image("file:" + currentPath + "/Yellow-Wizard.png"),wizard);
                     if (wizard.equals(Wizard.GREEN))
                         wizardsImages.put(new Image("file:" + currentPath + "/Green-Wizard.png"),wizard);
                     if (wizard.equals(Wizard.BLUE))
                         wizardsImages.put(new Image("file:" + currentPath + "/Blue-Wizard.png"),wizard);
                     if (wizard.equals(Wizard.PURPLE))
-                        wizardsImages.put(new Image("file:" + currentPath + "/Purple-Wizard.png"),wizard);
+                        wizardsImages.put(new Image("file:" + currentPath + "/Purple-Wizard.png"),wizard);*/
+                    wizardsImages.put(new Image("file:" + currentPath + wizard.getImagePath()),wizard);
+
                 }
                 ((WizardSceneController)loader.getController()).setWizards(wizardsImages);
                 ((WizardSceneController)loader.getController()).getWizardImageView().setImage((Image) wizardsImages.keySet().toArray()[0]);
-                ((WizardSceneController)loader.getController()).getLeftSwitch().setFill(Color.GRAY);
+                ((WizardSceneController)loader.getController()).getLeftSwitch().setFill(javafx.scene.paint.Color.GRAY);
                 ((WizardSceneController)loader.getController()).getLeftSwitch().setOpacity(0.5);
                 if(wizards.size() == 1) {
-                    ((WizardSceneController)loader.getController()).getRightSwitch().setFill(Color.GRAY);
+                    ((WizardSceneController)loader.getController()).getRightSwitch().setFill(javafx.scene.paint.Color.GRAY);
                     ((WizardSceneController)loader.getController()).getRightSwitch().setOpacity(0.5);
                 }
                 Scene scene = new Scene(root);
@@ -209,7 +217,7 @@ public class Gui extends Observable<Message> implements ClientView {
                 Map<Image,AssistantCard> assistantCardImages = new HashMap<>();
                 String currentPath = new java.io.File("src/main/resources/Images/AssistantCards").getAbsolutePath().replace('\\','/');
                 for (AssistantCard assistantCard: clientModel.getAssistantDeck().getAssistantDeck()) {
-                    if (assistantCard.getType().equals(AssistantCardType.CAT))
+                    /*if (assistantCard.getType().equals(AssistantCardType.CAT))
                         assistantCardImages.put(new Image("file:" + currentPath + "/Cat.png"),assistantCard);
                     if (assistantCard.getType().equals(AssistantCardType.DOG))
                         assistantCardImages.put(new Image("file:" + currentPath + "/Dog.png"),assistantCard);
@@ -228,14 +236,15 @@ public class Gui extends Observable<Message> implements ClientView {
                     if (assistantCard.getType().equals(AssistantCardType.OCTOPUS))
                         assistantCardImages.put(new Image("file:" + currentPath + "/Octopus.png"),assistantCard);
                     if (assistantCard.getType().equals(AssistantCardType.FOX))
-                        assistantCardImages.put(new Image("file:" + currentPath + "/Fox.png"),assistantCard);
+                        assistantCardImages.put(new Image("file:" + currentPath + "/Fox.png"),assistantCard);*/
+                    assistantCardImages.put(new Image("file:" + currentPath + assistantCard.getType().getImagePath()),assistantCard);
                 }
                 ((AssistantCardSceneController)loader.getController()).setAssistantCards(assistantCardImages);
                 ((AssistantCardSceneController)loader.getController()).getAssistantCardImageView().setImage((Image) assistantCardImages.keySet().toArray()[0]);
-                ((AssistantCardSceneController)loader.getController()).getLeftSwitch().setFill(Color.GRAY);
+                ((AssistantCardSceneController)loader.getController()).getLeftSwitch().setFill(javafx.scene.paint.Color.GRAY);
                 ((AssistantCardSceneController)loader.getController()).getLeftSwitch().setOpacity(0.5);
                 if(assistantCardImages.size() == 1) {
-                    ((WizardSceneController)loader.getController()).getRightSwitch().setFill(Color.GRAY);
+                    ((WizardSceneController)loader.getController()).getRightSwitch().setFill(javafx.scene.paint.Color.GRAY);
                     ((WizardSceneController)loader.getController()).getRightSwitch().setOpacity(0.5);
                 }
                 Scene scene = new Scene(root);
@@ -295,6 +304,11 @@ public class Gui extends Observable<Message> implements ClientView {
     }
 
     @Override
+    public void showAbortMessage() {
+
+    }
+
+    @Override
     public void showWinMessage() {
 
     }
@@ -325,7 +339,7 @@ public class Gui extends Observable<Message> implements ClientView {
                 String currentPath = new java.io.File("src/main/resources/Images/Students").getAbsolutePath().replace('\\','/');
                 for(int i = 0; i < clientModel.getMySchoolBoard().getEntrance().length; i++){
                     for(int j = 0; j<clientModel.getMySchoolBoard().getEntrance()[i]; j++) {
-                        if(i == 0)
+                        /*if(i == 0)
                             ((ImageView)(studentsOnMyEntrance.get(offset))).setImage(new Image("file:"+currentPath+"/YellowStudent.png"));
                         if(i==1)
                             ((ImageView)(studentsOnMyEntrance.get(offset))).setImage(new Image("file:"+currentPath+"/BlueStudent.png"));
@@ -334,7 +348,8 @@ public class Gui extends Observable<Message> implements ClientView {
                         if(i==3)
                             ((ImageView)(studentsOnMyEntrance.get(offset))).setImage(new Image("file:"+currentPath+"/RedStudent.png"));
                         if(i==4)
-                            ((ImageView)(studentsOnMyEntrance.get(offset))).setImage(new Image("file:"+currentPath+"/PinkStudent.png"));
+                            ((ImageView)(studentsOnMyEntrance.get(offset))).setImage(new Image("file:"+currentPath+"/PinkStudent.png"));*/
+                        ((ImageView)(studentsOnMyEntrance.get(offset))).setImage(new Image("file:" + currentPath + Color.values()[i].getStudentImagePath()));
                         ((ImageView)(studentsOnMyEntrance.get(offset))).setVisible(true);
                         offset++;
                     }
