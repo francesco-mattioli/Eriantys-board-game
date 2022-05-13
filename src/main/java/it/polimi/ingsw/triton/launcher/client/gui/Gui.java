@@ -20,12 +20,15 @@ import it.polimi.ingsw.triton.launcher.utils.message.clientmessage.UpdatedServer
 import it.polimi.ingsw.triton.launcher.utils.obs.Observable;
 
 import javafx.application.Platform;
+import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.DragEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
@@ -457,6 +460,24 @@ public class Gui extends Observable<Message> implements ClientView {
         for(int i = 0; i<clientModel.getIslands().size(); i++){
             AnchorPane anchorPane = new AnchorPane();
             HBox box = new HBox();
+            AnchorPane infoPane = new AnchorPane();
+            islands.add(infoPane);
+            infoPane.getChildren().add(new Label("Number of island:" + clientModel.getIslands().get(i).getId()));
+            infoPane.setPrefHeight(200);
+            infoPane.setPrefHeight(200);
+            infoPane.setVisible(false);
+            box.setOnMouseEntered(event -> {
+                infoPane.setLayoutX(anchorPane.getLayoutX() + 40);
+                infoPane.setLayoutY(anchorPane.getLayoutY() + 40);
+                infoPane.setVisible(true);
+                event.consume();
+            });
+            box.setOnMouseExited(event -> {
+                infoPane.setLayoutX(anchorPane.getLayoutX() + 40);
+                infoPane.setLayoutY(anchorPane.getLayoutY() + 40);
+                infoPane.setVisible(false);
+                event.consume();
+            });
             anchorPane.getChildren().add(box);
             for(int j = 0; j < clientModel.getIslands().get(i).getDim(); j++){
                 Image image = new Image("file:" + currentPath + "/Island1.png");
