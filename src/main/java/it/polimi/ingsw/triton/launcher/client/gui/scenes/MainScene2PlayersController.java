@@ -41,10 +41,40 @@ public class MainScene2PlayersController extends Observable<Message> {
     AnchorPane otherSchoolBoardPane;
 
     @FXML
+    GridPane otherDiningRoomGrid;
+
+    public GridPane getOtherDiningRoomGrid() {
+        return otherDiningRoomGrid;
+    }
+
+    public GridPane getOtherEntranceGrid() {
+        return otherEntranceGrid;
+    }
+
+    public GridPane getOtherProfessorsGrid() {
+        return otherProfessorsGrid;
+    }
+
+    public GridPane getOtherTowerGrid() {
+        return otherTowerGrid;
+    }
+
+    @FXML
+    GridPane otherEntranceGrid;
+
+    @FXML
+    GridPane otherProfessorsGrid;
+
+    @FXML
+    GridPane otherTowerGrid;
+
+    @FXML
     AnchorPane islandPane;
 
     @FXML
     AnchorPane studentsIslandPane;
+
+
 
     public GridPane getMyDiningRoomGrid() {
         return myDiningRoomGrid;

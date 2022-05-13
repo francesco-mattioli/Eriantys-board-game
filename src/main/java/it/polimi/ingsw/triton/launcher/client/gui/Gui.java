@@ -306,64 +306,17 @@ public class Gui extends Observable<Message> implements ClientView {
                 Scene scene = new Scene(root);
                 mainStage = new Stage();
                 mainStage.setFullScreen(true);
-                List<Node> studentsOnMyDiningRoom = ((MainScene2PlayersController)mainLoader.getController()).getMyDiningRoomGrid().getChildren();
-                int offset = 0;
-                for(int i = 0; i < clientModel.getMySchoolBoard().getDiningRoom().length; i++){
-                    for(int j = 0; j<clientModel.getMySchoolBoard().getDiningRoom()[i]; j++) {
-                        ((ImageView)(studentsOnMyDiningRoom.get(offset+j))).setVisible(true);
-                    }
-                    offset+=10;
-                }
-                List<Node> studentsOnMyEntrance = ((MainScene2PlayersController)mainLoader.getController()).getMyEntranceGrid().getChildren();
-                offset = 0;
-                String currentPath = new java.io.File("src/main/resources/Images/Students").getAbsolutePath().replace('\\','/');
-                for(int i = 0; i < clientModel.getMySchoolBoard().getEntrance().length; i++){
-                    for(int j = 0; j<clientModel.getMySchoolBoard().getEntrance()[i]; j++) {
-                        ((ImageView)(studentsOnMyEntrance.get(offset))).setImage(new Image("file:" + currentPath + Color.values()[i].getStudentImagePath()));
-                        ((ImageView)(studentsOnMyEntrance.get(offset))).setVisible(true);
-                        offset++;
+                Set<String> usernames = clientModel.getSchoolBoards().keySet();
+                setStudentsOnDiningRoom(((MainScene2PlayersController)mainLoader.getController()).getMyDiningRoomGrid().getChildren(), clientModel.getMySchoolBoard());
+                setStudentsOnEntrance(((MainScene2PlayersController)mainLoader.getController()).getMyEntranceGrid().getChildren(), clientModel.getMySchoolBoard());
+                for(String username: usernames) {
+                    if(!username.equals(clientModel.getUsername())) {
+                        setStudentsOnDiningRoom(((MainScene2PlayersController) mainLoader.getController()).getOtherDiningRoomGrid().getChildren(), clientModel.getSchoolBoards().get(username));
+                        setStudentsOnEntrance(((MainScene2PlayersController) mainLoader.getController()).getOtherEntranceGrid().getChildren(), clientModel.getSchoolBoards().get(username));
                     }
                 }
-                currentPath = new java.io.File("src/main/resources/Images/Islands").getAbsolutePath().replace('\\','/');
-                List<Node> islands = ((MainScene2PlayersController)mainLoader.getController()).getIslandPane().getChildren();
-                int dim1 = clientModel.getIslands().size()/2;
-                int dim2 = clientModel.getIslands().size() - dim1;
-                TilePane superiorGrid = new TilePane();
-                TilePane inferiorGrid = new TilePane();
-                superiorGrid.setPrefRows(1);
-                superiorGrid.setPrefColumns(dim1);
-                inferiorGrid.setPrefRows(1);
-                inferiorGrid.setPrefColumns(dim2);
-                List<Node> superiorList = new ArrayList<>();
-                List<Node> inferiorList = new ArrayList<>();
-                for(int i = 0; i<clientModel.getIslands().size(); i++){
-                    HBox box = new HBox();
-                    for(int j = 0; j < clientModel.getIslands().get(i).getDim(); j++){
-                        Image image = new Image("file:" + currentPath + "/Island1.png");
-                        ImageView imageView = new ImageView(image);
-                        imageView.setFitWidth(100);
-                        imageView.setFitHeight(100);
-                        box.getChildren().add(imageView);
-                        if(i < dim1){
-                            superiorList.add(box);
-                        }
-                        else {
-                            inferiorList.add(box);
-                        }
-                    }
-                }
-                superiorGrid.getChildren().addAll(superiorList);
-                Collections.reverse(inferiorList);
-                inferiorGrid.getChildren().addAll(inferiorList);
-                superiorGrid.setLayoutX(0);
-                superiorGrid.setLayoutY(0);
-                superiorGrid.setHgap(100);
-                inferiorGrid.setLayoutX(0);
-                inferiorGrid.setLayoutY(200);
-                inferiorGrid.setHgap(100);
-                islands.add(superiorGrid);
-                islands.add(inferiorGrid);
-                currentPath = new java.io.File( "src/main/resources/Images/Wizards").getAbsolutePath().replace('\\','/');
+                drawIslands();
+                String currentPath = new java.io.File( "src/main/resources/Images/Wizards").getAbsolutePath().replace('\\','/');
                 ImageView imageView = (ImageView)(((MainScene2PlayersController)mainLoader.getController()).getMySchoolBoardPane().getChildren().get(2));
                 imageView.setImage(new Image("file:" + currentPath + clientModel.getAssistantDeck().getWizard().getImagePath()));
                 mainStage.setScene(scene);
@@ -373,5 +326,69 @@ public class Gui extends Observable<Message> implements ClientView {
                 e.printStackTrace();
             }
         });
+    }
+
+    private void setStudentsOnDiningRoom(List<Node> studentsOnDiningRoom, SchoolBoard schoolBoard){
+        int offset = 0;
+        for(int i = 0; i < schoolBoard.getDiningRoom().length; i++){
+            for(int j = 0; j<schoolBoard.getDiningRoom()[i]; j++) {
+                ((ImageView)(studentsOnDiningRoom.get(offset+j))).setVisible(true);
+            }
+            offset+=10;
+        }
+    }
+
+    private void setStudentsOnEntrance(List<Node> studentsOnEntrance, SchoolBoard schoolBoard){
+        int offset = 0;
+        String currentPath = new java.io.File("src/main/resources/Images/Students").getAbsolutePath().replace('\\','/');
+        for(int i = 0; i < schoolBoard.getEntrance().length; i++){
+            for(int j = 0; j<schoolBoard.getEntrance()[i]; j++) {
+                ((ImageView)(studentsOnEntrance.get(offset))).setImage(new Image("file:" + currentPath + Color.values()[i].getStudentImagePath()));
+                ((ImageView)(studentsOnEntrance.get(offset))).setVisible(true);
+                offset++;
+            }
+        }
+    }
+
+    private void drawIslands(){
+        String currentPath = new java.io.File("src/main/resources/Images/Islands").getAbsolutePath().replace('\\','/');
+        List<Node> islands = ((MainScene2PlayersController)mainLoader.getController()).getIslandPane().getChildren();
+        int dim1 = clientModel.getIslands().size()/2;
+        int dim2 = clientModel.getIslands().size() - dim1;
+        TilePane superiorGrid = new TilePane();
+        TilePane inferiorGrid = new TilePane();
+        superiorGrid.setPrefRows(1);
+        superiorGrid.setPrefColumns(dim1);
+        inferiorGrid.setPrefRows(1);
+        inferiorGrid.setPrefColumns(dim2);
+        List<Node> superiorList = new ArrayList<>();
+        List<Node> inferiorList = new ArrayList<>();
+        for(int i = 0; i<clientModel.getIslands().size(); i++){
+            HBox box = new HBox();
+            for(int j = 0; j < clientModel.getIslands().get(i).getDim(); j++){
+                Image image = new Image("file:" + currentPath + "/Island1.png");
+                ImageView imageView = new ImageView(image);
+                imageView.setFitWidth(100);
+                imageView.setFitHeight(100);
+                box.getChildren().add(imageView);
+                if(i < dim1){
+                    superiorList.add(box);
+                }
+                else {
+                    inferiorList.add(box);
+                }
+            }
+        }
+        superiorGrid.getChildren().addAll(superiorList);
+        Collections.reverse(inferiorList);
+        inferiorGrid.getChildren().addAll(inferiorList);
+        superiorGrid.setLayoutX(0);
+        superiorGrid.setLayoutY(0);
+        superiorGrid.setHgap(100);
+        inferiorGrid.setLayoutX(0);
+        inferiorGrid.setLayoutY(200);
+        inferiorGrid.setHgap(100);
+        islands.add(superiorGrid);
+        islands.add(inferiorGrid);
     }
 }
