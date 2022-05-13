@@ -11,6 +11,7 @@ import it.polimi.ingsw.triton.launcher.utils.Utility;
 import it.polimi.ingsw.triton.launcher.utils.obs.Observable;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -24,11 +25,11 @@ public class ClientModel extends Observable<Object> {
     private Map<String, SchoolBoard> schoolBoards;
     private ArrayList<CloudTile> cloudTiles;
     private Island motherNaturePosition;
-    private AssistantCard lastAssistantCardPlayed;
     private boolean expertMode;
     private String[] professors;
     private int wallet;
     private Map<String, Wizard> chosenWizardsPerUsername;
+    private Map<String,AssistantCard> lastAssistantCardPlayedPerUsername=new HashMap<>();
 
     @Override
     public String toString() {
@@ -70,13 +71,7 @@ public class ClientModel extends Observable<Object> {
         assistantDeck.getAssistantDeck().removeIf(assistantCard -> assistantCard.getType().getValue() == assistantCardToRemove.getType().getValue());
     }
 
-    public AssistantCard getLastAssistantCardPlayed() {
-        return lastAssistantCardPlayed;
-    }
 
-    public void setLastAssistantCardPlayed(AssistantCard lastAssistantCardPlayed) {
-        this.lastAssistantCardPlayed = lastAssistantCardPlayed;
-    }
 
     public ArrayList<CharacterCard> getAvailableCharacterCards() {
         return availableCharacterCards;
@@ -134,6 +129,17 @@ public class ClientModel extends Observable<Object> {
     public void setSchoolBoard(String username, SchoolBoard schoolBoard) {
         this.schoolBoards.put(username, schoolBoard);
     }
+
+    public void setLastAssistantCardPlayed(String username,AssistantCard lastAssistantCardPlayed){
+        this.lastAssistantCardPlayedPerUsername.put(username,lastAssistantCardPlayed);
+    }
+
+    public AssistantCard getMyLastAssistantCardPlayed(){
+        return this.lastAssistantCardPlayedPerUsername.get(this.username);
+    }
+
+
+
 
     public String printWallet(){
         String results = "Your Wallet: " + wallet;
@@ -269,4 +275,7 @@ public class ClientModel extends Observable<Object> {
     public void setChosenWizardsPerUsername(Map<String, Wizard> chosenWizardsPerUsername) {
         this.chosenWizardsPerUsername = chosenWizardsPerUsername;
     }
+
+
+
 }
