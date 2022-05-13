@@ -54,15 +54,26 @@ public class Gui extends Observable<Message> implements ClientView {
 
     @Override
     public void askIpAddress() {
-
+        client = new Client(this);
+        this.addObserver(client);
+        this.clientModel = new ClientModel();
+        Platform.runLater(() -> {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/ipAddress-scene.fxml"));
+            Parent root = null;
+            try {
+                root = loader.load();
+                ((IpAddressSceneController) loader.getController()).addObserver(client);
+                Scene scene = new Scene(root);
+                activeStage.setScene(scene);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        });
     }
 
     @Override
     public void askUsername() {
-        client = new Client(this);
-        this.addObserver(client);
-        this.clientModel = new ClientModel();
-        notify(new UpdatedServerInfoMessage("localhost"));
+
         Platform.runLater(() -> {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/login-scene.fxml"));
             Parent root = null;
