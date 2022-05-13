@@ -172,7 +172,7 @@ public class ServerMessageVisitor {
         clientView.getClientModel().setSchoolBoards(message.getUpdatedSchoolBoards());
         if(!clientView.getClientModel().getUsername().equals(message.getPlayerUsername()))
             clientView.showGenericMessage(message.getChoiceDescription());
-        System.out.println(clientView.getClientModel().toString());
+        clientView.showGameInfo();
     }
 
     public void visit(CharacterCardParameterRequest message){
