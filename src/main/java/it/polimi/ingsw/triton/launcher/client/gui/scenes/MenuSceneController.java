@@ -32,6 +32,6 @@ public class MenuSceneController extends Observable<Message> {
 
     public void join(ActionEvent event) throws IOException {
         Gui gui = new Gui(((Stage)((Node)event.getSource()).getScene().getWindow()));
-        gui.askUsername();
+        gui.askIpAddress();
     }
 }
