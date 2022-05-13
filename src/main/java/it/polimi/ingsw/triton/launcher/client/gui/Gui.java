@@ -260,12 +260,72 @@ public class Gui extends Observable<Message> implements ClientView {
 
     @Override
     public void askMoveStudentFromEntrance() {
+        Platform.runLater(() -> {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/moveStudentFromEntrance-scene.fxml"));
+            Parent root = null;
+            try {
+                root = loader.load();
+                ((MoveStudentFromEntranceSceneController) loader.getController()).addObserver(client);
+                ((MoveStudentFromEntranceSceneController) loader.getController()).setUsername(clientModel.getUsername());
+                Map<String, Color> colorMap = new HashMap<>();
+                ArrayList<Integer> islandsId = new ArrayList<>();
+                String[] whereMove = {"dining room", "island"};
+                for (Island island: clientModel.getIslands()) {
+                    islandsId.add(island.getId());
+                }
+                for (int i = 0; i < clientModel.getMySchoolBoard().getEntrance().length; i++) {
+                    if (clientModel.getMySchoolBoard().getEntrance()[i] != 0) {
+                        colorMap.put(Color.values()[i].name(), Color.values()[i]);
+                    }
+                }
+                ((MoveStudentFromEntranceSceneController) loader.getController()).setColorMap(colorMap);
+                ((MoveStudentFromEntranceSceneController) loader.getController()).getColorChoiceBox().getItems().addAll(colorMap.keySet());
+                ((MoveStudentFromEntranceSceneController) loader.getController()).getIslandIdChoiceBox().getItems().addAll(islandsId);
+                ((MoveStudentFromEntranceSceneController) loader.getController()).getWhereChoiceBox().getItems().addAll(whereMove);
+                ((MoveStudentFromEntranceSceneController) loader.getController()).getWhereChoiceBox().setOnAction(((MoveStudentFromEntranceSceneController) loader.getController())::show);
 
+                Scene scene = new Scene(root);
+                activeStage.setScene(scene);
+                activeStage.show();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        });
+    }
+
+    public void showInfoStudentOntoIsland(){
+        Set<String> usernames = clientModel.getSchoolBoards().keySet();
+        setStudentsOnDiningRoom(((MainScene2PlayersController)mainLoader.getController()).getMyDiningRoomGrid().getChildren(), clientModel.getMySchoolBoard());
+        setStudentsOnEntrance(((MainScene2PlayersController)mainLoader.getController()).getMyEntranceGrid().getChildren(), clientModel.getMySchoolBoard());
+        for(String username: usernames) {
+            if(!username.equals(clientModel.getUsername())) {
+                setStudentsOnDiningRoom(((MainScene2PlayersController) mainLoader.getController()).getOtherDiningRoomGrid().getChildren(), clientModel.getSchoolBoards().get(username));
+                setStudentsOnEntrance(((MainScene2PlayersController) mainLoader.getController()).getOtherEntranceGrid().getChildren(), clientModel.getSchoolBoards().get(username));
+            }
+        }
     }
 
     @Override
     public void askNumberStepsMotherNature() {
-
+        Platform.runLater(() -> {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/motherNatureSteps-scene.fxml"));
+            Parent root = null;
+            try {
+                root = loader.load();
+                ((MotherNatureStepsSceneController) loader.getController()).addObserver(client);
+                ((MotherNatureStepsSceneController) loader.getController()).setUsername(clientModel.getUsername());
+                ArrayList<Integer> steps = new ArrayList<>();
+                for (int i = 0; i <= clientModel.getLastAssistantCardPlayed().getType().getMaxSteps(); i++) {
+                    steps.add(i);
+                }
+                ((MotherNatureStepsSceneController) loader.getController()).getStepsChoiceBox().getItems().addAll(steps);
+                Scene scene = new Scene(root);
+                activeStage.setScene(scene);
+                activeStage.show();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        });
     }
 
 
