@@ -41,6 +41,14 @@ public class PlayAssistantCard implements Action {
         return false;
     }
 
+    private boolean canBeUsedByPlayer(AssistantCard assistantCardToPlay){
+        for(AssistantCard assistantCard: player.getAssistantDeck().getAssistantDeck()){
+            if(assistantCard.getType().equals(assistantCardToPlay.getType()))
+                return true;
+        }
+        return false;
+    }
+
     /**
      * @param assistantDeck      the available cards of the player.
      * @param usedAssistantCards the cards already played by the others players in this turn.
@@ -74,10 +82,11 @@ public class PlayAssistantCard implements Action {
                 player.getAssistantDeck().removeCard(assistantCardToPlay);
             } else
                 throw new IllegalClientInputException(ErrorTypeID.ASSISTANTCARD_ALREADY_CHOSEN);
-        } else {
+        } else if(canBeUsedByPlayer(assistantCardToPlay)){
             player.setLastPlayedAssistantCard(assistantCardToPlay);
             player.getAssistantDeck().removeCard(assistantCardToPlay);
             usedAssistantCards.add(assistantCardToPlay);
-        }
+        } else
+            throw new IllegalClientInputException(ErrorTypeID.GENERIC_CLIENT_INPUT_ERROR);
     }
 }

@@ -4,7 +4,7 @@ import it.polimi.ingsw.triton.launcher.utils.exceptions.IllegalClientInputExcept
 import it.polimi.ingsw.triton.launcher.utils.message.ErrorTypeID;
 
 import java.io.Serializable;
-import java.util.ArrayList;
+import java.util.List;
 
 public class MotherNature implements Serializable {
 
@@ -31,7 +31,7 @@ public class MotherNature implements Serializable {
      * @return returns the islands where MotherNature has been moved on
      * @throws IllegalArgumentException if the request steps are more than the number permitted
      */
-    public Island move(AssistantCard assistantCard, int steps, ArrayList<Island> islands) throws IllegalClientInputException {
+    public Island move(AssistantCard assistantCard, int steps, List<Island> islands) throws IllegalClientInputException {
         int maxSteps = assistantCard.getType().getMaxSteps() + additionalSteps;
         if (steps > maxSteps || steps < 0)
             throw new IllegalClientInputException(ErrorTypeID.TOO_MANY_MOTHERNATURE_STEPS);
@@ -46,7 +46,7 @@ public class MotherNature implements Serializable {
      * @param islands specifies the ArrayList of Islands
      * @return returns the Island where MotherNature is going to be moved
      */
-    private Island nextMotherNaturePosition(Island islandOn, int steps, ArrayList<Island> islands) {
+    private Island nextMotherNaturePosition(Island islandOn, int steps, List<Island> islands) {
         int positionIndex = islands.indexOf(islandOn);
         return islands.get((positionIndex + steps) % islands.size());
     }
@@ -55,7 +55,7 @@ public class MotherNature implements Serializable {
      * @param islands specifies the ArrayList of Islands
      * @return returns the MotherNature's position opposite island
      */
-    public int getIndexOfOppositeIsland(ArrayList<Island> islands) {
+    public int getIndexOfOppositeIsland(List<Island> islands) {
         return (islandOn.getId() + (islands.size() / 2)) % (islands.size());
     }
 

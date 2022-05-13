@@ -36,7 +36,7 @@ public interface ClientView extends View {
     void showWinMessage();
     void showLoseMessage(String winnerUsername);
     void showTieMessage();
-
+    void showMyInfoAssistantCardPlayed(AssistantCard assistantCard);
     void showAbortMessage();
 
 }
