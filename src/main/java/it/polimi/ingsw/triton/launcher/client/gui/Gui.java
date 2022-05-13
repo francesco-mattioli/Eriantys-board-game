@@ -29,10 +29,7 @@ import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.DragEvent;
-import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.GridPane;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.TilePane;
+import javafx.scene.layout.*;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Shape;
 import javafx.stage.Stage;
@@ -311,7 +308,8 @@ public class Gui extends Observable<Message> implements ClientView {
                 root = mainLoader.load();
                 Scene scene = new Scene(root);
                 mainStage = new Stage();
-                mainStage.setFullScreen(true);
+                mainStage.setResizable(false);
+                //mainStage.setFullScreen(true);
                 Set<String> usernames = clientModel.getSchoolBoards().keySet();
                 setStudentsOnDiningRoom(((MainScene2PlayersController)mainLoader.getController()).getMyDiningRoomGrid().getChildren(), clientModel.getMySchoolBoard());
                 setStudentsOnEntrance(((MainScene2PlayersController)mainLoader.getController()).getMyEntranceGrid().getChildren(), clientModel.getMySchoolBoard());
@@ -400,24 +398,6 @@ public class Gui extends Observable<Message> implements ClientView {
         for(int i = 0; i<clientModel.getIslands().size(); i++){
             AnchorPane anchorPane = new AnchorPane();
             HBox box = new HBox();
-            AnchorPane infoPane = new AnchorPane();
-            islands.add(infoPane);
-            infoPane.getChildren().add(new Label("Number of island:" + clientModel.getIslands().get(i).getId()));
-            infoPane.setPrefHeight(200);
-            infoPane.setPrefHeight(200);
-            infoPane.setVisible(false);
-            box.setOnMouseEntered(event -> {
-                infoPane.setLayoutX(anchorPane.getLayoutX() + 40);
-                infoPane.setLayoutY(anchorPane.getLayoutY() + 40);
-                infoPane.setVisible(true);
-                event.consume();
-            });
-            box.setOnMouseExited(event -> {
-                infoPane.setLayoutX(anchorPane.getLayoutX() + 40);
-                infoPane.setLayoutY(anchorPane.getLayoutY() + 40);
-                infoPane.setVisible(false);
-                event.consume();
-            });
             anchorPane.getChildren().add(box);
             for(int j = 0; j < clientModel.getIslands().get(i).getDim(); j++){
                 Image image = new Image("file:" + currentPath + "/Island1.png");
@@ -435,12 +415,14 @@ public class Gui extends Observable<Message> implements ClientView {
                     else
                         tower.setFill(javafx.scene.paint.Color.WHITE);
                 }
-                if(i < dim1){
-                    superiorList.add(anchorPane);
-                }
-                else {
-                    inferiorList.add(anchorPane);
-                }
+            }
+            if(i < dim1){
+                superiorList.add(anchorPane);
+                hanldeMouseEntranceAndExit(box, anchorPane, islands, i, anchorPane.getLayoutY() + 100);
+            }
+            else {
+                inferiorList.add(anchorPane);
+                hanldeMouseEntranceAndExit(box, anchorPane, islands, i, anchorPane.getLayoutY() + 300);
             }
             if(clientModel.getIslands().get(i).equals(clientModel.getMotherNaturePosition())) {
                 Circle motherNature = new Circle(11);
@@ -463,5 +445,58 @@ public class Gui extends Observable<Message> implements ClientView {
         islands.add(inferiorGrid);
     }
 
+    private void hanldeMouseEntranceAndExit(HBox box, AnchorPane anchorPane, List<Node>islands, int i, double y) {
+        AnchorPane infoPane = new AnchorPane();
+        islands.add(infoPane);
+        Label islandLabel = new Label("Number of island:" + clientModel.getIslands().get(i).getId());
+        islandLabel.setLayoutX(5);
+        infoPane.getChildren().add(islandLabel);
+
+        Label greenLabel = new Label("Number of red students:" + clientModel.getIslands().get(i).getStudents()[Color.GREEN.ordinal()]);
+        infoPane.getChildren().add(greenLabel);
+        greenLabel.setLayoutX(5);
+        greenLabel.setLayoutY(20);
+        greenLabel.setStyle("-fx-text-fill: green;");
+
+        Label redLabel = new Label("Number of red students:" + clientModel.getIslands().get(i).getStudents()[Color.RED.ordinal()]);
+        infoPane.getChildren().add(redLabel);
+        redLabel.setLayoutX(5);
+        redLabel.setLayoutY(40);
+        redLabel.setStyle("-fx-text-fill: red;");
+
+        Label yellowLabel = new Label("Number of red students:" + clientModel.getIslands().get(i).getStudents()[Color.YELLOW.ordinal()]);
+        infoPane.getChildren().add(yellowLabel);
+        yellowLabel.setLayoutX(5);
+        yellowLabel.setLayoutY(60);
+        yellowLabel.setStyle("-fx-text-fill: yellow;");
+
+        Label pinkLabel = new Label("Number of pink students:" + clientModel.getIslands().get(i).getStudents()[Color.PINK.ordinal()]);
+        infoPane.getChildren().add(pinkLabel);
+        pinkLabel.setLayoutX(5);
+        pinkLabel.setLayoutY(80);
+        pinkLabel.setStyle("-fx-text-fill: pink;");
+
+        Label blueLabel = new Label("Number of blue students:" + clientModel.getIslands().get(i).getStudents()[Color.BLUE.ordinal()]);
+        infoPane.getChildren().add(blueLabel);
+        blueLabel.setLayoutX(5);
+        blueLabel.setLayoutY(100);
+        blueLabel.setStyle("-fx-text-fill: blue;");
+
+        infoPane.setPrefHeight(200);
+        infoPane.setPrefWidth(200);
+        infoPane.setVisible(false);
+        infoPane.setOpacity(1);
+        infoPane.setStyle("-fx-background-color: #C7C7C7; -fx-border-color: black;");
+        box.setOnMouseEntered(event -> {
+            infoPane.setLayoutX(anchorPane.getLayoutX() + 40);
+            infoPane.setLayoutY(y);
+            infoPane.setVisible(true);
+            event.consume();
+        });
+        box.setOnMouseExited(event -> {
+            infoPane.setVisible(false);
+            event.consume();
+        });
+    }
 
 }
