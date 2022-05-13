@@ -61,14 +61,14 @@ public class Gui extends Observable<Message> implements ClientView {
     public void askUsername() {
         client = new Client(this);
         this.addObserver(client);
-        this.clientModel=new ClientModel();
+        this.clientModel = new ClientModel();
         notify(new UpdatedServerInfoMessage("localhost"));
         Platform.runLater(() -> {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/login-scene.fxml"));
             Parent root = null;
             try {
                 root = loader.load();
-                ((LoginSceneController)loader.getController()).addObserver(client);
+                ((LoginSceneController) loader.getController()).addObserver(client);
                 Scene scene = new Scene(root);
                 activeStage.setScene(scene);
             } catch (IOException e) {
@@ -78,32 +78,24 @@ public class Gui extends Observable<Message> implements ClientView {
     }
 
 
-
-
     @Override
     public void showGenericMessage(String genericMessage) {
 
     }
 
     @Override
-    public void showLobbyMessage(ArrayList<String> onlineNicknames, int maxNumberPlayers) {
+    public void showLobbyMessage(ArrayList<String> onlineNicknames) {
 
     }
 
     @Override
-    public void showGameInfo(ArrayList<Island> islands, Map<String, SchoolBoard> schoolBoards, ArrayList<CloudTile> cloudTiles, Island motherNaturePosition, String[] professors) {
+    public void showGameInfo() {
 
     }
-
-    @Override
-    public void showGameInfo(ArrayList<CharacterCard> availableCharacterCards, ArrayList<Island> islands, Map<String, SchoolBoard> schoolBoards, ArrayList<CloudTile> cloudTiles, Island motherNaturePosition, String[] professors) {
-
-    }
-
 
     @Override
     public void showChangePhase(GameState gameState) {
-        if(gameState==(GameState.PLANNING_PHASE) && actualGamePhase==(GameState.SETUP)){
+        if (gameState == (GameState.PLANNING_PHASE) && actualGamePhase == (GameState.SETUP)) {
             initializeMainStage();
         }
         actualGamePhase = gameState;
@@ -123,10 +115,9 @@ public class Gui extends Observable<Message> implements ClientView {
 
     @Override
     public void showInfoAssistantCardPlayed(String username, AssistantCard assistantCard) {
-        String currentPath = new java.io.File( "src/main/resources/Images/AssistantCards").getAbsolutePath().replace('\\','/');
-        ImageView imageView = (ImageView)(((MainScene2PlayersController)mainLoader.getController()).getMySchoolBoardPane().getChildren().get(3));
+        String currentPath = new java.io.File("src/main/resources/Images/AssistantCards").getAbsolutePath().replace('\\', '/');
+        ImageView imageView = (ImageView) (((MainScene2PlayersController) mainLoader.getController()).getMySchoolBoardPane().getChildren().get(3));
         imageView.setImage(new Image("file:" + currentPath + assistantCard.getType().getImagePath()));
-
     }
 
     @Override
@@ -136,16 +127,16 @@ public class Gui extends Observable<Message> implements ClientView {
             Parent root = null;
             try {
                 root = loader.load();
-                ((TowerColorSceneController)loader.getController()).addObserver(client);
-                ((TowerColorSceneController)loader.getController()).setUsername(clientModel.getUsername());
+                ((TowerColorSceneController) loader.getController()).addObserver(client);
+                ((TowerColorSceneController) loader.getController()).setUsername(clientModel.getUsername());
                 Map<String, TowerColor> towerColorMap = new HashMap<>();
-                for (int i = 0; i < towerColorChosen.length; i++){
-                    if (!towerColorChosen[i]){
+                for (int i = 0; i < towerColorChosen.length; i++) {
+                    if (!towerColorChosen[i]) {
                         towerColorMap.put(TowerColor.values()[i].name(), TowerColor.values()[i]);
                     }
                 }
-                ((TowerColorSceneController)loader.getController()).setTowerColorMap(towerColorMap);
-                ((TowerColorSceneController)loader.getController()).getTowerColorChoice().getItems().addAll(towerColorMap.keySet());
+                ((TowerColorSceneController) loader.getController()).setTowerColorMap(towerColorMap);
+                ((TowerColorSceneController) loader.getController()).getTowerColorChoice().getItems().addAll(towerColorMap.keySet());
                 Scene scene = new Scene(root);
                 activeStage.setScene(scene);
             } catch (IOException e) {
@@ -161,10 +152,10 @@ public class Gui extends Observable<Message> implements ClientView {
             Parent root = null;
             try {
                 root = loader.load();
-                ((GameModeAndNumOfPlayersSceneController)loader.getController()).addObserver(client);
-                ((GameModeAndNumOfPlayersSceneController)loader.getController()).setUsername(clientModel.getUsername());
+                ((GameModeAndNumOfPlayersSceneController) loader.getController()).addObserver(client);
+                ((GameModeAndNumOfPlayersSceneController) loader.getController()).setUsername(clientModel.getUsername());
                 Scene scene = new Scene(root);
-                activeStage.setScene(scene) ;
+                activeStage.setScene(scene);
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -179,21 +170,21 @@ public class Gui extends Observable<Message> implements ClientView {
             Parent root = null;
             try {
                 root = loader.load();
-                ((WizardSceneController)loader.getController()).addObserver(client);
-                ((WizardSceneController)loader.getController()).setUsername(clientModel.getUsername());
-                Map<Image,Wizard> wizardsImages = new HashMap<>();
-                String currentPath = new java.io.File("src/main/resources/Images/Wizards").getAbsolutePath().replace('\\','/');
-                for (Wizard wizard: wizards) {
-                    wizardsImages.put(new Image("file:" + currentPath + wizard.getImagePath()),wizard);
+                ((WizardSceneController) loader.getController()).addObserver(client);
+                ((WizardSceneController) loader.getController()).setUsername(clientModel.getUsername());
+                Map<Image, Wizard> wizardsImages = new HashMap<>();
+                String currentPath = new java.io.File("src/main/resources/Images/Wizards").getAbsolutePath().replace('\\', '/');
+                for (Wizard wizard : wizards) {
+                    wizardsImages.put(new Image("file:" + currentPath + wizard.getImagePath()), wizard);
 
                 }
-                ((WizardSceneController)loader.getController()).setWizards(wizardsImages);
-                ((WizardSceneController)loader.getController()).getWizardImageView().setImage((Image) wizardsImages.keySet().toArray()[0]);
-                ((WizardSceneController)loader.getController()).getLeftSwitch().setFill(javafx.scene.paint.Color.GRAY);
-                ((WizardSceneController)loader.getController()).getLeftSwitch().setOpacity(0.5);
-                if(wizards.size() == 1) {
-                    ((WizardSceneController)loader.getController()).getRightSwitch().setFill(javafx.scene.paint.Color.GRAY);
-                    ((WizardSceneController)loader.getController()).getRightSwitch().setOpacity(0.5);
+                ((WizardSceneController) loader.getController()).setWizards(wizardsImages);
+                ((WizardSceneController) loader.getController()).getWizardImageView().setImage((Image) wizardsImages.keySet().toArray()[0]);
+                ((WizardSceneController) loader.getController()).getLeftSwitch().setFill(javafx.scene.paint.Color.GRAY);
+                ((WizardSceneController) loader.getController()).getLeftSwitch().setOpacity(0.5);
+                if (wizards.size() == 1) {
+                    ((WizardSceneController) loader.getController()).getRightSwitch().setFill(javafx.scene.paint.Color.GRAY);
+                    ((WizardSceneController) loader.getController()).getRightSwitch().setOpacity(0.5);
                 }
                 Scene scene = new Scene(root);
                 activeStage.setScene(scene);
@@ -210,20 +201,20 @@ public class Gui extends Observable<Message> implements ClientView {
             Parent root = null;
             try {
                 root = loader.load();
-                ((AssistantCardSceneController)loader.getController()).addObserver(client);
-                ((AssistantCardSceneController)loader.getController()).setUsername(clientModel.getUsername());
-                Map<Image,AssistantCard> assistantCardImages = new HashMap<>();
-                String currentPath = new java.io.File("src/main/resources/Images/AssistantCards").getAbsolutePath().replace('\\','/');
-                for (AssistantCard assistantCard: clientModel.getAssistantDeck().getAssistantDeck()) {
-                    assistantCardImages.put(new Image("file:" + currentPath + assistantCard.getType().getImagePath()),assistantCard);
+                ((AssistantCardSceneController) loader.getController()).addObserver(client);
+                ((AssistantCardSceneController) loader.getController()).setUsername(clientModel.getUsername());
+                Map<Image, AssistantCard> assistantCardImages = new HashMap<>();
+                String currentPath = new java.io.File("src/main/resources/Images/AssistantCards").getAbsolutePath().replace('\\', '/');
+                for (AssistantCard assistantCard : clientModel.getAssistantDeck().getAssistantDeck()) {
+                    assistantCardImages.put(new Image("file:" + currentPath + assistantCard.getType().getImagePath()), assistantCard);
                 }
-                ((AssistantCardSceneController)loader.getController()).setAssistantCards(assistantCardImages);
-                ((AssistantCardSceneController)loader.getController()).getAssistantCardImageView().setImage((Image) assistantCardImages.keySet().toArray()[0]);
-                ((AssistantCardSceneController)loader.getController()).getLeftSwitch().setFill(javafx.scene.paint.Color.GRAY);
-                ((AssistantCardSceneController)loader.getController()).getLeftSwitch().setOpacity(0.5);
-                if(assistantCardImages.size() == 1) {
-                    ((WizardSceneController)loader.getController()).getRightSwitch().setFill(javafx.scene.paint.Color.GRAY);
-                    ((WizardSceneController)loader.getController()).getRightSwitch().setOpacity(0.5);
+                ((AssistantCardSceneController) loader.getController()).setAssistantCards(assistantCardImages);
+                ((AssistantCardSceneController) loader.getController()).getAssistantCardImageView().setImage((Image) assistantCardImages.keySet().toArray()[0]);
+                ((AssistantCardSceneController) loader.getController()).getLeftSwitch().setFill(javafx.scene.paint.Color.GRAY);
+                ((AssistantCardSceneController) loader.getController()).getLeftSwitch().setOpacity(0.5);
+                if (assistantCardImages.size() == 1) {
+                    ((WizardSceneController) loader.getController()).getRightSwitch().setFill(javafx.scene.paint.Color.GRAY);
+                    ((WizardSceneController) loader.getController()).getRightSwitch().setOpacity(0.5);
                 }
                 Scene scene = new Scene(root);
                 activeStage.setScene(scene);
@@ -263,7 +254,6 @@ public class Gui extends Observable<Message> implements ClientView {
     public void askNumberStepsMotherNature() {
 
     }
-
 
 
     @Override
@@ -306,66 +296,21 @@ public class Gui extends Observable<Message> implements ClientView {
                 Scene scene = new Scene(root);
                 mainStage = new Stage();
                 mainStage.setFullScreen(true);
-                List<Node> studentsOnMyDiningRoom = ((MainScene2PlayersController)mainLoader.getController()).getMyDiningRoomGrid().getChildren();
-                int offset = 0;
-                for(int i = 0; i < clientModel.getMySchoolBoard().getDiningRoom().length; i++){
-                    for(int j = 0; j<clientModel.getMySchoolBoard().getDiningRoom()[i]; j++) {
-                        ((ImageView)(studentsOnMyDiningRoom.get(offset+j))).setVisible(true);
-                    }
-                    offset+=10;
-                }
-                List<Node> studentsOnMyEntrance = ((MainScene2PlayersController)mainLoader.getController()).getMyEntranceGrid().getChildren();
-                offset = 0;
-                String currentPath = new java.io.File("src/main/resources/Images/Students").getAbsolutePath().replace('\\','/');
-                for(int i = 0; i < clientModel.getMySchoolBoard().getEntrance().length; i++){
-                    for(int j = 0; j<clientModel.getMySchoolBoard().getEntrance()[i]; j++) {
-                        ((ImageView)(studentsOnMyEntrance.get(offset))).setImage(new Image("file:" + currentPath + Color.values()[i].getStudentImagePath()));
-                        ((ImageView)(studentsOnMyEntrance.get(offset))).setVisible(true);
-                        offset++;
+                Set<String> usernames = clientModel.getSchoolBoards().keySet();
+                setStudentsOnDiningRoom(((MainScene2PlayersController)mainLoader.getController()).getMyDiningRoomGrid().getChildren(), clientModel.getMySchoolBoard());
+                setStudentsOnEntrance(((MainScene2PlayersController)mainLoader.getController()).getMyEntranceGrid().getChildren(), clientModel.getMySchoolBoard());
+                for(String username: usernames) {
+                    if(!username.equals(clientModel.getUsername())) {
+                        setStudentsOnDiningRoom(((MainScene2PlayersController) mainLoader.getController()).getOtherDiningRoomGrid().getChildren(), clientModel.getSchoolBoards().get(username));
+                        setStudentsOnEntrance(((MainScene2PlayersController) mainLoader.getController()).getOtherEntranceGrid().getChildren(), clientModel.getSchoolBoards().get(username));
                     }
                 }
-                currentPath = new java.io.File("src/main/resources/Images/Islands").getAbsolutePath().replace('\\','/');
-                List<Node> islands = ((MainScene2PlayersController)mainLoader.getController()).getIslandPane().getChildren();
-                int dim1 = clientModel.getIslands().size()/2;
-                int dim2 = clientModel.getIslands().size() - dim1;
-                TilePane superiorGrid = new TilePane();
-                TilePane inferiorGrid = new TilePane();
-                superiorGrid.setPrefRows(1);
-                superiorGrid.setPrefColumns(dim1);
-                inferiorGrid.setPrefRows(1);
-                inferiorGrid.setPrefColumns(dim2);
-                List<Node> superiorList = new ArrayList<>();
-                List<Node> inferiorList = new ArrayList<>();
-                for(int i = 0; i<clientModel.getIslands().size(); i++){
-                    HBox box = new HBox();
-                    for(int j = 0; j < clientModel.getIslands().get(i).getDim(); j++){
-                        Image image = new Image("file:" + currentPath + "/Island1.png");
-                        ImageView imageView = new ImageView(image);
-                        imageView.setFitWidth(100);
-                        imageView.setFitHeight(100);
-                        box.getChildren().add(imageView);
-                        if(i < dim1){
-                            superiorList.add(box);
-                        }
-                        else {
-                            inferiorList.add(box);
-                        }
-                    }
-                }
-                superiorGrid.getChildren().addAll(superiorList);
-                Collections.reverse(inferiorList);
-                inferiorGrid.getChildren().addAll(inferiorList);
-                superiorGrid.setLayoutX(0);
-                superiorGrid.setLayoutY(0);
-                superiorGrid.setHgap(100);
-                inferiorGrid.setLayoutX(0);
-                inferiorGrid.setLayoutY(200);
-                inferiorGrid.setHgap(100);
-                islands.add(superiorGrid);
-                islands.add(inferiorGrid);
-                currentPath = new java.io.File( "src/main/resources/Images/Wizards").getAbsolutePath().replace('\\','/');
+                drawIslands();
+                String currentPath = new java.io.File( "src/main/resources/Images/Wizards").getAbsolutePath().replace('\\','/');
                 ImageView imageView = (ImageView)(((MainScene2PlayersController)mainLoader.getController()).getMySchoolBoardPane().getChildren().get(2));
                 imageView.setImage(new Image("file:" + currentPath + clientModel.getAssistantDeck().getWizard().getImagePath()));
+                imageView = (ImageView) (((MainScene2PlayersController) mainLoader.getController()).getOtherSchoolBoardPane().getChildren().get(1));
+                imageView.setImage(new Image("file:" + currentPath + getOtherPlayerWizard().getImagePath()));
                 mainStage.setScene(scene);
                 mainStage.show();
                 activeStage.close();
@@ -374,4 +319,80 @@ public class Gui extends Observable<Message> implements ClientView {
             }
         });
     }
+
+
+    public Wizard getOtherPlayerWizard() {
+        Set<String> usernames = clientModel.getChosenWizardsPerUsername().keySet();
+        for (String username : usernames) {
+            if (!username.equals(clientModel.getUsername()))
+                return clientModel.getChosenWizardsPerUsername().get(username);
+        }
+        throw new NoSuchElementException();
+    }
+
+    private void setStudentsOnDiningRoom(List<Node> studentsOnDiningRoom, SchoolBoard schoolBoard){
+        int offset = 0;
+        for(int i = 0; i < schoolBoard.getDiningRoom().length; i++){
+            for(int j = 0; j<schoolBoard.getDiningRoom()[i]; j++) {
+                ((ImageView)(studentsOnDiningRoom.get(offset+j))).setVisible(true);
+            }
+            offset+=10;
+        }
+    }
+
+    private void setStudentsOnEntrance(List<Node> studentsOnEntrance, SchoolBoard schoolBoard){
+        int offset = 0;
+        String currentPath = new java.io.File("src/main/resources/Images/Students").getAbsolutePath().replace('\\','/');
+        for(int i = 0; i < schoolBoard.getEntrance().length; i++){
+            for(int j = 0; j<schoolBoard.getEntrance()[i]; j++) {
+                ((ImageView)(studentsOnEntrance.get(offset))).setImage(new Image("file:" + currentPath + Color.values()[i].getStudentImagePath()));
+                ((ImageView)(studentsOnEntrance.get(offset))).setVisible(true);
+                offset++;
+            }
+        }
+    }
+
+    private void drawIslands(){
+        String currentPath = new java.io.File("src/main/resources/Images/Islands").getAbsolutePath().replace('\\','/');
+        List<Node> islands = ((MainScene2PlayersController)mainLoader.getController()).getIslandPane().getChildren();
+        int dim1 = clientModel.getIslands().size()/2;
+        int dim2 = clientModel.getIslands().size() - dim1;
+        TilePane superiorGrid = new TilePane();
+        TilePane inferiorGrid = new TilePane();
+        superiorGrid.setPrefRows(1);
+        superiorGrid.setPrefColumns(dim1);
+        inferiorGrid.setPrefRows(1);
+        inferiorGrid.setPrefColumns(dim2);
+        List<Node> superiorList = new ArrayList<>();
+        List<Node> inferiorList = new ArrayList<>();
+        for(int i = 0; i<clientModel.getIslands().size(); i++){
+            HBox box = new HBox();
+            for(int j = 0; j < clientModel.getIslands().get(i).getDim(); j++){
+                Image image = new Image("file:" + currentPath + "/Island1.png");
+                ImageView imageView = new ImageView(image);
+                imageView.setFitWidth(100);
+                imageView.setFitHeight(100);
+                box.getChildren().add(imageView);
+                if(i < dim1){
+                    superiorList.add(box);
+                }
+                else {
+                    inferiorList.add(box);
+                }
+            }
+        }
+        superiorGrid.getChildren().addAll(superiorList);
+        Collections.reverse(inferiorList);
+        inferiorGrid.getChildren().addAll(inferiorList);
+        superiorGrid.setLayoutX(0);
+        superiorGrid.setLayoutY(0);
+        superiorGrid.setHgap(100);
+        inferiorGrid.setLayoutX(0);
+        inferiorGrid.setLayoutY(200);
+        inferiorGrid.setHgap(100);
+        islands.add(superiorGrid);
+        islands.add(inferiorGrid);
+    }
+
+
 }
