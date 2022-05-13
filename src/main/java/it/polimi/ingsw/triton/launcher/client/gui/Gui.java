@@ -131,6 +131,8 @@ public class Gui extends Observable<Message> implements ClientView {
         String currentPath = new java.io.File("src/main/resources/Images/AssistantCards").getAbsolutePath().replace('\\', '/');
         ImageView imageView = (ImageView) (((MainScene2PlayersController) mainLoader.getController()).getMySchoolBoardPane().getChildren().get(3));
         imageView.setImage(new Image("file:" + currentPath + assistantCard.getType().getImagePath()));
+        imageView = (ImageView) (((MainScene2PlayersController) mainLoader.getController()).getOtherSchoolBoardPane().getChildren().get(2));
+        imageView.setImage(new Image("file:" + currentPath + getOtherPlayerLastAssistantCard().getType().getImagePath()));
     }
 
     @Override
@@ -315,7 +317,7 @@ public class Gui extends Observable<Message> implements ClientView {
                 ((MotherNatureStepsSceneController) loader.getController()).addObserver(client);
                 ((MotherNatureStepsSceneController) loader.getController()).setUsername(clientModel.getUsername());
                 ArrayList<Integer> steps = new ArrayList<>();
-                for (int i = 0; i <= clientModel.getLastAssistantCardPlayed().getType().getMaxSteps(); i++) {
+                for (int i = 0; i <= clientModel.getMyLastAssistantCardPlayed().getType().getMaxSteps(); i++) {
                     steps.add(i);
                 }
                 ((MotherNatureStepsSceneController) loader.getController()).getStepsChoiceBox().getItems().addAll(steps);
@@ -402,6 +404,15 @@ public class Gui extends Observable<Message> implements ClientView {
         for (String username : usernames) {
             if (!username.equals(clientModel.getUsername()))
                 return clientModel.getChosenWizardsPerUsername().get(username);
+        }
+        throw new NoSuchElementException();
+    }
+
+    public AssistantCard getOtherPlayerLastAssistantCard(){
+        Set<String> usernames = clientModel.getLastAssistantCardPlayedPerUsername().keySet();
+        for (String username : usernames) {
+            if (!username.equals(clientModel.getUsername()))
+                return clientModel.getLastAssistantCardPlayedPerUsername().get(username);
         }
         throw new NoSuchElementException();
     }

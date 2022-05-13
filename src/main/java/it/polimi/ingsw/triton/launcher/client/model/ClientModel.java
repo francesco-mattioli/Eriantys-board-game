@@ -31,6 +31,10 @@ public class ClientModel extends Observable<Object> {
     private Map<String, Wizard> chosenWizardsPerUsername;
     private Map<String,AssistantCard> lastAssistantCardPlayedPerUsername=new HashMap<>();
 
+    public Map<String, AssistantCard> getLastAssistantCardPlayedPerUsername() {
+        return lastAssistantCardPlayedPerUsername;
+    }
+
     @Override
     public String toString() {
         String result = "{";
