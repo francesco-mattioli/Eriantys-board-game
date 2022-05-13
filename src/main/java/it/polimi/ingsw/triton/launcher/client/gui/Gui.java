@@ -125,13 +125,17 @@ public class Gui extends Observable<Message> implements ClientView {
 
     }
 
+    @Override
+    public void showMyInfoAssistantCardPlayed(AssistantCard assistantCard) {
+        String currentPath = new java.io.File("src/main/resources/Images/AssistantCards").getAbsolutePath().replace('\\', '/');
+        ImageView imageView = (ImageView) (((MainScene2PlayersController) mainLoader.getController()).getMySchoolBoardPane().getChildren().get(3));
+        imageView.setImage(new Image("file:" + currentPath + assistantCard.getType().getImagePath()));
+    }
 
     @Override
     public void showInfoAssistantCardPlayed(String username, AssistantCard assistantCard) {
         String currentPath = new java.io.File("src/main/resources/Images/AssistantCards").getAbsolutePath().replace('\\', '/');
-        ImageView imageView = (ImageView) (((MainScene2PlayersController) mainLoader.getController()).getMySchoolBoardPane().getChildren().get(3));
-        imageView.setImage(new Image("file:" + currentPath + assistantCard.getType().getImagePath()));
-        imageView = (ImageView) (((MainScene2PlayersController) mainLoader.getController()).getOtherSchoolBoardPane().getChildren().get(2));
+        ImageView imageView = (ImageView) (((MainScene2PlayersController) mainLoader.getController()).getOtherSchoolBoardPane().getChildren().get(2));
         imageView.setImage(new Image("file:" + currentPath + getOtherPlayerLastAssistantCard().getType().getImagePath()));
     }
 
@@ -386,6 +390,7 @@ public class Gui extends Observable<Message> implements ClientView {
     public void showTieMessage() {
 
     }
+
 
     @Override
     public void showAbortMessage() {
