@@ -10,13 +10,11 @@ import java.util.NoSuchElementException;
 import java.util.Random;
 
 public class Bag extends Observable<InfoMessage> implements Serializable {
-    private final int numPlayer;
     private final int NUM_OF_STUDENTS_FOREACH_COLOR = 26;
     private final int[] students;
 
-    public Bag(int numPlayers) {
+    public Bag() {
         this.students = new int[5];
-        this.numPlayer = numPlayers;
     }
 
 

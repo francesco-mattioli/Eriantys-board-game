@@ -35,7 +35,8 @@ public class ChooseCloudTile implements Action {
             throw new IllegalClientInputException(ErrorTypeID.CLOUD_TILE_ALREADY_CHOSEN);
         }else{
             for(int i = 0; i < cloudTile.getStudents().length; i++){
-                for(int j = 0; j < cloudTile.getStudents()[i]; j++){
+                int repeat = cloudTile.getStudents()[i];
+                for(int j = 0; j < repeat; j++){
                     cloudTile.removeStudentFromCloudTile(Color.values()[i]);
                     schoolBoard.addStudentIntoEntrance(Color.values()[i]);
                 }

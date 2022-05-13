@@ -21,7 +21,7 @@ class CardEffect10Test {
 
     @BeforeEach
     public void setUp(){
-        bag = new Bag(2);
+        bag = new Bag();
         bag.fillBag();
         fromDiningRoom = new int[5];
         fromEntrance = new int[5];

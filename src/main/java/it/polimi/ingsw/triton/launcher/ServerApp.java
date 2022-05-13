@@ -18,7 +18,7 @@ public class ServerApp {
             Server.LOGGER.severe("Invalid port. Using default port");
         }
 
-        server = new Server(port);
+        server = Server.instance(port);
         try {
             server.run();
         } catch (IOException e) {

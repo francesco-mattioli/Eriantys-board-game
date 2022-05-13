@@ -1,5 +1,6 @@
 package it.polimi.ingsw.triton.launcher.server.model.game;
 
+import it.polimi.ingsw.triton.launcher.client.cli.Cli;
 import it.polimi.ingsw.triton.launcher.server.model.*;
 import it.polimi.ingsw.triton.launcher.server.model.cardeffects.CardEffect;
 import it.polimi.ingsw.triton.launcher.server.model.cardeffects.CharacterCard;
@@ -25,28 +26,36 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 public class Game extends GameMode{
-    protected final ArrayList<Island> islands;
-    protected final Bag bag;
+    private static Game instance;
+    private final ArrayList<Island> islands;
+    private final Bag bag;
     private int maxNumberOfPlayers;
-    protected final ArrayList<Player> players;
-    protected final ArrayList<CloudTile> cloudTiles;
-    protected ArrayList<CloudTile> availableCloudTiles;
-    protected Player currentPlayer;
-    protected MotherNature motherNature;
-    protected final Player[] professors;
-    protected ProfessorsManager professorsManager;
-    protected final ArrayList<AssistantCard> usedAssistantCards;
-    protected final ArrayList<Wizard> availableWizards;
-    protected GameState gameState;
-    boolean notFullCloudTiles = false;
+    private final ArrayList<Player> players;
+    private final ArrayList<CloudTile> cloudTiles;
+    private ArrayList<CloudTile> availableCloudTiles;
+    private Player currentPlayer;
+    private MotherNature motherNature;
+    private final Player[] professors;
+    private ProfessorsManager professorsManager;
+    private final ArrayList<AssistantCard> usedAssistantCards;
+    private final ArrayList<Wizard> availableWizards;
+    private GameState gameState;
+    private boolean notFullCloudTiles = false;
     // The following array must be shown to users, so they can choose a towerColor that is not already chosen.
-    protected final boolean[] towerColorChosen;
+    private boolean[] towerColorChosen;
 
-    public Game(int maxNumberOfPlayers) {
+    public static Game instance(int maxNumberOfPlayers){
+        if(instance==null)
+            instance=new Game(maxNumberOfPlayers);
+        return instance;
+    }
+
+
+    private Game(int maxNumberOfPlayers) {
         this.islands = new ArrayList<>();
         createIslands();
         this.maxNumberOfPlayers = maxNumberOfPlayers;
-        this.bag = new Bag(maxNumberOfPlayers);
+        this.bag = new Bag();
         this.players = new ArrayList<>();
         this.cloudTiles = new ArrayList<>();
         this.towerColorChosen = new boolean[maxNumberOfPlayers];
@@ -88,6 +97,8 @@ public class Game extends GameMode{
      * @throws IllegalArgumentException if the username is not correct (already used). This exception is caught by lobby() method in Server.
      */
     public void addPlayer(String username) throws IllegalArgumentException {
+        if(username.length() == 0 || username.equals(" ") || username.equals(Cli.commandForCharacterCard))
+            throw new IllegalArgumentException("Illegal username");
         if(!isUsernameChosen(username)){
             players.add(new Player(username));
             // Set currentPlayer to the first one who logs in.
@@ -167,7 +178,6 @@ public class Game extends GameMode{
         else if(Wizard.values().length - availableWizards.size() == maxNumberOfPlayers) {
             setup();
             availableWizards.clear();
-            gameState = GameState.PLANNING_PHASE;
             throw new ChangeTurnException();
         }
         else{
@@ -204,10 +214,11 @@ public class Game extends GameMode{
         setupPlayers(); //PHASE 11
         for(Player player: players)
             notify(new GiveAssistantDeckMessage(player.getUsername(), player.getAssistantDeck()));
-        notify(new GameInfoMessage(islands, motherNature.getPosition(), getAllSchoolBoards(), cloudTiles, new String[professors.length]));
+        notify(new GameInfoMessage(islands, motherNature.getPosition(), getAllSchoolBoards(), cloudTiles, new String[professors.length],getAllChosenWizards()));
         notify(new ChangeTurnMessage(currentPlayer.getUsername()));
         planningPhase();
     }
+
 
     /**
      * Adds the students to the cloud tiles and sets the last round flag if the bag is empty.
@@ -573,6 +584,14 @@ public class Game extends GameMode{
         return mapSchoolBoards;
     }
 
+    public Map<String,Wizard> getAllChosenWizards(){
+        Map<String,Wizard> chosenWizardsPerUsername= new HashMap<>();
+        for(Player player: players){
+            chosenWizardsPerUsername.put(player.getUsername(), player.getAssistantDeck().getWizard());
+        }
+        return chosenWizardsPerUsername;
+    }
+
     /**
      * @param idIsland the id of the island to find.
      * @return true if the island with that id exists, false otherwise.
@@ -595,11 +614,12 @@ public class Game extends GameMode{
     public void disconnectPlayers() {
         setGameState(GameState.END);
         notify(new DisconnectionMessage());
-        //endGame();
+        endGame();
     }
 
-    public void endGame() {
-    //    instance=null;
+
+    private static void endGame() {
+        instance=null;
     }
 
     //GETTERS ----------------------------------------------
@@ -688,6 +708,7 @@ public class Game extends GameMode{
 
     public void setMaxNumberOfPlayers(int maxNumberOfPlayers) {
         this.maxNumberOfPlayers = maxNumberOfPlayers;
+        this.towerColorChosen = new boolean[maxNumberOfPlayers];
     }
 
     public void setCurrentPlayer(Player currentPlayer) {

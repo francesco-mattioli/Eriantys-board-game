@@ -20,7 +20,7 @@ class CardEffect11Test {
 
     @BeforeEach
     public void setUp(){
-        bag = new Bag(2);
+        bag = new Bag();
         bag.fillBag();
         player = new Player("TestPlayer");
         player.setSchoolBoard(TowerColor.BLACK, 2);

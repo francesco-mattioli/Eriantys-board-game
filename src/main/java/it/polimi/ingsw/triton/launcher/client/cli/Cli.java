@@ -108,8 +108,9 @@ public class Cli extends Observable<Message> implements ClientView{
         }
     }
 
+    @Override
     public void showLoginReply() {
-        // to implement when we redo lobby and decouple info message between server and game
+        out.println("Username '"+clientModel.getUsername()+"' accepted!");
     }
 
     public boolean askGameMode() {
@@ -144,17 +145,17 @@ public class Cli extends Observable<Message> implements ClientView{
 
 
 
-    public void showLobbyMessage(ArrayList<String> onlineNicknames, int maxNumberPlayers ) {
+    public void showLobbyMessage(ArrayList<String> onlineNicknames) {
         out.println("ONLINE PLAYERS:");
         for(String username: onlineNicknames){
-            System.out.println("- " + username);
+            out.println("- " + username);
         }
-        if(maxNumberPlayers-onlineNicknames.size() != 0)
+        /*if(maxNumberPlayers-onlineNicknames.size() != 0)
             out.println("There are " + onlineNicknames.size() +
                 " out of " + maxNumberPlayers + " players connected; Waiting for " + (maxNumberPlayers-onlineNicknames.size()) + " players...");
         else
             out.println("There are " + onlineNicknames.size() +
-                    " out of " + maxNumberPlayers + " players connected; The game is starting...");
+                    " out of " + maxNumberPlayers + " players connected; The game is starting...");*/
     }
 
 
@@ -203,23 +204,7 @@ public class Cli extends Observable<Message> implements ClientView{
 
 
     @Override
-    public void showGameInfo(ArrayList<CharacterCard> availableCharacterCards, ArrayList<Island> islands, Map<String, SchoolBoard> schoolBoards, ArrayList<CloudTile> cloudTiles, Island motherNaturePosition, String[] professors) {
-        /*clientModel.setAvailableCharacterCards(availableCharacterCards);
-        clientModel.setIslands(islands);
-        clientModel.setSchoolBoards(schoolBoards);
-        clientModel.setCloudTiles(cloudTiles);
-        clientModel.setMotherNaturePosition(motherNaturePosition);
-        clientModel.setProfessors(professors);*/
-        out.println(clientModel.toString());
-    }
-
-    @Override
-    public void showGameInfo(ArrayList<Island> islands, Map<String, SchoolBoard> schoolBoards, ArrayList<CloudTile> cloudTiles, Island motherNaturePosition, String[] professors) {
-        /*clientModel.setIslands(islands);
-        clientModel.setSchoolBoards(schoolBoards);
-        clientModel.setCloudTiles(cloudTiles);
-        clientModel.setMotherNaturePosition(motherNaturePosition);
-        clientModel.setProfessors(professors);*/
+    public void showGameInfo() {
         out.println(clientModel.toString());
     }
 
