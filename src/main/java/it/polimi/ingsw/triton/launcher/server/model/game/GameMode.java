@@ -18,7 +18,7 @@ import java.util.ArrayList;
 import java.util.Map;
 
 public abstract class GameMode extends Observable<InfoMessage>{
-    abstract public void setup();
+    public abstract void setup();
     abstract void setupPlayers();
     abstract void planningPhase();
     public abstract void executeActionMoveStudentToDiningRoom(Color student) throws LastMoveException, IllegalClientInputException;
@@ -56,9 +56,10 @@ public abstract class GameMode extends Observable<InfoMessage>{
     abstract void setupEntrance();
     abstract void checkNumberMoves() throws LastMoveException;
     abstract Map<String, SchoolBoard> getAllSchoolBoards();
+    abstract Map<String,Wizard> getAllChosenWizards();
     public abstract ArrayList<CloudTile> getCloudTiles();
     abstract String[] professorsWithUsernameOwner();
     public abstract int getMaxNumberOfPlayers();
+    public abstract void setMaxNumberOfPlayers(int maxNumberOfPlayers);
     abstract void setCurrentPlayer(Player player);
-    public abstract void endGame();
 }

@@ -18,7 +18,7 @@ class UseCharacterCardTest {
 
     @BeforeEach
     void setup(){
-        characterCard = new CharacterCard(3, 2, 0, new Bag(2));
+        characterCard = new CharacterCard(3, 2, 0, new Bag());
         player = new Player("Test");
         for(int i = 0; i < 5; i++)
             player.getWallet().increaseValue();

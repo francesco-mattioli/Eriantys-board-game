@@ -22,7 +22,7 @@ class CardEffect07Test {
 
     @BeforeEach
     public void setUp(){
-        bag = new Bag(2);
+        bag = new Bag();
         bag.fillBag();
         fromCard = new int[5];
         fromSchoolBoard = new int[5];

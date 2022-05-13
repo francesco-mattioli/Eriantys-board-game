@@ -45,7 +45,6 @@ public class ExpertGame extends GameDecorator {
         else if(Wizard.values().length - game.getAvailableWizards().size() == game.getMaxNumberOfPlayers()) {
             setup();
             game.getAvailableWizards().clear();
-            game.setGameState(GameState.PLANNING_PHASE);
             throw new ChangeTurnException();
         }
         else{
@@ -110,7 +109,7 @@ public class ExpertGame extends GameDecorator {
             game.notify(new GiveAssistantDeckMessage(player.getUsername(), player.getAssistantDeck()));   // to review
             game.notify(new UpdateWalletMessage(player.getUsername(), player.getWallet().getValue()));
         }
-        game.notify(new ExpertGameInfoMessage(characterCards, game.getIslands(), game.getMotherNature().getPosition(), game.getAllSchoolBoards(), game.getCloudTiles(), new String[game.getProfessors().length]));
+        game.notify(new ExpertGameInfoMessage(characterCards, game.getIslands(), game.getMotherNature().getPosition(), game.getAllSchoolBoards(), game.getCloudTiles(), new String[game.getProfessors().length],getAllChosenWizards()));
         game.notify(new ChangeTurnMessage(game.getCurrentPlayer().getUsername()));
         this.planningPhase();
     }

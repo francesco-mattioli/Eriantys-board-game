@@ -23,7 +23,7 @@ class GameTest {
 
     @BeforeEach
     public void setUp(){
-        game = new Game(3);
+        game = Game.instance(3);
         game.addPlayer("TestPlayer1");
         game.addPlayer("TestPlayer2");
         game.addPlayer("TestPlayer3");

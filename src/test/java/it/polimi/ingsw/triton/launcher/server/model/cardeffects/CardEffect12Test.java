@@ -23,7 +23,7 @@ class CardEffect12Test {
 
     @BeforeEach
     public void setUp(){
-        bag = new Bag(1);
+        bag = new Bag();
         bag.fillBag();
         characterCard = new CharacterCard(12,0,0,bag);
         playerTest1 = new Player("TestPlayer1");

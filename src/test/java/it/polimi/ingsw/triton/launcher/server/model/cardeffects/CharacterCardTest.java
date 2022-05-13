@@ -19,7 +19,7 @@ class CharacterCardTest {
      */
     @BeforeEach
     void setUp(){
-        bag = new Bag(2);
+        bag = new Bag();
         bag.addStudent(Color.BLUE);
         bag.addStudent(Color.BLUE);
         bag.addStudent(Color.BLUE);
