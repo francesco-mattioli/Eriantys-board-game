@@ -33,7 +33,7 @@ public abstract class GameMode extends Observable<InfoMessage>{
     public abstract void addPlayer(String username);
     public abstract ArrayList<Island> getIslands();
     public abstract GameState getGameState();
-    public abstract void disconnectPlayers();
+    public abstract void endGame();
     public abstract ArrayList<Player> getPlayers();
     public abstract void chooseTowerColor(String senderUsername, TowerColor playerColor) throws IllegalClientInputException, ChangeTurnException;
     public abstract void chooseWizard(String senderUsername, Wizard playerWizard) throws IllegalClientInputException, ChangeTurnException;

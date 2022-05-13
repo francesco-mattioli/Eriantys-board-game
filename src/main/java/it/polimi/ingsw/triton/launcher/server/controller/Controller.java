@@ -1,5 +1,6 @@
 package it.polimi.ingsw.triton.launcher.server.controller;
 
+import it.polimi.ingsw.triton.launcher.server.ServeOneClient;
 import it.polimi.ingsw.triton.launcher.server.model.Island;
 import it.polimi.ingsw.triton.launcher.server.model.enums.GameState;
 import it.polimi.ingsw.triton.launcher.server.model.game.ExpertGame;
@@ -42,7 +43,6 @@ public class Controller implements Observer<ClientMessage> {
      * @param username the receiver username of the message
      */
     public void createTowerColorRequestMessage(String username) {
-        game.setGameState(GameState.SETUP);
         getVirtualViewByUsername(username).askTowerColor(game.getTowerColorChosen());
     }
 
@@ -104,10 +104,27 @@ public class Controller implements Observer<ClientMessage> {
         return virtualViews;
     }
 
+    public synchronized void disconnectPlayer(VirtualView vv){
+        /*for(VirtualView vv: virtualViews){
+            if(vv.getServeOneClient() == soc){
+                if(game.getPlayers().indexOf(game.getPlayerByUsername(vv.getUsername())) > 0){
+                    game.getPlayers().remove(game.getPlayerByUsername(vv.getUsername()));
+                    //createTowerColorRequestMessage(game.getPlayers().get(0).getUsername());
+                }else{
+                    disconnectAllPlayers();
+                }
+                break;
+            }
+        }*/
+        game.getPlayers().removeIf(player -> (player.getUsername().equals(vv.getUsername())));
+        virtualViews.remove(vv);
+    }
+
     public void disconnectAllPlayers(){
+        game.endGame();
+        //CALLING END GAME WE ALSO IMPLICITLY REMOVE VIRTUAL VIEWS AS GAME OBSERVERS
         for(VirtualView virtualView: virtualViews)
             virtualView.removeObserver(this);
-        game.disconnectPlayers();
         virtualViews.clear();
     }
 
@@ -124,5 +141,9 @@ public class Controller implements Observer<ClientMessage> {
 
     public void addVirtualView(VirtualView virtualView) {
         this.virtualViews.add(virtualView);
+    }
+
+    public GameState getGameState(){
+        return game.getGameState();
     }
 }
