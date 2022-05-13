@@ -3,12 +3,12 @@ package it.polimi.ingsw.triton.launcher.utils.message.servermessage.infoMessage;
 import it.polimi.ingsw.triton.launcher.client.ServerMessageVisitor;
 import it.polimi.ingsw.triton.launcher.server.model.CloudTile;
 import it.polimi.ingsw.triton.launcher.server.model.Island;
-import it.polimi.ingsw.triton.launcher.server.model.cardeffects.CharacterCard;
 import it.polimi.ingsw.triton.launcher.server.model.enums.Wizard;
 import it.polimi.ingsw.triton.launcher.server.model.player.SchoolBoard;
 import it.polimi.ingsw.triton.launcher.utils.message.servermessage.InfoMessage;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -16,15 +16,15 @@ import java.util.Map;
  */
 public class GameInfoMessage extends InfoMessage {
 
-    private final ArrayList<Island> islands;
+    private final List<Island> islands;
     private final Island motherNaturePosition;
     private final Map<String, SchoolBoard> schoolBoards;
     private final ArrayList<CloudTile> cloudTiles;
     private final String[] professors;
     protected boolean expertMode=false;
-    private Map<String,Wizard> chosenWizardsPerUsername;
+    private final Map<String,Wizard> chosenWizardsPerUsername;
 
-    public GameInfoMessage(ArrayList<Island> islands, Island motherNaturePosition, Map<String, SchoolBoard> schoolBoards, ArrayList<CloudTile> cloudTiles, String[] professors, Map<String, Wizard> chosenWizardsPerUsername) {
+    public GameInfoMessage(List<Island> islands, Island motherNaturePosition, Map<String, SchoolBoard> schoolBoards, ArrayList<CloudTile> cloudTiles, String[] professors, Map<String, Wizard> chosenWizardsPerUsername) {
         this.islands = islands;
         this.motherNaturePosition = motherNaturePosition;
         this.schoolBoards = schoolBoards;
@@ -33,7 +33,7 @@ public class GameInfoMessage extends InfoMessage {
         this.chosenWizardsPerUsername=chosenWizardsPerUsername;
     }
 
-    public ArrayList<Island> getIslands() {
+    public List<Island> getIslands() {
         return islands;
     }
 

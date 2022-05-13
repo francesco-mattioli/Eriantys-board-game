@@ -6,16 +6,17 @@ import it.polimi.ingsw.triton.launcher.server.model.influencestrategy.InfluenceS
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.List;
 
 public class CardEffect09 implements CardEffect, Serializable {
-    private ArrayList<Island> islands;
+    private List<Island> islands;
     private Color color;
 
     /**
      * @param islands in the game
      * @param color that does not provide influence
      */
-    public CardEffect09(ArrayList<Island> islands, Color color) {
+    public CardEffect09(List<Island> islands, Color color) {
         this.islands = islands;
         this.color = color;
     }

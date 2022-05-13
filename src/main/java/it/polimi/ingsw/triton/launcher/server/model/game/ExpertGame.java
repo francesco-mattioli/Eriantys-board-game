@@ -4,7 +4,6 @@ import it.polimi.ingsw.triton.launcher.server.model.GeneralCoinSupply;
 import it.polimi.ingsw.triton.launcher.server.model.cardeffects.CardEffect;
 import it.polimi.ingsw.triton.launcher.server.model.cardeffects.CharacterCard;
 import it.polimi.ingsw.triton.launcher.server.model.enums.Color;
-import it.polimi.ingsw.triton.launcher.server.model.enums.GameState;
 import it.polimi.ingsw.triton.launcher.server.model.enums.TowerColor;
 import it.polimi.ingsw.triton.launcher.server.model.enums.Wizard;
 import it.polimi.ingsw.triton.launcher.server.model.player.Player;
