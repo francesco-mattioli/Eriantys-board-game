@@ -22,17 +22,40 @@ public class ChooseCloudTileSceneController extends Observable<Message> {
     @FXML
     AnchorPane cloudTile1Pane;
 
+    @FXML
+    AnchorPane cloudTile0StudentsPane;
+
+    public AnchorPane getCloudTile0StudentsPane() {
+        return cloudTile0StudentsPane;
+    }
+
+    public AnchorPane getCloudTile1StudentsPane() {
+        return cloudTile1StudentsPane;
+    }
+
+    public AnchorPane getCloudTile0Pane() {
+        return cloudTile0Pane;
+    }
+
+    public AnchorPane getCloudTile1Pane() {
+        return cloudTile1Pane;
+    }
+
+    @FXML
+    AnchorPane cloudTile1StudentsPane;
+
     private String username;
-    private int id;
-    Stage stage;
-    Map<CloudTile,AnchorPane> cloudTileAnchorPaneMap;
 
     public void setUsername(String username) {
         this.username = username;
     }
 
-    public void select(MouseEvent event){
-        notify(new CloudTileReply(username,id));
+    public void selectCloudTile0(MouseEvent event){
+        notify(new CloudTileReply(username,0));
+    }
+
+    public void selectCloudTile1(MouseEvent event){
+        notify(new CloudTileReply(username,1));
     }
 
 

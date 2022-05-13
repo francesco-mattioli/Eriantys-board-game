@@ -144,8 +144,11 @@ public class ClientModel extends Observable<Object> {
         return results;
     }
 
-    public ArrayList<CloudTile> getCloudTiles() {
-        return cloudTiles;
+    public CloudTile getCloudTileById(int id) {
+        for(CloudTile cloudTile: cloudTiles)
+            if(cloudTile.getId() == id)
+                return cloudTile;
+            return null;
     }
 
     /**

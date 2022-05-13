@@ -240,7 +240,47 @@ public class Gui extends Observable<Message> implements ClientView {
 
     @Override
     public void askCloudTile() {
-
+        Platform.runLater(() -> {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/chooseCloudTile-scene.fxml"));
+            Parent root = null;
+            try {
+                root = loader.load();
+                ((ChooseCloudTileSceneController) loader.getController()).addObserver(client);
+                ((ChooseCloudTileSceneController) loader.getController()).setUsername(clientModel.getUsername());
+                String currentPath = new java.io.File("src/main/resources/Images/Students").getAbsolutePath().replace('\\', '/');
+                if(clientModel.getCloudTileById(0) != null) {
+                    List<Node> imagesOnCloudTile0 = ((ChooseCloudTileSceneController) loader.getController()).getCloudTile0StudentsPane().getChildren();
+                    for(int i = 0; i<3; i++){
+                        List<Color> studentsOnCloudTile = new ArrayList<>();
+                        for(int j = 0; j<clientModel.getCloudTileById(0).getStudents().length; j++){
+                            for(int k = 0; k<clientModel.getCloudTileById(0).getStudents()[j]; k++){
+                                studentsOnCloudTile.add(Color.values()[j]);
+                            }
+                        }
+                        ((ImageView)imagesOnCloudTile0.get(i)).setImage(new Image("file:" + currentPath + studentsOnCloudTile.get(i).getStudentImagePath()));
+                    }
+                    ((ChooseCloudTileSceneController) loader.getController()).getCloudTile0Pane().setVisible(true);
+                }
+                if(clientModel.getCloudTileById(1) != null) {
+                    List<Node> imagesOnCloudTile1 = ((ChooseCloudTileSceneController) loader.getController()).getCloudTile1StudentsPane().getChildren();
+                    for(int i = 0; i<3; i++){
+                        List<Color> studentsOnCloudTile = new ArrayList<>();
+                        for(int j = 0; j<clientModel.getCloudTileById(1).getStudents().length; j++){
+                            for(int k = 0; k<clientModel.getCloudTileById(1).getStudents()[j]; k++){
+                                studentsOnCloudTile.add(Color.values()[j]);
+                            }
+                        }
+                        ((ImageView)imagesOnCloudTile1.get(i)).setImage(new Image("file:" + currentPath + studentsOnCloudTile.get(i).getStudentImagePath()));
+                    }
+                    ((ChooseCloudTileSceneController) loader.getController()).getCloudTile0Pane().setVisible(true);
+                }
+                Scene scene = new Scene(root);
+                activeStage.setScene(scene);
+                activeStage.show();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        });
     }
 
     @Override
