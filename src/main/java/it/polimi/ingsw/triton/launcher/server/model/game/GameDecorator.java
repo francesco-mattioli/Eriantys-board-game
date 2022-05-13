@@ -13,6 +13,7 @@ import it.polimi.ingsw.triton.launcher.server.model.professor.ProfessorsManager;
 import it.polimi.ingsw.triton.launcher.utils.exceptions.*;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 public class GameDecorator extends GameMode{
@@ -53,7 +54,7 @@ public class GameDecorator extends GameMode{
     }
 
     @Override
-    public ArrayList<CharacterCard> getCharacterCards() {
+    public List<CharacterCard> getCharacterCards() {
         return game.getCharacterCards();
     }
 
@@ -88,7 +89,7 @@ public class GameDecorator extends GameMode{
     }
 
     @Override
-    public ArrayList<Island> getIslands() {
+    public List<Island> getIslands() {
         return game.getIslands();
     }
 

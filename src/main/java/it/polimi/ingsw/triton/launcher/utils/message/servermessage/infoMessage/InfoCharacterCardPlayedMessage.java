@@ -8,6 +8,7 @@ import it.polimi.ingsw.triton.launcher.server.model.player.SchoolBoard;
 import it.polimi.ingsw.triton.launcher.utils.message.servermessage.InfoMessage;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -16,10 +17,10 @@ import java.util.Map;
 public class InfoCharacterCardPlayedMessage extends InfoMessage {
     private final String playerUsername;
     private final CharacterCard characterCard;
-    private final ArrayList<Island> updatedIslands;
+    private final List<Island> updatedIslands;
     private final Map<String, SchoolBoard> updatedSchoolBoards;
     private final String choiceDescription;
-    public InfoCharacterCardPlayedMessage(String playerUsername, CharacterCard characterCard, ArrayList<Island> updatedIslands, Map<String, SchoolBoard> updatedSchoolBoards) {
+    public InfoCharacterCardPlayedMessage(String playerUsername, CharacterCard characterCard, List<Island> updatedIslands, Map<String, SchoolBoard> updatedSchoolBoards) {
         this.playerUsername = playerUsername;
         this.characterCard = characterCard;
         this.choiceDescription = playerUsername + " has just played the character card " + characterCard.getId();
@@ -44,7 +45,7 @@ public class InfoCharacterCardPlayedMessage extends InfoMessage {
         return choiceDescription;
     }
 
-    public ArrayList<Island> getUpdatedIslands() {
+    public List<Island> getUpdatedIslands() {
         return updatedIslands;
     }
 

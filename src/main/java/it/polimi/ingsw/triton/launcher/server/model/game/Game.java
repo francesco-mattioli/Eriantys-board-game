@@ -15,24 +15,21 @@ import it.polimi.ingsw.triton.launcher.server.model.player.SchoolBoard;
 import it.polimi.ingsw.triton.launcher.server.model.playeractions.*;
 import it.polimi.ingsw.triton.launcher.server.model.professor.ProfessorStrategyDefault;
 import it.polimi.ingsw.triton.launcher.server.model.professor.ProfessorsManager;
-import it.polimi.ingsw.triton.launcher.server.view.VirtualView;
 import it.polimi.ingsw.triton.launcher.utils.exceptions.*;
 import it.polimi.ingsw.triton.launcher.utils.message.ErrorTypeID;
 import it.polimi.ingsw.triton.launcher.utils.message.servermessage.InfoMessage;
 import it.polimi.ingsw.triton.launcher.utils.message.servermessage.infoMessage.*;
 import it.polimi.ingsw.triton.launcher.utils.message.servermessage.infoMessage.infoMessageWithReceiver.GiveAssistantDeckMessage;
-import it.polimi.ingsw.triton.launcher.utils.obs.Observable;
 import java.util.*;
 import java.util.stream.Collectors;
 
 public class Game extends GameMode{
     private static Game instance;
-    private final ArrayList<Island> islands;
+    private final List<Island> islands;
     private final Bag bag;
     private int maxNumberOfPlayers;
     private final ArrayList<Player> players;
     private final ArrayList<CloudTile> cloudTiles;
-    private ArrayList<CloudTile> availableCloudTiles;
     private Player currentPlayer;
     private MotherNature motherNature;
     private final Player[] professors;
@@ -43,6 +40,7 @@ public class Game extends GameMode{
     private boolean notFullCloudTiles = false;
     // The following array must be shown to users, so they can choose a towerColor that is not already chosen.
     private boolean[] towerColorChosen;
+    private final Random random = new Random();
 
     public static Game instance(int maxNumberOfPlayers){
         if(instance==null)
@@ -352,7 +350,6 @@ public class Game extends GameMode{
      * This method places mother nature on a random island.
      */
     public void setupMotherNature() {
-        Random random = new Random();
         int randomIndex = random.nextInt(islands.size());
         motherNature = new MotherNature(islands.get(randomIndex));
     }
@@ -382,12 +379,11 @@ public class Game extends GameMode{
      * This method sorts the players ArrayList random, and sets correctly the current player.
      */
     public void setupPlayers(){
-        Random rnd = new Random();
         Player p;
         for(int i = 0; i<players.size(); i++){
-            int random = rnd.nextInt(players.size()-i)+i;
-            p = players.get(random);
-            players.set(random, players.get(i));
+            int customRandom = random.nextInt(players.size()-i)+i;
+            p = players.get(customRandom);
+            players.set(customRandom, players.get(i));
             players.set(i,p);
         }
         currentPlayer = players.get(0);
@@ -439,11 +435,6 @@ public class Game extends GameMode{
                 checkNumberIslands();
             }
         }
-        availableCloudTiles = new ArrayList<>();
-        for(CloudTile cloudTile: cloudTiles){
-            if(!cloudTile.isAlreadyUsed())
-                availableCloudTiles.add(cloudTile);
-        }
     }
 
     /**
@@ -479,7 +470,7 @@ public class Game extends GameMode{
         int frequency = Collections.frequency(players.stream().map(Player::getSchoolBoard).map(SchoolBoard::getNumTowers).collect(Collectors.toList()), min);
         if(frequency == 1) {
             p = players.stream().filter(player -> player.getSchoolBoard().getNumTowers() == min).findFirst();
-            notify(new WinMessage(p.get().getUsername()));
+            p.ifPresent(player -> notify(new WinMessage(player.getUsername())));
         }
         else checkForTie(players.stream().filter(player -> player.getSchoolBoard().getNumTowers() == min).collect(Collectors.toList()));
     }
@@ -497,7 +488,7 @@ public class Game extends GameMode{
         int frequency = Collections.frequency(list.stream().map(p -> Collections.frequency(Arrays.stream(professors).collect(Collectors.toList()), p)).collect(Collectors.toList()), max);
         if (frequency == 1) {
             player = list.stream().filter(pl -> (Collections.frequency(Arrays.stream(professors).collect(Collectors.toList()), pl) == max)).findFirst();
-            notify(new WinMessage(player.get().getUsername()));
+            player.ifPresent(value -> notify(new WinMessage(value.getUsername())));
         }
         notify(new TieMessage(list.stream().filter(pl -> (Collections.frequency(Arrays.stream(professors).collect(Collectors.toList()), pl) == max)).collect(Collectors.toList()).stream().map(Player::getUsername).collect(Collectors.toList())));
 
@@ -627,7 +618,7 @@ public class Game extends GameMode{
     }
 
     //GETTERS ----------------------------------------------
-    public ArrayList<Island> getIslands() {
+    public List<Island> getIslands() {
         return islands;
     }
 
@@ -671,9 +662,6 @@ public class Game extends GameMode{
         return gameState;
     }
 
-    public ArrayList<CloudTile> getAvailableCloudTiles(){
-        return availableCloudTiles;
-    }
 
     /**
      * @param cloudTileId the id of the cloud tile to return.

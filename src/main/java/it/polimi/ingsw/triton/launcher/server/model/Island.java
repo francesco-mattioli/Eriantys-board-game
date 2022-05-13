@@ -15,9 +15,8 @@ import it.polimi.ingsw.triton.launcher.utils.message.servermessage.infoMessage.U
 import it.polimi.ingsw.triton.launcher.utils.obs.Observable;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.logging.Logger;
+import java.util.List;
 
 public class Island extends Observable<InfoMessage> implements Serializable {
 
@@ -72,7 +71,7 @@ public class Island extends Observable<InfoMessage> implements Serializable {
      * @param players specifies the ArrayList of players
      * @param professors specifies for each professor which player has that professor
      */
-    public void updateInfluence(ArrayList<Player> players, Player[] professors) throws EndGameException{
+    public void updateInfluence(List<Player> players, Player[] professors) throws EndGameException{
         boolean modifiedDominator = false;
         if (noEntryTiles == 0) {
             int[] nonDominatorPlayersInfluences = new int[players.size()];

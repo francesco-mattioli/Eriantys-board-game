@@ -6,10 +6,11 @@ import it.polimi.ingsw.triton.launcher.utils.exceptions.EndGameException;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.List;
 
 public class CardEffect03 implements CardEffect, Serializable {
     private final Island island;
-    private final ArrayList<Player> players;
+    private final List<Player> players;
     private Player[] professors;
 
     /**
@@ -18,7 +19,7 @@ public class CardEffect03 implements CardEffect, Serializable {
      * @param players to be passed as a parameter for the updateInfluence method
      * @param professors to be passed as a parameter for the updateInfluence method
      */
-    public CardEffect03(Island island, ArrayList<Player> players,Player[] professors){
+    public CardEffect03(Island island, List<Player> players, Player[] professors){
         this.island = island;
         this.players = players;
         this.professors = professors;
