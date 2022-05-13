@@ -515,35 +515,35 @@ public class Gui extends Observable<Message> implements ClientView {
         Label greenLabel = new Label("Number of red students:" + clientModel.getIslands().get(i).getStudents()[Color.GREEN.ordinal()]);
         infoPane.getChildren().add(greenLabel);
         greenLabel.setLayoutX(5);
-        greenLabel.setLayoutY(20);
+        greenLabel.setLayoutY(16);
         greenLabel.setStyle("-fx-text-fill: green;");
 
         Label redLabel = new Label("Number of red students:" + clientModel.getIslands().get(i).getStudents()[Color.RED.ordinal()]);
         infoPane.getChildren().add(redLabel);
         redLabel.setLayoutX(5);
-        redLabel.setLayoutY(40);
+        redLabel.setLayoutY(32);
         redLabel.setStyle("-fx-text-fill: red;");
 
         Label yellowLabel = new Label("Number of red students:" + clientModel.getIslands().get(i).getStudents()[Color.YELLOW.ordinal()]);
         infoPane.getChildren().add(yellowLabel);
         yellowLabel.setLayoutX(5);
-        yellowLabel.setLayoutY(60);
+        yellowLabel.setLayoutY(48);
         yellowLabel.setStyle("-fx-text-fill: yellow;");
 
         Label pinkLabel = new Label("Number of pink students:" + clientModel.getIslands().get(i).getStudents()[Color.PINK.ordinal()]);
         infoPane.getChildren().add(pinkLabel);
         pinkLabel.setLayoutX(5);
-        pinkLabel.setLayoutY(80);
-        pinkLabel.setStyle("-fx-text-fill: pink;");
+        pinkLabel.setLayoutY(64);
+        pinkLabel.setStyle("-fx-text-fill: #FF34B3;");
 
         Label blueLabel = new Label("Number of blue students:" + clientModel.getIslands().get(i).getStudents()[Color.BLUE.ordinal()]);
         infoPane.getChildren().add(blueLabel);
         blueLabel.setLayoutX(5);
-        blueLabel.setLayoutY(100);
+        blueLabel.setLayoutY(80);
         blueLabel.setStyle("-fx-text-fill: blue;");
 
-        infoPane.setPrefHeight(200);
-        infoPane.setPrefWidth(200);
+        infoPane.setPrefHeight(95);
+        infoPane.setPrefWidth(160);
         infoPane.setVisible(false);
         infoPane.setOpacity(1);
         infoPane.setStyle("-fx-background-color: #C7C7C7; -fx-border-color: black;");
