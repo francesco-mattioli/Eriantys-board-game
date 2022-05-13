@@ -61,12 +61,16 @@ public class ExpertGame extends GameDecorator {
      */
     @Override
     public void chooseTowerColor(String username, TowerColor towerColor) throws IllegalClientInputException, ChangeTurnException {
-        if(game.getTowerColorChosen()[towerColor.ordinal()]){
-            throw new IllegalClientInputException(ErrorTypeID.TOWER_COLOR_ALREADY_CHOSEN);
-        }
-        else{
-            getPlayerByUsername(username).setSchoolBoard(towerColor, game.getMaxNumberOfPlayers());
-            game.getTowerColorChosen()[towerColor.ordinal()] = true;
+        try{
+            if(game.getTowerColorChosen()[towerColor.ordinal()]){
+                throw new IllegalClientInputException(ErrorTypeID.TOWER_COLOR_ALREADY_CHOSEN);
+            }
+            else{
+                getPlayerByUsername(username).setSchoolBoard(towerColor, game.getMaxNumberOfPlayers());
+                game.getTowerColorChosen()[towerColor.ordinal()] = true;
+            }
+        } catch(ArrayIndexOutOfBoundsException e){
+            throw new IllegalClientInputException(ErrorTypeID.GENERIC_CLIENT_INPUT_ERROR);
         }
         this.setNextPlayer(game.getCurrentPlayer());
     }

@@ -24,6 +24,8 @@ public class Server {
     private GameMode game;
     private final List<VirtualView> waitingList;
     private boolean starting=false;
+    private boolean activated=false;
+    private boolean setNumPlayers = false;
 
     public static Server instance(int PORT){
         if(instance == null)
@@ -57,18 +59,22 @@ public class Server {
         } else {
             if(maxNumPlayers< waitingList.size()) {
                 game.setMaxNumberOfPlayers(maxNumPlayers);
+                setNumPlayers = true;
                 VirtualView virtualViewToRemove = waitingList.get(waitingList.size()-1);
-                //waitingList.remove(virtualViewToRemove);
                 virtualViewToRemove.showErrorMessage(ErrorTypeID.FULL_LOBBY);
-                /*game.getPlayers().remove(game.getPlayers().size() - 1);
-                waitingList.get(waitingList.size()-1).removeObserver(controller);
-                game.removeObserver(waitingList.get(waitingList.size()-1)); // DO ALSO FORT ISLANDS!!!!!!!!!!!!!!!!!
-                controller.getVirtualViews().remove(waitingList.size() - 1);*/
+                game.getPlayers().remove(game.getPlayers().size() - 1);
+                virtualViewToRemove.removeObserver(controller);
+                game.removeObserver(virtualViewToRemove); // DO ALSO FORT ISLANDS!!!!!!!!!!!!!!!!!
+                //!!!! controller.getVirtualViews().remove(virtualViewToRemove);
                 //waitingList.remove(waitingList.get(waitingList.size()-1));
                 //beginGame(expertMode);
             }else if(maxNumPlayers==controller.getVirtualViews().size()){
                 game.setMaxNumberOfPlayers(maxNumPlayers);
-                beginGame(expertMode);
+                setNumPlayers = true;
+                if(!activated) {
+                    beginGame(expertMode);
+                    activated = true;
+                }
             }else{
                 waitingList.get(0).showGenericMessage("Waiting for "+(maxNumPlayers-waitingList.size())+" to connect...");
                 starting=true;
@@ -162,7 +168,8 @@ public class Server {
             controller.createTowerColorRequestMessage(controller.getVirtualViews().get(0).getUsername());*/
         resetPlayer(vv);
         controller.disconnectPlayer(vv);
-
+        if(!activated && setNumPlayers)
+            beginGame(true);
     }
 
     public void resetPlayer(VirtualView vv){
@@ -173,16 +180,17 @@ public class Server {
 
     public synchronized void disconnect(ServeOneClient soc){
         VirtualView virtualView = null;
-        if(waitingList.size() > 0){
+        if(controller.getVirtualViews().size() > 0){
             for(VirtualView vv: controller.getVirtualViews()){
                 if(vv.getServeOneClient().equals(soc)){
                     virtualView = vv;
                 }
             }
-            if(controller.getGameState() == GameState.LOGIN && !(waitingList.indexOf(virtualView) == 0) && virtualView != null){
+            if(controller.getGameState() == GameState.LOGIN && !(controller.getVirtualViews().indexOf(virtualView) == 0) && virtualView != null){
                 disconnectPlayer(virtualView);
-                beginGame(true);
+                //beginGame(true);
             }else{
+                // The first player disconnected or the game is in not in LOGIN STATE
                 disconnectAllPlayers();
             }
         }
@@ -198,6 +206,8 @@ public class Server {
 
     public void resetServer(){
         waitingList.clear();
+        activated = false;
+        setNumPlayers = false;
         game=Game.instance(3);
         controller=new Controller(game);
     }
@@ -216,7 +226,8 @@ public class Server {
         if (expertMode)
             this.controller.setGame(new ExpertGame(game));
         game.setGameState(GameState.SETUP);
-        controller.createTowerColorRequestMessage(controller.getVirtualViews().get(0).getUsername());
+        if(setNumPlayers)
+            controller.createTowerColorRequestMessage(controller.getVirtualViews().get(0).getUsername());
         waitingList.clear();
     }
 }

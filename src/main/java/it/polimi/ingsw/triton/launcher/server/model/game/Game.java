@@ -118,12 +118,16 @@ public class Game extends GameMode{
      * @throws IllegalClientInputException when the user's chosen tower color has already been chosen.
      */
     public void chooseTowerColor(String username, TowerColor towerColor) throws IllegalClientInputException, ChangeTurnException {
-        if(towerColorChosen[towerColor.ordinal()]){
-            throw new IllegalClientInputException(ErrorTypeID.TOWER_COLOR_ALREADY_CHOSEN);
-        }
-        else{
-            getPlayerByUsername(username).setSchoolBoard(towerColor, maxNumberOfPlayers);
-            towerColorChosen[towerColor.ordinal()] = true;
+        try{
+            if(towerColorChosen[towerColor.ordinal()]){
+                throw new IllegalClientInputException(ErrorTypeID.TOWER_COLOR_ALREADY_CHOSEN);
+            }
+            else{
+                getPlayerByUsername(username).setSchoolBoard(towerColor, maxNumberOfPlayers);
+                towerColorChosen[towerColor.ordinal()] = true;
+            }
+        } catch(ArrayIndexOutOfBoundsException e){
+            throw new IllegalClientInputException(ErrorTypeID.GENERIC_CLIENT_INPUT_ERROR);
         }
         setNextPlayer(currentPlayer);
     }
