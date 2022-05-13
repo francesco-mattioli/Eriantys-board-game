@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="336.0" prefWidth="475.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <AnchorPane layoutX="281.0" layoutY="105.0" prefHeight="130.0" prefWidth="130.0">
+         <children>
+            <ImageView fitHeight="130.0" fitWidth="130.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@Images/Other/CloudTile.png" />
+               </image>
+            </ImageView>
+            <AnchorPane prefHeight="130.0" prefWidth="130.0">
+               <children>
+                  <ImageView fitHeight="47.0" fitWidth="49.0" layoutX="18.0" layoutY="38.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@Images/Students/BlueStudent.png" />
+                     </image>
+                  </ImageView>
+                  <ImageView fitHeight="47.0" fitWidth="49.0" layoutX="48.0" layoutY="66.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@Images/Students/BlueStudent.png" />
+                     </image>
+                  </ImageView>
+                  <ImageView fitHeight="47.0" fitWidth="49.0" layoutX="57.0" layoutY="27.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@Images/Students/BlueStudent.png" />
+                     </image>
+                  </ImageView>
+               </children>
+            </AnchorPane>
+         </children>
+      </AnchorPane>
+      <Label layoutX="189.0" layoutY="61.0" text="Select Cloud Tile:" />
+      <AnchorPane layoutX="50.0" layoutY="105.0" prefHeight="130.0" prefWidth="130.0">
+         <children>
+            <ImageView fitHeight="130.0" fitWidth="130.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@Images/Other/CloudTile.png" />
+               </image>
+            </ImageView>
+            <AnchorPane prefHeight="130.0" prefWidth="130.0">
+               <children>
+                  <ImageView fitHeight="47.0" fitWidth="49.0" layoutX="18.0" layoutY="38.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@Images/Students/BlueStudent.png" />
+                     </image>
+                  </ImageView>
+                  <ImageView fitHeight="47.0" fitWidth="49.0" layoutX="48.0" layoutY="66.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@Images/Students/BlueStudent.png" />
+                     </image>
+                  </ImageView>
+                  <ImageView fitHeight="47.0" fitWidth="49.0" layoutX="57.0" layoutY="27.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@Images/Students/BlueStudent.png" />
+                     </image>
+                  </ImageView>
+               </children>
+            </AnchorPane>
+         </children>
+      </AnchorPane>
+   </children>
+</AnchorPane>
