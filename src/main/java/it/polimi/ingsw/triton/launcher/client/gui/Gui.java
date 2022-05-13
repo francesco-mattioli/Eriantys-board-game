@@ -30,6 +30,8 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.TilePane;
+import javafx.scene.shape.Circle;
+import javafx.scene.shape.Shape;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -299,10 +301,12 @@ public class Gui extends Observable<Message> implements ClientView {
                 Set<String> usernames = clientModel.getSchoolBoards().keySet();
                 setStudentsOnDiningRoom(((MainScene2PlayersController)mainLoader.getController()).getMyDiningRoomGrid().getChildren(), clientModel.getMySchoolBoard());
                 setStudentsOnEntrance(((MainScene2PlayersController)mainLoader.getController()).getMyEntranceGrid().getChildren(), clientModel.getMySchoolBoard());
+                setTowers(((MainScene2PlayersController)mainLoader.getController()).getMyTowerGrid().getChildren(), clientModel.getMySchoolBoard());
                 for(String username: usernames) {
                     if(!username.equals(clientModel.getUsername())) {
                         setStudentsOnDiningRoom(((MainScene2PlayersController) mainLoader.getController()).getOtherDiningRoomGrid().getChildren(), clientModel.getSchoolBoards().get(username));
                         setStudentsOnEntrance(((MainScene2PlayersController) mainLoader.getController()).getOtherEntranceGrid().getChildren(), clientModel.getSchoolBoards().get(username));
+                        setTowers(((MainScene2PlayersController)mainLoader.getController()).getOtherTowerGrid().getChildren(), clientModel.getSchoolBoards().get(username));
                     }
                 }
                 drawIslands();
@@ -352,9 +356,23 @@ public class Gui extends Observable<Message> implements ClientView {
         }
     }
 
+    private void setTowers(List<Node> towersOnSchoolBoard, SchoolBoard schoolBoard){
+        for(int i = 0; i<schoolBoard.getNumTowers(); i++){
+            if(schoolBoard.getTowerColor().equals(TowerColor.BLACK)) {
+                ((Shape) towersOnSchoolBoard.get(i)).setFill(javafx.scene.paint.Color.BLACK);
+                ((Shape)towersOnSchoolBoard.get(i)).setVisible(true);
+            }
+            else {
+                ((Shape) towersOnSchoolBoard.get(i)).setFill(javafx.scene.paint.Color.WHITE);
+                ((Shape)towersOnSchoolBoard.get(i)).setVisible(true);
+            }
+        }
+    }
+
     private void drawIslands(){
         String currentPath = new java.io.File("src/main/resources/Images/Islands").getAbsolutePath().replace('\\','/');
         List<Node> islands = ((MainScene2PlayersController)mainLoader.getController()).getIslandPane().getChildren();
+        islands.clear();
         int dim1 = clientModel.getIslands().size()/2;
         int dim2 = clientModel.getIslands().size() - dim1;
         TilePane superiorGrid = new TilePane();
@@ -366,19 +384,38 @@ public class Gui extends Observable<Message> implements ClientView {
         List<Node> superiorList = new ArrayList<>();
         List<Node> inferiorList = new ArrayList<>();
         for(int i = 0; i<clientModel.getIslands().size(); i++){
+            AnchorPane anchorPane = new AnchorPane();
             HBox box = new HBox();
+            anchorPane.getChildren().add(box);
             for(int j = 0; j < clientModel.getIslands().get(i).getDim(); j++){
                 Image image = new Image("file:" + currentPath + "/Island1.png");
                 ImageView imageView = new ImageView(image);
                 imageView.setFitWidth(100);
                 imageView.setFitHeight(100);
                 box.getChildren().add(imageView);
+                if(clientModel.getIslands().get(i).getDominator() != null){
+                    Circle tower = new Circle(13);
+                    anchorPane.getChildren().add(tower);
+                    tower.setLayoutX(box.getChildren().get(0).getLayoutX() + 60);
+                    tower.setLayoutY(box.getChildren().get(0).getLayoutY() + 60);
+                    if(clientModel.getSchoolBoards().get(clientModel.getIslands().get(i).getDominator().getUsername()).getTowerColor() == TowerColor.BLACK)
+                        tower.setFill(javafx.scene.paint.Color.BLACK);
+                    else
+                        tower.setFill(javafx.scene.paint.Color.WHITE);
+                }
                 if(i < dim1){
-                    superiorList.add(box);
+                    superiorList.add(anchorPane);
                 }
                 else {
-                    inferiorList.add(box);
+                    inferiorList.add(anchorPane);
                 }
+            }
+            if(clientModel.getIslands().get(i).equals(clientModel.getMotherNaturePosition())) {
+                Circle motherNature = new Circle(11);
+                motherNature.setFill(javafx.scene.paint.Color.ORANGE);
+                anchorPane.getChildren().add(motherNature);
+                motherNature.setLayoutX(box.getChildren().get(0).getLayoutX() + 30);
+                motherNature.setLayoutY(box.getChildren().get(0).getLayoutY() + 30);
             }
         }
         superiorGrid.getChildren().addAll(superiorList);
