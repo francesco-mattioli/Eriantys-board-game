@@ -2,6 +2,7 @@ package it.polimi.ingsw.triton.launcher.server;
 
 import it.polimi.ingsw.triton.launcher.client.cli.Cli;
 import it.polimi.ingsw.triton.launcher.server.controller.Controller;
+import it.polimi.ingsw.triton.launcher.server.model.enums.GameState;
 import it.polimi.ingsw.triton.launcher.server.model.game.ExpertGame;
 import it.polimi.ingsw.triton.launcher.server.model.game.Game;
 import it.polimi.ingsw.triton.launcher.server.model.game.GameMode;
@@ -48,27 +49,26 @@ public class Server {
      * @param maxNumPlayers decided by the first player
      * @param username      of the first player
      */
-    public void activateGame(String username, int maxNumPlayers, boolean expertMode) {
+    public synchronized void activateGame(String username, int maxNumPlayers, boolean expertMode) {
         if (!isNumberOfPlayersValid(maxNumPlayers)) {
             waitingList.get(0).showErrorMessage(ErrorTypeID.WRONG_PLAYERS_NUMBER);
             waitingList.get(0).askNumPlayersAndGameMode();
             LOGGER.severe("Not valid number of players");
         } else {
             if(maxNumPlayers< waitingList.size()) {
-                waitingList.get(waitingList.size() - 1).showErrorMessage(ErrorTypeID.FULL_LOBBY);
-                game.getPlayers().remove(game.getPlayers().size() - 1);
+                game.setMaxNumberOfPlayers(maxNumPlayers);
+                VirtualView virtualViewToRemove = waitingList.get(waitingList.size()-1);
+                //waitingList.remove(virtualViewToRemove);
+                virtualViewToRemove.showErrorMessage(ErrorTypeID.FULL_LOBBY);
+                /*game.getPlayers().remove(game.getPlayers().size() - 1);
                 waitingList.get(waitingList.size()-1).removeObserver(controller);
                 game.removeObserver(waitingList.get(waitingList.size()-1)); // DO ALSO FORT ISLANDS!!!!!!!!!!!!!!!!!
-                controller.getVirtualViews().remove(waitingList.size() - 1);
-                waitingList.remove(waitingList.get(waitingList.size()-1));
-            }
-            if(maxNumPlayers==waitingList.size()){
+                controller.getVirtualViews().remove(waitingList.size() - 1);*/
+                //waitingList.remove(waitingList.get(waitingList.size()-1));
+                //beginGame(expertMode);
+            }else if(maxNumPlayers==controller.getVirtualViews().size()){
                 game.setMaxNumberOfPlayers(maxNumPlayers);
-                if (expertMode)
-                    this.controller.setGame(new ExpertGame(game));
-                controller.createTowerColorRequestMessage(waitingList.get(0).getUsername());
-                waitingList.clear();
-
+                beginGame(expertMode);
             }else{
                 waitingList.get(0).showGenericMessage("Waiting for "+(maxNumPlayers-waitingList.size())+" to connect...");
                 starting=true;
@@ -154,6 +154,42 @@ public class Server {
         }
     }
 
+    public synchronized void disconnectPlayer(VirtualView vv){
+        /*controller.disconnectPlayer(soc);
+        if(controller.getGameState() != GameState.LOGIN)
+            resetServer();
+        else if(controller.getVirtualViews().size() > 0)
+            controller.createTowerColorRequestMessage(controller.getVirtualViews().get(0).getUsername());*/
+        resetPlayer(vv);
+        controller.disconnectPlayer(vv);
+
+    }
+
+    public void resetPlayer(VirtualView vv){
+        vv.removeObserver(controller);
+        game.removeObserver(vv); // DO ALSO FORT ISLANDS!!!!!!!!!!!!!!!!!
+        waitingList.remove(vv);
+    }
+
+    public synchronized void disconnect(ServeOneClient soc){
+        VirtualView virtualView = null;
+        if(waitingList.size() > 0){
+            for(VirtualView vv: controller.getVirtualViews()){
+                if(vv.getServeOneClient().equals(soc)){
+                    virtualView = vv;
+                }
+            }
+            if(controller.getGameState() == GameState.LOGIN && !(waitingList.indexOf(virtualView) == 0) && virtualView != null){
+                disconnectPlayer(virtualView);
+                beginGame(true);
+            }else{
+                disconnectAllPlayers();
+            }
+        }
+        else if(controller.getGameState() != GameState.LOGIN){
+            disconnectAllPlayers();
+        }
+    }
 
     public synchronized void disconnectAllPlayers(){
         controller.disconnectAllPlayers();
@@ -174,5 +210,13 @@ public class Server {
     // GETTERS
     public Controller getController() {
         return controller;
+    }
+
+    public void beginGame(boolean expertMode){
+        if (expertMode)
+            this.controller.setGame(new ExpertGame(game));
+        game.setGameState(GameState.SETUP);
+        controller.createTowerColorRequestMessage(controller.getVirtualViews().get(0).getUsername());
+        waitingList.clear();
     }
 }
