@@ -234,8 +234,8 @@ public class GameDecorator extends GameMode{
     }
 
     @Override
-    public void disconnectPlayers() {
-        game.disconnectPlayers();
+    public void endGame() {
+        game.endGame();
     }
 
     @Override

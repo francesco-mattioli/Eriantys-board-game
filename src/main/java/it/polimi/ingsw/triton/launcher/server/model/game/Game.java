@@ -611,14 +611,14 @@ public class Game extends GameMode{
     /**
      * This method remove a player and then end the game.
      */
-    public void disconnectPlayers() {
+    public void endGame() {
         setGameState(GameState.END);
         notify(new DisconnectionMessage());
-        endGame();
+        resetInstance();
     }
 
 
-    private static void endGame() {
+    private static void resetInstance() {
         instance=null;
     }
 
