@@ -247,14 +247,15 @@ public class Cli extends Observable<Message> implements ClientView{
     @Override
     public void askMoveStudentFromEntrance() {
         try {
-            out.println(ANSI_GREEN + "Choose three students to move from entrance to dining room or an island");
+            out.println(ANSI_GREEN + "Choose three students to move from entrance to dining room or an island!");
             out.print("Islands:\n" + ANSI_RESET);
-            out.println(clientModel.getIslands());
+            out.println(clientModel.printIslands());
             out.print("\n");
+            out.println(ANSI_GREEN + "SchoolBoards:\n" + ANSI_RESET);
             out.print(clientModel.printOtherSchoolBoards());
             out.println(clientModel.printYourSchoolBoard());
             out.println("To do so, type on each line [color of student, d (for dining room) ] or [color of student, island id]");
-            out.println(ANSI_BOLDGREEN + "Please, enter data: " + ANSI_RESET);
+            out.print(ANSI_BOLDGREEN + "Please, enter data: " + ANSI_RESET);
             String input = readLine();
             if(input.equals(commandForCharacterCard)&& clientModel.isExpertMode())
                 showAndPlayCharacterCard();
@@ -302,8 +303,8 @@ public class Cli extends Observable<Message> implements ClientView{
     @Override
     public void askCloudTile() {
         try {
-            out.println(ANSI_GREEN + "Choose a cloud tile to withdraw the students" + ANSI_RESET);
-            out.print("CloudTiles:");
+            out.println(ANSI_GREEN + "Choose a cloud tile to withdraw the students!");
+            out.print("CloudTiles:" + ANSI_RESET);
             out.println(clientModel.printCloudTiles());
             out.println(ANSI_BOLDGREEN + "Enter the id of the cloud tile you choose: " + ANSI_RESET);
             String input = readLine();
@@ -568,17 +569,17 @@ public class Cli extends Observable<Message> implements ClientView{
 
     @Override
     public void showTieMessage() {
-        out.println("You have tied");
+        out.println(ANSI_YELLOW + "You have tied" + ANSI_RESET);
     }
 
     @Override
     public void showWinMessage() {
-        out.println("Congratulations! You're the winner!");
+        out.println(ANSI_YELLOW + "Congratulations! You're the winner!" + ANSI_RESET);
     }
 
     @Override
     public void showLoseMessage(String winnerUsername) {
-        out.println("You Lose! The winner is: " + winnerUsername);
+        out.println(ANSI_YELLOW + "You Lose! The winner is: " + winnerUsername + ANSI_RESET);
     }
 
     @Override

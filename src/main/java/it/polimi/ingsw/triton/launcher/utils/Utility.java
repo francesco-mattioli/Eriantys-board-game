@@ -21,7 +21,7 @@ public class Utility {
         String results = "";
         for (int i = 0; i < students.length; i++){
             if (i == 0)
-                results += ("students=[" + ANSI_YELLOW + students[i] + ANSI_RESET + ",");
+                results += ("[" + ANSI_YELLOW + students[i] + ANSI_RESET + ",");
             else if (i == 1)
                 results += (ANSI_BLUE + students[i] + ANSI_RESET + ",");
             else if (i == 2)

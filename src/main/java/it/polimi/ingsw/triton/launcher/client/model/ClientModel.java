@@ -40,12 +40,12 @@ public class ClientModel extends Observable<Object> {
         else
             result += "\n- GAME:" ;
         result+=    " \n- " + assistantDeck.toString() +
-                    ", \n- players' wizards: " + chosenWizardsPerUsername.toString()+
-                    ", \n- schoolBoards: \n\t" + printAllSchoolBoards() +
-                    ", \n- cloudTiles:" + printCloudTiles() +
-                    ", \n- islands =" + printIslands() +
-                    ", \n- motherNature is on island " + motherNaturePosition.getId() +
-                    ", \n- professors: " + Utility.printColoredProfessorsOnTable(professors);
+                    " \n- players' wizards: " + chosenWizardsPerUsername.toString()+
+                    " \n- schoolBoards: \n\t" + printAllSchoolBoards() +
+                    " \n- cloudTiles:" + printCloudTiles() +
+                    " \n- islands =" + printIslands() +
+                    " \n- motherNature is on island " + motherNaturePosition.getId() +
+                    " \n- professors: " + Utility.printColoredProfessorsOnTable(professors);
         if(expertMode)
             result += ", \n- availableCharacterCards: " + printAvailableCharacterCard();
         result+="\n}";
@@ -206,7 +206,7 @@ public class ClientModel extends Observable<Object> {
         for(Map.Entry<String, SchoolBoard> schoolBoardEntry: schoolBoards.entrySet()){
             if(schoolBoardEntry.getKey().equals(username)) {
                 results += "Your SchoolBoard: " + schoolBoardEntry.getValue().toString();
-                results += "\tProfessors: " + printProfessors(schoolBoardEntry.getKey()) + "\n\n";
+                results += "\t\t\tProfessors: " + printProfessors(schoolBoardEntry.getKey()) + "\n\n";
                 break;
             }
         }
@@ -218,7 +218,7 @@ public class ClientModel extends Observable<Object> {
         for(Map.Entry<String, SchoolBoard> schoolBoardEntry: schoolBoards.entrySet()){
             if(!schoolBoardEntry.getKey().equals(username)) {
                 results += schoolBoardEntry.getKey() + "'s SchoolBoard: " + schoolBoardEntry.getValue().toString();
-                results += "\tProfessors: " + printProfessors(schoolBoardEntry.getKey()) + "\n\n";
+                results += "\t\t\tProfessors: " + printProfessors(schoolBoardEntry.getKey()) + "\n\n";
             }
         }
         return results;
@@ -228,6 +228,7 @@ public class ClientModel extends Observable<Object> {
         String results = "";
         for(Map.Entry<String, SchoolBoard> schoolBoardEntry: schoolBoards.entrySet()){
             results += schoolBoardEntry.getKey() + "'s SchoolBoard: " + schoolBoardEntry.getValue().toString();
+            results += "\t\t\tProfessors: " + printProfessors(schoolBoardEntry.getKey()) + "\n\n";
         }
         return results;
     }
