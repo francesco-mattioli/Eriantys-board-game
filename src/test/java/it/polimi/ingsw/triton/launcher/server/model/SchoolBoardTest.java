@@ -160,5 +160,19 @@ class SchoolBoardTest {
         assertEquals(6, threePlayersSchoolBoard.getNumTowers());
     }
 
+    /**
+     * Tests if returns true when the entrance of the school board is empty.
+     */
+    @Test
+    void testEmptyEntrance(){
+        assertTrue(schoolBoard.isEntranceEmpty());
+    }
 
+    /**
+     * Tests if returns true when the dining room of the school board is empty.
+     */
+    @Test
+    void testEmptyDiningRoom(){
+        assertTrue(schoolBoard.isDiningRoomEmpty());
+    }
 }

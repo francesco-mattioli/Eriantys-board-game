@@ -172,7 +172,7 @@ public class ServerMessageVisitor {
         clientView.getClientModel().setSchoolBoards(message.getUpdatedSchoolBoards());
         if(!clientView.getClientModel().getUsername().equals(message.getPlayerUsername()))
             clientView.showGenericMessage(message.getChoiceDescription());
-        System.out.println(clientView.getClientModel().toString());
+        clientView.showGameInfo();
     }
 
     public void visit(CharacterCardParameterRequest message){
@@ -198,18 +198,17 @@ public class ServerMessageVisitor {
 
     public void visit(GameInfoMessage message) {
         clientView.getClientModel().setExpertMode(false);
-        clientView.getClientModel().setIslands(message.getIslands());
-        clientView.getClientModel().setSchoolBoards(message.getSchoolBoards());
-        clientView.getClientModel().setCloudTiles(message.getCloudTiles());
-        clientView.getClientModel().setMotherNaturePosition(message.getMotherNaturePosition());
-        clientView.getClientModel().setProfessors(message.getProfessors());
-        clientView.getClientModel().setChosenWizardsPerUsername(message.getChosenWizardsPerUsername());
-        clientView.showGameInfo();
+        setForEveryGameMode(message);
+
     }
 
     public void visit(ExpertGameInfoMessage message){
         clientView.getClientModel().setExpertMode(true);
         clientView.getClientModel().setAvailableCharacterCards(message.getAvailableCharacterCards());
+        setForEveryGameMode(message);
+    }
+
+    private void setForEveryGameMode(GameInfoMessage message){
         clientView.getClientModel().setIslands(message.getIslands());
         clientView.getClientModel().setSchoolBoards(message.getSchoolBoards());
         clientView.getClientModel().setCloudTiles(message.getCloudTiles());
@@ -217,7 +216,6 @@ public class ServerMessageVisitor {
         clientView.getClientModel().setProfessors(message.getProfessors());
         clientView.getClientModel().setChosenWizardsPerUsername(message.getChosenWizardsPerUsername());
         clientView.showGameInfo();
-
     }
 
     public void visit(GenericMessage message) {

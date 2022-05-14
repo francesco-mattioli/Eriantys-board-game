@@ -3,6 +3,8 @@ package it.polimi.ingsw.triton.launcher.server.model.playeractions;
 import it.polimi.ingsw.triton.launcher.server.model.Bag;
 import it.polimi.ingsw.triton.launcher.server.model.GeneralCoinSupply;
 import it.polimi.ingsw.triton.launcher.server.model.cardeffects.CharacterCard;
+import it.polimi.ingsw.triton.launcher.server.model.enums.Color;
+import it.polimi.ingsw.triton.launcher.server.model.enums.TowerColor;
 import it.polimi.ingsw.triton.launcher.server.model.player.Player;
 import it.polimi.ingsw.triton.launcher.utils.exceptions.IllegalClientInputException;
 import org.junit.jupiter.api.AfterEach;
@@ -87,5 +89,49 @@ class UseCharacterCardTest {
             e.printStackTrace();
         }
         assertEquals(oldAmount + oldCost, generalCoinSupply.getCoinsAmount());
+    }
+
+    /**
+     * Tests if the method launches an exception when the card is the number 7 but the player has not
+     * any students in his entrance.
+     */
+    @Test
+    void testWhenCard7AndEntranceIsEmpty(){
+        Bag bag = new Bag();
+        bag.fillBag();
+        player.setSchoolBoard(TowerColor.BLACK, 2);
+        characterCard = new CharacterCard(7, 1, 0, bag);
+        UseCharacterCard ucc = new UseCharacterCard(characterCard, player, generalCoinSupply);
+        assertThrows(IllegalClientInputException.class, ucc::execute);
+    }
+
+    /**
+     * Tests if the method launches an exception when the card is the number 10 but the player has not
+     * any students in his entrance.
+     */
+    @Test
+    void testWhenCard10AndEntranceIsEmpty(){
+        player.setSchoolBoard(TowerColor.BLACK, 2);
+        try {
+            player.getSchoolBoard().addStudentIntoDiningRoom(Color.BLUE);
+        } catch (IllegalClientInputException e) {
+            throw new RuntimeException(e);
+        }
+        characterCard = new CharacterCard(10, 1, 0, new Bag());
+        UseCharacterCard ucc = new UseCharacterCard(characterCard, player, generalCoinSupply);
+        assertThrows(IllegalClientInputException.class, ucc::execute);
+    }
+
+    /**
+     * Tests if the method launches an exception when the card is the number 10 but the player has not
+     * any students in his dining room.
+     */
+    @Test
+    void testWhenCard10AndDiningRoomIsEmpty(){
+        player.setSchoolBoard(TowerColor.BLACK, 2);
+        player.getSchoolBoard().addStudentIntoEntrance(Color.BLUE);
+        characterCard = new CharacterCard(10, 1, 0, new Bag());
+        UseCharacterCard ucc = new UseCharacterCard(characterCard, player, generalCoinSupply);
+        assertThrows(IllegalClientInputException.class, ucc::execute);
     }
 }
