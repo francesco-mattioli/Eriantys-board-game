@@ -5,6 +5,7 @@ import it.polimi.ingsw.triton.launcher.server.model.AssistantCard;
 import it.polimi.ingsw.triton.launcher.server.model.enums.*;
 import it.polimi.ingsw.triton.launcher.server.model.player.AssistantDeck;
 import it.polimi.ingsw.triton.launcher.server.model.player.SchoolBoard;
+import it.polimi.ingsw.triton.launcher.utils.Utility;
 import it.polimi.ingsw.triton.launcher.utils.message.ErrorTypeID;
 import it.polimi.ingsw.triton.launcher.utils.message.clientmessage.*;
 import it.polimi.ingsw.triton.launcher.utils.message.clientmessage.characterCardReply.*;
@@ -184,11 +185,8 @@ public class Cli extends Observable<Message> implements ClientView{
     @Override
     public void askWizard(ArrayList<Wizard> wizards) {
         try {
-            out.print(ANSI_BOLDGREEN + "Choose a Wizard [ ");
-            for(Wizard wizard: wizards){
-                out.print(wizard+" ");
-            }
-            out.print("]: " + ANSI_RESET);
+            out.print(ANSI_BOLDGREEN + "Choose a Wizard " + Utility.printAvailableWizards(wizards));
+            out.print(": " + ANSI_RESET);
             String input = readLine();
             notify(new WizardReply(clientModel.getUsername(), Wizard.valueOf(input.toUpperCase())));
         }catch(IllegalArgumentException e){
