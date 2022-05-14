@@ -31,6 +31,11 @@ public interface ClientView extends View {
     void showEmptyBagMessage();
     void showInfoAssistantCardPlayed(String username, AssistantCard assistantCard);
     void showLoginReply();
+    void showInfoStudentIntoDiningRoom(String username, String moveDescription);
+    void showInfoStudentOntoIsland(String username, String moveDescription);
+    void showMotherNaturePosition(int islandId);
+    void showChangeInfluenceMessage(String username, int islandId);
+    void showMergeIslandsMessage(int island1Id, int island2Id);
     void showMoveTowerOntoIsland(int islandId);
     void showMoveTowerOntoSchoolBoard(String username,SchoolBoard schoolBoard);
     void showWinMessage();

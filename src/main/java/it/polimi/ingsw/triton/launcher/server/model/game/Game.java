@@ -284,7 +284,7 @@ public class Game extends GameMode{
     public void executeActionMoveStudentToDiningRoom(Color student) throws LastMoveException, IllegalClientInputException {
         currentPlayer.executeAction(new MoveStudentIntoDiningRoom(student, currentPlayer));
         professorsManager.updateProfessors(currentPlayer, student, professors);
-        String moveDescription = currentPlayer.getUsername() + " has moved a " + student.name().toLowerCase() + " student in his dining room";
+        String moveDescription = currentPlayer.getUsername() + " has moved a " + student.name().toLowerCase() + " student in his dining room.";
         notify(new InfoStudentIntoDiningRoomMessage(currentPlayer.getUsername(), currentPlayer.getSchoolBoard(),professorsWithUsernameOwner(), moveDescription));
         currentPlayer.setMoveCounter(currentPlayer.getMoveCounter() + 1);
         checkNumberMoves();   //checks if the move was the last one throwing lastMoveException
@@ -304,7 +304,7 @@ public class Game extends GameMode{
         }else{
             currentPlayer.executeAction(new MoveStudentOntoIsland(currentPlayer.getSchoolBoard(), student, getIslandByID(idIsland)));
             currentPlayer.setMoveCounter(currentPlayer.getMoveCounter() + 1);
-            String moveDescription = currentPlayer.getUsername() + " has moved a " + student.name().toLowerCase() + " student on the island " + idIsland;
+            String moveDescription = currentPlayer.getUsername() + " has moved a " + student.name().toLowerCase() + " student on the island " + idIsland + ".";
             notify(new InfoStudentOntoIslandMessage(currentPlayer.getUsername(), currentPlayer.getSchoolBoard(), getIslandByID(idIsland), professorsWithUsernameOwner(), moveDescription));
             checkNumberMoves();
         }
@@ -444,7 +444,7 @@ public class Game extends GameMode{
     public void chooseCloudTile(CloudTile cloudTile) throws IllegalClientInputException, ChangeTurnException, EndGameException {
         currentPlayer.executeAction(new ChooseCloudTile(cloudTile, currentPlayer.getSchoolBoard()));
         cloudTile.setAlreadyUsed(true);
-        String choiceDescription = currentPlayer.getUsername() + " has chosen the cloud tile " + cloudTile.getId();
+        String choiceDescription = currentPlayer.getUsername() + " has chosen the cloud tile " + cloudTile.getId() + ".";
         notify(new InfoChosenCloudTileMessage(currentPlayer.getUsername(), currentPlayer.getSchoolBoard(), cloudTile, professorsWithUsernameOwner(), choiceDescription));
         nextGameTurn();
     }

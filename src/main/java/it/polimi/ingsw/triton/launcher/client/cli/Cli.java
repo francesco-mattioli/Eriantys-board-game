@@ -554,6 +554,36 @@ public class Cli extends Observable<Message> implements ClientView{
     }
 
     @Override
+    public void showInfoStudentIntoDiningRoom(String username, String moveDescription){
+        if(!clientModel.getUsername().equals(username))
+            out.println(moveDescription);
+    }
+
+    @Override
+    public void showInfoStudentOntoIsland(String username, String moveDescription){
+        if(!clientModel.getUsername().equals(username))
+            out.println(moveDescription);
+    }
+
+    @Override
+    public void showMotherNaturePosition(int islandId){
+        out.println("Mother nature has been moved.\nMother nature is on the island: " + islandId);
+    }
+
+    @Override
+    public void showChangeInfluenceMessage(String username, int islandId){
+        if(username.equals(clientModel.getUsername()))
+            out.println("You are the new dominator of the island " + islandId + ".");
+        else
+            out.println("The island " + islandId + " has a new dominator. " + "The new dominator is: " + username + ".");
+    }
+
+    @Override
+    public void showMergeIslandsMessage(int island1Id, int island2Id){
+        out.println("The island " + island1Id + " is now merged with the island " + island2Id + ".");
+        out.println("These are the remaining islands: " + clientModel.printIslands());
+    }
+    @Override
     public void showMoveTowerOntoIsland(int islandId) {
         out.println("A tower has been moved onto island "+islandId);
         clientModel.printIslands();
@@ -562,7 +592,6 @@ public class Cli extends Observable<Message> implements ClientView{
     @Override
     public void showMoveTowerOntoSchoolBoard(String username,SchoolBoard schoolBoard) {
         out.println("A tower has been moved back onto "+username+"'s school board");
-        //out.println(clientModel.getSchoolBoards().get(username).toString());
     }
 
     @Override
