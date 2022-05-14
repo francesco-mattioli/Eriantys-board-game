@@ -274,7 +274,7 @@ public class Gui extends Observable<Message> implements ClientView {
                         }
                         ((ImageView)imagesOnCloudTile1.get(i)).setImage(new Image("file:" + currentPath + studentsOnCloudTile.get(i).getStudentImagePath()));
                     }
-                    ((ChooseCloudTileSceneController) loader.getController()).getCloudTile0Pane().setVisible(true);
+                    ((ChooseCloudTileSceneController) loader.getController()).getCloudTile1Pane().setVisible(true);
                 }
                 Scene scene = new Scene(root);
                 activeStage.setScene(scene);
