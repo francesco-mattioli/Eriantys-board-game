@@ -93,20 +93,18 @@ public class ServerMessageVisitor {
     public void visit(InfoStudentIntoDiningRoomMessage message) {
         clientView.getClientModel().setSchoolBoard(message.getPlayerUsername(), message.getSchoolBoard());
         clientView.getClientModel().setProfessors(message.getProfessors());
-        if(!clientView.getClientModel().getUsername().equals(message.getPlayerUsername()))
-            clientView.showGenericMessage(message.getMoveDescription());
+        clientView.showInfoStudentIntoDiningRoom(message.getPlayerUsername(), message.getMoveDescription());
     }
 
     public void visit(InfoStudentOntoIslandMessage message) {
         clientView.getClientModel().setIsland(message.getIsland());
         clientView.getClientModel().setSchoolBoard(message.getPlayerUsername(), message.getSchoolBoard());
-        if(!clientView.getClientModel().getUsername().equals(message.getPlayerUsername()))
-            clientView.showGenericMessage(message.getMoveDescription());
+        clientView.showInfoStudentOntoIsland(message.getPlayerUsername(), message.getMoveDescription());
     }
 
     public void visit(MotherNaturePositionMessage message) {
         clientView.getClientModel().setMotherNaturePosition(message.getMotherNaturePosition());
-        clientView.showGenericMessage("Mother nature has been moved.\nMother nature is on the island: " + message.getMotherNaturePosition().getId());
+        clientView.showMotherNaturePosition(message.getMotherNaturePosition().getId());
     }
 
     public void visit(UpdateIslandWithNoEntryTilesMessage message){
@@ -117,10 +115,7 @@ public class ServerMessageVisitor {
     public void visit(ChangeInfluenceMessage message){
         clientView.getClientModel().setIsland(message.getIslandWithNewInfluence());
         clientView.getClientModel().setMotherNaturePosition(message.getIslandWithNewInfluence());
-        if(message.getUsernameDominator().equals(clientView.getClientModel().getUsername()))
-            clientView.showGenericMessage("You are the new dominator of the island " + message.getIslandWithNewInfluence().getId());
-        else
-            clientView.showGenericMessage("The island " + message.getIslandWithNewInfluence().getId() + " has a new dominator. " + "The new dominator is: " + message.getUsernameDominator());
+        clientView.showChangeInfluenceMessage(message.getUsernameDominator(), message.getIslandWithNewInfluence().getId());
         clientView.getClientModel().printIslands();
     }
 
@@ -128,8 +123,6 @@ public class ServerMessageVisitor {
         clientView.getClientModel().setIsland(message.getIslandWithMotherNature());
         clientView.getClientModel().setMotherNaturePosition(message.getIslandWithMotherNature());
         clientView.getClientModel().removeIsland(message.getIslandToDelete());
-        clientView.showGenericMessage("The island " + message.getIslandWithMotherNature().getId() + " is now merged with the island " + message.getIslandToDelete().getId());
-        clientView.showGenericMessage("These are the remaining islands: "+clientView.getClientModel().printIslands());
     }
 
     public void visit(InfoChosenCloudTileMessage message) {
