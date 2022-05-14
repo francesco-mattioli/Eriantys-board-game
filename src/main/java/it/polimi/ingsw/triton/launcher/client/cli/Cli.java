@@ -244,7 +244,7 @@ public class Cli extends Observable<Message> implements ClientView{
 
     @Override
     public void showMyInfoAssistantCardPlayed(AssistantCard assistantCard){
-        // This method is implemented by GUI
+        out.println("You have just played: "+assistantCard.getType());
     }
 
     @Override
