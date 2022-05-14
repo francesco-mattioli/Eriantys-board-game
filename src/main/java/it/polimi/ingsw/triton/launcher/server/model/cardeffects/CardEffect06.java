@@ -4,12 +4,12 @@ import it.polimi.ingsw.triton.launcher.server.model.Island;
 import it.polimi.ingsw.triton.launcher.server.model.influencestrategy.InfluenceStrategyWithEffect06;
 
 import java.io.Serializable;
-import java.util.ArrayList;
+import java.util.List;
 
 public class CardEffect06 implements CardEffect, Serializable {
-    private ArrayList<Island> islands;
+    private List<Island> islands;
 
-    public CardEffect06(ArrayList<Island> islands){
+    public CardEffect06(List<Island> islands){
         this.islands = islands;
     }
 

@@ -243,6 +243,11 @@ public class Cli extends Observable<Message> implements ClientView{
     }
 
     @Override
+    public void showMyInfoAssistantCardPlayed(AssistantCard assistantCard){
+        out.println("You have just played: "+assistantCard.getType());
+    }
+
+    @Override
     public void askMoveStudentFromEntrance() {
         try {
             out.println(ANSI_GREEN + "Choose three students to move from entrance to dining room or an island");

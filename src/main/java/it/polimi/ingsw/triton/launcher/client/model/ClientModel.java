@@ -12,6 +12,7 @@ import it.polimi.ingsw.triton.launcher.utils.obs.Observable;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -21,7 +22,7 @@ public class ClientModel extends Observable<Object> {
     private String username;
     private AssistantDeck assistantDeck;
     private ArrayList<CharacterCard> availableCharacterCards;
-    private ArrayList<Island> islands;
+    private List<Island> islands;
     private Map<String, SchoolBoard> schoolBoards;
     private ArrayList<CloudTile> cloudTiles;
     private Island motherNaturePosition;
@@ -29,7 +30,7 @@ public class ClientModel extends Observable<Object> {
     private String[] professors;
     private int wallet;
     private Map<String, Wizard> chosenWizardsPerUsername;
-    private Map<String,AssistantCard> lastAssistantCardPlayedPerUsername=new HashMap<>();
+    private final Map<String,AssistantCard> lastAssistantCardPlayedPerUsername=new HashMap<>();
 
     public Map<String, AssistantCard> getLastAssistantCardPlayedPerUsername() {
         return lastAssistantCardPlayedPerUsername;
@@ -99,11 +100,11 @@ public class ClientModel extends Observable<Object> {
         return null;
     }
 
-    public ArrayList<Island> getIslands() {
+    public List<Island> getIslands() {
         return islands;
     }
 
-    public void setIslands(ArrayList<Island> islands) {
+    public void setIslands(List<Island> islands) {
         this.islands = islands;
     }
 

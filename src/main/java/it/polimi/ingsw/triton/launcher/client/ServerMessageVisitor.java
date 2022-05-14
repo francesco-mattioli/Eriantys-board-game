@@ -65,6 +65,7 @@ public class ServerMessageVisitor {
         clientView.getClientModel().setLastAssistantCardPlayed(message.getCurrentPlayerUsername(),message.getAssistantCardPlayed());
         if (message.getCurrentPlayerUsername().equals(clientView.getClientModel().getUsername())) {
             clientView.getClientModel().removeCard(message.getAssistantCardPlayed());
+            clientView.showMyInfoAssistantCardPlayed(message.getAssistantCardPlayed());
         }
         else
             clientView.showInfoAssistantCardPlayed(message.getCurrentPlayerUsername(), message.getAssistantCardPlayed());

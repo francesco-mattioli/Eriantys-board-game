@@ -4,7 +4,6 @@ import it.polimi.ingsw.triton.launcher.server.model.GeneralCoinSupply;
 import it.polimi.ingsw.triton.launcher.server.model.cardeffects.CardEffect;
 import it.polimi.ingsw.triton.launcher.server.model.cardeffects.CharacterCard;
 import it.polimi.ingsw.triton.launcher.server.model.enums.Color;
-import it.polimi.ingsw.triton.launcher.server.model.enums.GameState;
 import it.polimi.ingsw.triton.launcher.server.model.enums.TowerColor;
 import it.polimi.ingsw.triton.launcher.server.model.enums.Wizard;
 import it.polimi.ingsw.triton.launcher.server.model.player.Player;
@@ -61,12 +60,16 @@ public class ExpertGame extends GameDecorator {
      */
     @Override
     public void chooseTowerColor(String username, TowerColor towerColor) throws IllegalClientInputException, ChangeTurnException {
-        if(game.getTowerColorChosen()[towerColor.ordinal()]){
-            throw new IllegalClientInputException(ErrorTypeID.TOWER_COLOR_ALREADY_CHOSEN);
-        }
-        else{
-            getPlayerByUsername(username).setSchoolBoard(towerColor, game.getMaxNumberOfPlayers());
-            game.getTowerColorChosen()[towerColor.ordinal()] = true;
+        try{
+            if(game.getTowerColorChosen()[towerColor.ordinal()]){
+                throw new IllegalClientInputException(ErrorTypeID.TOWER_COLOR_ALREADY_CHOSEN);
+            }
+            else{
+                getPlayerByUsername(username).setSchoolBoard(towerColor, game.getMaxNumberOfPlayers());
+                game.getTowerColorChosen()[towerColor.ordinal()] = true;
+            }
+        } catch(ArrayIndexOutOfBoundsException e){
+            throw new IllegalClientInputException(ErrorTypeID.GENERIC_CLIENT_INPUT_ERROR);
         }
         this.setNextPlayer(game.getCurrentPlayer());
     }

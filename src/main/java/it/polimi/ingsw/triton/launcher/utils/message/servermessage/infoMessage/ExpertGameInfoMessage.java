@@ -8,12 +8,13 @@ import it.polimi.ingsw.triton.launcher.server.model.enums.Wizard;
 import it.polimi.ingsw.triton.launcher.server.model.player.SchoolBoard;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 public class ExpertGameInfoMessage extends GameInfoMessage{
     private final ArrayList<CharacterCard> availableCharacterCards;
 
-    public ExpertGameInfoMessage(ArrayList<CharacterCard> availableCharacterCards, ArrayList<Island> islands, Island motherNaturePosition, Map<String, SchoolBoard> schoolBoards, ArrayList<CloudTile> cloudTiles, String[] professors, Map<String,Wizard> chosenWizardsPerUsername) {
+    public ExpertGameInfoMessage(ArrayList<CharacterCard> availableCharacterCards, List<Island> islands, Island motherNaturePosition, Map<String, SchoolBoard> schoolBoards, ArrayList<CloudTile> cloudTiles, String[] professors, Map<String,Wizard> chosenWizardsPerUsername) {
         super(islands, motherNaturePosition, schoolBoards, cloudTiles, professors,chosenWizardsPerUsername);
         super.expertMode=true;
         this.availableCharacterCards = availableCharacterCards;
