@@ -76,17 +76,22 @@ public class PlayAssistantCard implements Action {
      */
     @Override
     public void execute() throws IllegalClientInputException {
-        if (isUsedCard(assistantCardToPlay, usedAssistantCards)) {
-            if (isUniqueChoice(player.getAssistantDeck(), usedAssistantCards)) {
+        if(assistantCardToPlay == null)
+            throw new IllegalClientInputException(ErrorTypeID.ASSISTANTCARD_ALREADY_CHOSEN);
+        else{
+            if (isUsedCard(assistantCardToPlay, usedAssistantCards)) {
+                if (isUniqueChoice(player.getAssistantDeck(), usedAssistantCards)) {
+                    player.setLastPlayedAssistantCard(assistantCardToPlay);
+                    player.getAssistantDeck().removeCard(assistantCardToPlay);
+                } else
+                    throw new IllegalClientInputException(ErrorTypeID.ASSISTANTCARD_ALREADY_CHOSEN);
+            } else if(canBeUsedByPlayer(assistantCardToPlay)){
                 player.setLastPlayedAssistantCard(assistantCardToPlay);
                 player.getAssistantDeck().removeCard(assistantCardToPlay);
+                usedAssistantCards.add(assistantCardToPlay);
             } else
-                throw new IllegalClientInputException(ErrorTypeID.ASSISTANTCARD_ALREADY_CHOSEN);
-        } else if(canBeUsedByPlayer(assistantCardToPlay)){
-            player.setLastPlayedAssistantCard(assistantCardToPlay);
-            player.getAssistantDeck().removeCard(assistantCardToPlay);
-            usedAssistantCards.add(assistantCardToPlay);
-        } else
-            throw new IllegalClientInputException(ErrorTypeID.GENERIC_CLIENT_INPUT_ERROR);
+                throw new IllegalClientInputException(ErrorTypeID.GENERIC_CLIENT_INPUT_ERROR);
+        }
+
     }
 }
