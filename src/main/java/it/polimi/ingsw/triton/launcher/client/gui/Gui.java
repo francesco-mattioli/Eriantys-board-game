@@ -48,6 +48,7 @@ public class Gui extends Observable<Message> implements ClientView {
     private GameState actualGamePhase = GameState.SETUP;
     private Map<String, AnchorPane> schoolBoardsMap = new HashMap<>();
     private Map<Integer, AnchorPane> cloudTilesMap = new HashMap<>();
+    private Map<String,GridPane> deckMap = new HashMap<>();
 
     public Gui(Stage activeStage) {
         this.activeStage = activeStage;
@@ -168,15 +169,15 @@ public class Gui extends Observable<Message> implements ClientView {
     @Override
     public void showMyInfoAssistantCardPlayed(AssistantCard assistantCard) {
         String currentPath = new java.io.File("src/main/resources/Images/AssistantCards").getAbsolutePath().replace('\\', '/');
-        ImageView imageView = (ImageView) (((MainScene2PlayersController) mainLoader.getController()).getMySchoolBoardPane().getChildren().get(3));
+        ImageView imageView = (ImageView) deckMap.get(clientModel.getUsername()).getChildren().get(1);
         imageView.setImage(new Image("file:" + currentPath + assistantCard.getType().getImagePath()));
     }
 
     @Override
     public void showInfoAssistantCardPlayed(String username, AssistantCard assistantCard) {
         String currentPath = new java.io.File("src/main/resources/Images/AssistantCards").getAbsolutePath().replace('\\', '/');
-        ImageView imageView = (ImageView) (((MainScene2PlayersController) mainLoader.getController()).getOtherSchoolBoardPane().getChildren().get(2));
-        imageView.setImage(new Image("file:" + currentPath + getOtherPlayerLastAssistantCard().getType().getImagePath()));
+        ImageView imageView = (ImageView) deckMap.get(username).getChildren().get(1);
+        imageView.setImage(new Image("file:" + currentPath +assistantCard.getType().getImagePath()));
     }
 
     @Override
@@ -549,6 +550,7 @@ public class Gui extends Observable<Message> implements ClientView {
                 mainStage.setResizable(false);
                 //mainStage.setFullScreen(true);
                 createSchoolBoardsMap();
+                createDeckMap();
                 for(int i = 0; i<schoolBoardsMap.size(); i++){
                     String username = schoolBoardsMap.keySet().stream().collect(Collectors.toList()).get(i);
                     setStudentsOnDiningRoom(((GridPane)schoolBoardsMap.get(username).getChildren().get(1)).getChildren(), clientModel.getSchoolBoards().get(username));
@@ -557,10 +559,16 @@ public class Gui extends Observable<Message> implements ClientView {
                 }
                 drawIslands();
                 String currentPath = new java.io.File( "src/main/resources/Images/Wizards").getAbsolutePath().replace('\\','/');
-                ImageView imageView = (ImageView)(((MainScene2PlayersController)mainLoader.getController()).getMySchoolBoardPane().getChildren().get(2));
+                ImageView imageView = (ImageView)deckMap.get(clientModel.getUsername()).getChildren().get(0);
                 imageView.setImage(new Image("file:" + currentPath + clientModel.getAssistantDeck().getWizard().getImagePath()));
-                imageView = (ImageView) (((MainScene2PlayersController) mainLoader.getController()).getOtherSchoolBoardPane().getChildren().get(1));
-                imageView.setImage(new Image("file:" + currentPath + getOtherPlayerWizard().getImagePath()));
+                Set<String> usernames = clientModel.getChosenWizardsPerUsername().keySet();
+                for (String username : usernames) {
+                    if (!username.equals(clientModel.getUsername())){
+                        imageView = (ImageView) deckMap.get(username).getChildren().get(0);
+                        imageView.setImage(new Image("file:" + currentPath + clientModel.getChosenWizardsPerUsername().get(username).getImagePath()));
+                    }
+
+                }
                 mainStage.setScene(scene);
                 mainStage.show();
                 activeStage.close();
@@ -570,24 +578,6 @@ public class Gui extends Observable<Message> implements ClientView {
         });
     }
 
-
-    public Wizard getOtherPlayerWizard() {
-        Set<String> usernames = clientModel.getChosenWizardsPerUsername().keySet();
-        for (String username : usernames) {
-            if (!username.equals(clientModel.getUsername()))
-                return clientModel.getChosenWizardsPerUsername().get(username);
-        }
-        throw new NoSuchElementException();
-    }
-
-    public AssistantCard getOtherPlayerLastAssistantCard(){
-        Set<String> usernames = clientModel.getLastAssistantCardPlayedPerUsername().keySet();
-        for (String username : usernames) {
-            if (!username.equals(clientModel.getUsername()))
-                return clientModel.getLastAssistantCardPlayedPerUsername().get(username);
-        }
-        throw new NoSuchElementException();
-    }
 
     private void setStudentsOnDiningRoom(List<Node> studentsOnDiningRoom, SchoolBoard schoolBoard){
         studentsOnDiningRoom.forEach(x -> x.setVisible(false));
@@ -771,12 +761,25 @@ public class Gui extends Observable<Message> implements ClientView {
     private void createSchoolBoardsMap(){
         int cont = 0;
         List<Node> otherPlayersPane = ((MainScene2PlayersController)mainLoader.getController()).getOtherSchoolBoardPane().getChildren().stream().filter(x -> x instanceof AnchorPane).collect(Collectors.toList());
-        for(int i=0; i<clientModel.getSchoolBoards().size(); i++){
+        for(int i = 0; i < clientModel.getSchoolBoards().size(); i++){
             if(clientModel.getUsername().equals(clientModel.getSchoolBoards().keySet().stream().collect(Collectors.toList()).get(i)))
                 schoolBoardsMap.put(clientModel.getUsername(), ((MainScene2PlayersController)mainLoader.getController()).getMySchoolBoard());
             else{
                 schoolBoardsMap.put(clientModel.getSchoolBoards().keySet().stream().collect(Collectors.toList()).get(i), (AnchorPane) otherPlayersPane.get(cont));
                 cont++;
+            }
+        }
+    }
+
+    public void createDeckMap(){
+        int cont = 0;
+        List<Node> otherPlayersGrid = ((MainScene2PlayersController)mainLoader.getController()).getOtherSchoolBoardPane().getChildren().stream().filter(x -> x instanceof GridPane).collect(Collectors.toList());
+        for (int i = 0; i < clientModel.getChosenWizardsPerUsername().size(); i++){
+            if (clientModel.getUsername().equals(clientModel.getChosenWizardsPerUsername().keySet().stream().collect(Collectors.toList()).get(i)))
+                deckMap.put(clientModel.getUsername(), ((MainScene2PlayersController)mainLoader.getController()).getMyDeckGrid());
+            else {
+                deckMap.put(clientModel.getChosenWizardsPerUsername().keySet().stream().collect(Collectors.toList()).get(i), (GridPane) otherPlayersGrid.get(cont));
+                cont ++;
             }
         }
     }

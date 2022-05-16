@@ -53,6 +53,9 @@ public class MainScene2PlayersController extends Observable<Message> {
     GridPane otherTowerGrid;
 
     @FXML
+    GridPane myDeckGrid;
+
+    @FXML
     AnchorPane islandPane;
 
     @FXML
@@ -61,6 +64,10 @@ public class MainScene2PlayersController extends Observable<Message> {
 
     public AnchorPane getMySchoolBoard() {
         return mySchoolBoard;
+    }
+
+    public GridPane getMyDeckGrid() {
+        return myDeckGrid;
     }
 
     public GridPane getMyDiningRoomGrid() {
