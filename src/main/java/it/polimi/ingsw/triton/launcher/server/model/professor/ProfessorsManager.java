@@ -13,24 +13,24 @@ public class ProfessorsManager implements Serializable {
     }
 
     /**
-     * method to check professor influence
-     * @param player candidate for the professor dominance
-     * @param color of the professor to check
+     * Checks the professor influence.
+     * @param player candidate for the professor dominance.
+     * @param color of the professor to check.
      */
     public void updateProfessors(Player player, Color color, Player[] professors) {
         professorStrategy.execute(player,color,professors);
     }
 
     /**
-     * method to set the strategy of the professor influence
-     * @param professorStrategy
+     * Set the strategy of the professor influence.
+     * @param professorStrategy the professor strategy to apply.
      */
     public void setProfessorStrategy(ProfessorStrategy professorStrategy) {
         this.professorStrategy = professorStrategy;
     }
 
     /**
-     * method to set the default strategy of the professor influence
+     * Sets the default strategy of the professor influence.
      */
     public void resetProfessorStrategy() {
         professorStrategy = new ProfessorStrategyDefault();

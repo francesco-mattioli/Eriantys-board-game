@@ -5,10 +5,6 @@ import it.polimi.ingsw.triton.launcher.server.model.Island;
 import it.polimi.ingsw.triton.launcher.server.model.player.SchoolBoard;
 import it.polimi.ingsw.triton.launcher.utils.exceptions.IllegalClientInputException;
 
-/**
- * Represents an action performed by the user.
- * Moves a student onto an island.
- */
 public class MoveStudentOntoIsland implements Action {
     private final Color student;
     private final Island islandDestination;
@@ -26,6 +22,9 @@ public class MoveStudentOntoIsland implements Action {
     }
 
 
+    /**
+     * @return true if the player has not any students of the specified color in his entrance, false otherwise.
+     */
     private boolean noStudentsColorInTheEntrance(){
         return schoolBoard.getEntrance()[student.ordinal()] == 0;
     }

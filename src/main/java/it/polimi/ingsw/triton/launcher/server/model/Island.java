@@ -40,8 +40,8 @@ public class Island extends Observable<InfoMessage> implements Serializable {
 
     /**
      * This method merges two islands, keeping the current island.
-     * The current island's parameters will become the sum of the two islands parameters
-     * @param island specifies the island to merge with the current island
+     * The current island's parameters will become the sum of the two islands parameters.
+     * @param island specifies the island to merge with the current island.
      */
     public void merge(Island island){
         this.dim += island.getDim();
@@ -52,11 +52,11 @@ public class Island extends Observable<InfoMessage> implements Serializable {
     }
 
     /**
-     * This method calculates the influence that the specified player has on the island
-     * @param player specifies the player we want to calculate the influence
-     * @param professors specifies for each professor which player has that professor
-     * @param dominator specifies the player that is now dominating on the island
-     * @return returns the value of influence for the specified player
+     * This method calculates the influence that the specified player has on the island.
+     * @param player specifies the player we want to calculate the influence.
+     * @param professors specifies for each professor which player has that professor.
+     * @param dominator specifies the player that is now dominating on the island.
+     * @return returns the value of influence for the specified player.
      */
     public int calculateInfluence(Player player, Player[] professors, Player dominator) {
         return influenceStrategy.execute(player, professors, dominator, this);
@@ -67,9 +67,9 @@ public class Island extends Observable<InfoMessage> implements Serializable {
     }
 
     /**
-     * This method updates the island dominator
-     * @param players specifies the ArrayList of players
-     * @param professors specifies for each professor which player has that professor
+     * This method updates the island dominator.
+     * @param players specifies the list of players.
+     * @param professors specifies for each professor which player has that professor.
      */
     public void updateInfluence(List<Player> players, Player[] professors) throws EndGameException{
         boolean modifiedDominator = false;
@@ -113,21 +113,20 @@ public class Island extends Observable<InfoMessage> implements Serializable {
     }
 
     /**
-     * This method updates the number of tower on the schoolboards of the players that are taking or losing the domination
-     * @param newDominator specifies the player that is now dominating on the island
-     * @throws IllegalStateException
+     * This method updates the number of tower on the school boards of the players that are taking or losing the domination.
+     * @param newDominator specifies the player that is now dominating on the island.
+     * @throws EndGameException if a player has not any other towers.
      */
     public void towerInfluence(Player newDominator, Player [] professors)  throws EndGameException {
         if (dominator != null && dominator != newDominator) {
             dominator.getSchoolBoard().moveTowerOntoSchoolBoard(dim);
-            notify(new MoveTowerOntoSchoolBoardMessage(dominator.getUsername(), dominator.getSchoolBoard(), Arrays.stream(professors).map(p-> p.getUsername()).toArray(String[]::new)));
+            notify(new MoveTowerOntoSchoolBoardMessage(dominator.getUsername(), dominator.getSchoolBoard(), Arrays.stream(professors).map(Player::getUsername).toArray(String[]::new)));
         }
         if (newDominator != null && dominator != newDominator) {
             newDominator.getSchoolBoard().moveTowerOntoIsland(dim);
             dominator = newDominator;
             notify(new MoveTowerOntoIslandMessage(this, newDominator.getUsername(), newDominator.getSchoolBoard()));
         }
-        //dominator = newDominator;
     }
 
     /**
@@ -171,10 +170,6 @@ public class Island extends Observable<InfoMessage> implements Serializable {
             return "/";
         else
             return dominator.getUsername();
-    }
-
-    public void setDim(int dim) {
-        this.dim = dim;
     }
 
     public void setDominator(Player dominator) {

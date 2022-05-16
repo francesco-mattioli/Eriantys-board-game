@@ -1,21 +1,15 @@
 package it.polimi.ingsw.triton.launcher.server.model.playeractions;
 
 import it.polimi.ingsw.triton.launcher.server.model.GeneralCoinSupply;
-import it.polimi.ingsw.triton.launcher.server.model.cardeffects.CardEffect;
 import it.polimi.ingsw.triton.launcher.server.model.cardeffects.CharacterCard;
 import it.polimi.ingsw.triton.launcher.server.model.player.Player;
-import it.polimi.ingsw.triton.launcher.server.model.player.Wallet;
-import it.polimi.ingsw.triton.launcher.utils.exceptions.CharacterCardWithParametersException;
-import it.polimi.ingsw.triton.launcher.utils.exceptions.EndGameException;
 import it.polimi.ingsw.triton.launcher.utils.exceptions.IllegalClientInputException;
 import it.polimi.ingsw.triton.launcher.utils.message.ErrorTypeID;
 
-import java.util.ArrayList;
-
 public class UseCharacterCard implements Action {
     private final CharacterCard characterCard;
-    private Player currentPlayer;
-    private GeneralCoinSupply generalCoinSupply;
+    private final Player currentPlayer;
+    private final GeneralCoinSupply generalCoinSupply;
 
     /**
      * @param characterCard the character card that player wants to purchase.

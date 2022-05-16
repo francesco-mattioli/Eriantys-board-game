@@ -1,16 +1,11 @@
 package it.polimi.ingsw.triton.launcher.server.model.playeractions;
 
-import it.polimi.ingsw.triton.launcher.server.model.GeneralCoinSupply;
 import it.polimi.ingsw.triton.launcher.server.model.enums.Color;
 import it.polimi.ingsw.triton.launcher.server.model.player.Player;
 import it.polimi.ingsw.triton.launcher.utils.exceptions.IllegalClientInputException;
 import it.polimi.ingsw.triton.launcher.utils.message.ErrorTypeID;
 import it.polimi.ingsw.triton.launcher.utils.message.servermessage.InfoMessage;
-import it.polimi.ingsw.triton.launcher.utils.message.servermessage.infoMessage.infoMessageWithReceiver.EmptyGeneralCoinSupplyMessage;
-import it.polimi.ingsw.triton.launcher.utils.message.servermessage.infoMessage.infoMessageWithReceiver.UpdateWalletMessage;
 import it.polimi.ingsw.triton.launcher.utils.obs.Observable;
-
-import java.util.NoSuchElementException;
 
 public class MoveStudentIntoDiningRoom extends Observable<InfoMessage> implements Action {
     protected final Color student;
@@ -28,7 +23,9 @@ public class MoveStudentIntoDiningRoom extends Observable<InfoMessage> implement
     }
 
 
-
+    /**
+     * @return true if the player has not any students of the specified color in his entrance, false otherwise.
+     */
     protected boolean noStudentsColorInTheEntrance(){
         return currentPlayer.getSchoolBoard().getEntrance()[student.ordinal()] == 0;
     }

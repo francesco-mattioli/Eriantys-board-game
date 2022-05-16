@@ -2,7 +2,6 @@ package it.polimi.ingsw.triton.launcher.server.model;
 
 import it.polimi.ingsw.triton.launcher.utils.exceptions.IllegalClientInputException;
 import it.polimi.ingsw.triton.launcher.utils.message.ErrorTypeID;
-
 import java.io.Serializable;
 import java.util.List;
 
@@ -24,7 +23,7 @@ public class MotherNature implements Serializable {
     }
 
     /**
-     * Moves MotherNature onto another island
+     * Moves MotherNature onto another island.
      * @param assistantCard specifies the played card, witch contains information about the max number of steps
      * @param steps specifies the number of steps that MotherNature has to do
      * @param islands specifies the ArrayList of Islands
@@ -41,10 +40,10 @@ public class MotherNature implements Serializable {
 
 
     /**
-     * @param islandOn specifies the island where MotherNature is now
-     * @param steps specifies the number of steps that MotherNature has to do
-     * @param islands specifies the ArrayList of Islands
-     * @return returns the Island where MotherNature is going to be moved
+     * @param islandOn specifies the island where MotherNature is now.
+     * @param steps specifies the number of steps that MotherNature has to do.
+     * @param islands specifies the ArrayList of Islands.
+     * @return returns the Island where MotherNature is going to be moved.
      */
     private Island nextMotherNaturePosition(Island islandOn, int steps, List<Island> islands) {
         int positionIndex = islands.indexOf(islandOn);
@@ -52,15 +51,15 @@ public class MotherNature implements Serializable {
     }
 
     /**
-     * @param islands specifies the ArrayList of Islands
-     * @return returns the MotherNature's position opposite island
+     * @param islands specifies the ArrayList of Islands.
+     * @return returns the MotherNature's position opposite island.
      */
     public int getIndexOfOppositeIsland(List<Island> islands) {
         return (islandOn.getId() + (islands.size() / 2)) % (islands.size());
     }
 
     /**
-     * This method resets additionalSteps to 0
+     * This method resets additionalSteps to 0.
      */
     public void resetAdditionalSteps() {
         additionalSteps = 0;
@@ -72,13 +71,12 @@ public class MotherNature implements Serializable {
 
 
     /**
-     * This method sets the number of additional steps that MotherNature can do
-     * @param additionalSteps the number of additional steps that MotherNature can do
+     * This method sets the number of additional steps that MotherNature can do.
+     * @param additionalSteps the number of additional steps that MotherNature can do.
      */
     public void setAdditionalSteps(int additionalSteps) {
         this.additionalSteps = additionalSteps;
     }
-
 
     public void setIslandOn(Island islandOn) {
         this.islandOn = islandOn;

@@ -29,10 +29,6 @@ public class SchoolBoard implements Serializable {
         this.diningRoom = new int[5];
     }
 
-    public TowerColor getTowerColor() {
-        return towerColor;
-    }
-
     public int getNumTowers() {
         return numTowers;
     }
@@ -46,10 +42,9 @@ public class SchoolBoard implements Serializable {
     }
 
     /**
-     * Moves the towers from the school board to the island
-     *
-     * @param numOfTowerToMove is equal to the dimensione of the island
-     * @throws RuntimeException if the player has not other towers on the school board so the game is ended.
+     * Moves the towers from the school board to the island.
+     * @param numOfTowerToMove is equal to the dimension of the island.
+     * @throws EndGameException if the player has not other towers on the school board so the game is ended.
      */
     public void moveTowerOntoIsland(int numOfTowerToMove) throws EndGameException {
         numTowers -= numOfTowerToMove;
@@ -61,8 +56,7 @@ public class SchoolBoard implements Serializable {
 
     /**
      * Removes the towers from the island and put them into the school board.
-     *
-     * @param numOfTowerToMove is equal to the dimensione of the island
+     * @param numOfTowerToMove is equal to the dimension of the island.
      */
     public void moveTowerOntoSchoolBoard(int numOfTowerToMove) {
         numTowers += numOfTowerToMove;
@@ -70,8 +64,8 @@ public class SchoolBoard implements Serializable {
 
     /**
      * Adds a student in the dining room of the school board.
-     *
      * @param color the color of the student to insert.
+     * @throws IllegalClientInputException if the dining room corresponding to that color is already full.
      */
     public void addStudentIntoDiningRoom(Color color) throws IllegalClientInputException {
         if(diningRoom[color.ordinal()] < 10)
@@ -82,7 +76,6 @@ public class SchoolBoard implements Serializable {
 
     /**
      * Adds a student at the entrance of the school board.
-     *
      * @param color the color of the student to add at the entrance.
      */
     public void addStudentIntoEntrance(Color color) {
@@ -100,9 +93,8 @@ public class SchoolBoard implements Serializable {
 
     /**
      * Removes a student of a specified color from entrance.
-     *
      * @param student the color of the student to remove.
-     * @throws RuntimeException when there are no students of the specified color in the entrance.
+     * @throws IllegalArgumentException when there are no students of the specified color in the entrance.
      */
     public void removeStudentFromEntrance(Color student) throws IllegalArgumentException {
         if (entrance[student.ordinal()] > 0)

@@ -28,6 +28,7 @@ public class GeneralCoinSupply implements Serializable {
 
     /**
      * Decrements by one coins the supply.
+     * @throws NoSuchElementException if the general coins supply is already empty.
      */
     public void decrement() throws NoSuchElementException{
         if(coinsAmount > 0)

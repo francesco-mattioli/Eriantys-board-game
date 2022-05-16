@@ -500,7 +500,7 @@ public class Game extends GameMode{
      * At the end of the last player's action phase, it starts a new planning phase.
      */
     public void nextGameTurn() throws EndGameException, ChangeTurnException {
-        professorsManager.setProfessorStrategy(new ProfessorStrategyDefault());
+        professorsManager.resetProfessorStrategy();
         motherNature.resetAdditionalSteps();
         for(Island island: islands)
             island.setInfluenceStrategy(new InfluenceStrategyDefault());
