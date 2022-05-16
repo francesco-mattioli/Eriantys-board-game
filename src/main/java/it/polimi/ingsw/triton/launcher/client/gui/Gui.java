@@ -403,6 +403,11 @@ public class Gui extends Observable<Message> implements ClientView {
         });
     }
 
+    @Override
+    public void showUpdateWallet() {
+
+    }
+
 
     @Override
     public void askMoveStudentFromEntrance() {
@@ -717,7 +722,7 @@ public class Gui extends Observable<Message> implements ClientView {
             infoPane.setOpacity(1);
             infoPane.setStyle("-fx-background-color: #C7C7C7; -fx-border-color: black;");
 
-            Label greenLabel = new Label("Number of red students:" + clientModel.getIslands().get(i).getStudents()[Color.GREEN.ordinal()]);
+            Label greenLabel = new Label("Number of green students:" + clientModel.getIslands().get(i).getStudents()[Color.GREEN.ordinal()]);
             infoPane.getChildren().add(greenLabel);
             greenLabel.setLayoutX(5);
             greenLabel.setLayoutY(15);
@@ -729,7 +734,7 @@ public class Gui extends Observable<Message> implements ClientView {
             redLabel.setLayoutY(30);
             redLabel.setStyle("-fx-text-fill: red;");
 
-            Label yellowLabel = new Label("Number of red students:" + clientModel.getIslands().get(i).getStudents()[Color.YELLOW.ordinal()]);
+            Label yellowLabel = new Label("Number of yellow students:" + clientModel.getIslands().get(i).getStudents()[Color.YELLOW.ordinal()]);
             infoPane.getChildren().add(yellowLabel);
             yellowLabel.setLayoutX(5);
             yellowLabel.setLayoutY(45);

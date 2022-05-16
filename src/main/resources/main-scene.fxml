@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.geometry.Rectangle2D?>
+<?import javafx.scene.control.Button?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
@@ -483,16 +484,27 @@
                   </ImageView>
                </children>
             </GridPane>
-            <ImageView fitHeight="150.0" fitWidth="110.0" pickOnBounds="true" preserveRatio="true" x="980.0" y="25.0">
-               <image>
-                  <Image url="@Images/Wizards/Green-Wizard.png" />
-               </image>
-            </ImageView>
-            <ImageView fitHeight="150.0" fitWidth="110.0" pickOnBounds="true" preserveRatio="true" x="860.0" y="25.0">
-               <image>
-                  <Image url="@Images/AssistantCards/Tiger.png" />
-               </image>
-            </ImageView>
+            <GridPane layoutX="850.0" layoutY="43.0" prefHeight="174.0" prefWidth="222.0">
+               <columnConstraints>
+                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+               </columnConstraints>
+               <rowConstraints>
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+               </rowConstraints>
+               <children>
+                  <ImageView fitHeight="150.0" fitWidth="110.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1">
+                     <image>
+                        <Image url="@Images/Wizards/Green-Wizard.png" />
+                     </image>
+                  </ImageView>
+                  <ImageView fitHeight="150.0" fitWidth="110.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@Images/AssistantCards/Tiger.png" />
+                     </image>
+                  </ImageView>
+               </children>
+            </GridPane>
          </children>
       </AnchorPane>
       <AnchorPane fx:id="otherSchoolBoardPane" prefHeight="231.0" prefWidth="1101.0">
@@ -908,18 +920,32 @@
                   </GridPane>
                </children>
             </AnchorPane>
-            <ImageView fitHeight="150.0" fitWidth="110.0" layoutX="85.0" layoutY="26.0" pickOnBounds="true" preserveRatio="true">
-               <image>
-                  <Image url="@Images/Wizards/Green-Wizard.png" />
-               </image>
-            </ImageView>
-            <ImageView fitHeight="150.0" fitWidth="110.0" layoutX="200.0" layoutY="26.0" pickOnBounds="true" preserveRatio="true">
-               <image>
-                  <Image url="@Images/AssistantCards/Tiger.png" />
-               </image>
-            </ImageView>
+            <GridPane layoutX="90.0" layoutY="19.0" prefHeight="174.0" prefWidth="222.0">
+              <columnConstraints>
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+              </columnConstraints>
+              <rowConstraints>
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+              </rowConstraints>
+               <children>
+                  <ImageView fitHeight="150.0" fitWidth="110.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1">
+                     <image>
+                        <Image url="@Images/AssistantCards/Tiger.png" />
+                     </image>
+                  </ImageView>
+                  <ImageView fitHeight="150.0" fitWidth="110.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@Images/Wizards/Green-Wizard.png" />
+                     </image>
+                  </ImageView>
+               </children>
+            </GridPane>
          </children>
       </AnchorPane>
-      <AnchorPane fx:id="islandPane" layoutX="9.0" layoutY="219.0" prefHeight="331.0" prefWidth="1287.0" />
+      <AnchorPane fx:id="islandPane" layoutX="9.0" layoutY="219.0" prefHeight="331.0" prefWidth="1287.0">
+         <children>
+            <Button fx:id="playCharacterCardButton" layoutX="483.0" layoutY="153.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="147.0" text="Play Character Card!" />
+         </children></AnchorPane>
    </children>
 </AnchorPane>
