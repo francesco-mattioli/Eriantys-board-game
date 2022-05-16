@@ -78,7 +78,7 @@ public class ServerMessageVisitor {
     public void visit(UpdateWalletMessage message){
         if(clientView.getClientModel().getUsername().equals(message.getReceiverUsername())) {
             clientView.getClientModel().setWallet(message.getWallet());
-            clientView.showGenericMessage(clientView.getClientModel().printWallet());
+            clientView.showUpdateWallet();
         }
     }
 

@@ -39,6 +39,7 @@ public interface ClientView extends View {
     void showMoveTowerOntoIsland(int islandId);
     void showMoveTowerOntoSchoolBoard(String username,SchoolBoard schoolBoard);
     void showInfoChosenCloudTile(String username, String choiceDescription);
+    void showUpdateWallet();
     void showWinMessage();
     void showLoseMessage(String winnerUsername);
     void showTieMessage();
