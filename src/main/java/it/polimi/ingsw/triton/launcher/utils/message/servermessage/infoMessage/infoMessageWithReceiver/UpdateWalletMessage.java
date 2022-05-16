@@ -1,8 +1,6 @@
 package it.polimi.ingsw.triton.launcher.utils.message.servermessage.infoMessage.infoMessageWithReceiver;
 
-
 import it.polimi.ingsw.triton.launcher.client.ServerMessageVisitor;
-import it.polimi.ingsw.triton.launcher.server.model.player.Wallet;
 import it.polimi.ingsw.triton.launcher.utils.message.servermessage.InfoWithReceiverMessage;
 
 /**

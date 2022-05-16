@@ -9,7 +9,8 @@ import it.polimi.ingsw.triton.launcher.server.controller.visitors.ClientMessageS
  * to communicate to server the parameters to build the effects of the character cards.
  */
 public abstract class CharacterCardReply extends ClientMessage {
-    public CharacterCardReply(String senderUsername) {
+
+    protected CharacterCardReply(String senderUsername) {
         super(senderUsername);
     }
 

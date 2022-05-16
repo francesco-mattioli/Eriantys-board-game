@@ -9,6 +9,7 @@ import it.polimi.ingsw.triton.launcher.utils.message.servermessage.InfoMessage;
  */
 public class ChangeTurnMessage extends InfoMessage {
     private final String currentUsername;
+
     public ChangeTurnMessage(String currentUsername) {
         this.currentUsername = currentUsername;
     }

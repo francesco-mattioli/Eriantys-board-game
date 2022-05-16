@@ -16,7 +16,7 @@ import java.util.NoSuchElementException;
 public abstract class ClientMessage implements Message{
     protected final String senderUsername;
 
-    public ClientMessage(String senderUsername) {
+    protected ClientMessage(String senderUsername) {
         this.senderUsername = senderUsername;
     }
 

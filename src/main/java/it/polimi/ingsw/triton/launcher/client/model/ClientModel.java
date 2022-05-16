@@ -9,8 +9,6 @@ import it.polimi.ingsw.triton.launcher.server.model.player.AssistantDeck;
 import it.polimi.ingsw.triton.launcher.server.model.player.SchoolBoard;
 import it.polimi.ingsw.triton.launcher.utils.Utility;
 import it.polimi.ingsw.triton.launcher.utils.obs.Observable;
-
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -21,10 +19,10 @@ import java.util.Map;
 public class ClientModel extends Observable<Object> {
     private String username;
     private AssistantDeck assistantDeck;
-    private ArrayList<CharacterCard> availableCharacterCards;
+    private List<CharacterCard> availableCharacterCards;
     private List<Island> islands;
     private Map<String, SchoolBoard> schoolBoards;
-    private ArrayList<CloudTile> cloudTiles;
+    private List<CloudTile> cloudTiles;
     private Island motherNaturePosition;
     private boolean expertMode;
     private String[] professors;
@@ -74,11 +72,11 @@ public class ClientModel extends Observable<Object> {
 
 
 
-    public ArrayList<CharacterCard> getAvailableCharacterCards() {
+    public List<CharacterCard> getAvailableCharacterCards() {
         return availableCharacterCards;
     }
 
-    public void setAvailableCharacterCards(ArrayList<CharacterCard> availableCharacterCards) {
+    public void setAvailableCharacterCards(List<CharacterCard> availableCharacterCards) {
         this.availableCharacterCards = availableCharacterCards;
     }
 
@@ -151,14 +149,14 @@ public class ClientModel extends Observable<Object> {
         return results;
     }
 
-    public ArrayList<CloudTile> getCloudTiles() {
+    public List<CloudTile> getCloudTiles() {
         return cloudTiles;
     }
 
     /**
      * @param cloudTiles is the new list to substitute
      */
-    public void setCloudTiles(ArrayList<CloudTile> cloudTiles) {
+    public void setCloudTiles(List<CloudTile> cloudTiles) {
         this.cloudTiles = cloudTiles;
     }
 

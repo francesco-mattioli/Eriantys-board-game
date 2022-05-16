@@ -1,7 +1,6 @@
 package it.polimi.ingsw.triton.launcher.utils.message.servermessage;
 
 import it.polimi.ingsw.triton.launcher.server.ServeOneClient;
-import it.polimi.ingsw.triton.launcher.server.view.VirtualView;
 
 public class InfoMessageVisitor {
     private final ServeOneClient serveOneClient;
