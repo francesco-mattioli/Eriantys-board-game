@@ -7,8 +7,8 @@ import it.polimi.ingsw.triton.launcher.utils.message.ErrorTypeID;
 import java.io.Serializable;
 
 public class CardEffect05 implements CardEffect, Serializable {
-    private Island island;
-    private CharacterCard characterCard;
+    private final Island island;
+    private final CharacterCard characterCard;
 
     public CardEffect05(Island island, CharacterCard characterCard){
         this.island = island;
@@ -17,7 +17,7 @@ public class CardEffect05 implements CardEffect, Serializable {
 
     /**
      * This method add a No Entry Tile onto an island
-     * and set the island's charactercard05 to the current charactercard.
+     * and set the island's character card 05 to the current character card.
      * The island is passed through the constructor.
      */
     @Override

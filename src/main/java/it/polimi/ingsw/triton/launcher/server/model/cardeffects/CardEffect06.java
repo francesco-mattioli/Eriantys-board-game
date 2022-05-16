@@ -7,14 +7,14 @@ import java.io.Serializable;
 import java.util.List;
 
 public class CardEffect06 implements CardEffect, Serializable {
-    private List<Island> islands;
+    private final List<Island> islands;
 
     public CardEffect06(List<Island> islands){
         this.islands = islands;
     }
 
     /**
-     * This method set the island's influence strategy for each island
+     * This method set the island's influence strategy for each island.
      */
     @Override
     public void execute() {

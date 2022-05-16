@@ -11,7 +11,7 @@ import it.polimi.ingsw.triton.launcher.utils.obs.Observer;
 import it.polimi.ingsw.triton.launcher.server.ServeOneClient;
 import it.polimi.ingsw.triton.launcher.utils.message.*;
 import it.polimi.ingsw.triton.launcher.client.view.View;
-import java.util.ArrayList;
+import java.util.List;
 
 /**
  * This class is used by the server to call view methods.
@@ -118,7 +118,7 @@ public class VirtualView extends Observable<ClientMessage> implements View, Obse
      * Sends a message to the current player to ask which wizard wants.
      */
     @Override
-    public void askWizard(ArrayList<Wizard> wizards) {
+    public void askWizard(List<Wizard> wizards) {
         serveOneClient.sendMessage(new WizardRequest(wizards));
     }
 

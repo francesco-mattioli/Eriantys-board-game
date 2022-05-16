@@ -103,9 +103,7 @@ public class CharacterCard implements Serializable {
     }
 
     public boolean hasParameters(){
-        if(id == 2 || id == 4 || id == 6 || id == 8)
-            return false;
-        return true;
+        return id != 2 && id != 4 && id != 6 && id != 8;
     }
 
     public String toString(){
@@ -122,12 +120,4 @@ public class CharacterCard implements Serializable {
     public String studentsToString(){
         return "students on the card = " + Utility.printColoredStudents(students);
     }
-
 }
-
-
-//comment to delete
-/*
-CharacterCard card = new CharacterCard(1,3,0,bag);
-card.executeEffect(new CardEffect01(card,Color.BLUE,islands.get(0)));
- */

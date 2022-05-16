@@ -38,7 +38,7 @@ public class CardEffect10 implements CardEffect, Serializable {
 
     /**
      * This method remove the selected students from the dining room
-     * @throws RuntimeException
+     * @throws IllegalClientInputException if the number of students to remove from dining room is uncorrected.
      */
     public void removeStudentsFromDiningRoom() throws IllegalClientInputException {
         for (int i = 0; i < schoolBoard.getDiningRoom().length; i++){
@@ -57,9 +57,9 @@ public class CardEffect10 implements CardEffect, Serializable {
 
     /**
      * This method remove the selected students from the entrance
-     * @throws RuntimeException
+     * @throws IllegalClientInputException if the number of students to remove from entrance is uncorrected.
      */
-    public void removeStudentsFromEntrance() throws RuntimeException, IllegalClientInputException {
+    public void removeStudentsFromEntrance() throws IllegalClientInputException {
         for (int i = 0; i < schoolBoard.getEntrance().length; i++){
             for (int j = 0; j < fromEntrance.length; j++){
                 if (Color.values()[i].ordinal() == Color.values()[j].ordinal()){

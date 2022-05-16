@@ -12,9 +12,9 @@ public class InfluenceStrategyWithEffect09 extends InfluenceStrategy{
     }
     /**
      * This method calculate the influence between two players on an island
-     * The charactercard09's color has no influence during this turn
+     * The character card 09's color has no influence during this turn
      * @param player candidate for the dominance
-     * @param professors
+     * @param professors the array with professors associated to each player.
      * @param dominator player who dominates the island
      * @param island on which to calculate the influence
      * @return influence value

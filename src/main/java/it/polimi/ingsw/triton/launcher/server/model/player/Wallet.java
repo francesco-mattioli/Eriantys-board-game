@@ -19,7 +19,6 @@ public class Wallet implements Serializable {
         value++;
     }
 
-
     /**
      * Decreases the player's wallet removing a number of coins specified as a parameter.
      * @param amount the number of coins to remove from the wallet.

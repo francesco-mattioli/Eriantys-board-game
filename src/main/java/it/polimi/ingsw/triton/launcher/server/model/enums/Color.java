@@ -12,6 +12,4 @@ public enum Color implements Serializable {
     public static int numOfColors(){
         return Color.values().length;
     }
-
-
 }
