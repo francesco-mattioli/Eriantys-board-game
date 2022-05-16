@@ -4,7 +4,8 @@ import it.polimi.ingsw.triton.launcher.client.ServerMessageVisitor;
 import it.polimi.ingsw.triton.launcher.utils.message.servermessage.InfoMessage;
 
 /**
- * Communicates to the player that is his turn and to the others who is playing.
+ * This message is sent by the server to communicate to new current player that now it's his turn.
+ * To the other players, it communicates the username of the new current player.
  */
 public class ChangeTurnMessage extends InfoMessage {
     private final String currentUsername;

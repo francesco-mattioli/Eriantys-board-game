@@ -1,11 +1,13 @@
 package it.polimi.ingsw.triton.launcher.utils.message.servermessage.infoMessage;
 
-
 import it.polimi.ingsw.triton.launcher.client.ServerMessageVisitor;
 import it.polimi.ingsw.triton.launcher.utils.message.servermessage.InfoMessage;
-
 import java.util.ArrayList;
 
+/**
+ * This message is sent by the server to communicate the online players' usernames and the maximum number
+ * of players of the game.
+ */
 public class LobbyMessage extends InfoMessage {
     private final ArrayList<String> onlineNicknames;
     private final int maxNumberPlayers;

@@ -5,7 +5,7 @@ import it.polimi.ingsw.triton.launcher.server.model.player.AssistantDeck;
 import it.polimi.ingsw.triton.launcher.utils.message.servermessage.InfoWithReceiverMessage;
 
 /**
- * This message gives to every player his assistant deck.
+ * This message is sent by the server to give to every player his assistant deck.
  */
 public class GiveAssistantDeckMessage extends InfoWithReceiverMessage {
     private final AssistantDeck assistantDeck;

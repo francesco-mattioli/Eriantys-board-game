@@ -6,8 +6,8 @@ import it.polimi.ingsw.triton.launcher.server.model.player.Wallet;
 import it.polimi.ingsw.triton.launcher.utils.message.servermessage.InfoWithReceiverMessage;
 
 /**
- * This message communicates to the current player that his wallet is increased adding 1 coin.
- */
+ * This message is sent by the server to communicate to the current player that his wallet is increased adding 1 coin.
+ * */
 public class UpdateWalletMessage extends InfoWithReceiverMessage {
     private final int wallet;
     public UpdateWalletMessage(String receiverUsername, int wallet) {
