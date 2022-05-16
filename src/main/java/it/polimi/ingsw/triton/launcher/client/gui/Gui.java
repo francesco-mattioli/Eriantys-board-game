@@ -26,6 +26,7 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -48,6 +49,7 @@ public class Gui extends Observable<Message> implements ClientView {
     private GameState actualGamePhase = GameState.SETUP;
     private Map<String, AnchorPane> schoolBoardsMap = new HashMap<>();
     private Map<Integer, AnchorPane> cloudTilesMap = new HashMap<>();
+    private Map<BorderPane, Integer> characterCardMap = new HashMap<>();
 
     public Gui(Stage activeStage) {
         this.activeStage = activeStage;
@@ -561,6 +563,8 @@ public class Gui extends Observable<Message> implements ClientView {
                 imageView.setImage(new Image("file:" + currentPath + clientModel.getAssistantDeck().getWizard().getImagePath()));
                 imageView = (ImageView) (((MainScene2PlayersController) mainLoader.getController()).getOtherSchoolBoardPane().getChildren().get(1));
                 imageView.setImage(new Image("file:" + currentPath + getOtherPlayerWizard().getImagePath()));
+                if(clientModel.isExpertMode())
+                    handleCharacterCardRequest(((MainScene2PlayersController)mainLoader.getController()).getPlayCharacterCardButton());
                 mainStage.setScene(scene);
                 mainStage.show();
                 activeStage.close();
@@ -779,6 +783,32 @@ public class Gui extends Observable<Message> implements ClientView {
                 cont++;
             }
         }
+    }
+
+    private void handleCharacterCardRequest(Button button){
+        button.setOnAction(event -> {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/characterCard-scene.fxml"));
+            Parent root = null;
+            try {
+                root = loader.load();
+                ((CharacterCardSceneController) loader.getController()).addObserver(client);
+                ((CharacterCardSceneController) loader.getController()).setUsername(clientModel.getUsername());
+                String currentPath = new java.io.File("src/main/resources/Images/CharacterCards").getAbsolutePath().replace('\\', '/');
+                for(int i = 0; i < 3; i++){
+                    for(int j = 0; j<12; j++){
+                        if(clientModel.getAvailableCharacterCards().get(i).getId() == j){
+                            ((ImageView)((BorderPane)((CharacterCardSceneController) loader.getController()).getCharacterCardPane().getChildren().get(i)).getCenter()).setImage(new Image("file:" + currentPath + "/CharacterCard" + j + ".jpg"));
+                            characterCardMap.put(((BorderPane)((CharacterCardSceneController) loader.getController()).getCharacterCardPane().getChildren().get(i)), j);
+                        }
+                    }
+                }
+                Scene scene = new Scene(root);
+                activeStage.setScene(scene);
+                activeStage.show();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        });
     }
 
 }

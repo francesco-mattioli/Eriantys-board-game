@@ -4,6 +4,7 @@ import it.polimi.ingsw.triton.launcher.utils.message.Message;
 import it.polimi.ingsw.triton.launcher.utils.obs.Observable;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
+import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
@@ -58,6 +59,12 @@ public class MainScene2PlayersController extends Observable<Message> {
     @FXML
     AnchorPane studentsIslandPane;
 
+    @FXML
+    Button playCharacterCardButton;
+
+    public Button getPlayCharacterCardButton() {
+        return playCharacterCardButton;
+    }
 
     public AnchorPane getMySchoolBoard() {
         return mySchoolBoard;

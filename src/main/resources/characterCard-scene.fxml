@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.text.Font?>
+
+
+<AnchorPane fx:id="characterCardPane" prefHeight="411.0" prefWidth="638.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.triton.launcher.client.gui.scenes.CharacterCardSceneController">
+   <children>
+      <BorderPane fx:id="card1Pane" layoutX="136.0" layoutY="112.0" prefHeight="164.0" prefWidth="114.0">
+         <center>
+            <ImageView fitHeight="150.0" fitWidth="122.0" pickOnBounds="true" preserveRatio="true" BorderPane.alignment="CENTER">
+               <image>
+                  <Image url="@Images/CharacterCards/CharacterCard1.jpg" />
+               </image>
+            </ImageView>
+         </center>
+      </BorderPane>
+      <BorderPane fx:id="card2Pane" layoutX="262.0" layoutY="112.0" prefHeight="164.0" prefWidth="114.0">
+         <center>
+            <ImageView fitHeight="150.0" fitWidth="122.0" pickOnBounds="true" preserveRatio="true" BorderPane.alignment="CENTER">
+               <image>
+                  <Image url="@Images/CharacterCards/CharacterCard1.jpg" />
+               </image>
+            </ImageView>
+         </center>
+      </BorderPane>
+      <BorderPane fx:id="card3Pane" layoutX="388.0" layoutY="112.0" prefHeight="164.0" prefWidth="114.0">
+         <center>
+            <ImageView fitHeight="150.0" fitWidth="122.0" pickOnBounds="true" preserveRatio="true" BorderPane.alignment="CENTER">
+               <image>
+                  <Image url="@Images/CharacterCards/CharacterCard1.jpg" />
+               </image>
+            </ImageView>
+         </center>
+      </BorderPane>
+      <Label layoutX="202.0" layoutY="62.0" prefHeight="22.0" prefWidth="234.0" text="Click a character card to select">
+         <font>
+            <Font name="Calibri" size="18.0" />
+         </font>
+      </Label>
+      <Button fx:id="buttonPlay" layoutX="259.0" layoutY="332.0" mnemonicParsing="false" onAction="#playCharacterCard" text="Play character card!" />
+   </children>
+</AnchorPane>
