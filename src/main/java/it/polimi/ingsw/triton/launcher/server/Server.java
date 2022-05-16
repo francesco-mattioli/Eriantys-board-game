@@ -1,6 +1,5 @@
 package it.polimi.ingsw.triton.launcher.server;
 
-import it.polimi.ingsw.triton.launcher.client.cli.Cli;
 import it.polimi.ingsw.triton.launcher.server.controller.Controller;
 import it.polimi.ingsw.triton.launcher.server.model.enums.GameState;
 import it.polimi.ingsw.triton.launcher.server.model.game.ExpertGame;
@@ -16,9 +15,18 @@ import java.util.*;
 import java.util.logging.Logger;
 
 
+/**
+ * This class utilizes the Singleton pattern; It must be instantiated only once.
+ */
 public class Server {
     private static Server instance;
+    /**
+     * The constant LOGGER for printing information on the terminal.
+     */
     public static final Logger LOGGER = Logger.getLogger(Server.class.getName());
+    /**
+     * The constant PORT.
+     */
     public static int PORT;
     private Controller controller;
     private GameMode game;
@@ -27,6 +35,12 @@ public class Server {
     private boolean activated=false;
     private boolean setNumPlayers = false;
 
+    /**
+     * Instance server.
+     *
+     * @param PORT the port
+     * @return the server
+     */
     public static Server instance(int PORT){
         if(instance == null)
             instance=new Server(PORT);
@@ -48,8 +62,9 @@ public class Server {
      * If the number is not correct, it sends an error message to the first player and re-asks the number of players.
      * Otherwise, it creates the Game, the Controller, and sets the VirtualView of first player as an observer of the Controller.
      *
-     * @param maxNumPlayers decided by the first player
      * @param username      of the first player
+     * @param maxNumPlayers decided by the first player
+     * @param expertMode    the expert mode
      */
     public synchronized void activateGame(String username, int maxNumPlayers, boolean expertMode) {
         if (!isNumberOfPlayersValid(maxNumPlayers)) {
@@ -88,8 +103,8 @@ public class Server {
     /**
      * If it's the first player
      *
-     * @param serveOneClient
-     * @param username
+     * @param serveOneClient the serve one client
+     * @param username       the username
      */
     public synchronized void lobby(ServeOneClient serveOneClient, String username) {
         waitingList.add(new VirtualView(serveOneClient, username));
@@ -133,9 +148,11 @@ public class Server {
     }
 
 
-
-
-
+    /**
+     * Run.
+     *
+     * @throws IOException the io exception
+     */
     public void run() throws IOException {
         ServerSocket serverSocket = null;
         // if something goes wrong in the try, we close the serverSocket
@@ -160,6 +177,11 @@ public class Server {
         }
     }
 
+    /**
+     * Disconnect player.
+     *
+     * @param vv the vv
+     */
     public synchronized void disconnectPlayer(VirtualView vv){
         /*controller.disconnectPlayer(soc);
         if(controller.getGameState() != GameState.LOGIN)
@@ -172,12 +194,22 @@ public class Server {
             beginGame(true);
     }
 
+    /**
+     * Reset player.
+     *
+     * @param vv the vv
+     */
     public void resetPlayer(VirtualView vv){
         vv.removeObserver(controller);
         game.removeObserver(vv); // DO ALSO FORT ISLANDS!!!!!!!!!!!!!!!!!
         waitingList.remove(vv);
     }
 
+    /**
+     * Disconnect.
+     *
+     * @param soc the soc
+     */
     public synchronized void disconnect(ServeOneClient soc){
         VirtualView virtualView = null;
         if(controller.getVirtualViews().size() > 0){
@@ -199,11 +231,17 @@ public class Server {
         }
     }
 
+    /**
+     * Disconnect all players.
+     */
     public synchronized void disconnectAllPlayers(){
         controller.disconnectAllPlayers();
         resetServer();
     }
 
+    /**
+     * Reset server.
+     */
     public void resetServer(){
         waitingList.clear();
         activated = false;
@@ -217,11 +255,21 @@ public class Server {
         return (num == 2 || num == 3);
     }
 
-    // GETTERS
+    /**
+     * Gets controller.
+     *
+     * @return the controller
+     */
+// GETTERS
     public Controller getController() {
         return controller;
     }
 
+    /**
+     * Begin game.
+     *
+     * @param expertMode the expert mode
+     */
     public void beginGame(boolean expertMode){
         if (expertMode)
             this.controller.setGame(new ExpertGame(game));
