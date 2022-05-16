@@ -600,6 +600,11 @@ public class Cli extends Observable<Message> implements ClientView{
     }
 
     @Override
+    public void showUpdateWallet(){
+        out.println(clientModel.printWallet());
+    }
+
+    @Override
     public void showTieMessage() {
         out.println(ANSI_YELLOW + "You have tied" + ANSI_RESET);
     }
