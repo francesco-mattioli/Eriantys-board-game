@@ -25,6 +25,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -95,12 +96,28 @@ public class Gui extends Observable<Message> implements ClientView {
 
     @Override
     public void showGenericMessage(String genericMessage) {
-
+        Platform.runLater(() -> {
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Information Message");
+            alert.setHeaderText(null);
+            alert.setContentText(genericMessage);
+            alert.showAndWait();
+        });
     }
 
     @Override
     public void showLobbyMessage(ArrayList<String> onlineNicknames) {
-
+        Platform.runLater(() -> {
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("New player online");
+            alert.setHeaderText(null);
+            String usernames = "";
+            for(String name: onlineNicknames){
+                usernames += name + "\n";
+            }
+            alert.setContentText("A new player has been connected.\nNow players online are:\n" + usernames);
+            alert.showAndWait();
+        });
     }
 
     @Override
@@ -114,17 +131,38 @@ public class Gui extends Observable<Message> implements ClientView {
             initializeMainStage();
         }
         actualGamePhase = gameState;
+        Platform.runLater(() -> {
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Game phase info");
+            alert.setHeaderText(null);
+            alert.setContentText("New game phase:\n" + gameState + " is beginning..");
+            alert.showAndWait();
+        });
     }
 
     @Override
     public void showDisconnectionMessage() {
-
+        Platform.runLater(() -> {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Disconnection");
+            alert.setHeaderText(null);
+            alert.setContentText("A player has been disconnected. The game is over!");
+            alert.showAndWait();
+            mainStage.close();
+            activeStage.close();
+        });
     }
 
 
     @Override
     public void showEmptyBagMessage() {
-
+        Platform.runLater(() -> {
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("Empty bag");
+            alert.setHeaderText(null);
+            alert.setContentText("The bag in empty! Game will finish at the end of this turn");
+            alert.showAndWait();
+        });
     }
 
     @Override
@@ -288,7 +326,13 @@ public class Gui extends Observable<Message> implements ClientView {
 
     @Override
     public void showLoginReply() {
-
+        Platform.runLater(() -> {
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Login Reply");
+            alert.setHeaderText(null);
+            alert.setContentText("Username Accepted. Your username will be \"" + clientModel.getUsername() + "\"");
+            alert.showAndWait();
+        });
     }
 
     @Override
@@ -330,12 +374,16 @@ public class Gui extends Observable<Message> implements ClientView {
 
     @Override
     public void showMergeIslandsMessage(int island1Id, int island2Id) {
-        drawIslands();
+        Platform.runLater(() -> {
+            drawIslands();
+        });
     }
 
     @Override
     public void showMoveTowerOntoIsland(int islandId) {
-        drawIslands();
+        Platform.runLater(() -> {
+            drawIslands();
+        });
     }
 
     @Override
@@ -347,6 +395,14 @@ public class Gui extends Observable<Message> implements ClientView {
             }
         });
     }
+    @Override
+    public void showInfoChosenCloudTile(String username, String choiceDescription) {
+        Platform.runLater(()->{
+            AnchorPane schoolBoardPane = schoolBoardsMap.get(username);
+            setStudentsOnEntrance(((GridPane)schoolBoardPane.getChildren().get(2)).getChildren(), clientModel.getSchoolBoards().get(username));
+        });
+    }
+
 
     @Override
     public void askMoveStudentFromEntrance() {
@@ -414,29 +470,67 @@ public class Gui extends Observable<Message> implements ClientView {
 
     @Override
     public void showErrorMessage(ErrorTypeID fullLobby) {
-
+        Platform.runLater(() -> {
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("Incorrect input");
+            alert.setHeaderText(null);
+            alert.setContentText(fullLobby.getDescription());
+            alert.showAndWait();
+        });
     }
 
 
     @Override
     public void showTieMessage() {
-
+        Platform.runLater(() -> {
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Tie");
+            alert.setHeaderText(null);
+            alert.setContentText("Nobody won the game: it was a tie");
+            alert.showAndWait();
+            mainStage.close();
+            activeStage.close();
+        });
     }
 
 
     @Override
     public void showAbortMessage() {
-
+        Platform.runLater(() -> {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Disconnection");
+            alert.setHeaderText(null);
+            alert.setContentText("Server error! You will be disconnected!");
+            alert.showAndWait();
+            mainStage.close();
+            activeStage.close();
+        });
     }
 
     @Override
     public void showWinMessage() {
-
+        Platform.runLater(() -> {
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("You won");
+            alert.setHeaderText(null);
+            alert.setContentText("Congratulations!! You won the game");
+            alert.showAndWait();
+            mainStage.close();
+            activeStage.close();
+        });
     }
 
     @Override
     public void showLoseMessage(String winnerUsername) {
-
+        Platform.runLater(() -> {
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("You lost");
+            alert.setHeaderText(null);
+            alert.setContentText("You lost!\n" + winnerUsername + " won!");
+            alert.showAndWait();
+            mainStage.close();
+            activeStage.close();
+        });
     }
 
     private void initializeMainStage(){
@@ -519,8 +613,12 @@ public class Gui extends Observable<Message> implements ClientView {
                 ((Shape) towersOnSchoolBoard.get(i)).setFill(javafx.scene.paint.Color.BLACK);
                 ((Shape)towersOnSchoolBoard.get(i)).setVisible(true);
             }
-            else {
+            else if (schoolBoard.getTowerColor().equals(TowerColor.WHITE)){
                 ((Shape) towersOnSchoolBoard.get(i)).setFill(javafx.scene.paint.Color.WHITE);
+                ((Shape)towersOnSchoolBoard.get(i)).setVisible(true);
+            }
+            else{
+                ((Shape) towersOnSchoolBoard.get(i)).setFill(javafx.scene.paint.Color.GRAY);
                 ((Shape)towersOnSchoolBoard.get(i)).setVisible(true);
             }
         }
