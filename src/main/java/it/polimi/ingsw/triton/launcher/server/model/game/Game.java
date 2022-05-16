@@ -462,7 +462,6 @@ public class Game extends GameMode{
      * If there is a winner, virtualViews are notified using a WinMessage.
      */
     public void calculateWinner(){
-        setGameState(GameState.END);
         Optional<Player> p;
         int min = Collections.min(players.stream().map(Player::getSchoolBoard).map(SchoolBoard::getNumTowers).collect(Collectors.toList()));
         int frequency = Collections.frequency(players.stream().map(Player::getSchoolBoard).map(SchoolBoard::getNumTowers).collect(Collectors.toList()), min);
