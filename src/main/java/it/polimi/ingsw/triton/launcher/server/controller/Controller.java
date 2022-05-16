@@ -1,12 +1,15 @@
 package it.polimi.ingsw.triton.launcher.server.controller;
 
+import it.polimi.ingsw.triton.launcher.server.ServeOneClient;
 import it.polimi.ingsw.triton.launcher.server.model.Island;
 import it.polimi.ingsw.triton.launcher.server.model.enums.GameState;
+import it.polimi.ingsw.triton.launcher.server.model.game.ExpertGame;
+import it.polimi.ingsw.triton.launcher.server.model.game.Game;
 import it.polimi.ingsw.triton.launcher.server.model.game.GameMode;
 import it.polimi.ingsw.triton.launcher.server.model.player.Player;
 import it.polimi.ingsw.triton.launcher.server.view.VirtualView;
 import it.polimi.ingsw.triton.launcher.utils.exceptions.*;
-import it.polimi.ingsw.triton.launcher.utils.message.clientmessage.ClientMessage;
+import it.polimi.ingsw.triton.launcher.utils.message.clientmessage.*;
 import it.polimi.ingsw.triton.launcher.server.controller.visitors.ClientMessageErrorVisitor;
 import it.polimi.ingsw.triton.launcher.server.controller.visitors.ClientMessageExceptionalVisitor;
 import it.polimi.ingsw.triton.launcher.server.controller.visitors.ClientMessageModifierVisitor;
@@ -27,8 +30,8 @@ public class Controller implements Observer<ClientMessage> {
     private GameMode game;
     private final ArrayList<VirtualView> virtualViews = new ArrayList<>();
 
-    public Controller(GameMode game) {
-        this.game = game;
+    public Controller() {
+        this.game = Game.instance(3);
     }
 
     public void createLoginReplyMessage(String username){
@@ -143,5 +146,29 @@ public class Controller implements Observer<ClientMessage> {
 
     public GameState getGameState(){
         return game.getGameState();
+    }
+
+    public void setMaxNumberOfGamePlayers(int maxNumPlayers) {
+        game.setMaxNumberOfPlayers(maxNumPlayers);
+    }
+
+    public void removeGamePlayer(int playerIndex){
+        game.getPlayers().remove(playerIndex);
+    }
+
+    public int getCurrentNumberOfGamePlayers(){
+        return game.getPlayers().size();
+    }
+
+    public void addGamePlayer(String username){
+        game.addPlayer(username);
+    }
+
+    public void setGameState(GameState setup) {
+        game.setGameState(GameState.SETUP);
+    }
+
+    public void makeGameModeExpert() {
+        this.game=new ExpertGame(game);
     }
 }
