@@ -594,6 +594,11 @@ public class Cli extends Observable<Message> implements ClientView{
         out.println("A tower has been moved back onto "+username+"'s school board");
     }
 
+    public void showInfoChosenCloudTile(String username, String choiceDescription){
+        if(!clientModel.getUsername().equals(username))
+            out.println(choiceDescription);
+    }
+
     @Override
     public void showTieMessage() {
         out.println(ANSI_YELLOW + "You have tied" + ANSI_RESET);

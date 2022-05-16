@@ -123,13 +123,13 @@ public class ServerMessageVisitor {
         clientView.getClientModel().setIsland(message.getIslandWithMotherNature());
         clientView.getClientModel().setMotherNaturePosition(message.getIslandWithMotherNature());
         clientView.getClientModel().removeIsland(message.getIslandToDelete());
+        clientView.showMergeIslandsMessage(message.getIslandWithMotherNature().getId(), message.getIslandToDelete().getId());
     }
 
     public void visit(InfoChosenCloudTileMessage message) {
         clientView.getClientModel().setSchoolBoard(message.getPlayerUsername(), message.getPlayerSchoolBoard());
         clientView.getClientModel().removeCloudTile(message.getCloudTile());
-        if(!clientView.getClientModel().getUsername().equals(message.getPlayerUsername()))
-            clientView.showGenericMessage(message.getChoiceDescription());
+        clientView.showInfoChosenCloudTile(message.getPlayerUsername(), message.getChoiceDescription());
     }
 
     public void visit(CloudTileRequest message) {

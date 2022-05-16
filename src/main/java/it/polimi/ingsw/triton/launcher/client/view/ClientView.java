@@ -38,6 +38,7 @@ public interface ClientView extends View {
     void showMergeIslandsMessage(int island1Id, int island2Id);
     void showMoveTowerOntoIsland(int islandId);
     void showMoveTowerOntoSchoolBoard(String username,SchoolBoard schoolBoard);
+    void showInfoChosenCloudTile(String username, String choiceDescription);
     void showWinMessage();
     void showLoseMessage(String winnerUsername);
     void showTieMessage();
