@@ -47,6 +47,7 @@ public class ServerMessageVisitor {
     }
 
     public void visit(ChangeTurnMessage message){
+        clientView.getClientModel().resetLastCharacterCardPlayed();
         if(message.getCurrentUsername().equals(clientView.getClientModel().getUsername()))
             clientView.showGenericMessage("It's your turn!");
         else
@@ -165,6 +166,8 @@ public class ServerMessageVisitor {
         clientView.getClientModel().setSchoolBoards(message.getUpdatedSchoolBoards());
         if(!clientView.getClientModel().getUsername().equals(message.getPlayerUsername()))
             clientView.showGenericMessage(message.getChoiceDescription());
+        if(clientView.getClientModel().getUsername().equals(message.getPlayerUsername()))
+            clientView.getClientModel().setLastCharacterCardPlayed(message.getCharacterCard());
         clientView.showGameInfo();
     }
 

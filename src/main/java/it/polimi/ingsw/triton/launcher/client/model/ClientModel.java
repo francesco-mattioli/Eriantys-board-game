@@ -29,6 +29,7 @@ public class ClientModel extends Observable<Object> {
     private int wallet;
     private Map<String, Wizard> chosenWizardsPerUsername;
     private final Map<String,AssistantCard> lastAssistantCardPlayedPerUsername=new HashMap<>();
+    private CharacterCard lastCharacterCardPlayed;
 
     @Override
     public String toString() {
@@ -277,5 +278,15 @@ public class ClientModel extends Observable<Object> {
     }
 
 
+    public CharacterCard getLastCharacterCardPlayed() {
+        return lastCharacterCardPlayed;
+    }
 
+    public void setLastCharacterCardPlayed(CharacterCard lastCharacterCardPlayed) {
+        this.lastCharacterCardPlayed = lastCharacterCardPlayed;
+    }
+
+    public void resetLastCharacterCardPlayed() {
+        this.lastCharacterCardPlayed=null;
+    }
 }

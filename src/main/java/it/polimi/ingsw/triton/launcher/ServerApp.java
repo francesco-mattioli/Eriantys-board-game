@@ -32,6 +32,6 @@ public class ServerApp {
         } catch (IOException e) {
             Server.LOGGER.severe("Impossible to initialize the server: " + e.getMessage() + "!");
         }
-        Server.LOGGER.info("Server listening on port " + Server.PORT);
+        Server.LOGGER.info("Server listening on port " + port);
     }
 }
