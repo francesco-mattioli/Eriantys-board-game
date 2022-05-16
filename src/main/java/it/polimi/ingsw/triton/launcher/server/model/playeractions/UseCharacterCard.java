@@ -36,6 +36,8 @@ public class UseCharacterCard implements Action {
     public void execute() throws IllegalClientInputException{
         if(!canBuyCharacterCard(currentPlayer, characterCard))
             throw new IllegalClientInputException(ErrorTypeID.NOT_ENOUGH_COINS);
+        if(!canBeUsed())
+            throw new IllegalClientInputException(ErrorTypeID.CHARACTER_CARD_NOT_AVAILABLE);
         currentPlayer.getWallet().decrease(characterCard.getCost());
         generalCoinSupply.increment(characterCard.getCost());
         characterCard.increaseCost();
@@ -48,5 +50,13 @@ public class UseCharacterCard implements Action {
      */
     private boolean canBuyCharacterCard(Player player, CharacterCard characterCard){
         return player.getWallet().getValue() >= characterCard.getCost();
+    }
+
+    /**
+     * Checks if the parameters requested from the character card are available.
+     * @return true if the card can be used according to the parameters requested to activate the effect, false otherwise.
+     */
+    private boolean canBeUsed(){
+        return (characterCard.getId() != 7 || !currentPlayer.getSchoolBoard().isEntranceEmpty()) && (characterCard.getId() != 10 || (!currentPlayer.getSchoolBoard().isEntranceEmpty() && !currentPlayer.getSchoolBoard().isDiningRoomEmpty()));
     }
 }

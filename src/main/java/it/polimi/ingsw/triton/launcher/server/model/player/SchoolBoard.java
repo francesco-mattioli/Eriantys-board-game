@@ -115,9 +115,13 @@ public class SchoolBoard implements Serializable {
         return Arrays.stream(entrance).sum() == 0;
     }
 
+    public boolean isDiningRoomEmpty(){
+        return Arrays.stream(diningRoom).sum() == 0;
+    }
+
     @Override
     public String toString() {
-        return "\n\tSchoolBoard{" +
+        return "{" +
                 "towerColor=" + towerColor +
                 ", numTowers=" + numTowers +
                 ", entrance=" + Utility.printColoredStudents(entrance) +

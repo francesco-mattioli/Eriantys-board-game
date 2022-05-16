@@ -2,12 +2,10 @@ package it.polimi.ingsw.triton.launcher.client.cli;
 
 import it.polimi.ingsw.triton.launcher.client.model.ClientModel;
 import it.polimi.ingsw.triton.launcher.server.model.AssistantCard;
-import it.polimi.ingsw.triton.launcher.server.model.CloudTile;
-import it.polimi.ingsw.triton.launcher.server.model.Island;
-import it.polimi.ingsw.triton.launcher.server.model.cardeffects.CharacterCard;
 import it.polimi.ingsw.triton.launcher.server.model.enums.*;
 import it.polimi.ingsw.triton.launcher.server.model.player.AssistantDeck;
 import it.polimi.ingsw.triton.launcher.server.model.player.SchoolBoard;
+import it.polimi.ingsw.triton.launcher.utils.Utility;
 import it.polimi.ingsw.triton.launcher.utils.message.ErrorTypeID;
 import it.polimi.ingsw.triton.launcher.utils.message.clientmessage.*;
 import it.polimi.ingsw.triton.launcher.utils.message.clientmessage.characterCardReply.*;
@@ -187,11 +185,8 @@ public class Cli extends Observable<Message> implements ClientView{
     @Override
     public void askWizard(ArrayList<Wizard> wizards) {
         try {
-            out.print(ANSI_BOLDGREEN + "Choose a Wizard [ ");
-            for(Wizard wizard: wizards){
-                out.print(wizard+" ");
-            }
-            out.print("]: " + ANSI_RESET);
+            out.print(ANSI_BOLDGREEN + "Choose a Wizard " + Utility.printAvailableWizards(wizards));
+            out.print(": " + ANSI_RESET);
             String input = readLine();
             notify(new WizardReply(clientModel.getUsername(), Wizard.valueOf(input.toUpperCase())));
         }catch(IllegalArgumentException e){
@@ -250,14 +245,15 @@ public class Cli extends Observable<Message> implements ClientView{
     @Override
     public void askMoveStudentFromEntrance() {
         try {
-            out.println(ANSI_GREEN + "Choose three students to move from entrance to dining room or an island");
+            out.println(ANSI_GREEN + "Choose three students to move from entrance to dining room or an island!");
             out.print("Islands:\n" + ANSI_RESET);
-            out.println(clientModel.getIslands());
+            out.println(clientModel.printIslands());
             out.print("\n");
+            out.println(ANSI_GREEN + "SchoolBoards:\n" + ANSI_RESET);
             out.print(clientModel.printOtherSchoolBoards());
             out.println(clientModel.printYourSchoolBoard());
             out.println("To do so, type on each line [color of student, d (for dining room) ] or [color of student, island id]");
-            out.println(ANSI_BOLDGREEN + "Please, enter data: " + ANSI_RESET);
+            out.print(ANSI_BOLDGREEN + "Please, enter data: " + ANSI_RESET);
             String input = readLine();
             if(input.equals(commandForCharacterCard)&& clientModel.isExpertMode())
                 showAndPlayCharacterCard();
@@ -305,8 +301,8 @@ public class Cli extends Observable<Message> implements ClientView{
     @Override
     public void askCloudTile() {
         try {
-            out.println(ANSI_GREEN + "Choose a cloud tile to withdraw the students" + ANSI_RESET);
-            out.print("CloudTiles:");
+            out.println(ANSI_GREEN + "Choose a cloud tile to withdraw the students!");
+            out.print("CloudTiles:" + ANSI_RESET);
             out.println(clientModel.printCloudTiles());
             out.println(ANSI_BOLDGREEN + "Enter the id of the cloud tile you choose: " + ANSI_RESET);
             String input = readLine();
@@ -558,6 +554,36 @@ public class Cli extends Observable<Message> implements ClientView{
     }
 
     @Override
+    public void showInfoStudentIntoDiningRoom(String username, String moveDescription){
+        if(!clientModel.getUsername().equals(username))
+            out.println(moveDescription);
+    }
+
+    @Override
+    public void showInfoStudentOntoIsland(String username, String moveDescription){
+        if(!clientModel.getUsername().equals(username))
+            out.println(moveDescription);
+    }
+
+    @Override
+    public void showMotherNaturePosition(int islandId){
+        out.println("Mother nature has been moved.\nMother nature is on the island: " + islandId);
+    }
+
+    @Override
+    public void showChangeInfluenceMessage(String username, int islandId){
+        if(username.equals(clientModel.getUsername()))
+            out.println("You are the new dominator of the island " + islandId + ".");
+        else
+            out.println("The island " + islandId + " has a new dominator. " + "The new dominator is: " + username + ".");
+    }
+
+    @Override
+    public void showMergeIslandsMessage(int island1Id, int island2Id){
+        out.println("The island " + island1Id + " is now merged with the island " + island2Id + ".");
+        out.println("These are the remaining islands: " + clientModel.printIslands());
+    }
+    @Override
     public void showMoveTowerOntoIsland(int islandId) {
         out.println("A tower has been moved onto island "+islandId);
         clientModel.printIslands();
@@ -566,22 +592,26 @@ public class Cli extends Observable<Message> implements ClientView{
     @Override
     public void showMoveTowerOntoSchoolBoard(String username,SchoolBoard schoolBoard) {
         out.println("A tower has been moved back onto "+username+"'s school board");
-        //out.println(clientModel.getSchoolBoards().get(username).toString());
+    }
+
+    public void showInfoChosenCloudTile(String username, String choiceDescription){
+        if(!clientModel.getUsername().equals(username))
+            out.println(choiceDescription);
     }
 
     @Override
     public void showTieMessage() {
-        out.println("You have tied");
+        out.println(ANSI_YELLOW + "You have tied" + ANSI_RESET);
     }
 
     @Override
     public void showWinMessage() {
-        out.println("Congratulations! You're the winner!");
+        out.println(ANSI_YELLOW + "Congratulations! You're the winner!" + ANSI_RESET);
     }
 
     @Override
     public void showLoseMessage(String winnerUsername) {
-        out.println("You Lose! The winner is: " + winnerUsername);
+        out.println(ANSI_YELLOW + "You Lose! The winner is: " + winnerUsername + ANSI_RESET);
     }
 
     @Override

@@ -1,5 +1,9 @@
 package it.polimi.ingsw.triton.launcher.utils;
 
+import it.polimi.ingsw.triton.launcher.server.model.enums.Wizard;
+
+import java.util.ArrayList;
+
 public class Utility {
     private static final Utility instance = new Utility();
 
@@ -21,15 +25,15 @@ public class Utility {
         String results = "";
         for (int i = 0; i < students.length; i++){
             if (i == 0)
-                results += ("students=[ " + ANSI_GREEN + students[i] + ANSI_RESET + ",");
+                results += ("[" + ANSI_YELLOW + students[i] + ANSI_RESET + ",");
             else if (i == 1)
-                results += (" " + ANSI_RED + students[i] + ANSI_RESET + ",");
+                results += (ANSI_BLUE + students[i] + ANSI_RESET + ",");
             else if (i == 2)
-                results += (" " + ANSI_YELLOW + students[i] + ANSI_RESET + ",");
+                results += (ANSI_GREEN + students[i] + ANSI_RESET + ",");
             else if (i == 3)
-                results += (" " + ANSI_PINK + students[i] + ANSI_RESET + ",");
+                results += (ANSI_RED + students[i] + ANSI_RESET + ",");
             else if (i == 4)
-                results += (" " + ANSI_BLUE + students[i] + ANSI_RESET + " ]");
+                results += (ANSI_PINK + students[i] + ANSI_RESET + "]");
         }
         return results;
     }
@@ -38,15 +42,15 @@ public class Utility {
         String results = "[";
         for(int i = 0; i < professors.length; i++){
             if (i == 0 && professors[i] == null)
-                results += (ANSI_GREEN + "X" + ANSI_RESET + ",");
-            else if (i == 1 && professors[i] == null)
-                results += (ANSI_RED + "X" + ANSI_RESET + ",");
-            else if (i == 2 && professors[i] == null)
                 results += (ANSI_YELLOW + "X" + ANSI_RESET + ",");
+            else if (i == 1 && professors[i] == null)
+                results += (ANSI_BLUE + "X" + ANSI_RESET + ",");
+            else if (i == 2 && professors[i] == null)
+                results += (ANSI_GREEN + "X" + ANSI_RESET + ",");
             else if (i == 3 && professors[i] == null)
-                results += (ANSI_PINK + "X" + ANSI_RESET + ",");
+                results += (ANSI_RED + "X" + ANSI_RESET + ",");
             else if (i == 4 && professors[i] == null)
-                results += (ANSI_BLUE + "X" + ANSI_RESET + "]");
+                results += (ANSI_PINK + "X" + ANSI_RESET + "]");
             else if (i != 4 && professors[i] != null)
                 results += ("_,");
             else if (i == 4)
@@ -63,15 +67,27 @@ public class Utility {
             else if((i == professors.length-1 && professors[i] == null) || (i == professors.length-1 && !professors[i].equals(owner)))
                 results += "_]";
             else if(i == 0)
-                results += ANSI_GREEN + "X" + ANSI_RESET + ",";
-            else if(i == 1)
-                results += ANSI_RED + "X" + ANSI_RESET + ",";
-            else if(i == 2)
                 results += ANSI_YELLOW + "X" + ANSI_RESET + ",";
+            else if(i == 1)
+                results += ANSI_BLUE + "X" + ANSI_RESET + ",";
+            else if(i == 2)
+                results += ANSI_GREEN + "X" + ANSI_RESET + ",";
             else if(i == 3)
-                results += ANSI_PINK + "X" + ANSI_RESET + ",";
+                results += ANSI_RED + "X" + ANSI_RESET + ",";
             else if(i == 4)
-                results += ANSI_BLUE + "X" + ANSI_RESET + "]";
+                results += ANSI_PINK + "X" + ANSI_RESET + "]";
+        }
+        return results;
+    }
+
+    public static String printAvailableWizards(ArrayList<Wizard> wizards){
+        String results = "[";
+        for(int i = 0; i < wizards.size(); i++){
+            results += wizards.get(i);
+            if(i != wizards.size() - 1)
+                results += ", ";
+            else
+                results += "]";
         }
         return results;
     }

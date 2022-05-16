@@ -13,7 +13,6 @@ import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
-import java.util.logging.Logger;
 
 public class Client implements Observer<Message> {
     private Socket socket;
@@ -22,7 +21,6 @@ public class Client implements Observer<Message> {
     private ExecutorService receiveExecutionQueue;
     private ExecutorService visitExecutionQueue;
     private final ClientView clientView;
-    public static final Logger LOGGER = Logger.getLogger(Client.class.getName());
     private static final int port = 50535;
 
     /**
@@ -59,7 +57,6 @@ public class Client implements Observer<Message> {
                     // Accept the message using Visitor Pattern
                     visitExecutionQueue.execute(() ->message.accept(new ServerMessageVisitor(clientView)));
                 } catch (IOException | ClassNotFoundException e) {
-                    //Client.LOGGER.severe("Error: " + e.getMessage()+ ": Connection will be closed");
                     disconnect();
                     receiveExecutionQueue.shutdownNow();
                     visitExecutionQueue.shutdownNow();
@@ -79,14 +76,8 @@ public class Client implements Observer<Message> {
      */
     @Override
     public void update(Message message) {
-        if(message instanceof UpdatedServerInfoMessage){
-            /* To implement timeout client-side, it is necessary to define SocketAddress.
-            SocketAddress socketAddress = new InetSocketAddress("127.0.0.1", 50535);
-            socket.connect(socketAddress,5000);
-            */
-            // without timeout
+        if(message instanceof UpdatedServerInfoMessage)
             instantiateSocket((UpdatedServerInfoMessage) message);
-        }
         else
             sendMessage(message);
     }
