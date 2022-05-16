@@ -14,7 +14,6 @@ import it.polimi.ingsw.triton.launcher.client.Client;
 import it.polimi.ingsw.triton.launcher.utils.message.Message;
 import it.polimi.ingsw.triton.launcher.client.view.ClientView;
 import java.io.PrintStream;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.FutureTask;
@@ -183,7 +182,7 @@ public class Cli extends Observable<Message> implements ClientView{
 
 
     @Override
-    public void askWizard(ArrayList<Wizard> wizards) {
+    public void askWizard(List<Wizard> wizards) {
         try {
             out.print(ANSI_BOLDGREEN + "Choose a Wizard " + Utility.printAvailableWizards(wizards));
             out.print(": " + ANSI_RESET);
