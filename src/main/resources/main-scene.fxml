@@ -484,7 +484,7 @@
                   </ImageView>
                </children>
             </GridPane>
-            <GridPane layoutX="850.0" layoutY="43.0" prefHeight="174.0" prefWidth="222.0">
+            <GridPane fx:id="myDeckGrid" layoutX="850.0" layoutY="43.0" prefHeight="174.0" prefWidth="222.0">
                <columnConstraints>
                   <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
                   <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
@@ -929,14 +929,14 @@
                 <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
               </rowConstraints>
                <children>
-                  <ImageView fitHeight="150.0" fitWidth="110.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1">
-                     <image>
-                        <Image url="@Images/AssistantCards/Tiger.png" />
-                     </image>
-                  </ImageView>
                   <ImageView fitHeight="150.0" fitWidth="110.0" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@Images/Wizards/Green-Wizard.png" />
+                     </image>
+                  </ImageView>
+                  <ImageView fitHeight="150.0" fitWidth="110.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1">
+                     <image>
+                        <Image url="@Images/AssistantCards/Tiger.png" />
                      </image>
                   </ImageView>
                </children>
