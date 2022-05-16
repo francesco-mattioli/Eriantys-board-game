@@ -15,6 +15,7 @@ import it.polimi.ingsw.triton.launcher.utils.message.Message;
 import it.polimi.ingsw.triton.launcher.client.view.ClientView;
 import java.io.PrintStream;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.FutureTask;
 
@@ -142,7 +143,7 @@ public class Cli extends Observable<Message> implements ClientView{
 
 
 
-    public void showLobbyMessage(ArrayList<String> onlineNicknames) {
+    public void showLobbyMessage(List<String> onlineNicknames) {
         out.println("ONLINE PLAYERS:");
         for(String username: onlineNicknames){
             out.println("- " + username);

@@ -6,7 +6,6 @@ import it.polimi.ingsw.triton.launcher.server.model.Island;
 import it.polimi.ingsw.triton.launcher.server.model.cardeffects.CharacterCard;
 import it.polimi.ingsw.triton.launcher.server.model.enums.Wizard;
 import it.polimi.ingsw.triton.launcher.server.model.player.SchoolBoard;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -15,18 +14,19 @@ import java.util.Map;
  * It's used when the game mode is expert.
  */
 public class ExpertGameInfoMessage extends GameInfoMessage{
-    private final ArrayList<CharacterCard> availableCharacterCards;
+    private final List<CharacterCard> availableCharacterCards;
 
-    public ExpertGameInfoMessage(ArrayList<CharacterCard> availableCharacterCards, List<Island> islands, Island motherNaturePosition, Map<String, SchoolBoard> schoolBoards, ArrayList<CloudTile> cloudTiles, String[] professors, Map<String,Wizard> chosenWizardsPerUsername) {
+    public ExpertGameInfoMessage(List<CharacterCard> availableCharacterCards, List<Island> islands, Island motherNaturePosition, Map<String, SchoolBoard> schoolBoards, List<CloudTile> cloudTiles, String[] professors, Map<String,Wizard> chosenWizardsPerUsername) {
         super(islands, motherNaturePosition, schoolBoards, cloudTiles, professors,chosenWizardsPerUsername);
         super.expertMode=true;
         this.availableCharacterCards = availableCharacterCards;
     }
 
-    public ArrayList<CharacterCard> getAvailableCharacterCards() {
+    public List<CharacterCard> getAvailableCharacterCards() {
         return availableCharacterCards;
     }
 
+    @Override
     public void accept(ServerMessageVisitor serverMessageVisitor) {
         serverMessageVisitor.visit(this);
     }

@@ -15,8 +15,8 @@ import it.polimi.ingsw.triton.launcher.client.view.View;
 import java.util.ArrayList;
 
 public class VirtualView extends Observable<ClientMessage> implements View, Observer<InfoMessage> {
-    private ServeOneClient serveOneClient;
-    private String username;
+    private final ServeOneClient serveOneClient;
+    private final String username;
     private Message lastMessage;
     private Message lastCharacterCardMessage;
 
