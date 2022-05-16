@@ -8,6 +8,10 @@ import it.polimi.ingsw.triton.launcher.server.controller.visitors.ClientMessageE
 import it.polimi.ingsw.triton.launcher.server.controller.visitors.ClientMessageModifierVisitor;
 import it.polimi.ingsw.triton.launcher.server.controller.visitors.ClientMessageStandardVisitor;
 
+/**
+ * This message is sent by the client to communicate to server the number of steps that mother nature has to do
+ * according to the current player.
+ */
 public class MotherNatureReply extends ClientMessage{
     private final int numSteps;
     public MotherNatureReply(String senderUsername, int numSteps) {

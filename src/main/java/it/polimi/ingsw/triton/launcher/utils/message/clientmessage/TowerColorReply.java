@@ -8,6 +8,9 @@ import it.polimi.ingsw.triton.launcher.server.controller.visitors.ClientMessageE
 import it.polimi.ingsw.triton.launcher.server.controller.visitors.ClientMessageModifierVisitor;
 import it.polimi.ingsw.triton.launcher.server.controller.visitors.ClientMessageStandardVisitor;
 
+/**
+ * This message is sent by the client to communicate to server which tower color the current player chose.
+ */
 public class TowerColorReply extends ClientMessage {
     private final TowerColor playerColor;
 

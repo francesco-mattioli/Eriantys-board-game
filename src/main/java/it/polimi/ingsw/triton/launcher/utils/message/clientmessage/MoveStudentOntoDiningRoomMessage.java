@@ -8,6 +8,10 @@ import it.polimi.ingsw.triton.launcher.server.controller.visitors.ClientMessageE
 import it.polimi.ingsw.triton.launcher.server.controller.visitors.ClientMessageModifierVisitor;
 import it.polimi.ingsw.triton.launcher.server.controller.visitors.ClientMessageStandardVisitor;
 
+/**
+ * This message is sent by the client to communicate to server the color of the student the current
+ * player wants to move to his dining room.
+ */
 public class MoveStudentOntoDiningRoomMessage extends ClientMessage {
     private final Color student;
 

@@ -7,9 +7,11 @@ import it.polimi.ingsw.triton.launcher.utils.exceptions.CharacterCardWithParamet
 import it.polimi.ingsw.triton.launcher.utils.exceptions.EndGameException;
 import it.polimi.ingsw.triton.launcher.utils.exceptions.IllegalClientInputException;
 import it.polimi.ingsw.triton.launcher.utils.exceptions.LastMoveException;
-
 import java.util.NoSuchElementException;
 
+/**
+ * This message is sent by the client to communicate to server that a new player wants to login.
+ */
 public class LoginRequest extends ClientMessage {
 
     public LoginRequest(String username) {

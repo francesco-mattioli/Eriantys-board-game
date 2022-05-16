@@ -6,6 +6,7 @@ import it.polimi.ingsw.triton.launcher.server.model.enums.*;
 import it.polimi.ingsw.triton.launcher.server.model.player.AssistantDeck;
 import it.polimi.ingsw.triton.launcher.server.model.player.SchoolBoard;
 import it.polimi.ingsw.triton.launcher.utils.Utility;
+import it.polimi.ingsw.triton.launcher.utils.exceptions.clientmessage.*;
 import it.polimi.ingsw.triton.launcher.utils.message.ErrorTypeID;
 import it.polimi.ingsw.triton.launcher.utils.message.clientmessage.*;
 import it.polimi.ingsw.triton.launcher.utils.message.clientmessage.characterCardReply.*;
@@ -15,7 +16,6 @@ import it.polimi.ingsw.triton.launcher.utils.message.Message;
 import it.polimi.ingsw.triton.launcher.client.view.ClientView;
 import java.io.PrintStream;
 import java.util.ArrayList;
-import java.util.Map;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.FutureTask;
 
