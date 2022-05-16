@@ -5,7 +5,7 @@ import it.polimi.ingsw.triton.launcher.client.ServerMessageVisitor;
 
 
 /**
- * This message asks the player to play an assistant card which is in his deck.
+ * This message is sent by the server to ask the player to play an assistant card which is in his deck.
  */
 public class AssistantCardRequest extends AskMessage {
 

@@ -4,7 +4,7 @@ import it.polimi.ingsw.triton.launcher.client.ServerMessageVisitor;
 
 
 /**
- * This message asks to the player which student wants to move.
+ * This message is sent by the server to ask the current player which student wants to move from his entrance.
  */
 public class MoveStudentFromEntranceMessage extends AskMessage {
 
