@@ -1,5 +1,9 @@
 package it.polimi.ingsw.triton.launcher.utils;
 
+import it.polimi.ingsw.triton.launcher.server.model.enums.Wizard;
+
+import java.util.ArrayList;
+
 public class Utility {
     private static final Utility instance = new Utility();
 
@@ -75,4 +79,17 @@ public class Utility {
         }
         return results;
     }
+
+    public static String printAvailableWizards(ArrayList<Wizard> wizards){
+        String results = "[";
+        for(int i = 0; i < wizards.size(); i++){
+            results += wizards.get(i);
+            if(i != wizards.size() - 1)
+                results += ", ";
+            else
+                results += "]";
+        }
+        return results;
+    }
+
 }

@@ -33,6 +33,11 @@ public class ChooseCloudTileSceneController extends Observable<Message> {
         return cloudTile1StudentsPane;
     }
 
+    public AnchorPane getChooseCloudTilePane() {
+        return chooseCloudTilePane;
+    }
+
+
     public AnchorPane getCloudTile0Pane() {
         return cloudTile0Pane;
     }
@@ -52,10 +57,12 @@ public class ChooseCloudTileSceneController extends Observable<Message> {
 
     public void selectCloudTile0(MouseEvent event){
         notify(new CloudTileReply(username,0));
+        ((Stage) chooseCloudTilePane.getScene().getWindow()).close();
     }
 
     public void selectCloudTile1(MouseEvent event){
         notify(new CloudTileReply(username,1));
+        ((Stage) chooseCloudTilePane.getScene().getWindow()).close();
     }
 
 
