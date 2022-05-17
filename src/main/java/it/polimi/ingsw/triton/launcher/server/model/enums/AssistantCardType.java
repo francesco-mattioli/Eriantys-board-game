@@ -2,6 +2,10 @@ package it.polimi.ingsw.triton.launcher.server.model.enums;
 
 import java.io.Serializable;
 
+/**
+ * This enum contains all the assistant card types.
+ * Each type has a value and the maximum number of steps mother nature can do.
+ */
 public enum AssistantCardType implements Serializable {
     TIGER(1,1),
     DUCK(2,1),

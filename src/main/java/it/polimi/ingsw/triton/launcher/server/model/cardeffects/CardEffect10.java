@@ -13,10 +13,9 @@ public class CardEffect10 implements CardEffect, Serializable {
     private final SchoolBoard schoolBoard;
 
     /**
-     *
-     * @param fromEntrance students to take from entrance
-     * @param fromDiningRoom students to take from dining room
-     * @param schoolBoard of the player who played the character card
+     * @param fromEntrance students to take from entrance.
+     * @param fromDiningRoom students to take from dining room.
+     * @param schoolBoard of the player who played the character card.
      */
     public CardEffect10(int[] fromEntrance, int[] fromDiningRoom, SchoolBoard schoolBoard){
         this.fromEntrance = fromEntrance;
@@ -25,7 +24,7 @@ public class CardEffect10 implements CardEffect, Serializable {
     }
 
     /**
-     * This method swaps a maximum of three students from the dining room to the entrance
+     * This method swaps a maximum of three students from the dining room to the entrance.
      */
     @Override
     public void execute() throws IllegalClientInputException {
@@ -37,7 +36,7 @@ public class CardEffect10 implements CardEffect, Serializable {
 
 
     /**
-     * This method remove the selected students from the dining room
+     * This method remove the selected students from the dining room.
      * @throws IllegalClientInputException if the number of students to remove from dining room is uncorrected.
      */
     public void removeStudentsFromDiningRoom() throws IllegalClientInputException {
@@ -56,7 +55,7 @@ public class CardEffect10 implements CardEffect, Serializable {
 
 
     /**
-     * This method remove the selected students from the entrance
+     * This method remove the selected students from the entrance.
      * @throws IllegalClientInputException if the number of students to remove from entrance is uncorrected.
      */
     public void removeStudentsFromEntrance() throws IllegalClientInputException {
@@ -73,7 +72,7 @@ public class CardEffect10 implements CardEffect, Serializable {
     }
 
     /**
-     * This method adds the students taken from the entrance to the dining room
+     * This method adds the students taken from the entrance to the dining room.
      */
     public void addStudentsIntoDiningRoom(){
         for (int i = 0; i < schoolBoard.getDiningRoom().length; i++){
@@ -85,7 +84,7 @@ public class CardEffect10 implements CardEffect, Serializable {
     }
 
     /**
-     * This method adds the students taken from the dining room to the entrance
+     * This method adds the students taken from the dining room to the entrance.
      */
     public void addStudentsIntoEntrance(){
         for (int i = 0; i < schoolBoard.getEntrance().length; i++){

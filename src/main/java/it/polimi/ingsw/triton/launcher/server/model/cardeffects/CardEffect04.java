@@ -13,7 +13,7 @@ public class CardEffect04 implements CardEffect, Serializable {
 
 
     /**
-     * This effect allows the player to have two extra steps for mother nature
+     * This effect allows the player to have two extra steps for mother nature.
      */
     @Override
     public void execute() {
