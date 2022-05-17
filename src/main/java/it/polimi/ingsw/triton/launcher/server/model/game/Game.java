@@ -268,6 +268,10 @@ public class Game extends GameMode{
     }
 
 
+    /**
+     * Executes a part of the planning phase, filling the cloud tiles and resetting the assistant
+     * cards played in last round.
+     */
     public void planningPhase() {
         setGameState(GameState.PLANNING_PHASE);
         addStudentsToCloudTiles();
@@ -337,6 +341,9 @@ public class Game extends GameMode{
     }
 
 
+    /**
+     * Creates twelve islands of the game.
+     */
     // Methods for the SETUP PHASE
     private void createIslands() {
         for (int i = 0; i < 12; i++) {
@@ -534,11 +541,10 @@ public class Game extends GameMode{
     }
 
 
-        /**
-         *
-         * @param currentIsland the current island.
-         * @return next island on the left.
-         */
+    /**
+     * @param currentIsland the current island.
+     * @return next island on the left.
+     */
     private Island nextIsland(Island currentIsland) {
         if (islands.indexOf(currentIsland) == islands.size() - 1) {
             return islands.get(0);
@@ -547,7 +553,6 @@ public class Game extends GameMode{
     }
 
     /**
-     *
      * @param currentIsland the current island.
      * @return previous island on the right.
      */
@@ -576,6 +581,9 @@ public class Game extends GameMode{
         return mapSchoolBoards;
     }
 
+    /**
+     * @return all the wizards already chosen by the players.
+     */
     public Map<String,Wizard> getAllChosenWizards(){
         Map<String,Wizard> chosenWizardsPerUsername= new HashMap<>();
         for(Player player: players){
@@ -596,12 +604,16 @@ public class Game extends GameMode{
         return false;
     }
 
+    /**
+     * @return an array of String about professors with their respective owner.
+     * If a professor is not on a player's school board, it has a '_' on his position of the array.
+     */
     public String[] professorsWithUsernameOwner(){
         return Arrays.stream(professors).map(p->{if(p == null) return "_"; else return p.getUsername();}).toArray(String[]::new);
     }
 
     /**
-     * This method remove a player and then end the game.
+     * Ends the game resetting the instance of the game.
      */
     public void endGame() {
         setGameState(GameState.END);
@@ -610,6 +622,9 @@ public class Game extends GameMode{
     }
 
 
+    /**
+     * Sets the instance of the game to null.
+     */
     private static void resetInstance() {
         instance=null;
     }
