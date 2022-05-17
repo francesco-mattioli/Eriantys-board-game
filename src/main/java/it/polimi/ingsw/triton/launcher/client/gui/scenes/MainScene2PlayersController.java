@@ -69,9 +69,9 @@ public class MainScene2PlayersController extends SceneController {
     @FXML
     Button playCharacterCardButton;
 
-    private Map<String, AnchorPane> schoolBoardsMap = new HashMap<>();
-    private Map<String,GridPane> deckMap = new HashMap<>();
-    private Map<BorderPane, Integer> characterCardMap = new HashMap<>();
+    private final Map<String, AnchorPane> schoolBoardsMap = new HashMap<>();
+    private final Map<String,GridPane> deckMap = new HashMap<>();
+    private final Map<BorderPane, Integer> characterCardMap = new HashMap<>();
 
     private void drawStudentsOnDiningRoom(List<Node> studentsOnDiningRoom, SchoolBoard schoolBoard){
         studentsOnDiningRoom.forEach(x -> x.setVisible(false));
@@ -114,9 +114,7 @@ public class MainScene2PlayersController extends SceneController {
     private void drawProfessors(List<Node> professorsOnSchoolBoard, String username, ClientModel clientModel){
         for(int i=0; i < clientModel.getProfessors().length; i++){
             if(clientModel.getProfessors()[i] != null) {
-                if (clientModel.getProfessors()[i].equals(username))
-                    professorsOnSchoolBoard.get(i).setVisible(true);
-                else professorsOnSchoolBoard.get(i).setVisible(false);
+                professorsOnSchoolBoard.get(i).setVisible(clientModel.getProfessors()[i].equals(username));
             }
         }
     }
@@ -127,7 +125,7 @@ public class MainScene2PlayersController extends SceneController {
         islands.clear();
         int[] dimensions = new int[2];
         GridPane [] islandGrids = new GridPane[2];
-        List<Node> [] nodeList = new List[2];
+        List[] nodeList = new List[2];
         setupIslandGrid(clientModel, dimensions, islandGrids, nodeList);
         for(int i = 0; i<clientModel.getIslands().size(); i++){
             AnchorPane anchorPane = new AnchorPane();
@@ -234,7 +232,7 @@ public class MainScene2PlayersController extends SceneController {
             setupInfoPane(infoPane, island.getId(), anchorPane.getLayoutX() + 40, y);
             int labelY = 15;
             for(int j = 0; j<Color.numOfColors(); j++){
-                setupLabel(Color.values()[j].name(), island.getStudents()[j], 5, labelY, infoPane);
+                setupLabel(Color.values()[j].name(), island.getStudents()[j], labelY, infoPane);
                 labelY+= 15;
             }
             setupNoEntryTiles(infoPane, island.getNoEntryTiles());
@@ -247,10 +245,10 @@ public class MainScene2PlayersController extends SceneController {
         });
     }
 
-    private void setupLabel(String color, int numberOfStudents, int x, int y, AnchorPane anchorPane){
+    private void setupLabel(String color, int numberOfStudents, int y, AnchorPane anchorPane){
         Label label = new Label("Number of " + color.toLowerCase() + " students:" + numberOfStudents);
         anchorPane.getChildren().add(label);
-        label.setLayoutX(x);
+        label.setLayoutX(5);
         label.setLayoutY(y);
         label.setStyle("-fx-text-fill: " + color.toLowerCase() + ";");
     }
@@ -364,7 +362,7 @@ public class MainScene2PlayersController extends SceneController {
         drawIslands(clientModel);
         for(int i = 0; i < schoolBoardsMap.keySet().size(); i++){
             AnchorPane schoolBoardPane = schoolBoardsMap.get(new ArrayList<>(schoolBoardsMap.keySet()).get(i));
-            drawTowersOnSchoolBoard(((GridPane)schoolBoardPane.getChildren().get(4)).getChildren(), clientModel.getSchoolBoards().get(schoolBoardsMap.keySet().stream().collect(Collectors.toList()).get(i)));
+            drawTowersOnSchoolBoard(((GridPane)schoolBoardPane.getChildren().get(4)).getChildren(), clientModel.getSchoolBoards().get(new ArrayList<>(schoolBoardsMap.keySet()).get(i)));
         }
     }
 
