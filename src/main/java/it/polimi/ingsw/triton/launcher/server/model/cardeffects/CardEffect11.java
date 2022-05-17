@@ -30,7 +30,7 @@ public class CardEffect11 implements CardEffect, Serializable {
     /**
      * This method adds a student in the entrance.
      * The chosen student was on the CharacterCard.
-     * The schoolboard is passed through the constructor.
+     * The school board is passed through the constructor.
      */
     @Override
     public void execute() throws IllegalClientInputException {
