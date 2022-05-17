@@ -1,5 +1,6 @@
 package it.polimi.ingsw.triton.launcher.client.gui.scenes;
 
+import it.polimi.ingsw.triton.launcher.client.model.ClientModel;
 import it.polimi.ingsw.triton.launcher.utils.message.Message;
 import it.polimi.ingsw.triton.launcher.utils.message.clientmessage.UpdatedServerInfoMessage;
 import it.polimi.ingsw.triton.launcher.utils.obs.Observable;
@@ -9,7 +10,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 
-public class IpAddressSceneController extends Observable<Message> {
+public class IpAddressSceneController extends SceneController {
 
     @FXML
     Button connectButton;

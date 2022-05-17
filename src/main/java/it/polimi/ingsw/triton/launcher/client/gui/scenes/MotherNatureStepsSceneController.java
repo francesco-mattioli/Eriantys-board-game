@@ -1,5 +1,6 @@
 package it.polimi.ingsw.triton.launcher.client.gui.scenes;
 
+import it.polimi.ingsw.triton.launcher.client.model.ClientModel;
 import it.polimi.ingsw.triton.launcher.utils.message.Message;
 import it.polimi.ingsw.triton.launcher.utils.message.clientmessage.MotherNatureReply;
 import it.polimi.ingsw.triton.launcher.utils.obs.Observable;
@@ -10,7 +11,9 @@ import javafx.scene.control.ChoiceBox;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 
-public class MotherNatureStepsSceneController extends Observable<Message> {
+import java.util.ArrayList;
+
+public class MotherNatureStepsSceneController extends SceneController {
 
     @FXML
     AnchorPane motherNaturePane;
@@ -21,20 +24,17 @@ public class MotherNatureStepsSceneController extends Observable<Message> {
     @FXML
     Button moveButton;
 
-    private String username;
-    Stage stage;
-
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
-    public ChoiceBox<Integer> getStepsChoiceBox() {
-        return stepsChoiceBox;
-    }
-
     public void move(ActionEvent event){
-        stage = (Stage) motherNaturePane.getScene().getWindow();
         notify(new MotherNatureReply(username, stepsChoiceBox.getValue()));
-        stage.close();
+        ((Stage) motherNaturePane.getScene().getWindow()).close();
+    }
+
+    @Override
+    public <T> void setupScene(ClientModel clientModel, T parameters) {
+        ArrayList<Integer> steps = new ArrayList<>();
+        for (int i = 0; i <= clientModel.getMyLastAssistantCardPlayed().getType().getMaxSteps() + (int)parameters; i++) {
+            steps.add(i);
+        }
+        stepsChoiceBox.getItems().addAll(steps);
     }
 }

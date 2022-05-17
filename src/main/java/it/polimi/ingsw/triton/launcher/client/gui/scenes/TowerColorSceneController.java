@@ -1,5 +1,6 @@
 package it.polimi.ingsw.triton.launcher.client.gui.scenes;
 
+import it.polimi.ingsw.triton.launcher.client.model.ClientModel;
 import it.polimi.ingsw.triton.launcher.server.model.enums.TowerColor;
 import it.polimi.ingsw.triton.launcher.utils.message.Message;
 import it.polimi.ingsw.triton.launcher.utils.message.clientmessage.TowerColorReply;
@@ -14,10 +15,11 @@ import javafx.scene.control.ChoiceBox;
 import javafx.scene.layout.AnchorPane;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-public class TowerColorSceneController extends Observable<Message> {
+public class TowerColorSceneController extends SceneController {
 
     @FXML
     ChoiceBox<String> towerColorChoice;
@@ -28,21 +30,7 @@ public class TowerColorSceneController extends Observable<Message> {
     @FXML
     AnchorPane towerColorPane;
 
-    private String username;
     private Map<String,TowerColor> towerColorMap;
-
-    public void setTowerColorMap(Map<String, TowerColor> towerColorMap) {
-        this.towerColorMap = towerColorMap;
-    }
-
-
-    public void setUsername(String username){
-        this.username = username;
-    }
-
-    public ChoiceBox<String> getTowerColorChoice() {
-        return towerColorChoice;
-    }
 
 
     public void select(ActionEvent event){
@@ -50,4 +38,15 @@ public class TowerColorSceneController extends Observable<Message> {
         selectButton.setDisable(true);
     }
 
+    @Override
+    public <T> void setupScene(ClientModel clientModel, T parameters) {
+        boolean [] towerColorChosen = (boolean[]) parameters;
+        towerColorMap = new HashMap<>();
+        for (int i = 0; i < towerColorChosen.length; i++) {
+            if (!towerColorChosen[i]) {
+                towerColorMap.put(TowerColor.values()[i].name(), TowerColor.values()[i]);
+            }
+        }
+        towerColorChoice.getItems().addAll(towerColorMap.keySet());
+    }
 }

@@ -1,5 +1,6 @@
 package it.polimi.ingsw.triton.launcher.client.gui.scenes;
 
+import it.polimi.ingsw.triton.launcher.client.model.ClientModel;
 import it.polimi.ingsw.triton.launcher.server.model.AssistantCard;
 import it.polimi.ingsw.triton.launcher.utils.message.Message;
 import it.polimi.ingsw.triton.launcher.utils.message.clientmessage.AssistantCardReply;
@@ -15,9 +16,10 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Polygon;
 import javafx.stage.Stage;
 
+import java.util.HashMap;
 import java.util.Map;
 
-public class AssistantCardSceneController extends Observable<Message> {
+public class AssistantCardSceneController extends SceneController {
     @FXML
     AnchorPane assistantCardPane;
 
@@ -33,43 +35,19 @@ public class AssistantCardSceneController extends Observable<Message> {
     @FXML
     ImageView assistantCardImageView;
 
-    private String username;
-    private Map<Image, AssistantCard> assistantCards;
+    private Map<Image, AssistantCard> assistantCardImages;
     private int shownAssistantCard = 0;
 
-    public void setAssistantCards(Map<Image, AssistantCard> assistantCards) {
-        this.assistantCards = assistantCards;
-    }
-
-    public void setUsername(String username){
-        this.username = username;
-    }
-
-    public Polygon getLeftSwitch() {
-        return leftSwitch;
-    }
-
-    public Polygon getRightSwitch() {
-        return rightSwitch;
-    }
-
-    public ImageView getAssistantCardImageView() {
-        return assistantCardImageView;
-    }
-
-    Stage stage;
-
     public void select(ActionEvent event){
-        AssistantCard selectedAssistantCard = assistantCards.get(assistantCardImageView.getImage());
+        AssistantCard selectedAssistantCard = assistantCardImages.get(assistantCardImageView.getImage());
         notify(new AssistantCardReply(username, selectedAssistantCard));
         selectButton.setDisable(true);
-        stage = (Stage) assistantCardPane.getScene().getWindow();
-        stage.close();
+        ((Stage) assistantCardPane.getScene().getWindow()).close();
     }
 
     public void switchLeft(MouseEvent event){
         if (shownAssistantCard > 0){
-            assistantCardImageView.setImage((Image) assistantCards.keySet().toArray()[shownAssistantCard-1]);
+            assistantCardImageView.setImage((Image) assistantCardImages.keySet().toArray()[shownAssistantCard-1]);
             shownAssistantCard--;
             rightSwitch.setFill(Color.BLUE);
             rightSwitch.setOpacity(1);
@@ -82,16 +60,32 @@ public class AssistantCardSceneController extends Observable<Message> {
     }
 
     public void switchRight(MouseEvent event){
-        if (shownAssistantCard < assistantCards.size() - 1){
-            assistantCardImageView.setImage((Image) assistantCards.keySet().toArray()[shownAssistantCard+1]);
+        if (shownAssistantCard < assistantCardImages.size() - 1){
+            assistantCardImageView.setImage((Image) assistantCardImages.keySet().toArray()[shownAssistantCard+1]);
             shownAssistantCard++;
             leftSwitch.setFill(Color.BLUE);
             leftSwitch.setOpacity(1);
         }
-        if (shownAssistantCard == assistantCards.size() - 1){
+        if (shownAssistantCard == assistantCardImages.size() - 1){
             rightSwitch.setFill(Color.GRAY);
             rightSwitch.setOpacity(0.5);
         }
 
+    }
+
+    @Override
+    public <T> void setupScene(ClientModel clientModel, T parameters) {
+        assistantCardImages = new HashMap<>();
+        String currentPath = new java.io.File("src/main/resources/Images/AssistantCards").getAbsolutePath().replace('\\', '/');
+        for (AssistantCard assistantCard : clientModel.getAssistantDeck().getAssistantDeck()) {
+            assistantCardImages.put(new Image("file:" + currentPath + assistantCard.getType().getImagePath()), assistantCard);
+        }
+        assistantCardImageView.setImage((Image) assistantCardImages.keySet().toArray()[0]);
+        leftSwitch.setFill(javafx.scene.paint.Color.GRAY);
+        leftSwitch.setOpacity(0.5);
+        if (assistantCardImages.size() == 1) {
+            rightSwitch.setFill(javafx.scene.paint.Color.GRAY);
+            rightSwitch.setOpacity(0.5);
+        }
     }
 }

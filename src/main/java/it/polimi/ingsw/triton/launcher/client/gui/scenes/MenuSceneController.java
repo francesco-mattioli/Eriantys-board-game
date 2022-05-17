@@ -18,7 +18,7 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 
-public class MenuSceneController extends Observable<Message> {
+public class MenuSceneController extends SceneController {
 
     @FXML
     Button joinButton;
@@ -32,6 +32,6 @@ public class MenuSceneController extends Observable<Message> {
 
     public void join(ActionEvent event) throws IOException {
         Gui gui = new Gui(((Stage)((Node)event.getSource()).getScene().getWindow()));
-        gui.askIpAddress();
+        gui.startGui();
     }
 }

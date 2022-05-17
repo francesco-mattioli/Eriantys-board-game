@@ -4,6 +4,7 @@ import it.polimi.ingsw.triton.launcher.client.Client;
 import it.polimi.ingsw.triton.launcher.client.gui.scenes.*;
 import it.polimi.ingsw.triton.launcher.client.model.ClientModel;
 import it.polimi.ingsw.triton.launcher.client.view.ClientView;
+import it.polimi.ingsw.triton.launcher.server.controller.Controller;
 import it.polimi.ingsw.triton.launcher.server.model.AssistantCard;
 import it.polimi.ingsw.triton.launcher.server.model.CloudTile;
 import it.polimi.ingsw.triton.launcher.server.model.Island;
@@ -26,6 +27,7 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -47,8 +49,9 @@ public class Gui extends Observable<Message> implements ClientView {
     private FXMLLoader mainLoader;
     private GameState actualGamePhase = GameState.SETUP;
     private Map<String, AnchorPane> schoolBoardsMap = new HashMap<>();
-    private Map<Integer, AnchorPane> cloudTilesMap = new HashMap<>();
     private Map<String,GridPane> deckMap = new HashMap<>();
+    private Map<BorderPane, Integer> characterCardMap = new HashMap<>();
+
 
     public Gui(Stage activeStage) {
         this.activeStage = activeStage;
@@ -60,65 +63,18 @@ public class Gui extends Observable<Message> implements ClientView {
     }
 
     @Override
-    public void askIpAddress() {
-        client = new Client(this);
-        this.addObserver(client);
-        this.clientModel = new ClientModel();
-        Platform.runLater(() -> {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/ipAddress-scene.fxml"));
-            Parent root = null;
-            try {
-                root = loader.load();
-                ((IpAddressSceneController) loader.getController()).addObserver(client);
-                Scene scene = new Scene(root);
-                activeStage.setScene(scene);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        });
-    }
-
-    @Override
-    public void askUsername() {
-        Platform.runLater(() -> {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/login-scene.fxml"));
-            Parent root = null;
-            try {
-                root = loader.load();
-                ((LoginSceneController) loader.getController()).addObserver(client);
-                Scene scene = new Scene(root);
-                activeStage.setScene(scene);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        });
-    }
-
-
-    @Override
     public void showGenericMessage(String genericMessage) {
-        Platform.runLater(() -> {
-            Alert alert = new Alert(Alert.AlertType.INFORMATION);
-            alert.setTitle("Information Message");
-            alert.setHeaderText(null);
-            alert.setContentText(genericMessage);
-            alert.showAndWait();
-        });
+        showAlert(Alert.AlertType.INFORMATION, "Information Message", genericMessage) ;
     }
 
     @Override
     public void showLobbyMessage(ArrayList<String> onlineNicknames) {
-        Platform.runLater(() -> {
-            Alert alert = new Alert(Alert.AlertType.INFORMATION);
-            alert.setTitle("New player online");
-            alert.setHeaderText(null);
-            String usernames = "";
-            for(String name: onlineNicknames){
-                usernames += name + "\n";
-            }
-            alert.setContentText("A new player has been connected.\nNow players online are:\n" + usernames);
-            alert.showAndWait();
-        });
+        String usernames = "";
+        for(String name: onlineNicknames){
+            usernames += name + "\n";
+        }
+        usernames = "A new player has been connected.\nNow players online are:\n" + usernames;
+        showAlert(Alert.AlertType.INFORMATION, "New player online", usernames);
     }
 
     @Override
@@ -132,39 +88,152 @@ public class Gui extends Observable<Message> implements ClientView {
             initializeMainStage();
         }
         actualGamePhase = gameState;
-        Platform.runLater(() -> {
-            Alert alert = new Alert(Alert.AlertType.INFORMATION);
-            alert.setTitle("Game phase info");
-            alert.setHeaderText(null);
-            alert.setContentText("New game phase:\n" + gameState + " is beginning..");
-            alert.showAndWait();
-        });
+        showAlert(Alert.AlertType.INFORMATION, "Game phase info", "New game phase:\n" + gameState + " is beginning..");
     }
 
     @Override
     public void showDisconnectionMessage() {
-        Platform.runLater(() -> {
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("Disconnection");
-            alert.setHeaderText(null);
-            alert.setContentText("A player has been disconnected. The game is over!");
-            alert.showAndWait();
-            mainStage.close();
-            activeStage.close();
-        });
+        showAlert(Alert.AlertType.ERROR, "Disconnection" , "A player has been disconnected. The game is over!");
+        closeGui();
     }
 
 
     @Override
     public void showEmptyBagMessage() {
+        showAlert(Alert.AlertType.WARNING, "Empty bag", "The bag in empty! Game will finish at the end of this turn");
+    }
+
+    @Override
+    public void showLoginReply() {
+        showAlert(Alert.AlertType.INFORMATION, "Login Reply", "Username Accepted. Your username will be \"" + clientModel.getUsername() + "\"");
+    }
+
+    @Override
+    public void showErrorMessage(ErrorTypeID fullLobby) {
+        showAlert(Alert.AlertType.WARNING, "Incorrect input", fullLobby.getDescription());
+    }
+
+
+    @Override
+    public void showTieMessage() {
+        showAlert(Alert.AlertType.INFORMATION, "Tie", "Nobody won the game: it was a tie");
+        closeGui();
+    }
+
+
+    @Override
+    public void showAbortMessage() {
+        showAlert(Alert.AlertType.ERROR, "Disconnection", "Server error! You will be disconnected!");
+        closeGui();
+    }
+
+    @Override
+    public void showWinMessage() {
+        showAlert(Alert.AlertType.INFORMATION, "You won", "Congratulations!! You won the game");
+        closeGui();
+    }
+
+    @Override
+    public void showLoseMessage(String winnerUsername) {
+        showAlert(Alert.AlertType.INFORMATION, "You lost", "You lost!\n" + winnerUsername + " won!");
+        closeGui();
+    }
+
+    private void showAlert(Alert.AlertType alertType, String title, String contentText){
         Platform.runLater(() -> {
-            Alert alert = new Alert(Alert.AlertType.WARNING);
-            alert.setTitle("Empty bag");
+            Alert alert = new Alert(alertType);
+            alert.setTitle(title);
             alert.setHeaderText(null);
-            alert.setContentText("The bag in empty! Game will finish at the end of this turn");
+            alert.setContentText(contentText);
             alert.showAndWait();
         });
     }
+
+    private void closeGui(){
+        Platform.runLater(() -> {
+            activeStage.close();
+            mainStage.close();
+        });
+    }
+
+    public void startGui(){
+        client = new Client(this);
+        this.addObserver(client);
+        this.clientModel = new ClientModel();
+        askIpAddress();
+    }
+
+    private <T> void prepareController(String path, T parameters){
+        Platform.runLater(() -> {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource(path));
+            try {
+                Parent root = loader.load();
+                SceneController controller = loader.getController();
+                controller.addObserver(client);
+                controller.setUsername(clientModel.getUsername());
+                controller.setupScene(clientModel, parameters);
+                activeStage.setScene(new Scene(root));
+                activeStage.show();
+            }
+            catch (IOException e){
+                e.printStackTrace();
+            }
+        });
+    }
+
+    @Override
+    public void askIpAddress() {
+        prepareController("/ipAddress-scene.fxml", null);
+    }
+
+    @Override
+    public void askUsername() {
+        prepareController("/login-scene.fxml", null);
+    }
+
+    @Override
+    public void askTowerColor(boolean[] towerColorChosen) {
+        prepareController("/towerColor-scene.fxml", towerColorChosen);
+    }
+
+    @Override
+    public void askNumPlayersAndGameMode() {
+        prepareController("/gameModeAndNumOfPlayers-scene.fxml", null);
+    }
+
+
+    @Override
+    public void askWizard(ArrayList<Wizard> wizards) {
+        prepareController("/wizard-scene.fxml", wizards);
+    }
+
+    @Override
+    public void askAssistantCard() {
+        prepareController("/assistantCard-scene.fxml", null);
+    }
+
+    @Override
+    public void askCloudTile() {
+        prepareController("/chooseCloudTile-scene.fxml", null);
+    }
+
+    @Override
+    public void askMoveStudentFromEntrance() {
+        prepareController("/moveStudentFromEntrance-scene.fxml", null);
+    }
+
+    @Override
+    public void askNumberStepsMotherNature() {
+        int additionalSteps = 0;
+        prepareController("/motherNatureSteps-scene.fxml", additionalSteps);
+    }
+
+
+    @Override
+    public void askCharacterCardParameters(int id) {
+
+    }
+
 
     @Override
     public void showMyInfoAssistantCardPlayed(AssistantCard assistantCard) {
@@ -180,161 +249,7 @@ public class Gui extends Observable<Message> implements ClientView {
         imageView.setImage(new Image("file:" + currentPath +assistantCard.getType().getImagePath()));
     }
 
-    @Override
-    public void askTowerColor(boolean[] towerColorChosen) {
-        Platform.runLater(() -> {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/towerColor-scene.fxml"));
-            Parent root = null;
-            try {
-                root = loader.load();
-                ((TowerColorSceneController) loader.getController()).addObserver(client);
-                ((TowerColorSceneController) loader.getController()).setUsername(clientModel.getUsername());
-                Map<String, TowerColor> towerColorMap = new HashMap<>();
-                for (int i = 0; i < towerColorChosen.length; i++) {
-                    if (!towerColorChosen[i]) {
-                        towerColorMap.put(TowerColor.values()[i].name(), TowerColor.values()[i]);
-                    }
-                }
-                ((TowerColorSceneController) loader.getController()).setTowerColorMap(towerColorMap);
-                ((TowerColorSceneController) loader.getController()).getTowerColorChoice().getItems().addAll(towerColorMap.keySet());
-                Scene scene = new Scene(root);
-                activeStage.setScene(scene);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        });
-    }
 
-    @Override
-    public void askNumPlayersAndGameMode() {
-        Platform.runLater(() -> {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/gameModeAndNumOfPlayers-scene.fxml"));
-            Parent root = null;
-            try {
-                root = loader.load();
-                ((GameModeAndNumOfPlayersSceneController) loader.getController()).addObserver(client);
-                ((GameModeAndNumOfPlayersSceneController) loader.getController()).setUsername(clientModel.getUsername());
-                Scene scene = new Scene(root);
-                activeStage.setScene(scene);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        });
-    }
-
-
-    @Override
-    public void askWizard(ArrayList<Wizard> wizards) {
-        Platform.runLater(() -> {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/wizard-scene.fxml"));
-            Parent root = null;
-            try {
-                root = loader.load();
-                ((WizardSceneController) loader.getController()).addObserver(client);
-                ((WizardSceneController) loader.getController()).setUsername(clientModel.getUsername());
-                Map<Image, Wizard> wizardsImages = new HashMap<>();
-                String currentPath = new java.io.File("src/main/resources/Images/Wizards").getAbsolutePath().replace('\\', '/');
-                for (Wizard wizard : wizards) {
-                    wizardsImages.put(new Image("file:" + currentPath + wizard.getImagePath()), wizard);
-                }
-                ((WizardSceneController) loader.getController()).setWizards(wizardsImages);
-                ((WizardSceneController) loader.getController()).getWizardImageView().setImage((Image) wizardsImages.keySet().toArray()[0]);
-                ((WizardSceneController) loader.getController()).getLeftSwitch().setFill(javafx.scene.paint.Color.GRAY);
-                ((WizardSceneController) loader.getController()).getLeftSwitch().setOpacity(0.5);
-                if (wizards.size() == 1) {
-                    ((WizardSceneController) loader.getController()).getRightSwitch().setFill(javafx.scene.paint.Color.GRAY);
-                    ((WizardSceneController) loader.getController()).getRightSwitch().setOpacity(0.5);
-                }
-                Scene scene = new Scene(root);
-                activeStage.setScene(scene);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        });
-    }
-
-    @Override
-    public void askAssistantCard() {
-        Platform.runLater(() -> {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/assistantCard-scene.fxml"));
-            Parent root = null;
-            try {
-                root = loader.load();
-                ((AssistantCardSceneController) loader.getController()).addObserver(client);
-                ((AssistantCardSceneController) loader.getController()).setUsername(clientModel.getUsername());
-                Map<Image, AssistantCard> assistantCardImages = new HashMap<>();
-                String currentPath = new java.io.File("src/main/resources/Images/AssistantCards").getAbsolutePath().replace('\\', '/');
-                for (AssistantCard assistantCard : clientModel.getAssistantDeck().getAssistantDeck()) {
-                    assistantCardImages.put(new Image("file:" + currentPath + assistantCard.getType().getImagePath()), assistantCard);
-                }
-                ((AssistantCardSceneController) loader.getController()).setAssistantCards(assistantCardImages);
-                ((AssistantCardSceneController) loader.getController()).getAssistantCardImageView().setImage((Image) assistantCardImages.keySet().toArray()[0]);
-                ((AssistantCardSceneController) loader.getController()).getLeftSwitch().setFill(javafx.scene.paint.Color.GRAY);
-                ((AssistantCardSceneController) loader.getController()).getLeftSwitch().setOpacity(0.5);
-                if (assistantCardImages.size() == 1) {
-                    ((WizardSceneController) loader.getController()).getRightSwitch().setFill(javafx.scene.paint.Color.GRAY);
-                    ((WizardSceneController) loader.getController()).getRightSwitch().setOpacity(0.5);
-                }
-                Scene scene = new Scene(root);
-                activeStage.setScene(scene);
-                activeStage.show();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        });
-    }
-
-    @Override
-    public void askCloudTile() {
-        Platform.runLater(() -> {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/chooseCloudTile-scene.fxml"));
-            Parent root = null;
-            try {
-                root = loader.load();
-                ((ChooseCloudTileSceneController) loader.getController()).addObserver(client);
-                ((ChooseCloudTileSceneController) loader.getController()).setUsername(clientModel.getUsername());
-                String currentPath = new java.io.File("src/main/resources/Images/Students").getAbsolutePath().replace('\\', '/');
-                cloudTilesMap.clear();
-                List<Node> cloudTilesPanes = ((ChooseCloudTileSceneController) loader.getController()).getChooseCloudTilePane().getChildren().stream().filter(x->x instanceof AnchorPane).collect(Collectors.toList());
-                for(int i = 0; i<3; i++){
-                    if(clientModel.getCloudTileById(i) != null)
-                        cloudTilesMap.put(i, ((AnchorPane)cloudTilesPanes.get(i)));
-                }
-                for(int i = 0; i<3; i++){
-                    if(clientModel.getCloudTileById(i) != null){
-                        AnchorPane studentsPane = (AnchorPane) (cloudTilesMap.get(i).getChildren().stream().filter(x->x instanceof AnchorPane).findFirst().get());
-                        List<Node> imagesOnCloudTile = studentsPane.getChildren();
-                        List<Color> studentsOnCloudTile = new ArrayList<>();
-                        for(int j = 0; j<clientModel.getCloudTileById(i).getStudents().length; j++){
-                            for(int k = 0; k<clientModel.getCloudTileById(i).getStudents()[j]; k++){
-                                studentsOnCloudTile.add(Color.values()[j]);
-                            }
-                        }
-                        for(int j = 0; j<imagesOnCloudTile.size(); j++){
-                            ((ImageView)imagesOnCloudTile.get(j)).setImage(new Image("file:" + currentPath + studentsOnCloudTile.get(j).getStudentImagePath()));
-                        }
-                        cloudTilesMap.get(i).setVisible(true);
-                    }
-                }
-                Scene scene = new Scene(root);
-                activeStage.setScene(scene);
-                activeStage.show();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        });
-    }
-
-    @Override
-    public void showLoginReply() {
-        Platform.runLater(() -> {
-            Alert alert = new Alert(Alert.AlertType.INFORMATION);
-            alert.setTitle("Login Reply");
-            alert.setHeaderText(null);
-            alert.setContentText("Username Accepted. Your username will be \"" + clientModel.getUsername() + "\"");
-            alert.showAndWait();
-        });
-    }
 
     @Override
     public void showInfoStudentIntoDiningRoom(String username, String moveDescription) {
@@ -409,136 +324,6 @@ public class Gui extends Observable<Message> implements ClientView {
 
     }
 
-
-    @Override
-    public void askMoveStudentFromEntrance() {
-        Platform.runLater(() -> {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/moveStudentFromEntrance-scene.fxml"));
-            Parent root = null;
-            try {
-                root = loader.load();
-                ((MoveStudentFromEntranceSceneController) loader.getController()).addObserver(client);
-                ((MoveStudentFromEntranceSceneController) loader.getController()).setUsername(clientModel.getUsername());
-                Map<String, Color> colorMap = new HashMap<>();
-                ArrayList<Integer> islandsId = new ArrayList<>();
-                String[] whereMove = {"dining room", "island"};
-                for (Island island: clientModel.getIslands()) {
-                    islandsId.add(island.getId());
-                }
-                for (int i = 0; i < clientModel.getMySchoolBoard().getEntrance().length; i++) {
-                    if (clientModel.getMySchoolBoard().getEntrance()[i] != 0) {
-                        colorMap.put(Color.values()[i].name(), Color.values()[i]);
-                    }
-                }
-                ((MoveStudentFromEntranceSceneController) loader.getController()).setColorMap(colorMap);
-                ((MoveStudentFromEntranceSceneController) loader.getController()).getColorChoiceBox().getItems().addAll(colorMap.keySet());
-                ((MoveStudentFromEntranceSceneController) loader.getController()).getIslandIdChoiceBox().getItems().addAll(islandsId);
-                ((MoveStudentFromEntranceSceneController) loader.getController()).getWhereChoiceBox().getItems().addAll(whereMove);
-                ((MoveStudentFromEntranceSceneController) loader.getController()).getWhereChoiceBox().setOnAction(((MoveStudentFromEntranceSceneController) loader.getController())::show);
-
-                Scene scene = new Scene(root);
-                activeStage.setScene(scene);
-                activeStage.show();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        });
-    }
-
-    @Override
-    public void askNumberStepsMotherNature() {
-        Platform.runLater(() -> {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/motherNatureSteps-scene.fxml"));
-            Parent root = null;
-            try {
-                root = loader.load();
-                ((MotherNatureStepsSceneController) loader.getController()).addObserver(client);
-                ((MotherNatureStepsSceneController) loader.getController()).setUsername(clientModel.getUsername());
-                ArrayList<Integer> steps = new ArrayList<>();
-                for (int i = 0; i <= clientModel.getMyLastAssistantCardPlayed().getType().getMaxSteps(); i++) {
-                    steps.add(i);
-                }
-                ((MotherNatureStepsSceneController) loader.getController()).getStepsChoiceBox().getItems().addAll(steps);
-                Scene scene = new Scene(root);
-                activeStage.setScene(scene);
-                activeStage.show();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        });
-    }
-
-
-    @Override
-    public void askCharacterCardParameters(int id) {
-
-    }
-
-    @Override
-    public void showErrorMessage(ErrorTypeID fullLobby) {
-        Platform.runLater(() -> {
-            Alert alert = new Alert(Alert.AlertType.WARNING);
-            alert.setTitle("Incorrect input");
-            alert.setHeaderText(null);
-            alert.setContentText(fullLobby.getDescription());
-            alert.showAndWait();
-        });
-    }
-
-
-    @Override
-    public void showTieMessage() {
-        Platform.runLater(() -> {
-            Alert alert = new Alert(Alert.AlertType.INFORMATION);
-            alert.setTitle("Tie");
-            alert.setHeaderText(null);
-            alert.setContentText("Nobody won the game: it was a tie");
-            alert.showAndWait();
-            mainStage.close();
-            activeStage.close();
-        });
-    }
-
-
-    @Override
-    public void showAbortMessage() {
-        Platform.runLater(() -> {
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("Disconnection");
-            alert.setHeaderText(null);
-            alert.setContentText("Server error! You will be disconnected!");
-            alert.showAndWait();
-            mainStage.close();
-            activeStage.close();
-        });
-    }
-
-    @Override
-    public void showWinMessage() {
-        Platform.runLater(() -> {
-            Alert alert = new Alert(Alert.AlertType.INFORMATION);
-            alert.setTitle("You won");
-            alert.setHeaderText(null);
-            alert.setContentText("Congratulations!! You won the game");
-            alert.showAndWait();
-            mainStage.close();
-            activeStage.close();
-        });
-    }
-
-    @Override
-    public void showLoseMessage(String winnerUsername) {
-        Platform.runLater(() -> {
-            Alert alert = new Alert(Alert.AlertType.INFORMATION);
-            alert.setTitle("You lost");
-            alert.setHeaderText(null);
-            alert.setContentText("You lost!\n" + winnerUsername + " won!");
-            alert.showAndWait();
-            mainStage.close();
-            activeStage.close();
-        });
-    }
-
     private void initializeMainStage(){
         Platform.runLater(() -> {
             mainLoader = new FXMLLoader(getClass().getResource("/main-scene.fxml"));
@@ -568,6 +353,11 @@ public class Gui extends Observable<Message> implements ClientView {
                         imageView.setImage(new Image("file:" + currentPath + clientModel.getChosenWizardsPerUsername().get(username).getImagePath()));
                     }
 
+                }
+
+                if(clientModel.isExpertMode()){
+                    handleCharacterCardRequest(((MainScene2PlayersController)mainLoader.getController()).getPlayCharacterCardButton());
+                    ((Button)((MainScene2PlayersController)mainLoader.getController()).getPlayCharacterCardButton()).setVisible(true);
                 }
                 mainStage.setScene(scene);
                 mainStage.show();
@@ -782,6 +572,32 @@ public class Gui extends Observable<Message> implements ClientView {
                 cont ++;
             }
         }
+    }
+
+    private void handleCharacterCardRequest(Button button){
+        button.setOnAction(event -> {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/characterCard-scene.fxml"));
+            Parent root = null;
+            try {
+                root = loader.load();
+                ((CharacterCardSceneController) loader.getController()).addObserver(client);
+                ((CharacterCardSceneController) loader.getController()).setUsername(clientModel.getUsername());
+                String currentPath = new java.io.File("src/main/resources/Images/CharacterCards").getAbsolutePath().replace('\\', '/');
+                for(int i = 0; i < 3; i++){
+                    for(int j = 0; j<12; j++){
+                        if(clientModel.getAvailableCharacterCards().get(i).getId() == j){
+                            ((ImageView)((BorderPane)((CharacterCardSceneController) loader.getController()).getCharacterCardPane().getChildren().get(i)).getCenter()).setImage(new Image("file:" + currentPath + "/CharacterCard" + j + ".jpg"));
+                            characterCardMap.put(((BorderPane)((CharacterCardSceneController) loader.getController()).getCharacterCardPane().getChildren().get(i)), j);
+                        }
+                    }
+                }
+                Scene scene = new Scene(root);
+                activeStage.setScene(scene);
+                activeStage.show();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        });
     }
 
 }

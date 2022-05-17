@@ -12,7 +12,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.shape.Circle;
 
-public class MainScene2PlayersController extends Observable<Message> {
+public class MainScene2PlayersController extends SceneController {
 
     @FXML
     AnchorPane mainPane;

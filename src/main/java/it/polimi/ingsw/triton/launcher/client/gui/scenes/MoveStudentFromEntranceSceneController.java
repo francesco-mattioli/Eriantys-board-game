@@ -1,5 +1,7 @@
 package it.polimi.ingsw.triton.launcher.client.gui.scenes;
 
+import it.polimi.ingsw.triton.launcher.client.model.ClientModel;
+import it.polimi.ingsw.triton.launcher.server.model.Island;
 import it.polimi.ingsw.triton.launcher.server.model.enums.Color;
 import it.polimi.ingsw.triton.launcher.utils.message.Message;
 import it.polimi.ingsw.triton.launcher.utils.message.clientmessage.MoveStudentOntoDiningRoomMessage;
@@ -15,15 +17,14 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Map;
 
-public class MoveStudentFromEntranceSceneController extends Observable<Message> {
+public class MoveStudentFromEntranceSceneController extends SceneController {
 
     @FXML
     AnchorPane moveStudentFromEntrancePane;
-
-    @FXML
-    Button moveButton;
 
     @FXML
     ChoiceBox<String> colorChoiceBox;
@@ -37,37 +38,14 @@ public class MoveStudentFromEntranceSceneController extends Observable<Message> 
     @FXML
     Label islandIdLabel;
 
-    private String username;
     private Map<String, Color> colorMap;
-    Stage stage;
-
-    public void setUsername(String username){
-        this.username = username;
-    }
-
-    public ChoiceBox<String> getColorChoiceBox() {
-        return colorChoiceBox;
-    }
-
-    public ChoiceBox<String> getWhereChoiceBox() {
-        return whereChoiceBox;
-    }
-
-    public ChoiceBox<Integer> getIslandIdChoiceBox() {
-        return islandIdChoiceBox;
-    }
-
-    public void setColorMap(Map<String, Color> colorMap) {
-        this.colorMap = colorMap;
-    }
 
     public void move(ActionEvent event){
-        stage = (Stage) moveStudentFromEntrancePane.getScene().getWindow();
+        Stage stage = (Stage) moveStudentFromEntrancePane.getScene().getWindow();
         if (whereChoiceBox.getValue().equals("dining room")){
             notify(new MoveStudentOntoDiningRoomMessage(username,colorMap.get(colorChoiceBox.getValue())));
             stage.close();
         }
-
         else {
             notify(new MoveStudentOntoIslandMessage(username,islandIdChoiceBox.getValue(),colorMap.get(colorChoiceBox.getValue())));
             stage.close();
@@ -84,5 +62,24 @@ public class MoveStudentFromEntranceSceneController extends Observable<Message> 
             islandIdLabel.setVisible(false);
             islandIdChoiceBox.setVisible(false);
         }
+    }
+
+    @Override
+    public <T> void setupScene(ClientModel clientModel, T parameters) {
+        colorMap = new HashMap<>();
+        ArrayList<Integer> islandsId = new ArrayList<>();
+        String[] whereMove = {"dining room", "island"};
+        for (Island island: clientModel.getIslands()) {
+            islandsId.add(island.getId());
+        }
+        for (int i = 0; i < clientModel.getMySchoolBoard().getEntrance().length; i++) {
+            if (clientModel.getMySchoolBoard().getEntrance()[i] != 0) {
+                colorMap.put(Color.values()[i].name(), Color.values()[i]);
+            }
+        }
+        colorChoiceBox.getItems().addAll(colorMap.keySet());
+        islandIdChoiceBox.getItems().addAll(islandsId);
+        whereChoiceBox.getItems().addAll(whereMove);
+        whereChoiceBox.setOnAction(this::show);
     }
 }

@@ -12,12 +12,9 @@ import javafx.scene.layout.AnchorPane;
 
 import java.io.IOException;
 
-public class GameModeAndNumOfPlayersSceneController extends Observable<Message> {
+public class GameModeAndNumOfPlayersSceneController extends SceneController {
     @FXML
     Button confirmButton;
-
-    @FXML
-    AnchorPane gameModePane;
 
     @FXML
     RadioButton rdbStandard;
@@ -37,13 +34,7 @@ public class GameModeAndNumOfPlayersSceneController extends Observable<Message> 
     @FXML
     ToggleGroup numOfPlayersGroup;
 
-    private String username;
-
-    public void setUsername(String username){
-        this.username = username;
-    }
-
-    public void confirm(ActionEvent event) throws IOException {
+    public void confirm(ActionEvent event) {
         int numOfPlayers = 2;
         if (rdb3Players.isSelected())
             numOfPlayers = 3;

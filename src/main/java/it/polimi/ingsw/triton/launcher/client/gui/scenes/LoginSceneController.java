@@ -19,7 +19,7 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 
-public class LoginSceneController extends Observable<Message> {
+public class LoginSceneController extends SceneController {
 
     @FXML
     Button loginButton;
@@ -29,8 +29,6 @@ public class LoginSceneController extends Observable<Message> {
 
     @FXML
     TextField loginTextField;
-
-
 
     public void login(ActionEvent event) throws IOException {
         String username = loginTextField.getText();

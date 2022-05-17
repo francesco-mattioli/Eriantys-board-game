@@ -13,7 +13,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderImage;
 import javafx.scene.layout.BorderPane;
 
-public class CharacterCardSceneController extends Observable<Message> {
+public class CharacterCardSceneController extends SceneController {
     @FXML
     AnchorPane characterCardPane;
 
