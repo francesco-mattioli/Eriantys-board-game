@@ -68,7 +68,7 @@ public class Gui extends Observable<Message> implements ClientView {
     }
 
     @Override
-    public void showLobbyMessage(ArrayList<String> onlineNicknames) {
+    public void showLobbyMessage(List<String> onlineNicknames) {
         String usernames = "";
         for(String name: onlineNicknames){
             usernames += name + "\n";
@@ -203,7 +203,7 @@ public class Gui extends Observable<Message> implements ClientView {
 
 
     @Override
-    public void askWizard(ArrayList<Wizard> wizards) {
+    public void askWizard(List<Wizard> wizards) {
         prepareController("/wizard-scene.fxml", wizards);
     }
 

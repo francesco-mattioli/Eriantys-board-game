@@ -32,7 +32,7 @@ public class MotherNatureStepsSceneController extends SceneController {
     @Override
     public <T> void setupScene(ClientModel clientModel, T parameters) {
         ArrayList<Integer> steps = new ArrayList<>();
-        for (int i = 0; i <= clientModel.getMyLastAssistantCardPlayed().getType().getMaxSteps() + (int)parameters; i++) {
+        for (int i = 0; i <= clientModel.getLastAssistantCardPlayedPerUsername().get(clientModel.getUsername()).getType().getMaxSteps() + (int)parameters; i++) {
             steps.add(i);
         }
         stepsChoiceBox.getItems().addAll(steps);

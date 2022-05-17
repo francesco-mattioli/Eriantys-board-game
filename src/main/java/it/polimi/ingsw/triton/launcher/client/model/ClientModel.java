@@ -58,6 +58,10 @@ public class ClientModel extends Observable<Object> {
         return result;
     }
 
+    public Map<String, AssistantCard> getLastAssistantCardPlayedPerUsername() {
+        return lastAssistantCardPlayedPerUsername;
+    }
+
     public String getUsername() {
         return username;
     }
@@ -82,7 +86,9 @@ public class ClientModel extends Observable<Object> {
         assistantDeck.getAssistantDeck().removeIf(assistantCard -> assistantCard.getType().getValue() == assistantCardToRemove.getType().getValue());
     }
 
-
+    public Map<String, SchoolBoard> getSchoolBoards() {
+        return schoolBoards;
+    }
 
     public List<CharacterCard> getAvailableCharacterCards() {
         return availableCharacterCards;
@@ -144,6 +150,15 @@ public class ClientModel extends Observable<Object> {
     public void setSchoolBoards(Map<String, SchoolBoard> schoolBoards) {
         this.schoolBoards = schoolBoards;
     }
+
+
+    public CloudTile getCloudTileById(int id) {
+        for(CloudTile cloudTile: cloudTiles)
+            if(cloudTile.getId() == id)
+                return cloudTile;
+        return null;
+    }
+
 
     public SchoolBoard getMySchoolBoard(){
         return schoolBoards.get(this.username);

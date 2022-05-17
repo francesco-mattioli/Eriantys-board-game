@@ -41,6 +41,10 @@ public class SchoolBoard implements Serializable {
         return diningRoom;
     }
 
+    public TowerColor getTowerColor() {
+        return towerColor;
+    }
+
     /**
      * Moves the towers from the school board to the island.
      * @param numOfTowerToMove is equal to the dimension of the island.
