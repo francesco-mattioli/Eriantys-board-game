@@ -1,9 +1,9 @@
 package it.polimi.ingsw.triton.launcher.server.controller;
 
-import it.polimi.ingsw.triton.launcher.server.ServeOneClient;
 import it.polimi.ingsw.triton.launcher.server.model.Island;
 import it.polimi.ingsw.triton.launcher.server.model.enums.GameState;
 import it.polimi.ingsw.triton.launcher.server.model.game.ExpertGame;
+import it.polimi.ingsw.triton.launcher.server.model.game.Game;
 import it.polimi.ingsw.triton.launcher.server.model.game.GameMode;
 import it.polimi.ingsw.triton.launcher.server.model.player.Player;
 import it.polimi.ingsw.triton.launcher.server.view.VirtualView;
@@ -16,10 +16,11 @@ import it.polimi.ingsw.triton.launcher.server.controller.visitors.ClientMessageS
 import it.polimi.ingsw.triton.launcher.utils.obs.Observer;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.NoSuchElementException;
 
 /**
- * Controller is used to manage the game flow, using visitor pattern to modify the model and to send the correct following message, basing on CLientMessage type
+ * Controller is used to manage the game flow, using visitor pattern to modify the model and to send the correct following message, basing on ClientMessage type
  * Controller is notified by virtual view, when a new message is received
  * Login, number of players and game mode are not managed here, but in server
  * Controller catches all exceptions that model throws
@@ -27,35 +28,30 @@ import java.util.NoSuchElementException;
 
 public class Controller implements Observer<ClientMessage> {
     private GameMode game;
-    private final ArrayList<VirtualView> virtualViews = new ArrayList<>();
+    private final List<VirtualView> virtualViews = new ArrayList<>();
 
-    public Controller(GameMode game) {
-        this.game = game;
-    }
-
-    public void createLoginReplyMessage(String username){
-        getVirtualViewByUsername(username).showLoginReply();
+    public Controller() {
+        this.game = Game.instance(3);
     }
 
     /**
      * Calls a method in virtualView to send the request to a player for selecting a tower color.
-     *
-     * @param username the receiver username of the message
+     * @param username the receiver player's username of the message.
      */
     public void createTowerColorRequestMessage(String username) {
         getVirtualViewByUsername(username).askTowerColor(game.getTowerColorChosen());
     }
 
     /**
-     * This method is called by a virtual view notify
-     * @param message the message that was received from the client
-     * Received message is used to modify the model, using overriding to establish what changes I have to do
-     * modifyModel throws some exceptions, to manage the game flow correctly also in exceptional situations:
+     * This method is called by a virtual view notify.
+     * @param message the message that was received from the client.
+     * Received message is used to modify the model, using overriding to establish what changes I have to do.
+     * modifyModel throws some exceptions, to manage the game flow correctly also in exceptional situations.
      * 4 situations can be verified:
-     * Standard situation, the game is following the regular flow
-     * Error situation, the user gave a wrong input, so the message must be re-sent
-     * Exceptional situation, this game micro-phase is ended, so we need to start the next one. For example turn is changed.
-     * End game situations, the game is over and winner must be calculated
+     * Standard situation, the game is following the regular flow;
+     * Error situation, the user gave a wrong input, so the message must be re-sent;
+     * Exceptional situation, this game micro-phase is ended, so we need to start the next one. For example turn is changed;
+     * End game situations, the game is over and winner must be calculated.
      */
     @Override
     public void update(ClientMessage message) {
@@ -79,19 +75,31 @@ public class Controller implements Observer<ClientMessage> {
 
     }
 
+    /**
+     * Adds an observer (virtual view) of the game.
+     * @param virtualView the virtual view that is an observer of the game.
+     */
     public void addGameObserver(VirtualView virtualView) {
         game.addObserver(virtualView);
         for(Island island: game.getIslands())
             island.addObserver(virtualView);
     }
 
+    /**
+     * Removes an observer (virtual view) of the game.
+     * @param virtualView the virtual view that was an observer of the game.
+     */
     public void removeGameObserver(VirtualView virtualView){
         game.removeObserver(virtualView);
         for(Island island: game.getIslands())
             island.removeObserver(virtualView);
     }
 
-
+    /**
+     * @param username the virtual view player's username.
+     * @return the virtual view associated to a specific player.
+     * @throws NoSuchElementException if the virtual view doesn't exist.
+     */
     public VirtualView getVirtualViewByUsername(String username) throws NoSuchElementException {
         for (VirtualView vw : virtualViews) {
             if (vw.getUsername().equals(username))
@@ -100,10 +108,14 @@ public class Controller implements Observer<ClientMessage> {
         throw new NoSuchElementException("The Virtual View does not exist");
     }
 
-    public ArrayList<VirtualView> getVirtualViews() {
+    public List<VirtualView> getVirtualViews() {
         return virtualViews;
     }
 
+    /**
+     * Removes the player from the game and his virtual view from the controller.
+     * @param vv the virtual view associated to the player to disconnect.
+     */
     public synchronized void disconnectPlayer(VirtualView vv){
         /*for(VirtualView vv: virtualViews){
             if(vv.getServeOneClient() == soc){
@@ -120,6 +132,9 @@ public class Controller implements Observer<ClientMessage> {
         virtualViews.remove(vv);
     }
 
+    /**
+     * Disconnects all the players removing their virtual views and calling endGame() to reset the instance of the game.
+     */
     public void disconnectAllPlayers(){
         game.endGame();
         //CALLING END GAME WE ALSO IMPLICITLY REMOVE VIRTUAL VIEWS AS GAME OBSERVERS
@@ -128,8 +143,8 @@ public class Controller implements Observer<ClientMessage> {
         virtualViews.clear();
     }
 
-    public ArrayList<String> getPlayersUsernames(){
-        ArrayList<String> usernames = new ArrayList<>();
+    public List<String> getPlayersUsernames(){
+        List<String> usernames = new ArrayList<>();
         for(Player player: game.getPlayers())
             usernames.add(player.getUsername());
         return usernames;
@@ -145,5 +160,29 @@ public class Controller implements Observer<ClientMessage> {
 
     public GameState getGameState(){
         return game.getGameState();
+    }
+
+    public void setMaxNumberOfGamePlayers(int maxNumPlayers) {
+        game.setMaxNumberOfPlayers(maxNumPlayers);
+    }
+
+    public void removeGamePlayer(int playerIndex){
+        game.getPlayers().remove(playerIndex);
+    }
+
+    public int getCurrentNumberOfGamePlayers(){
+        return game.getPlayers().size();
+    }
+
+    public void addGamePlayer(String username){
+        game.addPlayer(username);
+    }
+
+    public void setGameState(GameState setup) {
+        game.setGameState(GameState.SETUP);
+    }
+
+    public void makeGameModeExpert() {
+        this.game=new ExpertGame(game);
     }
 }

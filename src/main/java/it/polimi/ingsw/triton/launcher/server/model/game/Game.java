@@ -13,11 +13,9 @@ import it.polimi.ingsw.triton.launcher.server.model.player.Player;
 import it.polimi.ingsw.triton.launcher.server.model.player.PlayerTurnComparator;
 import it.polimi.ingsw.triton.launcher.server.model.player.SchoolBoard;
 import it.polimi.ingsw.triton.launcher.server.model.playeractions.*;
-import it.polimi.ingsw.triton.launcher.server.model.professor.ProfessorStrategyDefault;
 import it.polimi.ingsw.triton.launcher.server.model.professor.ProfessorsManager;
 import it.polimi.ingsw.triton.launcher.utils.exceptions.*;
 import it.polimi.ingsw.triton.launcher.utils.message.ErrorTypeID;
-import it.polimi.ingsw.triton.launcher.utils.message.servermessage.InfoMessage;
 import it.polimi.ingsw.triton.launcher.utils.message.servermessage.infoMessage.*;
 import it.polimi.ingsw.triton.launcher.utils.message.servermessage.infoMessage.infoMessageWithReceiver.GiveAssistantDeckMessage;
 import java.util.*;
@@ -270,6 +268,10 @@ public class Game extends GameMode{
     }
 
 
+    /**
+     * Executes a part of the planning phase, filling the cloud tiles and resetting the assistant
+     * cards played in last round.
+     */
     public void planningPhase() {
         setGameState(GameState.PLANNING_PHASE);
         addStudentsToCloudTiles();
@@ -339,6 +341,9 @@ public class Game extends GameMode{
     }
 
 
+    /**
+     * Creates twelve islands of the game.
+     */
     // Methods for the SETUP PHASE
     private void createIslands() {
         for (int i = 0; i < 12; i++) {
@@ -464,7 +469,6 @@ public class Game extends GameMode{
      * If there is a winner, virtualViews are notified using a WinMessage.
      */
     public void calculateWinner(){
-        setGameState(GameState.END);
         Optional<Player> p;
         int min = Collections.min(players.stream().map(Player::getSchoolBoard).map(SchoolBoard::getNumTowers).collect(Collectors.toList()));
         int frequency = Collections.frequency(players.stream().map(Player::getSchoolBoard).map(SchoolBoard::getNumTowers).collect(Collectors.toList()), min);
@@ -500,7 +504,7 @@ public class Game extends GameMode{
      * At the end of the last player's action phase, it starts a new planning phase.
      */
     public void nextGameTurn() throws EndGameException, ChangeTurnException {
-        professorsManager.setProfessorStrategy(new ProfessorStrategyDefault());
+        professorsManager.resetProfessorStrategy();
         motherNature.resetAdditionalSteps();
         for(Island island: islands)
             island.setInfluenceStrategy(new InfluenceStrategyDefault());
@@ -537,11 +541,10 @@ public class Game extends GameMode{
     }
 
 
-        /**
-         *
-         * @param currentIsland the current island.
-         * @return next island on the left.
-         */
+    /**
+     * @param currentIsland the current island.
+     * @return next island on the left.
+     */
     private Island nextIsland(Island currentIsland) {
         if (islands.indexOf(currentIsland) == islands.size() - 1) {
             return islands.get(0);
@@ -550,7 +553,6 @@ public class Game extends GameMode{
     }
 
     /**
-     *
      * @param currentIsland the current island.
      * @return previous island on the right.
      */
@@ -579,6 +581,9 @@ public class Game extends GameMode{
         return mapSchoolBoards;
     }
 
+    /**
+     * @return all the wizards already chosen by the players.
+     */
     public Map<String,Wizard> getAllChosenWizards(){
         Map<String,Wizard> chosenWizardsPerUsername= new HashMap<>();
         for(Player player: players){
@@ -599,12 +604,16 @@ public class Game extends GameMode{
         return false;
     }
 
+    /**
+     * @return an array of String about professors with their respective owner.
+     * If a professor is not on a player's school board, it has a '_' on his position of the array.
+     */
     public String[] professorsWithUsernameOwner(){
         return Arrays.stream(professors).map(p->{if(p == null) return "_"; else return p.getUsername();}).toArray(String[]::new);
     }
 
     /**
-     * This method remove a player and then end the game.
+     * Ends the game resetting the instance of the game.
      */
     public void endGame() {
         setGameState(GameState.END);
@@ -613,6 +622,9 @@ public class Game extends GameMode{
     }
 
 
+    /**
+     * Sets the instance of the game to null.
+     */
     private static void resetInstance() {
         instance=null;
     }
@@ -630,11 +642,11 @@ public class Game extends GameMode{
         return bag;
     }
 
-    public ArrayList<Player> getPlayers() {
+    public List<Player> getPlayers() {
         return players;
     }
 
-    public ArrayList<CloudTile> getCloudTiles() {
+    public List<CloudTile> getCloudTiles() {
         return cloudTiles;
     }
 
@@ -650,7 +662,7 @@ public class Game extends GameMode{
         return professors;
     }
 
-    public ArrayList<Wizard> getAvailableWizards() {
+    public List<Wizard> getAvailableWizards() {
         return availableWizards;
     }
 

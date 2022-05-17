@@ -8,7 +8,7 @@ public class InfluenceStrategyWithEffect08 extends InfluenceStrategyDefaultSuper
      * This method calculate the influence between two players on an island
      * The player candidate for the dominance has two additional influence points
      * @param player candidate for the dominance
-     * @param professors
+     * @param professors the array with professors associated to each player.
      * @param dominator player who dominates the island
      * @param island on which to calculate the influence
      * @return influence value

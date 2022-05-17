@@ -10,7 +10,6 @@ import java.util.NoSuchElementException;
 import java.util.Random;
 
 public class Bag extends Observable<InfoMessage> implements Serializable {
-    private final int NUM_OF_STUDENTS_FOREACH_COLOR = 26;
     private final int[] students;
 
     public Bag() {
@@ -20,8 +19,8 @@ public class Bag extends Observable<InfoMessage> implements Serializable {
 
     /**
      * Draws a random student from the bag.
-     *
      * @return a random student.
+     * @throws NoSuchElementException if the bag is empty.
      */
     public Color drawStudent() throws NoSuchElementException {
         if(isEmpty())
@@ -49,8 +48,9 @@ public class Bag extends Observable<InfoMessage> implements Serializable {
      * Adds to the bag 24 students for each color.
      */
     public void fillBag() {
+        int numOfStudentsForEachColor = 26;
         for (int i = 0; i < Color.numOfColors(); i++) {
-            students[i] += (NUM_OF_STUDENTS_FOREACH_COLOR - 2);
+            students[i] += (numOfStudentsForEachColor - 2);
         }
     }
 

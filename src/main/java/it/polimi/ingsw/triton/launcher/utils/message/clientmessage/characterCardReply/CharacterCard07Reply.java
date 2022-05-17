@@ -4,6 +4,10 @@ import it.polimi.ingsw.triton.launcher.utils.exceptions.EndGameException;
 import it.polimi.ingsw.triton.launcher.utils.exceptions.IllegalClientInputException;
 import it.polimi.ingsw.triton.launcher.server.controller.visitors.ClientMessageModifierVisitor;
 
+/**
+ * This message is sent by the client to communicate to server the students from current player's entrance and from the card
+ * chosen by the current player in order to build and apply the effect of the character card 07.
+ */
 public class CharacterCard07Reply  extends CharacterCardReply{
     private final int[] fromCard;
     private final int[] fromSchoolBoard;

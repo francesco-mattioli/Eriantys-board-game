@@ -8,8 +8,10 @@ import it.polimi.ingsw.triton.launcher.server.controller.visitors.ClientMessageE
 import it.polimi.ingsw.triton.launcher.server.controller.visitors.ClientMessageModifierVisitor;
 import it.polimi.ingsw.triton.launcher.server.controller.visitors.ClientMessageStandardVisitor;
 
-import java.util.NoSuchElementException;
-
+/**
+ * This message is sent by the client to communicate to server the id of the cloud tile chosen
+ * by the current player.
+ */
 public class CloudTileReply extends ClientMessage {
     private final int selectedCloudTileID;
 

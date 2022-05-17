@@ -5,16 +5,15 @@ import it.polimi.ingsw.triton.launcher.server.model.Island;
 import it.polimi.ingsw.triton.launcher.server.model.influencestrategy.InfluenceStrategyWithEffect09;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.List;
 
 public class CardEffect09 implements CardEffect, Serializable {
-    private List<Island> islands;
-    private Color color;
+    private final List<Island> islands;
+    private final Color color;
 
     /**
-     * @param islands in the game
-     * @param color that does not provide influence
+     * @param islands in the game.
+     * @param color that does not provide influence.
      */
     public CardEffect09(List<Island> islands, Color color) {
         this.islands = islands;
@@ -22,7 +21,7 @@ public class CardEffect09 implements CardEffect, Serializable {
     }
 
     /**
-     * This method set the island's influence strategy for each island
+     * This method set the island's influence strategy for each island.
      */
     @Override
     public void execute() {

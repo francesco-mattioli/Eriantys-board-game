@@ -14,10 +14,12 @@ import it.polimi.ingsw.triton.launcher.utils.exceptions.*;
 import it.polimi.ingsw.triton.launcher.utils.message.servermessage.InfoMessage;
 import it.polimi.ingsw.triton.launcher.utils.obs.Observable;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * This class contains all the declaration of the methods that are in game and expertGame classes.
+ */
 public abstract class GameMode extends Observable<InfoMessage>{
     public abstract void setup();
     abstract void setupPlayers();
@@ -35,7 +37,7 @@ public abstract class GameMode extends Observable<InfoMessage>{
     public abstract List<Island> getIslands();
     public abstract GameState getGameState();
     public abstract void endGame();
-    public abstract ArrayList<Player> getPlayers();
+    public abstract List<Player> getPlayers();
     public abstract void chooseTowerColor(String senderUsername, TowerColor playerColor) throws IllegalClientInputException, ChangeTurnException;
     public abstract void chooseWizard(String senderUsername, Wizard playerWizard) throws IllegalClientInputException, ChangeTurnException;
     public abstract void chooseAssistantCard(String senderUsername, AssistantCard chosenAssistantCard) throws IllegalClientInputException, ChangeTurnException;
@@ -49,7 +51,7 @@ public abstract class GameMode extends Observable<InfoMessage>{
     public abstract Player[] getProfessors();
     public abstract Island getIslandByID(int islandID) throws IllegalClientInputException;
     public abstract Bag getBag();
-    public abstract ArrayList<Wizard> getAvailableWizards();
+    public abstract List<Wizard> getAvailableWizards();
     abstract void setupMotherNature();
     abstract void setupBag();
     abstract void setupIslands();
@@ -58,7 +60,7 @@ public abstract class GameMode extends Observable<InfoMessage>{
     abstract void checkNumberMoves() throws LastMoveException;
     abstract Map<String, SchoolBoard> getAllSchoolBoards();
     abstract Map<String,Wizard> getAllChosenWizards();
-    public abstract ArrayList<CloudTile> getCloudTiles();
+    public abstract List<CloudTile> getCloudTiles();
     abstract String[] professorsWithUsernameOwner();
     public abstract int getMaxNumberOfPlayers();
     public abstract void setMaxNumberOfPlayers(int maxNumberOfPlayers);

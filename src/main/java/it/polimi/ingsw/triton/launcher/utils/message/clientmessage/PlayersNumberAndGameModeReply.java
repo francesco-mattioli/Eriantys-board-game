@@ -7,9 +7,12 @@ import it.polimi.ingsw.triton.launcher.utils.exceptions.CharacterCardWithParamet
 import it.polimi.ingsw.triton.launcher.utils.exceptions.EndGameException;
 import it.polimi.ingsw.triton.launcher.utils.exceptions.IllegalClientInputException;
 import it.polimi.ingsw.triton.launcher.utils.exceptions.LastMoveException;
-
 import java.util.NoSuchElementException;
 
+/**
+ * This message is sent by the client to communicate to server how many players the first player wants
+ * in the game and if he wants the expert mode or not.
+ */
 public class PlayersNumberAndGameModeReply extends ClientMessage {
     private final int playersNumber;
     private final boolean expertMode;

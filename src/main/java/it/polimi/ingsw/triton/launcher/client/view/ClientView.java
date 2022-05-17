@@ -10,6 +10,7 @@ import it.polimi.ingsw.triton.launcher.server.model.enums.Wizard;
 import it.polimi.ingsw.triton.launcher.server.model.player.SchoolBoard;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 public interface ClientView extends View {
@@ -24,7 +25,7 @@ public interface ClientView extends View {
 
     // Show methods
     void showGenericMessage(String genericMessage);
-    void showLobbyMessage(ArrayList<String> onlineNicknames);
+    void showLobbyMessage(List<String> onlineNicknames);
     void showGameInfo();
     void showChangePhase(GameState gameState);
     void showDisconnectionMessage();

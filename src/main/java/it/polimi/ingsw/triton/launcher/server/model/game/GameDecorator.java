@@ -12,10 +12,12 @@ import it.polimi.ingsw.triton.launcher.server.model.player.SchoolBoard;
 import it.polimi.ingsw.triton.launcher.server.model.professor.ProfessorsManager;
 import it.polimi.ingsw.triton.launcher.utils.exceptions.*;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * This decorator provides additional methods that can be called in expertGame.
+ */
 public class GameDecorator extends GameMode{
     protected GameMode game;
 
@@ -99,7 +101,7 @@ public class GameDecorator extends GameMode{
     }
 
     @Override
-    public ArrayList<Player> getPlayers() {
+    public List<Player> getPlayers() {
         return game.getPlayers();
     }
 
@@ -169,7 +171,7 @@ public class GameDecorator extends GameMode{
     }
 
     @Override
-    public ArrayList<Wizard> getAvailableWizards() {
+    public List<Wizard> getAvailableWizards() {
         return game.getAvailableWizards();
     }
 
@@ -210,7 +212,7 @@ public class GameDecorator extends GameMode{
     }
 
     @Override
-    public ArrayList<CloudTile> getCloudTiles() {
+    public List<CloudTile> getCloudTiles() {
         return game.getCloudTiles();
     }
 

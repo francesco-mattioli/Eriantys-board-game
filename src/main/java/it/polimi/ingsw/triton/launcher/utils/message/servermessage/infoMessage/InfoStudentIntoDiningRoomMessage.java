@@ -5,7 +5,10 @@ import it.polimi.ingsw.triton.launcher.server.model.player.SchoolBoard;
 import it.polimi.ingsw.triton.launcher.utils.message.servermessage.InfoMessage;
 
 /**
- * This message communicates to the players which student is moved from the entrance to the dining room of the player.
+ * This message is sent by the server to communicate that the current player has moved one of his students
+ * from his entrance to his dining room.
+ * The parameter moveDescription is used on client-side to tell to other players
+ * which student is moved to the current player's dining room.
  */
 public class InfoStudentIntoDiningRoomMessage extends InfoMessage {
     private final String playerUsername;

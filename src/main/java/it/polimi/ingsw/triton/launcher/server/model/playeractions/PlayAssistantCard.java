@@ -5,15 +5,11 @@ import it.polimi.ingsw.triton.launcher.server.model.player.AssistantDeck;
 import it.polimi.ingsw.triton.launcher.server.model.player.Player;
 import it.polimi.ingsw.triton.launcher.utils.exceptions.IllegalClientInputException;
 import it.polimi.ingsw.triton.launcher.utils.message.ErrorTypeID;
+import java.util.List;
 
-import java.util.ArrayList;
-
-/**
- * Represents the action of playing an assistant card at the start of the turn.
- */
 public class PlayAssistantCard implements Action {
     private final AssistantCard assistantCardToPlay;
-    private final ArrayList<AssistantCard> usedAssistantCards;
+    private final List<AssistantCard> usedAssistantCards;
     private final Player player;
 
 
@@ -22,7 +18,7 @@ public class PlayAssistantCard implements Action {
      * @param player                  who plays the card.
      * @param usedAssistantCards the cards already played in this turn.
      */
-    public PlayAssistantCard(AssistantCard assistantCardToPlay, Player player, ArrayList<AssistantCard> usedAssistantCards) {
+    public PlayAssistantCard(AssistantCard assistantCardToPlay, Player player, List<AssistantCard> usedAssistantCards) {
         this.assistantCardToPlay = assistantCardToPlay;
         this.usedAssistantCards = usedAssistantCards;
         this.player = player;
@@ -33,7 +29,7 @@ public class PlayAssistantCard implements Action {
      * @param usedAssistantCards the cards already played by the others players in this turn.
      * @return if the card is already used.
      */
-    private boolean isUsedCard(AssistantCard assistantCard, ArrayList<AssistantCard> usedAssistantCards) {
+    private boolean isUsedCard(AssistantCard assistantCard, List<AssistantCard> usedAssistantCards) {
         for (AssistantCard usedAssistantCard : usedAssistantCards) {
             if (assistantCard.getType().equals(usedAssistantCard.getType()))
                 return true;
@@ -54,7 +50,7 @@ public class PlayAssistantCard implements Action {
      * @param usedAssistantCards the cards already played by the others players in this turn.
      * @return true if the player has only one card in the deck, false otherwise.
      */
-    private boolean isUniqueChoice(AssistantDeck assistantDeck, ArrayList<AssistantCard> usedAssistantCards) {
+    private boolean isUniqueChoice(AssistantDeck assistantDeck, List<AssistantCard> usedAssistantCards) {
         if (assistantDeck.getAssistantDeck().size() == 1)
             return true;
         else {

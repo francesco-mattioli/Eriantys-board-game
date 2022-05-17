@@ -8,14 +8,13 @@ import java.io.Serializable;
 public class AssistantCard implements Serializable {
 
     /**
-     * the type of assistant card
+     * The type of assistant card.
      */
     private final AssistantCardType assistantCardType;
 
     /**
-     * Assigns the type of assistantCard to the Assistant card.
-     *
-     * @param assistantCardType the assistant card type
+     * Assigns the type of assistantCard to the assistant card.
+     * @param assistantCardType the assistant card type.
      */
     public AssistantCard(AssistantCardType assistantCardType) {
         this.assistantCardType = assistantCardType;
@@ -23,8 +22,7 @@ public class AssistantCard implements Serializable {
 
     /**
      * Gets assistant card type.
-     *
-     * @return the assistant card type
+     * @return the assistant card type.
      */
     public AssistantCardType getType() {
         return assistantCardType;

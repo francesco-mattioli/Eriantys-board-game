@@ -3,19 +3,19 @@ package it.polimi.ingsw.triton.launcher.utils.message.servermessage.infoMessage;
 import it.polimi.ingsw.triton.launcher.client.ServerMessageVisitor;
 import it.polimi.ingsw.triton.launcher.server.model.CloudTile;
 import it.polimi.ingsw.triton.launcher.utils.message.servermessage.InfoMessage;
-
-import java.util.ArrayList;
+import java.util.List;
 
 /**
- * Communicates that cloud tiles are filled with new students.
+ * This message is sent by the server to communicate to the players that cloud tiles are now filled with new students.
  */
 public class CloudTilesInfoMessage extends InfoMessage {
-    private ArrayList<CloudTile> cloudTiles;
-    public CloudTilesInfoMessage(ArrayList<CloudTile> cloudTiles) {
+    private final List<CloudTile> cloudTiles;
+
+    public CloudTilesInfoMessage(List<CloudTile> cloudTiles) {
         this.cloudTiles = cloudTiles;
     }
 
-    public ArrayList<CloudTile> getCloudTiles() {
+    public List<CloudTile> getCloudTiles() {
         return cloudTiles;
     }
 

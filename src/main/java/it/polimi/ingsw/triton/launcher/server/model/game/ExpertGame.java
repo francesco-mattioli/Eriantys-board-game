@@ -129,6 +129,10 @@ public class ExpertGame extends GameDecorator {
         game.setupPlayers();
     }
 
+    /**
+     * Executes a part of the planning phase, filling the cloud tiles and resetting the assistant
+     * cards played in last round.
+     */
     @Override
     public void planningPhase() {
         game.planningPhase();
@@ -138,6 +142,11 @@ public class ExpertGame extends GameDecorator {
         }
     }
 
+    /**
+     * Executes the action of moving a player from entrance to the dining room.
+     * Because the game mode is expert, it checks also if the player's wallet needs to be updated.
+     * @param student the color of the student to move.
+     */
     @Override
     public void executeActionMoveStudentToDiningRoom(Color student) throws LastMoveException, IllegalClientInputException {
         boolean empty = generalCoinSupply.isEmpty();

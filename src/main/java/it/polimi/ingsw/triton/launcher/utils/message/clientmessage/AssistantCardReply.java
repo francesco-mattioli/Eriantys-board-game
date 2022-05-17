@@ -8,6 +8,10 @@ import it.polimi.ingsw.triton.launcher.server.controller.visitors.ClientMessageE
 import it.polimi.ingsw.triton.launcher.server.controller.visitors.ClientMessageModifierVisitor;
 import it.polimi.ingsw.triton.launcher.server.controller.visitors.ClientMessageStandardVisitor;
 
+/**
+ * This message is sent by the client to communicate to server that the current player has played
+ * an assistant card.
+ */
 public class AssistantCardReply extends ClientMessage {
     private final AssistantCard chosenAssistantCard;
 

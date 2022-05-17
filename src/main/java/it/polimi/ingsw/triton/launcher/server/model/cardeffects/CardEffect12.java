@@ -5,27 +5,27 @@ import it.polimi.ingsw.triton.launcher.server.model.enums.Color;
 import it.polimi.ingsw.triton.launcher.server.model.player.Player;
 
 import java.io.Serializable;
-import java.util.ArrayList;
+import java.util.List;
 
 public class CardEffect12 implements CardEffect, Serializable {
-    private Color student;
-    private ArrayList<Player> players;
-    private Bag bag;
+    private final Color student;
+    private final List<Player> players;
+    private final Bag bag;
 
     /**
      *
-     * @param student color of the students to eliminate
-     * @param players
-     * @param bag to put the removed students
+     * @param student color of the students to delete.
+     * @param players the array of players.
+     * @param bag to put the removed students.
      */
-    public CardEffect12(Color student, ArrayList<Player> players, Bag bag){
+    public CardEffect12(Color student, List<Player> players, Bag bag){
         this.student = student;
         this.players = players;
         this.bag = bag;
     }
 
     /**
-     * for the chosen color the method eliminates the students of that color from each player's dining room.
+     * For the chosen color, the method deletes the students of that color from each player's dining room.
      * if a player has less than three students in his dining room, the method remove all the students.
      */
     @Override

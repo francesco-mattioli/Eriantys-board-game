@@ -1,8 +1,7 @@
 package it.polimi.ingsw.triton.launcher.utils;
 
 import it.polimi.ingsw.triton.launcher.server.model.enums.Wizard;
-
-import java.util.ArrayList;
+import java.util.List;
 
 public class Utility {
     private static final Utility instance = new Utility();
@@ -21,6 +20,10 @@ public class Utility {
     public static final String ANSI_YELLOW = "\u001B[33m";
     public static final String ANSI_PINK = "\u001B[35m";
 
+    /**
+     * @param students the students to print.
+     * @return the string of the students with their colors.
+     */
     public static String printColoredStudents(int[] students){
         String results = "";
         for (int i = 0; i < students.length; i++){
@@ -38,6 +41,10 @@ public class Utility {
         return results;
     }
 
+    /**
+     * @param professors the professors to print.
+     * @return the string of professors to print with their colors.
+     */
     public static String printColoredProfessorsOnTable(String[] professors){
         String results = "[";
         for(int i = 0; i < professors.length; i++){
@@ -59,6 +66,11 @@ public class Utility {
         return results;
     }
 
+    /**
+     * @param professors the professors to print.
+     * @param owner the schoolboard owner.
+     * @return the string of professors to print with their colors.
+     */
     public static String printColoredProfessorsOnSchoolBoard(String[] professors, String owner){
         String results = "[";
         for(int i = 0; i < professors.length; i++){
@@ -80,7 +92,11 @@ public class Utility {
         return results;
     }
 
-    public static String printAvailableWizards(ArrayList<Wizard> wizards){
+    /**
+     * @param wizards the available wizards.
+     * @return the string with the available wizards.
+     */
+    public static String printAvailableWizards(List<Wizard> wizards){
         String results = "[";
         for(int i = 0; i < wizards.size(); i++){
             results += wizards.get(i);

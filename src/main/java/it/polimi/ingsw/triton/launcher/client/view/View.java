@@ -3,8 +3,7 @@ package it.polimi.ingsw.triton.launcher.client.view;
 
 import it.polimi.ingsw.triton.launcher.server.model.enums.Wizard;
 import it.polimi.ingsw.triton.launcher.utils.message.ErrorTypeID;
-
-import java.util.ArrayList;
+import java.util.List;
 
 public interface View {
 
@@ -12,7 +11,7 @@ public interface View {
 
     void askNumPlayersAndGameMode();
 
-    void askWizard(ArrayList<Wizard> wizards);
+    void askWizard(List<Wizard> wizards);
 
     void askAssistantCard();
 

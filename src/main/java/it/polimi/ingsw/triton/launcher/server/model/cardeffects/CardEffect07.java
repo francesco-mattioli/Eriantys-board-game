@@ -12,15 +12,14 @@ public class CardEffect07 implements CardEffect, Serializable {
     private final int[] fromSchoolBoard;
     private final SchoolBoard schoolBoard;
     private final int[] studentsOnCard;
-
-    private CharacterCard characterCard;
+    private final CharacterCard characterCard;
 
     /**
      *
-     * @param studentsOnCard the six students on the card
-     * @param fromCard students to take from the character card
-     * @param fromSchoolBoard students to take from the entrance
-     * @param schoolBoard
+     * @param studentsOnCard the six students on the card.
+     * @param fromCard students to take from the character card.
+     * @param fromSchoolBoard students to take from the entrance.
+     * @param schoolBoard the school board of the player.
      */
     public CardEffect07(CharacterCard characterCard, int[] studentsOnCard, int[] fromCard, int[] fromSchoolBoard, SchoolBoard schoolBoard){
         this.fromCard = fromCard;
@@ -31,9 +30,8 @@ public class CardEffect07 implements CardEffect, Serializable {
     }
 
     /**
-     * This method swaps a maximum of three students from the card to the entrance
+     * This method swaps a maximum of three students from the card to the entrance.
      */
-
     @Override
     public void execute() throws IllegalClientInputException {
         removeStudentsFromCard();
@@ -43,11 +41,11 @@ public class CardEffect07 implements CardEffect, Serializable {
     }
 
     /**
-     * This method remove the selected students from the character card
-     * @throws RuntimeException
+     * This method remove the selected students from the character card.
+     * @throws IllegalClientInputException if the number of students to fetch from the card is uncorrected.
      */
 
-    public void removeStudentsFromCard() throws RuntimeException, IllegalClientInputException {
+    public void removeStudentsFromCard() throws IllegalClientInputException {
         for (int i = 0; i < studentsOnCard.length; i++){
             for (int j = 0; j < fromCard.length; j++){
                 if (Color.values()[i].ordinal() == Color.values()[j].ordinal()){
@@ -61,11 +59,11 @@ public class CardEffect07 implements CardEffect, Serializable {
     }
 
     /**
-     * This method remove the selected students from the entrance
-     * @throws RuntimeException
+     * This method remove the selected students from the entrance.
+     * @throws IllegalClientInputException if the number of students to remove from entrance is uncorrected.
      */
 
-    public void removeStudentsFromEntrance() throws RuntimeException, IllegalClientInputException {
+    public void removeStudentsFromEntrance() throws IllegalClientInputException {
         for (int i = 0; i < schoolBoard.getEntrance().length; i++){
             for (int j = 0; j < fromSchoolBoard.length; j++){
                 if (Color.values()[i].ordinal() == Color.values()[j].ordinal()){
@@ -79,7 +77,7 @@ public class CardEffect07 implements CardEffect, Serializable {
     }
 
     /**
-     * This method adds the students taken from the character card to the entrance
+     * This method adds the students taken from the character card to the entrance.
      */
 
     public void addStudentsIntoEntrance(){
@@ -92,7 +90,7 @@ public class CardEffect07 implements CardEffect, Serializable {
     }
 
     /**
-     * This method adds the students taken from the entrance to the character card
+     * This method adds the students taken from the entrance to the character card.
      */
     public void addStudentsOnTheCard(){
         for (int i = 0; i < fromSchoolBoard.length; i++){

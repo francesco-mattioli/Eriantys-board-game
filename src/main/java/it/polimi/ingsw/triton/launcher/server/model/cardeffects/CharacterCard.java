@@ -18,11 +18,11 @@ public class CharacterCard implements Serializable {
 
 
     /**
-     * This constructor creates the card and places students on it if necessary
-     * @param id is a unique number
-     * @param cost of the card
-     * @param noEntryTiles is the number of NoEntryTiles on the card
-     * @param bag in order to drawStudents and place them on the card
+     * This constructor creates the card and places students on it if necessary.
+     * @param id the identifier of the card.
+     * @param cost the cost of the card.
+     * @param noEntryTiles the number of NoEntryTiles on the card.
+     * @param bag the bag useful to drawStudents and place them on the card.
      */
     public CharacterCard(int id, int cost, int noEntryTiles, Bag bag) {
         this.id = id;
@@ -35,7 +35,7 @@ public class CharacterCard implements Serializable {
 
     /**
      * This method sets the card up: places students or noEntryTiles on it.
-     * @param id of the card
+     * @param id the id of the card.
      */
     private void setupCharacterCard(int id) {
         if (id == 1 || id==11){
@@ -51,22 +51,22 @@ public class CharacterCard implements Serializable {
     }
 
     /**
-     * This method increases the cost of the card each time a player chooses it
+     * This method increases the cost of the card each time a player chooses it.
      */
     public void increaseCost() {
         this.cost++;
     }
 
     /**
-     * @param cardEffect is the effect that will be executed when the method is called
+     * @param cardEffect is the effect that will be executed when the method is called.
      */
     public void executeEffect(CardEffect cardEffect) throws EndGameException, IllegalClientInputException {
         cardEffect.execute();
     }
 
     /**
-     * @param student to draw from the CharacterCard
-     * @return the color of the drawn student
+     * @param student the color of the student to draw from the CharacterCard.
+     * @return the color of the drawn student.
      */
     public Color drawStudent(Color student) throws IllegalClientInputException {
         if (student == null)
@@ -102,10 +102,11 @@ public class CharacterCard implements Serializable {
         noEntryTiles++;
     }
 
+    /**
+     * @return true if the card needs some parameters (id 1,3,5,7,9,10,11,12), false otherwise.
+     */
     public boolean hasParameters(){
-        if(id == 2 || id == 4 || id == 6 || id == 8)
-            return false;
-        return true;
+        return id != 2 && id != 4 && id != 6 && id != 8;
     }
 
     public String toString(){
@@ -122,12 +123,4 @@ public class CharacterCard implements Serializable {
     public String studentsToString(){
         return "students on the card = " + Utility.printColoredStudents(students);
     }
-
 }
-
-
-//comment to delete
-/*
-CharacterCard card = new CharacterCard(1,3,0,bag);
-card.executeEffect(new CardEffect01(card,Color.BLUE,islands.get(0)));
- */

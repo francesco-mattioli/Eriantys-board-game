@@ -8,6 +8,9 @@ import it.polimi.ingsw.triton.launcher.server.controller.visitors.ClientMessageE
 import it.polimi.ingsw.triton.launcher.server.controller.visitors.ClientMessageModifierVisitor;
 import it.polimi.ingsw.triton.launcher.server.controller.visitors.ClientMessageStandardVisitor;
 
+/**
+ * This message is sent by the client to communicate to the server which wizard the player chose.
+ */
 public class WizardReply extends ClientMessage {
     private final Wizard playerWizard;
 

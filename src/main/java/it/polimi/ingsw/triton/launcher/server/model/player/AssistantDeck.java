@@ -6,6 +6,7 @@ import it.polimi.ingsw.triton.launcher.server.model.enums.Wizard;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.List;
 
 public class AssistantDeck implements Serializable {
     /**
@@ -14,8 +15,7 @@ public class AssistantDeck implements Serializable {
      * The maximum number of cards a deck can contain
      */
     private final Wizard wizard;
-    private final int CARDS_NUMBER = AssistantCardType.values().length;
-    private final ArrayList<AssistantCard> assistantDeck;
+    private final List<AssistantCard> assistantDeck;
 
     /**
      * Instantiates a new Assistant deck.
@@ -23,9 +23,10 @@ public class AssistantDeck implements Serializable {
      * @param wizard the wizard to assign to the deck
      */
     public AssistantDeck(Wizard wizard) {
+        int cardsNumber = AssistantCardType.values().length;
         this.assistantDeck = new ArrayList<>();
         this.wizard = wizard;
-        for (int i = 0; i < CARDS_NUMBER; i++) {
+        for (int i = 0; i < cardsNumber; i++) {
             assistantDeck.add(new AssistantCard(AssistantCardType.values()[i]));
         }
     }
@@ -35,14 +36,14 @@ public class AssistantDeck implements Serializable {
      *
      * @return the assistant deck
      */
-    public ArrayList<AssistantCard> getAssistantDeck() {
+    public List<AssistantCard> getAssistantDeck() {
         return assistantDeck;
     }
 
     /**
      * It is called when a player decided to play a card.
      * This card must be removed from the deck and placed on the
-     * personal discard pile in order to be visibile for other players.
+     * personal discard pile in order to be visible for other players.
      *
      * @param cardToRemove the card to remove
      */
@@ -54,6 +55,10 @@ public class AssistantDeck implements Serializable {
             }
         }
     }
+
+    /**
+     * @return the string with all the assistant cards.
+     */
     public String printAllAssistantCards(){
         String results = " ";
         for (AssistantCard assistantCard: assistantDeck) {

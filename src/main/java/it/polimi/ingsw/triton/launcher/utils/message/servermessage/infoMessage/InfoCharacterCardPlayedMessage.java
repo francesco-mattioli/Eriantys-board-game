@@ -1,18 +1,17 @@
 package it.polimi.ingsw.triton.launcher.utils.message.servermessage.infoMessage;
 
-
 import it.polimi.ingsw.triton.launcher.client.ServerMessageVisitor;
 import it.polimi.ingsw.triton.launcher.server.model.Island;
 import it.polimi.ingsw.triton.launcher.server.model.cardeffects.CharacterCard;
 import it.polimi.ingsw.triton.launcher.server.model.player.SchoolBoard;
 import it.polimi.ingsw.triton.launcher.utils.message.servermessage.InfoMessage;
-
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
 /**
- * This message communicates to the players which character card was selected by the player.
+ * This message is sent by the server to communicate which character card is selected by the current player.
+ * The parameter choiceDescription is used on client-side to tell to other players the id of the chosen
+ * character card.
  */
 public class InfoCharacterCardPlayedMessage extends InfoMessage {
     private final String playerUsername;

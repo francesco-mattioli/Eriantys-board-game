@@ -1,5 +1,8 @@
 package it.polimi.ingsw.triton.launcher.utils.message;
 
+/**
+ * Contains some types of errors that can occurred during the execution of the game.
+ */
 public enum ErrorTypeID {
     USERNAME_ALREADY_CHOSEN("This username is already used!"),
     FORBIDDEN_USERNAME("Username is not correct!"),

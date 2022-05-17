@@ -7,7 +7,7 @@ import it.polimi.ingsw.triton.launcher.server.model.player.SchoolBoard;
 import it.polimi.ingsw.triton.launcher.utils.message.servermessage.InfoMessage;
 
 /**
- * This message communicates to the players that one player has moved his towers onto an island.
+ * This message is sent by the server to communicate to the players that one player has moved his towers onto an island.
  */
 public class MoveTowerOntoIslandMessage extends InfoMessage {
     private final Island island;
