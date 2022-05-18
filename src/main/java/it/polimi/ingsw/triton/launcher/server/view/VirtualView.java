@@ -8,7 +8,7 @@ import it.polimi.ingsw.triton.launcher.utils.message.servermessage.infoMessage.G
 import it.polimi.ingsw.triton.launcher.utils.message.servermessage.infoMessage.infoMessageWithReceiver.LoginReply;
 import it.polimi.ingsw.triton.launcher.utils.obs.Observable;
 import it.polimi.ingsw.triton.launcher.utils.obs.Observer;
-import it.polimi.ingsw.triton.launcher.server.ServeOneClient;
+import it.polimi.ingsw.triton.launcher.server.network.ServeOneClient;
 import it.polimi.ingsw.triton.launcher.utils.message.*;
 import it.polimi.ingsw.triton.launcher.client.view.View;
 import java.util.List;
