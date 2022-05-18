@@ -173,6 +173,7 @@ public class Gui extends Observable<Message> implements ClientView {
                 controller.setUsername(clientModel.getUsername());
                 controller.setupScene(clientModel, parameters);
                 activeStage.setScene(new Scene(root));
+                activeStage.setTitle(clientModel.getUsername());
                 activeStage.show();
             }
             catch (IOException e){
@@ -231,7 +232,34 @@ public class Gui extends Observable<Message> implements ClientView {
 
     @Override
     public void askCharacterCardParameters(int id) {
+        switch (id){
+            case 1:{
+                prepareController("/charCard01-scene.fxml", null);
+                break;
+            }
 
+            case 3:
+            case 5:{
+                prepareController("/charCard03-05-scene.fxml", null);
+                break;
+            }
+
+            case 7:{
+                prepareController("/charCard07-scene.fxml", null);
+                break;
+            }
+
+            case 9:
+            case 11:
+            case 12:{
+                prepareController("/charCard09-11-12-scene.fxml", null);
+                break;
+            }
+
+
+
+
+        }
     }
 
 
@@ -333,6 +361,7 @@ public class Gui extends Observable<Message> implements ClientView {
                 Scene scene = new Scene(root);
                 mainStage = new Stage();
                 mainStage.setResizable(false);
+                mainStage.setTitle(clientModel.getUsername());
                 //mainStage.setFullScreen(true);
                 createSchoolBoardsMap();
                 createDeckMap();

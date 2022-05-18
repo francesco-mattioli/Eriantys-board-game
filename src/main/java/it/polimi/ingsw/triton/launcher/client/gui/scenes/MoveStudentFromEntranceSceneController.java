@@ -67,18 +67,19 @@ public class MoveStudentFromEntranceSceneController extends SceneController {
     @Override
     public <T> void setupScene(ClientModel clientModel, T parameters) {
         colorMap = new HashMap<>();
-        ArrayList<Integer> islandsId = new ArrayList<>();
+        //ArrayList<Integer> islandsId = new ArrayList<>();
         String[] whereMove = {"dining room", "island"};
-        for (Island island: clientModel.getIslands()) {
+        /*for (Island island: clientModel.getIslands()) {
             islandsId.add(island.getId());
         }
         for (int i = 0; i < clientModel.getMySchoolBoard().getEntrance().length; i++) {
             if (clientModel.getMySchoolBoard().getEntrance()[i] != 0) {
                 colorMap.put(Color.values()[i].name(), Color.values()[i]);
             }
-        }
+        }*/
+        colorMap = setUpColorChoiceBox(clientModel);
         colorChoiceBox.getItems().addAll(colorMap.keySet());
-        islandIdChoiceBox.getItems().addAll(islandsId);
+        islandIdChoiceBox.getItems().addAll(setUpIslandIdChoiceBox(clientModel));
         whereChoiceBox.getItems().addAll(whereMove);
         whereChoiceBox.setOnAction(this::show);
     }
