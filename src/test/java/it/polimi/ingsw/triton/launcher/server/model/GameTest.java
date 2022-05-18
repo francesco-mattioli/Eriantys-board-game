@@ -29,44 +29,32 @@ class GameTest {
         game.addPlayer("TestPlayer3");
         try {
             game.chooseTowerColor("TestPlayer1",TowerColor.WHITE);
-        } catch (IllegalClientInputException e) {
-            e.printStackTrace();
-        } catch (ChangeTurnException e) {
+        } catch (IllegalClientInputException | ChangeTurnException e) {
             e.printStackTrace();
         }
         try {
             game.chooseTowerColor("TestPlayer2",TowerColor.BLACK);
-        } catch (IllegalClientInputException e) {
-            e.printStackTrace();
-        } catch (ChangeTurnException e) {
+        } catch (IllegalClientInputException | ChangeTurnException e) {
             e.printStackTrace();
         }
         try {
             game.chooseTowerColor("TestPlayer3",TowerColor.GREY);
-        } catch (IllegalClientInputException e) {
-            e.printStackTrace();
-        } catch (ChangeTurnException e) {
+        } catch (IllegalClientInputException | ChangeTurnException e) {
             e.printStackTrace();
         }
         try {
             game.chooseWizard("TestPlayer1", Wizard.BLUE);
-        } catch (IllegalClientInputException e) {
-            e.printStackTrace();
-        } catch (ChangeTurnException e) {
+        } catch (IllegalClientInputException | ChangeTurnException e) {
             e.printStackTrace();
         }
         try {
             game.chooseWizard("TestPlayer2", Wizard.GREEN);
-        } catch (IllegalClientInputException e) {
-            e.printStackTrace();
-        } catch (ChangeTurnException e) {
+        } catch (IllegalClientInputException | ChangeTurnException e) {
             e.printStackTrace();
         }
         try {
             game.chooseWizard("TestPlayer3", Wizard.PURPLE);
-        } catch (IllegalClientInputException e) {
-            e.printStackTrace();
-        } catch (ChangeTurnException e) {
+        } catch (IllegalClientInputException | ChangeTurnException e) {
             e.printStackTrace();
         }
         game.setup();

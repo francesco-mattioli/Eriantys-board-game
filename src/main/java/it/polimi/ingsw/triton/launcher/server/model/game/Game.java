@@ -42,6 +42,13 @@ public class Game extends GameMode{
     private boolean[] towerColorChosen;
     private final Random random = new Random();
 
+    /**
+     *
+     * Realize the Singleton Pattern in order to instantiate the Game Class only once.
+     *
+     * @param maxNumberOfPlayers chosen by the first player
+     * @return the instance of Game
+     */
     public static Game instance(int maxNumberOfPlayers){
         if(instance==null)
             instance=new Game(maxNumberOfPlayers);
@@ -83,7 +90,8 @@ public class Game extends GameMode{
 
     /**
      * Checks the username.
-     * If the username is correct, it adds it to the players array.
+     * If the username is correct, it adds it to the players arrayList.
+     * If the player is the first, it sets it as currentPlayer.
      * @param username the username of the player.
      * @throws IllegalArgumentException if the username is not correct (already used). This exception is caught by lobby() method in Server.
      */
@@ -92,7 +100,6 @@ public class Game extends GameMode{
             throw new IllegalArgumentException("Illegal username");
         if(!isUsernameChosen(username)){
             players.add(new Player(username));
-            // Set currentPlayer to the first one who logs in.
             if(players.size() == 1)
                 currentPlayer = players.get(0);
             notify(new LobbyMessage(getAllUsernames(players), maxNumberOfPlayers));
