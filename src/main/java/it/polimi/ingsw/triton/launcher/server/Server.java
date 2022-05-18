@@ -87,8 +87,8 @@ public class Server {
                 controller.setMaxNumberOfGamePlayers(maxNumPlayers);
                 setNumPlayers = true;
                 if (!activated) {
-                    beginGame(expertMode);
                     activated = true;
+                    beginGame(expertMode);
                 }
             } else {
                 waitingList.get(0).showGenericMessage("Waiting for " + (maxNumPlayers - waitingList.size()) + " to connect...");
@@ -108,13 +108,15 @@ public class Server {
      */
     public synchronized void lobby(ServeOneClient serveOneClient, String username) {
 
+        if(activated && controller.getGameState() == GameState.END)
+            resetServer();
         VirtualView lastVirtualView = new VirtualView(serveOneClient, username);
         waitingList.add(lastVirtualView);
         controller.addVirtualView(lastVirtualView);
 
         try {
 
-            if (waitingList.size() <= 3) {
+            if (waitingList.size() <= 3 && !activated) {
 
                 // --- Add observer/observable relations
                 controller.addGameObserver(waitingList.get(waitingList.size() - 1));
@@ -151,11 +153,11 @@ public class Server {
 
                 //--- Remove the Virtual View from the waiting list and Controller, because the user cannot connect.
                 waitingList.remove(lastVirtualView);
-                controller.getVirtualViews().remove(lastVirtualView);
+                //controller.getVirtualViews().remove(lastVirtualView);
                 LOGGER.severe("Player not accepted, lobby was already full");
 
                 //--- Close connection with the Client.
-                serveOneClient.close();
+                //serveOneClient.close();
             }
 
             //--- This exception is thrown when a user enters a username that has already been chosen.
@@ -236,13 +238,13 @@ public class Server {
                     virtualView = vv;
                 }
             }
-            if (controller.getGameState() == GameState.LOGIN && controller.getVirtualViews().indexOf(virtualView) != 0 && virtualView != null) {
+            if ((controller.getGameState() == GameState.LOGIN && controller.getVirtualViews().indexOf(virtualView) != 0 && virtualView != null) || (controller.getGameState() == GameState.END && virtualView != null) || controller.getVirtualViews().indexOf(virtualView) >= controller.getMaxNumberOfGamePlayers()) {
                 disconnectPlayer(virtualView);
-            } else {
+            } else{
                 // The first player disconnected or the game is in not in LOGIN STATE
                 disconnectAllPlayers();
             }
-        } else if (controller.getGameState() != GameState.LOGIN) {
+        } else if (controller.getGameState() != GameState.LOGIN && controller.getGameState() != GameState.END) {
             disconnectAllPlayers();
         }
     }
@@ -263,6 +265,7 @@ public class Server {
         activated = false;
         setNumPlayers = false;
         controller = new Controller();
+        LOGGER.info("Reset server");
     }
 
     // PRIVATE HELPER METHODS

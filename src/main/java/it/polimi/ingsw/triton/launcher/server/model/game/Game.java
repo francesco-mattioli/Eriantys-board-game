@@ -615,9 +615,10 @@ public class Game extends GameMode{
     /**
      * Ends the game resetting the instance of the game.
      */
-    public void endGame() {
+    public void endGame(boolean correctEnd) {
         setGameState(GameState.END);
-        notify(new DisconnectionMessage());
+        if(!correctEnd)
+            notify(new DisconnectionMessage());
         resetInstance();
     }
 
@@ -721,7 +722,7 @@ public class Game extends GameMode{
 
     public void setGameState(GameState gameState) {
         this.gameState = gameState;
-        if(gameState == GameState.PLANNING_PHASE || gameState == GameState.ACTION_PHASE || gameState == GameState.END){
+        if(gameState == GameState.PLANNING_PHASE || gameState == GameState.ACTION_PHASE){
             notify(new ChangePhaseMessage(gameState));
         }
     }

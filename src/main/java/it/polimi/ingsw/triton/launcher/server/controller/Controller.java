@@ -66,7 +66,8 @@ public class Controller implements Observer<ClientMessage> {
                 message.createExceptionalNextMessage(new ClientMessageExceptionalVisitor(game, getVirtualViewByUsername(game.getCurrentPlayer().getUsername())));
             } catch (EndGameException e) {
                 game.calculateWinner();
-                disconnectAllPlayers();
+                //disconnectAllPlayers();
+                resetGame();
             }
         /*}
         else
@@ -132,11 +133,15 @@ public class Controller implements Observer<ClientMessage> {
         virtualViews.remove(vv);
     }
 
+    public void resetGame(){
+        game.endGame(true);
+    }
+
     /**
      * Disconnects all the players removing their virtual views and calling endGame() to reset the instance of the game.
      */
     public void disconnectAllPlayers(){
-        game.endGame();
+        game.endGame(false);
         //CALLING END GAME WE ALSO IMPLICITLY REMOVE VIRTUAL VIEWS AS GAME OBSERVERS
         for(VirtualView virtualView: virtualViews)
             virtualView.removeObserver(this);
@@ -160,6 +165,10 @@ public class Controller implements Observer<ClientMessage> {
 
     public GameState getGameState(){
         return game.getGameState();
+    }
+
+    public int getMaxNumberOfGamePlayers(){
+        return game.getMaxNumberOfPlayers();
     }
 
     public void setMaxNumberOfGamePlayers(int maxNumPlayers) {

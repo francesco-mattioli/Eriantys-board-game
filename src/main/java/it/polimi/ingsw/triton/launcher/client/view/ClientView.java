@@ -44,6 +44,7 @@ public interface ClientView extends View {
     void showWinMessage();
     void showLoseMessage(String winnerUsername);
     void showTieMessage();
+    void askPlayAgain();
     void showMyInfoAssistantCardPlayed(AssistantCard assistantCard);
     void showAbortMessage();
 

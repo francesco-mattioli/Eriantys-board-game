@@ -237,8 +237,8 @@ public class GameDecorator extends GameMode{
     }
 
     @Override
-    public void endGame() {
-        game.endGame();
+    public void endGame(boolean correctEnd) {
+        game.endGame(correctEnd);
     }
 
     @Override
