@@ -55,7 +55,6 @@ public class Controller implements Observer<ClientMessage> {
      */
     @Override
     public void update(ClientMessage message) {
-        //if(message.getSenderUsername().equals(game.getCurrentPlayer().getUsername())) {
             try {
                 message.modifyModel(new ClientMessageModifierVisitor(game));
                 message.createStandardNextMessage(new ClientMessageStandardVisitor(game, getVirtualViewByUsername(game.getCurrentPlayer().getUsername())));
@@ -66,14 +65,8 @@ public class Controller implements Observer<ClientMessage> {
                 message.createExceptionalNextMessage(new ClientMessageExceptionalVisitor(game, getVirtualViewByUsername(game.getCurrentPlayer().getUsername())));
             } catch (EndGameException e) {
                 game.calculateWinner();
-                //disconnectAllPlayers();
                 resetGame();
             }
-        /*}
-        else
-            getVirtualViewByUsername(game.getCurrentPlayer().getUsername()).showErrorMessage(ErrorTypeID.NOT_YOUR_TURN);
-         */
-
     }
 
     /**
