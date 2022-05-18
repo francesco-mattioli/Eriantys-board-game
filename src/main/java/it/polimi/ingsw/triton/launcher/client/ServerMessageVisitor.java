@@ -58,7 +58,7 @@ public class ServerMessageVisitor {
     }
 
     /**
-     * Calls the view method to show the onlien players.
+     * Calls the view method to show the online players.
      * @param message the last message received.
      */
     public void visit(LobbyMessage message) {

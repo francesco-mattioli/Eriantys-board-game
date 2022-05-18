@@ -167,7 +167,7 @@ public class Controller implements Observer<ClientMessage> {
     }
 
     public void removeGamePlayer(int playerIndex){
-        game.getPlayers().remove(playerIndex);
+        game.removePlayer(playerIndex);
     }
 
     public int getCurrentNumberOfGamePlayers(){

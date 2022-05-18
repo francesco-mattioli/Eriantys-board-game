@@ -65,4 +65,5 @@ public abstract class GameMode extends Observable<InfoMessage>{
     public abstract int getMaxNumberOfPlayers();
     public abstract void setMaxNumberOfPlayers(int maxNumberOfPlayers);
     abstract void setCurrentPlayer(Player player);
+    public abstract void removePlayer(int playerIndex);
 }

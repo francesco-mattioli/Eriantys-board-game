@@ -35,10 +35,12 @@ public class Server {
      * Server need to have a reference to Controller, so it can create Virtual Views and Game.
      */
     private Controller controller;
+    /**
+     * Listening is true, so the server can accept new connections with clients
+     */
     private boolean listening = true;
     private boolean starting = false;
-    private boolean activated = false;
-    private boolean setNumPlayers = false;
+    private boolean started = false;
 
     private Server(int port) {
         this.port = port;
@@ -71,13 +73,11 @@ public class Server {
      */
     public synchronized void activateGame(String username, int maxNumPlayers, boolean expertMode) {
         if (!isNumberOfPlayersValid(maxNumPlayers)) {
-            waitingList.get(0).showErrorMessage(ErrorTypeID.WRONG_PLAYERS_NUMBER);
-            waitingList.get(0).askNumPlayersAndGameMode();
-            LOGGER.severe("Not valid number of players");
+            askFirstPlayerGameSettingsAgain();
         } else {
             if (maxNumPlayers < waitingList.size()) {
                 controller.setMaxNumberOfGamePlayers(maxNumPlayers);
-                setNumPlayers = true;
+                starting = true;
                 VirtualView virtualViewToRemove = waitingList.get(waitingList.size() - 1);
                 virtualViewToRemove.showErrorMessage(ErrorTypeID.FULL_LOBBY);
                 controller.removeGamePlayer(controller.getCurrentNumberOfGamePlayers() - 1);
@@ -85,10 +85,10 @@ public class Server {
                 controller.removeGameObserver(virtualViewToRemove);
             } else if (maxNumPlayers == controller.getVirtualViews().size()) {
                 controller.setMaxNumberOfGamePlayers(maxNumPlayers);
-                setNumPlayers = true;
-                if (!activated) {
+                starting = true;
+                if (!started) {
                     beginGame(expertMode);
-                    activated = true;
+                    started = true;
                 }
             } else {
                 waitingList.get(0).showGenericMessage("Waiting for " + (maxNumPlayers - waitingList.size()) + " to connect...");
@@ -98,6 +98,15 @@ public class Server {
             LOGGER.info("Clients connected: " + waitingList.size());
         }
     }
+
+    private void askFirstPlayerGameSettingsAgain(){
+        waitingList.get(0).showErrorMessage(ErrorTypeID.WRONG_PLAYERS_NUMBER);
+        LOGGER.severe("Not valid number of players");
+        waitingList.get(0).askNumPlayersAndGameMode();
+
+    }
+
+
 
 
     /**
@@ -208,7 +217,7 @@ public class Server {
     public synchronized void disconnectPlayer(VirtualView virtualView) {
         resetPlayer(virtualView);
         controller.disconnectPlayer(virtualView);
-        if (!activated && setNumPlayers)
+        if (!started && starting)
             beginGame(true);
     }
 
@@ -260,8 +269,8 @@ public class Server {
      */
     public void resetServer() {
         waitingList.clear();
-        activated = false;
-        setNumPlayers = false;
+        started = false;
+        starting = false;
         controller = new Controller();
     }
 
@@ -291,7 +300,7 @@ public class Server {
         if (expertMode)
             controller.makeGameModeExpert();
         controller.setGameState(GameState.SETUP);
-        if (setNumPlayers)
+        if (starting)
             controller.createTowerColorRequestMessage(controller.getVirtualViews().get(0).getUsername());
         waitingList.clear();
     }
