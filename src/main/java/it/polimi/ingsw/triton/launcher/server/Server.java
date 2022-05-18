@@ -122,65 +122,61 @@ public class Server {
 
     /**
      * Create the Virtual View for the Client, then it adds it in the waiting list to manage connections.
-     *
+     * If the number of players has reached the maximum, no more users can be connected, thus it removes the player from Waiting List.
+     * IllegalArgumentException is thrown when a user enters a username that has already been chosen.
      * @param serveOneClient the serve one client
      * @param username       the username
      */
     public synchronized void lobby(ServeOneClient serveOneClient, String username) {
-
         if(started && controller.getGameState() == GameState.END)
             resetServer();
         VirtualView lastVirtualView = new VirtualView(serveOneClient, username);
         waitingList.add(lastVirtualView);
         controller.addVirtualView(lastVirtualView);
-
         try {
             if (waitingList.size() <= 3 && !started) {
                 addObserverRelationships(lastVirtualView);
                 addPlayerAndSendSuccessMessage(lastVirtualView,username);
                 askSettingsIfMinimumNumberOfPlayersIsReached();
-
-
-                // --- If the number of players connected is 3 and the first player chose the mode and the number of players, the game must start.
-                // --- In order to start the game, it is necessary to ask the first player the Tower Color.
-                // --- Eventually, the waiting list has to be cleared up, because there are no more users that can play the game.
-                if (waitingList.size() == 3 && starting && !started) {
-                    started = true;
-                    beginGame(expertMode);
-                    //controller.createTowerColorRequestMessage(waitingList.get(0).getUsername());
-                    //waitingList.clear();
-                }
-
-            } else {  // Enter this branch when the number of players has reached the maximum, thus no more users can be connected.
-                //--- Send a Full Lobby Error Message to the last user who tried to connect.
-                lastVirtualView.showErrorMessage(ErrorTypeID.FULL_LOBBY);
-
-                //--- Remove the Virtual View from the waiting list and Controller, because the user cannot connect.
-                waitingList.remove(lastVirtualView);
-                //controller.getVirtualViews().remove(lastVirtualView);
-                LOGGER.severe("Player not accepted, lobby was already full");
-
-                //--- Close connection with the Client.
-                //serveOneClient.close();
-            }
-
-            //--- This exception is thrown when a user enters a username that has already been chosen.
+                beginGameIfSettingsAreSet();
+            } else
+                sendErrorMessageAndRemoveFromWaitingList(lastVirtualView);
         } catch (IllegalArgumentException e) {
-
-            //--- Send an error message
-            lastVirtualView.showErrorMessage(ErrorTypeID.USERNAME_ALREADY_CHOSEN);
-
-            // --- Undoing observer/observable relations
-            controller.removeGameObserver(waitingList.get(waitingList.size() - 1));
-            lastVirtualView.removeObserver(controller);
-
-            //--- Remove user's Virtual View from waiting list and Controller.
-            waitingList.remove(lastVirtualView);
-            controller.getVirtualViews().remove(lastVirtualView);
-
-            LOGGER.severe("Player not accepted, username already chosen");
-            LOGGER.info("Clients connected: " + this.waitingList.size());
+            removeFromLobbyBecauseUsernameAlreadyChosen(lastVirtualView);
         }
+    }
+
+    /**
+     * Sends an error message and removes user's Virtual View from waiting list and Controller.
+     * @param virtualView to send the message and remove
+     */
+    private void removeFromLobbyBecauseUsernameAlreadyChosen(VirtualView virtualView) {
+        virtualView.showErrorMessage(ErrorTypeID.USERNAME_ALREADY_CHOSEN);
+        removeObserverRelationships(virtualView);
+        waitingList.remove(virtualView);
+        controller.getVirtualViews().remove(virtualView);
+        LOGGER.severe("Player not accepted, username already chosen");
+        LOGGER.info("Clients connected: " + waitingList.size());
+    }
+
+    /**
+     * If the number of players connected is 3 and the first player chose the mode and the number of players, the game must start.
+     * In order to start the game, it is necessary to ask the first player the Tower Color.
+     * Eventually, the waiting list has to be cleared up, because there are no more users that can play the game.
+     */
+    private void beginGameIfSettingsAreSet() {
+        if (waitingList.size() == 3 && starting && !started) {
+            started = true;
+            beginGame(expertMode);
+        }
+    }
+
+    private void sendErrorMessageAndRemoveFromWaitingList(VirtualView virtualView) {
+        //--- Send a Full Lobby Error Message to the last user who tried to connect.
+        virtualView.showErrorMessage(ErrorTypeID.FULL_LOBBY);
+        //--- Remove the Virtual View from the waiting list and Controller, because the user cannot connect.
+        waitingList.remove(virtualView);
+        LOGGER.severe("Player not accepted, lobby was already full");
     }
 
     /**
@@ -209,9 +205,9 @@ public class Server {
 
 
     /**
-     * If something goes wrong in the try branch, close the Server Socket.
-     * Create a Server Socket setting a timeout of 6 minutes (=360'000 secs). In other words, the connection with client is closed after 6 minutes.
-     * Then, instantiate and start a thread to manage the Server Socket that will be assigned to the Client.
+     * If something goes wrong in the try branch, it closes the Server Socket.
+     * It creates a Server Socket setting a timeout of 6 minutes (=360'000 secs). In other words, the connection with client is closed after 6 minutes.
+     * Then, it instantiates and starts a thread to manage the Server Socket that will be assigned to the Client.
      *
      * @throws IOException the io exception
      */
