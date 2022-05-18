@@ -75,9 +75,9 @@ public class Server {
         if (!isNumberOfPlayersValid(maxNumPlayers)) {
             askFirstPlayerGameSettingsAgain();
         } else {
+            starting = true;
             if (maxNumPlayers < waitingList.size()) {
                 controller.setMaxNumberOfGamePlayers(maxNumPlayers);
-                starting = true;
                 VirtualView virtualViewToRemove = waitingList.get(waitingList.size() - 1);
                 virtualViewToRemove.showErrorMessage(ErrorTypeID.FULL_LOBBY);
                 controller.removeGamePlayer(controller.getCurrentNumberOfGamePlayers() - 1);
@@ -85,15 +85,12 @@ public class Server {
                 controller.removeGameObserver(virtualViewToRemove);
             } else if (maxNumPlayers == controller.getVirtualViews().size()) {
                 controller.setMaxNumberOfGamePlayers(maxNumPlayers);
-                starting = true;
                 if (!started) {
                     beginGame(expertMode);
                     started = true;
                 }
-            } else {
+            } else
                 waitingList.get(0).showGenericMessage("Waiting for " + (maxNumPlayers - waitingList.size()) + " to connect...");
-                starting = true;
-            }
 
             LOGGER.info("Clients connected: " + waitingList.size());
         }
