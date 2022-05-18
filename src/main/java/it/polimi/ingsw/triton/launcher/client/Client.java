@@ -88,7 +88,7 @@ public class Client implements Observer<Message> {
             outSocket = new ObjectOutputStream(socket.getOutputStream());
             inSocket = new ObjectInputStream(socket.getInputStream());
         } catch (IOException e) {
-            clientView.showGenericMessage("Cannot connect to this server!");
+            clientView.showGenericMessage("ERROR: Cannot connect to this server!");
             clientView.askIpAddress();
         }
         this.receiveExecutionQueue = Executors.newSingleThreadExecutor();

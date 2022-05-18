@@ -133,7 +133,7 @@ public class Server {
         controller.addVirtualView(lastVirtualView);
 
         try {
-            if (waitingList.size() <= 3) {
+            if (waitingList.size() <= 3 && !started) {
                 addObserverRelationships(lastVirtualView);
                 addPlayerAndSendSuccessMessage(lastVirtualView,username);
                 askSettingsIfMinimumNumberOfPlayersIsReached();
@@ -158,7 +158,7 @@ public class Server {
                 LOGGER.severe("Player not accepted, lobby was already full");
 
                 //--- Close connection with the Client.
-                serveOneClient.close();
+                //serveOneClient.close();
             }
 
             //--- This exception is thrown when a user enters a username that has already been chosen.
