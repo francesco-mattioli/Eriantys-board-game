@@ -268,7 +268,7 @@ public class Server {
             }
             if ((controller.getGameState() == GameState.LOGIN && controller.getVirtualViews().indexOf(virtualView) != 0 && virtualView != null) || (controller.getGameState() == GameState.END && virtualView != null) || controller.getVirtualViews().indexOf(virtualView) >= controller.getMaxNumberOfGamePlayers()) {
                 disconnectPlayer(virtualView);
-            } else {
+            } else if (virtualView != null){
                 // The first player disconnected or the game is in not in LOGIN STATE
                 disconnectAllPlayers();
             }
