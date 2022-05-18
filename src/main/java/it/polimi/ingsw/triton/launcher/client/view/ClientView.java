@@ -15,7 +15,7 @@ import java.util.Map;
 
 /**
  * This interface contains all the methods of cli/gui that are useful to show requests from server and to allow
- * the player to reply them.
+ * the player to reply to them.
  */
 public interface ClientView extends View {
 
