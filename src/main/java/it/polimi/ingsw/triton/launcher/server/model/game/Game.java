@@ -68,11 +68,7 @@ public class Game extends GameMode{
      * @return true if the username has already been chosen, false otherwise.
      */
     private boolean isUsernameChosen(String username) {
-        for (Player player : players) {
-            if (player.getUsername().equalsIgnoreCase(username))
-                return true;
-        }
-        return false;
+        return players.stream().anyMatch(player-> player.getUsername().equalsIgnoreCase(username));
     }
 
     /**
