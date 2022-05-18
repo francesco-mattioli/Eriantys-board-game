@@ -35,6 +35,7 @@ public class Server {
      * Server need to have a reference to Controller, so it can create Virtual Views and Game.
      */
     private Controller controller;
+    private static final String CLIENTS_CONNECTED="Clients connected: ";
     /**
      * Listening is true, so the server can accept new connections with clients
      */
@@ -47,7 +48,7 @@ public class Server {
         this.port = port;
         this.controller = new Controller();
         this.waitingList = new ArrayList<>();
-        LOGGER.info("Clients connected: " + 0);
+        LOGGER.info(CLIENTS_CONNECTED + 0);
     }
 
     /**
@@ -64,61 +65,16 @@ public class Server {
     }
 
     /**
-     * This method is called when the first player decides the max number of players.
-     * If the number is not correct, it sends an error message to the first player and re-asks the number of players.
-     * Otherwise, it creates the Game, the Controller, and sets the VirtualView of first player as an observer of the Controller.
+     * If something goes wrong in the try branch, it closes the Server Socket.
      *
-     * @param username      of the first player
-     * @param maxNumPlayers decided by the first player
-     * @param expertMode    the expert mode
+     * @throws IOException the io exception
      */
-    public synchronized void activateGame(String username, int maxNumPlayers, boolean expertMode) {
-        if (!isNumberOfPlayersValid(maxNumPlayers)) {
-            askFirstPlayerGameSettingsAgain();
-        } else {
-            starting = true;
-            this.expertMode = expertMode;
-            if (maxNumPlayers <= controller.getVirtualViews().size()) {
-                controller.setMaxNumberOfGamePlayers(maxNumPlayers);
-                if(maxNumPlayers == controller.getVirtualViews().size() && !started) {
-                    started = true;
-                    beginGame(expertMode);
-                }
-                else
-                    removePlayer(waitingList.get(waitingList.size() - 1));
-            } else
-                waitingList.get(0).showGenericMessage("Waiting for " + (maxNumPlayers - waitingList.size()) + " to connect...");
-
-            LOGGER.info("Clients connected: " + waitingList.size());
+    public void run() throws IOException {
+        try (ServerSocket serverSocket = new ServerSocket(port)) {
+            while (listening)
+                acceptClientConnection(serverSocket);
         }
-        }
-
-    private void askFirstPlayerGameSettingsAgain(){
-        waitingList.get(0).showErrorMessage(ErrorTypeID.WRONG_PLAYERS_NUMBER);
-        LOGGER.severe("Not valid number of players");
-        waitingList.get(0).askNumPlayersAndGameMode();
-
     }
-
-    private void removePlayer(VirtualView virtualView){
-        virtualView.showErrorMessage(ErrorTypeID.FULL_LOBBY);
-        controller.removeGamePlayer(controller.getCurrentNumberOfGamePlayers() - 1);
-        removeObserverRelationships(virtualView);
-    }
-
-    private void removeObserverRelationships(VirtualView virtualView){
-        controller.removeGameObserver(virtualView);
-        virtualView.removeObserver(controller);
-    }
-
-    private void addObserverRelationships(VirtualView virtualView){
-        controller.addGameObserver(virtualView);
-        virtualView.addObserver(controller);
-    }
-
-
-
-
 
     /**
      * Create the Virtual View for the Client, then it adds it in the waiting list to manage connections.
@@ -147,6 +103,64 @@ public class Server {
     }
 
     /**
+     * This method is called when the first player decides the max number of players.
+     * If the number is not correct, it sends an error message to the first player and re-asks the number of players.
+     * Otherwise, it creates the Game, the Controller, and sets the VirtualView of first player as an observer of the Controller.
+     *
+     * @param username      of the first player
+     * @param maxNumPlayers decided by the first player
+     * @param expertMode    the expert mode
+     */
+    public synchronized void activateGame(String username, int maxNumPlayers, boolean expertMode) {
+        if (!isNumberOfPlayersValid(maxNumPlayers)) {
+            askFirstPlayerGameSettingsAgain();
+        } else {
+            starting = true;
+            this.expertMode = expertMode;
+            if (maxNumPlayers <= controller.getVirtualViews().size()) {
+                controller.setMaxNumberOfGamePlayers(maxNumPlayers);
+                if(maxNumPlayers == controller.getVirtualViews().size() && !started) {
+                    beginGame(expertMode);
+                }
+                else
+                    removePlayer(waitingList.get(waitingList.size() - 1));
+            } else
+                waitingList.get(0).showGenericMessage("Waiting for " + (maxNumPlayers - waitingList.size()) + " to connect...");
+
+            LOGGER.info(CLIENTS_CONNECTED+waitingList.size());
+        }
+    }
+
+    private void askFirstPlayerGameSettingsAgain(){
+        waitingList.get(0).showErrorMessage(ErrorTypeID.WRONG_PLAYERS_NUMBER);
+        LOGGER.severe("Not valid number of players");
+        waitingList.get(0).askNumPlayersAndGameMode();
+
+    }
+
+    private void removePlayer(VirtualView virtualView){
+        virtualView.showErrorMessage(ErrorTypeID.FULL_LOBBY);
+        controller.removeGamePlayer(controller.getCurrentNumberOfGamePlayers() - 1);
+        removeObserverRelationships(virtualView);
+    }
+
+    private void removeObserverRelationships(VirtualView virtualView){
+        controller.removeGameObserver(virtualView);
+        virtualView.removeObserver(controller);
+    }
+
+    private void addObserverRelationships(VirtualView virtualView){
+        controller.addGameObserver(virtualView);
+        virtualView.addObserver(controller);
+    }
+
+
+
+
+
+
+
+    /**
      * Sends an error message and removes user's Virtual View from waiting list and Controller.
      * @param virtualView to send the message and remove
      */
@@ -156,7 +170,7 @@ public class Server {
         waitingList.remove(virtualView);
         controller.getVirtualViews().remove(virtualView);
         LOGGER.severe("Player not accepted, username already chosen");
-        LOGGER.info("Clients connected: " + waitingList.size());
+        LOGGER.info(CLIENTS_CONNECTED + waitingList.size());
     }
 
     /**
@@ -165,23 +179,23 @@ public class Server {
      * Eventually, the waiting list has to be cleared up, because there are no more users that can play the game.
      */
     private void beginGameIfSettingsAreSet() {
-        if (waitingList.size() == 3 && starting && !started) {
-            started = true;
+        if (waitingList.size() == 3 && starting && !started)
             beginGame(expertMode);
-        }
     }
 
+    /**
+     * Sends a Full Lobby Error Message to the last user who tried to connect.
+     * Removes the Virtual View from the waiting list because the user cannot connect.
+     * @param virtualView of the last user who tried to connect.
+     */
     private void sendErrorMessageAndRemoveFromWaitingList(VirtualView virtualView) {
-        //--- Send a Full Lobby Error Message to the last user who tried to connect.
         virtualView.showErrorMessage(ErrorTypeID.FULL_LOBBY);
-        //--- Remove the Virtual View from the waiting list and Controller, because the user cannot connect.
         waitingList.remove(virtualView);
         LOGGER.severe("Player not accepted, lobby was already full");
     }
 
     /**
      *  If the least number of players for starting the Game are connected, ask the first player number of players and game mode.
-     *
      */
     private void askSettingsIfMinimumNumberOfPlayersIsReached() {
         if (waitingList.size() == 2)
@@ -205,26 +219,19 @@ public class Server {
 
 
     /**
-     * If something goes wrong in the try branch, it closes the Server Socket.
      * It creates a Server Socket setting a timeout of 6 minutes (=360'000 secs). In other words, the connection with client is closed after 6 minutes.
      * Then, it instantiates and starts a thread to manage the Server Socket that will be assigned to the Client.
-     *
-     * @throws IOException the io exception
+     * @param serverSocket created by run() method
      */
-    public void run() throws IOException {
-        try (ServerSocket serverSocket = new ServerSocket(port)) {
-            while (listening) {
-                try {
-                    Socket connectionSocket = serverSocket.accept();
-                    connectionSocket.setSoTimeout(360000);
-                    new Thread(new ServeOneClient(connectionSocket, this)).start();
-                } catch (IOException e) {
-                    listening = false;
-                }
-            }
+    private void acceptClientConnection(ServerSocket serverSocket){
+        try {
+            Socket connectionSocket = serverSocket.accept();
+            connectionSocket.setSoTimeout(360000);
+            new Thread(new ServeOneClient(connectionSocket, this)).start();
+        } catch (IOException e) {
+            listening = false;
         }
     }
-
 
     /**
      * Disconnect player.
@@ -297,8 +304,22 @@ public class Server {
         return (num == 2 || num == 3);
     }
 
+    /**
+     * Begin game.
+     *
+     * @param expertMode the expert mode
+     */
+    public void beginGame(boolean expertMode) {
+        started=true;
+        if (expertMode)
+            controller.makeGameModeExpert();
+        controller.setGameState(GameState.SETUP);
+        if (starting)
+            controller.createTowerColorRequestMessage(controller.getVirtualViews().get(0).getUsername());
+        waitingList.clear();
+    }
 
-    // GETTERS
+
 
     /**
      * Gets controller.
@@ -309,17 +330,5 @@ public class Server {
         return controller;
     }
 
-    /**
-     * Begin game.
-     *
-     * @param expertMode the expert mode
-     */
-    public void beginGame(boolean expertMode) {
-        if (expertMode)
-            controller.makeGameModeExpert();
-        controller.setGameState(GameState.SETUP);
-        if (starting)
-            controller.createTowerColorRequestMessage(controller.getVirtualViews().get(0).getUsername());
-        waitingList.clear();
-    }
+
 }
