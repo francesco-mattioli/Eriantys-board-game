@@ -18,6 +18,8 @@ import it.polimi.ingsw.triton.launcher.utils.exceptions.*;
 import it.polimi.ingsw.triton.launcher.utils.message.ErrorTypeID;
 import it.polimi.ingsw.triton.launcher.utils.message.servermessage.infoMessage.*;
 import it.polimi.ingsw.triton.launcher.utils.message.servermessage.infoMessage.infoMessageWithReceiver.GiveAssistantDeckMessage;
+import org.jetbrains.annotations.NotNull;
+
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -75,11 +77,8 @@ public class Game extends GameMode{
      * @param players the array of players in the game.
      * @return all the usernames of the players that are playing.
      */
-    private ArrayList<String> getAllUsernames(ArrayList<Player> players){
-        ArrayList<String> usernames = new ArrayList<>();
-        for(Player player: players)
-            usernames.add(player.getUsername());
-        return usernames;
+    private List<String> getAllUsernames(@NotNull ArrayList<Player> players){
+        return players.stream().map(Player::getUsername).collect(Collectors.toList());
     }
 
     /**

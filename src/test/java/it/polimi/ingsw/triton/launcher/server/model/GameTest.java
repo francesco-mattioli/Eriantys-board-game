@@ -78,7 +78,6 @@ class GameTest {
     }
 
 
-
     /**
      * Tests if the number of islands created is twelve.
      */
