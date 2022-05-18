@@ -612,6 +612,11 @@ public class Game extends GameMode{
         return Arrays.stream(professors).map(p->{if(p == null) return "_"; else return p.getUsername();}).toArray(String[]::new);
     }
 
+    @Override
+    public void removePlayer(int playerIndex){
+        players.remove(playerIndex);
+    }
+
     /**
      * Ends the game resetting the instance of the game.
      */

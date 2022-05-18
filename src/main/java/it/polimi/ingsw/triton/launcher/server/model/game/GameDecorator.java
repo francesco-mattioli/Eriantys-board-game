@@ -245,4 +245,9 @@ public class GameDecorator extends GameMode{
     public Map<String,Wizard> getAllChosenWizards(){
         return game.getAllChosenWizards();
     }
+
+    @Override
+    public void removePlayer(int playerIndex){
+        game.removePlayer(playerIndex);
+    }
 }
