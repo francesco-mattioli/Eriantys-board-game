@@ -38,6 +38,13 @@ public class MoveStudentFromEntranceSceneController extends SceneController {
     @FXML
     Label islandIdLabel;
 
+    @FXML
+    Button playCCButton;
+
+    public Button getPlayCCButton() {
+        return playCCButton;
+    }
+
     private Map<String, Color> colorMap;
 
     public void move(ActionEvent event){

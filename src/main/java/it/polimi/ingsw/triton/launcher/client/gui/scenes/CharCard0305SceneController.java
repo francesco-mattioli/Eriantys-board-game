@@ -21,18 +21,20 @@ public class CharCard0305SceneController extends SceneController{
     ChoiceBox<Integer> selectIslandIdChoiceBox;
 
     private ClientModel clientModel;
+    private int id;
 
     @Override
     public <T> void setupScene(ClientModel clientModel, T parameters) {
+        id = (int) parameters;
         selectIslandIdChoiceBox.getItems().addAll(setUpIslandIdChoiceBox(clientModel));
         this.clientModel = clientModel;
     }
 
     public void confirm(ActionEvent event){
         confirmButton.setDisable(true);
-        if (clientModel.getLastCharacterCardPlayed().getId() == 3)
+        if (id == 3)
             notify(new CharacterCard03Reply(username, selectIslandIdChoiceBox.getValue()));
-        if (clientModel.getLastCharacterCardPlayed().getId() == 5)
+        if (id == 5)
             notify(new CharacterCard05Reply(username, selectIslandIdChoiceBox.getValue()));
     }
 }

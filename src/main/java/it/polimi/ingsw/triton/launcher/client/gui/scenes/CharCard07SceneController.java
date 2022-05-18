@@ -49,7 +49,8 @@ public class CharCard07SceneController extends SceneController {
 
     private int[] fromEntrance = new int[5];
     private int[] fromCharCard = new int[5];
-    private Map<String, Color> colorMap =  new HashMap<>();
+    private Map<String, Color> colorMapForEntrance =  new HashMap<>();
+    private Map<String, Color> colorMapForCharCard =  new HashMap<>();
     private ClientModel clientModel;
 
     @Override
@@ -93,28 +94,26 @@ public class CharCard07SceneController extends SceneController {
 
 
     public void setChoiceBoxEntrance(ClientModel clientModel, ChoiceBox<String> choiceBox){
-        colorMap.clear();
         for (int i = 0; i < clientModel.getMySchoolBoard().getEntrance().length; i++) {
             if (clientModel.getMySchoolBoard().getEntrance()[i] - fromEntrance[i] != 0) {
-                colorMap.put(Color.values()[i].name(), Color.values()[i]);
+                colorMapForEntrance.put(Color.values()[i].name(), Color.values()[i]);
             }
         }
-        choiceBox.getItems().addAll(colorMap.keySet());
+        choiceBox.getItems().addAll(colorMapForEntrance.keySet());
     }
 
     public void setChoiceBoxCharCard(ClientModel clientModel, ChoiceBox<String> choiceBox){
-        colorMap.clear();
         for (int i = 0; i < clientModel.getCharacterCardById(7).getStudents().length; i++) {
             if (clientModel.getCharacterCardById(7).getStudents()[i] - fromCharCard[i] != 0) {
-                colorMap.put(Color.values()[i].name(), Color.values()[i]);
+                colorMapForCharCard.put(Color.values()[i].name(), Color.values()[i]);
             }
         }
-        choiceBox.getItems().addAll(colorMap.keySet());
+        choiceBox.getItems().addAll(colorMapForCharCard.keySet());
     }
 
     public void updateSwitchStudents(ChoiceBox<String> fromEntranceBox, ChoiceBox<String> fromCharCardBox){
-        fromEntrance[colorMap.get(fromEntranceBox).ordinal()] ++;
-        fromCharCard[colorMap.get(fromCharCardBox).ordinal()] ++;
+        fromEntrance[colorMapForEntrance.get(fromEntranceBox.getValue()).ordinal()] ++;
+        fromCharCard[colorMapForCharCard.get(fromCharCardBox.getValue()).ordinal()] ++;
     }
 
     public void disableButtonAndChoiceBox(Button button, ChoiceBox<String> fromEntranceBox, ChoiceBox<String> fromEntranceBox1, ChoiceBox<String> fromCharCardBox, ChoiceBox<String> fromCharCardBox1){

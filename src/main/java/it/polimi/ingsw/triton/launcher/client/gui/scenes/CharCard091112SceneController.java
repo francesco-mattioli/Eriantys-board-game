@@ -28,10 +28,12 @@ public class CharCard091112SceneController extends SceneController{
 
     private Map<String, Color> colorMap;
     private ClientModel clientModel;
+    private int id;
 
     @Override
     public <T> void setupScene(ClientModel clientModel, T parameters) {
         colorMap = new HashMap<>();
+        id = (int) parameters;
         this.clientModel = clientModel;
         colorMap = setUpColorChoiceBox(clientModel);
         selectColorChoiceBox.getItems().addAll(colorMap.keySet());
@@ -39,11 +41,11 @@ public class CharCard091112SceneController extends SceneController{
 
     public void confirm(ActionEvent event){
         confirmButton.setDisable(true);
-        if (clientModel.getLastCharacterCardPlayed().getId() == 9)
+        if (id == 9)
             notify(new CharacterCard09Reply(username, colorMap.get(selectColorChoiceBox.getValue())));
-        if (clientModel.getLastCharacterCardPlayed().getId() == 11)
+        if (id == 11)
             notify(new CharacterCard11Reply(username, colorMap.get(selectColorChoiceBox.getValue())));
-        if (clientModel.getLastCharacterCardPlayed().getId() == 12)
+        if (id == 12)
             notify(new CharacterCard12Reply(username, colorMap.get(selectColorChoiceBox.getValue())));
     }
 }
