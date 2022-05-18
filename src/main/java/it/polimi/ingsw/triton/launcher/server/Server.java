@@ -1,4 +1,4 @@
-package it.polimi.ingsw.triton.launcher.server.network;
+package it.polimi.ingsw.triton.launcher.server;
 
 import it.polimi.ingsw.triton.launcher.server.controller.Controller;
 import it.polimi.ingsw.triton.launcher.server.model.enums.GameState;
