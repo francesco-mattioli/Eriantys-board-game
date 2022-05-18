@@ -41,6 +41,7 @@ public class Server {
     private boolean listening = true;
     private boolean starting = false;
     private boolean started = false;
+    private boolean expertMode = false;
 
     private Server(int port) {
         this.port = port;
@@ -76,11 +77,12 @@ public class Server {
             askFirstPlayerGameSettingsAgain();
         } else {
             starting = true;
+            this.expertMode = expertMode;
             if (maxNumPlayers <= controller.getVirtualViews().size()) {
                 controller.setMaxNumberOfGamePlayers(maxNumPlayers);
                 if(maxNumPlayers == controller.getVirtualViews().size() && !started) {
-                    beginGame(expertMode);
                     started = true;
+                    beginGame(expertMode);
                 }
                 else
                     removePlayer(waitingList.get(waitingList.size() - 1));
@@ -89,7 +91,7 @@ public class Server {
 
             LOGGER.info("Clients connected: " + waitingList.size());
         }
-    }
+        }
 
     private void askFirstPlayerGameSettingsAgain(){
         waitingList.get(0).showErrorMessage(ErrorTypeID.WRONG_PLAYERS_NUMBER);
@@ -142,13 +144,14 @@ public class Server {
                 // --- If the number of players connected is 3 and the first player chose the mode and the number of players, the game must start.
                 // --- In order to start the game, it is necessary to ask the first player the Tower Color.
                 // --- Eventually, the waiting list has to be cleared up, because there are no more users that can play the game.
-                if (waitingList.size() == 3 && starting) {
-                    controller.createTowerColorRequestMessage(waitingList.get(0).getUsername());
-                    waitingList.clear();
+                if (waitingList.size() == 3 && starting && !started) {
+                    started = true;
+                    beginGame(expertMode);
+                    //controller.createTowerColorRequestMessage(waitingList.get(0).getUsername());
+                    //waitingList.clear();
                 }
 
             } else {  // Enter this branch when the number of players has reached the maximum, thus no more users can be connected.
-
                 //--- Send a Full Lobby Error Message to the last user who tried to connect.
                 lastVirtualView.showErrorMessage(ErrorTypeID.FULL_LOBBY);
 
@@ -236,7 +239,7 @@ public class Server {
         resetPlayer(virtualView);
         controller.disconnectPlayer(virtualView);
         if (!started && starting)
-            beginGame(true);
+            beginGame(expertMode);
     }
 
     /**
