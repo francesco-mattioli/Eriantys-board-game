@@ -117,17 +117,6 @@ public class Controller implements Observer<ClientMessage> {
      * @param vv the virtual view associated to the player to disconnect.
      */
     public synchronized void disconnectPlayer(VirtualView vv){
-        /*for(VirtualView vv: virtualViews){
-            if(vv.getServeOneClient() == soc){
-                if(game.getPlayers().indexOf(game.getPlayerByUsername(vv.getUsername())) > 0){
-                    game.getPlayers().remove(game.getPlayerByUsername(vv.getUsername()));
-                    //createTowerColorRequestMessage(game.getPlayers().get(0).getUsername());
-                }else{
-                    disconnectAllPlayers();
-                }
-                break;
-            }
-        }*/
         game.getPlayers().removeIf(player -> (player.getUsername().equals(vv.getUsername())));
         virtualViews.remove(vv);
     }

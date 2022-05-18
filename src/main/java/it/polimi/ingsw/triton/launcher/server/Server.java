@@ -76,19 +76,14 @@ public class Server {
             askFirstPlayerGameSettingsAgain();
         } else {
             starting = true;
-            if (maxNumPlayers < waitingList.size()) {
+            if (maxNumPlayers <= controller.getVirtualViews().size()) {
                 controller.setMaxNumberOfGamePlayers(maxNumPlayers);
-                VirtualView virtualViewToRemove = waitingList.get(waitingList.size() - 1);
-                virtualViewToRemove.showErrorMessage(ErrorTypeID.FULL_LOBBY);
-                controller.removeGamePlayer(controller.getCurrentNumberOfGamePlayers() - 1);
-                virtualViewToRemove.removeObserver(controller);
-                controller.removeGameObserver(virtualViewToRemove);
-            } else if (maxNumPlayers == controller.getVirtualViews().size()) {
-                controller.setMaxNumberOfGamePlayers(maxNumPlayers);
-                if (!started) {
+                if(maxNumPlayers == controller.getVirtualViews().size() && !started) {
                     beginGame(expertMode);
                     started = true;
                 }
+                else
+                    removePlayer(waitingList.get(waitingList.size() - 1));
             } else
                 waitingList.get(0).showGenericMessage("Waiting for " + (maxNumPlayers - waitingList.size()) + " to connect...");
 
@@ -102,6 +97,18 @@ public class Server {
         waitingList.get(0).askNumPlayersAndGameMode();
 
     }
+
+    private void removePlayer(VirtualView virtualView){
+        virtualView.showErrorMessage(ErrorTypeID.FULL_LOBBY);
+        controller.removeGamePlayer(controller.getCurrentNumberOfGamePlayers() - 1);
+        removeObserverRelationships(virtualView);
+    }
+
+    private void removeObserverRelationships(VirtualView virtualView){
+        controller.removeGameObserver(virtualView);
+        virtualView.removeObserver(controller);
+    }
+
 
 
 
