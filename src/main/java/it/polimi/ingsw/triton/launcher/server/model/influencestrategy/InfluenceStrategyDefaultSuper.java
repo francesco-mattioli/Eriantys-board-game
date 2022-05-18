@@ -23,7 +23,7 @@ public class InfluenceStrategyDefaultSuper extends InfluenceStrategy{
         if(dominator != null && dominator.equals(player))
             influence+= island.getDim();
         for(int i = 0; i<professors.length; i++){
-            if(professors[i] == player){
+            if(professors[i] != null && professors[i].equals(player)){
                 influence += island.getStudents()[i];
             }
         }
