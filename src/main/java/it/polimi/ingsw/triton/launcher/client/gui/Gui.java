@@ -11,25 +11,25 @@ import it.polimi.ingsw.triton.launcher.server.model.player.SchoolBoard;
 import it.polimi.ingsw.triton.launcher.utils.message.ErrorTypeID;
 import it.polimi.ingsw.triton.launcher.utils.message.Message;
 import it.polimi.ingsw.triton.launcher.utils.obs.Observable;
-
 import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
 import javafx.stage.Stage;
 
 import java.io.IOException;
-import java.util.*;
+import java.util.List;
 
 public class Gui extends Observable<Message> implements ClientView {
     private ClientModel clientModel;
     private Client client;
     private Stage mainStage;
     private final Stage activeStage;
-    private FXMLLoader mainLoader;
     private GameState actualGamePhase = GameState.SETUP;
     private MainScene2PlayersController mainController;
+    private FXMLLoader activeLoader;
 
 
     public Gui(Stage activeStage) {
@@ -68,6 +68,7 @@ public class Gui extends Observable<Message> implements ClientView {
         }
         actualGamePhase = gameState;
         showAlert(Alert.AlertType.INFORMATION, "Game phase info", "New game phase:\n" + gameState + " is beginning..");
+
     }
 
     @Override
@@ -119,13 +120,13 @@ public class Gui extends Observable<Message> implements ClientView {
     }
 
     private void showAlert(Alert.AlertType alertType, String title, String contentText){
-        Platform.runLater(() -> {
+        /*Platform.runLater(() -> {
             Alert alert = new Alert(alertType);
             alert.setTitle(title);
             alert.setHeaderText(null);
             alert.setContentText(contentText);
             alert.showAndWait();
-        });
+        });*/
     }
 
     private void closeGui(){
@@ -144,10 +145,10 @@ public class Gui extends Observable<Message> implements ClientView {
 
     private <T> void prepareController(String path, T parameters){
         Platform.runLater(() -> {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource(path));
+            activeLoader = new FXMLLoader(getClass().getResource(path));
             try {
-                Parent root = loader.load();
-                SceneController controller = loader.getController();
+                Parent root = activeLoader.load();
+                SceneController controller = activeLoader.getController();
                 controller.addObserver(client);
                 controller.setUsername(clientModel.getUsername());
                 controller.setupScene(clientModel, parameters);
@@ -194,17 +195,38 @@ public class Gui extends Observable<Message> implements ClientView {
     @Override
     public void askCloudTile() {
         prepareController("/chooseCloudTile-scene.fxml", null);
+        Platform.runLater(() ->{
+            if(clientModel.isExpertMode()){
+                ChooseCloudTileSceneController controller = activeLoader.getController();
+                controller.getPlayCCButton().setVisible(true);
+                playCharacterCard(controller.getPlayCCButton());
+            }
+        });
     }
 
     @Override
     public void askMoveStudentFromEntrance() {
         prepareController("/moveStudentFromEntrance-scene.fxml", null);
+        Platform.runLater(() ->{
+            if(clientModel.isExpertMode()){
+                MoveStudentFromEntranceSceneController controller = activeLoader.getController();
+                controller.getPlayCCButton().setVisible(true);
+                playCharacterCard(controller.getPlayCCButton());
+            }
+        });
     }
 
     @Override
     public void askNumberStepsMotherNature() {
         int additionalSteps = 0;
         prepareController("/motherNatureSteps-scene.fxml", additionalSteps);
+        Platform.runLater(() ->{
+            if(clientModel.isExpertMode()){
+                MotherNatureStepsSceneController controller = activeLoader.getController();
+                controller.getPlayCCButton().setVisible(true);
+                playCharacterCard(controller.getPlayCCButton());
+            }
+        });
     }
 
 
@@ -289,7 +311,7 @@ public class Gui extends Observable<Message> implements ClientView {
 
     private void initializeMainStage(){
         Platform.runLater(() -> {
-            mainLoader = new FXMLLoader(getClass().getResource("/main-scene.fxml"));
+            FXMLLoader mainLoader = new FXMLLoader(getClass().getResource("/main-scene.fxml"));
             try {
                 Parent root = mainLoader.load();
                 Scene scene = new Scene(root);
@@ -303,6 +325,12 @@ public class Gui extends Observable<Message> implements ClientView {
             } catch (IOException e) {
                 e.printStackTrace();
             }
+        });
+    }
+
+    private void playCharacterCard(Button button){
+        button.setOnAction(event -> {
+            prepareController("/characterCard-scene.fxml", null);
         });
     }
 }

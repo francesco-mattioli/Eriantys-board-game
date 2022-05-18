@@ -12,7 +12,9 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.*;
+import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Shape;
 
@@ -66,12 +68,9 @@ public class MainScene2PlayersController extends SceneController {
     @FXML
     AnchorPane islandPane;
 
-    @FXML
-    Button playCharacterCardButton;
 
     private final Map<String, AnchorPane> schoolBoardsMap = new HashMap<>();
     private final Map<String,GridPane> deckMap = new HashMap<>();
-    private final Map<BorderPane, Integer> characterCardMap = new HashMap<>();
 
     private void drawStudentsOnDiningRoom(List<Node> studentsOnDiningRoom, SchoolBoard schoolBoard){
         studentsOnDiningRoom.forEach(x -> x.setVisible(false));
@@ -119,13 +118,12 @@ public class MainScene2PlayersController extends SceneController {
         }
     }
 
-    //0 = inferiorGrid, 1 = superiorGrid
     private void drawIslands(ClientModel clientModel){
         List<Node> islands = islandPane.getChildren();
         islands.clear();
         int[] dimensions = new int[2];
         GridPane [] islandGrids = new GridPane[2];
-        List[] nodeList = new List[2];
+        List<Node>[] nodeList = new List[2];
         setupIslandGrid(clientModel, dimensions, islandGrids, nodeList);
         for(int i = 0; i<clientModel.getIslands().size(); i++){
             AnchorPane anchorPane = new AnchorPane();
@@ -163,6 +161,7 @@ public class MainScene2PlayersController extends SceneController {
             drawTowersOnIsland(island, box.getChildren().get(0).getLayoutX() + 60 + 100*(j), box.getChildren().get(0).getLayoutY() + 60, anchorPane, clientModel);
         }
         box.setPrefWidth(island.getDim()*100);
+        box.setPrefHeight(100);
         return box;
     }
 
@@ -227,12 +226,13 @@ public class MainScene2PlayersController extends SceneController {
     private void handleMouseEntranceAndExit(int i, HBox box, List<Node>islands, ClientModel clientModel, AnchorPane anchorPane, double y) {
         AnchorPane infoPane = new AnchorPane();
         islands.add(infoPane);
+        infoPane.setVisible(false);
         box.setOnMouseEntered(event -> {
             Island island = clientModel.getIslands().get(i);
             setupInfoPane(infoPane, island.getId(), anchorPane.getLayoutX() + 40, y);
             int labelY = 15;
             for(int j = 0; j<Color.numOfColors(); j++){
-                setupLabel(Color.values()[j].name(), island.getStudents()[j], labelY, infoPane);
+                setupLabel(Color.values()[j].name(), island.getStudents()[j], 5, labelY, infoPane);
                 labelY+= 15;
             }
             setupNoEntryTiles(infoPane, island.getNoEntryTiles());
@@ -245,10 +245,10 @@ public class MainScene2PlayersController extends SceneController {
         });
     }
 
-    private void setupLabel(String color, int numberOfStudents, int y, AnchorPane anchorPane){
+    private void setupLabel(String color, int numberOfStudents, int x, int y, AnchorPane anchorPane){
         Label label = new Label("Number of " + color.toLowerCase() + " students:" + numberOfStudents);
         anchorPane.getChildren().add(label);
-        label.setLayoutX(5);
+        label.setLayoutX(x);
         label.setLayoutY(y);
         label.setStyle("-fx-text-fill: " + color.toLowerCase() + ";");
     }
@@ -259,7 +259,6 @@ public class MainScene2PlayersController extends SceneController {
         infoPane.getChildren().add(islandLabel);
         infoPane.setPrefHeight(105);
         infoPane.setPrefWidth(160);
-        infoPane.setVisible(false);
         infoPane.setOpacity(1);
         infoPane.setStyle("-fx-background-color: #C7C7C7; -fx-border-color: black;");
         infoPane.setLayoutX(x);
@@ -277,13 +276,21 @@ public class MainScene2PlayersController extends SceneController {
     public void initializeMainScene(ClientModel clientModel){
         createSchoolBoardsMap(clientModel);
         createDeckMap(clientModel);
+        initialSchoolBoardsSetup(clientModel);
+        drawIslands(clientModel);
+        initializeDeckInformation(clientModel);
+    }
+
+    private void initialSchoolBoardsSetup(ClientModel clientModel){
         for(int i = 0; i<schoolBoardsMap.size(); i++){
             String username = new ArrayList<>(schoolBoardsMap.keySet()).get(i);
             drawStudentsOnDiningRoom(((GridPane)schoolBoardsMap.get(username).getChildren().get(1)).getChildren(), clientModel.getSchoolBoards().get(username));
             drawStudentsOnEntrance(((GridPane)schoolBoardsMap.get(username).getChildren().get(2)).getChildren(), clientModel.getSchoolBoards().get(username));
             drawTowersOnSchoolBoard(((GridPane)schoolBoardsMap.get(username).getChildren().get(4)).getChildren(), clientModel.getSchoolBoards().get(username));
         }
-        drawIslands(clientModel);
+    }
+
+    private void initializeDeckInformation(ClientModel clientModel){
         String currentPath = new java.io.File( "src/main/resources/Images/Wizards").getAbsolutePath().replace('\\','/');
         ImageView imageView = (ImageView)deckMap.get(clientModel.getUsername()).getChildren().get(0);
         imageView.setImage(new Image("file:" + currentPath + clientModel.getAssistantDeck().getWizard().getImagePath()));
@@ -293,12 +300,7 @@ public class MainScene2PlayersController extends SceneController {
                 imageView = (ImageView) deckMap.get(username).getChildren().get(0);
                 imageView.setImage(new Image("file:" + currentPath + clientModel.getChosenWizardsPerUsername().get(username).getImagePath()));
             }
-
         }
-        /*if(clientModel.isExpertMode()){
-            handleCharacterCardRequest(((MainScene2PlayersController)mainLoader.getController()).getPlayCharacterCardButton());
-            ((Button)((MainScene2PlayersController)mainLoader.getController()).getPlayCharacterCardButton()).setVisible(true);
-        }*/
     }
 
     private void createSchoolBoardsMap(ClientModel clientModel){

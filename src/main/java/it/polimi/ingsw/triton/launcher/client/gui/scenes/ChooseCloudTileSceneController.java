@@ -6,14 +6,20 @@ import it.polimi.ingsw.triton.launcher.server.model.enums.Color;
 import it.polimi.ingsw.triton.launcher.utils.message.Message;
 import it.polimi.ingsw.triton.launcher.utils.message.clientmessage.CloudTileReply;
 import it.polimi.ingsw.triton.launcher.utils.obs.Observable;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -25,7 +31,14 @@ public class ChooseCloudTileSceneController extends SceneController {
     @FXML
     AnchorPane chooseCloudTilePane;
 
+    @FXML
+    Button playCCButton;
+
     private Map<Integer, AnchorPane> cloudTilesMap;
+
+    public Button getPlayCCButton() {
+        return playCCButton;
+    }
 
     public void selectCloudTile0(MouseEvent event){
         notify(new CloudTileReply(username,0));
