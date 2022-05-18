@@ -109,6 +109,11 @@ public class Server {
         virtualView.removeObserver(controller);
     }
 
+    private void addObserverRelationships(VirtualView virtualView){
+        controller.addGameObserver(virtualView);
+        virtualView.addObserver(controller);
+    }
+
 
 
 
@@ -126,28 +131,11 @@ public class Server {
         controller.addVirtualView(lastVirtualView);
 
         try {
-
             if (waitingList.size() <= 3) {
+                addObserverRelationships(lastVirtualView);
+                addPlayerAndSendSuccessMessage(lastVirtualView,username);
+                askSettingsIfMinimumNumberOfPlayersIsReached();
 
-                // --- Add observer/observable relations
-                controller.addGameObserver(waitingList.get(waitingList.size() - 1));
-                lastVirtualView.addObserver(controller);
-
-                // --- Add player in the Game
-                controller.addGamePlayer(username);
-
-                // --- Send a Login Reply Message because the addGamePlayer method did not throw an exception.
-                lastVirtualView.showLoginReply();
-                LOGGER.info("New player accepted");
-
-                // --- If the just accepted player is not the first and the first player has not chosen the number of student,
-                // --- send a message saying that the Game will start soon.
-                if (waitingList.size() > 1 && !starting)
-                    lastVirtualView.showGenericMessage("Game will start as soon as the first player chooses number of players...");
-
-                // --- If the least number of players for starting the Game are connected, ask the first player number of players and game mode.
-                if (waitingList.size() == 2)
-                    waitingList.get(0).askNumPlayersAndGameMode();
 
                 // --- If the number of players connected is 3 and the first player chose the mode and the number of players, the game must start.
                 // --- In order to start the game, it is necessary to ask the first player the Tower Color.
@@ -188,6 +176,30 @@ public class Server {
             LOGGER.severe("Player not accepted, username already chosen");
             LOGGER.info("Clients connected: " + this.waitingList.size());
         }
+    }
+
+    /**
+     *  If the least number of players for starting the Game are connected, ask the first player number of players and game mode.
+     *
+     */
+    private void askSettingsIfMinimumNumberOfPlayersIsReached() {
+        if (waitingList.size() == 2)
+            waitingList.get(0).askNumPlayersAndGameMode();
+    }
+
+    /**
+     * If the just accepted player is not the first and the first player has not chosen the number of student,
+     * this method sends a message saying that the Game will start soon.
+     * @param virtualView for sending a Login Reply Message when the addGamePlayer method did not throw an exception.
+     * @param username of the player to add in the Game
+     * @throws IllegalArgumentException when the username is already chosen
+     */
+    private void addPlayerAndSendSuccessMessage(VirtualView virtualView, String username) throws IllegalArgumentException {
+        controller.addGamePlayer(username);
+        virtualView.showLoginReply();
+        LOGGER.info("New player accepted");
+        if (waitingList.size() > 1 && !starting)
+            virtualView.showGenericMessage("Game will start as soon as the first player chooses number of players...");
     }
 
 
