@@ -558,13 +558,13 @@ public class Cli extends Observable<Message> implements ClientView{
     }
 
     public void askCharCard09(){
-        out.print(Utility.ANSI_BLUE + "Enter the color that will not count in the calculation of influence: " + Utility.ANSI_RESET);
         try {
             out.print("Islands:\n" + Utility.ANSI_RESET);
             out.println(clientModel.printIslands());
             out.print("\n");
             out.print(clientModel.printOtherSchoolBoards());
             out.println(clientModel.printYourSchoolBoard());
+            out.print(Utility.ANSI_BLUE + "Enter the color that will not count in the calculation of influence: " + Utility.ANSI_RESET);
             String input = readLine();
             Color color = Color.valueOf(input.toUpperCase());
             notify(new CharacterCard09Reply(clientModel.getUsername(), color));
