@@ -114,7 +114,7 @@ public class ExpertGame extends GameDecorator {
         }
         game.notify(new ExpertGameInfoMessage(characterCards, game.getIslands(), game.getMotherNature().getPosition(), game.getAllSchoolBoards(), game.getCloudTiles(), new String[game.getProfessors().length],getAllChosenWizards()));
         game.notify(new ChangeTurnMessage(game.getCurrentPlayer().getUsername()));
-        this.planningPhase();
+        game.planningPhase();
     }
 
     /**
@@ -129,18 +129,6 @@ public class ExpertGame extends GameDecorator {
         game.setupPlayers();
     }
 
-    /**
-     * Executes a part of the planning phase, filling the cloud tiles and resetting the assistant
-     * cards played in last round.
-     */
-    @Override
-    public void planningPhase() {
-        game.planningPhase();
-        // Need to set false the already played  boolean attribute
-        for(Player player : game.getPlayers()){
-            player.resetAlreadyPlayedAnCharacterCard();
-        }
-    }
 
     /**
      * Executes the action of moving a player from entrance to the dining room.
