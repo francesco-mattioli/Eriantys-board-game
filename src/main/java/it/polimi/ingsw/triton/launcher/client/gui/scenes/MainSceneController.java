@@ -8,7 +8,6 @@ import it.polimi.ingsw.triton.launcher.server.model.enums.TowerColor;
 import it.polimi.ingsw.triton.launcher.server.model.player.SchoolBoard;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
-import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -21,7 +20,7 @@ import javafx.scene.shape.Shape;
 import java.util.*;
 import java.util.stream.Collectors;
 
-public class MainScene2PlayersController extends SceneController {
+public class MainSceneController extends SceneController {
 
     @FXML
     AnchorPane mainPane;

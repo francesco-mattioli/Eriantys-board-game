@@ -28,7 +28,7 @@ public class Gui extends Observable<Message> implements ClientView {
     private Stage mainStage;
     private final Stage activeStage;
     private GameState actualGamePhase = GameState.SETUP;
-    private MainScene2PlayersController mainController;
+    private MainSceneController mainController;
     private FXMLLoader activeLoader;
 
 
@@ -378,7 +378,10 @@ public class Gui extends Observable<Message> implements ClientView {
 
         private void initializeMainStage() {
             Platform.runLater(() -> {
-                FXMLLoader mainLoader = new FXMLLoader(getClass().getResource("/main-scene.fxml"));
+                FXMLLoader mainLoader;
+                if (clientModel.getSchoolBoards().size() == 2)
+                    mainLoader = new FXMLLoader(getClass().getResource("/main-scene.fxml"));
+                else mainLoader = new FXMLLoader(getClass().getResource("/main3players-scene.fxml"));
                 try {
                     Parent root = mainLoader.load();
                     Scene scene = new Scene(root);
