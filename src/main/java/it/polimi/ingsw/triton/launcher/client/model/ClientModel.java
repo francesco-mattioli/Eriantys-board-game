@@ -153,6 +153,10 @@ public class ClientModel extends Observable<Object> {
         this.schoolBoards.put(username, schoolBoard);
     }
 
+    public AssistantCard getLastAssistantCardPlayed(String username){
+        return lastAssistantCardPlayedPerUsername.get(username);
+    }
+
     public void setLastAssistantCardPlayed(String username,AssistantCard lastAssistantCardPlayed){
         this.lastAssistantCardPlayedPerUsername.put(username,lastAssistantCardPlayed);
     }
@@ -322,6 +326,10 @@ public class ClientModel extends Observable<Object> {
 
     public void setChosenWizardsPerUsername(Map<String, Wizard> chosenWizardsPerUsername) {
         this.chosenWizardsPerUsername = chosenWizardsPerUsername;
+    }
+
+    public CharacterCard getLastCharacterCardPlayed(){
+        return lastCharacterCardPlayed;
     }
 
     public void setLastCharacterCardPlayed(CharacterCard lastCharacterCardPlayed) {

@@ -62,7 +62,7 @@ public class AssistantDeck implements Serializable {
     public String printAllAssistantCards(){
         String results = " ";
         for (AssistantCard assistantCard: assistantDeck) {
-            results += assistantCard.toString();
+            results += "\t" + assistantCard.toString();
         }
         return results;
     }
