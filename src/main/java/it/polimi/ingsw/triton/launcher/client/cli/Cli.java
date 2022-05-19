@@ -258,6 +258,14 @@ public class Cli extends Observable<Message> implements ClientView{
         out.println(ANSI_BOLDYELLOW+" ---"+gameState.name()+"---"+ANSI_RESET);
     }
 
+    /**
+     * Asks the player to choose an assistant card to play.
+     * This assistant card can be chosen viewing the assistant deck which is updated every time the player plays
+     * an assistant card removing it.
+     * If the player inputs a string which is not an assistant card type, the method will ask again to choose an assistant card.
+     * The server will check if the assistant card chosen by the player is already played by him or already played in this turn
+     * by other players.
+     */
     @Override
     public void askAssistantCard() {
         AssistantDeck assistantDeck= clientModel.getAssistantDeck();
@@ -282,16 +290,36 @@ public class Cli extends Observable<Message> implements ClientView{
         }
     }
 
+    /**
+     * Shows to other players which assistant card the current player has just chosen.
+     * @param username      the current player's username.
+     * @param assistantCard the assistant card just played.
+     */
     @Override
     public void showInfoAssistantCardPlayed(String username, AssistantCard assistantCard) {
         out.println("Player: "+username+ " has played " + assistantCard.toString());
     }
 
+
+    /**
+     * Shows to the current player which assistant card he's just played.
+     * @param assistantCard the assistant card played.
+     */
     @Override
     public void showMyInfoAssistantCardPlayed(AssistantCard assistantCard){
         out.println("You have just played: "+assistantCard.getType());
     }
 
+    /**
+     * Asks the player to move a student from his entrance to his dining room or an island.
+     * This request is repeated three times (two-players game) or four times (three-players game).
+     * The player has to input the color of the student he wants to move and then the destination of the movement: d for dining room,
+     * the id of the island for an island [COLOR, d/idIsland].
+     * The server will check if the player has a student of the specified color in his entrance or if the island is existing.
+     * During this method, the player can decide to play a character card. In that case, this method calls showAndPlayCharacterCard()
+     * to show which character cards are available.
+     * When the player finishes playing a character card, the server will go automatically on asking to move the students from entrance.
+     */
     @Override
     public void askMoveStudentFromEntrance() {
         try {
@@ -324,6 +352,14 @@ public class Cli extends Observable<Message> implements ClientView{
     }
 
 
+    /**
+     * Asks the player to choose how many steps mother nature has to do.
+     * This method asks again the number of steps of mother nature if the player doesn't input a number.
+     * The server will check if the number inserted by the player is correct (not negative and less than the maximum possible in that round).
+     * During this method, the player can decide to play a character card. In that case, this method calls showAndPlayCharacterCard()
+     * to show which character cards are available.
+     * When the player finishes playing a character card, the server will go automatically on asking the number of steps mother nature has to do.
+     */
     @Override
     public void askNumberStepsMotherNature() {
         try {
@@ -347,7 +383,16 @@ public class Cli extends Observable<Message> implements ClientView{
         }
     }
 
-
+    /**
+     * Asks the player to choose a cloud tile in order to draw the students on it.
+     * Each cloud tile is identified by an ID.
+     * This method asks again to choose the cloud tile if the player doesn't input a number.
+     * The server will check if the id inserted corresponds to an available cloud tile and if this one is not already chosen by another player
+     * in that round.
+     * During this method, the player can decide to play a character card. In that case, this method calls showAndPlayCharacterCard()
+     * to show which character cards are available.
+     * When the player finishes playing a character card, the server will go automatically on asking to choose a cloud tile.
+     */
     @Override
     public void askCloudTile() {
         try {
