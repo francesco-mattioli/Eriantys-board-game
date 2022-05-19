@@ -36,7 +36,7 @@ public abstract class GameMode extends Observable<InfoMessage>{
     public abstract void addPlayer(String username);
     public abstract List<Island> getIslands();
     public abstract GameState getGameState();
-    public abstract void endGame();
+    public abstract void endGame(boolean correctEnd);
     public abstract List<Player> getPlayers();
     public abstract void chooseTowerColor(String senderUsername, TowerColor playerColor) throws IllegalClientInputException, ChangeTurnException;
     public abstract void chooseWizard(String senderUsername, Wizard playerWizard) throws IllegalClientInputException, ChangeTurnException;
@@ -65,4 +65,5 @@ public abstract class GameMode extends Observable<InfoMessage>{
     public abstract int getMaxNumberOfPlayers();
     public abstract void setMaxNumberOfPlayers(int maxNumberOfPlayers);
     abstract void setCurrentPlayer(Player player);
+    public abstract void removePlayer(int playerIndex);
 }

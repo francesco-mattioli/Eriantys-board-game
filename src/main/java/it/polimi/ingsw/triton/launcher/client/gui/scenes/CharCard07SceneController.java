@@ -49,25 +49,28 @@ public class CharCard07SceneController extends SceneController {
 
     private int[] fromEntrance = new int[5];
     private int[] fromCharCard = new int[5];
-    private Map<String, Color> colorMapForEntrance =  new HashMap<>();
-    private Map<String, Color> colorMapForCharCard =  new HashMap<>();
     private ClientModel clientModel;
 
     @Override
     public <T> void setupScene(ClientModel clientModel, T parameters) {
-        setChoiceBoxEntrance(clientModel,fromEntrance1);
-        setChoiceBoxCharCard(clientModel,fromCharCard1);
         this.clientModel = clientModel;
+        setChoiceBoxEntrance(fromEntrance1);
+        setChoiceBoxCharCard(fromCharCard1);
+
     }
 
     public void confirm1(ActionEvent event){
         updateSwitchStudents(fromEntrance1, fromCharCard1);
-        disableButtonAndChoiceBox(confirmButton1, fromEntrance1, fromEntrance2, fromCharCard1, fromCharCard2);
+        setChoiceBoxCharCard(fromCharCard2);
+        setChoiceBoxEntrance(fromEntrance2);
+        disableButtonAndChoiceBox(confirmButton1, fromEntrance1, fromEntrance2, fromCharCard1, fromCharCard2, confirmButton2);
     }
 
     public void confirm2(ActionEvent event){
         updateSwitchStudents(fromEntrance2, fromCharCard2);
-        disableButtonAndChoiceBox(confirmButton2, fromEntrance2, fromEntrance3, fromCharCard2, fromCharCard3);
+        setChoiceBoxCharCard(fromCharCard3);
+        setChoiceBoxEntrance(fromEntrance3);
+        disableButtonAndChoiceBox(confirmButton2, fromEntrance2, fromEntrance3, fromCharCard2, fromCharCard3, confirmButton3);
     }
 
     public void confirm3(ActionEvent event){
@@ -93,34 +96,28 @@ public class CharCard07SceneController extends SceneController {
     }
 
 
-    public void setChoiceBoxEntrance(ClientModel clientModel, ChoiceBox<String> choiceBox){
-        for (int i = 0; i < clientModel.getMySchoolBoard().getEntrance().length; i++) {
-            if (clientModel.getMySchoolBoard().getEntrance()[i] - fromEntrance[i] != 0) {
-                colorMapForEntrance.put(Color.values()[i].name(), Color.values()[i]);
-            }
-        }
-        choiceBox.getItems().addAll(colorMapForEntrance.keySet());
+    public void setChoiceBoxEntrance(ChoiceBox<String> choiceBox){
+        setUpEntranceChoiceBox(clientModel, fromEntrance);
+        choiceBox.getItems().addAll(colorEntrance);
     }
 
-    public void setChoiceBoxCharCard(ClientModel clientModel, ChoiceBox<String> choiceBox){
-        for (int i = 0; i < clientModel.getCharacterCardById(7).getStudents().length; i++) {
-            if (clientModel.getCharacterCardById(7).getStudents()[i] - fromCharCard[i] != 0) {
-                colorMapForCharCard.put(Color.values()[i].name(), Color.values()[i]);
-            }
-        }
-        choiceBox.getItems().addAll(colorMapForCharCard.keySet());
+    public void setChoiceBoxCharCard(ChoiceBox<String> choiceBox){
+        setUpCharCardChoiceBox(clientModel,7, fromCharCard);
+        choiceBox.getItems().addAll(colorCharCard);
     }
 
     public void updateSwitchStudents(ChoiceBox<String> fromEntranceBox, ChoiceBox<String> fromCharCardBox){
-        fromEntrance[colorMapForEntrance.get(fromEntranceBox.getValue()).ordinal()] ++;
-        fromCharCard[colorMapForCharCard.get(fromCharCardBox.getValue()).ordinal()] ++;
+        fromEntrance[Color.valueOf(fromEntranceBox.getValue()).ordinal()] ++;
+        fromCharCard[Color.valueOf(fromCharCardBox.getValue()).ordinal()] ++;
     }
 
-    public void disableButtonAndChoiceBox(Button button, ChoiceBox<String> fromEntranceBox, ChoiceBox<String> fromEntranceBox1, ChoiceBox<String> fromCharCardBox, ChoiceBox<String> fromCharCardBox1){
+    public void disableButtonAndChoiceBox(Button button, ChoiceBox<String> fromEntranceBox, ChoiceBox<String> fromEntranceBox1, ChoiceBox<String> fromCharCardBox, ChoiceBox<String> fromCharCardBox1, Button button1){
         fromEntranceBox.setDisable(true);
         fromCharCardBox.setDisable(true);
         button.setDisable(true);
         fromEntranceBox1.setDisable(false);
         fromCharCardBox1.setDisable(false);
+        button1.setDisable(false);
     }
+
 }

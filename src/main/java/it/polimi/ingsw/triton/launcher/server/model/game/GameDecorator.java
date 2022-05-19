@@ -237,12 +237,17 @@ public class GameDecorator extends GameMode{
     }
 
     @Override
-    public void endGame() {
-        game.endGame();
+    public void endGame(boolean correctEnd) {
+        game.endGame(correctEnd);
     }
 
     @Override
     public Map<String,Wizard> getAllChosenWizards(){
         return game.getAllChosenWizards();
+    }
+
+    @Override
+    public void removePlayer(int playerIndex){
+        game.removePlayer(playerIndex);
     }
 }

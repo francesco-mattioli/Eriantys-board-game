@@ -114,7 +114,7 @@ public class ExpertGame extends GameDecorator {
         }
         game.notify(new ExpertGameInfoMessage(characterCards, game.getIslands(), game.getMotherNature().getPosition(), game.getAllSchoolBoards(), game.getCloudTiles(), new String[game.getProfessors().length],getAllChosenWizards()));
         game.notify(new ChangeTurnMessage(game.getCurrentPlayer().getUsername()));
-        this.planningPhase();
+        game.planningPhase();
     }
 
     /**
@@ -129,18 +129,6 @@ public class ExpertGame extends GameDecorator {
         game.setupPlayers();
     }
 
-    /**
-     * Executes a part of the planning phase, filling the cloud tiles and resetting the assistant
-     * cards played in last round.
-     */
-    @Override
-    public void planningPhase() {
-        game.planningPhase();
-        // Need to set false the already played  boolean attribute
-        for(Player player : game.getPlayers()){
-            player.resetAlreadyPlayedAnCharacterCard();
-        }
-    }
 
     /**
      * Executes the action of moving a player from entrance to the dining room.
@@ -169,14 +157,15 @@ public class ExpertGame extends GameDecorator {
     private void drawCharacterCards() {
         Random randomNumber;
         ArrayList<Integer> idAlreadyChosen = new ArrayList<>();
-        int id;
+        int id=9;
         while(characterCards.size() < 3){
-            randomNumber = new Random();
-            id = randomNumber.nextInt(12) + 1;
+            //randomNumber = new Random();
+            //id = randomNumber.nextInt(12) + 1;
             if(!idAlreadyChosen.contains(id)){
                 characterCards.add(new CharacterCard(id, 1, 0, game.getBag()));
                 idAlreadyChosen.add(id);
             }
+            id++;
         }
     }
 

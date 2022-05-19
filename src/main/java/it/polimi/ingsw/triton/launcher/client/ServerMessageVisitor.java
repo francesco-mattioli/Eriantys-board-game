@@ -58,7 +58,7 @@ public class ServerMessageVisitor {
     }
 
     /**
-     * Calls the view method to show the onlien players.
+     * Calls the view method to show the online players.
      * @param message the last message received.
      */
     public void visit(LobbyMessage message) {
@@ -282,7 +282,7 @@ public class ServerMessageVisitor {
             clientView.showGenericMessage(message.getChoiceDescription());
         if(clientView.getClientModel().getUsername().equals(message.getPlayerUsername()))
             clientView.getClientModel().setLastCharacterCardPlayed(message.getCharacterCard());
-        clientView.showGameInfo();
+        clientView.showGameInfo(message.getCharacterCard().getId());
     }
 
     /**

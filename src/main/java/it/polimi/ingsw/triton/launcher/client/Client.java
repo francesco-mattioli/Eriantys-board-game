@@ -24,8 +24,8 @@ public class Client implements Observer<Message> {
     private static final int port = 50535;
 
     /**
-     * Initializes socket and input, output streams to communicate with the server
-     * Executors.newSingleThreadExecutor() sets the thread for receiving message from server
+     * Initializes socket and input, output streams to communicate with the server.
+     * Executors.newSingleThreadExecutor() sets the thread for receiving message from server.
      */
     public Client(ClientView clientView) {
         this.clientView = clientView;
@@ -69,10 +69,10 @@ public class Client implements Observer<Message> {
 
 
     /**
-     * This method is executed when the notify method is called on ClientView
+     * This method is executed when the notify method is called on ClientView.
      * If it's an UpdateServeInfoMessage, it's a notification reserve to the Client class in order to instantiate the Socket.
      * Otherwise, it's a message to send to Server.
-     * @param message to send from client to server
+     * @param message to send from client to server.
      */
     @Override
     public void update(Message message) {
@@ -82,13 +82,20 @@ public class Client implements Observer<Message> {
             sendMessage(message);
     }
 
+    /**
+     * Tries to instantiate a socket between the client and the server.
+     * If a server is listening on the IP address written by the user, it instantiates the socket, I/O streams and the executors
+     * that manage the receipt of messages.
+     * After that, it calls a view method that asks the player to insert the username.
+     * @param message the message that contains the IP address of server the user wants to connect.
+     */
     private void instantiateSocket(UpdatedServerInfoMessage message){
         try {
             socket= new Socket(message.getServerInfo(), port);
             outSocket = new ObjectOutputStream(socket.getOutputStream());
             inSocket = new ObjectInputStream(socket.getInputStream());
         } catch (IOException e) {
-            clientView.showGenericMessage("Cannot connect to this server!");
+            clientView.showGenericMessage("ERROR: Cannot connect to this server!");
             clientView.askIpAddress();
         }
         this.receiveExecutionQueue = Executors.newSingleThreadExecutor();
@@ -98,7 +105,7 @@ public class Client implements Observer<Message> {
     }
 
     /**
-     * @param message to send from client to server
+     * @param message to send from client to server.
      */
     public void sendMessage(Message message) {
         try {
@@ -122,6 +129,4 @@ public class Client implements Observer<Message> {
             e.printStackTrace();
         }
     }
-
-
 }

@@ -172,6 +172,11 @@ public class Gui extends Observable<Message> implements ClientView {
     }
 
     @Override
+    public void askPlayAgain() {
+
+    }
+
+    @Override
     public void askTowerColor(boolean[] towerColorChosen) {
         prepareController("/towerColor-scene.fxml", towerColorChosen);
     }
@@ -256,12 +261,19 @@ public class Gui extends Observable<Message> implements ClientView {
                 prepareController("/charCard09-11-12-scene.fxml", 9);
                 break;
             }
+
             case 11:{
                 prepareController("/charCard09-11-12-scene.fxml", 11);
                 break;
             }
+
             case 12: {
                 prepareController("/charCard09-11-12-scene.fxml", 12);
+                break;
+            }
+
+            case 10:{
+                prepareController("/charCard10-scene.fxml", 10);
                 break;
             }
         }

@@ -19,6 +19,7 @@ public class InfoCharacterCardPlayedMessage extends InfoMessage {
     private final List<Island> updatedIslands;
     private final Map<String, SchoolBoard> updatedSchoolBoards;
     private final String choiceDescription;
+
     public InfoCharacterCardPlayedMessage(String playerUsername, CharacterCard characterCard, List<Island> updatedIslands, Map<String, SchoolBoard> updatedSchoolBoards) {
         this.playerUsername = playerUsername;
         this.characterCard = characterCard;

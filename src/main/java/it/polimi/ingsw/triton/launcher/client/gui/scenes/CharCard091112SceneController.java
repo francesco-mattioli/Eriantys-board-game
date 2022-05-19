@@ -35,17 +35,25 @@ public class CharCard091112SceneController extends SceneController{
         colorMap = new HashMap<>();
         id = (int) parameters;
         this.clientModel = clientModel;
-        colorMap = setUpColorChoiceBox(clientModel);
-        selectColorChoiceBox.getItems().addAll(colorMap.keySet());
+        if (id == 11){
+            setUpCharCardChoiceBox(clientModel, 11);
+            selectColorChoiceBox.getItems().addAll(colorCharCard);
+        }
+
+        else {
+            setUpAllColors();
+            selectColorChoiceBox.getItems().addAll(colorsName);
+        }
+
     }
 
     public void confirm(ActionEvent event){
         confirmButton.setDisable(true);
         if (id == 9)
-            notify(new CharacterCard09Reply(username, colorMap.get(selectColorChoiceBox.getValue())));
+            notify(new CharacterCard09Reply(username, Color.valueOf(selectColorChoiceBox.getValue())));
         if (id == 11)
-            notify(new CharacterCard11Reply(username, colorMap.get(selectColorChoiceBox.getValue())));
+            notify(new CharacterCard11Reply(username, Color.valueOf(selectColorChoiceBox.getValue())));
         if (id == 12)
-            notify(new CharacterCard12Reply(username, colorMap.get(selectColorChoiceBox.getValue())));
+            notify(new CharacterCard12Reply(username, Color.valueOf(selectColorChoiceBox.getValue())));
     }
 }

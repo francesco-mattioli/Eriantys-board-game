@@ -55,7 +55,6 @@ public class Controller implements Observer<ClientMessage> {
      */
     @Override
     public void update(ClientMessage message) {
-        //if(message.getSenderUsername().equals(game.getCurrentPlayer().getUsername())) {
             try {
                 message.modifyModel(new ClientMessageModifierVisitor(game));
                 message.createStandardNextMessage(new ClientMessageStandardVisitor(game, getVirtualViewByUsername(game.getCurrentPlayer().getUsername())));
@@ -66,13 +65,8 @@ public class Controller implements Observer<ClientMessage> {
                 message.createExceptionalNextMessage(new ClientMessageExceptionalVisitor(game, getVirtualViewByUsername(game.getCurrentPlayer().getUsername())));
             } catch (EndGameException e) {
                 game.calculateWinner();
-                disconnectAllPlayers();
+                resetGame();
             }
-        /*}
-        else
-            getVirtualViewByUsername(game.getCurrentPlayer().getUsername()).showErrorMessage(ErrorTypeID.NOT_YOUR_TURN);
-         */
-
     }
 
     /**
@@ -117,26 +111,19 @@ public class Controller implements Observer<ClientMessage> {
      * @param vv the virtual view associated to the player to disconnect.
      */
     public synchronized void disconnectPlayer(VirtualView vv){
-        /*for(VirtualView vv: virtualViews){
-            if(vv.getServeOneClient() == soc){
-                if(game.getPlayers().indexOf(game.getPlayerByUsername(vv.getUsername())) > 0){
-                    game.getPlayers().remove(game.getPlayerByUsername(vv.getUsername()));
-                    //createTowerColorRequestMessage(game.getPlayers().get(0).getUsername());
-                }else{
-                    disconnectAllPlayers();
-                }
-                break;
-            }
-        }*/
         game.getPlayers().removeIf(player -> (player.getUsername().equals(vv.getUsername())));
         virtualViews.remove(vv);
+    }
+
+    public void resetGame(){
+        game.endGame(true);
     }
 
     /**
      * Disconnects all the players removing their virtual views and calling endGame() to reset the instance of the game.
      */
     public void disconnectAllPlayers(){
-        game.endGame();
+        game.endGame(false);
         //CALLING END GAME WE ALSO IMPLICITLY REMOVE VIRTUAL VIEWS AS GAME OBSERVERS
         for(VirtualView virtualView: virtualViews)
             virtualView.removeObserver(this);
@@ -162,12 +149,16 @@ public class Controller implements Observer<ClientMessage> {
         return game.getGameState();
     }
 
+    public int getMaxNumberOfGamePlayers(){
+        return game.getMaxNumberOfPlayers();
+    }
+
     public void setMaxNumberOfGamePlayers(int maxNumPlayers) {
         game.setMaxNumberOfPlayers(maxNumPlayers);
     }
 
     public void removeGamePlayer(int playerIndex){
-        game.getPlayers().remove(playerIndex);
+        game.removePlayer(playerIndex);
     }
 
     public int getCurrentNumberOfGamePlayers(){
