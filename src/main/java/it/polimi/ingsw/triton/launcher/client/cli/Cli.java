@@ -24,16 +24,11 @@ public class Cli extends Observable<Message> implements ClientView{
     private ClientModel clientModel;
     Thread inputReadThread;
     private static final String TRY_AGAIN = "Try again...";
-    public static final String ANSI_RESET = "\u001B[0m";
-    public static final String ANSI_BOLDGREEN = "\u001B[1;32m";
-    public static final String ANSI_GREEN = "\u001B[32m";
-    public static final String ANSI_RED = "\u001B[31m";
-    public static final String ANSI_BLUE = "\u001B[34m";
-    public static final String ANSI_YELLOW = "\u001B[33m";
-    public static final String ANSI_BOLDYELLOW = "\u001B[1;33m";
-    public static final String ANSI_PINK = "\u001B[35m";
     public static final String ANSI_CLEAR_CONSOLE = "\033[H\033[2J";
     public static final String commandForCharacterCard="--playCC";
+    public static final String commandViewMyWallet= "--wallet";
+    public static final String commandViewMySchoolBoard= "--schoolB";
+    public static final String commandViewAllCommands = "--commands";
 
 
     /**
@@ -97,7 +92,7 @@ public class Cli extends Observable<Message> implements ClientView{
     }
 
     public void askUsername() {
-        out.print(ANSI_BOLDGREEN + "Enter your username: " + ANSI_RESET);
+        out.print(Utility.ANSI_BOLDGREEN + "Enter your username: " + Utility.ANSI_RESET);
         try {
             String username = readLine();
             notify(new LoginRequest(username));
@@ -116,7 +111,7 @@ public class Cli extends Observable<Message> implements ClientView{
         out.println("You are the first player");
         try{
             do{
-                out.print(ANSI_BOLDGREEN + "Please, select a game mode [N for normal mode, E for expert mode]: " + ANSI_RESET);
+                out.print(Utility.ANSI_BOLDGREEN + "Please, select a game mode [N for normal mode, E for expert mode]: " + Utility.ANSI_RESET);
                 input = readLine();
             }while(!(input.equalsIgnoreCase("E") || input.equalsIgnoreCase("N")));
         } catch (NullPointerException e){
@@ -129,7 +124,7 @@ public class Cli extends Observable<Message> implements ClientView{
     public int askNumOfPlayers() {
         int numPlayers = 2;
         try {
-                out.print(ANSI_BOLDGREEN + "Enter number of players [2 or 3]: " + ANSI_RESET);
+                out.print(Utility.ANSI_BOLDGREEN + "Enter number of players [2 or 3]: " + Utility.ANSI_RESET);
                 String input = readLine();
                 numPlayers = Integer.parseInt(input);
         } catch(NumberFormatException e){
@@ -148,12 +143,6 @@ public class Cli extends Observable<Message> implements ClientView{
         for(String username: onlineNicknames){
             out.println("- " + username);
         }
-        /*if(maxNumberPlayers-onlineNicknames.size() != 0)
-            out.println("There are " + onlineNicknames.size() +
-                " out of " + maxNumberPlayers + " players connected; Waiting for " + (maxNumberPlayers-onlineNicknames.size()) + " players...");
-        else
-            out.println("There are " + onlineNicknames.size() +
-                    " out of " + maxNumberPlayers + " players connected; The game is starting...");*/
     }
 
 
@@ -162,7 +151,7 @@ public class Cli extends Observable<Message> implements ClientView{
     @Override
     public void askTowerColor(boolean[] chosenTowerColors) {
         try {
-            out.print(ANSI_BOLDGREEN + "Choose a tower color [ ");
+            out.print(Utility.ANSI_BOLDGREEN + "Choose a tower color [ ");
             for(int i=0;i< chosenTowerColors.length;i++){
                 if(!chosenTowerColors[i]) {
                     out.print(i + " for " + TowerColor.values()[i]);
@@ -170,7 +159,7 @@ public class Cli extends Observable<Message> implements ClientView{
                         out.print(", ");
                 }
             }
-            out.print(" ]: " + ANSI_RESET);
+            out.print(" ]: " + Utility.ANSI_RESET);
             String input = readLine();
             notify(new TowerColorReply(clientModel.getUsername(), TowerColor.values()[Integer.parseInt(input)]));
         }catch(NumberFormatException | ArrayIndexOutOfBoundsException e){
@@ -185,8 +174,8 @@ public class Cli extends Observable<Message> implements ClientView{
     @Override
     public void askWizard(List<Wizard> wizards) {
         try {
-            out.print(ANSI_BOLDGREEN + "Choose a Wizard " + Utility.printAvailableWizards(wizards));
-            out.print(": " + ANSI_RESET);
+            out.print(Utility.ANSI_BOLDGREEN + "Choose a Wizard " + Utility.printAvailableWizards(wizards));
+            out.print(": " + Utility.ANSI_RESET);
             String input = readLine();
             notify(new WizardReply(clientModel.getUsername(), Wizard.valueOf(input.toUpperCase())));
         }catch(IllegalArgumentException e){
@@ -204,7 +193,7 @@ public class Cli extends Observable<Message> implements ClientView{
     }
 
     public void showChangePhase(GameState gameState){
-        out.println(ANSI_BOLDYELLOW+" ---"+gameState.name()+"---"+ANSI_RESET);
+        out.println(Utility.ANSI_BOLDYELLOW+" ---"+gameState.name()+"---"+Utility.ANSI_RESET);
     }
 
 
@@ -212,11 +201,11 @@ public class Cli extends Observable<Message> implements ClientView{
     public void askAssistantCard() {
         AssistantDeck assistantDeck= clientModel.getAssistantDeck();
         try {
-            out.print(ANSI_BOLDGREEN + "Draw an Assistant Card\n[ " + ANSI_RESET + ANSI_GREEN);
+            out.print(Utility.ANSI_BOLDGREEN + "Draw an Assistant Card\n[ " + Utility.ANSI_RESET + Utility.ANSI_GREEN);
             for (AssistantCard assistantCard : assistantDeck.getAssistantDeck()) {
                 out.print(assistantCard.toString());
             }
-            out.print(ANSI_BOLDGREEN + " ]: " + ANSI_RESET);
+            out.print(Utility.ANSI_BOLDGREEN + " ]: " + Utility.ANSI_RESET);
             String input = readLine();
             AssistantCard assistantCardReply=null;
             for (AssistantCard assistantCard : assistantDeck.getAssistantDeck()){
@@ -245,15 +234,15 @@ public class Cli extends Observable<Message> implements ClientView{
     @Override
     public void askMoveStudentFromEntrance() {
         try {
-            out.println(ANSI_GREEN + "Choose three students to move from entrance to dining room or an island!");
-            out.print("Islands:\n" + ANSI_RESET);
+            out.println(Utility.ANSI_GREEN + "Choose three students to move from entrance to dining room or an island!");
+            out.print("Islands:\n" + Utility.ANSI_RESET);
             out.println(clientModel.printIslands());
             out.print("\n");
-            out.println(ANSI_GREEN + "SchoolBoards:\n" + ANSI_RESET);
+            out.println(Utility.ANSI_GREEN + "SchoolBoards:\n" + Utility.ANSI_RESET);
             out.print(clientModel.printOtherSchoolBoards());
             out.println(clientModel.printYourSchoolBoard());
             out.println("To do so, type on each line [color of student, d (for dining room) ] or [color of student, island id]");
-            out.print(ANSI_BOLDGREEN + "Please, enter data: " + ANSI_RESET);
+            out.print(Utility.ANSI_BOLDGREEN + "Please, enter data: " + Utility.ANSI_RESET);
             String input = readLine();
             if(input.equals(commandForCharacterCard)&& clientModel.isExpertMode())
                 showAndPlayCharacterCard();
@@ -277,13 +266,13 @@ public class Cli extends Observable<Message> implements ClientView{
     @Override
     public void askNumberStepsMotherNature() {
         try {
-            out.print("Islands:\n" + ANSI_RESET);
+            out.print("Islands:\n" + Utility.ANSI_RESET);
             out.println(clientModel.printIslands());
             out.print("\n");
             out.print(clientModel.printOtherSchoolBoards());
             out.println(clientModel.printYourSchoolBoard());
             out.println("Mother nature is on the island: " + clientModel.getMotherNaturePosition().getId());
-            out.print(ANSI_BOLDGREEN + "Enter the number of steps that mother nature has to do: " + ANSI_RESET);
+            out.print(Utility.ANSI_BOLDGREEN + "Enter the number of steps that mother nature has to do: " + Utility.ANSI_RESET);
             String input = readLine();
             if(input.equals(commandForCharacterCard)&& clientModel.isExpertMode())
                 showAndPlayCharacterCard();
@@ -301,15 +290,15 @@ public class Cli extends Observable<Message> implements ClientView{
     @Override
     public void askCloudTile() {
         try {
-            out.println(ANSI_GREEN + "Choose a cloud tile to withdraw the students!");
-            out.print("Islands:\n" + ANSI_RESET);
+            out.println(Utility.ANSI_GREEN + "Choose a cloud tile to withdraw the students!");
+            out.print("Islands:\n" + Utility.ANSI_RESET);
             out.println(clientModel.printIslands());
             out.print("\n");
             out.print(clientModel.printOtherSchoolBoards());
             out.println(clientModel.printYourSchoolBoard());
-            out.print("CloudTiles:" + ANSI_RESET);
+            out.print("CloudTiles:" + Utility.ANSI_RESET);
             out.println(clientModel.printCloudTiles());
-            out.print(ANSI_BOLDGREEN + "Enter the id of the cloud tile you choose: " + ANSI_RESET);
+            out.print(Utility.ANSI_BOLDGREEN + "Enter the id of the cloud tile you choose: " + Utility.ANSI_RESET);
             String input = readLine();
             if(input.equals(commandForCharacterCard)&& clientModel.isExpertMode())
                 showAndPlayCharacterCard();
@@ -359,12 +348,12 @@ public class Cli extends Observable<Message> implements ClientView{
     }
 
     public void askCharCard01(){
-        out.print(ANSI_BLUE + "Choose the color of the student to move onto an island: " + ANSI_RESET);
+        out.print(Utility.ANSI_BLUE + "Choose the color of the student to move onto an island: " + Utility.ANSI_RESET);
         try {
             String input = readLine();
             Color studentToMove = Color.valueOf(input.toUpperCase());
             out.println(clientModel.printIslands());
-            out.print(ANSI_BLUE + "Choose the id of the island: " + ANSI_RESET);
+            out.print(Utility.ANSI_BLUE + "Choose the id of the island: " + Utility.ANSI_RESET);
             input = readLine();
             notify(new CharacterCard01Reply(clientModel.getUsername(), studentToMove, Integer.parseInt(input)));
         } catch (NumberFormatException e){
@@ -376,7 +365,7 @@ public class Cli extends Observable<Message> implements ClientView{
     }
 
     public void askCharCard03(){
-        out.print(ANSI_BLUE + "Select the island where you want to calculate the influence: " + ANSI_RESET);
+        out.print(Utility.ANSI_BLUE + "Select the island where you want to calculate the influence: " + Utility.ANSI_RESET);
         try {
             out.println(clientModel.printIslands());
             String input = readLine();
@@ -390,7 +379,7 @@ public class Cli extends Observable<Message> implements ClientView{
     }
 
     public void askCharCard05(){
-        out.print(ANSI_BLUE + "Select the island where to put a no entry tile: " + ANSI_RESET);
+        out.print(Utility.ANSI_BLUE + "Select the island where to put a no entry tile: " + Utility.ANSI_RESET);
         try {
             out.println(clientModel.printIslands());
             String input = readLine();
@@ -407,14 +396,14 @@ public class Cli extends Observable<Message> implements ClientView{
         int repeat = 0;
         int [] fromCard = new int[5];
         int [] fromSchoolBoard = new int[5];
-        out.println(ANSI_BLUE + "Swap up to three students between this card and your school board" + ANSI_RESET);
+        out.println(Utility.ANSI_BLUE + "Swap up to three students between this card and your school board" + Utility.ANSI_RESET);
         out.println(clientModel.getCharacterCardById(7).studentsToString());
         out.println(clientModel.printYourSchoolBoard());
         do{
             try {
                 repeat++;
                 // choose the student to swap on card, then update fromCard array to send to Server
-                out.print(ANSI_BLUE + "Enter the "+ordinal(repeat) + " student from this card (press enter if you want to stop): " + ANSI_RESET);
+                out.print(Utility.ANSI_BLUE + "Enter the "+ordinal(repeat) + " student from this card (press enter if you want to stop): " + Utility.ANSI_RESET);
                 String inputFromCard = readLine();
                 if(inputFromCard.isEmpty())
                     break;
@@ -422,7 +411,7 @@ public class Cli extends Observable<Message> implements ClientView{
                 fromCard[color.ordinal()]++;
 
                 // choose the student to swap on school board, then update fromSchoolBoard array to send to Server
-                out.print("Enter the "+ordinal(repeat) + ANSI_BLUE + " student from your school board: " + ANSI_RESET);
+                out.print("Enter the "+ordinal(repeat) + Utility.ANSI_BLUE + " student from your school board: " + Utility.ANSI_RESET);
                 String inputFromSchoolBoard = readLine();
                 color = Color.valueOf(inputFromSchoolBoard.toUpperCase());
                 fromSchoolBoard[color.ordinal()]++;
@@ -457,9 +446,9 @@ public class Cli extends Observable<Message> implements ClientView{
     }
 
     public void askCharCard09(){
-        out.print(ANSI_BLUE + "Enter the color that will not count in the calculation of influence: " + ANSI_RESET);
+        out.print(Utility.ANSI_BLUE + "Enter the color that will not count in the calculation of influence: " + Utility.ANSI_RESET);
         try {
-            out.print("Islands:\n" + ANSI_RESET);
+            out.print("Islands:\n" + Utility.ANSI_RESET);
             out.println(clientModel.printIslands());
             out.print("\n");
             out.print(clientModel.printOtherSchoolBoards());
@@ -481,12 +470,12 @@ public class Cli extends Observable<Message> implements ClientView{
         int [] fromEntrance = new int[5];
         int [] fromDiningRoom = new int[5];
         out.println(clientModel.printYourSchoolBoard());
-        out.println(ANSI_BLUE + "Swap up to two students between your entrance and your dining room" + ANSI_RESET);
+        out.println(Utility.ANSI_BLUE + "Swap up to two students between your entrance and your dining room" + Utility.ANSI_RESET);
         do{
             try {
                 repeat++;
                 // choose the student to swap on entrance, then update fromEntrance array to send to Server
-                out.print("Enter the "+ordinal(repeat) + ANSI_BLUE + " student from the entrance (press enter if you want to stop): " + ANSI_RESET);
+                out.print("Enter the "+ordinal(repeat) + Utility.ANSI_BLUE + " student from the entrance (press enter if you want to stop): " + Utility.ANSI_RESET);
                 String inputFromEntrance = readLine();
                 if(inputFromEntrance.isEmpty())
                     break;
@@ -494,7 +483,7 @@ public class Cli extends Observable<Message> implements ClientView{
                 fromEntrance[color.ordinal()]++;
 
                 // choose the student to swap on dining room, then update fromDiningRoom array to send to Server
-                out.print("Enter the "+ordinal(repeat) + ANSI_BLUE + " - student from your dining room: " + ANSI_RESET);
+                out.print("Enter the "+ordinal(repeat) + Utility.ANSI_BLUE + " - student from your dining room: " + Utility.ANSI_RESET);
                 String inputFromDiningRoom = readLine();
                 color = Color.valueOf(inputFromDiningRoom.toUpperCase());
                 fromDiningRoom[color.ordinal()]++;
@@ -512,7 +501,7 @@ public class Cli extends Observable<Message> implements ClientView{
     public void askCharCard11(){
         out.println(clientModel.getCharacterCardById(11).toString());
         out.println(clientModel.printYourSchoolBoard());
-        out.print(ANSI_BLUE + "Enter the color of the student you want to move into your dining room: " + ANSI_RESET);
+        out.print(Utility.ANSI_BLUE + "Enter the color of the student you want to move into your dining room: " + Utility.ANSI_RESET);
         try {
             String input = readLine();
             Color color = Color.valueOf(input.toUpperCase());
@@ -531,7 +520,7 @@ public class Cli extends Observable<Message> implements ClientView{
         out.println(clientModel.printYourSchoolBoard());
         out.println("Enter a color of student: every player (including yourself) must return 3 students of that color from their Dining Room to the bag.");
         out.println("If any player has fewer than 3 students of that color, return as many students as they have.");
-        out.print(ANSI_BLUE + "Enter the color: " + ANSI_RESET);
+        out.print(Utility.ANSI_BLUE + "Enter the color: " + Utility.ANSI_RESET);
         try {
             String input = readLine();
             Color color = Color.valueOf(input.toUpperCase());
@@ -546,14 +535,14 @@ public class Cli extends Observable<Message> implements ClientView{
 
     @Override
     public void showErrorMessage(ErrorTypeID errorTypeID) {
-        out.println(ANSI_RED + errorTypeID.getDescription() + ANSI_RESET);
+        out.println(Utility.ANSI_RED + errorTypeID.getDescription() + Utility.ANSI_RESET);
         if(errorTypeID == ErrorTypeID.FULL_LOBBY)
             System.exit(1);
     }
 
     @Override
     public void showDisconnectionMessage() {
-        out.println(ANSI_RED + "A player has disconnected! The game is finished." + ANSI_RESET);
+        out.println(Utility.ANSI_RED + "A player has disconnected! The game is finished." + Utility.ANSI_RESET);
         inputReadThread.interrupt();
         System.exit(1);
     }
@@ -618,19 +607,19 @@ public class Cli extends Observable<Message> implements ClientView{
 
     @Override
     public void showTieMessage() {
-        out.println(ANSI_YELLOW + "You have tied" + ANSI_RESET);
+        out.println(Utility.ANSI_YELLOW + "You have tied" + Utility.ANSI_RESET);
         askPlayAgain();
     }
 
     @Override
     public void showWinMessage() {
-        out.println(ANSI_YELLOW + "Congratulations! You're the winner!" + ANSI_RESET);
+        out.println(Utility.ANSI_YELLOW + "Congratulations! You're the winner!" + Utility.ANSI_RESET);
         askPlayAgain();
     }
 
     @Override
     public void showLoseMessage(String winnerUsername) {
-        out.println(ANSI_YELLOW + "You Lose! The winner is: " + winnerUsername + ANSI_RESET);
+        out.println(Utility.ANSI_YELLOW + "You Lose! The winner is: " + winnerUsername + Utility.ANSI_RESET);
         askPlayAgain();
     }
 
@@ -659,7 +648,7 @@ public class Cli extends Observable<Message> implements ClientView{
         try {
             out.println(clientModel.printWallet());
             out.println(clientModel.getAvailableCharacterCards().toString());
-            out.print(ANSI_BLUE + "Please, choose a character card id to play: " + ANSI_RESET);
+            out.print(Utility.ANSI_BLUE + "Please, choose a character card id to play: " + Utility.ANSI_RESET);
             String input=readLine();
             notify(new UseCharacterCardRequest(clientModel.getUsername(),Integer.parseInt(removeSpaces(input))));
         } catch (NullPointerException e) {
@@ -671,7 +660,7 @@ public class Cli extends Observable<Message> implements ClientView{
     }
 
     public void showAbortMessage(){
-        out.println(ANSI_RED + "Connection with server dropped! Quit..." + ANSI_RESET);
+        out.println(Utility.ANSI_RED + "Connection with server dropped! Quit..." + Utility.ANSI_RESET);
         System.exit(1);
     }
 
