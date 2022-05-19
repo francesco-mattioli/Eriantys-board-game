@@ -45,7 +45,7 @@ public class Cli extends Observable<Message> implements ClientView{
     }
 
     /**
-     * Print the logo and welcome the player.
+     * Prints the logo and welcomes the player.
      */
     public void start() {
         out.print("\n" +
@@ -59,8 +59,7 @@ public class Cli extends Observable<Message> implements ClientView{
     }
 
     /**
-     * Creates the Client to communicate with the Server, then sets the latter as an Observer of the Cli.
-     * Eventually, it asks the username to the player.
+     * Creates the Client to communicate with the Server, asking the IP address of it. Then sets the latter as an Observer of the Cli.
      */
     public void init(){
         this.addObserver(new Client(this));
@@ -68,6 +67,10 @@ public class Cli extends Observable<Message> implements ClientView{
         askIpAddress();
     }
 
+    /**
+     * Asks the player to insert the IP address of the server in order to create the socket.
+     * If the user doesn't insert anything, it creates the socket on localhost IP address.
+     */
     public void askIpAddress(){
         String defaultIp = "localhost";
         String ip;
@@ -84,18 +87,23 @@ public class Cli extends Observable<Message> implements ClientView{
         notify(new UpdatedServerInfoMessage(ip));
     }
 
+    /**
+     * This method analyzes the string inserted by the user, applying a pattern that allows the system to know if the
+     * string corresponds to an IP address format.
+     * @param address the string with the IP address to analyze.
+     * @return true if the string corresponds to an IP address, false otherwise.
+     */
     private boolean isCorrectIpAddress(String address){
         String pattern = "^((0|1\\d?\\d?|2[0-4]?\\d?|25[0-5]?|[3-9]\\d?)\\.){3}(0|1\\d?\\d?|2[0-4]?\\d?|25[0-5]?|[3-9]\\d?)$";
         return address.matches(pattern);
     }
 
+    /**
+     * Asks the player to insert the username he wants in the game.
+     * After that, the server will check if the username is forbidden or already used and, in that case, it'll send
+     * back another request asking the username.
+     */
     @Override
-    public void askNumPlayersAndGameMode(){
-        boolean expertMode = askGameMode();
-        int numOfPlayers = askNumOfPlayers();
-        notify(new PlayersNumberAndGameModeReply(clientModel.getUsername(), numOfPlayers, expertMode));
-    }
-
     public void askUsername() {
         out.print(ANSI_BOLDGREEN + "Enter your username: " + ANSI_RESET);
         try {
@@ -106,12 +114,30 @@ public class Cli extends Observable<Message> implements ClientView{
         }
     }
 
+    /**
+     * If the username is correct, it shows to the player that the login is completed.
+     */
     @Override
     public void showLoginReply() {
         out.println("Username '"+clientModel.getUsername()+"' accepted!");
     }
 
-    public boolean askGameMode() {
+    /**
+     * Asks only the first player to insert the number of players of the game and the game mode (expert or not).
+     */
+    @Override
+    public void askNumPlayersAndGameMode(){
+        boolean expertMode = askGameMode();
+        int numOfPlayers = askNumOfPlayers();
+        notify(new PlayersNumberAndGameModeReply(clientModel.getUsername(), numOfPlayers, expertMode));
+    }
+
+    /**
+     * Asks the player to choose the game mode.
+     * The first player hass to insert 'E' if he wants the expert mode, 'N' otherwise.
+     * @return true if the player wants the expert mode, false otherwise.
+     */
+    private boolean askGameMode() {
         String input="";
         out.println("You are the first player");
         try{
@@ -126,7 +152,13 @@ public class Cli extends Observable<Message> implements ClientView{
         return input.equalsIgnoreCase("E");
     }
 
-    public int askNumOfPlayers() {
+    /**
+     * Asks the first to player to choose the number of players he wants to create the game.
+     * Client-side, it checks only if the player inserts a number and not a word.
+     * The server will check if the number is 2 or 3 because the game supports only two-players and three-players game.
+     * @return the number of player chosen by the first player.
+     */
+    private int askNumOfPlayers() {
         int numPlayers = 2;
         try {
                 out.print(ANSI_BOLDGREEN + "Enter number of players [2 or 3]: " + ANSI_RESET);
@@ -141,8 +173,10 @@ public class Cli extends Observable<Message> implements ClientView{
         return numPlayers;
     }
 
-
-
+    /**
+     * Shows all the online players.
+     * @param onlineNicknames the list with the online players.
+     */
     public void showLobbyMessage(List<String> onlineNicknames) {
         out.println("ONLINE PLAYERS:");
         for(String username: onlineNicknames){
@@ -156,9 +190,14 @@ public class Cli extends Observable<Message> implements ClientView{
                     " out of " + maxNumberPlayers + " players connected; The game is starting...");*/
     }
 
-
-
-
+    /**
+     * Asks the player to choose his tower color.
+     * This method shows only the available tower colors (these have false in their positions in chosenTowerColors array).
+     * The player has to insert the number corresponding to the color. If he doesn't input a number or if he inputs an uncorrected number,
+     * this method asks again to choose the tower color.
+     * Server will check if the color chosen is effectively unused.
+     * @param chosenTowerColors the arrays of tower color, available and not.
+     */
     @Override
     public void askTowerColor(boolean[] chosenTowerColors) {
         try {
@@ -181,7 +220,12 @@ public class Cli extends Observable<Message> implements ClientView{
         }
     }
 
-
+    /**
+     * Asks the player to choose his wizard. Every wizard is associated to a color.
+     * If the player inputs a word that is not a correct color of the game, it will ask again to insert the color of the wizard.
+     * The server will check if the color of the wizard chosen by the player is effectively unused.
+     * @param wizards the list of available wizards.
+     */
     @Override
     public void askWizard(List<Wizard> wizards) {
         try {
@@ -197,16 +241,22 @@ public class Cli extends Observable<Message> implements ClientView{
         }
     }
 
-
+    /**
+     * Shows all the game information about school boards, islands, character cards, player's assistant deck and player's wallet.
+     */
     @Override
     public void showGameInfo() {
         out.println(clientModel.toString());
     }
 
+    /**
+     * Shows to the players that a new game phase is starting (planning phase or action phase).
+     * @param gameState the new phase of the game.
+     */
+    @Override
     public void showChangePhase(GameState gameState){
         out.println(ANSI_BOLDYELLOW+" ---"+gameState.name()+"---"+ANSI_RESET);
     }
-
 
     @Override
     public void askAssistantCard() {
