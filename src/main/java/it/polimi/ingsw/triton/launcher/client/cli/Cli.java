@@ -419,6 +419,11 @@ public class Cli extends Observable<Message> implements ClientView{
         }
     }
 
+    /**
+     * Asks the player to insert the parameters of the character card he chose in order to build the effect.
+     * This method calls other methods according to the id of the character card the player chose.
+     * @param id the id of the character card the player wants to play.
+     */
     @Override
     public void askCharacterCardParameters(int id) {
         switch (id){
@@ -453,6 +458,11 @@ public class Cli extends Observable<Message> implements ClientView{
         }
     }
 
+    /**
+     * Asks the parameters of the effect of character card 01.
+     * The methods checks only if the color inserted by the player exists in the game.
+     * The server will check if the student of that color effectively exists.
+     */
     public void askCharCard01(){
         out.print(ANSI_BLUE + "Choose the color of the student to move onto an island: " + ANSI_RESET);
         try {
