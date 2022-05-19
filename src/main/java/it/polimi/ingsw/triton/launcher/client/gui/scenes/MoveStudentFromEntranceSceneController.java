@@ -84,7 +84,7 @@ public class MoveStudentFromEntranceSceneController extends SceneController {
                 colorMap.put(Color.values()[i].name(), Color.values()[i]);
             }
         }*/
-        colorMap = setUpColorChoiceBox(clientModel);
+        setUpEntranceChoiceBox(clientModel);
         colorChoiceBox.getItems().addAll(colorMap.keySet());
         islandIdChoiceBox.getItems().addAll(setUpIslandIdChoiceBox(clientModel));
         whereChoiceBox.getItems().addAll(whereMove);

@@ -30,7 +30,7 @@ public class CharCard01SceneController extends SceneController {
 
     @Override
     public <T> void setupScene(ClientModel clientModel, T parameters) {
-        colorMap = setUpCharCardChoiceBox(clientModel, 1);
+        setUpCharCardChoiceBox(clientModel, 1);
         selectColorChoiceBox.getItems().addAll(colorMap.keySet());
         selectIslandIdChoiceBox.getItems().addAll(setUpIslandIdChoiceBox(clientModel));
     }

@@ -2,18 +2,14 @@ package it.polimi.ingsw.triton.launcher.client.gui.scenes;
 
 import it.polimi.ingsw.triton.launcher.client.model.ClientModel;
 import it.polimi.ingsw.triton.launcher.server.model.enums.Color;
-import it.polimi.ingsw.triton.launcher.utils.message.clientmessage.characterCardReply.CharacterCard07Reply;
+import it.polimi.ingsw.triton.launcher.utils.message.clientmessage.characterCardReply.CharacterCard10Reply;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.layout.AnchorPane;
 
-import java.util.HashMap;
-import java.util.Map;
-
-public class CharCard07SceneController extends SceneController {
-
+public class CharCard10SceneController extends SceneController{
     @FXML
     Button stopButton;
 
@@ -24,19 +20,13 @@ public class CharCard07SceneController extends SceneController {
     Button confirmButton2;
 
     @FXML
-    Button confirmButton3;
+    AnchorPane charCard10Pane;
 
     @FXML
-    AnchorPane charCard07Pane;
+    ChoiceBox<String> fromDiningRoom1;
 
     @FXML
-    ChoiceBox<String> fromCharCard1;
-
-    @FXML
-    ChoiceBox<String> fromCharCard2;
-
-    @FXML
-    ChoiceBox<String> fromCharCard3;
+    ChoiceBox<String> fromDiningRoom2;
 
     @FXML
     ChoiceBox<String> fromEntrance1;
@@ -44,71 +34,57 @@ public class CharCard07SceneController extends SceneController {
     @FXML
     ChoiceBox<String> fromEntrance2;
 
-    @FXML
-    ChoiceBox<String> fromEntrance3;
-
     private int[] fromEntrance = new int[5];
-    private int[] fromCharCard = new int[5];
+    private int[] fromDiningRoom = new int[5];
     private ClientModel clientModel;
 
     @Override
     public <T> void setupScene(ClientModel clientModel, T parameters) {
         this.clientModel = clientModel;
         setChoiceBoxEntrance(fromEntrance1);
-        setChoiceBoxCharCard(fromCharCard1);
-
+        setChoiceBoxDiningRoom(fromDiningRoom1);
     }
 
     public void confirm1(ActionEvent event){
-        updateSwitchStudents(fromEntrance1, fromCharCard1);
-        setChoiceBoxCharCard(fromCharCard2);
+        updateSwitchStudents(fromEntrance1, fromDiningRoom1);
+        setChoiceBoxDiningRoom(fromDiningRoom2);
         setChoiceBoxEntrance(fromEntrance2);
-        disableButtonAndChoiceBox(confirmButton1, fromEntrance1, fromEntrance2, fromCharCard1, fromCharCard2, confirmButton2);
+        disableButtonAndChoiceBox(confirmButton1, fromEntrance1, fromEntrance2, fromDiningRoom1, fromDiningRoom2, confirmButton2);
     }
 
     public void confirm2(ActionEvent event){
-        updateSwitchStudents(fromEntrance2, fromCharCard2);
-        setChoiceBoxCharCard(fromCharCard3);
-        setChoiceBoxEntrance(fromEntrance3);
-        disableButtonAndChoiceBox(confirmButton2, fromEntrance2, fromEntrance3, fromCharCard2, fromCharCard3, confirmButton3);
+        updateSwitchStudents(fromEntrance2, fromDiningRoom2);
+        fromEntrance2.setDisable(true);
+        fromDiningRoom2.setDisable(true);
+        confirmButton2.setDisable(true);
+        stopButton.setDisable(true);
+        notify(new CharacterCard10Reply(username,fromEntrance, fromDiningRoom));
     }
 
-    public void confirm3(ActionEvent event){
-        updateSwitchStudents(fromEntrance3, fromCharCard3);
-        fromEntrance3.setDisable(true);
-        fromCharCard3.setDisable(true);
-        confirmButton3.setDisable(true);
-        stopButton.setDisable(true);
-        notify(new CharacterCard07Reply(username,fromCharCard,fromEntrance, clientModel.getCharacterCardById(7).getStudents()));
-    }
 
     public void stop(ActionEvent event){
         fromEntrance1.setDisable(true);
-        fromCharCard1.setDisable(true);
+        fromDiningRoom1.setDisable(true);
         confirmButton1.setDisable(true);
         fromEntrance2.setDisable(true);
-        fromCharCard2.setDisable(true);
+        fromDiningRoom2.setDisable(true);
         confirmButton2.setDisable(true);
-        fromEntrance3.setDisable(true);
-        fromCharCard3.setDisable(true);
-        confirmButton3.setDisable(true);
-        notify(new CharacterCard07Reply(username,fromCharCard,fromEntrance, clientModel.getCharacterCardById(7).getStudents()));
+        notify(new CharacterCard10Reply(username, fromEntrance, fromDiningRoom));
     }
-
 
     public void setChoiceBoxEntrance(ChoiceBox<String> choiceBox){
         setUpEntranceChoiceBox(clientModel, fromEntrance);
         choiceBox.getItems().addAll(colorEntrance);
     }
 
-    public void setChoiceBoxCharCard(ChoiceBox<String> choiceBox){
-        setUpCharCardChoiceBox(clientModel,7, fromCharCard);
-        choiceBox.getItems().addAll(colorCharCard);
+    public void setChoiceBoxDiningRoom(ChoiceBox<String> choiceBox){
+        setUpDiningRoomChoiceBox(clientModel, fromDiningRoom);
+        choiceBox.getItems().addAll(colorEntrance);
     }
 
     public void updateSwitchStudents(ChoiceBox<String> fromEntranceBox, ChoiceBox<String> fromCharCardBox){
         fromEntrance[Color.valueOf(fromEntranceBox.getValue()).ordinal()] ++;
-        fromCharCard[Color.valueOf(fromCharCardBox.getValue()).ordinal()] ++;
+        fromDiningRoom[Color.valueOf(fromCharCardBox.getValue()).ordinal()] ++;
     }
 
     public void disableButtonAndChoiceBox(Button button, ChoiceBox<String> fromEntranceBox, ChoiceBox<String> fromEntranceBox1, ChoiceBox<String> fromCharCardBox, ChoiceBox<String> fromCharCardBox1, Button button1){

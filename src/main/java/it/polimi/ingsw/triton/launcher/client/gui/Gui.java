@@ -120,13 +120,13 @@ public class Gui extends Observable<Message> implements ClientView {
     }
 
     private void showAlert(Alert.AlertType alertType, String title, String contentText) {
-        /*Platform.runLater(() -> {
+        Platform.runLater(() -> {
             Alert alert = new Alert(alertType);
             alert.setTitle(title);
             alert.setHeaderText(null);
             alert.setContentText(contentText);
             alert.showAndWait();
-        });*/
+        });
     }
 
     private void closeGui() {
@@ -256,12 +256,19 @@ public class Gui extends Observable<Message> implements ClientView {
                 prepareController("/charCard09-11-12-scene.fxml", 9);
                 break;
             }
+
             case 11:{
                 prepareController("/charCard09-11-12-scene.fxml", 11);
                 break;
             }
+
             case 12: {
                 prepareController("/charCard09-11-12-scene.fxml", 12);
+                break;
+            }
+
+            case 10:{
+                prepareController("/charCard10-scene.fxml", 10);
                 break;
             }
         }

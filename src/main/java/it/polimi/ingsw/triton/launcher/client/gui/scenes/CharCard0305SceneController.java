@@ -20,14 +20,12 @@ public class CharCard0305SceneController extends SceneController{
     @FXML
     ChoiceBox<Integer> selectIslandIdChoiceBox;
 
-    private ClientModel clientModel;
     private int id;
 
     @Override
     public <T> void setupScene(ClientModel clientModel, T parameters) {
         id = (int) parameters;
         selectIslandIdChoiceBox.getItems().addAll(setUpIslandIdChoiceBox(clientModel));
-        this.clientModel = clientModel;
     }
 
     public void confirm(ActionEvent event){
