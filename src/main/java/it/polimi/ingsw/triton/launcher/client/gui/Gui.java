@@ -120,13 +120,13 @@ public class Gui extends Observable<Message> implements ClientView {
     }
 
     private void showAlert(Alert.AlertType alertType, String title, String contentText) {
-        Platform.runLater(() -> {
+        /*Platform.runLater(() -> {
             Alert alert = new Alert(alertType);
             alert.setTitle(title);
             alert.setHeaderText(null);
             alert.setContentText(contentText);
             alert.showAndWait();
-        });
+        });*/
     }
 
     private void closeGui() {
@@ -169,6 +169,11 @@ public class Gui extends Observable<Message> implements ClientView {
     @Override
     public void askUsername() {
         prepareController("/login-scene.fxml", null);
+    }
+
+    @Override
+    public void askPlayAgain() {
+
     }
 
     @Override

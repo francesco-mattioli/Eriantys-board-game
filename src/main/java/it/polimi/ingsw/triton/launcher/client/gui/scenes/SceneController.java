@@ -61,9 +61,9 @@ public abstract class SceneController extends Observable<Message> {
     }
 
     public void setUpDiningRoomChoiceBox(ClientModel clientModel, int[] array) {
-        colorEntrance.clear();
+        colorDiningRoom.clear();
         for (int i = 0; i < clientModel.getMySchoolBoard().getDiningRoom().length; i++) {
-            if (clientModel.getMySchoolBoard().getDiningRoom()[i] - array[i] != 0) {
+            if (clientModel.getMySchoolBoard().getDiningRoom()[i] - array[i] != 0 ) {
                 colorDiningRoom.add(Color.values()[i].name());
             }
         }
@@ -83,5 +83,7 @@ public abstract class SceneController extends Observable<Message> {
             colorsName[i] = Color.values()[i].name();
         }
     }
+
+
 
 }

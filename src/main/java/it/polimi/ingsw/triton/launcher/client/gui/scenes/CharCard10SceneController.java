@@ -79,12 +79,12 @@ public class CharCard10SceneController extends SceneController{
 
     public void setChoiceBoxDiningRoom(ChoiceBox<String> choiceBox){
         setUpDiningRoomChoiceBox(clientModel, fromDiningRoom);
-        choiceBox.getItems().addAll(colorEntrance);
+        choiceBox.getItems().addAll(colorDiningRoom);
     }
 
-    public void updateSwitchStudents(ChoiceBox<String> fromEntranceBox, ChoiceBox<String> fromCharCardBox){
+    public void updateSwitchStudents(ChoiceBox<String> fromEntranceBox, ChoiceBox<String> fromDiningRoomBox){
         fromEntrance[Color.valueOf(fromEntranceBox.getValue()).ordinal()] ++;
-        fromDiningRoom[Color.valueOf(fromCharCardBox.getValue()).ordinal()] ++;
+        fromDiningRoom[Color.valueOf(fromDiningRoomBox.getValue()).ordinal()] ++;
     }
 
     public void disableButtonAndChoiceBox(Button button, ChoiceBox<String> fromEntranceBox, ChoiceBox<String> fromEntranceBox1, ChoiceBox<String> fromCharCardBox, ChoiceBox<String> fromCharCardBox1, Button button1){
