@@ -282,7 +282,7 @@ public class ServerMessageVisitor {
             clientView.showGenericMessage(message.getChoiceDescription());
         if(clientView.getClientModel().getUsername().equals(message.getPlayerUsername()))
             clientView.getClientModel().setLastCharacterCardPlayed(message.getCharacterCard());
-        clientView.showGameInfo();
+        clientView.showGameInfo(message.getCharacterCard().getId());
     }
 
     /**

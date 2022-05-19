@@ -56,6 +56,12 @@ public interface ClientView extends View {
 
     /**
      * Shows the game information with all school boards, islands and character cards.
+     * The character card id is used on GUI to update only objects that should be updated.
+     */
+    void showGameInfo(int characterCardId);
+
+    /**
+     * Shows the game information with all school boards, islands and character cards.
      */
     void showGameInfo();
 

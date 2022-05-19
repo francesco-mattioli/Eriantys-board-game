@@ -2,6 +2,7 @@ package it.polimi.ingsw.triton.launcher.client.cli;
 
 import it.polimi.ingsw.triton.launcher.client.model.ClientModel;
 import it.polimi.ingsw.triton.launcher.server.model.AssistantCard;
+import it.polimi.ingsw.triton.launcher.server.model.cardeffects.CharacterCard;
 import it.polimi.ingsw.triton.launcher.server.model.enums.*;
 import it.polimi.ingsw.triton.launcher.server.model.player.AssistantDeck;
 import it.polimi.ingsw.triton.launcher.server.model.player.SchoolBoard;
@@ -233,6 +234,16 @@ public class Cli extends Observable<Message> implements ClientView{
     public void showGameInfo() {
         out.println(clientModel.toString());
     }
+
+    /**
+     * Shows all the game information about school boards, islands, character cards, player's assistant deck and player's wallet.
+     * This method is more cleverly used by GUI.
+     */
+    @Override
+    public void showGameInfo(int characterCardId) {
+        showGameInfo();
+    }
+
 
     /**
      * Shows to the players that a new game phase is starting (planning phase or action phase).
