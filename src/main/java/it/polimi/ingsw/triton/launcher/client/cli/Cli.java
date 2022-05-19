@@ -26,10 +26,6 @@ public class Cli extends Observable<Message> implements ClientView{
     private static final String TRY_AGAIN = "Try again...";
     public static final String ANSI_CLEAR_CONSOLE = "\033[H\033[2J";
     public static final String commandForCharacterCard="--playCC";
-    public static final String commandViewMyWallet= "--wallet";
-    public static final String commandViewMySchoolBoard= "--schoolB";
-    public static final String commandViewAllCommands = "--commands";
-
 
     /**
      * Instantiates a new Cli;
@@ -332,7 +328,7 @@ public class Cli extends Observable<Message> implements ClientView{
                 else
                     notify(new MoveStudentOntoIslandMessage(clientModel.getUsername(), Integer.parseInt(removeSpaces(splittedInput[1])), color));
             }
-        } catch (IllegalArgumentException e) {
+        } catch (IllegalArgumentException | ArrayIndexOutOfBoundsException e) {
             out.println(TRY_AGAIN);
             askMoveStudentFromEntrance();
         } catch (NullPointerException e){

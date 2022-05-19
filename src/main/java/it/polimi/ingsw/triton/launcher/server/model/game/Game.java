@@ -303,9 +303,12 @@ public class Game extends GameMode {
     /**
      * Executes a part of the planning phase, filling the cloud tiles and resetting the assistant
      * cards played in last round.
+     * If the Game mode is Expert, it also sets the "already played character chard boolean attribute" to false.
      */
     public void planningPhase() {
         setGameState(GameState.PLANNING_PHASE);
+        for(Player player : players)
+            player.resetAlreadyPlayedAnCharacterCard();
         addStudentsToCloudTiles();
         resetPlayedCardInTurn();
     }
@@ -473,7 +476,7 @@ public class Game extends GameMode {
      * Changes current player at the end of every action phase.
      * At the end of the last player's action phase, it starts a new planning phase.
      */
-    public void nextGameTurn() throws EndGameException, ChangeTurnException {
+    private void nextGameTurn() throws EndGameException, ChangeTurnException {
         professorsManager.resetProfessorStrategy();
         motherNature.resetAdditionalSteps();
         for (Island island : islands)
