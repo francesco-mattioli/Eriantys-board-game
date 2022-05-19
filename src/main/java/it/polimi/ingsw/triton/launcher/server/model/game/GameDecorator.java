@@ -247,7 +247,7 @@ public class GameDecorator extends GameMode{
     }
 
     @Override
-    public void removePlayer(int playerIndex){
-        game.removePlayer(playerIndex);
+    public void removePlayer(String username){
+        game.removePlayer(username);
     }
 }

@@ -111,7 +111,7 @@ public class Controller implements Observer<ClientMessage> {
      * @param vv the virtual view associated to the player to disconnect.
      */
     public synchronized void disconnectPlayer(VirtualView vv){
-        game.getPlayers().removeIf(player -> (player.getUsername().equals(vv.getUsername())));
+        game.removePlayer(vv.getUsername());
         virtualViews.remove(vv);
     }
 
@@ -157,8 +157,8 @@ public class Controller implements Observer<ClientMessage> {
         game.setMaxNumberOfPlayers(maxNumPlayers);
     }
 
-    public void removeGamePlayer(int playerIndex){
-        game.removePlayer(playerIndex);
+    public void removeGamePlayer(String username){
+        game.removePlayer(username);
     }
 
     public int getCurrentNumberOfGamePlayers(){

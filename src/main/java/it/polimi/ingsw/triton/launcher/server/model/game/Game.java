@@ -40,7 +40,7 @@ public class Game extends GameMode {
     private final ArrayList<AssistantCard> usedAssistantCards;
     private final ArrayList<Wizard> availableWizards;
     private GameState gameState;
-    private boolean notFullCloudTiles = false;
+    private boolean notFullCloudTiles;
     // The following array must be shown to users, so they can choose a towerColor that is not already chosen.
     private boolean[] towerColorChosen;
     private final Random random = new Random();
@@ -585,8 +585,9 @@ public class Game extends GameMode {
     }
 
     @Override
-    public void removePlayer(int playerIndex) {
-        players.remove(playerIndex);
+    public void removePlayer(String username) {
+        players.removeIf(player -> (player.getUsername().equals(username)));
+        notify(new LobbyMessage(getAllUsernames(players), maxNumberOfPlayers));
     }
 
     /**
