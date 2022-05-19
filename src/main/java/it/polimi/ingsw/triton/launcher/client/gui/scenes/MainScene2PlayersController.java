@@ -386,4 +386,29 @@ public class MainScene2PlayersController extends SceneController {
         AnchorPane schoolBoardPane = schoolBoardsMap.get(username);
         drawStudentsOnEntrance(((GridPane)schoolBoardPane.getChildren().get(2)).getChildren(), clientModel.getSchoolBoards().get(username));
     }
+
+    public void showCCModifies01(ClientModel clientModel){
+        drawIslands(clientModel);
+    }
+
+    public void showCCModifies07(ClientModel clientModel){
+        drawStudentsOnEntrance(((GridPane)schoolBoardsMap.get(clientModel.getUsername()).getChildren().get(2)).getChildren(), clientModel.getSchoolBoards().get(clientModel.getUsername()));
+    }
+
+    public void showCCModifies10(ClientModel clientModel){
+        drawStudentsOnDiningRoom(((GridPane)schoolBoardsMap.get(clientModel.getUsername()).getChildren().get(1)).getChildren(), clientModel.getSchoolBoards().get(clientModel.getUsername()));
+        drawStudentsOnEntrance(((GridPane)schoolBoardsMap.get(clientModel.getUsername()).getChildren().get(2)).getChildren(), clientModel.getSchoolBoards().get(clientModel.getUsername()));
+    }
+
+    public void showCCModifies11(ClientModel clientModel){
+        drawStudentsOnDiningRoom(((GridPane)schoolBoardsMap.get(clientModel.getUsername()).getChildren().get(1)).getChildren(), clientModel.getSchoolBoards().get(clientModel.getUsername()));
+
+    }
+
+    public void showCCModifies12(ClientModel clientModel){
+        for(int i = 0; i<schoolBoardsMap.size(); i++){
+            String username = new ArrayList<>(schoolBoardsMap.keySet()).get(i);
+            drawStudentsOnDiningRoom(((GridPane)schoolBoardsMap.get(username).getChildren().get(1)).getChildren(), clientModel.getSchoolBoards().get(username));
+        }
+    }
 }

@@ -57,6 +57,27 @@ public class Gui extends Observable<Message> implements ClientView {
     }
 
     @Override
+    public void showGameInfo(int characterCardId) {
+        switch (characterCardId){
+            case 1:
+                mainController.showCCModifies01(clientModel);
+                break;
+            case 7:
+                mainController.showCCModifies07(clientModel);
+                break;
+            case 10:
+                mainController.showCCModifies10(clientModel);
+                break;
+            case 11:
+                mainController.showCCModifies11(clientModel);
+                break;
+            case 12:
+                mainController.showCCModifies12(clientModel);
+                break;
+        }
+    }
+
+    @Override
     public void showGameInfo() {
 
     }
