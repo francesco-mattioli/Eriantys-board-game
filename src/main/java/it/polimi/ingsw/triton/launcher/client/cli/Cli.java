@@ -2,6 +2,7 @@ package it.polimi.ingsw.triton.launcher.client.cli;
 
 import it.polimi.ingsw.triton.launcher.client.model.ClientModel;
 import it.polimi.ingsw.triton.launcher.server.model.AssistantCard;
+import it.polimi.ingsw.triton.launcher.server.model.cardeffects.CharacterCard;
 import it.polimi.ingsw.triton.launcher.server.model.enums.*;
 import it.polimi.ingsw.triton.launcher.server.model.player.AssistantDeck;
 import it.polimi.ingsw.triton.launcher.server.model.player.SchoolBoard;
@@ -26,10 +27,6 @@ public class Cli extends Observable<Message> implements ClientView{
     private static final String TRY_AGAIN = "Try again...";
     public static final String ANSI_CLEAR_CONSOLE = "\033[H\033[2J";
     public static final String commandForCharacterCard="--playCC";
-    public static final String commandViewMyWallet= "--wallet";
-    public static final String commandViewMySchoolBoard= "--schoolB";
-    public static final String commandViewAllCommands = "--commands";
-
 
     /**
      * Instantiates a new Cli;
@@ -239,6 +236,16 @@ public class Cli extends Observable<Message> implements ClientView{
     }
 
     /**
+     * Shows all the game information about school boards, islands, character cards, player's assistant deck and player's wallet.
+     * This method is more cleverly used by GUI.
+     */
+    @Override
+    public void showGameInfo(int characterCardId) {
+        showGameInfo();
+    }
+
+
+    /**
      * Shows to the players that a new game phase is starting (planning phase or action phase).
      * @param gameState the new phase of the game.
      */
@@ -332,7 +339,7 @@ public class Cli extends Observable<Message> implements ClientView{
                 else
                     notify(new MoveStudentOntoIslandMessage(clientModel.getUsername(), Integer.parseInt(removeSpaces(splittedInput[1])), color));
             }
-        } catch (IllegalArgumentException e) {
+        } catch (IllegalArgumentException | ArrayIndexOutOfBoundsException e) {
             out.println(TRY_AGAIN);
             askMoveStudentFromEntrance();
         } catch (NullPointerException e){
