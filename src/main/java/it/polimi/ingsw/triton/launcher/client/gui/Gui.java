@@ -362,10 +362,9 @@ public class Gui extends Observable<Message> implements ClientView {
             });
         }
 
-        private void playCharacterCard (Button button){
+        private void playCharacterCard(Button button){
             button.setOnAction(event -> {
                 prepareController("/characterCard-scene.fxml", null);
             });
         }
-
     }
