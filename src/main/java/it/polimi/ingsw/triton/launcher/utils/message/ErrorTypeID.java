@@ -24,7 +24,8 @@ public enum ErrorTypeID {
     GENERIC_CLIENT_INPUT_ERROR("Client has entered a wrong input!"),
     NOT_YOUR_TURN("It's not your turn, wait!"),
     CHARACTER_CARD_ALREADY_PLAYED("Cannot use a Character Card ability more than once per turn!"),
-    NULL_VALUE("Entered a null value");
+    NULL_VALUE("Entered a null value"),
+    COMMAND_CANCELLED("Command successfully canceled!");
 
     private final String description;
 

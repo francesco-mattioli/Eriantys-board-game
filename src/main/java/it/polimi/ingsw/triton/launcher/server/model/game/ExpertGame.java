@@ -152,15 +152,19 @@ public class ExpertGame extends GameDecorator {
 
     /**
      * Creates three character cards.
-     * Each one costs 1 coin.
      */
     private void drawCharacterCards() {
         ArrayList<Integer> idAlreadyChosen = new ArrayList<>();
-        int id;
+        int id, cost;
         while(characterCards.size() < 3){
-            id = random.nextInt(12);
+            id = random.nextInt(12) + 1;
             if(!idAlreadyChosen.contains(id)){
-                characterCards.add(new CharacterCard(id, 1, 0, game.getBag()));
+                if(id == 1 || id == 4 || id == 7 || id == 10)
+                    cost = 1;
+                else if(id == 2 || id == 5 || id == 8 || id == 11)
+                    cost = 2;
+                else cost = 3;
+                characterCards.add(new CharacterCard(id, cost, 0, game.getBag()));
                 idAlreadyChosen.add(id);
             }
         }
@@ -205,6 +209,8 @@ public class ExpertGame extends GameDecorator {
      */
     @Override
     public CharacterCard getCharacterCardByID(int id) throws IllegalClientInputException{
+        if(id == -1)
+            throw new IllegalClientInputException(ErrorTypeID.COMMAND_CANCELLED);
         for(CharacterCard characterCard : characterCards){
             if(characterCard.getId() == id)
                 return  characterCard;
