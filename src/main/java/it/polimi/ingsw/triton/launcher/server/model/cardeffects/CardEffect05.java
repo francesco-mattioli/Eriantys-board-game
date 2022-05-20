@@ -1,6 +1,6 @@
 package it.polimi.ingsw.triton.launcher.server.model.cardeffects;
 
-import it.polimi.ingsw.triton.launcher.server.model.Island;
+import it.polimi.ingsw.triton.launcher.server.model.islands.Island;
 import it.polimi.ingsw.triton.launcher.utils.exceptions.IllegalClientInputException;
 import it.polimi.ingsw.triton.launcher.utils.message.ErrorTypeID;
 
@@ -16,8 +16,8 @@ public class CardEffect05 implements CardEffect, Serializable {
     }
 
     /**
-     * This method add a No Entry Tile onto an island
-     * and set the island's character card 05 to the current character card.
+     * This method adds a No Entry Tile onto an island
+     * and sets the island's character card 05 to the current character card.
      * The island is passed through the constructor.
      */
     @Override

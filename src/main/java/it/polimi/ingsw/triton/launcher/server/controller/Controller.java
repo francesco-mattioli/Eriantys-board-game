@@ -1,6 +1,7 @@
 package it.polimi.ingsw.triton.launcher.server.controller;
 
-import it.polimi.ingsw.triton.launcher.server.model.Island;
+import it.polimi.ingsw.triton.launcher.server.model.islands.Island;
+import it.polimi.ingsw.triton.launcher.server.ServeOneClient;
 import it.polimi.ingsw.triton.launcher.server.model.enums.GameState;
 import it.polimi.ingsw.triton.launcher.server.model.game.ExpertGame;
 import it.polimi.ingsw.triton.launcher.server.model.game.Game;
@@ -8,6 +9,7 @@ import it.polimi.ingsw.triton.launcher.server.model.game.GameMode;
 import it.polimi.ingsw.triton.launcher.server.model.player.Player;
 import it.polimi.ingsw.triton.launcher.server.view.VirtualView;
 import it.polimi.ingsw.triton.launcher.utils.exceptions.*;
+import it.polimi.ingsw.triton.launcher.utils.message.ErrorTypeID;
 import it.polimi.ingsw.triton.launcher.utils.message.clientmessage.*;
 import it.polimi.ingsw.triton.launcher.server.controller.visitors.ClientMessageErrorVisitor;
 import it.polimi.ingsw.triton.launcher.server.controller.visitors.ClientMessageExceptionalVisitor;
@@ -58,7 +60,11 @@ public class Controller implements Observer<ClientMessage> {
             try {
                 message.modifyModel(new ClientMessageModifierVisitor(game));
                 message.createStandardNextMessage(new ClientMessageStandardVisitor(game, getVirtualViewByUsername(game.getCurrentPlayer().getUsername())));
-            } catch (IllegalClientInputException e) {
+            }catch(NullPointerException e){
+                getVirtualViewByUsername(game.getCurrentPlayer().getUsername()).showErrorMessage(ErrorTypeID.NULL_VALUE);
+                message.createInputErrorMessage(new ClientMessageErrorVisitor(game, getVirtualViewByUsername(game.getCurrentPlayer().getUsername())));
+            }
+            catch (IllegalClientInputException e) {
                 getVirtualViewByUsername(game.getCurrentPlayer().getUsername()).showErrorMessage(e.getTypeError());
                 message.createInputErrorMessage(new ClientMessageErrorVisitor(game, getVirtualViewByUsername(game.getCurrentPlayer().getUsername())));
             } catch (LastMoveException | CharacterCardWithParametersException | ChangeTurnException e) {
@@ -75,8 +81,9 @@ public class Controller implements Observer<ClientMessage> {
      */
     public void addGameObserver(VirtualView virtualView) {
         game.addObserver(virtualView);
-        for(Island island: game.getIslands())
+        for(Island island: game.getIslandManager().getIslands())
             island.addObserver(virtualView);
+        game.getIslandManager().addObserver(virtualView);
     }
 
     /**
@@ -85,7 +92,7 @@ public class Controller implements Observer<ClientMessage> {
      */
     public void removeGameObserver(VirtualView virtualView){
         game.removeObserver(virtualView);
-        for(Island island: game.getIslands())
+        for(Island island: game.getIslandManager().getIslands())
             island.removeObserver(virtualView);
     }
 
@@ -111,7 +118,7 @@ public class Controller implements Observer<ClientMessage> {
      * @param vv the virtual view associated to the player to disconnect.
      */
     public synchronized void disconnectPlayer(VirtualView vv){
-        game.getPlayers().removeIf(player -> (player.getUsername().equals(vv.getUsername())));
+        game.removePlayer(vv.getUsername());
         virtualViews.remove(vv);
     }
 
@@ -157,8 +164,8 @@ public class Controller implements Observer<ClientMessage> {
         game.setMaxNumberOfPlayers(maxNumPlayers);
     }
 
-    public void removeGamePlayer(int playerIndex){
-        game.removePlayer(playerIndex);
+    public void removeGamePlayer(String username){
+        game.removePlayer(username);
     }
 
     public int getCurrentNumberOfGamePlayers(){
@@ -175,5 +182,9 @@ public class Controller implements Observer<ClientMessage> {
 
     public void makeGameModeExpert() {
         this.game=new ExpertGame(game);
+    }
+
+    public void notifyVirtualView(ServeOneClient serveOneClient, ClientMessage message) {
+        virtualViews.stream().filter(virtualView -> virtualView.getServeOneClient().equals(serveOneClient)).findAny().orElseThrow( ()-> new NoSuchElementException("The Virtual View does not exist")).notify(message);
     }
 }

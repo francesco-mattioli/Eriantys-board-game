@@ -6,6 +6,8 @@ import it.polimi.ingsw.triton.launcher.server.model.enums.TowerColor;
 import it.polimi.ingsw.triton.launcher.server.model.enums.Wizard;
 import it.polimi.ingsw.triton.launcher.server.model.game.Game;
 import it.polimi.ingsw.triton.launcher.server.model.game.GameMode;
+import it.polimi.ingsw.triton.launcher.server.model.islands.Island;
+import it.polimi.ingsw.triton.launcher.server.model.islands.IslandManager;
 import it.polimi.ingsw.triton.launcher.server.model.player.Player;
 import it.polimi.ingsw.triton.launcher.utils.exceptions.ChangeTurnException;
 import it.polimi.ingsw.triton.launcher.utils.exceptions.IllegalClientInputException;
@@ -20,6 +22,7 @@ class GameTest {
     private Player player1;
     private Player player2;
     private Player player3;
+    private IslandManager islandManager;
 
     @BeforeEach
     public void setUp() {
@@ -71,7 +74,7 @@ class GameTest {
      */
     @Test
     public void checkNumberOfIslands() {
-        assertEquals(12, game.getIslands().size());
+        assertEquals(12, game.getIslandManager().getIslands().size());
     }
 
     /**
@@ -111,7 +114,7 @@ class GameTest {
         int idIslandOppositeToMotherNature = (game.getMotherNature().getPosition().getId() + 6) % 12;
         int numOfStudents = 0;
         for (Color color : Color.values())
-            numOfStudents += game.getIslands().get(idIslandOppositeToMotherNature).getStudents()[color.ordinal()];
+            numOfStudents += game.getIslandManager().getIslands().get(idIslandOppositeToMotherNature).getStudents()[color.ordinal()];
         assertEquals(0, numOfStudents);
     }
 
@@ -124,7 +127,7 @@ class GameTest {
         int idIslandOppositeToMotherNature = (game.getMotherNature().getPosition().getId() + 6) % 12;
         boolean numOfStudentsNotEqualsToOne = false;
         int numOfStudents = 0;
-        for (Island island : game.getIslands()) {
+        for (Island island : game.getIslandManager().getIslands()) {
             if (island.getId() != idIslandWithMotherNature && island.getId() != idIslandOppositeToMotherNature) {
                 for (Color color : Color.values()) {
                     numOfStudents += island.getStudents()[color.ordinal()];
@@ -286,7 +289,7 @@ class GameTest {
         Island island;
         int indexIsland = 4;
         try {
-            island = game.getIslandByID(indexIsland);
+            island = game.getIslandManager().getIslandByID(indexIsland);
         } catch (IllegalClientInputException e) {
             throw new RuntimeException(e);
         }
@@ -298,7 +301,7 @@ class GameTest {
      */
     @Test
     void testGetIslandByIdWhenNotExists() {
-        assertThrows(IllegalClientInputException.class, () -> game.getIslandByID(20));
+        assertThrows(IllegalClientInputException.class, () -> game.getIslandManager().getIslandByID(20));
     }
 
     /**

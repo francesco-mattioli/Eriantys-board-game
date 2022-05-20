@@ -2,7 +2,7 @@ package it.polimi.ingsw.triton.launcher.client.model;
 
 import it.polimi.ingsw.triton.launcher.server.model.AssistantCard;
 import it.polimi.ingsw.triton.launcher.server.model.CloudTile;
-import it.polimi.ingsw.triton.launcher.server.model.Island;
+import it.polimi.ingsw.triton.launcher.server.model.islands.Island;
 import it.polimi.ingsw.triton.launcher.server.model.cardeffects.CharacterCard;
 import it.polimi.ingsw.triton.launcher.server.model.enums.Wizard;
 import it.polimi.ingsw.triton.launcher.server.model.player.AssistantDeck;
@@ -171,6 +171,10 @@ public class ClientModel extends Observable<Object> {
 
     public void setSchoolBoard(String username, SchoolBoard schoolBoard) {
         this.schoolBoards.put(username, schoolBoard);
+    }
+
+    public AssistantCard getLastAssistantCardPlayed(String username){
+        return lastAssistantCardPlayedPerUsername.get(username);
     }
 
     public void setLastAssistantCardPlayed(String username,AssistantCard lastAssistantCardPlayed){
@@ -342,6 +346,10 @@ public class ClientModel extends Observable<Object> {
 
     public void setChosenWizardsPerUsername(Map<String, Wizard> chosenWizardsPerUsername) {
         this.chosenWizardsPerUsername = chosenWizardsPerUsername;
+    }
+
+    public CharacterCard getLastCharacterCardPlayed(){
+        return lastCharacterCardPlayed;
     }
 
     public void setLastCharacterCardPlayed(CharacterCard lastCharacterCardPlayed) {

@@ -5,28 +5,29 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.concurrent.Callable;
 
+/**
+ * This class implements a task so reading can be executed on a different thread.
+ * This allows the CLI to deal with multiple requests simultaneously,
+ * thus completing more tasks in a much shorter period of time.
+ */
 public class InputReadTask implements Callable<String> {
     private final BufferedReader bufferedReader;
 
+    /**
+     * Instantiates a new Input read task.
+     */
     public InputReadTask() {
         bufferedReader = new BufferedReader(new InputStreamReader(System.in));
     }
+
+    /**
+     * This method reads a line from System.in.
+     *
+     * @return the read string
+     * @throws IOException if an I/O error occurs
+     */
     @Override
-    public String call() throws IOException, InterruptedException {
-        // wait until there is data to complete a readLine()
-        while (!bufferedReader.ready()) {
-            Thread.sleep(200);
-        }
+    public String call() throws IOException {
         return bufferedReader.readLine();
     }
 }
-
-/*
-In synchronous operations tasks are performed one at a time and only when one is completed,
-the following is unblocked. In other words, you need to wait for a task to finish to move
-to the next one.
-
-In asynchronous operations, on the other hand, you can move to another task before the previous
- one finishes. This way, with asynchronous programming you’re able to deal with multiple
- requests simultaneously, thus completing more tasks in a much shorter period of time.
- */

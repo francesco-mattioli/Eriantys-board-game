@@ -4,6 +4,7 @@ import it.polimi.ingsw.triton.launcher.server.controller.Controller;
 import it.polimi.ingsw.triton.launcher.server.model.enums.GameState;
 import it.polimi.ingsw.triton.launcher.server.view.VirtualView;
 import it.polimi.ingsw.triton.launcher.utils.message.ErrorTypeID;
+import it.polimi.ingsw.triton.launcher.utils.message.clientmessage.ClientMessage;
 
 import java.io.IOException;
 import java.net.ServerSocket;
@@ -106,7 +107,7 @@ public class Server {
         waitingList.add(lastVirtualView);
         controller.addVirtualView(lastVirtualView);
         try {
-            if (waitingList.size() <= 3 && !started) {
+            if (waitingList.size() <= controller.getMaxNumberOfGamePlayers() && !started) {
                 addObserverRelationships(lastVirtualView);
                 addPlayerAndSendSuccessMessage(lastVirtualView, username);
                 askSettingsIfMinimumNumberOfPlayersIsReached();
@@ -124,18 +125,17 @@ public class Server {
      * Otherwise, it creates the Game, the Controller, and sets the VirtualView of first player as an observer
      * of the Controller.
      *
-     * @param username      of the first player
      * @param maxNumPlayers decided by the first player
      * @param expertMode    the expert mode
      */
-    public synchronized void activateGame(String username, int maxNumPlayers, boolean expertMode) {
+    public synchronized void activateGame(int maxNumPlayers, boolean expertMode) {
         if (!isNumberOfPlayersValid(maxNumPlayers)) {
             askFirstPlayerGameSettingsAgain();
         } else {
             starting = true;
             this.expertMode = expertMode;
+            controller.setMaxNumberOfGamePlayers(maxNumPlayers);
             if (maxNumPlayers <= controller.getVirtualViews().size()) {
-                controller.setMaxNumberOfGamePlayers(maxNumPlayers);
                 beginGameOrRemoveExtraPlayer(maxNumPlayers);
             } else
                 waitingList.get(0).showGenericMessage("Waiting for " + (maxNumPlayers - waitingList.size()) + " to connect...");
@@ -172,7 +172,7 @@ public class Server {
      * number of players and game mode.
      */
     private void askSettingsIfMinimumNumberOfPlayersIsReached() {
-        if (waitingList.size() == 2)
+        if (waitingList.size() == 2 && !starting)
             waitingList.get(0).askNumPlayersAndGameMode();
     }
 
@@ -183,7 +183,7 @@ public class Server {
      * Eventually, the waiting list has to be cleared up, because there are no more users that can play the game.
      */
     private void beginGameIfSettingsAreSet() {
-        if (waitingList.size() == 3 && starting && !started)
+        if (waitingList.size() == controller.getMaxNumberOfGamePlayers() && starting && !started)
             beginGame(expertMode);
     }
 
@@ -247,7 +247,7 @@ public class Server {
 
     private void removePlayer(VirtualView virtualView) {
         virtualView.showErrorMessage(ErrorTypeID.FULL_LOBBY);
-        controller.removeGamePlayer(controller.getCurrentNumberOfGamePlayers() - 1);
+        controller.removeGamePlayer(virtualView.getUsername());
         removeObserverRelationships(virtualView);
     }
 
@@ -275,7 +275,17 @@ public class Server {
     //------------------------------------------------------------------------------------------------------------------
 
 
-    //-------------------------  METHODS CALLED BY SERVEONECLIENT CLASS ------------------------------------------------
+
+//-------------------------  METHODS CALLED BY SERVEONECLIENT CLASS ------------------------------------------------
+    /**
+     * Notify the virtual view associated with the specific ServeOneClient
+     *
+     * @param serveOneClient the ServeOneClient class that receives messages from the Client
+     * @param message        the message from Client
+     */
+    public void notifyVirtualView(ServeOneClient serveOneClient,ClientMessage message) {
+        controller.notifyVirtualView(serveOneClient,message);
+    }
 
     /**
      * Disconnect.
@@ -309,7 +319,7 @@ public class Server {
     public synchronized void disconnectPlayer(VirtualView virtualView) {
         resetPlayer(virtualView);
         controller.disconnectPlayer(virtualView);
-        if (!started && starting)
+        if (!started && starting && controller.getVirtualViews().size() == controller.getMaxNumberOfGamePlayers())
             beginGame(expertMode);
     }
 
@@ -353,8 +363,7 @@ public class Server {
         if (expertMode)
             controller.makeGameModeExpert();
         controller.setGameState(GameState.SETUP);
-        if (starting)
-            controller.createTowerColorRequestMessage(controller.getVirtualViews().get(0).getUsername());
+        controller.createTowerColorRequestMessage(controller.getVirtualViews().get(0).getUsername());
         waitingList.clear();
     }
 

@@ -1,7 +1,7 @@
 package it.polimi.ingsw.triton.launcher.server.model.cardeffects;
 
 import it.polimi.ingsw.triton.launcher.server.model.enums.Color;
-import it.polimi.ingsw.triton.launcher.server.model.Island;
+import it.polimi.ingsw.triton.launcher.server.model.islands.Island;
 import it.polimi.ingsw.triton.launcher.server.model.influencestrategy.InfluenceStrategyWithEffect09;
 
 import java.io.Serializable;
@@ -21,7 +21,7 @@ public class CardEffect09 implements CardEffect, Serializable {
     }
 
     /**
-     * This method set the island's influence strategy for each island.
+     * This method sets the island's influence strategy for each island.
      */
     @Override
     public void execute() {

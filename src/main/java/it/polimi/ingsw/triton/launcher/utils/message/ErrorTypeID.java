@@ -23,7 +23,8 @@ public enum ErrorTypeID {
     NO_ISLAND_WITH_THAT_ID("There aren't existing islands with that id!"),
     GENERIC_CLIENT_INPUT_ERROR("Client has entered a wrong input!"),
     NOT_YOUR_TURN("It's not your turn, wait!"),
-    CHARACTER_CARD_ALREADY_PLAYED("Cannot use a Character Card ability more than once per turn!");
+    CHARACTER_CARD_ALREADY_PLAYED("Cannot use a Character Card ability more than once per turn!"),
+    NULL_VALUE("Entered a null value");
 
     private final String description;
 

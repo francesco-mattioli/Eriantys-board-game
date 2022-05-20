@@ -7,6 +7,7 @@ import it.polimi.ingsw.triton.launcher.server.model.enums.Color;
 import it.polimi.ingsw.triton.launcher.server.model.enums.GameState;
 import it.polimi.ingsw.triton.launcher.server.model.enums.TowerColor;
 import it.polimi.ingsw.triton.launcher.server.model.enums.Wizard;
+import it.polimi.ingsw.triton.launcher.server.model.islands.IslandManager;
 import it.polimi.ingsw.triton.launcher.server.model.player.Player;
 import it.polimi.ingsw.triton.launcher.server.model.player.SchoolBoard;
 import it.polimi.ingsw.triton.launcher.server.model.professor.ProfessorsManager;
@@ -34,7 +35,8 @@ public abstract class GameMode extends Observable<InfoMessage>{
     public abstract Player getCurrentPlayer();
     public abstract void calculateWinner();
     public abstract void addPlayer(String username);
-    public abstract List<Island> getIslands();
+    //public abstract List<Island> getIslands();
+    public abstract IslandManager getIslandManager();
     public abstract GameState getGameState();
     public abstract void endGame(boolean correctEnd);
     public abstract List<Player> getPlayers();
@@ -49,7 +51,7 @@ public abstract class GameMode extends Observable<InfoMessage>{
     public abstract MotherNature getMotherNature();
     public abstract ProfessorsManager getProfessorsManager();
     public abstract Player[] getProfessors();
-    public abstract Island getIslandByID(int islandID) throws IllegalClientInputException;
+    //public abstract Island getIslandByID(int islandID) throws IllegalClientInputException;
     public abstract Bag getBag();
     public abstract List<Wizard> getAvailableWizards();
     abstract void setupMotherNature();
@@ -65,5 +67,5 @@ public abstract class GameMode extends Observable<InfoMessage>{
     public abstract int getMaxNumberOfPlayers();
     public abstract void setMaxNumberOfPlayers(int maxNumberOfPlayers);
     abstract void setCurrentPlayer(Player player);
-    public abstract void removePlayer(int playerIndex);
+    public abstract void removePlayer(String username);
 }

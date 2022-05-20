@@ -1,6 +1,6 @@
 package it.polimi.ingsw.triton.launcher.server.model.influencestrategy;
 
-import it.polimi.ingsw.triton.launcher.server.model.Island;
+import it.polimi.ingsw.triton.launcher.server.model.islands.Island;
 import it.polimi.ingsw.triton.launcher.server.model.player.Player;
 
 public class InfluenceStrategyWithEffect08 extends InfluenceStrategyDefaultSuper {
