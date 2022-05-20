@@ -327,6 +327,7 @@ public class Cli extends Observable<Message> implements ClientView{
             out.print(clientModel.printOtherSchoolBoards());
             out.println(clientModel.printYourSchoolBoard());
             showUpdateWallet();
+            out.println("Mother nature is on the island: " + clientModel.getMotherNaturePosition().getId());
             out.println("To do so, type on each line [color of student, d (for dining room) ] or [color of student, island id]");
             out.print(Utility.ANSI_BOLDGREEN + "Please, enter data: " + Utility.ANSI_RESET);
             String input = readLine();

@@ -1,5 +1,6 @@
-package it.polimi.ingsw.triton.launcher.server.model;
+package it.polimi.ingsw.triton.launcher.server.model.islands;
 
+import it.polimi.ingsw.triton.launcher.server.model.Bag;
 import it.polimi.ingsw.triton.launcher.server.model.cardeffects.CharacterCard;
 import it.polimi.ingsw.triton.launcher.server.model.enums.Color;
 import it.polimi.ingsw.triton.launcher.server.model.enums.TowerColor;

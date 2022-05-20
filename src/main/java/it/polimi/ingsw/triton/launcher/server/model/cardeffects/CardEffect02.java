@@ -10,7 +10,6 @@ import java.io.Serializable;
 public class CardEffect02 implements CardEffect, Serializable {
     private final ProfessorsManager professorsManager;
     private final Player player;
-
     private final Player[] professors;
 
     public CardEffect02(Player player,ProfessorsManager professorsManager, Player[] professors){
@@ -23,7 +22,7 @@ public class CardEffect02 implements CardEffect, Serializable {
      * This method sets the ProfessorStrategy to a new Strategy in order to calculate differently
      * which player has the Professor.
      * Thus, it changes the Strategy and calls updateProfessors for every student color. In other words,
-     * calls  updateProfessors for every dining table on the school board.
+     * calls updateProfessors for every dining table on the school board.
      */
     @Override
     public void execute() {

@@ -1,6 +1,6 @@
 package it.polimi.ingsw.triton.launcher.server.controller;
 
-import it.polimi.ingsw.triton.launcher.server.model.Island;
+import it.polimi.ingsw.triton.launcher.server.model.islands.Island;
 import it.polimi.ingsw.triton.launcher.server.model.enums.GameState;
 import it.polimi.ingsw.triton.launcher.server.model.game.ExpertGame;
 import it.polimi.ingsw.triton.launcher.server.model.game.Game;
@@ -75,8 +75,9 @@ public class Controller implements Observer<ClientMessage> {
      */
     public void addGameObserver(VirtualView virtualView) {
         game.addObserver(virtualView);
-        for(Island island: game.getIslands())
+        for(Island island: game.getIslandManager().getIslands())
             island.addObserver(virtualView);
+        game.getIslandManager().addObserver(virtualView);
     }
 
     /**
@@ -85,7 +86,7 @@ public class Controller implements Observer<ClientMessage> {
      */
     public void removeGameObserver(VirtualView virtualView){
         game.removeObserver(virtualView);
-        for(Island island: game.getIslands())
+        for(Island island: game.getIslandManager().getIslands())
             island.removeObserver(virtualView);
     }
 

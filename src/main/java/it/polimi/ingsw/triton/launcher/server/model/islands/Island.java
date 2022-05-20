@@ -1,4 +1,4 @@
-package it.polimi.ingsw.triton.launcher.server.model;
+package it.polimi.ingsw.triton.launcher.server.model.islands;
 
 import it.polimi.ingsw.triton.launcher.utils.Utility;
 import it.polimi.ingsw.triton.launcher.server.model.cardeffects.CharacterCard;
@@ -91,9 +91,9 @@ public class Island extends Observable<InfoMessage> implements Serializable {
                         modifiedDominator = true;
                     }
                 }
+                towerInfluence(newDominator, professors);
                 if(modifiedDominator)
                     notify(new ChangeInfluenceMessage(this, newDominator.getUsername()));
-                towerInfluence(newDominator, professors);
             }
         } else {
             characterCard05.addNoEntryTile();
