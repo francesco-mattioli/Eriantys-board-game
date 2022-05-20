@@ -20,7 +20,6 @@ public class MoveStudentOntoDiningRoomMessage extends ClientMessage {
     }
 
     public MoveStudentOntoDiningRoomMessage(String senderUsername, Color student) {
-        super(senderUsername);
         this.student = student;
     }
 

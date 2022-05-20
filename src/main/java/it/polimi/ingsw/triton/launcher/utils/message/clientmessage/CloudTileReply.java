@@ -16,7 +16,6 @@ public class CloudTileReply extends ClientMessage {
     private final int selectedCloudTileID;
 
     public CloudTileReply(String username, int selectedCloudTileID) {
-        super(username);
         this.selectedCloudTileID = selectedCloudTileID;
     }
 
