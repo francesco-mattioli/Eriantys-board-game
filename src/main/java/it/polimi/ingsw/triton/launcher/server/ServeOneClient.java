@@ -18,7 +18,7 @@ import static it.polimi.ingsw.triton.launcher.server.Server.LOGGER;
 /**
  * Each player must be treated as a thread
  */
-public class  ServeOneClient implements Runnable {
+public class ServeOneClient implements Runnable {
     /**
      * input stream for receiving messages from the client
      * output stream for sending messages to the client
@@ -54,22 +54,20 @@ public class  ServeOneClient implements Runnable {
     public void receiveMessage() {
         try {
             while (isActive()) {
-                ClientMessage message = (ClientMessage)inSocket.readObject();
+                ClientMessage message = (ClientMessage) inSocket.readObject();
                 if (message instanceof LoginRequest) {
                     server.lobby(this, message.getSenderUsername());
+                } else if (message instanceof PlayersNumberAndGameModeReply) {
+                    server.activateGame(((PlayersNumberAndGameModeReply) message).getPlayersNumber(), ((PlayersNumberAndGameModeReply) message).isExpertMode());
+                } else {
+                    server.notifyVirtualView(this, message);
                 }
-                else if (message instanceof PlayersNumberAndGameModeReply) {
-                    server.activateGame(message.getSenderUsername(),((PlayersNumberAndGameModeReply) message).getPlayersNumber(),((PlayersNumberAndGameModeReply) message).isExpertMode());
-                }
-                else {
-                    server.notifyVirtualView(this,message);
-                }
-                LOGGER.info("Received: " + message.getClass().getSimpleName() +" at port: "+socket.getPort());
+                LOGGER.info("Received: " + message.getClass().getSimpleName() + " at port: " + socket.getPort());
             }
-        }catch (SocketTimeoutException e){
-            LOGGER.severe("Cannot receive message at port "+socket.getPort()+" because connection with client dropped! Disconnecting players...");
+        } catch (SocketTimeoutException e) {
+            LOGGER.severe("Cannot receive message at port " + socket.getPort() + " because connection with client dropped! Disconnecting players...");
         } catch (IOException | NoSuchElementException | ClassNotFoundException e) {
-            LOGGER.severe(e.getMessage()+" error receiving a message at port: "+socket.getPort());
+            LOGGER.severe(e.getMessage() + " error receiving a message at port: " + socket.getPort());
         } finally {
             server.disconnect(this);
             close();
@@ -85,16 +83,16 @@ public class  ServeOneClient implements Runnable {
         try {
             outSocket.reset();
             outSocket.writeObject(message);
-            LOGGER.info("Sent: "+message.getClass().getSimpleName()+" at port: "+socket.getPort());
+            LOGGER.info("Sent: " + message.getClass().getSimpleName() + " at port: " + socket.getPort());
             outSocket.flush();
-        }catch(SocketTimeoutException e){
-            LOGGER.severe("Connection dropped due to timeout of socket at port: "+socket.getPort());
+        } catch (SocketTimeoutException e) {
+            LOGGER.severe("Connection dropped due to timeout of socket at port: " + socket.getPort());
             close();
         } catch (SocketException e) {
-            LOGGER.severe("Cannot send message "+message.getClass().getSimpleName()+" at port: "+socket.getPort() +" because connection with client dropped!");
+            LOGGER.severe("Cannot send message " + message.getClass().getSimpleName() + " at port: " + socket.getPort() + " because connection with client dropped!");
             close();
-        } catch(IOException e){
-            LOGGER.severe("Connection dropped due to IOException at port: "+socket.getPort());
+        } catch (IOException e) {
+            LOGGER.severe("Connection dropped due to IOException at port: " + socket.getPort());
             close();
         }
     }

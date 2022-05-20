@@ -125,11 +125,10 @@ public class Server {
      * Otherwise, it creates the Game, the Controller, and sets the VirtualView of first player as an observer
      * of the Controller.
      *
-     * @param username      of the first player
      * @param maxNumPlayers decided by the first player
      * @param expertMode    the expert mode
      */
-    public synchronized void activateGame(String username, int maxNumPlayers, boolean expertMode) {
+    public synchronized void activateGame(int maxNumPlayers, boolean expertMode) {
         if (!isNumberOfPlayersValid(maxNumPlayers)) {
             askFirstPlayerGameSettingsAgain();
         } else {
