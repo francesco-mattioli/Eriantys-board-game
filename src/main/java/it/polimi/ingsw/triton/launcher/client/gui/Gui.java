@@ -221,7 +221,12 @@ public class Gui extends Observable<Message> implements ClientView {
 
     @Override
     public void askCloudTile() {
-        prepareController("/chooseCloudTile-scene.fxml", null);
+        if(clientModel.getSchoolBoards().size() == 2){
+            prepareController("/chooseCloudTile2player-scene.fxml", null);
+        }
+        else{
+            prepareController("/chooseCloudTile-scene.fxml", null);
+        }
         Platform.runLater(() -> {
             if (clientModel.isExpertMode()) {
                 ChooseCloudTileSceneController controller = activeLoader.getController();

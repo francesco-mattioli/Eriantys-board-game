@@ -75,7 +75,7 @@ public class ChooseCloudTileSceneController extends SceneController {
                         studentsOnCloudTile.add(Color.values()[j]);
                     }
                 }
-                for(int j = 0; j<imagesOnCloudTile.size(); j++){
+                for(int j = 0; j< imagesOnCloudTile.size(); j++){
                     ((ImageView)imagesOnCloudTile.get(j)).setImage(new Image("file:" + currentPath + studentsOnCloudTile.get(j).getStudentImagePath()));
                 }
                 cloudTilesMap.get(i).setVisible(true);
