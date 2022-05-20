@@ -222,7 +222,6 @@ public class MainSceneController extends SceneController {
                 islandGrids[i].add(nodeList[i].get(j), j, 0);
             }
             islands.add(islandGrids[i]);
-
         }
     }
 

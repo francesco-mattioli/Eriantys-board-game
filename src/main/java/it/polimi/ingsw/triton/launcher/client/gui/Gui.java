@@ -17,12 +17,14 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.image.Image;
 import javafx.scene.layout.*;
 import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Optional;
 
 public class Gui extends Observable<Message> implements ClientView {
     private ClientModel clientModel;
@@ -120,7 +122,7 @@ public class Gui extends Observable<Message> implements ClientView {
     @Override
     public void showTieMessage() {
         showAlert(Alert.AlertType.INFORMATION, "Tie", "Nobody won the game: it was a tie");
-        closeGui();
+        askPlayAgain();
     }
 
 
@@ -133,13 +135,13 @@ public class Gui extends Observable<Message> implements ClientView {
     @Override
     public void showWinMessage() {
         showAlert(Alert.AlertType.INFORMATION, "You won", "Congratulations!! You won the game");
-        closeGui();
+        askPlayAgain();
     }
 
     @Override
     public void showLoseMessage(String winnerUsername) {
         showAlert(Alert.AlertType.INFORMATION, "You lost", "You lost!\n" + winnerUsername + " won!");
-        closeGui();
+        askPlayAgain();
     }
 
     private void showAlert(Alert.AlertType alertType, String title, String contentText) {
@@ -194,11 +196,6 @@ public class Gui extends Observable<Message> implements ClientView {
     @Override
     public void askUsername() {
         prepareController("/login-scene.fxml", null);
-    }
-
-    @Override
-    public void askPlayAgain() {
-
     }
 
     @Override
@@ -293,83 +290,82 @@ public class Gui extends Observable<Message> implements ClientView {
     }
 
 
-        @Override
-        public void showMyInfoAssistantCardPlayed (AssistantCard assistantCard){
-            Platform.runLater(() -> {
-                mainController.showMyInfoAssistantCardPlayed(assistantCard, clientModel);
-            });
-        }
+    @Override
+    public void showMyInfoAssistantCardPlayed (AssistantCard assistantCard){
+        Platform.runLater(() -> {
+            mainController.showMyInfoAssistantCardPlayed(assistantCard, clientModel);
+        });
+    }
 
-        @Override
-        public void showInfoAssistantCardPlayed (String username, AssistantCard assistantCard){
-            Platform.runLater(() -> {
-                mainController.showInfoAssistantCardPlayed(username, assistantCard);
-            });
-        }
+    @Override
+    public void showInfoAssistantCardPlayed (String username, AssistantCard assistantCard){
+        Platform.runLater(() -> {
+            mainController.showInfoAssistantCardPlayed(username, assistantCard);
+        });
+    }
 
+    @Override
+    public void showInfoStudentIntoDiningRoom (String username, String moveDescription){
+        Platform.runLater(() -> {
+            mainController.showInfoStudentIntoDiningRoom(username, clientModel);
+        });
+    }
 
-        @Override
-        public void showInfoStudentIntoDiningRoom (String username, String moveDescription){
-            Platform.runLater(() -> {
-                mainController.showInfoStudentIntoDiningRoom(username, clientModel);
-            });
-        }
+    @Override
+    public void showInfoStudentOntoIsland (String username, String moveDescription){
+        Platform.runLater(() -> {
+            mainController.showInfoStudentOntoIsland(username, clientModel);
+        });
+    }
 
-        @Override
-        public void showInfoStudentOntoIsland (String username, String moveDescription){
-            Platform.runLater(() -> {
-                mainController.showInfoStudentOntoIsland(username, clientModel);
-            });
-        }
+    @Override
+    public void showMotherNaturePosition ( int islandId){
+        Platform.runLater(() -> {
+            mainController.showMotherNaturePosition(clientModel);
+        });
+    }
 
-        @Override
-        public void showMotherNaturePosition ( int islandId){
-            Platform.runLater(() -> {
-                mainController.showMotherNaturePosition(clientModel);
-            });
-        }
+    @Override
+    public void showChangeInfluenceMessage (String username,int islandId){
+        Platform.runLater(() -> {
+            mainController.showChangeInfluenceMessage(clientModel);
+        });
+    }
 
-        @Override
-        public void showChangeInfluenceMessage (String username,int islandId){
-            Platform.runLater(() -> {
-                mainController.showChangeInfluenceMessage(clientModel);
-            });
-        }
+    @Override
+    public void showMergeIslandsMessage ( int island1Id, int island2Id){
+        Platform.runLater(() -> {
+            mainController.showMergeIslandsMessage(clientModel);
+        });
+    }
 
-        @Override
-        public void showMergeIslandsMessage ( int island1Id, int island2Id){
-            Platform.runLater(() -> {
-                mainController.showMergeIslandsMessage(clientModel);
-            });
-        }
+    @Override
+    public void showMoveTowerOntoIsland ( int islandId){
+        Platform.runLater(() -> {
+            mainController.showMoveTowerOntoIsland(clientModel);
+        });
+    }
 
-        @Override
-        public void showMoveTowerOntoIsland ( int islandId){
-            Platform.runLater(() -> {
-                mainController.showMoveTowerOntoIsland(clientModel);
-            });
-        }
+    @Override
+    public void showMoveTowerOntoSchoolBoard (String username, SchoolBoard schoolBoard){
+        Platform.runLater(() -> {
+            mainController.showMoveTowerOntoSchoolBoard(clientModel);
+        });
+    }
+    @Override
+    public void showInfoChosenCloudTile(String username, String choiceDescription){
+        Platform.runLater(() -> {
+            mainController.showInfoChosenCloudTile(username, clientModel);
+        });
+    }
 
-        @Override
-        public void showMoveTowerOntoSchoolBoard (String username, SchoolBoard schoolBoard){
-            Platform.runLater(() -> {
-                mainController.showMoveTowerOntoSchoolBoard(clientModel);
-            });
-        }
-        @Override
-        public void showInfoChosenCloudTile(String username, String choiceDescription){
-            Platform.runLater(() -> {
-                mainController.showInfoChosenCloudTile(username, clientModel);
-            });
-        }
-
-        @Override
-        public void showUpdateWallet() {
-            Platform.runLater(() -> {
-                if(mainController != null)
-                    mainController.showUpdatedWallet(clientModel);
-            });
-        }
+    @Override
+    public void showUpdateWallet() {
+        Platform.runLater(() -> {
+            if(mainController != null)
+                mainController.showUpdatedWallet(clientModel);
+        });
+    }
 
         private void initializeMainStage() {
             Platform.runLater(() -> {
@@ -395,11 +391,25 @@ public class Gui extends Observable<Message> implements ClientView {
             });
         }
 
-        private void playCharacterCard(Button button){
-            button.setOnAction(event -> {
-                prepareController("/characterCard-scene.fxml", null);
-            });
+    private void playCharacterCard(Button button){
+        button.setOnAction(event -> {
+            prepareController("/characterCard-scene.fxml", null);
+        });
+    }
+
+    @Override
+    public void askPlayAgain() {
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle("Confirmation Dialog");
+        alert.setHeaderText(null);
+        alert.setContentText("Do you want to play again?");
+        Optional<ButtonType> result = alert.showAndWait();
+        if (result.get() == ButtonType.OK) {
+            askUsername();
+        } else {
+            closeGui();
         }
+    }
 
         private void setGenericBackground(SceneController controller, String path){
             String currentPath = new java.io.File(path).getAbsolutePath().replace('\\','/');
@@ -413,3 +423,4 @@ public class Gui extends Observable<Message> implements ClientView {
             controller.getAnchorPane().setBackground(bGround);
         }
     }
+
