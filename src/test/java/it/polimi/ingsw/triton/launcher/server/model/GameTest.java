@@ -27,36 +27,39 @@ class GameTest {
     @BeforeEach
     public void setUp() {
         game = Game.instance(3);
-        game.addPlayer("TestPlayer1");
-        game.addPlayer("TestPlayer2");
-        game.addPlayer("TestPlayer3");
+        Player p1 = new Player("TestPlayer1");
+        game.getPlayers().add(p1);
+        Player p2 = new Player("TestPlayer2");
+        game.getPlayers().add(p2);
+        Player p3 = new Player("TestPlayer3");
+        game.getPlayers().add(p3);
         try {
-            game.chooseTowerColor("TestPlayer1", TowerColor.WHITE);
+            game.chooseTowerColor(p1, TowerColor.WHITE);
         } catch (IllegalClientInputException | ChangeTurnException e) {
             e.printStackTrace();
         }
         try {
-            game.chooseTowerColor("TestPlayer2", TowerColor.BLACK);
+            game.chooseTowerColor(p2, TowerColor.BLACK);
         } catch (IllegalClientInputException | ChangeTurnException e) {
             e.printStackTrace();
         }
         try {
-            game.chooseTowerColor("TestPlayer3", TowerColor.GREY);
+            game.chooseTowerColor(p3, TowerColor.GREY);
         } catch (IllegalClientInputException | ChangeTurnException e) {
             e.printStackTrace();
         }
         try {
-            game.chooseWizard("TestPlayer1", Wizard.BLUE);
+            game.chooseWizard(p1, Wizard.BLUE);
         } catch (IllegalClientInputException | ChangeTurnException e) {
             e.printStackTrace();
         }
         try {
-            game.chooseWizard("TestPlayer2", Wizard.GREEN);
+            game.chooseWizard(p2, Wizard.GREEN);
         } catch (IllegalClientInputException | ChangeTurnException e) {
             e.printStackTrace();
         }
         try {
-            game.chooseWizard("TestPlayer3", Wizard.PURPLE);
+            game.chooseWizard(p3, Wizard.PURPLE);
         } catch (IllegalClientInputException | ChangeTurnException e) {
             e.printStackTrace();
         }

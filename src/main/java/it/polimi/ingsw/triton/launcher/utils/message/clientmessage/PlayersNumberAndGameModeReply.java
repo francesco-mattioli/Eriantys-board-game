@@ -18,7 +18,6 @@ public class PlayersNumberAndGameModeReply extends ClientMessage {
     private final boolean expertMode;
 
     public PlayersNumberAndGameModeReply(String username, int playersNumber, boolean expertMode) {
-        super(username);
         this.playersNumber = playersNumber;
         this.expertMode = expertMode;
     }

@@ -14,15 +14,6 @@ import java.util.NoSuchElementException;
  * server requests.
  */
 public abstract class ClientMessage implements Message{
-    protected final String senderUsername;
-
-    protected ClientMessage(String senderUsername) {
-        this.senderUsername = senderUsername;
-    }
-
-    public String getSenderUsername() {
-        return senderUsername;
-    }
 
     public abstract void modifyModel(ClientMessageModifierVisitor visitor) throws IllegalClientInputException, NoSuchElementException, LastMoveException, EndGameException, CharacterCardWithParametersException, ChangeTurnException;
 

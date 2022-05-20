@@ -13,9 +13,10 @@ import java.util.NoSuchElementException;
  * This message is sent by the client to communicate to server that a new player wants to login.
  */
 public class LoginRequest extends ClientMessage {
+    private final String username;
 
     public LoginRequest(String username) {
-        super(username);
+        this.username = username;
     }
 
     @Override
@@ -32,5 +33,12 @@ public class LoginRequest extends ClientMessage {
     public void createInputErrorMessage(ClientMessageErrorVisitor visitor) {
 
     }
+
+
+    public String getUsername() {
+        return username;
+    }
+
+
 
 }
