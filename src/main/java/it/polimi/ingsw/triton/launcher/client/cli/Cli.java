@@ -898,8 +898,10 @@ public class Cli extends Observable<Message> implements ClientView{
         try {
             out.println(clientModel.printWallet());
             out.println(clientModel.getAvailableCharacterCards().toString());
-            out.print(Utility.ANSI_BLUE + "Please, choose a character card id to play: " + Utility.ANSI_RESET);
+            out.print(Utility.ANSI_BLUE + "Please, choose a character card id to play [Press enter for undo]: " + Utility.ANSI_RESET);
             String input=readLine();
+            if(input.isEmpty())
+                input = "-1";
             notify(new UseCharacterCardRequest(clientModel.getUsername(),Integer.parseInt(removeSpaces(input))));
         } catch (NullPointerException e) {
             System.exit(1);

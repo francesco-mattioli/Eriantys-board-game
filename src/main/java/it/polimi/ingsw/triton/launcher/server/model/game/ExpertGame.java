@@ -208,6 +208,8 @@ public class ExpertGame extends GameDecorator {
      */
     @Override
     public CharacterCard getCharacterCardByID(int id) throws IllegalClientInputException{
+        if(id == -1)
+            throw new IllegalClientInputException(ErrorTypeID.COMMAND_CANCELLED);
         for(CharacterCard characterCard : characterCards){
             if(characterCard.getId() == id)
                 return  characterCard;
