@@ -28,6 +28,11 @@ public class CharCard0305SceneController extends SceneController{
         selectIslandIdChoiceBox.getItems().addAll(setUpIslandIdChoiceBox(clientModel));
     }
 
+    @Override
+    public AnchorPane getAnchorPane() {
+        return charCard0305Pane;
+    }
+
     public void confirm(ActionEvent event){
         confirmButton.setDisable(true);
         if (id == 3)

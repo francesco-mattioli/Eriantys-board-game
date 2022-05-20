@@ -2,16 +2,10 @@ package it.polimi.ingsw.triton.launcher.client.view;
 
 import it.polimi.ingsw.triton.launcher.client.model.ClientModel;
 import it.polimi.ingsw.triton.launcher.server.model.AssistantCard;
-import it.polimi.ingsw.triton.launcher.server.model.CloudTile;
-import it.polimi.ingsw.triton.launcher.server.model.Island;
-import it.polimi.ingsw.triton.launcher.server.model.cardeffects.CharacterCard;
 import it.polimi.ingsw.triton.launcher.server.model.enums.GameState;
-import it.polimi.ingsw.triton.launcher.server.model.enums.Wizard;
 import it.polimi.ingsw.triton.launcher.server.model.player.SchoolBoard;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 /**
  * This interface contains all the methods of cli/gui that are useful to show requests from server and to allow

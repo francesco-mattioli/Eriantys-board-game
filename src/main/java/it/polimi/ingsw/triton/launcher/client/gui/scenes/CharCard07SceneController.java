@@ -59,6 +59,11 @@ public class CharCard07SceneController extends SceneController {
 
     }
 
+    @Override
+    public AnchorPane getAnchorPane() {
+        return charCard07Pane;
+    }
+
     public void confirm1(ActionEvent event){
         updateSwitchStudents(fromEntrance1, fromCharCard1);
         setChoiceBoxCharCard(fromCharCard2);

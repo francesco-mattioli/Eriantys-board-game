@@ -26,4 +26,9 @@ public class IpAddressSceneController extends SceneController {
         notify(new UpdatedServerInfoMessage(ip));
         ipAddressPane.setDisable(true);
     }
+
+    @Override
+    public AnchorPane getAnchorPane() {
+        return ipAddressPane;
+    }
 }

@@ -33,6 +33,9 @@ public class MoveStudentFromEntranceSceneController extends SceneController {
     @FXML
     Button playCCButton;
 
+    @FXML
+    Button moveButton;
+
     public Button getPlayCCButton() {
         return playCCButton;
     }
@@ -70,5 +73,21 @@ public class MoveStudentFromEntranceSceneController extends SceneController {
         islandIdChoiceBox.getItems().addAll(setUpIslandIdChoiceBox(clientModel));
         whereChoiceBox.getItems().addAll(whereMove);
         whereChoiceBox.setOnAction(this::show);
+        /*colorChoiceBox.setOnAction(this::activeButton);
+        whereChoiceBox.setOnAction(this::activeButton);
+        islandIdChoiceBox.setOnAction(this::activeButton);*/
+    }
+
+    /*private void activeButton(ActionEvent event){
+        if (colorChoiceBox.getValue() != null && whereChoiceBox.getValue().equals("dining room"))
+            moveButton.setDisable(false);
+        if (colorChoiceBox.getValue() != null && whereChoiceBox.getValue().equals("island") && islandIdChoiceBox.getValue() != null)
+            moveButton.setDisable(false);
+    }*/
+
+
+    @Override
+    public AnchorPane getAnchorPane() {
+        return moveStudentFromEntrancePane;
     }
 }

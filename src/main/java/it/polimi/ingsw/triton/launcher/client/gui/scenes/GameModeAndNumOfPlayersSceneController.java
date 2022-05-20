@@ -13,6 +13,10 @@ import javafx.scene.layout.AnchorPane;
 import java.io.IOException;
 
 public class GameModeAndNumOfPlayersSceneController extends SceneController {
+
+    @FXML
+    AnchorPane gameModePane;
+
     @FXML
     Button confirmButton;
 
@@ -40,5 +44,10 @@ public class GameModeAndNumOfPlayersSceneController extends SceneController {
             numOfPlayers = 3;
         notify(new PlayersNumberAndGameModeReply(username, numOfPlayers,rdbExpert.isSelected()));
         confirmButton.setDisable(true);
+    }
+
+    @Override
+    public AnchorPane getAnchorPane() {
+        return gameModePane;
     }
 }

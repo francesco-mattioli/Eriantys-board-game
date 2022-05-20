@@ -91,4 +91,9 @@ public class WizardSceneController extends SceneController {
             rightSwitch.setOpacity(0.5);
         }
     }
+
+    @Override
+    public AnchorPane getAnchorPane() {
+        return wizardPane;
+    }
 }

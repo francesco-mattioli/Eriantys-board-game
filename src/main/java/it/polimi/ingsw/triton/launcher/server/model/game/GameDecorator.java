@@ -7,6 +7,7 @@ import it.polimi.ingsw.triton.launcher.server.model.enums.Color;
 import it.polimi.ingsw.triton.launcher.server.model.enums.GameState;
 import it.polimi.ingsw.triton.launcher.server.model.enums.TowerColor;
 import it.polimi.ingsw.triton.launcher.server.model.enums.Wizard;
+import it.polimi.ingsw.triton.launcher.server.model.islands.IslandManager;
 import it.polimi.ingsw.triton.launcher.server.model.player.Player;
 import it.polimi.ingsw.triton.launcher.server.model.player.SchoolBoard;
 import it.polimi.ingsw.triton.launcher.server.model.professor.ProfessorsManager;
@@ -91,9 +92,14 @@ public class GameDecorator extends GameMode{
     }
 
     @Override
+    public IslandManager getIslandManager() {
+        return game.getIslandManager();
+    }
+
+    /*@Override
     public List<Island> getIslands() {
         return game.getIslands();
-    }
+    }*/
 
     @Override
     public GameState getGameState() {
@@ -160,10 +166,10 @@ public class GameDecorator extends GameMode{
         return game.getProfessors();
     }
 
-    @Override
+    /*@Override
     public Island getIslandByID(int islandID) throws IllegalClientInputException {
         return game.getIslandByID(islandID);
-    }
+    }*/
 
     @Override
     public Bag getBag() {
@@ -247,7 +253,7 @@ public class GameDecorator extends GameMode{
     }
 
     @Override
-    public void removePlayer(int playerIndex){
-        game.removePlayer(playerIndex);
+    public void removePlayer(String username){
+        game.removePlayer(username);
     }
 }

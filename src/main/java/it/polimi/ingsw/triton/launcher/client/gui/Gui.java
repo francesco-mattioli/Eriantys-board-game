@@ -57,7 +57,7 @@ public class Gui extends Observable<Message> implements ClientView {
             usernames += name + "\n";
         }
         usernames = "A new player has been connected.\nNow players online are:\n" + usernames;
-        //showAlert(Alert.AlertType.INFORMATION, "New player online", usernames);
+        showAlert(Alert.AlertType.INFORMATION, "New player online", usernames);
     }
 
     @Override
@@ -92,7 +92,7 @@ public class Gui extends Observable<Message> implements ClientView {
             initializeMainStage();
         }
         actualGamePhase = gameState;
-        //showAlert(Alert.AlertType.INFORMATION, "Game phase info", "New game phase:\n" + gameState + " is beginning..");
+        showAlert(Alert.AlertType.INFORMATION, "Game phase info", "New game phase:\n" + gameState + " is beginning..");
 
     }
 
@@ -110,7 +110,7 @@ public class Gui extends Observable<Message> implements ClientView {
 
     @Override
     public void showLoginReply() {
-        //showAlert(Alert.AlertType.INFORMATION, "Login Reply", "Username Accepted. Your username will be \"" + clientModel.getUsername() + "\"");
+        showAlert(Alert.AlertType.INFORMATION, "Login Reply", "Username Accepted. Your username will be \"" + clientModel.getUsername() + "\"");
     }
 
     @Override
@@ -145,13 +145,13 @@ public class Gui extends Observable<Message> implements ClientView {
     }
 
     private void showAlert(Alert.AlertType alertType, String title, String contentText) {
-        Platform.runLater(() -> {
+        /*Platform.runLater(() -> {
             Alert alert = new Alert(alertType);
             alert.setTitle(title);
             alert.setHeaderText(null);
             alert.setContentText(contentText);
             alert.showAndWait();
-        });
+        });*/
     }
 
     private void closeGui() {
@@ -177,6 +177,8 @@ public class Gui extends Observable<Message> implements ClientView {
                 controller.addObserver(client);
                 controller.setUsername(clientModel.getUsername());
                 controller.setupScene(clientModel, parameters);
+                setGenericBackground(controller, "src/main/resources/Images/backpurple.jpg");
+                //setGenericBackground(controller, "src/main/resources/Images/backgroundmainscene.jpg");
                 activeStage.setScene(new Scene(root));
                 activeStage.setTitle(clientModel.getUsername());
                 activeStage.show();
@@ -365,37 +367,29 @@ public class Gui extends Observable<Message> implements ClientView {
         });
     }
 
-    private void initializeMainStage() {
-        Platform.runLater(() -> {
-            FXMLLoader mainLoader;
-            if (clientModel.getSchoolBoards().size() == 2)
-                mainLoader = new FXMLLoader(getClass().getResource("/main-scene.fxml"));
-            else mainLoader = new FXMLLoader(getClass().getResource("/main3players-scene.fxml"));
-            try {
-                Parent root = mainLoader.load();
-                Scene scene = new Scene(root);
-                mainStage = new Stage();
-                mainStage.setTitle(clientModel.getUsername());
-                mainStage.setResizable(false);
-                mainController = mainLoader.getController();
-                mainController.initializeMainScene(clientModel);
-                String currentPath = new java.io.File("src/main/resources/Images/backgroundmainscene.jpg").getAbsolutePath().replace('\\','/');
-                Image img = new Image("file:" + currentPath);
-                BackgroundImage bImg = new BackgroundImage(img,
-                        BackgroundRepeat.NO_REPEAT,
-                        BackgroundRepeat.NO_REPEAT,
-                        BackgroundPosition.DEFAULT,
-                        new BackgroundSize(500,500,true,true,false,true));
-                Background bGround = new Background(bImg);
-                mainController.getMainPane().setBackground(bGround);
-                mainStage.setScene(scene);
-                mainStage.show();
-                activeStage.close();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        });
-    }
+        private void initializeMainStage() {
+            Platform.runLater(() -> {
+                FXMLLoader mainLoader;
+                if (clientModel.getSchoolBoards().size() == 2)
+                    mainLoader = new FXMLLoader(getClass().getResource("/main-scene.fxml"));
+                else mainLoader = new FXMLLoader(getClass().getResource("/main3players-scene.fxml"));
+                try {
+                    Parent root = mainLoader.load();
+                    Scene scene = new Scene(root);
+                    mainStage = new Stage();
+                    mainStage.setTitle(clientModel.getUsername());
+                    mainStage.setResizable(false);
+                    mainController = mainLoader.getController();
+                    mainController.initializeMainScene(clientModel);
+                    setGenericBackground(mainController, "src/main/resources/Images/backgroundmainscene.jpg");
+                    mainStage.setScene(scene);
+                    mainStage.show();
+                    activeStage.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            });
+        }
 
     private void playCharacterCard(Button button){
         button.setOnAction(event -> {
@@ -410,10 +404,23 @@ public class Gui extends Observable<Message> implements ClientView {
         alert.setHeaderText(null);
         alert.setContentText("Do you want to play again?");
         Optional<ButtonType> result = alert.showAndWait();
-        if (result.get() == ButtonType.OK){
+        if (result.get() == ButtonType.OK) {
             askUsername();
         } else {
             closeGui();
         }
     }
-}
+
+        private void setGenericBackground(SceneController controller, String path){
+            String currentPath = new java.io.File(path).getAbsolutePath().replace('\\','/');
+            Image img = new Image("file:" + currentPath);
+            BackgroundImage bImg = new BackgroundImage(img,
+                    BackgroundRepeat.NO_REPEAT,
+                    BackgroundRepeat.NO_REPEAT,
+                    BackgroundPosition.DEFAULT,
+                    new BackgroundSize(500,500,true,true,false,true));
+            Background bGround = new Background(bImg);
+            controller.getAnchorPane().setBackground(bGround);
+        }
+    }
+

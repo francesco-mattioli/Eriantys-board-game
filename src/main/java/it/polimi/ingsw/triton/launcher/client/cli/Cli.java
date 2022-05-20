@@ -268,7 +268,7 @@ public class Cli extends Observable<Message> implements ClientView{
         try {
             out.print(Utility.ANSI_BOLDGREEN + "Draw an Assistant Card\n[ " + Utility.ANSI_RESET + Utility.ANSI_GREEN);
             for (AssistantCard assistantCard : assistantDeck.getAssistantDeck()) {
-                out.print(assistantCard.toString());
+                out.print("\t" + assistantCard.toString());
             }
             out.print(Utility.ANSI_BOLDGREEN + " ]: " + Utility.ANSI_RESET);
             String input = readLine();
@@ -326,6 +326,8 @@ public class Cli extends Observable<Message> implements ClientView{
             out.println(Utility.ANSI_GREEN + "SchoolBoards:\n" + Utility.ANSI_RESET);
             out.print(clientModel.printOtherSchoolBoards());
             out.println(clientModel.printYourSchoolBoard());
+            showUpdateWallet();
+            out.println("Mother nature is on the island: " + clientModel.getMotherNaturePosition().getId());
             out.println("To do so, type on each line [color of student, d (for dining room) ] or [color of student, island id]");
             out.print(Utility.ANSI_BOLDGREEN + "Please, enter data: " + Utility.ANSI_RESET);
             String input = readLine();
@@ -364,7 +366,11 @@ public class Cli extends Observable<Message> implements ClientView{
             out.print("\n");
             out.print(clientModel.printOtherSchoolBoards());
             out.println(clientModel.printYourSchoolBoard());
+            showUpdateWallet();
             out.println("Mother nature is on the island: " + clientModel.getMotherNaturePosition().getId());
+            out.print("You have played: " + clientModel.getLastAssistantCardPlayed(clientModel.getUsername()));
+            if( clientModel.getLastCharacterCardPlayed() != null && clientModel.getLastCharacterCardPlayed().getId() == 4)
+                out.println("You have two extra steps!");
             out.print(Utility.ANSI_BOLDGREEN + "Enter the number of steps that mother nature has to do: " + Utility.ANSI_RESET);
             String input = readLine();
             if(input.equals(commandForCharacterCard)&& clientModel.isExpertMode())
@@ -398,6 +404,7 @@ public class Cli extends Observable<Message> implements ClientView{
             out.print("\n");
             out.print(clientModel.printOtherSchoolBoards());
             out.println(clientModel.printYourSchoolBoard());
+            showUpdateWallet();
             out.print("CloudTiles:" + Utility.ANSI_RESET);
             out.println(clientModel.printCloudTiles());
             out.print(Utility.ANSI_BOLDGREEN + "Enter the id of the cloud tile you choose: " + Utility.ANSI_RESET);
@@ -558,13 +565,13 @@ public class Cli extends Observable<Message> implements ClientView{
     }
 
     public void askCharCard09(){
-        out.print(Utility.ANSI_BLUE + "Enter the color that will not count in the calculation of influence: " + Utility.ANSI_RESET);
         try {
             out.print("Islands:\n" + Utility.ANSI_RESET);
             out.println(clientModel.printIslands());
             out.print("\n");
             out.print(clientModel.printOtherSchoolBoards());
             out.println(clientModel.printYourSchoolBoard());
+            out.print(Utility.ANSI_BLUE + "Enter the color that will not count in the calculation of influence: " + Utility.ANSI_RESET);
             String input = readLine();
             Color color = Color.valueOf(input.toUpperCase());
             notify(new CharacterCard09Reply(clientModel.getUsername(), color));

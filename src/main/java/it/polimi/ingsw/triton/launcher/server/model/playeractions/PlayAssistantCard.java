@@ -5,6 +5,8 @@ import it.polimi.ingsw.triton.launcher.server.model.player.AssistantDeck;
 import it.polimi.ingsw.triton.launcher.server.model.player.Player;
 import it.polimi.ingsw.triton.launcher.utils.exceptions.IllegalClientInputException;
 import it.polimi.ingsw.triton.launcher.utils.message.ErrorTypeID;
+import org.jetbrains.annotations.NotNull;
+
 import java.util.List;
 
 public class PlayAssistantCard implements Action {
@@ -29,7 +31,7 @@ public class PlayAssistantCard implements Action {
      * @param usedAssistantCards the cards already played by the others players in this turn.
      * @return if the card is already used.
      */
-    private boolean isUsedCard(AssistantCard assistantCard, List<AssistantCard> usedAssistantCards) {
+    private boolean isUsedCard(AssistantCard assistantCard, @NotNull List<AssistantCard> usedAssistantCards) {
         for (AssistantCard usedAssistantCard : usedAssistantCards) {
             if (assistantCard.getType().equals(usedAssistantCard.getType()))
                 return true;
@@ -73,7 +75,7 @@ public class PlayAssistantCard implements Action {
     @Override
     public void execute() throws IllegalClientInputException {
         if(assistantCardToPlay == null)
-            throw new IllegalClientInputException(ErrorTypeID.ASSISTANTCARD_ALREADY_CHOSEN);
+            throw new IllegalClientInputException(ErrorTypeID.NULL_VALUE);
         else{
             if (isUsedCard(assistantCardToPlay, usedAssistantCards)) {
                 if (isUniqueChoice(player.getAssistantDeck(), usedAssistantCards)) {

@@ -192,7 +192,6 @@ public class ServerMessageVisitor {
         clientView.getClientModel().setIsland(message.getIslandWithNewInfluence());
         clientView.getClientModel().setMotherNaturePosition(message.getIslandWithNewInfluence());
         clientView.showChangeInfluenceMessage(message.getUsernameDominator(), message.getIslandWithNewInfluence().getId());
-        clientView.getClientModel().printIslands();
     }
 
     /**
