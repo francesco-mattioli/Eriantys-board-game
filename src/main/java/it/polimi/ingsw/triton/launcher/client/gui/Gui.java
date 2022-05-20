@@ -10,6 +10,7 @@ import it.polimi.ingsw.triton.launcher.server.model.enums.Wizard;
 import it.polimi.ingsw.triton.launcher.server.model.player.SchoolBoard;
 import it.polimi.ingsw.triton.launcher.utils.message.ErrorTypeID;
 import it.polimi.ingsw.triton.launcher.utils.message.Message;
+import it.polimi.ingsw.triton.launcher.utils.message.servermessage.infoMessage.DisconnectionMessage;
 import it.polimi.ingsw.triton.launcher.utils.obs.Observable;
 import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
@@ -182,6 +183,10 @@ public class Gui extends Observable<Message> implements ClientView {
                 activeStage.setScene(new Scene(root));
                 activeStage.setTitle(clientModel.getUsername());
                 activeStage.show();
+                activeStage.setOnCloseRequest(event -> {
+                    event.consume();
+                    logout(activeStage);
+                });
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -357,6 +362,7 @@ public class Gui extends Observable<Message> implements ClientView {
             mainController.showMoveTowerOntoSchoolBoard(clientModel);
         });
     }
+
     @Override
     public void showInfoChosenCloudTile(String username, String choiceDescription){
         Platform.runLater(() -> {
@@ -390,6 +396,10 @@ public class Gui extends Observable<Message> implements ClientView {
                     mainStage.setScene(scene);
                     mainStage.show();
                     activeStage.close();
+                    mainStage.setOnCloseRequest(event -> {
+                        event.consume();
+                        logout(mainStage);
+                    });
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
@@ -427,5 +437,17 @@ public class Gui extends Observable<Message> implements ClientView {
             Background bGround = new Background(bImg);
             controller.getAnchorPane().setBackground(bGround);
         }
+
+    public void logout(Stage stage){
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle("Logout");
+        alert.setHeaderText("You're about to logout!");
+        alert.setContentText("Are you sure?");
+        if (alert.showAndWait().get() == ButtonType.OK){
+
+            stage.close();
+        }
     }
+
+}
 
