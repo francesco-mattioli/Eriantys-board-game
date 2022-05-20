@@ -26,6 +26,7 @@ public class CharCard0305SceneController extends SceneController{
     public <T> void setupScene(ClientModel clientModel, T parameters) {
         id = (int) parameters;
         selectIslandIdChoiceBox.getItems().addAll(setUpIslandIdChoiceBox(clientModel));
+        selectIslandIdChoiceBox.setOnAction(this::activeButton);
     }
 
     @Override
@@ -39,5 +40,9 @@ public class CharCard0305SceneController extends SceneController{
             notify(new CharacterCard03Reply(username, selectIslandIdChoiceBox.getValue()));
         if (id == 5)
             notify(new CharacterCard05Reply(username, selectIslandIdChoiceBox.getValue()));
+    }
+
+    private void activeButton(ActionEvent event){
+        confirmButton.setDisable(false);
     }
 }

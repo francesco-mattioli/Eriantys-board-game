@@ -11,6 +11,7 @@ import javafx.scene.layout.AnchorPane;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 public class CharCard01SceneController extends SceneController {
 
@@ -33,6 +34,8 @@ public class CharCard01SceneController extends SceneController {
         setUpCharCardChoiceBox(clientModel, 1);
         selectColorChoiceBox.getItems().addAll(colorMap.keySet());
         selectIslandIdChoiceBox.getItems().addAll(setUpIslandIdChoiceBox(clientModel));
+        selectColorChoiceBox.setOnAction(this::activeButton);
+        selectIslandIdChoiceBox.setOnAction(this::activeButton);
     }
 
     @Override
@@ -43,5 +46,18 @@ public class CharCard01SceneController extends SceneController {
     public void confirm(ActionEvent event){
         confirmButton.setDisable(true);
         notify(new CharacterCard01Reply(username, colorMap.get(selectColorChoiceBox.getValue()), selectIslandIdChoiceBox.getValue()));
+    }
+
+    private void activeButton(ActionEvent event){
+        if(!charCard01Pane.getChildren().stream().filter(
+                x->x instanceof ChoiceBox).filter(
+                x->x.isVisible()).map(
+                x->((ChoiceBox<?>) x).getValue()).collect(
+                Collectors.toList()).contains(null)){
+            confirmButton.setDisable(false);
+        }
+        else{
+            confirmButton.setDisable(true);
+        }
     }
 }

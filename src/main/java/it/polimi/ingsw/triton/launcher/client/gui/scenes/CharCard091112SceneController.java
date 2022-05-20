@@ -39,12 +39,11 @@ public class CharCard091112SceneController extends SceneController{
             setUpCharCardChoiceBox(clientModel, 11);
             selectColorChoiceBox.getItems().addAll(colorCharCard);
         }
-
         else {
             setUpAllColors();
             selectColorChoiceBox.getItems().addAll(colorsName);
         }
-
+        selectColorChoiceBox.setOnAction(this::activeButton);
     }
 
     @Override
@@ -60,5 +59,9 @@ public class CharCard091112SceneController extends SceneController{
             notify(new CharacterCard11Reply(username, Color.valueOf(selectColorChoiceBox.getValue())));
         if (id == 12)
             notify(new CharacterCard12Reply(username, Color.valueOf(selectColorChoiceBox.getValue())));
+    }
+
+    private void activeButton(ActionEvent event){
+        confirmButton.setDisable(false);
     }
 }

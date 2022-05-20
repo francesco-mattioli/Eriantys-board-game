@@ -9,7 +9,7 @@
    <children>
       <ChoiceBox fx:id="fromCharCard1" layoutX="87.0" layoutY="106.0" prefWidth="150.0" />
       <ChoiceBox fx:id="fromEntrance1" layoutX="336.0" layoutY="106.0" prefWidth="150.0" />
-      <Button fx:id="confirmButton1" layoutX="518.0" layoutY="106.0" mnemonicParsing="false" onAction="#confirm1" text="Confirm" />
+      <Button fx:id="confirmButton1" disable="true" layoutX="518.0" layoutY="106.0" mnemonicParsing="false" onAction="#confirm1" text="Confirm" />
       <Button fx:id="stopButton" layoutX="268.0" layoutY="308.0" mnemonicParsing="false" onAction="#stop" text="Stop" />
       <ChoiceBox fx:id="fromCharCard2" disable="true" layoutX="87.0" layoutY="159.0" prefWidth="150.0" />
       <ChoiceBox fx:id="fromEntrance2" disable="true" layoutX="336.0" layoutY="159.0" prefWidth="150.0" />

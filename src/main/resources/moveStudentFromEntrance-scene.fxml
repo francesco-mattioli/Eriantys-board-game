@@ -10,7 +10,7 @@
       <ChoiceBox fx:id="colorChoiceBox" layoutX="54.0" layoutY="84.0" prefWidth="150.0" />
       <ChoiceBox fx:id="whereChoiceBox" layoutX="54.0" layoutY="185.0" onAction="#show" prefWidth="150.0" />
       <ChoiceBox fx:id="islandIdChoiceBox" layoutX="288.0" layoutY="135.0" prefWidth="150.0" visible="false" />
-      <Button fx:id="moveButton" layoutX="217.0" layoutY="251.0" mnemonicParsing="false" onAction="#move" text="Move!" />
+      <Button fx:id="moveButton" disable="true" layoutX="217.0" layoutY="251.0" mnemonicParsing="false" onAction="#move" text="Move!" />
       <Label layoutX="54.0" layoutY="58.0" text="Select Color:" />
       <Label layoutX="54.0" layoutY="161.0" text="Select  Island Or Dining Room:" />
       <Label fx:id="islandIdLabel" layoutX="288.0" layoutY="110.0" onMouseClicked="#show" text="Select Island Id:" visible="false" />

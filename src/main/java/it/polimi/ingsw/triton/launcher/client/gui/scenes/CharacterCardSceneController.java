@@ -74,35 +74,29 @@ public class CharacterCardSceneController extends SceneController {
     }
 
     public void selectCharacterCard1(javafx.scene.input.MouseEvent event){
-        card1Pane.setBorder(new Border(new BorderStroke(Color.GRAY,
+        card1Pane.setBorder(new Border(new BorderStroke(Color.WHITE,
                 BorderStrokeStyle.SOLID, CornerRadii.EMPTY, BorderWidths.DEFAULT)));
         cardID = characterCardsMap.get(card1Pane);
-        card2Pane.setBorder(new Border(new BorderStroke(Color.WHITE,
-                BorderStrokeStyle.SOLID, CornerRadii.EMPTY, BorderWidths.DEFAULT)));
-        card3Pane.setBorder(new Border(new BorderStroke(Color.WHITE,
-                BorderStrokeStyle.SOLID, CornerRadii.EMPTY, BorderWidths.DEFAULT)));
+        card2Pane.setBorder(null);
+        card3Pane.setBorder(null);
         buttonPlay.setDisable(false);
     }
 
     public void selectCharacterCard2(javafx.scene.input.MouseEvent event){
-        card2Pane.setBorder(new Border(new BorderStroke(Color.GRAY,
+        card2Pane.setBorder(new Border(new BorderStroke(Color.WHITE,
                 BorderStrokeStyle.SOLID, CornerRadii.EMPTY, BorderWidths.DEFAULT)));
         cardID = characterCardsMap.get(card2Pane);
-        card1Pane.setBorder(new Border(new BorderStroke(Color.WHITE,
-                BorderStrokeStyle.SOLID, CornerRadii.EMPTY, BorderWidths.DEFAULT)));
-        card3Pane.setBorder(new Border(new BorderStroke(Color.WHITE,
-                BorderStrokeStyle.SOLID, CornerRadii.EMPTY, BorderWidths.DEFAULT)));
+        card1Pane.setBorder(null);
+        card3Pane.setBorder(null);
         buttonPlay.setDisable(false);
     }
 
     public void selectCharacterCard3(javafx.scene.input.MouseEvent event){
-        card3Pane.setBorder(new Border(new BorderStroke(Color.GRAY,
+        card3Pane.setBorder(new Border(new BorderStroke(Color.WHITE,
                 BorderStrokeStyle.SOLID, CornerRadii.EMPTY, BorderWidths.DEFAULT)));
         cardID = characterCardsMap.get(card3Pane);
-        card1Pane.setBorder(new Border(new BorderStroke(Color.WHITE,
-                BorderStrokeStyle.SOLID, CornerRadii.EMPTY, BorderWidths.DEFAULT)));
-        card2Pane.setBorder(new Border(new BorderStroke(Color.WHITE,
-                BorderStrokeStyle.SOLID, CornerRadii.EMPTY, BorderWidths.DEFAULT)));
+        card1Pane.setBorder(null);
+        card2Pane.setBorder(null);
         buttonPlay.setDisable(false);
     }
 

@@ -44,6 +44,11 @@ public class MotherNatureStepsSceneController extends SceneController {
             steps.add(i);
         }
         stepsChoiceBox.getItems().addAll(steps);
+        stepsChoiceBox.setOnAction(this::activeButton);
+    }
+
+    private void activeButton(ActionEvent event){
+        moveButton.setDisable(false);
     }
 
     @Override

@@ -12,6 +12,8 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 
+import java.util.stream.Collectors;
+
 
 public class MoveStudentFromEntranceSceneController extends SceneController {
 
@@ -72,18 +74,31 @@ public class MoveStudentFromEntranceSceneController extends SceneController {
         colorChoiceBox.getItems().addAll(colorEntrance);
         islandIdChoiceBox.getItems().addAll(setUpIslandIdChoiceBox(clientModel));
         whereChoiceBox.getItems().addAll(whereMove);
-        whereChoiceBox.setOnAction(this::show);
-        /*colorChoiceBox.setOnAction(this::activeButton);
         whereChoiceBox.setOnAction(this::activeButton);
-        islandIdChoiceBox.setOnAction(this::activeButton);*/
+        colorChoiceBox.setOnAction(this::activeButton);
+        islandIdChoiceBox.setOnAction(this::activeButton);
     }
 
-    /*private void activeButton(ActionEvent event){
-        if (colorChoiceBox.getValue() != null && whereChoiceBox.getValue().equals("dining room"))
+    private void activeButton(ActionEvent event){
+        if(whereChoiceBox.getValue() != null && whereChoiceBox.getValue().equals("island")){
+            islandIdLabel.setVisible(true);
+            islandIdChoiceBox.setVisible(true);
+        }
+        else {
+            islandIdLabel.setVisible(false);
+            islandIdChoiceBox.setVisible(false);
+        }
+        if(!moveStudentFromEntrancePane.getChildren().stream().filter(
+                x->x instanceof ChoiceBox).filter(
+                x->x.isVisible()).map(
+                x->((ChoiceBox<?>) x).getValue()).collect(
+                Collectors.toList()).contains(null)){
             moveButton.setDisable(false);
-        if (colorChoiceBox.getValue() != null && whereChoiceBox.getValue().equals("island") && islandIdChoiceBox.getValue() != null)
-            moveButton.setDisable(false);
-    }*/
+        }
+        else{
+            moveButton.setDisable(true);
+        }
+    }
 
 
     @Override
