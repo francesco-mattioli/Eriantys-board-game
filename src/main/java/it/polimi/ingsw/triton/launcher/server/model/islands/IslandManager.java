@@ -11,6 +11,7 @@ import it.polimi.ingsw.triton.launcher.utils.obs.Observable;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 public class IslandManager extends Observable <InfoMessage> {
     private final List<Island> islands;
@@ -29,28 +30,29 @@ public class IslandManager extends Observable <InfoMessage> {
     }
 
     /**
-     * This method merge two or more adjacent islands with the same dominator.
-     * @param motherNaturePosition the island where mother nature is located.
+     * This method merges two or more adjacent islands with the same dominator.
+     * Firstly, update the influence on the island where mother nature is on.
+     * It merges when dominator is not null, i.e. there is a dominator.
+     * @param motherNatureIslandPosition the island where mother nature is located.
      * @param players the list of players.
      * @param professors the array with professors associated to the players.
      * @throws EndGameException when there are only three groups of islands.
      */
-    public void mergeNearIslands(Island motherNaturePosition, List<Player> players, Player[] professors) throws EndGameException {
-        motherNaturePosition.updateInfluence(players, professors);
-        if (motherNaturePosition.getDominator() != null) {
-            if (motherNaturePosition.getDominator() == prevIsland(motherNaturePosition).getDominator()) {
-                motherNaturePosition.merge(prevIsland(motherNaturePosition));
-                notify(new MergeIslandsMessage(motherNaturePosition, prevIsland(motherNaturePosition)));
-                islands.remove(prevIsland(motherNaturePosition));
-                checkNumberIslands();
-            }
-            if (motherNaturePosition.getDominator() == nextIsland(motherNaturePosition).getDominator()) {
-                motherNaturePosition.merge(nextIsland(motherNaturePosition));
-                notify(new MergeIslandsMessage(motherNaturePosition, nextIsland(motherNaturePosition)));
-                islands.remove(nextIsland(motherNaturePosition));
-                checkNumberIslands();
-            }
+    public void mergeNearIslands(Island motherNatureIslandPosition, List<Player> players, Player[] professors) throws EndGameException {
+        motherNatureIslandPosition.updateInfluence(players, professors);
+        if (motherNatureIslandPosition.getDominator() != null) {
+            if (motherNatureIslandPosition.getDominator() == prevIsland(motherNatureIslandPosition).getDominator())
+                mergeAndNotify(motherNatureIslandPosition,prevIsland(motherNatureIslandPosition));
+            if (motherNatureIslandPosition.getDominator() == nextIsland(motherNatureIslandPosition).getDominator())
+                mergeAndNotify(motherNatureIslandPosition,nextIsland(motherNatureIslandPosition));
         }
+    }
+
+    private void mergeAndNotify(Island motherNatureIslandPosition,Island islandToRemove) throws EndGameException {
+        motherNatureIslandPosition.merge(islandToRemove);
+        notify(new MergeIslandsMessage(motherNatureIslandPosition, islandToRemove));
+        islands.remove(islandToRemove);
+        checkNumberIslands();
     }
 
     /**
@@ -119,5 +121,9 @@ public class IslandManager extends Observable <InfoMessage> {
     public void resetIslandsInfluenceStrategy(){
         for(Island island: islands)
             island.setInfluenceStrategy(new InfluenceStrategyDefault());
+    }
+
+    public Island getRandomIsland() {
+        return islands.get((new Random()).nextInt(islands.size()));
     }
 }
