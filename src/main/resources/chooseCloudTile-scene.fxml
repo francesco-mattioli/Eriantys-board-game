@@ -6,7 +6,7 @@
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane fx:id="chooseCloudTilePane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="336.0" prefWidth="475.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.triton.launcher.client.gui.scenes.ChooseCloudTileSceneController">
+<AnchorPane fx:id="chooseCloudTilePane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="336.0" prefWidth="630.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.triton.launcher.client.gui.scenes.ChooseCloudTileSceneController">
    <children>
       <AnchorPane fx:id="cloudTile0Pane" layoutX="50.0" layoutY="105.0" onMouseClicked="#selectCloudTile0" prefHeight="130.0" prefWidth="130.0" visible="false">
          <children>
@@ -36,7 +36,7 @@
             </AnchorPane>
          </children>
       </AnchorPane>
-      <AnchorPane fx:id="cloudTile1Pane" layoutX="281.0" layoutY="105.0" onMouseClicked="#selectCloudTile1" prefHeight="130.0" prefWidth="130.0" visible="false">
+      <AnchorPane fx:id="cloudTile1Pane" layoutX="433.0" layoutY="103.0" onMouseClicked="#selectCloudTile1" prefHeight="130.0" prefWidth="130.0" visible="false">
          <children>
             <ImageView fitHeight="130.0" fitWidth="130.0" pickOnBounds="true" preserveRatio="true">
                <image>
@@ -64,7 +64,35 @@
             </AnchorPane>
          </children>
       </AnchorPane>
-      <Label layoutX="162.0" layoutY="63.0" text="Click on a cloud tile to select" />
+      <AnchorPane fx:id="cloudTile2Pane" layoutX="250.0" layoutY="105.0" onMouseClicked="#selectCloudTile2" prefHeight="130.0" prefWidth="130.0" visible="false">
+         <children>
+            <ImageView fitHeight="130.0" fitWidth="130.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@Images/Other/CloudTile.png" />
+               </image>
+            </ImageView>
+            <AnchorPane fx:id="cloudTile0StudentsPane1" prefHeight="130.0" prefWidth="130.0">
+               <children>
+                  <ImageView fitHeight="47.0" fitWidth="49.0" layoutX="18.0" layoutY="38.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@Images/Students/BlueStudent.png" />
+                     </image>
+                  </ImageView>
+                  <ImageView fitHeight="47.0" fitWidth="49.0" layoutX="48.0" layoutY="66.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@Images/Students/BlueStudent.png" />
+                     </image>
+                  </ImageView>
+                  <ImageView fitHeight="47.0" fitWidth="49.0" layoutX="57.0" layoutY="27.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@Images/Students/BlueStudent.png" />
+                     </image>
+                  </ImageView>
+               </children>
+            </AnchorPane>
+         </children>
+      </AnchorPane>
+      <Label layoutX="239.0" layoutY="61.0" text="Click on a cloud tile to select" />
       <Button fx:id="playCCButton" layoutX="169.0" layoutY="286.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="137.0" text="Play a character card" visible="false" />
    </children>
 </AnchorPane>

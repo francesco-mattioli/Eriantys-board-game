@@ -50,6 +50,11 @@ public class ChooseCloudTileSceneController extends SceneController {
         ((Stage) chooseCloudTilePane.getScene().getWindow()).close();
     }
 
+    public void selectCloudTile2(MouseEvent event){
+        notify(new CloudTileReply(username,2));
+        ((Stage) chooseCloudTilePane.getScene().getWindow()).close();
+    }
+
 
     @Override
     public <T> void setupScene(ClientModel clientModel, T parameters) {
