@@ -2,10 +2,11 @@ package it.polimi.ingsw.triton.launcher.client.gui.scenes;
 
 import it.polimi.ingsw.triton.launcher.client.Client;
 import it.polimi.ingsw.triton.launcher.client.model.ClientModel;
-import it.polimi.ingsw.triton.launcher.server.model.Island;
+import it.polimi.ingsw.triton.launcher.server.model.islands.Island;
 import it.polimi.ingsw.triton.launcher.server.model.enums.Color;
 import it.polimi.ingsw.triton.launcher.utils.message.Message;
 import it.polimi.ingsw.triton.launcher.utils.obs.Observable;
+import javafx.scene.layout.AnchorPane;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -84,6 +85,8 @@ public abstract class SceneController extends Observable<Message> {
         }
     }
 
+
+    public abstract AnchorPane getAnchorPane();
 
 
 }

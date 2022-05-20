@@ -35,6 +35,11 @@ public class CharCard01SceneController extends SceneController {
         selectIslandIdChoiceBox.getItems().addAll(setUpIslandIdChoiceBox(clientModel));
     }
 
+    @Override
+    public AnchorPane getAnchorPane() {
+        return charCard01Pane;
+    }
+
     public void confirm(ActionEvent event){
         confirmButton.setDisable(true);
         notify(new CharacterCard01Reply(username, colorMap.get(selectColorChoiceBox.getValue()), selectIslandIdChoiceBox.getValue()));

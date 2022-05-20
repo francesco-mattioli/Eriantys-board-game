@@ -48,5 +48,15 @@ public class TowerColorSceneController extends SceneController {
             }
         }
         towerColorChoice.getItems().addAll(towerColorMap.keySet());
+        towerColorChoice.setOnAction(this::activeButton);
+    }
+
+    private void activeButton(ActionEvent event){
+        selectButton.setDisable(false);
+    }
+
+    @Override
+    public AnchorPane getAnchorPane() {
+        return towerColorPane;
     }
 }

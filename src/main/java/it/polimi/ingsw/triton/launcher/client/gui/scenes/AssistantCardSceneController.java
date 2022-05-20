@@ -88,4 +88,9 @@ public class AssistantCardSceneController extends SceneController {
             rightSwitch.setOpacity(0.5);
         }
     }
+
+    @Override
+    public AnchorPane getAnchorPane() {
+        return assistantCardPane;
+    }
 }

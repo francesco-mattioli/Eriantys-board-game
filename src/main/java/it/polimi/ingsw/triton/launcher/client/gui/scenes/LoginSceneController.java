@@ -35,4 +35,9 @@ public class LoginSceneController extends SceneController {
         notify(new LoginRequest(username));
         loginButton.setDisable(true);
     }
+
+    @Override
+    public AnchorPane getAnchorPane() {
+        return loginPane;
+    }
 }

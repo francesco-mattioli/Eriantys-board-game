@@ -175,6 +175,8 @@ public class Gui extends Observable<Message> implements ClientView {
                 controller.addObserver(client);
                 controller.setUsername(clientModel.getUsername());
                 controller.setupScene(clientModel, parameters);
+                setGenericBackground(controller, "src/main/resources/Images/backpurple.jpg");
+                //setGenericBackground(controller, "src/main/resources/Images/backgroundmainscene.jpg");
                 activeStage.setScene(new Scene(root));
                 activeStage.setTitle(clientModel.getUsername());
                 activeStage.show();
@@ -383,15 +385,7 @@ public class Gui extends Observable<Message> implements ClientView {
                     mainStage.setResizable(false);
                     mainController = mainLoader.getController();
                     mainController.initializeMainScene(clientModel);
-                    String currentPath = new java.io.File("src/main/resources/Images/backgroundmainscene.jpg").getAbsolutePath().replace('\\','/');
-                    Image img = new Image("file:" + currentPath);
-                    BackgroundImage bImg = new BackgroundImage(img,
-                            BackgroundRepeat.NO_REPEAT,
-                            BackgroundRepeat.NO_REPEAT,
-                            BackgroundPosition.DEFAULT,
-                            new BackgroundSize(500,500,true,true,false,true));
-                    Background bGround = new Background(bImg);
-                    mainController.getMainPane().setBackground(bGround);
+                    setGenericBackground(mainController, "src/main/resources/Images/backgroundmainscene.jpg");
                     mainStage.setScene(scene);
                     mainStage.show();
                     activeStage.close();
@@ -405,5 +399,17 @@ public class Gui extends Observable<Message> implements ClientView {
             button.setOnAction(event -> {
                 prepareController("/characterCard-scene.fxml", null);
             });
+        }
+
+        private void setGenericBackground(SceneController controller, String path){
+            String currentPath = new java.io.File(path).getAbsolutePath().replace('\\','/');
+            Image img = new Image("file:" + currentPath);
+            BackgroundImage bImg = new BackgroundImage(img,
+                    BackgroundRepeat.NO_REPEAT,
+                    BackgroundRepeat.NO_REPEAT,
+                    BackgroundPosition.DEFAULT,
+                    new BackgroundSize(500,500,true,true,false,true));
+            Background bGround = new Background(bImg);
+            controller.getAnchorPane().setBackground(bGround);
         }
     }

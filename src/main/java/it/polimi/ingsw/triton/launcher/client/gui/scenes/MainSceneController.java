@@ -3,7 +3,7 @@ package it.polimi.ingsw.triton.launcher.client.gui.scenes;
 import it.polimi.ingsw.triton.launcher.client.cli.Cli;
 import it.polimi.ingsw.triton.launcher.client.model.ClientModel;
 import it.polimi.ingsw.triton.launcher.server.model.AssistantCard;
-import it.polimi.ingsw.triton.launcher.server.model.Island;
+import it.polimi.ingsw.triton.launcher.server.model.islands.Island;
 import it.polimi.ingsw.triton.launcher.server.model.enums.Color;
 import it.polimi.ingsw.triton.launcher.server.model.enums.TowerColor;
 import it.polimi.ingsw.triton.launcher.server.model.player.SchoolBoard;
@@ -144,7 +144,7 @@ public class MainSceneController extends SceneController {
         for(int i = 0; i<dimensions.length; i++){
             islandGrids[i] = new GridPane();
             islandGrids[i].setHgap(100);
-            islandGrids[i].setLayoutX(islandPane.getPrefWidth()/2 - islandGrids[i].getWidth()/2);
+            islandGrids[i].setLayoutX(0);
             islandGrids[i].setLayoutY(200*i);
             nodeList[i] = new ArrayList<>();
         }
@@ -425,7 +425,9 @@ public class MainSceneController extends SceneController {
         }
     }
 
-    public AnchorPane getMainPane() {
+
+    @Override
+    public AnchorPane getAnchorPane() {
         return mainPane;
     }
 }

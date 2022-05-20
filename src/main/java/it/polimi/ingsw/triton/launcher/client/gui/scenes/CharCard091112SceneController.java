@@ -47,6 +47,11 @@ public class CharCard091112SceneController extends SceneController{
 
     }
 
+    @Override
+    public AnchorPane getAnchorPane() {
+        return charCard091112Pane;
+    }
+
     public void confirm(ActionEvent event){
         confirmButton.setDisable(true);
         if (id == 9)

@@ -45,4 +45,9 @@ public class MotherNatureStepsSceneController extends SceneController {
         }
         stepsChoiceBox.getItems().addAll(steps);
     }
+
+    @Override
+    public AnchorPane getAnchorPane() {
+        return motherNaturePane;
+    }
 }

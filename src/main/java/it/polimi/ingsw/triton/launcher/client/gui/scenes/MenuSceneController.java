@@ -34,4 +34,9 @@ public class MenuSceneController extends SceneController {
         Gui gui = new Gui(((Stage)((Node)event.getSource()).getScene().getWindow()));
         gui.startGui();
     }
+
+    @Override
+    public AnchorPane getAnchorPane() {
+        return menuPane;
+    }
 }

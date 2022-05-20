@@ -91,10 +91,6 @@ public class ClientModel extends Observable<Object> {
         return schoolBoards;
     }
 
-    public CharacterCard getLastCharacterCardPlayed() {
-        return lastCharacterCardPlayed;
-    }
-
     public List<CharacterCard> getAvailableCharacterCards() {
         return availableCharacterCards;
     }
