@@ -350,4 +350,8 @@ public class ClientModel extends Observable<Object> {
     public void resetLastCharacterCardPlayed() {
         this.lastCharacterCardPlayed=null;
     }
+
+    public int getWallet() {
+        return wallet;
+    }
 }
