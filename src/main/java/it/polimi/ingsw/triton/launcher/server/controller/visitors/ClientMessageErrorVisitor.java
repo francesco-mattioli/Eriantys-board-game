@@ -75,7 +75,7 @@ public class ClientMessageErrorVisitor {
     }
 
     /**
-     * Asks again the player the last request before choosing a character card
+     * Asks again the player the last request made before choosing a character card
      * @param message the message to resend.
      */
     public void visitForSendErrorMessage(UseCharacterCardRequest message){
