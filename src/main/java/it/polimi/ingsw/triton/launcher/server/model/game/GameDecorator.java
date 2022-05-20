@@ -47,8 +47,8 @@ public class GameDecorator extends GameMode{
     }
 
     @Override
-    public void useCharacterCard(String username, int idCard) throws IllegalClientInputException, CharacterCardWithParametersException {
-        game.useCharacterCard(username,idCard);
+    public void useCharacterCard(Player player, int idCard) throws IllegalClientInputException, CharacterCardWithParametersException {
+        game.useCharacterCard(player,idCard);
     }
 
     @Override
@@ -96,11 +96,6 @@ public class GameDecorator extends GameMode{
         return game.getIslandManager();
     }
 
-    /*@Override
-    public List<Island> getIslands() {
-        return game.getIslands();
-    }*/
-
     @Override
     public GameState getGameState() {
         return game.getGameState();
@@ -112,18 +107,18 @@ public class GameDecorator extends GameMode{
     }
 
     @Override
-    public void chooseTowerColor(String senderUsername, TowerColor playerColor) throws IllegalClientInputException, ChangeTurnException {
-        game.chooseTowerColor(senderUsername, playerColor);
+    public void chooseTowerColor(Player player, TowerColor playerColor) throws IllegalClientInputException, ChangeTurnException {
+        game.chooseTowerColor(player, playerColor);
     }
 
     @Override
-    public void chooseWizard(String senderUsername, Wizard playerWizard) throws IllegalClientInputException, ChangeTurnException {
-        game.chooseWizard(senderUsername, playerWizard);
+    public void chooseWizard(Player player, Wizard playerWizard) throws IllegalClientInputException, ChangeTurnException {
+        game.chooseWizard(player, playerWizard);
     }
 
     @Override
-    public void chooseAssistantCard(String senderUsername, AssistantCard chosenAssistantCard) throws IllegalClientInputException, ChangeTurnException {
-        game.chooseAssistantCard(senderUsername,chosenAssistantCard);
+    public void chooseAssistantCard(Player player, AssistantCard chosenAssistantCard) throws IllegalClientInputException, ChangeTurnException {
+        game.chooseAssistantCard(player,chosenAssistantCard);
     }
 
     @Override
@@ -165,11 +160,6 @@ public class GameDecorator extends GameMode{
     public Player[] getProfessors() {
         return game.getProfessors();
     }
-
-    /*@Override
-    public Island getIslandByID(int islandID) throws IllegalClientInputException {
-        return game.getIslandByID(islandID);
-    }*/
 
     @Override
     public Bag getBag() {

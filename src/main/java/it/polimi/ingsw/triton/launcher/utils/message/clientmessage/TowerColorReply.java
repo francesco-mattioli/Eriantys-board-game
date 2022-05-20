@@ -15,7 +15,6 @@ public class TowerColorReply extends ClientMessage {
     private final TowerColor playerColor;
 
     public TowerColorReply(String username, TowerColor playerColor) {
-        super(username);
         this.playerColor = playerColor;
     }
     public TowerColor getPlayerColor() {

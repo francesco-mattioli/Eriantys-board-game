@@ -25,7 +25,6 @@ public class MoveStudentOntoIslandMessage extends ClientMessage{
     }
 
     public MoveStudentOntoIslandMessage(String senderUsername, int islandID, Color student) {
-        super(senderUsername);
         this.islandID = islandID;
         this.student = student;
     }

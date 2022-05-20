@@ -11,7 +11,6 @@ import it.polimi.ingsw.triton.launcher.server.controller.visitors.ClientMessageS
 public abstract class CharacterCardReply extends ClientMessage {
 
     protected CharacterCardReply(String senderUsername) {
-        super(senderUsername);
     }
 
     @Override

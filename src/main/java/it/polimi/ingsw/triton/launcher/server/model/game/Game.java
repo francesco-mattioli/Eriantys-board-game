@@ -1,7 +1,10 @@
 package it.polimi.ingsw.triton.launcher.server.model.game;
 
 import it.polimi.ingsw.triton.launcher.client.cli.Cli;
-import it.polimi.ingsw.triton.launcher.server.model.*;
+import it.polimi.ingsw.triton.launcher.server.model.AssistantCard;
+import it.polimi.ingsw.triton.launcher.server.model.Bag;
+import it.polimi.ingsw.triton.launcher.server.model.CloudTile;
+import it.polimi.ingsw.triton.launcher.server.model.MotherNature;
 import it.polimi.ingsw.triton.launcher.server.model.cardeffects.CardEffect;
 import it.polimi.ingsw.triton.launcher.server.model.cardeffects.CharacterCard;
 import it.polimi.ingsw.triton.launcher.server.model.enums.Color;
@@ -37,14 +40,13 @@ public class Game extends GameMode {
     private MotherNature motherNature;
     private final Player[] professors;
     private ProfessorsManager professorsManager;
-    private IslandManager islandManager;
+    private final IslandManager islandManager;
     private final ArrayList<AssistantCard> usedAssistantCards;
     private final ArrayList<Wizard> availableWizards;
     private GameState gameState;
     private boolean notFullCloudTiles;
     // The following array must be shown to users, so they can choose a towerColor that is not already chosen.
     private boolean[] towerColorChosen;
-    private final Random random = new Random();
 
     /**
      * Realize the Singleton Pattern in order to instantiate the Game Class only once.
@@ -103,16 +105,16 @@ public class Game extends GameMode {
     /**
      * This method set the player's school board with the chosen tower color.
      *
-     * @param username   the username of the player that has chosen the tower color.
+     * @param player     the player that has chosen the tower color.
      * @param towerColor the color of the tower.
      * @throws IllegalClientInputException when the user's chosen tower color has already been chosen.
      */
-    public void chooseTowerColor(String username, @NotNull TowerColor towerColor) throws IllegalClientInputException, ChangeTurnException {
+    public void chooseTowerColor(Player player, @NotNull TowerColor towerColor) throws IllegalClientInputException, ChangeTurnException {
         try {
             if (towerColorChosen[towerColor.ordinal()]) {
                 throw new IllegalClientInputException(ErrorTypeID.TOWER_COLOR_ALREADY_CHOSEN);
             } else {
-                getPlayerByUsername(username).setSchoolBoard(towerColor, maxNumberOfPlayers);
+                player.setSchoolBoard(towerColor, maxNumberOfPlayers);
                 towerColorChosen[towerColor.ordinal()] = true;
             }
         } catch (ArrayIndexOutOfBoundsException e) {
@@ -125,15 +127,15 @@ public class Game extends GameMode {
      * Set the wizard to the player and removes it from the available wizards list;
      * Create a new request to the next player.
      *
-     * @param username the player's username who set the wizard.
-     * @param wizard   the wizard selected by the player.
+     * @param player the player who set the wizard.
+     * @param wizard the wizard selected by the player.
      * @throws IllegalClientInputException when the user's chosen wizard has already been chosen.
      */
-    public void chooseWizard(String username, Wizard wizard) throws IllegalClientInputException, ChangeTurnException {
+    public void chooseWizard(Player player, Wizard wizard) throws IllegalClientInputException, ChangeTurnException {
         if (!availableWizards.contains(wizard)) {
             throw new IllegalClientInputException(ErrorTypeID.WIZARD_ALREADY_CHOSEN);
         } else {
-            getPlayerByUsername(username).setWizard(wizard);
+            player.setWizard(wizard);
             availableWizards.remove(wizard);
         }
         setNextPlayer();
@@ -149,12 +151,12 @@ public class Game extends GameMode {
      * thus the ACTION PHASE starts.
      * Otherwise, set next player that should choose an assistant card.
      *
-     * @param username      the username of the current player.
+     * @param player the current player.
      * @param assistantCard the assistant card to play.
      * @throws IllegalClientInputException if the player can't play the given assistant card.
      */
-    public void chooseAssistantCard(String username, AssistantCard assistantCard) throws IllegalClientInputException, ChangeTurnException {
-        getPlayerByUsername(username).executeAction(new PlayAssistantCard(assistantCard, getPlayerByUsername(username), usedAssistantCards));
+    public void chooseAssistantCard(Player player, AssistantCard assistantCard) throws IllegalClientInputException, ChangeTurnException {
+        player.executeAction(new PlayAssistantCard(assistantCard, player, usedAssistantCards));
         notify(new InfoAssistantCardPlayedMessage(currentPlayer.getUsername(), assistantCard));
         if (usedAssistantCards.size() == maxNumberOfPlayers) {
             sortPlayerPerTurn();
@@ -212,7 +214,7 @@ public class Game extends GameMode {
                 island.addStudent(bag.drawStudent());
             }
         }*/
-        for(Island island: islandManager.getIslands()){
+        for (Island island : islandManager.getIslands()) {
             if (island.getId() != motherNature.getIndexOfOppositeIsland(islandManager.getIslands()) && island.getId() != motherNature.getPosition().getId()) {
                 island.addStudent(bag.drawStudent());
             }
@@ -315,7 +317,7 @@ public class Game extends GameMode {
      */
     public void planningPhase() {
         setGameState(GameState.PLANNING_PHASE);
-        for(Player player : players)
+        for (Player player : players)
             player.resetAlreadyPlayedAnCharacterCard();
         addStudentsToCloudTiles();
 
@@ -354,9 +356,9 @@ public class Game extends GameMode {
             notify(new InfoStudentOntoIslandMessage(currentPlayer.getUsername(), currentPlayer.getSchoolBoard(), getIslandByID(idIsland), professorsWithUsernameOwner(), moveDescription));
             checkNumberMoves();
         }*/
-        if(!islandManager.existsIsland(idIsland)){
+        if (!islandManager.existsIsland(idIsland)) {
             throw new IllegalClientInputException();
-        }else{
+        } else {
             currentPlayer.executeAction(new MoveStudentOntoIsland(currentPlayer.getSchoolBoard(), student, islandManager.getIslandByID(idIsland)));
             currentPlayer.setMoveCounter(currentPlayer.getMoveCounter() + 1);
             String moveDescription = currentPlayer.getUsername() + " has moved a " + student.name().toLowerCase() + " student on the island " + idIsland + ".";
@@ -473,9 +475,8 @@ public class Game extends GameMode {
         if (frequency == 1) {
             player = list.stream().filter(pl -> (Collections.frequency(Arrays.stream(professors).collect(Collectors.toList()), pl) == max)).findFirst();
             player.ifPresent(value -> notify(new WinMessage(value.getUsername())));
-        }
-        notify(new TieMessage(list.stream().filter(pl -> (Collections.frequency(Arrays.stream(professors).collect(Collectors.toList()), pl) == max)).collect(Collectors.toList()).stream().map(Player::getUsername).collect(Collectors.toList())));
-
+        }else
+            notify(new TieMessage(list.stream().filter(pl -> (Collections.frequency(Arrays.stream(professors).collect(Collectors.toList()), pl) == max)).collect(Collectors.toList()).stream().map(Player::getUsername).collect(Collectors.toList())));
     }
 
 
@@ -502,7 +503,7 @@ public class Game extends GameMode {
         }
     }
 
-    public void useCharacterCard(String username, int idCard) throws IllegalClientInputException, CharacterCardWithParametersException {
+    public void useCharacterCard(Player player, int idCard) throws IllegalClientInputException, CharacterCardWithParametersException {
         // This method is implemented by ExpertGame
     }
 
@@ -740,12 +741,11 @@ public class Game extends GameMode {
         }
         throw new IllegalClientInputException(ErrorTypeID.NO_ISLAND_WITH_THAT_ID);
     }*/
-
     public int getMaxNumberOfPlayers() {
         return maxNumberOfPlayers;
     }
 
-    public IslandManager getIslandManager(){
+    public IslandManager getIslandManager() {
         return islandManager;
     }
     //------------------------------------------------------------------------------------------------------------------
