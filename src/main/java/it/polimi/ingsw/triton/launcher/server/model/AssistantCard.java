@@ -30,6 +30,6 @@ public class AssistantCard implements Serializable {
 
     @Override
     public String toString(){
-        return "\t" + assistantCardType.name() + ", value: " + assistantCardType.getValue() + ", max steps: " + assistantCardType.getMaxSteps() + "\n";
+        return assistantCardType.name() + ", value: " + assistantCardType.getValue() + ", max steps: " + assistantCardType.getMaxSteps() + "\n";
     }
 }
