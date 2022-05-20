@@ -87,7 +87,7 @@ class IslandManagerTest {
 
     /**
      * Checks if the size of islands list is not decreased when the island near mother nature position
-     * has not dominator.
+     * has no dominator.
      */
     @Test
     void mergeNearIslandsWhenOneIslandHasNotDominator() {
