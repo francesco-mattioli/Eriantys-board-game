@@ -477,7 +477,7 @@ public class Gui extends Observable<Message> implements ClientView {
         alert.setHeaderText("You're about to logout!");
         alert.setContentText("Are you sure?");
         if (alert.showAndWait().get() == ButtonType.OK){
-
+            System.exit(1);
             stage.close();
         }
     }
