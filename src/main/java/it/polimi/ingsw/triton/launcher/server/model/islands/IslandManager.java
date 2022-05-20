@@ -13,7 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class IslandManager extends Observable <InfoMessage> {
-    private List<Island> islands;
+    private final List<Island> islands;
     public IslandManager(){
         islands = new ArrayList<>();
         createIslands();
