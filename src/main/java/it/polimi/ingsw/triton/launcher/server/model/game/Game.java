@@ -310,6 +310,7 @@ public class Game extends GameMode {
         for(Player player : players)
             player.resetAlreadyPlayedAnCharacterCard();
         addStudentsToCloudTiles();
+
         resetPlayedCardInTurn();
     }
 

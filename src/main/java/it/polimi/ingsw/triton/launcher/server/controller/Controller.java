@@ -8,6 +8,7 @@ import it.polimi.ingsw.triton.launcher.server.model.game.GameMode;
 import it.polimi.ingsw.triton.launcher.server.model.player.Player;
 import it.polimi.ingsw.triton.launcher.server.view.VirtualView;
 import it.polimi.ingsw.triton.launcher.utils.exceptions.*;
+import it.polimi.ingsw.triton.launcher.utils.message.ErrorTypeID;
 import it.polimi.ingsw.triton.launcher.utils.message.clientmessage.*;
 import it.polimi.ingsw.triton.launcher.server.controller.visitors.ClientMessageErrorVisitor;
 import it.polimi.ingsw.triton.launcher.server.controller.visitors.ClientMessageExceptionalVisitor;
@@ -58,7 +59,11 @@ public class Controller implements Observer<ClientMessage> {
             try {
                 message.modifyModel(new ClientMessageModifierVisitor(game));
                 message.createStandardNextMessage(new ClientMessageStandardVisitor(game, getVirtualViewByUsername(game.getCurrentPlayer().getUsername())));
-            } catch (IllegalClientInputException e) {
+            }catch(NullPointerException e){
+                getVirtualViewByUsername(game.getCurrentPlayer().getUsername()).showErrorMessage(ErrorTypeID.NULL_VALUE);
+                message.createInputErrorMessage(new ClientMessageErrorVisitor(game, getVirtualViewByUsername(game.getCurrentPlayer().getUsername())));
+            }
+            catch (IllegalClientInputException e) {
                 getVirtualViewByUsername(game.getCurrentPlayer().getUsername()).showErrorMessage(e.getTypeError());
                 message.createInputErrorMessage(new ClientMessageErrorVisitor(game, getVirtualViewByUsername(game.getCurrentPlayer().getUsername())));
             } catch (LastMoveException | CharacterCardWithParametersException | ChangeTurnException e) {
