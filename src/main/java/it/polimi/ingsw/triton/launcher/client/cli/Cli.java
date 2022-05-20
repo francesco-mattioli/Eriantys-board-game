@@ -2,7 +2,6 @@ package it.polimi.ingsw.triton.launcher.client.cli;
 
 import it.polimi.ingsw.triton.launcher.client.model.ClientModel;
 import it.polimi.ingsw.triton.launcher.server.model.AssistantCard;
-import it.polimi.ingsw.triton.launcher.server.model.cardeffects.CharacterCard;
 import it.polimi.ingsw.triton.launcher.server.model.enums.*;
 import it.polimi.ingsw.triton.launcher.server.model.player.AssistantDeck;
 import it.polimi.ingsw.triton.launcher.server.model.player.SchoolBoard;
@@ -24,6 +23,7 @@ public class Cli extends Observable<Message> implements ClientView{
     private final PrintStream out;
     private ClientModel clientModel;
     Thread inputReadThread;
+    private static final String DEFAULT_IP = "localhost";
     private static final String TRY_AGAIN = "Try again...";
     public static final String ANSI_CLEAR_CONSOLE = "\033[H\033[2J";
     public static final String commandForCharacterCard="--playCC";
@@ -64,17 +64,12 @@ public class Cli extends Observable<Message> implements ClientView{
      * If the user doesn't insert anything, it creates the socket on localhost IP address.
      */
     public void askIpAddress(){
-        String defaultIp = "localhost";
-        String ip;
-        while (true){
-            out.print("Please, enter the ip address of the server [default: " + defaultIp + "]:");
+        String ip = "";
+        while (!isCorrectIpAddress(ip)){
+            out.print("Please, enter the ip address of the server [default: " + DEFAULT_IP + "]:");
             ip = readLine();
-            if(ip.isEmpty() || ip.equalsIgnoreCase("localhost")) {
-                ip = defaultIp;
-                break;
-            }
-            else if(isCorrectIpAddress(ip))
-                break;
+            if(ip.isEmpty() || ip.equalsIgnoreCase(DEFAULT_IP))
+                ip = DEFAULT_IP;
         }
         notify(new UpdatedServerInfoMessage(ip));
     }
@@ -87,6 +82,8 @@ public class Cli extends Observable<Message> implements ClientView{
      */
     private boolean isCorrectIpAddress(String address){
         String pattern = "^((0|1\\d?\\d?|2[0-4]?\\d?|25[0-5]?|[3-9]\\d?)\\.){3}(0|1\\d?\\d?|2[0-4]?\\d?|25[0-5]?|[3-9]\\d?)$";
+        if(address.equalsIgnoreCase(DEFAULT_IP))
+            return true;
         return address.matches(pattern);
     }
 
@@ -126,7 +123,7 @@ public class Cli extends Observable<Message> implements ClientView{
 
     /**
      * Asks the player to choose the game mode.
-     * The first player hass to insert 'E' if he wants the expert mode, 'N' otherwise.
+     * The first player has to insert 'E' if he wants the expert mode, 'N' otherwise.
      * @return true if the player wants the expert mode, false otherwise.
      */
     private boolean askGameMode() {
@@ -319,14 +316,17 @@ public class Cli extends Observable<Message> implements ClientView{
     @Override
     public void askMoveStudentFromEntrance() {
         try {
-            out.println(Utility.ANSI_GREEN + "Choose three students to move from entrance to dining room or an island!");
-            out.print("Islands:\n" + Utility.ANSI_RESET);
+            out.println(Utility.ANSI_GREEN + "Choose three students to move from entrance to dining room or an island!" + Utility.ANSI_RESET);
+            if(clientModel.isExpertMode())
+                out.println(clientModel.getAvailableCharacterCards().toString());
+            out.print(Utility.ANSI_BOLDGREEN + "Islands:\n" + Utility.ANSI_RESET);
             out.println(clientModel.printIslands());
             out.print("\n");
             out.println(Utility.ANSI_GREEN + "SchoolBoards:\n" + Utility.ANSI_RESET);
             out.print(clientModel.printOtherSchoolBoards());
             out.println(clientModel.printYourSchoolBoard());
-            showUpdateWallet();
+            if(clientModel.isExpertMode())
+                showUpdateWallet();
             out.println("Mother nature is on the island: " + clientModel.getMotherNaturePosition().getId());
             out.println("To do so, type on each line [color of student, d (for dining room) ] or [color of student, island id]");
             out.print(Utility.ANSI_BOLDGREEN + "Please, enter data: " + Utility.ANSI_RESET);
@@ -361,12 +361,15 @@ public class Cli extends Observable<Message> implements ClientView{
     @Override
     public void askNumberStepsMotherNature() {
         try {
-            out.print("Islands:\n" + Utility.ANSI_RESET);
+            if(clientModel.isExpertMode())
+                out.println(clientModel.getAvailableCharacterCards().toString());
+            out.print(Utility.ANSI_BOLDGREEN + "Islands:\n" + Utility.ANSI_RESET);
             out.println(clientModel.printIslands());
             out.print("\n");
             out.print(clientModel.printOtherSchoolBoards());
             out.println(clientModel.printYourSchoolBoard());
-            showUpdateWallet();
+            if(clientModel.isExpertMode())
+                showUpdateWallet();
             out.println("Mother nature is on the island: " + clientModel.getMotherNaturePosition().getId());
             out.print("You have played: " + clientModel.getLastAssistantCardPlayed(clientModel.getUsername()));
             if( clientModel.getLastCharacterCardPlayed() != null && clientModel.getLastCharacterCardPlayed().getId() == 4)
@@ -398,13 +401,16 @@ public class Cli extends Observable<Message> implements ClientView{
     @Override
     public void askCloudTile() {
         try {
-            out.println(Utility.ANSI_GREEN + "Choose a cloud tile to withdraw the students!");
-            out.print("Islands:\n" + Utility.ANSI_RESET);
+            out.println(Utility.ANSI_GREEN + "Choose a cloud tile to withdraw the students!" + Utility.ANSI_RESET);
+            if(clientModel.isExpertMode())
+                out.println(clientModel.getAvailableCharacterCards().toString());
+            out.print(Utility.ANSI_BOLDGREEN + "Islands:\n" + Utility.ANSI_RESET);
             out.println(clientModel.printIslands());
             out.print("\n");
             out.print(clientModel.printOtherSchoolBoards());
             out.println(clientModel.printYourSchoolBoard());
-            showUpdateWallet();
+            if(clientModel.isExpertMode())
+                showUpdateWallet();
             out.print("CloudTiles:" + Utility.ANSI_RESET);
             out.println(clientModel.printCloudTiles());
             out.print(Utility.ANSI_BOLDGREEN + "Enter the id of the cloud tile you choose: " + Utility.ANSI_RESET);
@@ -463,7 +469,7 @@ public class Cli extends Observable<Message> implements ClientView{
 
     /**
      * Asks the parameters of the effect of character card 01.
-     * The methods checks only if the color inserted by the player exists in the game.
+     * The method checks only if the color inserted by the player exists in the game.
      * The server will check if the student of that color effectively exists.
      */
     public void askCharCard01(){
@@ -483,10 +489,15 @@ public class Cli extends Observable<Message> implements ClientView{
         }
     }
 
+    /**
+     * Asks the parameters of the effect of character card 03.
+     * The method checks only if the player inserts a number.
+     * The server will check if the island with the id inserted by the player exists.
+     */
     public void askCharCard03(){
+        out.println(clientModel.printIslands());
         out.print(Utility.ANSI_BLUE + "Select the island where you want to calculate the influence: " + Utility.ANSI_RESET);
         try {
-            out.println(clientModel.printIslands());
             String input = readLine();
             notify(new CharacterCard03Reply(clientModel.getUsername(), Integer.parseInt(input)));
         } catch (NumberFormatException e){
@@ -497,10 +508,15 @@ public class Cli extends Observable<Message> implements ClientView{
         }
     }
 
+    /**
+     * Asks the parameters of the effect of character card 05.
+     * The method checks only if the player inserts a number. If not, it aks again to insert parameters for character card 05.
+     * The server will check if the island with the id inserted by the player exists.
+     */
     public void askCharCard05(){
+        out.println(clientModel.printIslands());
         out.print(Utility.ANSI_BLUE + "Select the island where to put a no entry tile: " + Utility.ANSI_RESET);
         try {
-            out.println(clientModel.printIslands());
             String input = readLine();
             notify(new CharacterCard05Reply(clientModel.getUsername(), Integer.parseInt(input)));
         } catch (NumberFormatException e){
@@ -511,6 +527,13 @@ public class Cli extends Observable<Message> implements ClientView{
         }
     }
 
+    /**
+     * Asks the parameters of the effect of character card 07.
+     * The method checks only if the player inserts a valid color of the game. If not, it aks again to insert parameters for character card 07.
+     * The server will check if the player can swap the selected students and if the character card has the students that the player wants in his school board.
+     * The player can swap up to three students. If he wants to swap less than three students, he can press enter when the method
+     * asks him to choose a student from the card.
+     */
     public void askCharCard07(){
         int repeat = 0;
         int [] fromCard = new int[5];
@@ -547,10 +570,10 @@ public class Cli extends Observable<Message> implements ClientView{
     }
 
     /**
-     * This a  helper method used by askCharCard07() and askCharCard10() to print number in an ordinal way
+     * This a  helper method used by askCharCard07() and askCharCard10() to print number in an ordinal way.
      * For example, 1 --> 1st, 2-->2nd, ect...
-     * @param i the number to convert from integer to its ordinal representation
-     * @return ordinal representation
+     * @param i the number to convert from integer to its ordinal representation.
+     * @return ordinal representation.
      */
     private static String ordinal(int i) {
         String[] suffixes = new String[] { "th", "st", "nd", "rd", "th", "th", "th", "th", "th", "th" };
@@ -564,6 +587,11 @@ public class Cli extends Observable<Message> implements ClientView{
         }
     }
 
+    /**
+     * Asks the parameters of the effect of character card 09.
+     * The method checks only if the player inserts a valid color of the game.
+     * If not, it aks again to insert parameters for character card 09.
+     */
     public void askCharCard09(){
         try {
             out.print("Islands:\n" + Utility.ANSI_RESET);
@@ -584,6 +612,13 @@ public class Cli extends Observable<Message> implements ClientView{
         }
     }
 
+    /**
+     * Asks the parameters of the effect of character card 10.
+     * The method checks only if the player inserts a valid color of the game. If not, it aks again to insert parameters for character card 10.
+     * The server will check if the player has the selected students in his entrance and in his dining room.
+     * The player can swap up to three students. If he wants to swap less than three students, he can press enter when the method
+     * asks him to choose a student from his entrance.
+     */
     public void askCharCard10(){
         int repeat = 0;
         int [] fromEntrance = new int[5];
@@ -617,6 +652,11 @@ public class Cli extends Observable<Message> implements ClientView{
         notify(new CharacterCard10Reply(clientModel.getUsername(), fromEntrance, fromDiningRoom));
     }
 
+    /**
+     * Asks the parameters of the effect of character card 11.
+     * The method checks only if the player inserts a valid color of the game. If not, it aks again to insert parameters for character card 11.
+     * The server will check if the card has a student with the color selected by the player.
+     */
     public void askCharCard11(){
         out.println(clientModel.getCharacterCardById(11).toString());
         out.println(clientModel.printYourSchoolBoard());
@@ -634,6 +674,11 @@ public class Cli extends Observable<Message> implements ClientView{
         }
     }
 
+    /**
+     * Asks the parameters of the effect of character card 12.
+     * The method checks only if the player inserts a valid color of the game.
+     * If not, it aks again to insert parameters for character card 12.
+     */
     public void askCharCard12(){
         out.println(clientModel.printOtherSchoolBoards());
         out.println(clientModel.printYourSchoolBoard());
@@ -652,6 +697,10 @@ public class Cli extends Observable<Message> implements ClientView{
         }
     }
 
+    /**
+     * Shows to the player which error occurs during the execution of a method or for an invalid input.
+     * @param errorTypeID the error type that occurs during the execution.
+     */
     @Override
     public void showErrorMessage(ErrorTypeID errorTypeID) {
         out.println(Utility.ANSI_RED + errorTypeID.getDescription() + Utility.ANSI_RESET);
@@ -659,6 +708,10 @@ public class Cli extends Observable<Message> implements ClientView{
             System.exit(1);
     }
 
+    /**
+     * Shows to the player that another player has disconnected.
+     * Then, it disconnects him from the game.
+     */
     @Override
     public void showDisconnectionMessage() {
         out.println(Utility.ANSI_RED + "A player has disconnected! The game is finished." + Utility.ANSI_RESET);
@@ -666,29 +719,53 @@ public class Cli extends Observable<Message> implements ClientView{
         System.exit(1);
     }
 
+    /**
+     * Shows to the player that the bag is now empty and so, the game will finish at the end of last player's turn.
+     * If the bag becomes empty before the action phase, it communicates that the players will not draw any students from the cloud
+     * tiles in this turn.
+     */
     @Override
     public void showEmptyBagMessage() {
         out.println("The bag is empty! The game will finish at the end of last player's turn");
         out.println("Every player will not draw any students from the cloud tiles");
     }
 
+    /**
+     * Shows to the other players that the current player has just moved a student from his entrance to his dining room.
+     * @param username        the current player's username.
+     * @param moveDescription the description of the move.
+     */
     @Override
     public void showInfoStudentIntoDiningRoom(String username, String moveDescription){
         if(!clientModel.getUsername().equals(username))
             out.println(moveDescription);
     }
 
+    /**
+     * Shows to the other players that the current player has just moved a student from his entrance to an island.
+     * @param username        the current player's username.
+     * @param moveDescription the description of the move.
+     */
     @Override
     public void showInfoStudentOntoIsland(String username, String moveDescription){
         if(!clientModel.getUsername().equals(username))
             out.println(moveDescription);
     }
 
+    /**
+     * Shows to the players the position of mother nature.
+     * @param islandId the id of the island with mother nature.
+     */
     @Override
     public void showMotherNaturePosition(int islandId){
         out.println("Mother nature has been moved.\nMother nature is on the island: " + islandId);
     }
 
+    /**
+     * Shows to the players that an island has a new dominator. Then, it prints all the updated islands.
+     * @param username the new island dominator's username.
+     * @param islandId the id of the island.
+     */
     @Override
     public void showChangeInfluenceMessage(String username, int islandId){
         if(username.equals(clientModel.getUsername()))
@@ -698,50 +775,92 @@ public class Cli extends Observable<Message> implements ClientView{
         out.println(clientModel.printIslands());
     }
 
+    /**
+     * Shows to the players that an island is merged with another one. Then, it prints all the remaining islands.
+     * @param island1Id the id of the island merged with mother nature.
+     * @param island2Id the id of the island merged to delete.
+     */
     @Override
     public void showMergeIslandsMessage(int island1Id, int island2Id){
         out.println("The island " + island1Id + " is now merged with the island " + island2Id + ".");
         out.println("These are the remaining islands: " + clientModel.printIslands());
     }
+
+    /**
+     * Shows to the players that a tower has been moved onto an island. Then, it prints all the islands.
+     * @param islandId the id of the island where a new tower is built.
+     */
     @Override
     public void showMoveTowerOntoIsland(int islandId) {
         out.println("A tower has been moved onto island "+islandId);
         clientModel.printIslands();
     }
 
+    /**
+     * Shows to the players that a tower has been moved back onto a school board.
+     * @param username    the school board owner's username.
+     * @param schoolBoard the school board with new towers.
+     */
     @Override
     public void showMoveTowerOntoSchoolBoard(String username,SchoolBoard schoolBoard) {
         out.println("A tower has been moved back onto "+username+"'s school board");
     }
 
+    /**
+     * Shows to the other players which cloud tile the current player has just chosen.
+     * @param username          the current player's username.
+     * @param choiceDescription the description of the chosen cloud tile.
+     */
     public void showInfoChosenCloudTile(String username, String choiceDescription){
         if(!clientModel.getUsername().equals(username))
             out.println(choiceDescription);
     }
 
+    /**
+     * Shows to the current player the new amount of coins in his wallet.
+     */
     @Override
     public void showUpdateWallet(){
         out.println(clientModel.printWallet());
     }
 
+    /**
+     * Shows to the player that he has tied the game.
+     * Then, it asks if he wants to play again.
+     */
     @Override
     public void showTieMessage() {
         out.println(Utility.ANSI_YELLOW + "You have tied" + Utility.ANSI_RESET);
         askPlayAgain();
     }
 
+    /**
+     * Shows to the winner player that he won the game.
+     * Then, it asks if he wants to play again.
+     */
     @Override
     public void showWinMessage() {
         out.println(Utility.ANSI_YELLOW + "Congratulations! You're the winner!" + Utility.ANSI_RESET);
         askPlayAgain();
     }
 
+    /**
+     * Shows to the loser players who won the game.
+     * @param winnerUsername the winner's username.
+     */
     @Override
     public void showLoseMessage(String winnerUsername) {
         out.println(Utility.ANSI_YELLOW + "You Lose! The winner is: " + winnerUsername + Utility.ANSI_RESET);
         askPlayAgain();
     }
 
+    /**
+     * Asks the player if he wants to play again.
+     * The player has to reply with "yes/y" if he wants to play again, "no/n" otherwise.
+     * In case he wants to play again, this method clears the screen and asks the new username else it interrupts
+     * the input read thread and closes the connection
+     * with the server.
+     */
     @Override
     public void askPlayAgain(){
         String results = "";
@@ -758,11 +877,22 @@ public class Cli extends Observable<Message> implements ClientView{
         }
     }
 
+    /**
+     * Shows to the player a generic message.
+     * @param genericMessage the string to print.
+     */
     @Override
     public void showGenericMessage(String genericMessage) {
         out.println(genericMessage);
     }
 
+    /**
+     * Shows to the current player the available character cards.
+     * Then it asks the player to input the id of the character card he wants to play.
+     * The method checks only if the player inserts a number.
+     * The server will check if the number inserted by the player is an id of an available character card.
+     * This method can be called once per turn by pressing "--playCC" during the action phase.
+     */
     private void showAndPlayCharacterCard(){
         try {
             out.println(clientModel.printWallet());
@@ -778,21 +908,28 @@ public class Cli extends Observable<Message> implements ClientView{
         }
     }
 
+    /**
+     * Shows to the player that a fatal error occurs during the execution of the game and the connection with
+     * the server dropped. Then, it closes the game.
+     */
     public void showAbortMessage(){
         out.println(Utility.ANSI_RED + "Connection with server dropped! Quit..." + Utility.ANSI_RESET);
         System.exit(1);
     }
 
+    /**
+     * This method is useful for removing the spaces when the player inputs the student he wants to move from his entrance.
+     * @param string the string to modify
+     * @return the string without spaces.
+     */
     private String removeSpaces(String string){
         return string.replace(" ", "");
     }
 
     /**
-     * Read a string line using a separated thread
-     *
-     * @return the string
-     * @throws ExecutionException   the execution exception
-     * @throws NullPointerException the null pointer exception
+     * Read a string line using a separated thread.
+     * @return the string in input.
+     * @throws NullPointerException when a fatal error occurs.
      */
     public String readLine() throws NullPointerException {
         FutureTask<String> futureTask = new FutureTask<>(new InputReadTask());
@@ -810,11 +947,10 @@ public class Cli extends Observable<Message> implements ClientView{
         throw new NullPointerException("The method had read a null string");
     }
 
-
+    /**
+     * @return the client model of the player.
+     */
     public ClientModel getClientModel(){
         return clientModel;
     }
-
 }
-
-
