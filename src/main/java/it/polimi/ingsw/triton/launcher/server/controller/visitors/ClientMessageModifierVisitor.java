@@ -26,7 +26,7 @@ public class ClientMessageModifierVisitor {
      * @throws ChangeTurnException after setting the tower color to the player to change turn.
      */
     public void visitForModify(TowerColorReply message) throws IllegalClientInputException, ChangeTurnException {
-        game.chooseTowerColor(message.getSenderUsername(), message.getPlayerColor());
+        game.chooseTowerColor(game.getCurrentPlayer(), message.getPlayerColor());
     }
 
     /**
@@ -36,7 +36,7 @@ public class ClientMessageModifierVisitor {
      * @throws ChangeTurnException after setting the wizard to the player to change turn.
      */
     public void visitForModify(WizardReply message) throws IllegalClientInputException, ChangeTurnException {
-        game.chooseWizard(message.getSenderUsername(), message.getPlayerWizard());
+        game.chooseWizard(game.getCurrentPlayer(), message.getPlayerWizard());
     }
 
     /**
@@ -46,7 +46,7 @@ public class ClientMessageModifierVisitor {
      * @throws ChangeTurnException after setting current player's last assistant card played to change turn.
      */
     public void visitForModify(AssistantCardReply message) throws IllegalClientInputException, ChangeTurnException {
-        game.chooseAssistantCard(message.getSenderUsername(), message.getChosenAssistantCard());
+        game.chooseAssistantCard(game.getCurrentPlayer(), message.getChosenAssistantCard());
     }
 
     /**
@@ -62,7 +62,7 @@ public class ClientMessageModifierVisitor {
     /**
      * Allows the current player to move a student from entrance to a specified island, after receiving the reply from him.
      * @param message the last message received.
-     * @throws IllegalClientInputException if there aren't students of the specified color in current player's entrance or the island doesn't exists..
+     * @throws IllegalClientInputException if there aren't students of the specified color in current player's entrance or the island doesn't exist.
      * @throws LastMoveException after moving the third student in two players game mode, the fourth in three players game mode.
      */
     public void visitForModify(MoveStudentOntoIslandMessage message) throws LastMoveException, IllegalClientInputException {
@@ -100,10 +100,10 @@ public class ClientMessageModifierVisitor {
      * @throws CharacterCardWithParametersException if the specified character card needs some parameters to build the effect.
      */
     public void visitForModify(UseCharacterCardRequest message) throws IllegalClientInputException, CharacterCardWithParametersException, EndGameException {
-        game.useCharacterCard(message.getSenderUsername(),message.getCharacterCardID());
+        game.useCharacterCard(game.getCurrentPlayer(),message.getCharacterCardID());
         // If the player has not played a character card ability yet, set true the attribute that indicates so.
         // Otherwise, an IllegalClientInputException is thrown.
-        game.getPlayerByUsername(message.getSenderUsername()).setTrueHasAlreadyPlayedACharacterCard();
+        game.getCurrentPlayer().setTrueHasAlreadyPlayedACharacterCard();
         switch (message.getCharacterCardID()){
             case 2:
                 game.applyCharacterCardEffect(message.getCharacterCardID(), new CardEffect02(game.getCurrentPlayer(), game.getProfessorsManager(), game.getProfessors()));
@@ -159,7 +159,7 @@ public class ClientMessageModifierVisitor {
      * @throws EndGameException this exception is not launched in this method.
      */
     public void visitForModify(CharacterCard07Reply message) throws IllegalClientInputException, EndGameException {
-        game.applyCharacterCardEffect(7, new CardEffect07(game.getCharacterCardByID(7),message.getStudentsOnCard(), message.getFromCard(), message.getFromSchoolBoard(), game.getPlayerByUsername(message.getSenderUsername()).getSchoolBoard()));
+        game.applyCharacterCardEffect(7, new CardEffect07(game.getCharacterCardByID(7),message.getStudentsOnCard(), message.getFromCard(), message.getFromSchoolBoard(), game.getCurrentPlayer().getSchoolBoard()));
     }
 
     /**
@@ -179,7 +179,7 @@ public class ClientMessageModifierVisitor {
      * @throws EndGameException this exception is not launched in this method.
      */
     public void visitForModify(CharacterCard10Reply message) throws IllegalClientInputException, EndGameException {
-        game.applyCharacterCardEffect(10, new CardEffect10(message.getFromEntrance(), message.getFromDiningRoom(), game.getPlayerByUsername(message.getSenderUsername()).getSchoolBoard()));
+        game.applyCharacterCardEffect(10, new CardEffect10(message.getFromEntrance(), message.getFromDiningRoom(), game.getCurrentPlayer().getSchoolBoard()));
     }
 
     /**
@@ -189,7 +189,7 @@ public class ClientMessageModifierVisitor {
      * @throws EndGameException if the bag is empty after drawing a student from it to deposit on the character card.
      */
     public void visitForModify(CharacterCard11Reply message) throws IllegalClientInputException, EndGameException {
-        game.applyCharacterCardEffect(11, new CardEffect11(message.getStudent(), game.getPlayerByUsername(message.getSenderUsername()).getSchoolBoard(), game.getBag(), game.getCharacterCardByID(11)));
+        game.applyCharacterCardEffect(11, new CardEffect11(message.getStudent(), game.getCurrentPlayer().getSchoolBoard(), game.getBag(), game.getCharacterCardByID(11)));
         game.getProfessorsManager().updateProfessors(game.getCurrentPlayer(), message.getStudent(), game.getProfessors());
     }
 

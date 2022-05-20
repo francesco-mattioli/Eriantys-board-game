@@ -17,7 +17,6 @@ public class UseCharacterCardRequest extends ClientMessage {
     private final int characterCardID;
 
     public UseCharacterCardRequest(String username, int characterCardID) {
-        super(username);
         this.characterCardID = characterCardID;    }
 
     public int getCharacterCardID() {

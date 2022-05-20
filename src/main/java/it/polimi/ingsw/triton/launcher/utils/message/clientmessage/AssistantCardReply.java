@@ -16,7 +16,6 @@ public class AssistantCardReply extends ClientMessage {
     private final AssistantCard chosenAssistantCard;
 
     public AssistantCardReply(String username, AssistantCard chosenAssistantCard) {
-        super(username);
         this.chosenAssistantCard = chosenAssistantCard;
     }
 

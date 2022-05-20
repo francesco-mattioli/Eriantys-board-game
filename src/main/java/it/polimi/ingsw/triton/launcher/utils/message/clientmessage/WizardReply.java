@@ -15,7 +15,6 @@ public class WizardReply extends ClientMessage {
     private final Wizard playerWizard;
 
     public WizardReply(String username, Wizard playerWizard) {
-        super(username);
         this.playerWizard = playerWizard;
     }
 

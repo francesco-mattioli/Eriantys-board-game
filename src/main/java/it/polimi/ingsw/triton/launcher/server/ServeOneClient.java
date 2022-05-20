@@ -56,7 +56,7 @@ public class ServeOneClient implements Runnable {
             while (isActive()) {
                 ClientMessage message = (ClientMessage) inSocket.readObject();
                 if (message instanceof LoginRequest) {
-                    server.lobby(this, message.getSenderUsername());
+                    server.lobby(this, ((LoginRequest)message).getUsername());
                 } else if (message instanceof PlayersNumberAndGameModeReply) {
                     server.activateGame(((PlayersNumberAndGameModeReply) message).getPlayersNumber(), ((PlayersNumberAndGameModeReply) message).isExpertMode());
                 } else {

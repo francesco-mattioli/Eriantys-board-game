@@ -54,18 +54,18 @@ public class ExpertGame extends GameDecorator {
 
     /**
      * This method set the player's school board with the chosen tower color.
-     * @param username the username of the player that has chosen the tower color.
+     * @param player the player that has chosen the tower color.
      * @param towerColor the color of the tower.
      * @throws IllegalClientInputException when the user's chosen tower color has already been chosen.
      */
     @Override
-    public void chooseTowerColor(String username, TowerColor towerColor) throws IllegalClientInputException, ChangeTurnException {
+    public void chooseTowerColor(Player player, TowerColor towerColor) throws IllegalClientInputException, ChangeTurnException {
         try{
             if(game.getTowerColorChosen()[towerColor.ordinal()]){
                 throw new IllegalClientInputException(ErrorTypeID.TOWER_COLOR_ALREADY_CHOSEN);
             }
             else{
-                getPlayerByUsername(username).setSchoolBoard(towerColor, game.getMaxNumberOfPlayers());
+                player.setSchoolBoard(towerColor, game.getMaxNumberOfPlayers());
                 game.getTowerColorChosen()[towerColor.ordinal()] = true;
             }
         } catch(ArrayIndexOutOfBoundsException e){
@@ -76,17 +76,17 @@ public class ExpertGame extends GameDecorator {
 
     /**
      * Set the wizard to the player and create a new request to the next player if present.
-     * @param username the player's username of who sets the wizard.
+     * @param player the player who sets the wizard.
      * @param wizard the wizard selected by the player.
      * @throws IllegalClientInputException when the user's chosen wizard has already been chosen.
      */
     @Override
-    public void chooseWizard(String username, Wizard wizard) throws IllegalClientInputException, ChangeTurnException {
+    public void chooseWizard(Player player, Wizard wizard) throws IllegalClientInputException, ChangeTurnException {
         if(!game.getAvailableWizards().contains(wizard)){
             throw new IllegalClientInputException(ErrorTypeID.WIZARD_ALREADY_CHOSEN);
         }
         else{
-            getPlayerByUsername(username).setWizard(wizard);
+            player.setWizard(wizard);
             game.getAvailableWizards().remove(wizard);
         }
         this.setNextPlayer(game.getCurrentPlayer());
@@ -155,17 +155,14 @@ public class ExpertGame extends GameDecorator {
      * Each one costs 1 coin.
      */
     private void drawCharacterCards() {
-        Random randomNumber;
         ArrayList<Integer> idAlreadyChosen = new ArrayList<>();
-        int id=3;
+        int id;
         while(characterCards.size() < 3){
-            //randomNumber = new Random();
-            //id = randomNumber.nextInt(12) + 1;
+            id = random.nextInt(12);
             if(!idAlreadyChosen.contains(id)){
                 characterCards.add(new CharacterCard(id, 1, 0, game.getBag()));
                 idAlreadyChosen.add(id);
             }
-            id++;
         }
     }
 
@@ -174,8 +171,8 @@ public class ExpertGame extends GameDecorator {
      * @param idCard the id of the selected character card.
      */
     @Override
-    public void useCharacterCard(String username,int idCard) throws IllegalClientInputException, CharacterCardWithParametersException {
-        if(game.getPlayerByUsername(username).hasAlreadyPlayedACharacterCard()) {
+    public void useCharacterCard(Player player,int idCard) throws IllegalClientInputException, CharacterCardWithParametersException {
+        if(player.hasAlreadyPlayedACharacterCard()) {
             throw new IllegalClientInputException(ErrorTypeID.CHARACTER_CARD_ALREADY_PLAYED);
         }
         else {
