@@ -144,7 +144,7 @@ public class MainSceneController extends SceneController {
         for(int i = 0; i<dimensions.length; i++){
             islandGrids[i] = new GridPane();
             islandGrids[i].setHgap(100);
-            islandGrids[i].setLayoutX(islandPane.getPrefWidth()/2 - islandGrids[i].getWidth()/2);
+            islandGrids[i].setLayoutX(0);
             islandGrids[i].setLayoutY(200*i);
             nodeList[i] = new ArrayList<>();
         }
@@ -222,7 +222,6 @@ public class MainSceneController extends SceneController {
                 islandGrids[i].add(nodeList[i].get(j), j, 0);
             }
             islands.add(islandGrids[i]);
-
         }
     }
 

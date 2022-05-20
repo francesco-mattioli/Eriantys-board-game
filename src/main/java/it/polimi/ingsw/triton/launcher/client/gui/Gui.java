@@ -17,12 +17,14 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.image.Image;
 import javafx.scene.layout.*;
 import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Optional;
 
 public class Gui extends Observable<Message> implements ClientView {
     private ClientModel clientModel;
@@ -55,7 +57,7 @@ public class Gui extends Observable<Message> implements ClientView {
             usernames += name + "\n";
         }
         usernames = "A new player has been connected.\nNow players online are:\n" + usernames;
-        showAlert(Alert.AlertType.INFORMATION, "New player online", usernames);
+        //showAlert(Alert.AlertType.INFORMATION, "New player online", usernames);
     }
 
     @Override
@@ -90,7 +92,7 @@ public class Gui extends Observable<Message> implements ClientView {
             initializeMainStage();
         }
         actualGamePhase = gameState;
-        showAlert(Alert.AlertType.INFORMATION, "Game phase info", "New game phase:\n" + gameState + " is beginning..");
+        //showAlert(Alert.AlertType.INFORMATION, "Game phase info", "New game phase:\n" + gameState + " is beginning..");
 
     }
 
@@ -108,7 +110,7 @@ public class Gui extends Observable<Message> implements ClientView {
 
     @Override
     public void showLoginReply() {
-        showAlert(Alert.AlertType.INFORMATION, "Login Reply", "Username Accepted. Your username will be \"" + clientModel.getUsername() + "\"");
+        //showAlert(Alert.AlertType.INFORMATION, "Login Reply", "Username Accepted. Your username will be \"" + clientModel.getUsername() + "\"");
     }
 
     @Override
@@ -120,7 +122,7 @@ public class Gui extends Observable<Message> implements ClientView {
     @Override
     public void showTieMessage() {
         showAlert(Alert.AlertType.INFORMATION, "Tie", "Nobody won the game: it was a tie");
-        closeGui();
+        askPlayAgain();
     }
 
 
@@ -133,23 +135,23 @@ public class Gui extends Observable<Message> implements ClientView {
     @Override
     public void showWinMessage() {
         showAlert(Alert.AlertType.INFORMATION, "You won", "Congratulations!! You won the game");
-        closeGui();
+        askPlayAgain();
     }
 
     @Override
     public void showLoseMessage(String winnerUsername) {
         showAlert(Alert.AlertType.INFORMATION, "You lost", "You lost!\n" + winnerUsername + " won!");
-        closeGui();
+        askPlayAgain();
     }
 
     private void showAlert(Alert.AlertType alertType, String title, String contentText) {
-        /*Platform.runLater(() -> {
+        Platform.runLater(() -> {
             Alert alert = new Alert(alertType);
             alert.setTitle(title);
             alert.setHeaderText(null);
             alert.setContentText(contentText);
             alert.showAndWait();
-        });*/
+        });
     }
 
     private void closeGui() {
@@ -192,11 +194,6 @@ public class Gui extends Observable<Message> implements ClientView {
     @Override
     public void askUsername() {
         prepareController("/login-scene.fxml", null);
-    }
-
-    @Override
-    public void askPlayAgain() {
-
     }
 
     @Override
@@ -291,119 +288,132 @@ public class Gui extends Observable<Message> implements ClientView {
     }
 
 
-        @Override
-        public void showMyInfoAssistantCardPlayed (AssistantCard assistantCard){
-            Platform.runLater(() -> {
-                mainController.showMyInfoAssistantCardPlayed(assistantCard, clientModel);
-            });
-        }
+    @Override
+    public void showMyInfoAssistantCardPlayed (AssistantCard assistantCard){
+        Platform.runLater(() -> {
+            mainController.showMyInfoAssistantCardPlayed(assistantCard, clientModel);
+        });
+    }
 
-        @Override
-        public void showInfoAssistantCardPlayed (String username, AssistantCard assistantCard){
-            Platform.runLater(() -> {
-                mainController.showInfoAssistantCardPlayed(username, assistantCard);
-            });
-        }
+    @Override
+    public void showInfoAssistantCardPlayed (String username, AssistantCard assistantCard){
+        Platform.runLater(() -> {
+            mainController.showInfoAssistantCardPlayed(username, assistantCard);
+        });
+    }
 
+    @Override
+    public void showInfoStudentIntoDiningRoom (String username, String moveDescription){
+        Platform.runLater(() -> {
+            mainController.showInfoStudentIntoDiningRoom(username, clientModel);
+        });
+    }
 
-        @Override
-        public void showInfoStudentIntoDiningRoom (String username, String moveDescription){
-            Platform.runLater(() -> {
-                mainController.showInfoStudentIntoDiningRoom(username, clientModel);
-            });
-        }
+    @Override
+    public void showInfoStudentOntoIsland (String username, String moveDescription){
+        Platform.runLater(() -> {
+            mainController.showInfoStudentOntoIsland(username, clientModel);
+        });
+    }
 
-        @Override
-        public void showInfoStudentOntoIsland (String username, String moveDescription){
-            Platform.runLater(() -> {
-                mainController.showInfoStudentOntoIsland(username, clientModel);
-            });
-        }
+    @Override
+    public void showMotherNaturePosition ( int islandId){
+        Platform.runLater(() -> {
+            mainController.showMotherNaturePosition(clientModel);
+        });
+    }
 
-        @Override
-        public void showMotherNaturePosition ( int islandId){
-            Platform.runLater(() -> {
-                mainController.showMotherNaturePosition(clientModel);
-            });
-        }
+    @Override
+    public void showChangeInfluenceMessage (String username,int islandId){
+        Platform.runLater(() -> {
+            mainController.showChangeInfluenceMessage(clientModel);
+        });
+    }
 
-        @Override
-        public void showChangeInfluenceMessage (String username,int islandId){
-            Platform.runLater(() -> {
-                mainController.showChangeInfluenceMessage(clientModel);
-            });
-        }
+    @Override
+    public void showMergeIslandsMessage ( int island1Id, int island2Id){
+        Platform.runLater(() -> {
+            mainController.showMergeIslandsMessage(clientModel);
+        });
+    }
 
-        @Override
-        public void showMergeIslandsMessage ( int island1Id, int island2Id){
-            Platform.runLater(() -> {
-                mainController.showMergeIslandsMessage(clientModel);
-            });
-        }
+    @Override
+    public void showMoveTowerOntoIsland ( int islandId){
+        Platform.runLater(() -> {
+            mainController.showMoveTowerOntoIsland(clientModel);
+        });
+    }
 
-        @Override
-        public void showMoveTowerOntoIsland ( int islandId){
-            Platform.runLater(() -> {
-                mainController.showMoveTowerOntoIsland(clientModel);
-            });
-        }
+    @Override
+    public void showMoveTowerOntoSchoolBoard (String username, SchoolBoard schoolBoard){
+        Platform.runLater(() -> {
+            mainController.showMoveTowerOntoSchoolBoard(clientModel);
+        });
+    }
+    @Override
+    public void showInfoChosenCloudTile(String username, String choiceDescription){
+        Platform.runLater(() -> {
+            mainController.showInfoChosenCloudTile(username, clientModel);
+        });
+    }
 
-        @Override
-        public void showMoveTowerOntoSchoolBoard (String username, SchoolBoard schoolBoard){
-            Platform.runLater(() -> {
-                mainController.showMoveTowerOntoSchoolBoard(clientModel);
-            });
-        }
-        @Override
-        public void showInfoChosenCloudTile(String username, String choiceDescription){
-            Platform.runLater(() -> {
-                mainController.showInfoChosenCloudTile(username, clientModel);
-            });
-        }
+    @Override
+    public void showUpdateWallet() {
+        Platform.runLater(() -> {
+            if(mainController != null)
+                mainController.showUpdatedWallet(clientModel);
+        });
+    }
 
-        @Override
-        public void showUpdateWallet() {
-            Platform.runLater(() -> {
-                if(mainController != null)
-                    mainController.showUpdatedWallet(clientModel);
-            });
-        }
+    private void initializeMainStage() {
+        Platform.runLater(() -> {
+            FXMLLoader mainLoader;
+            if (clientModel.getSchoolBoards().size() == 2)
+                mainLoader = new FXMLLoader(getClass().getResource("/main-scene.fxml"));
+            else mainLoader = new FXMLLoader(getClass().getResource("/main3players-scene.fxml"));
+            try {
+                Parent root = mainLoader.load();
+                Scene scene = new Scene(root);
+                mainStage = new Stage();
+                mainStage.setTitle(clientModel.getUsername());
+                mainStage.setResizable(false);
+                mainController = mainLoader.getController();
+                mainController.initializeMainScene(clientModel);
+                String currentPath = new java.io.File("src/main/resources/Images/backgroundmainscene.jpg").getAbsolutePath().replace('\\','/');
+                Image img = new Image("file:" + currentPath);
+                BackgroundImage bImg = new BackgroundImage(img,
+                        BackgroundRepeat.NO_REPEAT,
+                        BackgroundRepeat.NO_REPEAT,
+                        BackgroundPosition.DEFAULT,
+                        new BackgroundSize(500,500,true,true,false,true));
+                Background bGround = new Background(bImg);
+                mainController.getMainPane().setBackground(bGround);
+                mainStage.setScene(scene);
+                mainStage.show();
+                activeStage.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        });
+    }
 
-        private void initializeMainStage() {
-            Platform.runLater(() -> {
-                FXMLLoader mainLoader;
-                if (clientModel.getSchoolBoards().size() == 2)
-                    mainLoader = new FXMLLoader(getClass().getResource("/main-scene.fxml"));
-                else mainLoader = new FXMLLoader(getClass().getResource("/main3players-scene.fxml"));
-                try {
-                    Parent root = mainLoader.load();
-                    Scene scene = new Scene(root);
-                    mainStage = new Stage();
-                    mainStage.setTitle(clientModel.getUsername());
-                    mainStage.setResizable(false);
-                    mainController = mainLoader.getController();
-                    mainController.initializeMainScene(clientModel);
-                    String currentPath = new java.io.File("src/main/resources/Images/backgroundmainscene.jpg").getAbsolutePath().replace('\\','/');
-                    Image img = new Image("file:" + currentPath);
-                    BackgroundImage bImg = new BackgroundImage(img,
-                            BackgroundRepeat.NO_REPEAT,
-                            BackgroundRepeat.NO_REPEAT,
-                            BackgroundPosition.DEFAULT,
-                            new BackgroundSize(500,500,true,true,false,true));
-                    Background bGround = new Background(bImg);
-                    mainController.getMainPane().setBackground(bGround);
-                    mainStage.setScene(scene);
-                    mainStage.show();
-                    activeStage.close();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            });
-        }
+    private void playCharacterCard(Button button){
+        button.setOnAction(event -> {
+            prepareController("/characterCard-scene.fxml", null);
+        });
+    }
 
-        private void playCharacterCard(Button button){
-            button.setOnAction(event -> {
-                prepareController("/characterCard-scene.fxml", null);
-            });
+    @Override
+    public void askPlayAgain() {
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle("Confirmation Dialog");
+        alert.setHeaderText(null);
+        alert.setContentText("Do you want to play again?");
+        Optional<ButtonType> result = alert.showAndWait();
+        if (result.get() == ButtonType.OK){
+            askUsername();
+        } else {
+            closeGui();
         }
     }
+}
