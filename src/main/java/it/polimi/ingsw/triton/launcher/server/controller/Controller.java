@@ -94,6 +94,7 @@ public class Controller implements Observer<ClientMessage> {
         game.removeObserver(virtualView);
         for(Island island: game.getIslandManager().getIslands())
             island.removeObserver(virtualView);
+        game.getIslandManager().removeObserver(virtualView);
     }
 
     /**

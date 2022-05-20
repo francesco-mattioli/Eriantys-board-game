@@ -97,7 +97,6 @@ public class ExpertGame extends GameDecorator {
      */
     @Override
     public void setup() {
-        setupMotherNature(); //PHASE 2
         setupBag(); //PART 1 OF PHASE 3
         setupIslands(); //PART 2 OF PHASE 3
         game.getBag().fillBag(); //PHASE 4
@@ -111,7 +110,7 @@ public class ExpertGame extends GameDecorator {
             game.notify(new GiveAssistantDeckMessage(player.getUsername(), player.getAssistantDeck()));   // to review
             game.notify(new UpdateWalletMessage(player.getUsername(), player.getWallet().getValue()));
         }
-        game.notify(new ExpertGameInfoMessage(characterCards, game.getIslandManager().getIslands(), game.getMotherNature().getPosition(), game.getAllSchoolBoards(), game.getCloudTiles(), new String[game.getProfessors().length],getAllChosenWizards()));
+        game.notify(new ExpertGameInfoMessage(characterCards, game.getIslandManager().getIslands(), game.getIslandManager().getMotherNature().getPosition(), game.getAllSchoolBoards(), game.getCloudTiles(), new String[game.getProfessors().length],getAllChosenWizards()));
         game.notify(new ChangeTurnMessage(game.getCurrentPlayer().getUsername()));
         game.planningPhase();
     }
@@ -156,7 +155,7 @@ public class ExpertGame extends GameDecorator {
         ArrayList<Integer> idAlreadyChosen = new ArrayList<>();
         int id, cost;
         while(characterCards.size() < 3){
-            id = random.nextInt(12) + 1;
+            id = random.nextInt(3) + 1; //TODO TO REPLACE 3 WITH 12
             if(!idAlreadyChosen.contains(id)){
                 if(id == 1 || id == 4 || id == 7 || id == 10)
                     cost = 1;

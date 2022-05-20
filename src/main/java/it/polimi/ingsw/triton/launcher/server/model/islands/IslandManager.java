@@ -1,5 +1,6 @@
 package it.polimi.ingsw.triton.launcher.server.model.islands;
 
+import it.polimi.ingsw.triton.launcher.server.model.MotherNature;
 import it.polimi.ingsw.triton.launcher.server.model.influencestrategy.InfluenceStrategyDefault;
 import it.polimi.ingsw.triton.launcher.server.model.player.Player;
 import it.polimi.ingsw.triton.launcher.utils.exceptions.EndGameException;
@@ -7,17 +8,22 @@ import it.polimi.ingsw.triton.launcher.utils.exceptions.IllegalClientInputExcept
 import it.polimi.ingsw.triton.launcher.utils.message.ErrorTypeID;
 import it.polimi.ingsw.triton.launcher.utils.message.servermessage.InfoMessage;
 import it.polimi.ingsw.triton.launcher.utils.message.servermessage.infoMessage.MergeIslandsMessage;
+import it.polimi.ingsw.triton.launcher.utils.message.servermessage.infoMessage.MotherNaturePositionMessage;
 import it.polimi.ingsw.triton.launcher.utils.obs.Observable;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-public class IslandManager extends Observable <InfoMessage> {
+public class IslandManager extends Observable <InfoMessage> implements Serializable {
     private final List<Island> islands;
+    private MotherNature motherNature;
+
     public IslandManager(){
         islands = new ArrayList<>();
         createIslands();
+        setupMotherNature();
     }
 
     /**
@@ -30,27 +36,43 @@ public class IslandManager extends Observable <InfoMessage> {
     }
 
     /**
+     * This method places mother nature on a random island.
+     */
+    public void setupMotherNature() {
+        motherNature = new MotherNature(getRandomIsland());
+    }
+
+    /**
      * This method merges two or more adjacent islands with the same dominator.
      * Firstly, update the influence on the island where mother nature is on.
      * It merges when dominator is not null, i.e. there is a dominator.
-     * @param motherNatureIslandPosition the island where mother nature is located.
+     * @param islandToPreserve island to not remove during merging
      * @param players the list of players.
      * @param professors the array with professors associated to the players.
      * @throws EndGameException when there are only three groups of islands.
+     * @return true if the merge happened
      */
-    public void mergeNearIslands(Island motherNatureIslandPosition, List<Player> players, Player[] professors) throws EndGameException {
-        motherNatureIslandPosition.updateInfluence(players, professors);
-        if (motherNatureIslandPosition.getDominator() != null) {
-            if (motherNatureIslandPosition.getDominator() == prevIsland(motherNatureIslandPosition).getDominator())
-                mergeAndNotify(motherNatureIslandPosition,prevIsland(motherNatureIslandPosition));
-            if (motherNatureIslandPosition.getDominator() == nextIsland(motherNatureIslandPosition).getDominator())
-                mergeAndNotify(motherNatureIslandPosition,nextIsland(motherNatureIslandPosition));
+    public boolean mergeNearIslands(Island islandToPreserve, List<Player> players, Player[] professors) throws EndGameException {
+        islandToPreserve.updateInfluence(players, professors);
+        if (islandToPreserve.getDominator() != null) {
+            if (islandToPreserve.getDominator() == prevIsland(islandToPreserve).getDominator()) {
+                mergeAndNotify(islandToPreserve, prevIsland(islandToPreserve));
+                return true;
+            }
+            if (islandToPreserve.getDominator() == nextIsland(islandToPreserve).getDominator()) {
+                mergeAndNotify(islandToPreserve, nextIsland(islandToPreserve));
+                return true;
+            }
         }
+        return false;
     }
 
-    private void mergeAndNotify(Island motherNatureIslandPosition,Island islandToRemove) throws EndGameException {
-        motherNatureIslandPosition.merge(islandToRemove);
-        notify(new MergeIslandsMessage(motherNatureIslandPosition, islandToRemove));
+    private void mergeAndNotify(Island islandToPreserve,Island islandToRemove) throws EndGameException {
+        islandToPreserve.merge(islandToRemove);
+        if(!existsIsland(motherNature.getPosition().getId()))
+            motherNature.setIslandOn(islandToPreserve);
+        notify(new MergeIslandsMessage(islandToPreserve, islandToRemove));
+        notify(new MotherNaturePositionMessage(islandToPreserve));
         islands.remove(islandToRemove);
         checkNumberIslands();
     }
@@ -80,7 +102,7 @@ public class IslandManager extends Observable <InfoMessage> {
      * @param currentIsland the current island.
      * @return next island on the left.
      */
-    private Island nextIsland(Island currentIsland) {
+    public Island nextIsland(Island currentIsland) {
         if (islands.indexOf(currentIsland) == islands.size() - 1) {
             return islands.get(0);
         } else
@@ -91,7 +113,7 @@ public class IslandManager extends Observable <InfoMessage> {
      * @param currentIsland the current island.
      * @return previous island on the right.
      */
-    private Island prevIsland(Island currentIsland) {
+    public Island prevIsland(Island currentIsland) {
         if (islands.indexOf(currentIsland) == 0) {
             return islands.get(islands.size() - 1);
         } else
@@ -126,4 +148,9 @@ public class IslandManager extends Observable <InfoMessage> {
     public Island getRandomIsland() {
         return islands.get((new Random()).nextInt(islands.size()));
     }
+
+    public MotherNature getMotherNature() {
+        return motherNature;
+    }
+
 }

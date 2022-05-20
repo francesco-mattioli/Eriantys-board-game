@@ -58,6 +58,7 @@ public class ClientModel extends Observable<Object> {
         return result;
     }
 
+
     public String getUsername() {
         return username;
     }

@@ -13,8 +13,8 @@ import it.polimi.ingsw.triton.launcher.utils.message.servermessage.InfoMessage;
 public class MergeIslandsMessage extends InfoMessage {
     private final Island islandWithMotherNature;
     private final Island islandToDelete;
-    public MergeIslandsMessage(Island islandwithMotherNature, Island islandToDelete) {
-        this.islandWithMotherNature = islandwithMotherNature;
+    public MergeIslandsMessage(Island islandWithMotherNature, Island islandToDelete) {
+        this.islandWithMotherNature = islandWithMotherNature;
         this.islandToDelete = islandToDelete;
     }
 

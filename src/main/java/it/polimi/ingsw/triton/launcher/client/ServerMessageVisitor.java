@@ -171,6 +171,7 @@ public class ServerMessageVisitor {
      * @param message the last message received.
      */
     public void visit(MotherNaturePositionMessage message) {
+        clientView.getClientModel().setIsland(message.getMotherNaturePosition());
         clientView.getClientModel().setMotherNaturePosition(message.getMotherNaturePosition());
         clientView.showMotherNaturePosition(message.getMotherNaturePosition().getId());
     }
@@ -190,7 +191,6 @@ public class ServerMessageVisitor {
      */
     public void visit(ChangeInfluenceMessage message){
         clientView.getClientModel().setIsland(message.getIslandWithNewInfluence());
-        clientView.getClientModel().setMotherNaturePosition(message.getIslandWithNewInfluence());
         clientView.showChangeInfluenceMessage(message.getUsernameDominator(), message.getIslandWithNewInfluence().getId());
     }
 
@@ -199,8 +199,6 @@ public class ServerMessageVisitor {
      * @param message the last message received.
      */
     public void visit(MergeIslandsMessage message){
-        clientView.getClientModel().setIsland(message.getIslandWithMotherNature());
-        clientView.getClientModel().setMotherNaturePosition(message.getIslandWithMotherNature());
         clientView.getClientModel().removeIsland(message.getIslandToDelete());
         clientView.showMergeIslandsMessage(message.getIslandWithMotherNature().getId(), message.getIslandToDelete().getId());
     }

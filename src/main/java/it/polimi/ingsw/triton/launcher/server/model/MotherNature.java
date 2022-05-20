@@ -3,6 +3,9 @@ package it.polimi.ingsw.triton.launcher.server.model;
 import it.polimi.ingsw.triton.launcher.server.model.islands.Island;
 import it.polimi.ingsw.triton.launcher.utils.exceptions.IllegalClientInputException;
 import it.polimi.ingsw.triton.launcher.utils.message.ErrorTypeID;
+
+
+
 import java.io.Serializable;
 import java.util.List;
 
@@ -82,4 +85,5 @@ public class MotherNature implements Serializable {
     public void setIslandOn(Island islandOn) {
         this.islandOn = islandOn;
     }
+
 }

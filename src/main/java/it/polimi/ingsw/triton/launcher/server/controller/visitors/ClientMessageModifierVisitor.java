@@ -109,7 +109,7 @@ public class ClientMessageModifierVisitor {
                 game.applyCharacterCardEffect(message.getCharacterCardID(), new CardEffect02(game.getCurrentPlayer(), game.getProfessorsManager(), game.getProfessors()));
                 break;
             case 4:
-                game.applyCharacterCardEffect(message.getCharacterCardID(), new CardEffect04(game.getMotherNature()));
+                game.applyCharacterCardEffect(message.getCharacterCardID(), new CardEffect04(game.getIslandManager().getMotherNature()));
                 break;
             case 6:
                 game.applyCharacterCardEffect(message.getCharacterCardID(), new CardEffect06(game.getIslandManager().getIslands()));
@@ -139,7 +139,7 @@ public class ClientMessageModifierVisitor {
      * @throws EndGameException if a player moved his last tower onto the island with mother nature or an island merged with another one and remains only three groups of islands.
      */
     public void visitForModify(CharacterCard03Reply message) throws IllegalClientInputException, EndGameException {
-        game.applyCharacterCardEffect(3, new CardEffect03(game.getIslandManager().getIslandByID(message.getIslandID()), game.getIslandManager(), game.getPlayers(), game.getProfessors()));
+        game.applyCharacterCardEffect(3, new CardEffect03(game.getIslandManager().getIslandByID(message.getIslandID()), game.getIslandManager(), game.getIslandManager().getMotherNature(), game.getPlayers(), game.getProfessors()));
     }
 
     /**
