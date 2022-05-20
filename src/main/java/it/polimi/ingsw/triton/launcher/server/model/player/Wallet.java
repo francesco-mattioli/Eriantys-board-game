@@ -9,8 +9,8 @@ public class Wallet implements Serializable {
      * Sets the value of the wallet at 0.
      */
     public Wallet() {
-        this.value = 100;
-    } //TODO TO SET 0
+        this.value = 0;
+    }
 
     /**
      * Increases the amount of coins of wallet.

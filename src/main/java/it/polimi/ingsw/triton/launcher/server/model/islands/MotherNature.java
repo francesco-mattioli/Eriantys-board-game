@@ -1,5 +1,6 @@
-package it.polimi.ingsw.triton.launcher.server.model;
+package it.polimi.ingsw.triton.launcher.server.model.islands;
 
+import it.polimi.ingsw.triton.launcher.server.model.AssistantCard;
 import it.polimi.ingsw.triton.launcher.server.model.islands.Island;
 import it.polimi.ingsw.triton.launcher.utils.exceptions.IllegalClientInputException;
 import it.polimi.ingsw.triton.launcher.utils.message.ErrorTypeID;

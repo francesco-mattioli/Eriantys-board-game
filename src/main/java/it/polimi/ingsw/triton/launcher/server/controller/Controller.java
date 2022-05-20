@@ -1,7 +1,7 @@
 package it.polimi.ingsw.triton.launcher.server.controller;
 
 import it.polimi.ingsw.triton.launcher.server.model.islands.Island;
-import it.polimi.ingsw.triton.launcher.server.ServeOneClient;
+import it.polimi.ingsw.triton.launcher.server.network.ServeOneClient;
 import it.polimi.ingsw.triton.launcher.server.model.enums.GameState;
 import it.polimi.ingsw.triton.launcher.server.model.game.ExpertGame;
 import it.polimi.ingsw.triton.launcher.server.model.game.Game;

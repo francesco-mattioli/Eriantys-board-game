@@ -1,6 +1,5 @@
 package it.polimi.ingsw.triton.launcher.server.model.islands;
 
-import it.polimi.ingsw.triton.launcher.server.model.MotherNature;
 import it.polimi.ingsw.triton.launcher.server.model.influencestrategy.InfluenceStrategyDefault;
 import it.polimi.ingsw.triton.launcher.server.model.player.Player;
 import it.polimi.ingsw.triton.launcher.utils.exceptions.EndGameException;

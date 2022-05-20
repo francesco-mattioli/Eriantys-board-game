@@ -1,6 +1,6 @@
 package it.polimi.ingsw.triton.launcher.server.model.cardeffects;
 
-import it.polimi.ingsw.triton.launcher.server.model.MotherNature;
+import it.polimi.ingsw.triton.launcher.server.model.islands.MotherNature;
 
 import java.io.Serializable;
 

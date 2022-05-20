@@ -1,6 +1,6 @@
 package it.polimi.ingsw.triton.launcher;
 
-import it.polimi.ingsw.triton.launcher.server.Server;
+import it.polimi.ingsw.triton.launcher.server.network.Server;
 import java.io.IOException;
 
 

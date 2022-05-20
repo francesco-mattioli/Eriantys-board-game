@@ -1,7 +1,7 @@
 package it.polimi.ingsw.triton.launcher.server.view;
 
 import it.polimi.ingsw.triton.launcher.client.view.View;
-import it.polimi.ingsw.triton.launcher.server.ServeOneClient;
+import it.polimi.ingsw.triton.launcher.server.network.ServeOneClient;
 import it.polimi.ingsw.triton.launcher.server.model.enums.Wizard;
 import it.polimi.ingsw.triton.launcher.utils.message.ErrorTypeID;
 import it.polimi.ingsw.triton.launcher.utils.message.Message;
