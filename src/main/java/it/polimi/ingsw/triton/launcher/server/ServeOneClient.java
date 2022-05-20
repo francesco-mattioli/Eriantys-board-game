@@ -62,7 +62,7 @@ public class  ServeOneClient implements Runnable {
                     server.activateGame(message.getSenderUsername(),((PlayersNumberAndGameModeReply) message).getPlayersNumber(),((PlayersNumberAndGameModeReply) message).isExpertMode());
                 }
                 else {
-                    server.getController().getVirtualViewByUsername(message.getSenderUsername()).notify(message);
+                    server.notifyVirtualView(this,message);
                 }
                 LOGGER.info("Received: " + message.getClass().getSimpleName() +" at port: "+socket.getPort());
             }

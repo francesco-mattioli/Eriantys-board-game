@@ -1,5 +1,6 @@
 package it.polimi.ingsw.triton.launcher.server.controller;
 
+import it.polimi.ingsw.triton.launcher.server.ServeOneClient;
 import it.polimi.ingsw.triton.launcher.server.model.Island;
 import it.polimi.ingsw.triton.launcher.server.model.enums.GameState;
 import it.polimi.ingsw.triton.launcher.server.model.game.ExpertGame;
@@ -180,5 +181,9 @@ public class Controller implements Observer<ClientMessage> {
 
     public void makeGameModeExpert() {
         this.game=new ExpertGame(game);
+    }
+
+    public void notifyVirtualView(ServeOneClient serveOneClient, ClientMessage message) {
+        virtualViews.stream().filter(virtualView -> virtualView.getServeOneClient().equals(serveOneClient)).findAny().orElseThrow( ()-> new NoSuchElementException("The Virtual View does not exist")).notify(message);
     }
 }
