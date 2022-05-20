@@ -23,6 +23,9 @@ import javafx.scene.layout.*;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
@@ -34,6 +37,7 @@ public class Gui extends Observable<Message> implements ClientView {
     private GameState actualGamePhase = GameState.SETUP;
     private MainSceneController mainController;
     private FXMLLoader activeLoader;
+    private Method lastCalledMethod;
 
 
     public Gui(Stage activeStage) {
@@ -178,7 +182,9 @@ public class Gui extends Observable<Message> implements ClientView {
                 controller.setUsername(clientModel.getUsername());
                 controller.setupScene(clientModel, parameters);
                 setGenericBackground(controller, "src/main/resources/Images/backpurple.jpg");
-                //setGenericBackground(controller, "src/main/resources/Images/backgroundmainscene.jpg");
+                if(controller instanceof CharacterCardSceneController){
+                    backButton(((CharacterCardSceneController)controller).getBackButton());
+                }
                 activeStage.setScene(new Scene(root));
                 activeStage.setTitle(clientModel.getUsername());
                 activeStage.show();
@@ -234,6 +240,11 @@ public class Gui extends Observable<Message> implements ClientView {
                 playCharacterCard(controller.getPlayCCButton());
             }
         });
+        try {
+            lastCalledMethod = getClass().getDeclaredMethod("askCloudTile");
+        } catch (NoSuchMethodException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
@@ -246,6 +257,11 @@ public class Gui extends Observable<Message> implements ClientView {
                 playCharacterCard(controller.getPlayCCButton());
             }
         });
+        try {
+            lastCalledMethod = getClass().getDeclaredMethod("askMoveStudentFromEntrance");
+        } catch (NoSuchMethodException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
@@ -261,6 +277,11 @@ public class Gui extends Observable<Message> implements ClientView {
                 playCharacterCard(controller.getPlayCCButton());
             }
         });
+        try {
+            lastCalledMethod = getClass().getDeclaredMethod("askNumberStepsMotherNature");
+        } catch (NoSuchMethodException e) {
+            e.printStackTrace();
+        }
     }
 
 
@@ -399,6 +420,18 @@ public class Gui extends Observable<Message> implements ClientView {
     private void playCharacterCard(Button button){
         button.setOnAction(event -> {
             prepareController("/characterCard-scene.fxml", null);
+        });
+    }
+
+    private void backButton(Button button){
+        button.setOnAction(event -> {
+            try {
+                lastCalledMethod.invoke(this);
+            } catch (IllegalAccessException e) {
+                e.printStackTrace();
+            } catch (InvocationTargetException e) {
+                e.printStackTrace();
+            }
         });
     }
 

@@ -43,5 +43,6 @@
          </font>
       </Label>
       <Button fx:id="buttonPlay" disable="true" layoutX="259.0" layoutY="332.0" mnemonicParsing="false" onAction="#playCharacterCard" text="Play character card!" />
+      <Button fx:id="backButton" layoutX="40.0" layoutY="332.0" mnemonicParsing="false" text="Back" />
    </children>
 </AnchorPane>
