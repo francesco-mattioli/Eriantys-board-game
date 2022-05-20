@@ -4,6 +4,7 @@ import it.polimi.ingsw.triton.launcher.server.controller.Controller;
 import it.polimi.ingsw.triton.launcher.server.model.enums.GameState;
 import it.polimi.ingsw.triton.launcher.server.view.VirtualView;
 import it.polimi.ingsw.triton.launcher.utils.message.ErrorTypeID;
+import it.polimi.ingsw.triton.launcher.utils.message.clientmessage.ClientMessage;
 
 import java.io.IOException;
 import java.net.ServerSocket;
@@ -124,11 +125,10 @@ public class Server {
      * Otherwise, it creates the Game, the Controller, and sets the VirtualView of first player as an observer
      * of the Controller.
      *
-     * @param username      of the first player
      * @param maxNumPlayers decided by the first player
      * @param expertMode    the expert mode
      */
-    public synchronized void activateGame(String username, int maxNumPlayers, boolean expertMode) {
+    public synchronized void activateGame(int maxNumPlayers, boolean expertMode) {
         if (!isNumberOfPlayersValid(maxNumPlayers)) {
             askFirstPlayerGameSettingsAgain();
         } else {
@@ -275,7 +275,17 @@ public class Server {
     //------------------------------------------------------------------------------------------------------------------
 
 
-    //-------------------------  METHODS CALLED BY SERVEONECLIENT CLASS ------------------------------------------------
+
+//-------------------------  METHODS CALLED BY SERVEONECLIENT CLASS ------------------------------------------------
+    /**
+     * Notify the virtual view associated with the specific ServeOneClient
+     *
+     * @param serveOneClient the ServeOneClient class that receives messages from the Client
+     * @param message        the message from Client
+     */
+    public void notifyVirtualView(ServeOneClient serveOneClient,ClientMessage message) {
+        controller.notifyVirtualView(serveOneClient,message);
+    }
 
     /**
      * Disconnect.

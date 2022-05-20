@@ -29,6 +29,5 @@ public class CardEffect02 implements CardEffect, Serializable {
         professorsManager.setProfessorStrategy(new ProfessorStrategyWithEffect());
         for(Color color: Color.values())
             professorsManager.updateProfessors(player,color, professors);
-        // remember to set the strategy to default when the turn is over
     }
 }
