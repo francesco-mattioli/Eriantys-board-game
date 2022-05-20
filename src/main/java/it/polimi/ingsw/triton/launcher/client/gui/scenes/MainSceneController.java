@@ -8,8 +8,10 @@ import it.polimi.ingsw.triton.launcher.server.model.enums.Color;
 import it.polimi.ingsw.triton.launcher.server.model.enums.TowerColor;
 import it.polimi.ingsw.triton.launcher.server.model.player.SchoolBoard;
 import javafx.fxml.FXML;
+import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
@@ -142,7 +144,7 @@ public class MainSceneController extends SceneController {
         for(int i = 0; i<dimensions.length; i++){
             islandGrids[i] = new GridPane();
             islandGrids[i].setHgap(100);
-            islandGrids[i].setLayoutX(0);
+            islandGrids[i].setLayoutX(islandPane.getPrefWidth()/2 - islandGrids[i].getWidth()/2);
             islandGrids[i].setLayoutY(200*i);
             nodeList[i] = new ArrayList<>();
         }
@@ -220,6 +222,7 @@ public class MainSceneController extends SceneController {
                 islandGrids[i].add(nodeList[i].get(j), j, 0);
             }
             islands.add(islandGrids[i]);
+
         }
     }
 
@@ -420,5 +423,9 @@ public class MainSceneController extends SceneController {
         for(int i = 0; i<clientModel.getWallet(); i++){
             moneyPane.getChildren().get(i).setVisible(true);
         }
+    }
+
+    public AnchorPane getMainPane() {
+        return mainPane;
     }
 }

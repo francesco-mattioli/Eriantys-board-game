@@ -17,6 +17,8 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.image.Image;
+import javafx.scene.layout.*;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -141,13 +143,13 @@ public class Gui extends Observable<Message> implements ClientView {
     }
 
     private void showAlert(Alert.AlertType alertType, String title, String contentText) {
-        Platform.runLater(() -> {
+        /*Platform.runLater(() -> {
             Alert alert = new Alert(alertType);
             alert.setTitle(title);
             alert.setHeaderText(null);
             alert.setContentText(contentText);
             alert.showAndWait();
-        });
+        });*/
     }
 
     private void closeGui() {
@@ -381,6 +383,15 @@ public class Gui extends Observable<Message> implements ClientView {
                     mainStage.setResizable(false);
                     mainController = mainLoader.getController();
                     mainController.initializeMainScene(clientModel);
+                    String currentPath = new java.io.File("src/main/resources/Images/backgroundmainscene.jpg").getAbsolutePath().replace('\\','/');
+                    Image img = new Image("file:" + currentPath);
+                    BackgroundImage bImg = new BackgroundImage(img,
+                            BackgroundRepeat.NO_REPEAT,
+                            BackgroundRepeat.NO_REPEAT,
+                            BackgroundPosition.DEFAULT,
+                            new BackgroundSize(500,500,true,true,false,true));
+                    Background bGround = new Background(bImg);
+                    mainController.getMainPane().setBackground(bGround);
                     mainStage.setScene(scene);
                     mainStage.show();
                     activeStage.close();
