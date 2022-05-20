@@ -152,17 +152,22 @@ public class ExpertGame extends GameDecorator {
 
     /**
      * Creates three character cards.
-     * Each one costs 1 coin.
      */
     private void drawCharacterCards() {
         Random randomNumber;
+        int cost;
         ArrayList<Integer> idAlreadyChosen = new ArrayList<>();
         int id;
         while(characterCards.size() < 3){
             randomNumber = new Random();
-            id = randomNumber.nextInt(12);
+            id = randomNumber.nextInt(12) + 1;
             if(!idAlreadyChosen.contains(id)){
-                characterCards.add(new CharacterCard(id, 1, 0, game.getBag()));
+                if(id == 1 || id == 4 || id == 7 || id == 10)
+                    cost = 1;
+                else if(id == 2 || id == 5 || id == 8 || id == 11)
+                    cost = 2;
+                else cost = 3;
+                characterCards.add(new CharacterCard(id, cost, 0, game.getBag()));
                 idAlreadyChosen.add(id);
             }
         }

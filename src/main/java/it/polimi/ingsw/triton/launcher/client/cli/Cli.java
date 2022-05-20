@@ -328,6 +328,7 @@ public class Cli extends Observable<Message> implements ClientView{
             if(clientModel.isExpertMode())
                 showUpdateWallet();
             out.println("Mother nature is on the island: " + clientModel.getMotherNaturePosition().getId());
+            out.print("You have played: " + clientModel.getLastAssistantCardPlayed(clientModel.getUsername()));
             out.println("To do so, type on each line [color of student, d (for dining room) ] or [color of student, island id]");
             out.print(Utility.ANSI_BOLDGREEN + "Please, enter data: " + Utility.ANSI_RESET);
             String input = readLine();
@@ -629,7 +630,7 @@ public class Cli extends Observable<Message> implements ClientView{
             try {
                 repeat++;
                 // choose the student to swap on entrance, then update fromEntrance array to send to Server
-                out.print("Enter the "+ordinal(repeat) + Utility.ANSI_BLUE + " student from the entrance (press enter if you want to stop): " + Utility.ANSI_RESET);
+                out.print(Utility.ANSI_BLUE + "Enter the "+ ordinal(repeat) + " student from the entrance (press enter if you want to stop): " + Utility.ANSI_RESET);
                 String inputFromEntrance = readLine();
                 if(inputFromEntrance.isEmpty())
                     break;
@@ -637,7 +638,7 @@ public class Cli extends Observable<Message> implements ClientView{
                 fromEntrance[color.ordinal()]++;
 
                 // choose the student to swap on dining room, then update fromDiningRoom array to send to Server
-                out.print("Enter the "+ordinal(repeat) + Utility.ANSI_BLUE + " - student from your dining room: " + Utility.ANSI_RESET);
+                out.print(Utility.ANSI_BLUE + "Enter the "+ ordinal(repeat) + " - student from your dining room: " + Utility.ANSI_RESET);
                 String inputFromDiningRoom = readLine();
                 color = Color.valueOf(inputFromDiningRoom.toUpperCase());
                 fromDiningRoom[color.ordinal()]++;
