@@ -245,6 +245,8 @@ public class Gui extends Observable<Message> implements ClientView {
     @Override
     public void askNumberStepsMotherNature() {
         int additionalSteps = 0;
+        if (clientModel.getLastCharacterCardPlayed() != null && clientModel.getLastCharacterCardPlayed().getId() == 4)
+            additionalSteps = 2;
         prepareController("/motherNatureSteps-scene.fxml", additionalSteps);
         Platform.runLater(() -> {
             if (clientModel.isExpertMode()) {
@@ -386,6 +388,7 @@ public class Gui extends Observable<Message> implements ClientView {
                     Parent root = mainLoader.load();
                     Scene scene = new Scene(root);
                     mainStage = new Stage();
+                    mainStage.setTitle(clientModel.getUsername());
                     mainStage.setResizable(false);
                     mainController = mainLoader.getController();
                     mainController.initializeMainScene(clientModel);

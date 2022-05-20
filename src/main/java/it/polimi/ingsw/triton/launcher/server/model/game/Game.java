@@ -581,10 +581,7 @@ public class Game extends GameMode {
      * If a professor is not on a player's school board, it has a '_' on his position of the array.
      */
     public String[] professorsWithUsernameOwner() {
-        return Arrays.stream(professors).map(p -> {
-            if (p == null) return "_";
-            else return p.getUsername();
-        }).toArray(String[]::new);
+        return Arrays.stream(professors).map(p -> (p==null ? null: p.getUsername())).toArray(String[]::new);
     }
 
     @Override

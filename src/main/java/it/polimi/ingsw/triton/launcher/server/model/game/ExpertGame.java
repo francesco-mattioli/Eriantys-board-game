@@ -157,7 +157,7 @@ public class ExpertGame extends GameDecorator {
     private void drawCharacterCards() {
         Random randomNumber;
         ArrayList<Integer> idAlreadyChosen = new ArrayList<>();
-        int id=9;
+        int id=3;
         while(characterCards.size() < 3){
             //randomNumber = new Random();
             //id = randomNumber.nextInt(12) + 1;

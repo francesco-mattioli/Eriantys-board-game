@@ -33,6 +33,7 @@ public class ClientModel extends Observable<Object> {
     private final Map<String,AssistantCard> lastAssistantCardPlayedPerUsername=new HashMap<>();
     private CharacterCard lastCharacterCardPlayed;
 
+
     /**
      * Generates the string with the descriptions of all the objects that are in client model.
      * This string is useful for the player to choose the strategies of his moves.
