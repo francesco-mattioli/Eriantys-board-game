@@ -1,5 +1,6 @@
 package it.polimi.ingsw.triton.launcher.client.gui.scenes;
 
+import it.polimi.ingsw.triton.launcher.client.cli.Cli;
 import it.polimi.ingsw.triton.launcher.client.model.ClientModel;
 import it.polimi.ingsw.triton.launcher.server.model.AssistantCard;
 import it.polimi.ingsw.triton.launcher.server.model.Island;
@@ -278,6 +279,9 @@ public class MainSceneController extends SceneController {
         initialSchoolBoardsSetup(clientModel);
         drawIslands(clientModel);
         initializeDeckInformation(clientModel);
+        if(clientModel.isExpertMode()){
+            showUpdatedWallet(clientModel);
+        }
     }
 
     private void initialSchoolBoardsSetup(ClientModel clientModel){
@@ -408,6 +412,13 @@ public class MainSceneController extends SceneController {
         for(int i = 0; i<schoolBoardsMap.size(); i++){
             String username = new ArrayList<>(schoolBoardsMap.keySet()).get(i);
             drawStudentsOnDiningRoom(((GridPane)schoolBoardsMap.get(username).getChildren().get(1)).getChildren(), clientModel.getSchoolBoards().get(username));
+        }
+    }
+
+    public void showUpdatedWallet(ClientModel clientModel){
+        moneyPane.getChildren().forEach(x -> x.setVisible(false));
+        for(int i = 0; i<clientModel.getWallet(); i++){
+            moneyPane.getChildren().get(i).setVisible(true);
         }
     }
 }

@@ -141,13 +141,13 @@ public class Gui extends Observable<Message> implements ClientView {
     }
 
     private void showAlert(Alert.AlertType alertType, String title, String contentText) {
-        /*Platform.runLater(() -> {
+        Platform.runLater(() -> {
             Alert alert = new Alert(alertType);
             alert.setTitle(title);
             alert.setHeaderText(null);
             alert.setContentText(contentText);
             alert.showAndWait();
-        });*/
+        });
     }
 
     private void closeGui() {
@@ -261,44 +261,30 @@ public class Gui extends Observable<Message> implements ClientView {
     @Override
     public void askCharacterCardParameters(int id) {
         switch (id) {
-            case 1: {
+            case 1:
                 prepareController("/charCard01-scene.fxml", 1);
                 break;
-            }
-
-            case 3:{
+            case 3:
                 prepareController("/charCard03-05-scene.fxml", 3);
                 break;
-            }
-            case 5: {
+            case 5:
                 prepareController("/charCard03-05-scene.fxml", 5);
                 break;
-            }
-
-            case 7: {
+            case 7:
                 prepareController("/charCard07-scene.fxml", 7);
                 break;
-            }
-
-            case 9:{
+            case 9:
                 prepareController("/charCard09-11-12-scene.fxml", 9);
                 break;
-            }
-
-            case 11:{
-                prepareController("/charCard09-11-12-scene.fxml", 11);
-                break;
-            }
-
-            case 12: {
-                prepareController("/charCard09-11-12-scene.fxml", 12);
-                break;
-            }
-
-            case 10:{
+            case 10:
                 prepareController("/charCard10-scene.fxml", 10);
                 break;
-            }
+            case 11:
+                prepareController("/charCard09-11-12-scene.fxml", 11);
+                break;
+            case 12:
+                prepareController("/charCard09-11-12-scene.fxml", 12);
+                break;
         }
     }
 
@@ -367,15 +353,18 @@ public class Gui extends Observable<Message> implements ClientView {
             });
         }
         @Override
-        public void showInfoChosenCloudTile (String username, String choiceDescription){
+        public void showInfoChosenCloudTile(String username, String choiceDescription){
             Platform.runLater(() -> {
                 mainController.showInfoChosenCloudTile(username, clientModel);
             });
         }
 
         @Override
-        public void showUpdateWallet () {
-
+        public void showUpdateWallet() {
+            Platform.runLater(() -> {
+                if(mainController != null)
+                    mainController.showUpdatedWallet(clientModel);
+            });
         }
 
         private void initializeMainStage() {
