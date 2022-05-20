@@ -32,6 +32,13 @@ public class CharacterCardSceneController extends SceneController {
     @FXML
     Button buttonPlay;
 
+    @FXML
+    Button backButton;
+
+    public Button getBackButton() {
+        return backButton;
+    }
+
     private int cardID;
 
     private AnchorPane infoPane;
