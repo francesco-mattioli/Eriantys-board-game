@@ -788,7 +788,6 @@ public class Cli extends Observable<Message> implements ClientView{
     @Override
     public void showMoveTowerOntoIsland(int islandId) {
         out.println("A tower has been moved onto island "+islandId);
-        //clientModel.printIslands();
     }
 
     /**
