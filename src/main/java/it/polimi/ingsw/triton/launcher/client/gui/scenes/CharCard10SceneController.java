@@ -9,6 +9,8 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.layout.AnchorPane;
 
+import java.util.stream.Collectors;
+
 public class CharCard10SceneController extends SceneController{
     @FXML
     Button stopButton;
@@ -37,12 +39,16 @@ public class CharCard10SceneController extends SceneController{
     private int[] fromEntrance = new int[5];
     private int[] fromDiningRoom = new int[5];
     private ClientModel clientModel;
+    private Button currentButton;
 
     @Override
     public <T> void setupScene(ClientModel clientModel, T parameters) {
         this.clientModel = clientModel;
         setChoiceBoxEntrance(fromEntrance1);
         setChoiceBoxDiningRoom(fromDiningRoom1);
+        currentButton = confirmButton1;
+        charCard10Pane.getChildren().stream().filter(x -> x instanceof ChoiceBox).forEach(x->((ChoiceBox<?>) x).setOnAction(this::activeButton));
+
     }
 
     @Override
@@ -54,7 +60,8 @@ public class CharCard10SceneController extends SceneController{
         updateSwitchStudents(fromEntrance1, fromDiningRoom1);
         setChoiceBoxDiningRoom(fromDiningRoom2);
         setChoiceBoxEntrance(fromEntrance2);
-        disableButtonAndChoiceBox(confirmButton1, fromEntrance1, fromEntrance2, fromDiningRoom1, fromDiningRoom2, confirmButton2);
+        disableButtonAndChoiceBox(confirmButton1, fromEntrance1, fromEntrance2, fromDiningRoom1, fromDiningRoom2);
+        currentButton = confirmButton2;
     }
 
     public void confirm2(ActionEvent event){
@@ -64,6 +71,7 @@ public class CharCard10SceneController extends SceneController{
         confirmButton2.setDisable(true);
         stopButton.setDisable(true);
         notify(new CharacterCard10Reply(username,fromEntrance, fromDiningRoom));
+        currentButton = confirmButton2;
     }
 
 
@@ -92,13 +100,26 @@ public class CharCard10SceneController extends SceneController{
         fromDiningRoom[Color.valueOf(fromDiningRoomBox.getValue()).ordinal()] ++;
     }
 
-    public void disableButtonAndChoiceBox(Button button, ChoiceBox<String> fromEntranceBox, ChoiceBox<String> fromEntranceBox1, ChoiceBox<String> fromCharCardBox, ChoiceBox<String> fromCharCardBox1, Button button1){
+    public void disableButtonAndChoiceBox(Button button, ChoiceBox<String> fromEntranceBox, ChoiceBox<String> fromEntranceBox1, ChoiceBox<String> fromCharCardBox, ChoiceBox<String> fromCharCardBox1){
         fromEntranceBox.setDisable(true);
         fromCharCardBox.setDisable(true);
         button.setDisable(true);
         fromEntranceBox1.setDisable(false);
         fromCharCardBox1.setDisable(false);
-        button1.setDisable(false);
     }
 
+    private void activeButton(ActionEvent event){
+        if(charCard10Pane.getChildren().stream().filter(
+                x->x instanceof ChoiceBox).filter(
+                x->x.isVisible()).filter(
+                x->!x.isDisable()).map(
+                x->((ChoiceBox<?>) x).getValue()).collect(
+                Collectors.toList()).contains(null)){
+            currentButton.setDisable(false);
+        }
+        else{
+            currentButton.setDisable(true);
+        }
+    }
 }
+

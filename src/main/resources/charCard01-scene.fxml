@@ -11,6 +11,6 @@
       <ChoiceBox fx:id="selectIslandIdChoiceBox" layoutX="285.0" layoutY="154.0" prefWidth="150.0" />
       <Label layoutX="57.0" layoutY="125.0" text="Select Color:" />
       <Label layoutX="285.0" layoutY="125.0" text="Select Island Id:" />
-      <Button fx:id="confirmButton" layoutX="212.0" layoutY="248.0" mnemonicParsing="false" onAction="#confirm" text="Confirm" />
+      <Button fx:id="confirmButton" disable="true" layoutX="212.0" layoutY="248.0" mnemonicParsing="false" onAction="#confirm" text="Confirm" />
    </children>
 </AnchorPane>
