@@ -45,11 +45,11 @@ public class IslandManager extends Observable <InfoMessage> implements Serializa
      * This method merges two or more adjacent islands with the same dominator.
      * Firstly, update the influence on the island where mother nature is on.
      * It merges when dominator is not null, i.e. there is a dominator.
-     * @param islandToPreserve island to not remove during merging
+     * @param islandToPreserve island to not remove during merging.
      * @param players the list of players.
      * @param professors the array with professors associated to the players.
      * @throws EndGameException when there are only three groups of islands.
-     * @return true if the merge happened
+     * @return true if the merge happened, false otherwise.
      */
     public boolean mergeNearIslands(Island islandToPreserve, List<Player> players, Player[] professors) throws EndGameException {
         islandToPreserve.updateInfluence(players, professors);
@@ -66,6 +66,13 @@ public class IslandManager extends Observable <InfoMessage> implements Serializa
         return false;
     }
 
+    /**
+     * Merges two islands removing the one that has not mother nature on it.
+     * Then, it checks how many groups of islands remain in the game.
+     * @param islandToPreserve the island to not remove during merging.
+     * @param islandToRemove the island to remove during merging.
+     * @throws EndGameException if there are only three groups of islands after merging and so, the game has to finish.
+     */
     private void mergeAndNotify(Island islandToPreserve,Island islandToRemove) throws EndGameException {
         islandToPreserve.merge(islandToRemove);
         if(!existsIsland(motherNature.getPosition().getId()))
