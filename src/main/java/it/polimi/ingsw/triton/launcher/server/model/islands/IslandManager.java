@@ -49,21 +49,16 @@ public class IslandManager extends Observable <InfoMessage> implements Serializa
      * @param players the list of players.
      * @param professors the array with professors associated to the players.
      * @throws EndGameException when there are only three groups of islands.
-     * @return true if the merge happened, false otherwise.
      */
-    public boolean mergeNearIslands(Island islandToPreserve, List<Player> players, Player[] professors) throws EndGameException {
+    public void mergeNearIslands(Island islandToPreserve, List<Player> players, Player[] professors) throws EndGameException {
         islandToPreserve.updateInfluence(players, professors);
         if (islandToPreserve.getDominator() != null) {
-            if (islandToPreserve.getDominator() == prevIsland(islandToPreserve).getDominator()) {
+            if (islandToPreserve.getDominator() == prevIsland(islandToPreserve).getDominator())
                 mergeAndNotify(islandToPreserve, prevIsland(islandToPreserve));
-                return true;
-            }
-            if (islandToPreserve.getDominator() == nextIsland(islandToPreserve).getDominator()) {
+            if (islandToPreserve.getDominator() == nextIsland(islandToPreserve).getDominator())
                 mergeAndNotify(islandToPreserve, nextIsland(islandToPreserve));
-                return true;
-            }
         }
-        return false;
+        notify(new MotherNaturePositionMessage(motherNature.getPosition()));
     }
 
     /**
@@ -75,11 +70,10 @@ public class IslandManager extends Observable <InfoMessage> implements Serializa
      */
     private void mergeAndNotify(Island islandToPreserve,Island islandToRemove) throws EndGameException {
         islandToPreserve.merge(islandToRemove);
+        islands.remove(islandToRemove);
         if(!existsIsland(motherNature.getPosition().getId()))
             motherNature.setIslandOn(islandToPreserve);
         notify(new MergeIslandsMessage(islandToPreserve, islandToRemove));
-        notify(new MotherNaturePositionMessage(islandToPreserve));
-        islands.remove(islandToRemove);
         checkNumberIslands();
     }
 

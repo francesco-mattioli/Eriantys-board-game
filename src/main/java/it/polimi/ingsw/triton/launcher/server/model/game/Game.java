@@ -365,8 +365,7 @@ public class Game extends GameMode {
     public void moveMotherNature(int numSteps) throws IllegalClientInputException, EndGameException, ChangeTurnException {
         Island newPosition = islandManager.getMotherNature().move(currentPlayer.getLastPlayedAssistantCard(), numSteps, islandManager.getIslands());
         islandManager.getMotherNature().setIslandOn(newPosition);
-        if(!islandManager.mergeNearIslands(islandManager.getMotherNature().getPosition(), players, professors))
-            notify(new MotherNaturePositionMessage(newPosition));
+        islandManager.mergeNearIslands(islandManager.getMotherNature().getPosition(), players, professors);
         if (notFullCloudTiles)
             nextGameTurn();
     }
