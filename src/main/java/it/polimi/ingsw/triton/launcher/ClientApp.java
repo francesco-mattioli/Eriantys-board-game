@@ -23,7 +23,6 @@ public class ClientApp {
             Cli cli = new Cli();
             cli.start();
         } else {
-            System.out.println("Qui va il metodo per lanciare GUI");
             Application.launch(GuiApplication.class);
         }
     }
