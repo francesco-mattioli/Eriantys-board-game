@@ -92,7 +92,7 @@ public class Island extends Observable<InfoMessage> implements Serializable {
                         modifiedDominator = true;
                     }
                 }
-                towerInfluence(newDominator, professors);
+                towerInfluence(newDominator);
                 if(modifiedDominator)
                     notify(new ChangeInfluenceMessage(this, newDominator.getUsername()));
             }
@@ -110,13 +110,15 @@ public class Island extends Observable<InfoMessage> implements Serializable {
 
     /**
      * This method updates the number of tower on the school boards of the players that are taking or losing the domination.
+     *
      * @param newDominator specifies the player that is now dominating on the island.
      * @throws EndGameException if a player has not any other towers.
      */
-    public void towerInfluence(Player newDominator, Player [] professors)  throws EndGameException {
+    public void towerInfluence(Player newDominator)  throws EndGameException {
         if (dominator != null && dominator != newDominator) {
             dominator.getSchoolBoard().moveTowerOntoSchoolBoard(dim);
-            notify(new MoveTowerOntoSchoolBoardMessage(dominator.getUsername(), dominator.getSchoolBoard(), Arrays.stream(professors).map(Player::getUsername).toArray(String[]::new)));
+            //notify(new MoveTowerOntoSchoolBoardMessage(dominator.getUsername(), dominator.getSchoolBoard(), Arrays.stream(professors).map(Player::getUsername).toArray(String[]::new)));
+            notify(new MoveTowerOntoSchoolBoardMessage(dominator.getUsername(), dominator.getSchoolBoard()));
         }
         if (newDominator != null && dominator != newDominator) {
             newDominator.getSchoolBoard().moveTowerOntoIsland(dim);

@@ -11,12 +11,10 @@ import it.polimi.ingsw.triton.launcher.utils.message.servermessage.InfoMessage;
 public class MoveTowerOntoSchoolBoardMessage extends InfoMessage {
     private final String usernameDominated;
     private final SchoolBoard schoolBoard;
-    private final String[] professors;
 
-    public MoveTowerOntoSchoolBoardMessage(String usernameDominated, SchoolBoard schoolBoard, String [] professors) {
+    public MoveTowerOntoSchoolBoardMessage(String usernameDominated, SchoolBoard schoolBoard) {
         this.usernameDominated = usernameDominated;
         this.schoolBoard = schoolBoard;
-        this.professors = professors;
     }
 
     public String getUsernameDominated() {
@@ -25,10 +23,6 @@ public class MoveTowerOntoSchoolBoardMessage extends InfoMessage {
 
     public SchoolBoard getSchoolBoard() {
         return schoolBoard;
-    }
-
-    public String[] getProfessors() {
-        return professors;
     }
 
     @Override

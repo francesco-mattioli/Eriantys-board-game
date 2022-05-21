@@ -25,7 +25,7 @@ class IslandTest {
 
     @BeforeEach
     void setup(){
-        players = new ArrayList<Player>();
+        players = new ArrayList<>();
         p1 = new Player("Pippo");
         p1.setSchoolBoard(TowerColor.BLACK, 2);
         p2 = new Player("Pluto");
@@ -73,8 +73,8 @@ class IslandTest {
      */
     @Test
     void strategy08Influence(){
-        //island1.setInfluenceStrategy(new InfluenceStrategyWithEffect08());
-        //assertEquals(5, island1.calculateInfluence(p1, professors, island1.getDominator()));
+        island1.setInfluenceStrategy(new InfluenceStrategyWithEffect08(p1));
+        assertEquals(5, island1.calculateInfluence(p1, professors, island1.getDominator()));
     }
 
     /**
@@ -284,35 +284,4 @@ class IslandTest {
         island1.merge(island2);
         assertEquals(3, island1.getStudents()[Color.BLUE.ordinal()]);
     }
-
-    /*@Test
-    void mergeIslandsWithoutSameDominator(){
-        island2.addStudent(Color.RED);
-        try {
-            island1.updateInfluence(players, professors);
-        } catch (EndGameException e) {
-            e.printStackTrace();
-        }
-        try {
-            island2.updateInfluence(players, professors);
-        } catch (EndGameException e) {
-            e.printStackTrace();
-        }
-        assertThrows(IllegalArgumentException.class, () -> {island1.merge(island2);});
-    }*/
-
-    /*@Test
-    void mergeIslandsWithNullDominator(){
-        try {
-            island1.updateInfluence(players, professors);
-        } catch (EndGameException e) {
-            e.printStackTrace();
-        }
-        try {
-            island2.updateInfluence(players, professors);
-        } catch (EndGameException e) {
-            e.printStackTrace();
-        }
-        assertThrows(IllegalArgumentException.class, () -> {island1.merge(island2);});
-    }*/
 }

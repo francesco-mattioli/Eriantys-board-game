@@ -317,22 +317,31 @@ public class Cli extends Observable<Message> implements ClientView{
     @Override
     public void askMoveStudentFromEntrance() {
         try {
-
-            out.print(Utility.ANSI_BOLDGREEN + "Islands:" + Utility.ANSI_RESET);
+            if(clientModel.isExpertMode()) {
+                out.println(Utility.ANSI_BOLDGREEN + "Available Character Cards:" + Utility.ANSI_RESET);
+                out.println(clientModel.getAvailableCharacterCards().toString() + "\n");
+            }
+            out.print(Utility.ANSI_BOLDGREEN + "Available Cloud Tiles:" + Utility.ANSI_RESET);
+            out.println(clientModel.printCloudTiles());
+            out.print(Utility.ANSI_BOLDGREEN + "\nIslands:" + Utility.ANSI_RESET);
             out.println(clientModel.printIslands());
             out.print("\n");
-            out.println(Utility.ANSI_GREEN + "SchoolBoards:" + Utility.ANSI_RESET);
+            out.println(Utility.ANSI_BOLDGREEN + "SchoolBoards:" + Utility.ANSI_RESET);
             out.print(clientModel.printOtherSchoolBoards());
             out.print(clientModel.printYourSchoolBoard());
+            out.println(Utility.ANSI_BOLDGREEN + "Useful game info:" + Utility.ANSI_RESET);
             if(clientModel.isExpertMode())
                 showUpdateWallet();
             out.println("Mother nature is on the island: " + clientModel.getMotherNaturePosition().getId());
             out.print("You have played: " + clientModel.getLastAssistantCardPlayed(clientModel.getUsername()));
-            out.println("To do so, type on each line [color of student, d (for dining room) ] or [color of student, island id]");
             out.println(Utility.ANSI_BOLDGREEN + "Choose three students to move from entrance to dining room or an island." + Utility.ANSI_RESET);
-            out.print(Utility.ANSI_BOLDGREEN + "Please, enter data: " + Utility.ANSI_RESET);
+            out.println(Utility.ANSI_GREEN + "Help: To do so, type on each line [color of student, d (for dining room) ] or [color of student, island id]." + Utility.ANSI_RESET);
+            if(clientModel.isExpertMode())
+                out.print(Utility.ANSI_BOLDGREEN + "Please, enter data (digit '--playCC' if you want to play a character card): " + Utility.ANSI_RESET);
+            else
+                out.print(Utility.ANSI_BOLDGREEN + "Please, enter data: " + Utility.ANSI_RESET);
             String input = readLine();
-            if(input.equals(commandForCharacterCard)&& clientModel.isExpertMode())
+            if(input.equals(commandForCharacterCard) && clientModel.isExpertMode())
                 showAndPlayCharacterCard();
             else {
                 String[] splittedInput = input.split(",");
@@ -362,22 +371,31 @@ public class Cli extends Observable<Message> implements ClientView{
     @Override
     public void askNumberStepsMotherNature() {
         try {
-            if(clientModel.isExpertMode())
-                out.println(clientModel.getAvailableCharacterCards().toString());
-            out.print(Utility.ANSI_BOLDGREEN + "Islands:\n" + Utility.ANSI_RESET);
+            if(clientModel.isExpertMode()) {
+                out.println(Utility.ANSI_BOLDGREEN + "Available Character Cards:" + Utility.ANSI_RESET);
+                out.println(clientModel.getAvailableCharacterCards().toString() + "\n");
+            }
+            out.print(Utility.ANSI_BOLDGREEN + "Available Cloud Tiles:" + Utility.ANSI_RESET);
+            out.println(clientModel.printCloudTiles());
+            out.print(Utility.ANSI_BOLDGREEN + "Islands:" + Utility.ANSI_RESET);
             out.println(clientModel.printIslands());
             out.print("\n");
+            out.println(Utility.ANSI_BOLDGREEN + "SchoolBoards:" + Utility.ANSI_RESET);
             out.print(clientModel.printOtherSchoolBoards());
             out.println(clientModel.printYourSchoolBoard());
+            out.println(Utility.ANSI_BOLDGREEN + "Useful game info:" + Utility.ANSI_RESET);
             if(clientModel.isExpertMode())
                 showUpdateWallet();
             out.println("Mother nature is on the island: " + clientModel.getMotherNaturePosition().getId());
             out.print("You have played: " + clientModel.getLastAssistantCardPlayed(clientModel.getUsername()));
             if( clientModel.getLastCharacterCardPlayed() != null && clientModel.getLastCharacterCardPlayed().getId() == 4)
                 out.println("You have two extra steps!");
-            out.print(Utility.ANSI_BOLDGREEN + "Enter the number of steps that mother nature has to do: " + Utility.ANSI_RESET);
+            if(clientModel.isExpertMode())
+                out.print(Utility.ANSI_BOLDGREEN + "Enter the number of steps that mother nature has to do (press '--playCC' if you want to play a character card): " + Utility.ANSI_RESET);
+            else
+                out.print(Utility.ANSI_BOLDGREEN + "Enter the number of steps that mother nature has to do: " + Utility.ANSI_RESET);
             String input = readLine();
-            if(input.equals(commandForCharacterCard)&& clientModel.isExpertMode())
+            if(input.equals(commandForCharacterCard) && clientModel.isExpertMode())
                 showAndPlayCharacterCard();
             else
                 notify(new MotherNatureReply(clientModel.getUsername(), Integer.parseInt(input)));
@@ -402,15 +420,25 @@ public class Cli extends Observable<Message> implements ClientView{
     @Override
     public void askCloudTile() {
         try {
+            if(clientModel.isExpertMode()) {
+                out.println(Utility.ANSI_BOLDGREEN + "Available Character Cards:" + Utility.ANSI_RESET);
+                out.println(clientModel.getAvailableCharacterCards().toString() + "\n");
+            }
+            out.println(Utility.ANSI_BOLDGREEN + "SchoolBoards:" + Utility.ANSI_RESET);
             out.print(clientModel.printOtherSchoolBoards());
             out.println(clientModel.printYourSchoolBoard());
+            out.println(Utility.ANSI_BOLDGREEN + "Useful game info:" + Utility.ANSI_RESET);
             if(clientModel.isExpertMode())
                 showUpdateWallet();
+            out.print(Utility.ANSI_BOLDGREEN + "\nAvailable Cloud Tiles:" + Utility.ANSI_RESET);
             out.println(clientModel.printCloudTiles());
             out.println(Utility.ANSI_BOLDGREEN + "Choose a cloud tile to pick students from." + Utility.ANSI_RESET);
-            out.print(Utility.ANSI_BOLDGREEN + "Enter the id of the cloud tile you choose: " + Utility.ANSI_RESET);
+            if(clientModel.isExpertMode())
+                out.print(Utility.ANSI_BOLDGREEN + "Enter the id of the cloud tile you choose (press '--playCC' if you want to play a character card): " + Utility.ANSI_RESET);
+            else
+                out.print(Utility.ANSI_BOLDGREEN + "Enter the id of the cloud tile you choose: " + Utility.ANSI_RESET);
             String input = readLine();
-            if(input.equals(commandForCharacterCard)&& clientModel.isExpertMode())
+            if(input.equals(commandForCharacterCard) && clientModel.isExpertMode())
                 showAndPlayCharacterCard();
             else
                 notify(new CloudTileReply(clientModel.getUsername(), Integer.parseInt(input)));
@@ -754,7 +782,6 @@ public class Cli extends Observable<Message> implements ClientView{
     @Override
     public void showMotherNaturePosition(int islandId){
         out.println("Mother nature has been moved.\nMother nature is on the island: " + islandId);
-        out.println("These are the remaining islands: " + clientModel.printIslands());
     }
 
     /**
@@ -779,6 +806,7 @@ public class Cli extends Observable<Message> implements ClientView{
     @Override
     public void showMergeIslandsMessage(int island1Id, int island2Id){
         out.println("The island " + island1Id + " is now merged with the island " + island2Id + ".");
+        out.println("These are the remaining islands: " + clientModel.printIslands());
     }
 
     /**
