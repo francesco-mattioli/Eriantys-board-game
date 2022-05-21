@@ -63,8 +63,6 @@ public class Game extends GameMode {
 
     private Game(int maxNumberOfPlayers) {
         this.islandManager = new IslandManager();
-        /*this.islands = new ArrayList<>();
-        createIslands();*/
         this.maxNumberOfPlayers = maxNumberOfPlayers;
         this.bag = new Bag();
         this.players = new ArrayList<>();
@@ -190,8 +188,7 @@ public class Game extends GameMode {
      * This method places mother nature on a random island.
      */
     public void setupMotherNature() {
-        //motherNature = new MotherNature(islands.get(random.nextInt(islands.size())));
-        motherNature = new MotherNature(islandManager.getIslands().get(random.nextInt(islandManager.getIslands().size())));
+        motherNature = new MotherNature(islandManager.getRandomIsland());
     }
 
 
@@ -209,11 +206,6 @@ public class Game extends GameMode {
      * This method places two students on every island except the one with mother nature on and the one in front of.
      */
     public void setupIslands() {
-        /*for (Island island : islands) {
-            if (island.getId() != motherNature.getIndexOfOppositeIsland(islands) && island.getId() != motherNature.getPosition().getId()) {
-                island.addStudent(bag.drawStudent());
-            }
-        }*/
         for (Island island : islandManager.getIslands()) {
             if (island.getId() != motherNature.getIndexOfOppositeIsland(islandManager.getIslands()) && island.getId() != motherNature.getPosition().getId()) {
                 island.addStudent(bag.drawStudent());
@@ -347,15 +339,6 @@ public class Game extends GameMode {
      * @throws LastMoveException           if the player has moved the students three times.
      */
     public void executeActionMoveStudentToIsland(Color student, int idIsland) throws IllegalClientInputException, LastMoveException {
-        /*if (!existsIsland(idIsland)) {
-            throw new IllegalClientInputException();
-        } else {
-            currentPlayer.executeAction(new MoveStudentOntoIsland(currentPlayer.getSchoolBoard(), student, getIslandByID(idIsland)));
-            currentPlayer.setMoveCounter(currentPlayer.getMoveCounter() + 1);
-            String moveDescription = currentPlayer.getUsername() + " has moved a " + student.name().toLowerCase() + " student on the island " + idIsland + ".";
-            notify(new InfoStudentOntoIslandMessage(currentPlayer.getUsername(), currentPlayer.getSchoolBoard(), getIslandByID(idIsland), professorsWithUsernameOwner(), moveDescription));
-            checkNumberMoves();
-        }*/
         if (!islandManager.existsIsland(idIsland)) {
             throw new IllegalClientInputException();
         } else {
@@ -397,29 +380,6 @@ public class Game extends GameMode {
     }
 
 
-    /**
-     * This method merge two or more adjacent islands with the same dominator.
-     *
-     * @param motherNaturePosition the island where mother nature is located.
-     * @throws EndGameException when there are only three groups of islands.
-     */
-    /*public void mergeNearIslands(Island motherNaturePosition) throws EndGameException {
-        motherNaturePosition.updateInfluence(players, professors);
-        if (motherNaturePosition.getDominator() != null) {
-            if (motherNaturePosition.getDominator() == prevIsland(motherNaturePosition).getDominator()) {
-                motherNaturePosition.merge(prevIsland(motherNaturePosition));
-                notify(new MergeIslandsMessage(motherNaturePosition, prevIsland(motherNaturePosition)));
-                islands.remove(prevIsland(motherNaturePosition));
-                checkNumberIslands();
-            }
-            if (motherNaturePosition.getDominator() == nextIsland(motherNaturePosition).getDominator()) {
-                motherNaturePosition.merge(nextIsland(motherNaturePosition));
-                notify(new MergeIslandsMessage(motherNaturePosition, nextIsland(motherNaturePosition)));
-                islands.remove(nextIsland(motherNaturePosition));
-                checkNumberIslands();
-            }
-        }
-    }*/
 
     /**
      * Manages the action of the player to choose the cloud tile.
@@ -434,15 +394,6 @@ public class Game extends GameMode {
         nextGameTurn();
     }
 
-    /**
-     * Checks if the number of remaining groups of islands is three.
-     *
-     * @throws RuntimeException if the number of groups islands is three because the game must finish.
-     */
-    /*private void checkNumberIslands() throws EndGameException {
-        if (islands.size() == 3)   //TO END
-            throw new EndGameException();
-    }*/
 
     /**
      * This method calculates the winner when one player has the max number of towers onto islands.
@@ -487,8 +438,6 @@ public class Game extends GameMode {
     private void nextGameTurn() throws EndGameException, ChangeTurnException {
         professorsManager.resetProfessorStrategy();
         motherNature.resetAdditionalSteps();
-        /*for (Island island : islands)
-            island.setInfluenceStrategy(new InfluenceStrategyDefault());*/
         islandManager.resetIslandsInfluenceStrategy();
         if (players.indexOf(currentPlayer) < maxNumberOfPlayers - 1) {
             currentPlayer = players.get(players.indexOf(currentPlayer) + 1);
@@ -522,27 +471,6 @@ public class Game extends GameMode {
     }
 
 
-    /**
-     * @param currentIsland the current island.
-     * @return next island on the left.
-     */
-    /*private Island nextIsland(Island currentIsland) {
-        if (islands.indexOf(currentIsland) == islands.size() - 1) {
-            return islands.get(0);
-        } else
-            return islands.get(1 + islands.indexOf(currentIsland));
-    }*/
-
-    /**
-     * @param currentIsland the current island.
-     * @return previous island on the right.
-     */
-    /*private Island prevIsland(Island currentIsland) {
-        if (islands.indexOf(currentIsland) == 0) {
-            return islands.get(islands.size() - 1);
-        } else
-            return islands.get(islands.indexOf(currentIsland) - 1);
-    }*/
 
     /**
      * This method removes the played assistant card from the player's deck.
@@ -573,17 +501,7 @@ public class Game extends GameMode {
         return chosenWizardsPerUsername;
     }
 
-    /**
-     * @param idIsland the id of the island to find.
-     * @return true if the island with that id exists, false otherwise.
-     */
-    /*private boolean existsIsland(int idIsland) {
-        for (Island island : islands) {
-            if (island.getId() == idIsland)
-                return true;
-        }
-        return false;
-    }*/
+
 
     /**
      * @return an array of String about professors with their respective owner.
@@ -730,17 +648,7 @@ public class Game extends GameMode {
         throw new IllegalClientInputException();
     }
 
-    /**
-     * @return the island with the id passed by parameter.
-     * @throws IllegalClientInputException if the island with that id doesn't exist.
-     */
-    /*public Island getIslandByID(int id) throws IllegalClientInputException {
-        for (Island island : islands) {
-            if (island.getId() == id)
-                return island;
-        }
-        throw new IllegalClientInputException(ErrorTypeID.NO_ISLAND_WITH_THAT_ID);
-    }*/
+
     public int getMaxNumberOfPlayers() {
         return maxNumberOfPlayers;
     }

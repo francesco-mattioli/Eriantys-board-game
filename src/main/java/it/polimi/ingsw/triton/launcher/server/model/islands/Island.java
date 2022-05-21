@@ -17,6 +17,7 @@ import it.polimi.ingsw.triton.launcher.utils.obs.Observable;
 import java.io.Serializable;
 import java.util.Arrays;
 import java.util.List;
+import java.util.OptionalInt;
 
 public class Island extends Observable<InfoMessage> implements Serializable {
 
@@ -103,13 +104,8 @@ public class Island extends Observable<InfoMessage> implements Serializable {
     }
 
     private boolean checkForTie(int [] nonDominatorPlayersInfluences){
-        for(int i = 0; i < nonDominatorPlayersInfluences.length-1; i++){
-            for (int j = i+1; j<nonDominatorPlayersInfluences.length; j++){
-                if(nonDominatorPlayersInfluences[i] == nonDominatorPlayersInfluences[j])
-                    return true;
-            }
-        }
-        return false;
+        OptionalInt max = Arrays.stream(nonDominatorPlayersInfluences).max();
+        return Arrays.stream(nonDominatorPlayersInfluences).filter(i -> i == max.getAsInt()).count() > 1;
     }
 
     /**
