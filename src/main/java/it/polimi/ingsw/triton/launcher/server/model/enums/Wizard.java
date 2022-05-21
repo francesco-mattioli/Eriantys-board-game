@@ -7,8 +7,18 @@ import java.io.Serializable;
  * Each wizard has a reference color.
  */
 public enum Wizard implements Serializable {
-    GREEN,
-    YELLOW,
-    PURPLE,
-    BLUE
+    GREEN("/Green-Wizard.png"),
+    YELLOW("/Yellow-Wizard.png"),
+    PURPLE("/Purple-Wizard.png"),
+    BLUE("/Blue-Wizard.png");
+
+    private final String imagePath;
+
+    Wizard(String imagePath){
+        this.imagePath = imagePath;
+    }
+
+    public String getImagePath() {
+        return imagePath;
+    }
 }

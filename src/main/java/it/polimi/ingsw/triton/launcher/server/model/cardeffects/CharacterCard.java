@@ -94,6 +94,10 @@ public class CharacterCard implements Serializable {
         return id;
     }
 
+    public int getNoEntryTiles() {
+        return noEntryTiles;
+    }
+
     public void addStudent(Color color){
         students[color.ordinal()]++;
     }

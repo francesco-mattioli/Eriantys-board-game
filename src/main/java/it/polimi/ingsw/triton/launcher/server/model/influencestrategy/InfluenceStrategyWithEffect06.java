@@ -16,7 +16,7 @@ public class InfluenceStrategyWithEffect06 extends InfluenceStrategy {
     public int execute(Player player, Player[] professors, Player dominator, Island island) {
         int influence = 0;
         for (int i = 0; i < professors.length; i++) {
-            if (professors[i] == player && professors[i] != null) {
+            if (professors[i] != null && professors[i].equals(player)) {
                 influence += island.getStudents()[i];
             }
         }

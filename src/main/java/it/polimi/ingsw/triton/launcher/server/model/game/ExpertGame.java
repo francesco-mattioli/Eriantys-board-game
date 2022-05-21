@@ -17,6 +17,7 @@ import it.polimi.ingsw.triton.launcher.utils.message.servermessage.infoMessage.i
 import it.polimi.ingsw.triton.launcher.utils.message.servermessage.infoMessage.infoMessageWithReceiver.UpdateWalletMessage;
 
 import java.util.ArrayList;
+import java.util.Random;
 
 public class ExpertGame extends GameDecorator {
     private final GeneralCoinSupply generalCoinSupply;
@@ -153,8 +154,7 @@ public class ExpertGame extends GameDecorator {
      */
     private void drawCharacterCards() {
         ArrayList<Integer> idAlreadyChosen = new ArrayList<>();
-        int id;
-        int cost;
+        int id, cost;
         while(characterCards.size() < 3){
             id = random.nextInt(12) + 1;
             if(!idAlreadyChosen.contains(id)){
