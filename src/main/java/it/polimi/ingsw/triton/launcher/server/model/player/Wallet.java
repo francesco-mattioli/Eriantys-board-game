@@ -9,7 +9,7 @@ public class Wallet implements Serializable {
      * Sets the value of the wallet at 0.
      */
     public Wallet() {
-        this.value = 6;
+        this.value = 0;
     }
 
     /**

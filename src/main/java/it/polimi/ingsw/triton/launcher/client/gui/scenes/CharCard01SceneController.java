@@ -32,7 +32,7 @@ public class CharCard01SceneController extends SceneController {
     @Override
     public <T> void setupScene(ClientModel clientModel, T parameters) {
         setUpCharCardChoiceBox(clientModel, 1);
-        selectColorChoiceBox.getItems().addAll(colorMap.keySet());
+        selectColorChoiceBox.getItems().addAll(colorCharCard);
         selectIslandIdChoiceBox.getItems().addAll(setUpIslandIdChoiceBox(clientModel));
         selectColorChoiceBox.setOnAction(this::activeButton);
         selectIslandIdChoiceBox.setOnAction(this::activeButton);
@@ -45,7 +45,7 @@ public class CharCard01SceneController extends SceneController {
 
     public void confirm(ActionEvent event){
         confirmButton.setDisable(true);
-        notify(new CharacterCard01Reply(username, colorMap.get(selectColorChoiceBox.getValue()), selectIslandIdChoiceBox.getValue()));
+        notify(new CharacterCard01Reply(username, Color.valueOf(selectColorChoiceBox.getValue()), selectIslandIdChoiceBox.getValue()));
     }
 
     private void activeButton(ActionEvent event){

@@ -52,7 +52,7 @@ public class Gui extends Observable<Message> implements ClientView {
 
     @Override
     public void showGenericMessage(String genericMessage) {
-        showAlert(Alert.AlertType.INFORMATION, "Information Message", genericMessage);
+        //showAlert(Alert.AlertType.INFORMATION, "Information Message", genericMessage);
     }
 
     @Override
@@ -69,19 +69,33 @@ public class Gui extends Observable<Message> implements ClientView {
     public void showGameInfo(int characterCardId) {
         switch (characterCardId){
             case 1:
-                mainController.showCCModifies01(clientModel);
+                Platform.runLater(() -> {
+                    mainController.showCCModifies01(clientModel);
+                });
                 break;
             case 7:
-                mainController.showCCModifies07(clientModel);
+                Platform.runLater(() -> {
+                    mainController.showCCModifies07(clientModel);
+                });
+                //mainController.showCCModifies07(clientModel);
                 break;
             case 10:
-                mainController.showCCModifies10(clientModel);
+                Platform.runLater(() -> {
+                    mainController.showCCModifies10(clientModel);
+                });
+                //mainController.showCCModifies10(clientModel);
                 break;
             case 11:
-                mainController.showCCModifies11(clientModel);
+                Platform.runLater(() -> {
+                    mainController.showCCModifies11(clientModel);
+                });
+                //mainController.showCCModifies11(clientModel);
                 break;
             case 12:
-                mainController.showCCModifies12(clientModel);
+                Platform.runLater(() -> {
+                    mainController.showCCModifies12(clientModel);
+                });
+                //mainController.showCCModifies12(clientModel);
                 break;
         }
     }
@@ -97,7 +111,7 @@ public class Gui extends Observable<Message> implements ClientView {
             initializeMainStage();
         }
         actualGamePhase = gameState;
-        showAlert(Alert.AlertType.INFORMATION, "Game phase info", "New game phase:\n" + gameState + " is beginning..");
+        //showAlert(Alert.AlertType.INFORMATION, "Game phase info", "New game phase:\n" + gameState + " is beginning..");
 
     }
 
@@ -115,12 +129,12 @@ public class Gui extends Observable<Message> implements ClientView {
 
     @Override
     public void showLoginReply() {
-        showAlert(Alert.AlertType.INFORMATION, "Login Reply", "Username Accepted. Your username will be \"" + clientModel.getUsername() + "\"");
+        //showAlert(Alert.AlertType.INFORMATION, "Login Reply", "Username Accepted. Your username will be \"" + clientModel.getUsername() + "\"");
     }
 
     @Override
     public void showErrorMessage(ErrorTypeID fullLobby) {
-        showAlert(Alert.AlertType.WARNING, "Incorrect input", fullLobby.getDescription());
+        //showAlert(Alert.AlertType.WARNING, "Incorrect input", fullLobby.getDescription());
     }
 
 
@@ -150,13 +164,13 @@ public class Gui extends Observable<Message> implements ClientView {
     }
 
     private void showAlert(Alert.AlertType alertType, String title, String contentText) {
-        /*Platform.runLater(() -> {
+        Platform.runLater(() -> {
             Alert alert = new Alert(alertType);
             alert.setTitle(title);
             alert.setHeaderText(null);
             alert.setContentText(contentText);
             alert.showAndWait();
-        });*/
+        });
     }
 
     private void closeGui() {
@@ -187,6 +201,7 @@ public class Gui extends Observable<Message> implements ClientView {
                     backButton(((CharacterCardSceneController)controller).getBackButton());
                 }
                 activeStage.setScene(new Scene(root));
+                activeStage.setResizable(false);
                 activeStage.setTitle(clientModel.getUsername());
                 activeStage.show();
                 activeStage.setOnCloseRequest(event -> {
