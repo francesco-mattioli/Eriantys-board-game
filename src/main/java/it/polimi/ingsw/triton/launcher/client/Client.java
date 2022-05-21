@@ -18,7 +18,7 @@ public class Client implements Observer<Message> {
     private Socket socket;
     private ObjectInputStream inSocket;
     private ObjectOutputStream outSocket;
-    private ExecutorService receiveExecutionQueue;
+    private ExecutorService receiveExecutionQueue=Executors.newSingleThreadExecutor();
     private ExecutorService visitExecutionQueue;
     private final ClientView clientView;
     private static final int port = 50535;

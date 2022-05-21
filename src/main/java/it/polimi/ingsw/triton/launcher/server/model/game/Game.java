@@ -4,7 +4,6 @@ import it.polimi.ingsw.triton.launcher.client.cli.Cli;
 import it.polimi.ingsw.triton.launcher.server.model.AssistantCard;
 import it.polimi.ingsw.triton.launcher.server.model.Bag;
 import it.polimi.ingsw.triton.launcher.server.model.CloudTile;
-import it.polimi.ingsw.triton.launcher.server.model.MotherNature;
 import it.polimi.ingsw.triton.launcher.server.model.cardeffects.CardEffect;
 import it.polimi.ingsw.triton.launcher.server.model.cardeffects.CharacterCard;
 import it.polimi.ingsw.triton.launcher.server.model.enums.Color;
@@ -37,7 +36,6 @@ public class Game extends GameMode {
     private final ArrayList<Player> players;
     private final ArrayList<CloudTile> cloudTiles;
     private Player currentPlayer;
-    private MotherNature motherNature;
     private final Player[] professors;
     private ProfessorsManager professorsManager;
     private final IslandManager islandManager;
@@ -168,7 +166,6 @@ public class Game extends GameMode {
      * Then it starts the PLANNING PHASE.
      */
     public void setup() {
-        setupMotherNature(); //PHASE 2
         setupBag(); //PART 1 OF PHASE 3
         setupIslands(); //PART 2 OF PHASE 3
         bag.fillBag(); //PHASE 4
@@ -179,17 +176,12 @@ public class Game extends GameMode {
         setupPlayers(); //PHASE 11
         for (Player player : players)
             notify(new GiveAssistantDeckMessage(player.getUsername(), player.getAssistantDeck()));
-        notify(new GameInfoMessage(islandManager.getIslands(), motherNature.getPosition(), getAllSchoolBoards(), cloudTiles, new String[professors.length], getAllChosenWizards()));
+        notify(new GameInfoMessage(islandManager.getIslands(), islandManager.getMotherNature().getPosition(), getAllSchoolBoards(), cloudTiles, new String[professors.length], getAllChosenWizards()));
         notify(new ChangeTurnMessage(currentPlayer.getUsername()));
         planningPhase();
     }
 
-    /**
-     * This method places mother nature on a random island.
-     */
-    public void setupMotherNature() {
-        motherNature = new MotherNature(islandManager.getRandomIsland());
-    }
+
 
 
     /**
@@ -207,7 +199,7 @@ public class Game extends GameMode {
      */
     public void setupIslands() {
         for (Island island : islandManager.getIslands()) {
-            if (island.getId() != motherNature.getIndexOfOppositeIsland(islandManager.getIslands()) && island.getId() != motherNature.getPosition().getId()) {
+            if (island.getId() != islandManager.getMotherNature().getIndexOfOppositeIsland(islandManager.getIslands()) && island.getId() != islandManager.getMotherNature().getPosition().getId()) {
                 island.addStudent(bag.drawStudent());
             }
         }
@@ -371,10 +363,10 @@ public class Game extends GameMode {
      * @param numSteps the number of steps that mother nature has to do.
      */
     public void moveMotherNature(int numSteps) throws IllegalClientInputException, EndGameException, ChangeTurnException {
-        Island newPosition = motherNature.move(currentPlayer.getLastPlayedAssistantCard(), numSteps, islandManager.getIslands());
-        motherNature.setIslandOn(newPosition);
-        notify(new MotherNaturePositionMessage(newPosition));
-        islandManager.mergeNearIslands(motherNature.getPosition(), players, professors);
+        Island newPosition = islandManager.getMotherNature().move(currentPlayer.getLastPlayedAssistantCard(), numSteps, islandManager.getIslands());
+        islandManager.getMotherNature().setIslandOn(newPosition);
+        if(!islandManager.mergeNearIslands(islandManager.getMotherNature().getPosition(), players, professors))
+            notify(new MotherNaturePositionMessage(newPosition));
         if (notFullCloudTiles)
             nextGameTurn();
     }
@@ -437,7 +429,7 @@ public class Game extends GameMode {
      */
     private void nextGameTurn() throws EndGameException, ChangeTurnException {
         professorsManager.resetProfessorStrategy();
-        motherNature.resetAdditionalSteps();
+        islandManager.getMotherNature().resetAdditionalSteps();
         islandManager.resetIslandsInfluenceStrategy();
         if (players.indexOf(currentPlayer) < maxNumberOfPlayers - 1) {
             currentPlayer = players.get(players.indexOf(currentPlayer) + 1);
@@ -597,9 +589,6 @@ public class Game extends GameMode {
 
     //--------------------------------------------- GETTER METHODS -----------------------------------------------------
 
-    public MotherNature getMotherNature() {
-        return motherNature;
-    }
 
     public Bag getBag() {
         return bag;

@@ -1,4 +1,4 @@
-package it.polimi.ingsw.triton.launcher.server;
+package it.polimi.ingsw.triton.launcher.server.network;
 
 import it.polimi.ingsw.triton.launcher.utils.message.Message;
 import it.polimi.ingsw.triton.launcher.utils.message.clientmessage.ClientMessage;
@@ -13,7 +13,7 @@ import java.net.SocketException;
 import java.net.SocketTimeoutException;
 import java.util.NoSuchElementException;
 
-import static it.polimi.ingsw.triton.launcher.server.Server.LOGGER;
+import static it.polimi.ingsw.triton.launcher.server.network.Server.LOGGER;
 
 /**
  * Each player must be treated as a thread

@@ -85,7 +85,7 @@ class GameTest {
      */
     @Test
     public void checkMotherNaturePosition() {
-        assertTrue(game.getMotherNature().getPosition() != null);
+        assertTrue(game.getIslandManager().getMotherNature().getPosition() != null);
     }
 
     /**
@@ -102,7 +102,7 @@ class GameTest {
      */
     @Test
     public void checkNumberOfStudentsOnIslandWithMotherNature() {
-        Island islandWithMotherNature = game.getMotherNature().getPosition();
+        Island islandWithMotherNature = game.getIslandManager().getMotherNature().getPosition();
         int numOfStudents = 0;
         for (Color color : Color.values())
             numOfStudents += islandWithMotherNature.getStudents()[color.ordinal()];
@@ -114,7 +114,7 @@ class GameTest {
      */
     @Test
     public void checkNumberOfStudentsOnIslandOppositeToMotherNature() {
-        int idIslandOppositeToMotherNature = (game.getMotherNature().getPosition().getId() + 6) % 12;
+        int idIslandOppositeToMotherNature = (game.getIslandManager().getMotherNature().getPosition().getId() + 6) % 12;
         int numOfStudents = 0;
         for (Color color : Color.values())
             numOfStudents += game.getIslandManager().getIslands().get(idIslandOppositeToMotherNature).getStudents()[color.ordinal()];
@@ -126,8 +126,8 @@ class GameTest {
      */
     @Test
     public void checkNumberOfStudentsOnOtherIslands() {
-        int idIslandWithMotherNature = game.getMotherNature().getPosition().getId();
-        int idIslandOppositeToMotherNature = (game.getMotherNature().getPosition().getId() + 6) % 12;
+        int idIslandWithMotherNature = game.getIslandManager().getMotherNature().getPosition().getId();
+        int idIslandOppositeToMotherNature = (game.getIslandManager().getMotherNature().getPosition().getId() + 6) % 12;
         boolean numOfStudentsNotEqualsToOne = false;
         int numOfStudents = 0;
         for (Island island : game.getIslandManager().getIslands()) {
