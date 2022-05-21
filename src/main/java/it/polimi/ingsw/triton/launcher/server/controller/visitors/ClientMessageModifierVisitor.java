@@ -115,7 +115,7 @@ public class ClientMessageModifierVisitor {
                 game.applyCharacterCardEffect(message.getCharacterCardID(), new CardEffect06(game.getIslandManager().getIslands()));
                 break;
             case 8:
-                game.applyCharacterCardEffect(message.getCharacterCardID(), new CardEffect08(game.getIslandManager().getIslands()));
+                game.applyCharacterCardEffect(message.getCharacterCardID(), new CardEffect08(game.getIslandManager().getIslands(), game.getCurrentPlayer()));
                 break;
             default:
                 Server.LOGGER.severe("ERROR");
