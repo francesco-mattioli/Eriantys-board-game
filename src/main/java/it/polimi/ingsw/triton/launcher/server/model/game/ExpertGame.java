@@ -98,7 +98,6 @@ public class ExpertGame extends GameDecorator {
      */
     @Override
     public void setup() {
-        setupMotherNature(); //PHASE 2
         setupBag(); //PART 1 OF PHASE 3
         setupIslands(); //PART 2 OF PHASE 3
         game.getBag().fillBag(); //PHASE 4
@@ -112,7 +111,7 @@ public class ExpertGame extends GameDecorator {
             game.notify(new GiveAssistantDeckMessage(player.getUsername(), player.getAssistantDeck()));   // to review
             game.notify(new UpdateWalletMessage(player.getUsername(), player.getWallet().getValue()));
         }
-        game.notify(new ExpertGameInfoMessage(characterCards, game.getIslandManager().getIslands(), game.getMotherNature().getPosition(), game.getAllSchoolBoards(), game.getCloudTiles(), new String[game.getProfessors().length],getAllChosenWizards()));
+        game.notify(new ExpertGameInfoMessage(characterCards, game.getIslandManager().getIslands(), game.getIslandManager().getMotherNature().getPosition(), game.getAllSchoolBoards(), game.getCloudTiles(), new String[game.getProfessors().length],getAllChosenWizards()));
         game.notify(new ChangeTurnMessage(game.getCurrentPlayer().getUsername()));
         game.planningPhase();
     }

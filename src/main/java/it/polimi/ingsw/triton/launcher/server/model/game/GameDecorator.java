@@ -147,11 +147,6 @@ public class GameDecorator extends GameMode{
     }
 
     @Override
-    public MotherNature getMotherNature() {
-        return game.getMotherNature();
-    }
-
-    @Override
     public ProfessorsManager getProfessorsManager() {
         return game.getProfessorsManager();
     }
@@ -169,12 +164,6 @@ public class GameDecorator extends GameMode{
     @Override
     public List<Wizard> getAvailableWizards() {
         return game.getAvailableWizards();
-    }
-
-
-    @Override
-    public void setupMotherNature() {
-        game.setupMotherNature();
     }
 
     @Override

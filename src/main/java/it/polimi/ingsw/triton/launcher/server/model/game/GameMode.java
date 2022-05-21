@@ -48,12 +48,10 @@ public abstract class GameMode extends Observable<InfoMessage>{
     public abstract CloudTile getCloudTileById(int selectedCloudTileID) throws IllegalClientInputException;
     public abstract void chooseCloudTile(CloudTile cloudTileById) throws IllegalClientInputException, ChangeTurnException, EndGameException;
     public abstract Player getPlayerByUsername(String senderUsername);
-    public abstract MotherNature getMotherNature();
     public abstract ProfessorsManager getProfessorsManager();
     public abstract Player[] getProfessors();
     public abstract Bag getBag();
     public abstract List<Wizard> getAvailableWizards();
-    abstract void setupMotherNature();
     abstract void setupBag();
     abstract void setupIslands();
     abstract void createCloudTiles();

@@ -73,6 +73,6 @@ public class AssistantDeck implements Serializable {
 
     @Override
     public String toString(){
-        return "AssistantDeck: " + wizard +"\n" + "[\n" + printAllAssistantCards() + "]";
+        return "AssistantDeck: " + wizard +"\n"+ printAllAssistantCards();
     }
 }
