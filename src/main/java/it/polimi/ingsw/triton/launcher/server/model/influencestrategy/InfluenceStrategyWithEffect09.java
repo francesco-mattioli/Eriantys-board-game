@@ -4,7 +4,7 @@ import it.polimi.ingsw.triton.launcher.server.model.islands.Island;
 import it.polimi.ingsw.triton.launcher.server.model.player.Player;
 import it.polimi.ingsw.triton.launcher.server.model.enums.Color;
 
-public class InfluenceStrategyWithEffect09 extends InfluenceStrategy{
+public class InfluenceStrategyWithEffect09 implements InfluenceStrategy {
     private final Color color;
 
     public InfluenceStrategyWithEffect09(Color color){
