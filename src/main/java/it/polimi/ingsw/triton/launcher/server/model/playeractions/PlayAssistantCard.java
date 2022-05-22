@@ -91,6 +91,5 @@ public class PlayAssistantCard implements Action {
             } else
                 throw new IllegalClientInputException(ErrorTypeID.GENERIC_CLIENT_INPUT_ERROR);
         }
-
     }
 }

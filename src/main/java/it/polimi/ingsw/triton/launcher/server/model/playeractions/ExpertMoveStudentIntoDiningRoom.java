@@ -11,6 +11,7 @@ import java.util.NoSuchElementException;
 
 public class ExpertMoveStudentIntoDiningRoom extends MoveStudentIntoDiningRoom{
     private final GeneralCoinSupply generalCoinSupply;
+
     /**
      * @param student           the color of student to move into the dining room.
      * @param currentPlayer     the current player who executes the action.
