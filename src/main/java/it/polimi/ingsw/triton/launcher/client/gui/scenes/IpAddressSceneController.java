@@ -31,17 +31,4 @@ public class IpAddressSceneController extends SceneController {
         ipAddressPane.setDisable(true);
     }
 
-    @Override
-    public AnchorPane getAnchorPane() {
-        return ipAddressPane;
-    }
-
-    @Override
-    public Button getButton() {
-        return connectButton;
-    }
-
-    public String getPath() {
-        return path;
-    }
 }

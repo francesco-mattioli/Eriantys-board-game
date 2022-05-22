@@ -51,21 +51,6 @@ public class CharCard10SceneController extends SceneController{
 
     }
 
-    @Override
-    public AnchorPane getAnchorPane() {
-        return charCard10Pane;
-    }
-
-    @Override
-    public Button getButton() {
-        return null;
-    }
-
-    @Override
-    public String getPath() {
-        return null;
-    }
-
     public void confirm1(ActionEvent event){
         updateSwitchStudents(fromEntrance1, fromDiningRoom1);
         setChoiceBoxDiningRoom(fromDiningRoom2);

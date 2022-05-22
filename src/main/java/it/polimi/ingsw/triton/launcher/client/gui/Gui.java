@@ -10,6 +10,7 @@ import it.polimi.ingsw.triton.launcher.server.model.enums.Wizard;
 import it.polimi.ingsw.triton.launcher.server.model.player.SchoolBoard;
 import it.polimi.ingsw.triton.launcher.utils.message.ErrorTypeID;
 import it.polimi.ingsw.triton.launcher.utils.message.Message;
+import it.polimi.ingsw.triton.launcher.utils.message.servermessage.infoMessage.DisconnectionMessage;
 import it.polimi.ingsw.triton.launcher.utils.obs.Observable;
 import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
@@ -25,6 +26,7 @@ import javafx.stage.Stage;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
@@ -194,14 +196,12 @@ public class Gui extends Observable<Message> implements ClientView {
                 controller.addObserver(client);
                 controller.setUsername(clientModel.getUsername());
                 controller.setupScene(clientModel, parameters);
-                setGenericBackground(controller, "src/main/resources/Images/blueCloud.jpg");
                 if(controller instanceof CharacterCardSceneController){
                     backButton(((CharacterCardSceneController)controller).getBackButton());
                 }
                 activeStage.setScene(new Scene(root));
                 activeStage.setResizable(false);
                 activeStage.setTitle(clientModel.getUsername());
-                //setGenericButton(controller, controller.getPath());
                 activeStage.show();
                 activeStage.setOnCloseRequest(event -> {
                     event.consume();
@@ -427,7 +427,6 @@ public class Gui extends Observable<Message> implements ClientView {
                     mainStage.setResizable(false);
                     mainController = mainLoader.getController();
                     mainController.initializeMainScene(clientModel);
-                    setGenericBackground(mainController, "src/main/resources/Images/backgroundmainscene.jpg");
                     mainStage.setScene(scene);
                     mainStage.show();
                     activeStage.close();
@@ -476,33 +475,6 @@ public class Gui extends Observable<Message> implements ClientView {
         });
     }
 
-        private void setGenericBackground(SceneController controller, String path){
-            String currentPath = new java.io.File(path).getAbsolutePath().replace('\\','/');
-            Image img = new Image("file:" + currentPath);
-            BackgroundImage bImg = new BackgroundImage(img,
-                    BackgroundRepeat.NO_REPEAT,
-                    BackgroundRepeat.NO_REPEAT,
-                    BackgroundPosition.DEFAULT,
-                    new BackgroundSize(500,500,true,true,false,true));
-            Background bGround = new Background(bImg);
-            controller.getAnchorPane().setBackground(bGround);
-        }
-
-        private void setGenericButton(SceneController controller, String path){
-            String currentPath = new java.io.File(path).getAbsolutePath().replace('\\','/');
-            Image img = new Image("file:" + currentPath);
-            BackgroundImage bImg = new BackgroundImage(img,
-                    BackgroundRepeat.NO_REPEAT,
-                    BackgroundRepeat.NO_REPEAT,
-                    BackgroundPosition.DEFAULT,
-                    new BackgroundSize(500,500,true,true,false,true));
-            Background bGround = new Background(bImg);
-            try {
-                controller.getButton().setBackground(bGround);
-            } catch (IllegalAccessException e) {
-                e.printStackTrace();
-            }
-        }
 
     public void logout(Stage stage){
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);

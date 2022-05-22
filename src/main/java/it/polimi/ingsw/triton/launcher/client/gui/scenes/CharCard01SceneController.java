@@ -27,7 +27,6 @@ public class CharCard01SceneController extends SceneController {
     @FXML
     ChoiceBox<Integer> selectIslandIdChoiceBox;
 
-    private Map<String, Color> colorMap = new HashMap<>();
 
     @Override
     public <T> void setupScene(ClientModel clientModel, T parameters) {
@@ -38,20 +37,6 @@ public class CharCard01SceneController extends SceneController {
         selectIslandIdChoiceBox.setOnAction(this::activeButton);
     }
 
-    @Override
-    public AnchorPane getAnchorPane() {
-        return charCard01Pane;
-    }
-
-    @Override
-    public Button getButton() {
-        return null;
-    }
-
-    @Override
-    public String getPath() {
-        return null;
-    }
 
     public void confirm(ActionEvent event){
         confirmButton.setDisable(true);
