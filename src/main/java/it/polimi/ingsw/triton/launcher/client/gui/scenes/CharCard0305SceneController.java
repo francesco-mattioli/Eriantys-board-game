@@ -29,20 +29,6 @@ public class CharCard0305SceneController extends SceneController{
         selectIslandIdChoiceBox.setOnAction(this::activeButton);
     }
 
-    @Override
-    public AnchorPane getAnchorPane() {
-        return charCard0305Pane;
-    }
-
-    @Override
-    public Button getButton() {
-        return null;
-    }
-
-    @Override
-    public String getPath() {
-        return null;
-    }
 
     public void confirm(ActionEvent event){
         confirmButton.setDisable(true);

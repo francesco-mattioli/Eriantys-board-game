@@ -55,18 +55,4 @@ public class TowerColorSceneController extends SceneController {
         selectButton.setDisable(false);
     }
 
-    @Override
-    public AnchorPane getAnchorPane() {
-        return towerColorPane;
-    }
-
-    @Override
-    public Button getButton() {
-        return null;
-    }
-
-    @Override
-    public String getPath() {
-        return null;
-    }
 }

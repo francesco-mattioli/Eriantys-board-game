@@ -1,22 +1,16 @@
 package it.polimi.ingsw.triton.launcher.client.gui.scenes;
 
-import it.polimi.ingsw.triton.launcher.client.Client;
 import it.polimi.ingsw.triton.launcher.client.model.ClientModel;
 import it.polimi.ingsw.triton.launcher.server.model.islands.Island;
 import it.polimi.ingsw.triton.launcher.server.model.enums.Color;
 import it.polimi.ingsw.triton.launcher.utils.message.Message;
 import it.polimi.ingsw.triton.launcher.utils.obs.Observable;
-import javafx.scene.control.Button;
-import javafx.scene.layout.AnchorPane;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+
 
 public abstract class SceneController extends Observable<Message> {
     protected String username;
-    private Map<String,Color> colorMap = new HashMap<>();
     protected ArrayList<String> colorEntrance = new ArrayList<>();
     protected ArrayList<String> colorCharCard = new ArrayList<>();
     protected ArrayList<String> colorDiningRoom = new ArrayList<>();
@@ -85,11 +79,5 @@ public abstract class SceneController extends Observable<Message> {
             colorsName[i] = Color.values()[i].name();
         }
     }
-
-
-    public abstract AnchorPane getAnchorPane();
-    public abstract Button getButton() throws IllegalAccessException;
-    public abstract String getPath();
-
 
 }

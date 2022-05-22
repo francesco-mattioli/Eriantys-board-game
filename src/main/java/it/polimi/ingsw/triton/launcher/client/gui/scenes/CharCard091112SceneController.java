@@ -46,20 +46,6 @@ public class CharCard091112SceneController extends SceneController{
         selectColorChoiceBox.setOnAction(this::activeButton);
     }
 
-    @Override
-    public AnchorPane getAnchorPane() {
-        return charCard091112Pane;
-    }
-
-    @Override
-    public Button getButton() {
-        return null;
-    }
-
-    @Override
-    public String getPath() {
-        return null;
-    }
 
     public void confirm(ActionEvent event){
         confirmButton.setDisable(true);

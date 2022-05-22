@@ -1,0 +1,12 @@
+.menuPane{
+    -fx-background-image: url("../Images/menuprova.jpg");
+    -fx-background-size: stretch;
+}
+
+
+.joinButton{
+    -fx-background-image: url("../Images/Buttons/playbutton.png");
+    -fx-border-color: transparent;
+    -fx-background-size: stretch;
+    -fx-background-color: transparent;
+}

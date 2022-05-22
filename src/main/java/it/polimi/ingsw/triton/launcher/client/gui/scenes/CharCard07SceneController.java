@@ -62,20 +62,6 @@ public class CharCard07SceneController extends SceneController {
         charCard07Pane.getChildren().stream().filter(x -> x instanceof ChoiceBox).forEach(x->((ChoiceBox<?>) x).setOnAction(this::activeButton));
     }
 
-    @Override
-    public AnchorPane getAnchorPane() {
-        return charCard07Pane;
-    }
-
-    @Override
-    public Button getButton() {
-        return null;
-    }
-
-    @Override
-    public String getPath() {
-        return null;
-    }
 
     public void confirm1(ActionEvent event){
         updateSwitchStudents(fromEntrance1, fromCharCard1);
