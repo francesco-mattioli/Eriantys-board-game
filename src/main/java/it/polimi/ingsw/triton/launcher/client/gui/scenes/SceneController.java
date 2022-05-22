@@ -88,7 +88,7 @@ public abstract class SceneController extends Observable<Message> {
 
 
     public abstract AnchorPane getAnchorPane();
-    public abstract Button getButton();
+    public abstract Button getButton() throws IllegalAccessException;
     public abstract String getPath();
 
 

@@ -432,8 +432,8 @@ public class MainSceneController extends SceneController {
     }
 
     @Override
-    public Button getButton() {
-        return null;
+    public Button getButton() throws IllegalAccessException {
+        throw new IllegalAccessException("Main Scene Has No Buttons");
     }
 
     @Override
