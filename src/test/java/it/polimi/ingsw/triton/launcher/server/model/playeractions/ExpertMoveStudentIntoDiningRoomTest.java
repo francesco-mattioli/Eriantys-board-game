@@ -100,6 +100,9 @@ class ExpertMoveStudentIntoDiningRoomTest {
         assertEquals(oldWallet + 1, player.getWallet().getValue());
     }
 
+    /**
+     * Checks if the wallet is not increased if the general coin supply is empty.
+     */
     @Test
     void testNotUpdateWalletIfSupplyIsEmpty(){
         int oldWallet = player.getWallet().getValue();
