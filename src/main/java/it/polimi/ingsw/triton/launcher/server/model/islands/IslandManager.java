@@ -18,9 +18,11 @@ import java.util.Random;
 public class IslandManager extends Observable <InfoMessage> implements Serializable {
     private final List<Island> islands;
     private MotherNature motherNature;
+    private final Random random;
 
     public IslandManager(){
         islands = new ArrayList<>();
+        random=new Random();
         createIslands();
         setupMotherNature();
     }
@@ -146,7 +148,7 @@ public class IslandManager extends Observable <InfoMessage> implements Serializa
     }
 
     public Island getRandomIsland() {
-        return islands.get((new Random()).nextInt(islands.size()));
+        return islands.get(random.nextInt(islands.size()));
     }
 
     public MotherNature getMotherNature() {

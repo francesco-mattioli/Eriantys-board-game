@@ -11,9 +11,11 @@ import java.util.Random;
 
 public class Bag extends Observable<InfoMessage> implements Serializable {
     private final int[] students;
+    private final Random random;
 
     public Bag() {
         this.students = new int[5];
+        this.random=new Random();
     }
 
 
@@ -27,7 +29,6 @@ public class Bag extends Observable<InfoMessage> implements Serializable {
             throw new NoSuchElementException("There aren't any other students");
         else {
             // generates a random number until it finds a student's color that has at least one pawn
-            Random random = new Random();
             int randomIndex = random.nextInt(Color.numOfColors());
             int result = students[randomIndex];
             // if result == 0, there's no students of this color; thus it's necessary to generate another color

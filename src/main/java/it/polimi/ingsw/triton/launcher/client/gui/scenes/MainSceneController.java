@@ -1,6 +1,5 @@
 package it.polimi.ingsw.triton.launcher.client.gui.scenes;
 
-import it.polimi.ingsw.triton.launcher.client.cli.Cli;
 import it.polimi.ingsw.triton.launcher.client.model.ClientModel;
 import it.polimi.ingsw.triton.launcher.server.model.AssistantCard;
 import it.polimi.ingsw.triton.launcher.server.model.islands.Island;
@@ -8,11 +7,9 @@ import it.polimi.ingsw.triton.launcher.server.model.enums.Color;
 import it.polimi.ingsw.triton.launcher.server.model.enums.TowerColor;
 import it.polimi.ingsw.triton.launcher.server.model.player.SchoolBoard;
 import javafx.fxml.FXML;
-import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
@@ -137,6 +134,13 @@ public class MainSceneController extends SceneController {
         }
         Collections.reverse(nodeList[1]);
         addIslandsAsChildren(islandGrids,nodeList, islands);
+    }
+
+    private void drawSchoolBoard(ClientModel clientModel) {
+        for(int i = 0; i < schoolBoardsMap.keySet().size(); i++){
+            AnchorPane schoolBoardPane = schoolBoardsMap.get(new ArrayList<>(schoolBoardsMap.keySet()).get(i));
+            drawTowersOnSchoolBoard(((GridPane)schoolBoardPane.getChildren().get(4)).getChildren(), clientModel.getSchoolBoards().get(new ArrayList<>(schoolBoardsMap.keySet()).get(i)));
+        }
     }
 
     private void setupIslandGrid(ClientModel clientModel, int [] dimensions, GridPane [] islandGrids, List<Node>[] nodeList){
@@ -368,11 +372,11 @@ public class MainSceneController extends SceneController {
 
     public void showChangeInfluenceMessage(ClientModel clientModel) {
         drawIslands(clientModel);
-        for(int i = 0; i < schoolBoardsMap.keySet().size(); i++){
-            AnchorPane schoolBoardPane = schoolBoardsMap.get(new ArrayList<>(schoolBoardsMap.keySet()).get(i));
-            drawTowersOnSchoolBoard(((GridPane)schoolBoardPane.getChildren().get(4)).getChildren(), clientModel.getSchoolBoards().get(new ArrayList<>(schoolBoardsMap.keySet()).get(i)));
-        }
+        drawSchoolBoard(clientModel);
+
     }
+
+
 
     public void showMergeIslandsMessage(ClientModel clientModel) {
         drawIslands(clientModel);
@@ -383,11 +387,9 @@ public class MainSceneController extends SceneController {
     }
 
     public void showMoveTowerOntoSchoolBoard(ClientModel clientModel) {
-        for(int i = 0; i < schoolBoardsMap.keySet().size(); i++){
-            AnchorPane schoolBoardPane = schoolBoardsMap.get(new ArrayList<>(schoolBoardsMap.keySet()).get(i));
-            drawTowersOnSchoolBoard(((GridPane)schoolBoardPane.getChildren().get(4)).getChildren(), clientModel.getSchoolBoards().get(new ArrayList<>(schoolBoardsMap.keySet()).get(i)));
-        }
+        drawSchoolBoard(clientModel);
     }
+
     public void showInfoChosenCloudTile(String username, ClientModel clientModel) {
         AnchorPane schoolBoardPane = schoolBoardsMap.get(username);
         drawStudentsOnEntrance(((GridPane)schoolBoardPane.getChildren().get(2)).getChildren(), clientModel.getSchoolBoards().get(username));
