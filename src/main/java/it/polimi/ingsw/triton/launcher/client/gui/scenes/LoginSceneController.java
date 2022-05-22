@@ -40,4 +40,14 @@ public class LoginSceneController extends SceneController {
     public AnchorPane getAnchorPane() {
         return loginPane;
     }
+
+    @Override
+    public Button getButton() {
+        return loginButton;
+    }
+
+    @Override
+    public String getPath() {
+        return null;
+    }
 }

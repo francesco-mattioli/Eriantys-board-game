@@ -87,4 +87,14 @@ public class ChooseCloudTileSceneController extends SceneController {
     public AnchorPane getAnchorPane() {
         return chooseCloudTilePane;
     }
+
+    @Override
+    public Button getButton() {
+        return null;
+    }
+
+    @Override
+    public String getPath() {
+        return null;
+    }
 }

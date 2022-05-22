@@ -6,6 +6,7 @@ import it.polimi.ingsw.triton.launcher.server.model.islands.Island;
 import it.polimi.ingsw.triton.launcher.server.model.enums.Color;
 import it.polimi.ingsw.triton.launcher.utils.message.Message;
 import it.polimi.ingsw.triton.launcher.utils.obs.Observable;
+import javafx.scene.control.Button;
 import javafx.scene.layout.AnchorPane;
 
 import java.util.ArrayList;
@@ -87,6 +88,8 @@ public abstract class SceneController extends Observable<Message> {
 
 
     public abstract AnchorPane getAnchorPane();
+    public abstract Button getButton();
+    public abstract String getPath();
 
 
 }

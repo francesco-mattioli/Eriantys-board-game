@@ -529,11 +529,7 @@
                         <Image url="@Images/Wizards/Green-Wizard.png" />
                      </image>
                   </ImageView>
-                  <ImageView fitHeight="150.0" fitWidth="110.0" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@Images/AssistantCards/Tiger.png" />
-                     </image>
-                  </ImageView>
+                  <ImageView fitHeight="150.0" fitWidth="110.0" pickOnBounds="true" preserveRatio="true" />
                </children>
             </GridPane>
          </children>
@@ -965,11 +961,7 @@
                         <Image url="@Images/Wizards/Green-Wizard.png" />
                      </image>
                   </ImageView>
-                  <ImageView fitHeight="147.0" fitWidth="85.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1">
-                     <image>
-                        <Image url="@Images/AssistantCards/Tiger.png" />
-                     </image>
-                  </ImageView>
+                  <ImageView fitHeight="147.0" fitWidth="85.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" />
                </children>
             </GridPane>
             <AnchorPane layoutX="713.0" layoutY="32.0" prefHeight="167.0" prefWidth="379.0">
@@ -1397,11 +1389,7 @@
                         <Image url="@Images/Wizards/Green-Wizard.png" />
                      </image>
                   </ImageView>
-                  <ImageView fitHeight="147.0" fitWidth="85.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1">
-                     <image>
-                        <Image url="@Images/AssistantCards/Tiger.png" />
-                     </image>
-                  </ImageView>
+                  <ImageView fitHeight="147.0" fitWidth="85.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" />
                </children>
             </GridPane>
          </children>
