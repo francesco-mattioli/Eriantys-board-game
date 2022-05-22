@@ -11,6 +11,7 @@ module it.polimi.ingsw.triton.launcher {
     requires eu.hansolo.tilesfx;
     requires java.logging;
     requires org.jetbrains.annotations;
+    requires commons.validator;
 
     opens it.polimi.ingsw.triton.launcher.client.gui to javafx.fxml;
     exports it.polimi.ingsw.triton.launcher.client.gui;

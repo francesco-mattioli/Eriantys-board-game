@@ -218,11 +218,11 @@ public class ClientModel extends Observable<Object> {
      * @return the string with the description of the cloud tiles.
      */
     public String printCloudTiles() {
-        String results = " ";
+        StringBuilder results = new StringBuilder(" ");
         for (CloudTile cloudTile : cloudTiles) {
-            results += cloudTile.toString();
+            results.append(cloudTile.toString());
         }
-        return results;
+        return results.toString();
     }
 
     /**
@@ -231,11 +231,11 @@ public class ClientModel extends Observable<Object> {
      * @return the string with the description of available character cards.
      */
     public String printAvailableCharacterCard() {
-        String results = " ";
+        StringBuilder results = new StringBuilder(" ");
         for (CharacterCard characterCard : availableCharacterCards) {
-            results += characterCard.toString();
+            results.append(characterCard.toString());
         }
-        return results;
+        return results.toString();
     }
 
     /**
@@ -244,11 +244,11 @@ public class ClientModel extends Observable<Object> {
      * @return the string with the description of the islands.
      */
     public String printIslands() {
-        String results = " ";
+        StringBuilder results = new StringBuilder(" ");
         for (Island island : islands) {
-            results += island.toString();
+            results.append(island.toString());
         }
-        return results;
+        return results.toString();
     }
 
     /**
@@ -257,16 +257,13 @@ public class ClientModel extends Observable<Object> {
      * @return the string with the description of this model's owner school board.
      */
     public String printYourSchoolBoard(){
-        String results = "";
         for(Map.Entry<String, SchoolBoard> schoolBoardEntry: schoolBoards.entrySet()){
-            if(schoolBoardEntry.getKey().equals(username)) {
-                results += "Your SchoolBoard: " + schoolBoardEntry.getValue().toString();
-                results += "\t\t\tProfessors: " + printProfessors(schoolBoardEntry.getKey()) + "\n\n";
-                break;
-            }
+            if(schoolBoardEntry.getKey().equals(username))
+                return printSchoolBoard(schoolBoardEntry);
         }
-        return results;
+        return "";
     }
+
 
     /**
      * Generates a string with the description of opponents' school boards.
@@ -274,14 +271,11 @@ public class ClientModel extends Observable<Object> {
      * @return the string with the description of opponents' school boards.
      */
     public String printOtherSchoolBoards(){
-        String results = "";
         for(Map.Entry<String, SchoolBoard> schoolBoardEntry: schoolBoards.entrySet()){
-            if(!schoolBoardEntry.getKey().equals(username)) {
-                results += schoolBoardEntry.getKey() + "'s SchoolBoard: " + schoolBoardEntry.getValue().toString();
-                results += "\t\t\tProfessors: " + printProfessors(schoolBoardEntry.getKey()) + "\n\n";
-            }
+            if(!schoolBoardEntry.getKey().equals(username))
+                return printSchoolBoard(schoolBoardEntry);
         }
-        return results;
+        return "";
     }
 
     /**
@@ -290,12 +284,21 @@ public class ClientModel extends Observable<Object> {
      * @return the string with the description of all players' school boards.
      */
     public String printAllSchoolBoards(){
-        String results = "";
-        for(Map.Entry<String, SchoolBoard> schoolBoardEntry: schoolBoards.entrySet()){
-            results += schoolBoardEntry.getKey() + "'s SchoolBoard: " + schoolBoardEntry.getValue().toString();
-            results += "\t\t\tProfessors: " + printProfessors(schoolBoardEntry.getKey()) + "\n\n";
-        }
-        return results;
+        StringBuilder result = new StringBuilder();
+        for(Map.Entry<String, SchoolBoard> schoolBoardEntry: schoolBoards.entrySet())
+            result.append(printSchoolBoard(schoolBoardEntry));
+        return result.toString();
+    }
+
+    private String printSchoolBoard(Map.Entry<String, SchoolBoard> schoolBoardEntry) {
+        String result = "";
+        if(schoolBoardEntry.getKey().equals(username))
+            result += "Your ";
+        else
+            result += schoolBoardEntry.getKey() + "'s ";
+        result += "SchoolBoard: " + schoolBoardEntry.getValue().toString();
+        result += "\t\t\tProfessors: " + printProfessors(schoolBoardEntry.getKey()) + "\n\n";
+        return result;
     }
 
     /**
