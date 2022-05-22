@@ -22,8 +22,11 @@ class CardEffect06Test {
         islandManager = null;
     }
 
+    /**
+     * Checks if the method sets correctly the influence strategy for every island.
+     */
     @Test
-    void execute() {
+    void testSetCorrectlyInfluenceStrategy() {
         new CardEffect06(islandManager.getIslands()).execute();
         try {
             assertInstanceOf(InfluenceStrategyWithEffect06.class, islandManager.getIslandByID(5).getInfluenceStrategy());
