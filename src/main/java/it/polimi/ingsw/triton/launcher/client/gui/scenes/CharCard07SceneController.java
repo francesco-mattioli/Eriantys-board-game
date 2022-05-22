@@ -8,9 +8,6 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.layout.AnchorPane;
-
-import java.util.HashMap;
-import java.util.Map;
 import java.util.stream.Collectors;
 
 public class CharCard07SceneController extends SceneController {
@@ -59,7 +56,7 @@ public class CharCard07SceneController extends SceneController {
         setChoiceBoxEntrance(fromEntrance1);
         setChoiceBoxCharCard(fromCharCard1);
         currentButton = confirmButton1;
-        charCard07Pane.getChildren().stream().filter(x -> x instanceof ChoiceBox).forEach(x->((ChoiceBox<?>) x).setOnAction(this::activeButton));
+        charCard07Pane.getChildren().stream().filter(x -> x instanceof ChoiceBox).forEach(x->((ChoiceBox<?>) x).setOnAction(this::activateButton));
     }
 
 
@@ -125,7 +122,7 @@ public class CharCard07SceneController extends SceneController {
         fromCharCardBox1.setDisable(false);
     }
 
-    private void activeButton(ActionEvent event){
+    private void activateButton(ActionEvent event){
         if(!charCard07Pane.getChildren().stream().filter(
                 x->x instanceof ChoiceBox).filter(
                         x->x.isVisible()).filter(

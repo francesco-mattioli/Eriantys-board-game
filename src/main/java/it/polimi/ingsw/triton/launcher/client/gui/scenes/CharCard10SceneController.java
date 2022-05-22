@@ -47,7 +47,7 @@ public class CharCard10SceneController extends SceneController{
         setChoiceBoxEntrance(fromEntrance1);
         setChoiceBoxDiningRoom(fromDiningRoom1);
         currentButton = confirmButton1;
-        charCard10Pane.getChildren().stream().filter(x -> x instanceof ChoiceBox).forEach(x->((ChoiceBox<?>) x).setOnAction(this::activeButton));
+        charCard10Pane.getChildren().stream().filter(x -> x instanceof ChoiceBox).forEach(x->((ChoiceBox<?>) x).setOnAction(this::activateButton));
 
     }
 
@@ -103,8 +103,9 @@ public class CharCard10SceneController extends SceneController{
         fromCharCardBox1.setDisable(false);
     }
 
-    private void activeButton(ActionEvent event){
-        if(charCard10Pane.getChildren().stream().filter(
+
+    private void activateButton(ActionEvent event){
+        if(!charCard10Pane.getChildren().stream().filter(
                 x->x instanceof ChoiceBox).filter(
                 x->x.isVisible()).filter(
                 x->!x.isDisable()).map(

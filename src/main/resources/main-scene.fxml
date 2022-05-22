@@ -9,7 +9,7 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.shape.Circle?>
 
-<AnchorPane fx:id="mainPane" maxHeight="814.0" maxWidth="1300.0" minHeight="814.0" minWidth="1300.0" prefHeight="814.0" prefWidth="1300.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.triton.launcher.client.gui.scenes.MainSceneController">
+<AnchorPane fx:id="mainPane" maxHeight="814.0" maxWidth="1300.0" minHeight="814.0" minWidth="1300.0" prefHeight="814.0" prefWidth="1300.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.triton.launcher.client.gui.scenes.MainSceneController" styleClass="mainPane" stylesheets="@css/main-css.css">
    <children>
       <AnchorPane fx:id="mySchoolBoardPane" layoutY="551.0" prefHeight="259.0" prefWidth="1101.0">
          <children>

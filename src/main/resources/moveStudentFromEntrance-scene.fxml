@@ -5,15 +5,15 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane fx:id="moveStudentFromEntrancePane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="390.0" prefWidth="488.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.triton.launcher.client.gui.scenes.MoveStudentFromEntranceSceneController">
+<AnchorPane fx:id="moveStudentFromEntrancePane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="389.0" prefWidth="494.0" styleClass="moveStudentFromEntrancePane" stylesheets="@css/moveFromEntrance-css.css" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.triton.launcher.client.gui.scenes.MoveStudentFromEntranceSceneController">
    <children>
       <ChoiceBox fx:id="colorChoiceBox" layoutX="54.0" layoutY="84.0" prefWidth="150.0" />
       <ChoiceBox fx:id="whereChoiceBox" layoutX="54.0" layoutY="185.0" onAction="#show" prefWidth="150.0" />
       <ChoiceBox fx:id="islandIdChoiceBox" layoutX="288.0" layoutY="135.0" prefWidth="150.0" visible="false" />
-      <Button fx:id="moveButton" disable="true" layoutX="217.0" layoutY="251.0" mnemonicParsing="false" onAction="#move" text="Move!" />
+      <Button fx:id="moveButton" disable="true" layoutX="196.0" layoutY="252.0" maxHeight="78.0" maxWidth="124.0" minHeight="33.0" minWidth="60.0" mnemonicParsing="false" onAction="#move" prefHeight="33.0" prefWidth="102.0" styleClass="moveButton" stylesheets="@css/moveFromEntrance-css.css" />
       <Label layoutX="54.0" layoutY="58.0" text="Select Color:" />
       <Label layoutX="54.0" layoutY="161.0" text="Select  Island Or Dining Room:" />
       <Label fx:id="islandIdLabel" layoutX="288.0" layoutY="110.0" onMouseClicked="#show" text="Select Island Id:" visible="false" />
-      <Button fx:id="playCCButton" layoutX="175.0" layoutY="312.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="137.0" text="Play a character card" visible="false" />
+      <Button fx:id="playCCButton" layoutX="179.0" layoutY="316.0" mnemonicParsing="false" prefHeight="33.0" prefWidth="136.0" styleClass="playCCButton" stylesheets="@css/moveFromEntrance-css.css" visible="false" />
    </children>
 </AnchorPane>

@@ -5,19 +5,19 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane fx:id="charCard07Pane" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.triton.launcher.client.gui.scenes.CharCard07SceneController">
+<AnchorPane fx:id="charCard07Pane" prefHeight="400.0" prefWidth="600.0" styleClass="charCard07Pane" stylesheets="@css/charCard07-css.css" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.triton.launcher.client.gui.scenes.CharCard07SceneController">
    <children>
-      <ChoiceBox fx:id="fromCharCard1" layoutX="87.0" layoutY="106.0" prefWidth="150.0" />
-      <ChoiceBox fx:id="fromEntrance1" layoutX="336.0" layoutY="106.0" prefWidth="150.0" />
-      <Button fx:id="confirmButton1" disable="true" layoutX="518.0" layoutY="106.0" mnemonicParsing="false" onAction="#confirm1" text="Confirm" />
-      <Button fx:id="stopButton" layoutX="268.0" layoutY="308.0" mnemonicParsing="false" onAction="#stop" text="Stop" />
-      <ChoiceBox fx:id="fromCharCard2" disable="true" layoutX="87.0" layoutY="159.0" prefWidth="150.0" />
-      <ChoiceBox fx:id="fromEntrance2" disable="true" layoutX="336.0" layoutY="159.0" prefWidth="150.0" />
-      <ChoiceBox fx:id="fromCharCard3" disable="true" layoutX="87.0" layoutY="213.0" prefWidth="150.0" />
-      <ChoiceBox fx:id="fromEntrance3" disable="true" layoutX="336.0" layoutY="213.0" prefWidth="150.0" />
-      <Button fx:id="confirmButton2" disable="true" layoutX="518.0" layoutY="159.0" mnemonicParsing="false" onAction="#confirm2" text="Confirm" />
-      <Button fx:id="confirmButton3" disable="true" layoutX="518.0" layoutY="213.0" mnemonicParsing="false" onAction="#confirm3" text="Confirm" />
-      <Label layoutX="87.0" layoutY="73.0" text="From Character Card:" />
-      <Label layoutX="336.0" layoutY="73.0" text="From Entrance:" />
+      <ChoiceBox fx:id="fromCharCard1" layoutX="60.0" layoutY="108.0" prefWidth="150.0" />
+      <ChoiceBox fx:id="fromEntrance1" layoutX="309.0" layoutY="108.0" prefWidth="150.0" />
+      <Button fx:id="confirmButton1" disable="true" layoutX="494.0" layoutY="107.0" mnemonicParsing="false" onAction="#confirm1" prefHeight="25.0" prefWidth="89.0" styleClass="confirmButton1" stylesheets="@css/charCard07-css.css" />
+      <Button fx:id="stopButton" layoutX="249.0" layoutY="308.0" maxHeight="78.0" maxWidth="124.0" minHeight="33.0" minWidth="60.0" mnemonicParsing="false" onAction="#stop" prefHeight="33.0" prefWidth="102.0" styleClass="stopButton" stylesheets="@css/charCard07-css.css" />
+      <ChoiceBox fx:id="fromCharCard2" disable="true" layoutX="60.0" layoutY="161.0" prefWidth="150.0" />
+      <ChoiceBox fx:id="fromEntrance2" disable="true" layoutX="309.0" layoutY="161.0" prefWidth="150.0" />
+      <ChoiceBox fx:id="fromCharCard3" disable="true" layoutX="60.0" layoutY="215.0" prefWidth="150.0" />
+      <ChoiceBox fx:id="fromEntrance3" disable="true" layoutX="309.0" layoutY="215.0" prefWidth="150.0" />
+      <Button fx:id="confirmButton2" disable="true" layoutX="494.0" layoutY="160.0" mnemonicParsing="false" onAction="#confirm2" prefHeight="25.0" prefWidth="89.0" styleClass="confirmButton2" stylesheets="@css/charCard07-css.css" />
+      <Button fx:id="confirmButton3" disable="true" layoutX="494.0" layoutY="214.0" mnemonicParsing="false" onAction="#confirm3" prefHeight="25.0" prefWidth="89.0" styleClass="confirmButton3" stylesheets="@css/charCard07-css.css" />
+      <Label layoutX="60.0" layoutY="75.0" text="From Character Card:" />
+      <Label layoutX="309.0" layoutY="75.0" text="From Entrance:" />
    </children>
 </AnchorPane>

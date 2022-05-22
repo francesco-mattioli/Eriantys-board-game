@@ -1,0 +1,12 @@
+.charCard01Pane{
+    -fx-background-image: url("../Images/Backgrounds/blueCloud.jpg");
+    -fx-background-size: stretch;
+}
+
+
+.confirmButton{
+    -fx-background-image: url("../Images/Buttons/confirmbtn.jpg");
+    -fx-border-color: transparent;
+    -fx-background-size: stretch;
+    -fx-background-color: transparent;
+}

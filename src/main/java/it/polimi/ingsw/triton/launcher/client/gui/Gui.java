@@ -256,6 +256,7 @@ public class Gui extends Observable<Message> implements ClientView {
             if (clientModel.isExpertMode()) {
                 ChooseCloudTileSceneController controller = activeLoader.getController();
                 controller.getPlayCCButton().setVisible(true);
+                controller.getPlayCCButton().setDisable(false);
                 playCharacterCard(controller.getPlayCCButton());
             }
         });
