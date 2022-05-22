@@ -1,6 +1,7 @@
 package it.polimi.ingsw.triton.launcher.client.gui.scenes;
 
 import it.polimi.ingsw.triton.launcher.client.gui.Gui;
+import it.polimi.ingsw.triton.launcher.client.model.ClientModel;
 import it.polimi.ingsw.triton.launcher.utils.message.Message;
 import it.polimi.ingsw.triton.launcher.utils.message.clientmessage.ClientMessage;
 import it.polimi.ingsw.triton.launcher.utils.obs.Observable;
@@ -30,6 +31,7 @@ public class MenuSceneController extends SceneController {
         return menuPane;
     }
 
+
     public void join(ActionEvent event) throws IOException {
         Gui gui = new Gui(((Stage)((Node)event.getSource()).getScene().getWindow()));
         gui.startGui();
@@ -38,5 +40,19 @@ public class MenuSceneController extends SceneController {
     @Override
     public AnchorPane getAnchorPane() {
         return menuPane;
+    }
+
+    @Override
+    public Button getButton() {
+        return null;
+    }
+
+    @Override
+    public String getPath() {
+        return null;
+    }
+
+    public Button getJoinButton() {
+        return joinButton;
     }
 }

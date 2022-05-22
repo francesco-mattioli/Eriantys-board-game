@@ -38,37 +38,37 @@ public class WizardSceneController extends SceneController {
     @FXML
     ImageView wizardImageView;
 
-    private Map<Image,Wizard> wizardsImages;
+    private Map<Image, Wizard> wizardsImages;
     private int shownWizard = 0;
 
-    public void select(ActionEvent event){
+    public void select(ActionEvent event) {
         Wizard selectedWizard = wizardsImages.get(wizardImageView.getImage());
         notify(new WizardReply(username, selectedWizard));
         selectButton.setDisable(true);
     }
 
-    public void switchLeft(MouseEvent event){
-        if (shownWizard > 0){
-            wizardImageView.setImage((Image) wizardsImages.keySet().toArray()[shownWizard-1]);
+    public void switchLeft(MouseEvent event) {
+        if (shownWizard > 0) {
+            wizardImageView.setImage((Image) wizardsImages.keySet().toArray()[shownWizard - 1]);
             shownWizard--;
             rightSwitch.setFill(Color.BLUE);
             rightSwitch.setOpacity(1);
         }
-        if (shownWizard == 0){
+        if (shownWizard == 0) {
             leftSwitch.setFill(Color.GRAY);
             leftSwitch.setOpacity(0.5);
         }
 
     }
 
-    public void switchRight(MouseEvent event){
-        if (shownWizard < wizardsImages.size() - 1){
-            wizardImageView.setImage((Image) wizardsImages.keySet().toArray()[shownWizard+1]);
+    public void switchRight(MouseEvent event) {
+        if (shownWizard < wizardsImages.size() - 1) {
+            wizardImageView.setImage((Image) wizardsImages.keySet().toArray()[shownWizard + 1]);
             shownWizard++;
             leftSwitch.setFill(Color.BLUE);
             leftSwitch.setOpacity(1);
         }
-        if (shownWizard == wizardsImages.size() - 1){
+        if (shownWizard == wizardsImages.size() - 1) {
             rightSwitch.setFill(Color.GRAY);
             rightSwitch.setOpacity(0.5);
         }
@@ -95,5 +95,15 @@ public class WizardSceneController extends SceneController {
     @Override
     public AnchorPane getAnchorPane() {
         return wizardPane;
+    }
+
+    @Override
+    public Button getButton() {
+        return null;
+    }
+
+    @Override
+    public String getPath() {
+        return null;
     }
 }

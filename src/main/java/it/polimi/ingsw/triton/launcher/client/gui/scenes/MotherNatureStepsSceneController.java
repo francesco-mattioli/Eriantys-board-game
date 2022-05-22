@@ -55,4 +55,14 @@ public class MotherNatureStepsSceneController extends SceneController {
     public AnchorPane getAnchorPane() {
         return motherNaturePane;
     }
+
+    @Override
+    public Button getButton() {
+        return null;
+    }
+
+    @Override
+    public String getPath() {
+        return null;
+    }
 }

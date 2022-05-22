@@ -105,4 +105,14 @@ public class MoveStudentFromEntranceSceneController extends SceneController {
     public AnchorPane getAnchorPane() {
         return moveStudentFromEntrancePane;
     }
+
+    @Override
+    public Button getButton() {
+        return null;
+    }
+
+    @Override
+    public String getPath() {
+        return null;
+    }
 }

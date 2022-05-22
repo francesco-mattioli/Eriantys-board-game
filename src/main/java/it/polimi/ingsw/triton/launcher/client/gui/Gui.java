@@ -196,13 +196,14 @@ public class Gui extends Observable<Message> implements ClientView {
                 controller.addObserver(client);
                 controller.setUsername(clientModel.getUsername());
                 controller.setupScene(clientModel, parameters);
-                setGenericBackground(controller, "src/main/resources/Images/backpurple.jpg");
+                setGenericBackground(controller, "src/main/resources/Images/blueCloud.jpg");
                 if(controller instanceof CharacterCardSceneController){
                     backButton(((CharacterCardSceneController)controller).getBackButton());
                 }
                 activeStage.setScene(new Scene(root));
                 activeStage.setResizable(false);
                 activeStage.setTitle(clientModel.getUsername());
+                setGenericButton(controller, controller.getPath());
                 activeStage.show();
                 activeStage.setOnCloseRequest(event -> {
                     event.consume();
@@ -462,16 +463,19 @@ public class Gui extends Observable<Message> implements ClientView {
 
     @Override
     public void askPlayAgain() {
-        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-        alert.setTitle("Confirmation Dialog");
-        alert.setHeaderText(null);
-        alert.setContentText("Do you want to play again?");
-        Optional<ButtonType> result = alert.showAndWait();
-        if (result.get() == ButtonType.OK) {
-            askUsername();
-        } else {
-            closeGui();
-        }
+        Platform.runLater(() -> {
+            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+            alert.setTitle("Confirmation Dialog");
+            alert.setHeaderText(null);
+            alert.setContentText("Do you want to play again?");
+            Optional<ButtonType> result = alert.showAndWait();
+            if (result.get() == ButtonType.OK) {
+                mainStage.close();
+                askUsername();
+            } else {
+                closeGui();
+            }
+        });
     }
 
         private void setGenericBackground(SceneController controller, String path){
@@ -484,6 +488,18 @@ public class Gui extends Observable<Message> implements ClientView {
                     new BackgroundSize(500,500,true,true,false,true));
             Background bGround = new Background(bImg);
             controller.getAnchorPane().setBackground(bGround);
+        }
+
+        private void setGenericButton(SceneController controller, String path){
+            String currentPath = new java.io.File(path).getAbsolutePath().replace('\\','/');
+            Image img = new Image("file:" + currentPath);
+            BackgroundImage bImg = new BackgroundImage(img,
+                    BackgroundRepeat.NO_REPEAT,
+                    BackgroundRepeat.NO_REPEAT,
+                    BackgroundPosition.DEFAULT,
+                    new BackgroundSize(500,500,true,true,false,true));
+            Background bGround = new Background(bImg);
+            controller.getButton().setBackground(bGround);
         }
 
     public void logout(Stage stage){

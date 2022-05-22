@@ -59,4 +59,14 @@ public class TowerColorSceneController extends SceneController {
     public AnchorPane getAnchorPane() {
         return towerColorPane;
     }
+
+    @Override
+    public Button getButton() {
+        return null;
+    }
+
+    @Override
+    public String getPath() {
+        return null;
+    }
 }

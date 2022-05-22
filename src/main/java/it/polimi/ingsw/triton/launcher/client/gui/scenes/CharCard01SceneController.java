@@ -43,6 +43,16 @@ public class CharCard01SceneController extends SceneController {
         return charCard01Pane;
     }
 
+    @Override
+    public Button getButton() {
+        return null;
+    }
+
+    @Override
+    public String getPath() {
+        return null;
+    }
+
     public void confirm(ActionEvent event){
         confirmButton.setDisable(true);
         notify(new CharacterCard01Reply(username, Color.valueOf(selectColorChoiceBox.getValue()), selectIslandIdChoiceBox.getValue()));

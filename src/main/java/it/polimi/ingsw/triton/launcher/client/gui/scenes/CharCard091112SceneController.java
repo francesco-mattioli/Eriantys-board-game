@@ -51,6 +51,16 @@ public class CharCard091112SceneController extends SceneController{
         return charCard091112Pane;
     }
 
+    @Override
+    public Button getButton() {
+        return null;
+    }
+
+    @Override
+    public String getPath() {
+        return null;
+    }
+
     public void confirm(ActionEvent event){
         confirmButton.setDisable(true);
         if (id == 9)

@@ -21,6 +21,10 @@ public class IpAddressSceneController extends SceneController {
     @FXML
     TextField ipTextField;
 
+
+
+    private final String path = new java.io.File("src/main/resources/Images/Buttons/blueconnect.jpg").getAbsolutePath().replace('\\','/');
+
     public void connect(ActionEvent event){
         String ip = ipTextField.getText();
         notify(new UpdatedServerInfoMessage(ip));
@@ -30,5 +34,14 @@ public class IpAddressSceneController extends SceneController {
     @Override
     public AnchorPane getAnchorPane() {
         return ipAddressPane;
+    }
+
+    @Override
+    public Button getButton() {
+        return connectButton;
+    }
+
+    public String getPath() {
+        return path;
     }
 }
