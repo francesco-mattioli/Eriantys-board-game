@@ -15,7 +15,6 @@ import it.polimi.ingsw.triton.launcher.utils.obs.Observable;
 import it.polimi.ingsw.triton.launcher.utils.message.Message;
 import it.polimi.ingsw.triton.launcher.client.view.ClientView;
 import java.io.PrintStream;
-import java.net.InetAddress;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.FutureTask;
@@ -257,7 +256,7 @@ public class Cli extends Observable<Message> implements ClientView{
 
     /**
      * Asks the player to choose an assistant card to play.
-     * This assistant card can be chosen viewing the assistant deck which is updated every time the player plays
+     * This assistant card can be chosen to view the assistant deck which is updated every time the player plays
      * an assistant card removing it.
      * If the player inputs a string which is not an assistant card type, the method will ask again to choose an assistant card.
      * The server will check if the assistant card chosen by the player is already played by him or already played in this turn
