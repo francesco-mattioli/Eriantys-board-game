@@ -59,6 +59,4 @@ public class CloudTile implements Serializable {
     public String toString(){
         return "\n\tCloudTile " +  getId() + ": " + Utility.printColoredStudents(students);
     }
-
-
 }
