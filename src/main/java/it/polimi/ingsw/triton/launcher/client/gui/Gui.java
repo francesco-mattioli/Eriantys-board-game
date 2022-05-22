@@ -10,7 +10,6 @@ import it.polimi.ingsw.triton.launcher.server.model.enums.Wizard;
 import it.polimi.ingsw.triton.launcher.server.model.player.SchoolBoard;
 import it.polimi.ingsw.triton.launcher.utils.message.ErrorTypeID;
 import it.polimi.ingsw.triton.launcher.utils.message.Message;
-import it.polimi.ingsw.triton.launcher.utils.message.servermessage.infoMessage.DisconnectionMessage;
 import it.polimi.ingsw.triton.launcher.utils.obs.Observable;
 import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
@@ -26,7 +25,6 @@ import javafx.stage.Stage;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
@@ -203,7 +201,7 @@ public class Gui extends Observable<Message> implements ClientView {
                 activeStage.setScene(new Scene(root));
                 activeStage.setResizable(false);
                 activeStage.setTitle(clientModel.getUsername());
-                setGenericButton(controller, controller.getPath());
+                //setGenericButton(controller, controller.getPath());
                 activeStage.show();
                 activeStage.setOnCloseRequest(event -> {
                     event.consume();
@@ -499,7 +497,11 @@ public class Gui extends Observable<Message> implements ClientView {
                     BackgroundPosition.DEFAULT,
                     new BackgroundSize(500,500,true,true,false,true));
             Background bGround = new Background(bImg);
-            controller.getButton().setBackground(bGround);
+            try {
+                controller.getButton().setBackground(bGround);
+            } catch (IllegalAccessException e) {
+                e.printStackTrace();
+            }
         }
 
     public void logout(Stage stage){

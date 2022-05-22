@@ -1,4 +1,4 @@
-package it.polimi.ingsw.triton.launcher.client.cli;
+package it.polimi.ingsw.triton.launcher.client;
 
 import java.io.BufferedReader;
 import java.io.IOException;

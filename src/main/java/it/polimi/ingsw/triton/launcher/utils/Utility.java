@@ -4,14 +4,6 @@ import it.polimi.ingsw.triton.launcher.server.model.enums.Wizard;
 import java.util.List;
 
 public class Utility {
-    private static final Utility instance = new Utility();
-
-    private Utility(){
-    }
-
-    public static Utility getInstance(){
-        return instance;
-    }
 
     public static final String ANSI_RESET = "\u001B[0m";
     public static final String ANSI_GREEN = "\u001B[32m";
@@ -21,26 +13,27 @@ public class Utility {
     public static final String ANSI_YELLOW = "\u001B[33m";
     public static final String ANSI_BOLDYELLOW = "\u001B[1;33m";
     public static final String ANSI_PINK = "\u001B[35m";
+    public static final String ANSI_CLEAR_CONSOLE = "\033[H\033[2J";
 
     /**
      * @param students the students to print.
      * @return the string of the students with their colors.
      */
     public static String printColoredStudents(int[] students){
-        String results = "";
+        StringBuilder result = new StringBuilder();
         for (int i = 0; i < students.length; i++){
             if (i == 0)
-                results += ("students=[ " + ANSI_GREEN + students[i] + ANSI_RESET + ",");
+                result.append("students=[ " + ANSI_GREEN).append(students[i]).append(ANSI_RESET).append(",");
             else if (i == 1)
-                results += (" " + ANSI_RED + students[i] + ANSI_RESET + ",");
+                result.append(" " + ANSI_RED).append(students[i]).append(ANSI_RESET).append(",");
             else if (i == 2)
-                results += (" " + ANSI_YELLOW + students[i] + ANSI_RESET + ",");
+                result.append(" " + ANSI_YELLOW).append(students[i]).append(ANSI_RESET).append(",");
             else if (i == 3)
-                results += (" " + ANSI_PINK + students[i] + ANSI_RESET + ",");
+                result.append(" " + ANSI_PINK).append(students[i]).append(ANSI_RESET).append(",");
             else if (i == 4)
-                results += (" " + ANSI_BLUE + students[i] + ANSI_RESET + " ]");
+                result.append(" " + ANSI_BLUE).append(students[i]).append(ANSI_RESET).append(" ]");
         }
-        return results;
+        return result.toString();
     }
 
     /**
@@ -48,50 +41,50 @@ public class Utility {
      * @return the string of professors to print with their colors.
      */
     public static String printColoredProfessorsOnTable(String[] professors){
-        String results = "[";
+        StringBuilder result = new StringBuilder();
         for(int i = 0; i < professors.length; i++){
             if (i == 0 && professors[i] == null)
-                results += (ANSI_GREEN + "X" + ANSI_RESET + ",");
+                result.append(ANSI_GREEN + "X" + ANSI_RESET + ",");
             else if (i == 1 && professors[i] == null)
-                results += (ANSI_RED + "X" + ANSI_RESET + ",");
+                result.append(ANSI_RED + "X" + ANSI_RESET + ",");
             else if (i == 2 && professors[i] == null)
-                results += (ANSI_YELLOW + "X" + ANSI_RESET + ",");
+                result.append(ANSI_YELLOW + "X" + ANSI_RESET + ",");
             else if (i == 3 && professors[i] == null)
-                results += (ANSI_PINK + "X" + ANSI_RESET + ",");
+                result.append(ANSI_PINK + "X" + ANSI_RESET + ",");
             else if (i == 4 && professors[i] == null)
-                results += (ANSI_BLUE + "X" + ANSI_RESET + "]");
+                result.append(ANSI_BLUE + "X" + ANSI_RESET + "]");
             else if (i != 4 && professors[i] != null)
-                results += ("_,");
+                result.append("_,");
             else if (i == 4)
-                results += ("_]");
+                result.append("_]");
         }
-        return results;
+        return result.toString();
     }
 
     /**
      * @param professors the professors to print.
-     * @param owner the schoolboard owner.
+     * @param owner the school board owner.
      * @return the string of professors to print with their colors.
      */
     public static String printColoredProfessorsOnSchoolBoard(String[] professors, String owner){
-        String results = "[";
+        StringBuilder result = new StringBuilder("[");
         for(int i = 0; i < professors.length; i++){
             if((i != professors.length-1 && professors[i] == null) || (i != professors.length-1 && !professors[i].equals(owner)))
-                results += "_,";
+                result.append("_,");
             else if((i == professors.length-1 && professors[i] == null) || (i == professors.length-1 && !professors[i].equals(owner)))
-                results += "_]";
+                result.append("_]");
             else if(i == 0)
-                results += ANSI_GREEN + "X" + ANSI_RESET + ",";
+                result.append(ANSI_GREEN + "X" + ANSI_RESET + ",");
             else if(i == 1)
-                results += ANSI_RED + "X" + ANSI_RESET + ",";
+                result.append(ANSI_RED + "X" + ANSI_RESET + ",");
             else if(i == 2)
-                results += ANSI_YELLOW + "X" + ANSI_RESET + ",";
+                result.append(ANSI_YELLOW + "X" + ANSI_RESET + ",");
             else if(i == 3)
-                results += ANSI_PINK + "X" + ANSI_RESET + ",";
+                result.append(ANSI_PINK + "X" + ANSI_RESET + ",");
             else if(i == 4)
-                results += ANSI_BLUE + "X" + ANSI_RESET + "]";
+                result.append(ANSI_BLUE + "X" + ANSI_RESET + "]");
         }
-        return results;
+        return result.toString();
     }
 
     /**
@@ -99,15 +92,15 @@ public class Utility {
      * @return the string with the available wizards.
      */
     public static String printAvailableWizards(List<Wizard> wizards){
-        String results = "[";
+        StringBuilder result = new StringBuilder("[");
         for(int i = 0; i < wizards.size(); i++){
-            results += wizards.get(i);
+            result.append(wizards.get(i));
             if(i != wizards.size() - 1)
-                results += ", ";
+                result.append(", ");
             else
-                results += "]";
+                result.append("]");
         }
-        return results;
+        return result.toString();
     }
 
 }

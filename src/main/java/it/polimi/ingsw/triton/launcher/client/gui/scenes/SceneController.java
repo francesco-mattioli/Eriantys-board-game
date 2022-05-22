@@ -1,6 +1,5 @@
 package it.polimi.ingsw.triton.launcher.client.gui.scenes;
 
-import it.polimi.ingsw.triton.launcher.client.Client;
 import it.polimi.ingsw.triton.launcher.client.model.ClientModel;
 import it.polimi.ingsw.triton.launcher.server.model.islands.Island;
 import it.polimi.ingsw.triton.launcher.server.model.enums.Color;
@@ -11,7 +10,6 @@ import javafx.scene.layout.AnchorPane;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 public abstract class SceneController extends Observable<Message> {

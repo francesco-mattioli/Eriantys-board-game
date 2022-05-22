@@ -1,5 +1,7 @@
 package it.polimi.ingsw.triton.launcher.client.cli;
 
+import it.polimi.ingsw.triton.launcher.client.Client;
+import it.polimi.ingsw.triton.launcher.client.InputReadTask;
 import it.polimi.ingsw.triton.launcher.client.model.ClientModel;
 import it.polimi.ingsw.triton.launcher.server.model.AssistantCard;
 import it.polimi.ingsw.triton.launcher.server.model.enums.*;
@@ -10,7 +12,6 @@ import it.polimi.ingsw.triton.launcher.utils.message.ErrorTypeID;
 import it.polimi.ingsw.triton.launcher.utils.message.clientmessage.*;
 import it.polimi.ingsw.triton.launcher.utils.message.clientmessage.characterCardReply.*;
 import it.polimi.ingsw.triton.launcher.utils.obs.Observable;
-import it.polimi.ingsw.triton.launcher.client.Client;
 import it.polimi.ingsw.triton.launcher.utils.message.Message;
 import it.polimi.ingsw.triton.launcher.client.view.ClientView;
 import java.io.PrintStream;
@@ -22,17 +23,17 @@ import java.util.concurrent.FutureTask;
 public class Cli extends Observable<Message> implements ClientView{
     private final PrintStream out;
     private ClientModel clientModel;
-    Thread inputReadThread;
+    private Thread inputReadThread;
     private static final String DEFAULT_IP = "localhost";
     private static final String TRY_AGAIN = "Try again...";
     private static final String ENTER_THE ="Enter the ";
     private static final String SCHOOLBOARD = "SchoolBoards:";
-    public static final String ANSI_CLEAR_CONSOLE = "\033[H\033[2J";
     public static final String commandForCharacterCard="--playCC";
+    private static final String CHARACTER_CARDS="Available Character Cards:";
 
     /**
      * Instantiates a new Cli;
-     * The PrintStream out variable is set to System.out, by this way System.out.println() is not replicated multiple times.
+     * The PrintStream out variable is set to System out, by this way System.out.println() is not replicated multiple times.
      */
     public Cli() {
         out = System.out;
@@ -320,7 +321,7 @@ public class Cli extends Observable<Message> implements ClientView{
     public void askMoveStudentFromEntrance() {
         try {
             if(clientModel.isExpertMode()) {
-                out.println(Utility.ANSI_BOLDGREEN + "Available Character Cards:" + Utility.ANSI_RESET);
+                out.println(Utility.ANSI_BOLDGREEN + CHARACTER_CARDS + Utility.ANSI_RESET);
                 out.println(clientModel.getAvailableCharacterCards().toString() + "\n");
             }
             out.print(Utility.ANSI_BOLDGREEN + "Available Cloud Tiles:" + Utility.ANSI_RESET);
@@ -331,7 +332,7 @@ public class Cli extends Observable<Message> implements ClientView{
             out.println(Utility.ANSI_BOLDGREEN +SCHOOLBOARD + Utility.ANSI_RESET);
             out.print(clientModel.printOtherSchoolBoards());
             out.print(clientModel.printYourSchoolBoard());
-            out.println(Utility.ANSI_BOLDGREEN + "Useful game info:" + Utility.ANSI_RESET);
+            out.println(Utility.ANSI_BOLDGREEN + CHARACTER_CARDS + Utility.ANSI_RESET);
             if(clientModel.isExpertMode())
                 showUpdateWallet();
             out.println("Mother nature is on the island: " + clientModel.getMotherNaturePosition().getId());
@@ -374,7 +375,7 @@ public class Cli extends Observable<Message> implements ClientView{
     public void askNumberStepsMotherNature() {
         try {
             if(clientModel.isExpertMode()) {
-                out.println(Utility.ANSI_BOLDGREEN + "Available Character Cards:" + Utility.ANSI_RESET);
+                out.println(Utility.ANSI_BOLDGREEN + CHARACTER_CARDS + Utility.ANSI_RESET);
                 out.println(clientModel.getAvailableCharacterCards().toString() + "\n");
             }
             out.print(Utility.ANSI_BOLDGREEN + "Available Cloud Tiles:" + Utility.ANSI_RESET);
@@ -893,7 +894,7 @@ public class Cli extends Observable<Message> implements ClientView{
             results = readLine();
         }while(!results.equalsIgnoreCase("y") && !results.equalsIgnoreCase("n") && !results.equalsIgnoreCase("yes") && !results.equalsIgnoreCase("no"));
         if(results.equalsIgnoreCase("y") || results.equalsIgnoreCase("yes")){
-            out.println(ANSI_CLEAR_CONSOLE);
+            out.println(Utility.ANSI_CLEAR_CONSOLE);
             askUsername();
         }else{
             inputReadThread.interrupt();

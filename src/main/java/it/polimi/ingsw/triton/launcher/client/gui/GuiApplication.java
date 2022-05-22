@@ -1,11 +1,8 @@
 package it.polimi.ingsw.triton.launcher.client.gui;
 
-import it.polimi.ingsw.triton.launcher.client.Client;
 import it.polimi.ingsw.triton.launcher.client.gui.scenes.MenuSceneController;
-import it.polimi.ingsw.triton.launcher.client.model.ClientModel;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
