@@ -5,7 +5,6 @@ import it.polimi.ingsw.triton.launcher.server.model.player.AssistantDeck;
 import it.polimi.ingsw.triton.launcher.server.model.player.Player;
 import it.polimi.ingsw.triton.launcher.server.model.enums.AssistantCardType;
 import it.polimi.ingsw.triton.launcher.server.model.enums.Wizard;
-import it.polimi.ingsw.triton.launcher.utils.exceptions.EndGameException;
 import it.polimi.ingsw.triton.launcher.utils.exceptions.IllegalClientInputException;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -114,5 +113,22 @@ class PlayAssistantCardTest {
             e.printStackTrace();
         }
         assertEquals(initialDimDeck+1, usedAssistantCards.size());
+    }
+
+    @Test
+    void testPlayerHasAlreadyPlayedTheCard(){
+        AssistantCard assistantCard = player.getAssistantDeck().getAssistantDeck().get(1);
+        try {
+            new PlayAssistantCard(assistantCard, player, usedAssistantCards).execute();
+        } catch (IllegalClientInputException e) {
+            throw new RuntimeException(e);
+        }
+        usedAssistantCards.remove(assistantCard);
+        assertThrows(IllegalClientInputException.class, () -> new PlayAssistantCard(assistantCard, player, usedAssistantCards).execute());
+    }
+
+    @Test
+    void testAssistantCardIsNull(){
+        assertThrows(IllegalClientInputException.class, () -> new PlayAssistantCard(null, player, usedAssistantCards).execute());
     }
 }

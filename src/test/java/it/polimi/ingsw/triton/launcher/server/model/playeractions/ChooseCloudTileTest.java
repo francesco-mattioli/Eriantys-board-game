@@ -32,7 +32,6 @@ class ChooseCloudTileTest {
      */
     @Test
     void testInitialNumberStudentCloudTile() {
-        ChooseCloudTile cct = new ChooseCloudTile(ct, schoolBoard);
         assertEquals(0, ct.getStudents()[Color.BLUE.ordinal()]);
         assertEquals(0, ct.getStudents()[Color.RED.ordinal()]);
         assertEquals(0, ct.getStudents()[Color.GREEN.ordinal()]);

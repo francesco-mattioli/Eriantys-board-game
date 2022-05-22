@@ -165,6 +165,10 @@ public class Island extends Observable<InfoMessage> implements Serializable {
         return dominator;
     }
 
+    /**
+     * This method is useful to build the string that describes the island.
+     * @return the island dominator's username if present, '/' otherwise.
+     */
     public String getDominatorEvenIfNull(){
         if(dominator == null)
             return "/";
