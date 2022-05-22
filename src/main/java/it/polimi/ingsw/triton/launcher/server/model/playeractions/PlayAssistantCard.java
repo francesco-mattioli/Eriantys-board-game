@@ -70,7 +70,7 @@ public class PlayAssistantCard implements Action {
      * Allows the player to play the assistant card if it's not already played or if it's the only
      * card player can play.
      *
-     * @throws RuntimeException when a card can't be used in this turn.
+     * @throws IllegalClientInputException when a card can't be used in this turn.
      */
     @Override
     public void execute() throws IllegalClientInputException {
@@ -81,6 +81,7 @@ public class PlayAssistantCard implements Action {
                 if (isUniqueChoice(player.getAssistantDeck(), usedAssistantCards)) {
                     player.setLastPlayedAssistantCard(assistantCardToPlay);
                     player.getAssistantDeck().removeCard(assistantCardToPlay);
+                    usedAssistantCards.add(assistantCardToPlay);
                 } else
                     throw new IllegalClientInputException(ErrorTypeID.ASSISTANTCARD_ALREADY_CHOSEN);
             } else if(canBeUsedByPlayer(assistantCardToPlay)){

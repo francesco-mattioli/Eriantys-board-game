@@ -115,4 +115,21 @@ class PlayAssistantCardTest {
         }
         assertEquals(initialDimDeck+1, usedAssistantCards.size());
     }
+
+    @Test
+    void testPlayerHasAlreadyPlayedTheCard(){
+        AssistantCard assistantCard = player.getAssistantDeck().getAssistantDeck().get(1);
+        try {
+            new PlayAssistantCard(assistantCard, player, usedAssistantCards).execute();
+        } catch (IllegalClientInputException e) {
+            throw new RuntimeException(e);
+        }
+        usedAssistantCards.remove(assistantCard);
+        assertThrows(IllegalClientInputException.class, () -> new PlayAssistantCard(assistantCard, player, usedAssistantCards).execute());
+    }
+
+    @Test
+    void testAssistantCardIsNull(){
+        assertThrows(IllegalClientInputException.class, () -> new PlayAssistantCard(null, player, usedAssistantCards).execute());
+    }
 }
