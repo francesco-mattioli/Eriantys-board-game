@@ -319,23 +319,7 @@ public class Cli extends Observable<Message> implements ClientView{
     @Override
     public void askMoveStudentFromEntrance() {
         try {
-            if(clientModel.isExpertMode()) {
-                out.println(Utility.ANSI_BOLDGREEN + CHARACTER_CARDS + Utility.ANSI_RESET);
-                out.println(clientModel.getAvailableCharacterCards().toString() + "\n");
-            }
-            out.print(Utility.ANSI_BOLDGREEN + "Available Cloud Tiles:" + Utility.ANSI_RESET);
-            out.println(clientModel.printCloudTiles());
-            out.print(Utility.ANSI_BOLDGREEN + "\nIslands:" + Utility.ANSI_RESET);
-            out.println(clientModel.printIslands());
-            out.print("\n");
-            out.println(Utility.ANSI_BOLDGREEN +SCHOOLBOARD + Utility.ANSI_RESET);
-            out.print(clientModel.printOtherSchoolBoards());
-            out.print(clientModel.printYourSchoolBoard());
-            out.println(Utility.ANSI_BOLDGREEN + CHARACTER_CARDS + Utility.ANSI_RESET);
-            if(clientModel.isExpertMode())
-                showUpdateWallet();
-            out.println("Mother nature is on the island: " + clientModel.getMotherNaturePosition().getId());
-            out.print("You have played: " + clientModel.getLastAssistantCardPlayed(clientModel.getUsername()));
+            showGameSummary();
             out.println(Utility.ANSI_BOLDGREEN + "Choose three students to move from entrance to dining room or an island." + Utility.ANSI_RESET);
             out.println(Utility.ANSI_GREEN + "Help: To do so, type on each line [color of student, d (for dining room) ] or [color of student, island id]." + Utility.ANSI_RESET);
             if(clientModel.isExpertMode())
@@ -361,7 +345,6 @@ public class Cli extends Observable<Message> implements ClientView{
         }
     }
 
-
     /**
      * Asks the player to choose how many steps mother nature has to do.
      * This method asks again the number of steps of mother nature if the player doesn't input a number.
@@ -373,23 +356,7 @@ public class Cli extends Observable<Message> implements ClientView{
     @Override
     public void askNumberStepsMotherNature() {
         try {
-            if(clientModel.isExpertMode()) {
-                out.println(Utility.ANSI_BOLDGREEN + CHARACTER_CARDS + Utility.ANSI_RESET);
-                out.println(clientModel.getAvailableCharacterCards().toString() + "\n");
-            }
-            out.print(Utility.ANSI_BOLDGREEN + "Available Cloud Tiles:" + Utility.ANSI_RESET);
-            out.println(clientModel.printCloudTiles());
-            out.print(Utility.ANSI_BOLDGREEN + "Islands:" + Utility.ANSI_RESET);
-            out.println(clientModel.printIslands());
-            out.print("\n");
-            out.println(Utility.ANSI_BOLDGREEN + SCHOOLBOARD + Utility.ANSI_RESET);
-            out.print(clientModel.printOtherSchoolBoards());
-            out.println(clientModel.printYourSchoolBoard());
-            out.println(Utility.ANSI_BOLDGREEN + "Useful game info:" + Utility.ANSI_RESET);
-            if(clientModel.isExpertMode())
-                showUpdateWallet();
-            out.println("Mother nature is on the island: " + clientModel.getMotherNaturePosition().getId());
-            out.print("You have played: " + clientModel.getLastAssistantCardPlayed(clientModel.getUsername()));
+            showGameSummary();
             if( clientModel.getLastCharacterCardPlayed() != null && clientModel.getLastCharacterCardPlayed().getId() == 4)
                 out.println("You have two extra steps!");
             if(clientModel.isExpertMode())
@@ -407,6 +374,26 @@ public class Cli extends Observable<Message> implements ClientView{
         } catch (NullPointerException e){
             showAbortMessage();
         }
+    }
+
+    private void showGameSummary() {
+        if(clientModel.isExpertMode()) {
+            out.println(Utility.ANSI_BOLDGREEN + CHARACTER_CARDS + Utility.ANSI_RESET);
+            out.println(clientModel.getAvailableCharacterCards().toString() + "\n");
+        }
+        out.print(Utility.ANSI_BOLDGREEN + "Available Cloud Tiles:" + Utility.ANSI_RESET);
+        out.println(clientModel.printCloudTiles());
+        out.print(Utility.ANSI_BOLDGREEN + "\nIslands:" + Utility.ANSI_RESET);
+        out.println(clientModel.printIslands());
+        out.print("\n");
+        out.println(Utility.ANSI_BOLDGREEN +SCHOOLBOARD + Utility.ANSI_RESET);
+        out.print(clientModel.printOtherSchoolBoards());
+        out.print(clientModel.printYourSchoolBoard());
+        out.println(Utility.ANSI_BOLDGREEN + CHARACTER_CARDS + Utility.ANSI_RESET);
+        if(clientModel.isExpertMode())
+            showUpdateWallet();
+        out.println("Mother nature is on the island: " + clientModel.getMotherNaturePosition().getId());
+        out.print("You have played: " + clientModel.getLastAssistantCardPlayed(clientModel.getUsername()));
     }
 
     /**

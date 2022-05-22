@@ -31,7 +31,7 @@ public abstract class GameMode extends Observable<InfoMessage>{
     public abstract void executeActionMoveStudentToDiningRoom(Color student) throws LastMoveException, IllegalClientInputException;
     public abstract void useCharacterCard(Player player, int idCard) throws IllegalClientInputException, CharacterCardWithParametersException;
     public abstract void applyCharacterCardEffect(int characterCardID, CardEffect cardEffect) throws IllegalClientInputException, EndGameException;
-    public abstract List<CharacterCard> getCharacterCards();
+    public abstract List<CharacterCard> getCharacterCards() throws IllegalClientInputException;
     public abstract CharacterCard getCharacterCardByID(int id) throws IllegalClientInputException;
     public abstract void setGameState(GameState setup);
     public abstract boolean[] getTowerColorChosen();
