@@ -45,7 +45,7 @@ class CardEffect12Test {
      *  This test check if the effect remove three students from the player's entrance when the entrance has four
      */
     @Test
-    public void removeThreeStudentsWhenPlayerHasFour(){
+    void removeThreeStudentsWhenPlayerHasFour(){
         playerTest1.getSchoolBoard().getDiningRoom()[Color.BLUE.ordinal()] = 4;
         try {
             characterCard.executeEffect(new CardEffect12(Color.BLUE,players,bag));
@@ -61,7 +61,7 @@ class CardEffect12Test {
      *  This test check if the effect remove two students from the player's entrance when the entrance has two
      */
     @Test
-    public void removeThreeStudentsWhenPlayerHasTwo(){
+    void removeThreeStudentsWhenPlayerHasTwo(){
         playerTest1.getSchoolBoard().getDiningRoom()[Color.BLUE.ordinal()] = 2;
         try {
             characterCard.executeEffect(new CardEffect12(Color.BLUE,players,bag));
@@ -76,7 +76,7 @@ class CardEffect12Test {
      *  This test check if the effect remove zero students from the player's entrance when the entrance has zero
      */
     @Test
-    public void removeThreeStudentsWhenPlayerHasZero(){
+    void removeThreeStudentsWhenPlayerHasZero(){
         playerTest1.getSchoolBoard().getDiningRoom()[Color.BLUE.ordinal()] = 0;
         try {
             characterCard.executeEffect(new CardEffect12(Color.BLUE,players,bag));
