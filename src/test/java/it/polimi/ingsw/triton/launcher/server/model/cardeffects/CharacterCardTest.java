@@ -42,7 +42,7 @@ class CharacterCardTest {
      */
     @Test
     void throwsIllegalArgumentExceptionWhenDrawingNull(){
-        assertThrows(IllegalClientInputException.class,()->{card.drawStudent(null);});
+        assertThrows(IllegalClientInputException.class,()-> card.drawStudent(null));
     }
 
 
@@ -52,7 +52,7 @@ class CharacterCardTest {
     @Test
     void throwsIllegalArgumentExceptionWhenStudentNotPresent(){
         //Green is not present on the card
-        assertThrows(IllegalClientInputException.class,()->{card.drawStudent(Color.GREEN);});
+        assertThrows(IllegalClientInputException.class,()-> card.drawStudent(Color.GREEN));
     }
 
     /**
@@ -70,7 +70,7 @@ class CharacterCardTest {
     @Test
     void numberOfStudentsIsOneSmallerAfterDraw() {
         try {
-            Color color=card.drawStudent(Color.BLUE);
+            card.drawStudent(Color.BLUE);
         } catch (IllegalClientInputException e) {
             throw new RuntimeException(e);
         }
@@ -80,5 +80,15 @@ class CharacterCardTest {
             sum += student;
         }
         assertEquals(3,sum);
+    }
+
+    /**
+     * Checks if the no entry tile is put on the card correctly.
+     */
+    @Test
+    void testAddEntryTile(){
+        int oldNumEntryTiles = card.getNoEntryTiles();
+        card.addNoEntryTile();
+        assertEquals(oldNumEntryTiles + 1, card.getNoEntryTiles());
     }
 }
