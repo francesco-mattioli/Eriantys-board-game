@@ -1,8 +1,8 @@
 package it.polimi.ingsw.triton.launcher.server.model.cardeffects;
 
-import it.polimi.ingsw.triton.launcher.utils.Utility;
 import it.polimi.ingsw.triton.launcher.server.model.Bag;
 import it.polimi.ingsw.triton.launcher.server.model.enums.Color;
+import it.polimi.ingsw.triton.launcher.utils.Utility;
 import it.polimi.ingsw.triton.launcher.utils.exceptions.EndGameException;
 import it.polimi.ingsw.triton.launcher.utils.exceptions.IllegalClientInputException;
 import it.polimi.ingsw.triton.launcher.utils.message.ErrorTypeID;
@@ -15,14 +15,17 @@ public class CharacterCard implements Serializable {
     protected int[] students;
     protected int noEntryTiles;
     protected Bag bag;
+    private static final String CHARACTER_CARD = "\n\tCharacterCard ";
+    private static final String COST_OF_CHARACTER_CARD = ": { Cost: ";
 
 
     /**
      * This constructor creates the card and places students on it if necessary.
-     * @param id the identifier of the card.
-     * @param cost the cost of the card.
+     *
+     * @param id           the identifier of the card.
+     * @param cost         the cost of the card.
      * @param noEntryTiles the number of NoEntryTiles on the card.
-     * @param bag the bag useful to drawStudents and place them on the card.
+     * @param bag          the bag useful to drawStudents and place them on the card.
      */
     public CharacterCard(int id, int cost, int noEntryTiles, Bag bag) {
         this.id = id;
@@ -35,19 +38,20 @@ public class CharacterCard implements Serializable {
 
     /**
      * This method sets the card up: places students or noEntryTiles on it.
+     *
      * @param id the id of the card.
      */
     private void setupCharacterCard(int id) {
-        if (id == 1 || id==11){
+        if (id == 1 || id == 11) {
             for (int i = 0; i < 4; i++)
                 students[bag.drawStudent().ordinal()]++;
         }
-        if(id==7){
+        if (id == 7) {
             for (int i = 0; i < 6; i++)
                 students[bag.drawStudent().ordinal()]++;
         }
-        if(id==5)
-            noEntryTiles=4;
+        if (id == 5)
+            noEntryTiles = 4;
     }
 
     /**
@@ -90,7 +94,7 @@ public class CharacterCard implements Serializable {
         return students;
     }
 
-    public int getId(){
+    public int getId() {
         return id;
     }
 
@@ -98,33 +102,32 @@ public class CharacterCard implements Serializable {
         return noEntryTiles;
     }
 
-    public void addStudent(Color color){
+    public void addStudent(Color color) {
         students[color.ordinal()]++;
     }
 
-    public void addNoEntryTile(){
+    public void addNoEntryTile() {
         noEntryTiles++;
     }
 
     /**
      * @return true if the card needs some parameters (id 1,3,5,7,9,10,11,12), false otherwise.
      */
-    public boolean hasParameters(){
+    public boolean hasParameters() {
         return id != 2 && id != 4 && id != 6 && id != 8;
     }
 
-    public String toString(){
-        if (id == 1 || id == 7 || id == 11){
-            return "\n\tCharacterCard " + id + ": { Cost: " + cost + ", Students=" + Utility.printColoredStudents(students) + " }";
+    public String toString() {
+        if (id == 1 || id == 7 || id == 11) {
+            return CHARACTER_CARD + id + COST_OF_CHARACTER_CARD + cost + ", Students=" + Utility.printColoredStudents(students) + " }";
         }
-        if (id == 5){
-            return "\n\tCharacterCard " + id + ": { Cost: " + cost + ", No Entry Tiles: " + noEntryTiles + " }";
-        }
-
-        else return "\n\tCharacterCard " + id + ": { Cost: " + cost  + " }";
+        if (id == 5) {
+            return CHARACTER_CARD + id + COST_OF_CHARACTER_CARD + cost + ", No Entry Tiles: " + noEntryTiles + " }";
+        } else return CHARACTER_CARD + id + COST_OF_CHARACTER_CARD + cost + " }";
     }
 
-    public String studentsToString(){
+
+    public String studentsToString() {
         return "students on the card = " + Utility.printColoredStudents(students);
     }
 }
