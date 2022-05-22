@@ -85,7 +85,7 @@ public class CharCard10SceneController extends SceneController{
         for(int i = 0; i<clientModel.getMySchoolBoard().getEntrance().length; i++){
             array[i] = clientModel.getMySchoolBoard().getEntrance()[i] - fromEntrance[i];
         }
-        setupChoiceBox(choiceBox, array);
+        setupStudentsChoiceBox(choiceBox, array);
     }
 
     public void setChoiceBoxDiningRoom(ChoiceBox<String> choiceBox){
@@ -93,7 +93,7 @@ public class CharCard10SceneController extends SceneController{
         for(int i = 0; i<clientModel.getMySchoolBoard().getDiningRoom().length; i++){
             array[i] = clientModel.getMySchoolBoard().getDiningRoom()[i] - fromDiningRoom[i];
         }
-        setupChoiceBox(choiceBox, array);
+        setupStudentsChoiceBox(choiceBox, array);
     }
 
     public void updateSwitchStudents(ChoiceBox<String> fromEntranceBox, ChoiceBox<String> fromDiningRoomBox){

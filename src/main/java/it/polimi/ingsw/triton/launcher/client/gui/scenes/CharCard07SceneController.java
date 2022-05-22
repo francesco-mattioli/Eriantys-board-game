@@ -9,7 +9,6 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.layout.AnchorPane;
 
-import java.util.Arrays;
 import java.util.stream.Collectors;
 
 public class CharCard07SceneController extends SceneController {
@@ -106,7 +105,7 @@ public class CharCard07SceneController extends SceneController {
         for(int i = 0; i<clientModel.getMySchoolBoard().getEntrance().length; i++){
             array[i] = clientModel.getMySchoolBoard().getEntrance()[i] - fromEntrance[i];
         }
-        setupChoiceBox(choiceBox, array);
+        setupStudentsChoiceBox(choiceBox, array);
     }
 
     public void setChoiceBoxCharCard(ChoiceBox<String> choiceBox){
@@ -114,7 +113,7 @@ public class CharCard07SceneController extends SceneController {
         for(int i = 0; i<clientModel.getCharacterCardById(7).getStudents().length; i++){
             array[i] = clientModel.getCharacterCardById(7).getStudents()[i] - fromCharCard[i];
         }
-        setupChoiceBox(choiceBox,array);
+        setupStudentsChoiceBox(choiceBox,array);
     }
 
     public void updateSwitchStudents(ChoiceBox<String> fromEntranceBox, ChoiceBox<String> fromCharCardBox){

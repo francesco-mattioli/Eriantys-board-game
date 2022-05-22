@@ -2,6 +2,7 @@ package it.polimi.ingsw.triton.launcher.client.gui.scenes;
 
 import it.polimi.ingsw.triton.launcher.client.model.ClientModel;
 import it.polimi.ingsw.triton.launcher.server.model.enums.Color;
+import it.polimi.ingsw.triton.launcher.server.model.islands.Island;
 import it.polimi.ingsw.triton.launcher.utils.message.clientmessage.MoveStudentOntoDiningRoomMessage;
 import it.polimi.ingsw.triton.launcher.utils.message.clientmessage.MoveStudentOntoIslandMessage;
 import javafx.event.ActionEvent;
@@ -61,9 +62,8 @@ public class MoveStudentFromEntranceSceneController extends ActionPhaseSceneCont
     @Override
     public <T> void setupScene(ClientModel clientModel, T parameters) {
         String[] whereMove = {"dining room", "island"};
-        setupChoiceBox(colorChoiceBox, clientModel.getMySchoolBoard().getEntrance());
-        colorChoiceBox.getItems().addAll(colorEntrance);
-        islandIdChoiceBox.getItems().addAll(setUpIslandIdChoiceBox(clientModel));
+        setupStudentsChoiceBox(colorChoiceBox, clientModel.getMySchoolBoard().getEntrance());
+        islandIdChoiceBox.getItems().addAll(clientModel.getIslands().stream().map(Island::getId).collect(Collectors.toList()));
         whereChoiceBox.getItems().addAll(whereMove);
         whereChoiceBox.setOnAction(this::activeButton);
         colorChoiceBox.setOnAction(this::activeButton);
