@@ -6,16 +6,16 @@ import it.polimi.ingsw.triton.launcher.utils.message.servermessage.infoMessage.E
 import it.polimi.ingsw.triton.launcher.utils.obs.Observable;
 
 import java.io.Serializable;
+import java.security.SecureRandom;
 import java.util.NoSuchElementException;
-import java.util.Random;
 
 public class Bag extends Observable<InfoMessage> implements Serializable {
     private final int[] students;
-    private final Random random;
+    private final SecureRandom random ;
 
     public Bag() {
         this.students = new int[5];
-        this.random=new Random();
+        this.random= new SecureRandom();
     }
 
 

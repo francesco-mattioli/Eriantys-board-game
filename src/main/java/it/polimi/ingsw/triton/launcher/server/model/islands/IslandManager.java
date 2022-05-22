@@ -11,6 +11,7 @@ import it.polimi.ingsw.triton.launcher.utils.message.servermessage.infoMessage.M
 import it.polimi.ingsw.triton.launcher.utils.obs.Observable;
 
 import java.io.Serializable;
+import java.security.SecureRandom;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -18,11 +19,11 @@ import java.util.Random;
 public class IslandManager extends Observable <InfoMessage> implements Serializable {
     private final List<Island> islands;
     private MotherNature motherNature;
-    private final Random random;
+    private final SecureRandom random;
 
     public IslandManager(){
-        islands = new ArrayList<>();
-        random=new Random();
+        this.islands = new ArrayList<>();
+        this.random=new SecureRandom();
         createIslands();
         setupMotherNature();
     }
