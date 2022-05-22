@@ -15,6 +15,7 @@ import it.polimi.ingsw.triton.launcher.utils.obs.Observable;
 import it.polimi.ingsw.triton.launcher.utils.message.Message;
 import it.polimi.ingsw.triton.launcher.client.view.ClientView;
 import java.io.PrintStream;
+import java.net.InetAddress;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.FutureTask;
@@ -80,14 +81,13 @@ public class Cli extends Observable<Message> implements ClientView{
     /**
      * This method analyzes the string inserted by the user, applying a pattern that allows the system to know if the
      * string corresponds to an IP address format.
-     * @param address the string with the IP address to analyze.
+     * @param ip the string with the IP address to analyze.
      * @return true if the string corresponds to an IP address, false otherwise.
      */
-    private boolean isCorrectIpAddress(String address){
-        String pattern = "^((0|1\\d?\\d?|2[0-4]?\\d?|25[0-5]?|[3-9]\\d?)\\.){3}(0|1\\d?\\d?|2[0-4]?\\d?|25[0-5]?|[3-9]\\d?)$";
-        if(address.equalsIgnoreCase(DEFAULT_IP))
+    private boolean isCorrectIpAddress(String ip){
+        if(ip.equalsIgnoreCase(DEFAULT_IP))
             return true;
-        return address.matches(pattern);
+        return org.apache.commons.validator.routines.InetAddressValidator.getInstance().isValid((ip));
     }
 
     /**
