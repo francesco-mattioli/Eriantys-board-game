@@ -64,7 +64,7 @@ public class IslandManager extends Observable <InfoMessage> implements Serializa
     }
 
     /**
-     * Merges two islands removing the one that has not mother nature on it.
+     * Merges two islands removing the one that has not Mother Nature on.
      * Then, it checks how many groups of islands remain in the game.
      * @param islandToPreserve the island to not remove during merging.
      * @param islandToRemove the island to remove during merging.
