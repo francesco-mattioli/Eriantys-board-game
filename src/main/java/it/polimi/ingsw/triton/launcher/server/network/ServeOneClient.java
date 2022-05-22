@@ -110,7 +110,7 @@ public class ServeOneClient implements Runnable {
             socket.close();
             Thread.currentThread().interrupt();
         } catch (IOException e) {
-            e.printStackTrace();
+            LOGGER.severe("Cannot close the socket!");
         }
     }
 }

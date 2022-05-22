@@ -114,7 +114,7 @@ public class Client implements Observer<Message> {
             outSocket.writeObject(message);
             outSocket.reset();
         } catch (IOException e) {
-            LOGGER.severe("Could not send the message: "+ message.getClass().getCanonicalName());
+            LOGGER.severe("Cannot send the message: "+ message.getClass().getCanonicalName());
         }
     }
 
@@ -128,10 +128,10 @@ public class Client implements Observer<Message> {
                 socket.close();
             }
         }catch(SecurityException e){
-            LOGGER.severe("Could not shut the receiving queue down correctly");
+            LOGGER.severe("Cannot shut the receiving queue down correctly");
         }
         catch (IOException e) {
-            LOGGER.severe("Could not close the socket correctly");
+            LOGGER.severe("Cannot close the socket correctly");
         }
     }
 }
