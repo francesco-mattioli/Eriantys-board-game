@@ -28,7 +28,7 @@ public class Cli extends Observable<Message> implements ClientView{
     private static final String TRY_AGAIN = "Try again...";
     private static final String ENTER_THE ="Enter the ";
     private static final String SCHOOLBOARD = "SchoolBoards:";
-    public static final String commandForCharacterCard="--playCC";
+    public static final String CHARACHTER_CARD_COMMAND="--playCC";
     private static final String CHARACTER_CARDS="Available Character Cards:";
 
     /**
@@ -344,7 +344,7 @@ public class Cli extends Observable<Message> implements ClientView{
             else
                 out.print(Utility.ANSI_BOLDGREEN + "Please, enter data: " + Utility.ANSI_RESET);
             String input = readLine();
-            if(input.equals(commandForCharacterCard) && clientModel.isExpertMode())
+            if(input.equals(CHARACHTER_CARD_COMMAND) && clientModel.isExpertMode())
                 showAndPlayCharacterCard();
             else {
                 String[] splittedInput = input.split(",");
@@ -398,7 +398,7 @@ public class Cli extends Observable<Message> implements ClientView{
             else
                 out.print(Utility.ANSI_BOLDGREEN + "Enter the number of steps that mother nature has to do: " + Utility.ANSI_RESET);
             String input = readLine();
-            if(input.equals(commandForCharacterCard) && clientModel.isExpertMode())
+            if(input.equals(CHARACHTER_CARD_COMMAND) && clientModel.isExpertMode())
                 showAndPlayCharacterCard();
             else
                 notify(new MotherNatureReply(clientModel.getUsername(), Integer.parseInt(input)));
@@ -424,7 +424,7 @@ public class Cli extends Observable<Message> implements ClientView{
     public void askCloudTile() {
         try {
             if(clientModel.isExpertMode()) {
-                out.println(Utility.ANSI_BOLDGREEN + "Available Character Cards:" + Utility.ANSI_RESET);
+                out.println(Utility.ANSI_BOLDGREEN + CHARACTER_CARDS + Utility.ANSI_RESET);
                 out.println(clientModel.getAvailableCharacterCards().toString() + "\n");
             }
             out.println(Utility.ANSI_BOLDGREEN +SCHOOLBOARD + Utility.ANSI_RESET);
@@ -441,7 +441,7 @@ public class Cli extends Observable<Message> implements ClientView{
             else
                 out.print(Utility.ANSI_BOLDGREEN + "Enter the id of the cloud tile you choose: " + Utility.ANSI_RESET);
             String input = readLine();
-            if(input.equals(commandForCharacterCard) && clientModel.isExpertMode())
+            if(input.equals(CHARACHTER_CARD_COMMAND) && clientModel.isExpertMode())
                 showAndPlayCharacterCard();
             else
                 notify(new CloudTileReply(clientModel.getUsername(), Integer.parseInt(input)));

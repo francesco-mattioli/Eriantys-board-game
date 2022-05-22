@@ -22,7 +22,7 @@ public class Client implements Observer<Message> {
     private ExecutorService receiveExecutionQueue=Executors.newSingleThreadExecutor();
     private ExecutorService visitExecutionQueue;
     private final ClientView clientView;
-    private static final int port = 50535;
+    private static final int PORT = 50535;
     public static final Logger LOGGER = Logger.getLogger(Client.class.getName());
 
     /**
@@ -93,7 +93,7 @@ public class Client implements Observer<Message> {
      */
     private void instantiateSocket(UpdatedServerInfoMessage message){
         try {
-            socket= new Socket(message.getServerInfo(), port);
+            socket= new Socket(message.getServerInfo(), PORT);
             outSocket = new ObjectOutputStream(socket.getOutputStream());
             inSocket = new ObjectInputStream(socket.getInputStream());
         } catch (IOException e) {
