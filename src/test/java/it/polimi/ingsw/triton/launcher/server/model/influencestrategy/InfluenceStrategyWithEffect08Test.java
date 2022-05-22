@@ -5,7 +5,6 @@ import it.polimi.ingsw.triton.launcher.server.model.enums.TowerColor;
 import it.polimi.ingsw.triton.launcher.server.model.islands.Island;
 import it.polimi.ingsw.triton.launcher.server.model.player.Player;
 import it.polimi.ingsw.triton.launcher.server.model.playeractions.MoveStudentOntoIsland;
-import it.polimi.ingsw.triton.launcher.utils.exceptions.EndGameException;
 import it.polimi.ingsw.triton.launcher.utils.exceptions.IllegalClientInputException;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -13,7 +12,7 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class InfluenceStrategyDefaultSuperTest {
+class InfluenceStrategyWithEffect08Test {
     private Player p1;
     private Player p2;
     private Player[] professors;
@@ -55,38 +54,18 @@ class InfluenceStrategyDefaultSuperTest {
     }
 
     /**
-     * Checks if the influence is calculated correctly when the dominator of the island is null.
+     * Checks if the current player's influence is increased by two additional points.
      */
     @Test
-    void testCalculateInfluenceDefaultWhenDominatorIsNull() {
-        assertEquals(2, new InfluenceStrategyDefaultSuper().execute(p1, professors, null, island));
+    void testCalculateInfluenceWithCurrentPlayer() {
+        assertEquals(2 + 2, new InfluenceStrategyWithEffect08(p1).execute(p1, professors, null, island));
     }
 
     /**
-     * Checks if the influence is calculated correctly when the dominator of the island is not null, and
-     * he's the player interested in calculating the influence.
+     * Checks if the player's influence (who is not the current player) is calculated normally.
      */
     @Test
-    void testCalculateInfluenceDefaultWhenDominatorIsNotNull() {
-        try {
-            p1.getSchoolBoard().moveTowerOntoIsland(island.getId());
-        } catch (EndGameException e) {
-            throw new RuntimeException(e);
-        }
-        assertEquals(3, new InfluenceStrategyDefaultSuper().execute(p1, professors, p1, island));
-    }
-
-    /**
-     * Checks if the influence is calculated correctly when the dominator of the island is not null, and
-     * he's not the player interested in calculating the influence.
-     */
-    @Test
-    void testCalculateInfluenceDefaultWhenDominatorIsNotTheCurrentPlayer() {
-        try {
-            p2.getSchoolBoard().moveTowerOntoIsland(island.getId());
-        } catch (EndGameException e) {
-            throw new RuntimeException(e);
-        }
-        assertEquals(2, new InfluenceStrategyDefaultSuper().execute(p1, professors, p2, island));
+    void testCalculateInfluenceWithNotTheCurrentPlayer() {
+        assertEquals(2, new InfluenceStrategyWithEffect08(p2).execute(p1, professors, null, island));
     }
 }
