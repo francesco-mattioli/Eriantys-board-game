@@ -23,20 +23,18 @@ class BagTest {
     }
 
     /**
-     * Tests if the bag is empty throws an exception
+     * Tests if the method throws an exception when the bag is empty.
      */
     @Test
     void throwsNoSuchElementExceptionIfEmpty() {
-        //Bag bag = Bag.instance(2);
         assertThrows(NoSuchElementException.class, bag::drawStudent);
     }
 
     /**
-     * Tests if after the function draw the number of students is correct
+     * Tests if the number of students is correct after drawing a student.
      */
     @Test
     void drawOneStudentWhenTheBagHasTwo() {
-        //Bag bag = Bag.instance(2);
         int current = 0;
         bag.addStudent(Color.BLUE);
         bag.addStudent(Color.BLUE);
@@ -49,11 +47,10 @@ class BagTest {
 
 
     /**
-     * Tests if after the function draw the number of students is correct
+     * Tests if the number of students is correct after drawing a student.
      */
     @Test
     void drawOneStudentWhenTheBagHasOne() {
-        //Bag bag = Bag.instance(2);
         int current = 0;
         bag.addStudent(Color.BLUE);
         bag.drawStudent();
@@ -65,57 +62,20 @@ class BagTest {
 
 
     /**
-     * Tests if after the function draw the correct student color
+     * Tests if the color drawn is correct.
      */
     @Test
     void drawCorrectStudentColor() {
-        //Bag bag = Bag.instance(2);
-        int current = 0;
         bag.addStudent(Color.BLUE);
         bag.drawStudent();
-        current = bag.getStudents()[Color.BLUE.ordinal()];
-        assertEquals(0, current);
+        assertEquals(0, bag.getStudents()[Color.BLUE.ordinal()]);
     }
 
     /**
-     * Test if when there are two players the cloudtile has 3 students
-     */
-    /*@Test
-    void fillCloudTileWithTwoPlayers() {
-        CloudTile cloudTile = new CloudTile(1);
-        //Bag bag = Bag.instance(2);
-        bag.fillBag();
-        int current = 0;
-        bag.fillCloudTile(cloudTile);
-        for (int i = 0; i < cloudTile.getStudents().length; i++) {
-            current += cloudTile.getStudents()[i];
-        }
-        assertEquals(3, current);
-    }*/
-
-    /**
-     * Test if when there are three players the cloudtile has 4 students
-     */
-   /* @Test
-    void fillCloudTileWithThreePlayers() {
-        CloudTile cloudTile = new CloudTile(1);
-        Bag bagForThree = new Bag(3);
-        bagForThree.fillBag();
-        int current = 0;
-        bagForThree.fillCloudTile(cloudTile);
-        for (int i = 0; i < cloudTile.getStudents().length; i++) {
-            current += cloudTile.getStudents()[i];
-        }
-        assertEquals(4, current);
-    }*/
-
-
-    /**
-     * Tests if bag  his contains 120 (24 students for each color) students after fillbag()
+     * Tests if the bag is correctly filled.
      */
     @Test
     void fillBag() {
-        //Bag bag = Bag.instance(2);
         bag.fillBag();
         int tot = 0;
         for (int i = 0; i < Color.values().length; i++) {
@@ -125,11 +85,11 @@ class BagTest {
     }
 
     /**
-     * Tests throws an exception if color == null
+     * Tests if the method throws an exception if the student color is null.
      */
     @Test
     void addNullStudentColor(){
-        assertThrows(IllegalArgumentException.class, () -> {bag.addStudent(null);});
+        assertThrows(IllegalArgumentException.class, () -> bag.addStudent(null));
     }
 
     /**
