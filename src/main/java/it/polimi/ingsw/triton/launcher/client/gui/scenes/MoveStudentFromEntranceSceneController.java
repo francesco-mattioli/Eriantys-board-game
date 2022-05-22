@@ -15,7 +15,7 @@ import javafx.stage.Stage;
 import java.util.stream.Collectors;
 
 
-public class MoveStudentFromEntranceSceneController extends SceneController {
+public class MoveStudentFromEntranceSceneController extends ActionPhaseSceneControllers {
 
     @FXML
     AnchorPane moveStudentFromEntrancePane;
@@ -33,15 +33,7 @@ public class MoveStudentFromEntranceSceneController extends SceneController {
     Label islandIdLabel;
 
     @FXML
-    Button playCCButton;
-
-    @FXML
     Button moveButton;
-
-    public Button getPlayCCButton() {
-        return playCCButton;
-    }
-
 
     public void move(ActionEvent event){
         Stage stage = (Stage) moveStudentFromEntrancePane.getScene().getWindow();
@@ -54,7 +46,6 @@ public class MoveStudentFromEntranceSceneController extends SceneController {
             stage.close();
         }
     }
-
 
     public void show(ActionEvent event){
         if(whereChoiceBox.getValue().equals("island")){
@@ -70,7 +61,7 @@ public class MoveStudentFromEntranceSceneController extends SceneController {
     @Override
     public <T> void setupScene(ClientModel clientModel, T parameters) {
         String[] whereMove = {"dining room", "island"};
-        setUpEntranceChoiceBox(clientModel);
+        setupChoiceBox(colorChoiceBox, clientModel.getMySchoolBoard().getEntrance());
         colorChoiceBox.getItems().addAll(colorEntrance);
         islandIdChoiceBox.getItems().addAll(setUpIslandIdChoiceBox(clientModel));
         whereChoiceBox.getItems().addAll(whereMove);

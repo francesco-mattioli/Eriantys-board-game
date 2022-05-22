@@ -5,8 +5,10 @@ import it.polimi.ingsw.triton.launcher.server.model.islands.Island;
 import it.polimi.ingsw.triton.launcher.server.model.enums.Color;
 import it.polimi.ingsw.triton.launcher.utils.message.Message;
 import it.polimi.ingsw.triton.launcher.utils.obs.Observable;
+import javafx.scene.control.ChoiceBox;
 
 import java.util.ArrayList;
+import java.util.List;
 
 
 public abstract class SceneController extends Observable<Message> {
@@ -29,49 +31,14 @@ public abstract class SceneController extends Observable<Message> {
         return islandsId;
     }
 
-    public void setUpEntranceChoiceBox(ClientModel clientModel) {
-        colorEntrance.clear();
-        for (int i = 0; i < clientModel.getMySchoolBoard().getEntrance().length; i++) {
-            if (clientModel.getMySchoolBoard().getEntrance()[i] != 0) {
-                colorEntrance.add(Color.values()[i].name());
+    public void setupChoiceBox(ChoiceBox<String> choiceBox, int [] students){
+        List<String> list = new ArrayList<>();
+        for (int i = 0; i < students.length; i++) {
+            if (students[i] != 0) {
+                list.add(Color.values()[i].name());
             }
         }
-    }
-
-    public void setUpCharCardChoiceBox(ClientModel clientModel, int id) {
-        colorCharCard.clear();
-        for (int i = 0; i < clientModel.getCharacterCardById(id).getStudents().length; i++) {
-            if (clientModel.getCharacterCardById(id).getStudents()[i] != 0) {
-                colorCharCard.add(Color.values()[i].name());
-            }
-        }
-    }
-
-    public void setUpEntranceChoiceBox(ClientModel clientModel, int[] array) {
-        colorEntrance.clear();
-        for (int i = 0; i < clientModel.getMySchoolBoard().getEntrance().length; i++) {
-            if (clientModel.getMySchoolBoard().getEntrance()[i] - array[i] != 0) {
-                colorEntrance.add(Color.values()[i].name());
-            }
-        }
-    }
-
-    public void setUpDiningRoomChoiceBox(ClientModel clientModel, int[] array) {
-        colorDiningRoom.clear();
-        for (int i = 0; i < clientModel.getMySchoolBoard().getDiningRoom().length; i++) {
-            if (clientModel.getMySchoolBoard().getDiningRoom()[i] - array[i] != 0 ) {
-                colorDiningRoom.add(Color.values()[i].name());
-            }
-        }
-    }
-
-    public void setUpCharCardChoiceBox(ClientModel clientModel, int id, int[] array) {
-        colorCharCard.clear();
-        for (int i = 0; i < clientModel.getCharacterCardById(id).getStudents().length; i++) {
-            if (clientModel.getCharacterCardById(id).getStudents()[i] - array[i] != 0) {
-                colorCharCard.add(Color.values()[i].name());
-            }
-        }
+        choiceBox.getItems().addAll(list);
     }
 
     public void setUpAllColors(){

@@ -26,19 +26,12 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-public class ChooseCloudTileSceneController extends SceneController {
+public class ChooseCloudTileSceneController extends ActionPhaseSceneControllers {
 
     @FXML
     AnchorPane chooseCloudTilePane;
 
-    @FXML
-    Button playCCButton;
-
     private Map<Integer, AnchorPane> cloudTilesMap;
-
-    public Button getPlayCCButton() {
-        return playCCButton;
-    }
 
     public void selectCloudTile0(MouseEvent event){
         notify(new CloudTileReply(username,0));

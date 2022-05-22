@@ -30,7 +30,7 @@ public class CharCard01SceneController extends SceneController {
 
     @Override
     public <T> void setupScene(ClientModel clientModel, T parameters) {
-        setUpCharCardChoiceBox(clientModel, 1);
+        setupChoiceBox(selectColorChoiceBox, clientModel.getCharacterCardById(1).getStudents());
         selectColorChoiceBox.getItems().addAll(colorCharCard);
         selectIslandIdChoiceBox.getItems().addAll(setUpIslandIdChoiceBox(clientModel));
         selectColorChoiceBox.setOnAction(this::activeButton);

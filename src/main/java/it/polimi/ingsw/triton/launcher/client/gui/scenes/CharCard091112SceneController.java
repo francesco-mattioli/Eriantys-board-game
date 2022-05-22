@@ -35,7 +35,7 @@ public class CharCard091112SceneController extends SceneController{
         id = (int) parameters;
         this.clientModel = clientModel;
         if (id == 11){
-            setUpCharCardChoiceBox(clientModel, 11);
+            setupChoiceBox(selectColorChoiceBox, clientModel.getCharacterCardById(11).getStudents());
             selectColorChoiceBox.getItems().addAll(colorCharCard);
         }
         else {

@@ -10,7 +10,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import java.util.ArrayList;
 
-public class MotherNatureStepsSceneController extends SceneController {
+public class MotherNatureStepsSceneController extends ActionPhaseSceneControllers {
 
     @FXML
     AnchorPane motherNaturePane;
@@ -20,13 +20,6 @@ public class MotherNatureStepsSceneController extends SceneController {
 
     @FXML
     Button moveButton;
-
-    @FXML
-    Button playCCButton;
-
-    public Button getPlayCCButton() {
-        return playCCButton;
-    }
 
     public void move(ActionEvent event){
         notify(new MotherNatureReply(username, stepsChoiceBox.getValue()));

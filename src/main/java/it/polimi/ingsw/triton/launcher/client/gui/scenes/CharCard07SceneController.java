@@ -8,6 +8,8 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.layout.AnchorPane;
+
+import java.util.Arrays;
 import java.util.stream.Collectors;
 
 public class CharCard07SceneController extends SceneController {
@@ -45,8 +47,8 @@ public class CharCard07SceneController extends SceneController {
     @FXML
     ChoiceBox<String> fromEntrance3;
 
-    private int[] fromEntrance = new int[5];
-    private int[] fromCharCard = new int[5];
+    private final int[] fromEntrance = new int[5];
+    private final int[] fromCharCard = new int[5];
     private ClientModel clientModel;
     private Button currentButton;
 
@@ -100,13 +102,19 @@ public class CharCard07SceneController extends SceneController {
 
 
     public void setChoiceBoxEntrance(ChoiceBox<String> choiceBox){
-        setUpEntranceChoiceBox(clientModel, fromEntrance);
-        choiceBox.getItems().addAll(colorEntrance);
+        int [] array = new int[clientModel.getMySchoolBoard().getEntrance().length];
+        for(int i = 0; i<clientModel.getMySchoolBoard().getEntrance().length; i++){
+            array[i] = clientModel.getMySchoolBoard().getEntrance()[i] - fromEntrance[i];
+        }
+        setupChoiceBox(choiceBox, array);
     }
 
     public void setChoiceBoxCharCard(ChoiceBox<String> choiceBox){
-        setUpCharCardChoiceBox(clientModel,7, fromCharCard);
-        choiceBox.getItems().addAll(colorCharCard);
+        int [] array = new int[clientModel.getCharacterCardById(7).getStudents().length];
+        for(int i = 0; i<clientModel.getCharacterCardById(7).getStudents().length; i++){
+            array[i] = clientModel.getCharacterCardById(7).getStudents()[i] - fromCharCard[i];
+        }
+        setupChoiceBox(choiceBox,array);
     }
 
     public void updateSwitchStudents(ChoiceBox<String> fromEntranceBox, ChoiceBox<String> fromCharCardBox){
