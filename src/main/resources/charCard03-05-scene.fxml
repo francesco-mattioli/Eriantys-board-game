@@ -5,10 +5,10 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane fx:id="charCard0305Pane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="312.0" prefWidth="488.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.triton.launcher.client.gui.scenes.CharCard0305SceneController">
+<AnchorPane fx:id="charCard0305Pane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="329.0" prefWidth="459.0" styleClass="charCard0305Pane" stylesheets="@css/charCard03-05-css.css" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.triton.launcher.client.gui.scenes.CharCard0305SceneController">
    <children>
-      <ChoiceBox fx:id="selectIslandIdChoiceBox" layoutX="169.0" layoutY="156.0" prefWidth="150.0" />
-      <Label layoutX="169.0" layoutY="127.0" text="Select Island Id:" />
-      <Button fx:id="confirmButton" disable="true" layoutX="212.0" layoutY="240.0" mnemonicParsing="false" onAction="#confirm" text="Confirm" />
+      <ChoiceBox fx:id="selectIslandIdChoiceBox" layoutX="155.0" layoutY="157.0" prefWidth="150.0" />
+      <Label layoutX="155.0" layoutY="128.0" text="Select Island Id:" />
+      <Button fx:id="confirmButton" disable="true" layoutX="179.0" layoutY="236.0" maxHeight="78.0" maxWidth="124.0" minHeight="33.0" minWidth="60.0" mnemonicParsing="false" onAction="#confirm" prefHeight="33.0" prefWidth="102.0" styleClass="confirmButton" stylesheets="@css/charCard03-05-css.css" />
    </children>
 </AnchorPane>

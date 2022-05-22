@@ -1,0 +1,12 @@
+.assistantCardPane{
+    -fx-background-image: url("../Images/Backgrounds/blueCloud.jpg");
+    -fx-background-size: stretch;
+}
+
+
+.selectButton{
+    -fx-background-image: url("../Images/Buttons/select.jpg");
+    -fx-border-color: transparent;
+    -fx-background-size: stretch;
+    -fx-background-color: transparent;
+}

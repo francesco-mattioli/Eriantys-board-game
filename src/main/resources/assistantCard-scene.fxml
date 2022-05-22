@@ -6,14 +6,14 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.shape.Polygon?>
 
-<AnchorPane fx:id="assistantCardPane" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.triton.launcher.client.gui.scenes.AssistantCardSceneController">
+<AnchorPane fx:id="assistantCardPane" prefHeight="400.0" prefWidth="600.0" styleClass="assistantCardPane" stylesheets="@css/assistantCard-css.css" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.triton.launcher.client.gui.scenes.AssistantCardSceneController">
     <children>
         <ImageView fx:id="assistantCardImageView" fitHeight="282.0" fitWidth="192.0" layoutX="207.0" layoutY="53.0" pickOnBounds="true" preserveRatio="true">
             <image>
                 <Image url="@Images/AssistantCards/Cat.png" />
             </image>
         </ImageView>
-        <Button fx:id="selectButton" layoutX="272.0" layoutY="358.0" mnemonicParsing="false" onAction="#select" text="Select!" />
+        <Button fx:id="selectButton" layoutX="249.0" layoutY="353.0" maxHeight="78.0" maxWidth="124.0" minHeight="33.0" minWidth="60.0" mnemonicParsing="false" onAction="#select" prefHeight="33.0" prefWidth="102.0" styleClass="selectButton" stylesheets="@css/assistantCard-css.css" />
         <Polygon fx:id="leftSwitch" fill="DODGERBLUE" layoutX="92.0" layoutY="199.0" onMouseClicked="#switchLeft" points="30.0, -6.0, 50.0, 5.0, 50.0, -19.0" stroke="BLACK" strokeType="INSIDE" />
         <Polygon fx:id="rightSwitch" fill="DODGERBLUE" layoutX="424.0" layoutY="202.0" onMouseClicked="#switchRight" points="28.0, -19.0, 28.0, 4.0, 47.0, -7.0" stroke="BLACK" strokeType="INSIDE" />
     </children>

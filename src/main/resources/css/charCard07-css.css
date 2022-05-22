@@ -1,0 +1,33 @@
+.charCard07Pane{
+    -fx-background-image: url("../Images/Backgrounds/blueCloud.jpg");
+    -fx-background-size: stretch;
+}
+
+
+.confirmButton1{
+    -fx-background-image: url("../Images/Buttons/confirmbtn.jpg");
+    -fx-border-color: transparent;
+    -fx-background-size: stretch;
+    -fx-background-color: transparent;
+}
+
+.confirmButton2{
+    -fx-background-image: url("../Images/Buttons/confirmbtn.jpg");
+    -fx-border-color: transparent;
+    -fx-background-size: stretch;
+    -fx-background-color: transparent;
+}
+
+.confirmButton3{
+    -fx-background-image: url("../Images/Buttons/confirmbtn.jpg");
+    -fx-border-color: transparent;
+    -fx-background-size: stretch;
+    -fx-background-color: transparent;
+}
+
+.stopButton{
+    -fx-background-image: url("../Images/Buttons/stopbtn.jpg");
+    -fx-border-color: transparent;
+    -fx-background-size: stretch;
+    -fx-background-color: transparent;
+}
