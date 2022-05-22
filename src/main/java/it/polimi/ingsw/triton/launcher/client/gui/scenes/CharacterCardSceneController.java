@@ -60,20 +60,6 @@ public class CharacterCardSceneController extends SceneController {
         setCharacterCardImage(card3Pane, 2, clientModel);
     }
 
-    @Override
-    public AnchorPane getAnchorPane() {
-        return characterCardPane;
-    }
-
-    @Override
-    public Button getButton() {
-        return null;
-    }
-
-    @Override
-    public String getPath() {
-        return null;
-    }
 
     private void setCharacterCardImage(BorderPane cardPane, int index, ClientModel clientModel){
         characterCardsMap.put(cardPane, clientModel.getAvailableCharacterCards().get(index).getId());

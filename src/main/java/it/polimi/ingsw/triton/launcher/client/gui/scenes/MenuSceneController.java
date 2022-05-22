@@ -27,32 +27,10 @@ public class MenuSceneController extends SceneController {
     @FXML
     AnchorPane menuPane;
 
-    public AnchorPane getMenuPane() {
-        return menuPane;
-    }
-
 
     public void join(ActionEvent event) throws IOException {
         Gui gui = new Gui(((Stage)((Node)event.getSource()).getScene().getWindow()));
         gui.startGui();
     }
 
-    @Override
-    public AnchorPane getAnchorPane() {
-        return menuPane;
-    }
-
-    @Override
-    public Button getButton() {
-        return null;
-    }
-
-    @Override
-    public String getPath() {
-        return null;
-    }
-
-    public Button getJoinButton() {
-        return joinButton;
-    }
 }

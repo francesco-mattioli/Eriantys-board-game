@@ -89,18 +89,4 @@ public class AssistantCardSceneController extends SceneController {
         }
     }
 
-    @Override
-    public AnchorPane getAnchorPane() {
-        return assistantCardPane;
-    }
-
-    @Override
-    public Button getButton() {
-        return null;
-    }
-
-    @Override
-    public String getPath() {
-        return null;
-    }
 }

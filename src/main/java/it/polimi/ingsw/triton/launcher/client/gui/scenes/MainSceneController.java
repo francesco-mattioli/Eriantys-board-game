@@ -428,18 +428,4 @@ public class MainSceneController extends SceneController {
     }
 
 
-    @Override
-    public AnchorPane getAnchorPane() {
-        return mainPane;
-    }
-
-    @Override
-    public Button getButton() throws IllegalAccessException {
-        throw new IllegalAccessException("Main Scene Has No Buttons");
-    }
-
-    @Override
-    public String getPath() {
-        return null;
-    }
 }

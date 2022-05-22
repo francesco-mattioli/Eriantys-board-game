@@ -308,9 +308,9 @@ public class ServerMessageVisitor {
         if(message.getPlayers().contains(clientView.getClientModel().getUsername()))
             clientView.showTieMessage();
         else{
-            String loserMessage = "";
+            StringBuilder loserMessage = new StringBuilder();
             for(String username: message.getPlayers())
-                loserMessage += username + " ";
+                loserMessage.append(username).append(" ");
             clientView.showGenericMessage(loserMessage + "have tied");
         }
     }

@@ -46,18 +46,4 @@ public class GameModeAndNumOfPlayersSceneController extends SceneController {
         confirmButton.setDisable(true);
     }
 
-    @Override
-    public AnchorPane getAnchorPane() {
-        return gameModePane;
-    }
-
-    @Override
-    public Button getButton() {
-        return null;
-    }
-
-    @Override
-    public String getPath() {
-        return null;
-    }
 }

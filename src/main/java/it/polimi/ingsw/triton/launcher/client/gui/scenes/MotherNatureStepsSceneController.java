@@ -51,18 +51,4 @@ public class MotherNatureStepsSceneController extends SceneController {
         moveButton.setDisable(false);
     }
 
-    @Override
-    public AnchorPane getAnchorPane() {
-        return motherNaturePane;
-    }
-
-    @Override
-    public Button getButton() {
-        return null;
-    }
-
-    @Override
-    public String getPath() {
-        return null;
-    }
 }

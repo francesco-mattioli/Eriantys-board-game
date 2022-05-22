@@ -92,18 +92,4 @@ public class WizardSceneController extends SceneController {
         }
     }
 
-    @Override
-    public AnchorPane getAnchorPane() {
-        return wizardPane;
-    }
-
-    @Override
-    public Button getButton() {
-        return null;
-    }
-
-    @Override
-    public String getPath() {
-        return null;
-    }
 }
