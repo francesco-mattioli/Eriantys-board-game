@@ -139,7 +139,7 @@ public class ClientMessageModifierVisitor {
      * @throws EndGameException if a player moved his last tower onto the island with mother nature or an island merged with another one and remains only three groups of islands.
      */
     public void visitForModify(CharacterCard03Reply message) throws IllegalClientInputException, EndGameException {
-        game.applyCharacterCardEffect(3, new CardEffect03(game.getIslandManager().getIslandByID(message.getIslandID()), game.getIslandManager(), game.getIslandManager().getMotherNature(), game.getPlayers(), game.getProfessors()));
+        game.applyCharacterCardEffect(3, new CardEffect03(game.getIslandManager().getIslandByID(message.getIslandID()), game.getIslandManager(), game.getPlayers(), game.getProfessors()));
     }
 
     /**

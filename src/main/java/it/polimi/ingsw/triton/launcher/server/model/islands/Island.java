@@ -63,10 +63,6 @@ public class Island extends Observable<InfoMessage> implements Serializable {
         return influenceStrategy.execute(player, professors, dominator, this);
     }
 
-    public void setInfluenceStrategy(InfluenceStrategy influenceStrategy) {
-        this.influenceStrategy = influenceStrategy;
-    }
-
     /**
      * This method updates the island dominator.
      * @param players specifies the list of players.
@@ -157,6 +153,14 @@ public class Island extends Observable<InfoMessage> implements Serializable {
         this.noEntryTiles = noEntryTiles;
     }
 
+    public InfluenceStrategy getInfluenceStrategy(){
+        return influenceStrategy;
+    }
+
+    public void setInfluenceStrategy(InfluenceStrategy influenceStrategy) {
+        this.influenceStrategy = influenceStrategy;
+    }
+
     public Player getDominator() {
         return dominator;
     }
@@ -179,5 +183,4 @@ public class Island extends Observable<InfoMessage> implements Serializable {
                 "students:" + Utility.printColoredStudents(students) + ", " +
                 "no entry tiles:" + noEntryTiles + "}";
     }
-
 }
