@@ -25,7 +25,8 @@ public enum ErrorTypeID {
     NOT_YOUR_TURN("It's not your turn, wait!"),
     CHARACTER_CARD_ALREADY_PLAYED("Cannot use a Character Card ability more than once per turn!"),
     NULL_VALUE("Entered a null value"),
-    COMMAND_CANCELLED("Command successfully canceled!");
+    COMMAND_CANCELLED("Command successfully canceled!"),
+    ILLEGAL_MOVE_FOR_MODE("This move cannot be done in this game mode!");
 
     private final String description;
 
