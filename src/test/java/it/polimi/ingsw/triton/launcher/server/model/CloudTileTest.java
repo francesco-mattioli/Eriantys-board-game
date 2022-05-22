@@ -8,7 +8,6 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
 class CloudTileTest {
-
     private CloudTile cloudTile;
 
     @BeforeEach
