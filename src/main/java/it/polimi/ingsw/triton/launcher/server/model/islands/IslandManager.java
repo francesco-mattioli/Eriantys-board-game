@@ -14,7 +14,6 @@ import java.io.Serializable;
 import java.security.SecureRandom;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 
 public class IslandManager extends Observable <InfoMessage> implements Serializable {
     private final List<Island> islands;
@@ -155,5 +154,4 @@ public class IslandManager extends Observable <InfoMessage> implements Serializa
     public MotherNature getMotherNature() {
         return motherNature;
     }
-
 }
