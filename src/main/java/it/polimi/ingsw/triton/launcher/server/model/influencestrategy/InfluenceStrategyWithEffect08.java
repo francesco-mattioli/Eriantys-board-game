@@ -5,6 +5,7 @@ import it.polimi.ingsw.triton.launcher.server.model.player.Player;
 
 public class InfluenceStrategyWithEffect08 extends InfluenceStrategyDefaultSuper {
     private final Player currentPlayer;
+
     public InfluenceStrategyWithEffect08(Player currentPlayer){
         this.currentPlayer = currentPlayer;
     }

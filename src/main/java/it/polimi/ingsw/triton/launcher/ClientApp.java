@@ -7,10 +7,10 @@ import javafx.application.Application;
 public class ClientApp {
 
     public static void main(String[] args) {
-        /**
+        /*
          * Default mode: GUI
          */
-        boolean cliParam = false;
+        boolean cliParam = true;
 
         for (String arg : args) {
             if (arg.equals("--cli")) {

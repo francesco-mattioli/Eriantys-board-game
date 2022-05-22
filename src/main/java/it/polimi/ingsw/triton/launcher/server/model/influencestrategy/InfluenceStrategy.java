@@ -7,5 +7,4 @@ import java.io.Serializable;
 
 public abstract class InfluenceStrategy implements Serializable {
     public abstract int execute(Player player, Player[] professors, Player dominator, Island island);
-
 }

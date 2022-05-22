@@ -80,14 +80,13 @@ public class Cli extends Observable<Message> implements ClientView{
     /**
      * This method analyzes the string inserted by the user, applying a pattern that allows the system to know if the
      * string corresponds to an IP address format.
-     * @param address the string with the IP address to analyze.
+     * @param ip the string with the IP address to analyze.
      * @return true if the string corresponds to an IP address, false otherwise.
      */
-    private boolean isCorrectIpAddress(String address){
-        String pattern = "^((0|1\\d?\\d?|2[0-4]?\\d?|25[0-5]?|[3-9]\\d?)\\.){3}(0|1\\d?\\d?|2[0-4]?\\d?|25[0-5]?|[3-9]\\d?)$";
-        if(address.equalsIgnoreCase(DEFAULT_IP))
+    private boolean isCorrectIpAddress(String ip){
+        if(ip.equalsIgnoreCase(DEFAULT_IP))
             return true;
-        return address.matches(pattern);
+        return org.apache.commons.validator.routines.InetAddressValidator.getInstance().isValid((ip));
     }
 
     /**
@@ -257,7 +256,7 @@ public class Cli extends Observable<Message> implements ClientView{
 
     /**
      * Asks the player to choose an assistant card to play.
-     * This assistant card can be chosen viewing the assistant deck which is updated every time the player plays
+     * This assistant card can be chosen to view the assistant deck which is updated every time the player plays
      * an assistant card removing it.
      * If the player inputs a string which is not an assistant card type, the method will ask again to choose an assistant card.
      * The server will check if the assistant card chosen by the player is already played by him or already played in this turn
