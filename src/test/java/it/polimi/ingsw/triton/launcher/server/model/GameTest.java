@@ -171,7 +171,11 @@ class GameTest {
      */
     @Test
     public void checkCharacterCardsSizeIsThree() {
-        assertEquals(3, game.getCharacterCards().size());
+        try {
+            assertEquals(3, game.getCharacterCards().size());
+        } catch (IllegalClientInputException e) {
+            e.printStackTrace();
+        }
     }
 
    /* @Test
@@ -240,7 +244,7 @@ class GameTest {
      * Tests if the id of the three character cards are different.
      */
     @Test
-    public void checkCharacterCardsIdAreDifferent() {
+    public void checkCharacterCardsIdAreDifferent() throws IllegalClientInputException {
         boolean foundSameId = false;
         for (int i = 0; i < game.getCharacterCards().size() - 1; i++) {
             for (int j = i + 1; j < game.getCharacterCards().size(); j++) {
@@ -336,7 +340,12 @@ class GameTest {
     @Test
     void testGetCharacterCardByIdWhenExists() {
         CharacterCard characterCard;
-        int indexCharacterCard = game.getCharacterCards().get(1).getId();
+        int indexCharacterCard = 0;
+        try {
+            indexCharacterCard = game.getCharacterCards().get(1).getId();
+        } catch (IllegalClientInputException e) {
+            e.printStackTrace();
+        }
         try {
             characterCard = game.getCharacterCardByID(indexCharacterCard);
         } catch (IllegalClientInputException e) {

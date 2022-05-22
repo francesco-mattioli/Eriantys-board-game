@@ -57,7 +57,7 @@ public class GameDecorator extends GameMode{
     }
 
     @Override
-    public List<CharacterCard> getCharacterCards() {
+    public List<CharacterCard> getCharacterCards() throws IllegalClientInputException {
         return game.getCharacterCards();
     }
 
