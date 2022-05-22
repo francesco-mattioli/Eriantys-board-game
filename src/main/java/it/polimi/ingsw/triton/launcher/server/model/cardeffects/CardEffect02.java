@@ -14,7 +14,7 @@ public class CardEffect02 implements CardEffect, Serializable {
 
     public CardEffect02(Player player,ProfessorsManager professorsManager, Player[] professors){
         this.professorsManager = professorsManager;
-        this.player=player;
+        this.player = player;
         this.professors = professors;
     }
 
