@@ -13,6 +13,7 @@ import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.logging.Logger;
 
 public class Client implements Observer<Message> {
     private Socket socket;
@@ -22,6 +23,7 @@ public class Client implements Observer<Message> {
     private ExecutorService visitExecutionQueue;
     private final ClientView clientView;
     private static final int port = 50535;
+    public static final Logger LOGGER = Logger.getLogger(Client.class.getName());
 
     /**
      * Initializes socket and input, output streams to communicate with the server.
@@ -112,7 +114,7 @@ public class Client implements Observer<Message> {
             outSocket.writeObject(message);
             outSocket.reset();
         } catch (IOException e) {
-            e.printStackTrace();
+            LOGGER.severe("Cannot send the message: "+ message.getClass().getCanonicalName());
         }
     }
 
@@ -125,8 +127,11 @@ public class Client implements Observer<Message> {
                 receiveExecutionQueue.shutdownNow();
                 socket.close();
             }
-        } catch (IOException e) {
-            e.printStackTrace();
+        }catch(SecurityException e){
+            LOGGER.severe("Cannot shut the receiving queue down correctly");
+        }
+        catch (IOException e) {
+            LOGGER.severe("Cannot close the socket correctly");
         }
     }
 }

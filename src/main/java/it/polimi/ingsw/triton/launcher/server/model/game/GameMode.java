@@ -15,14 +15,16 @@ import it.polimi.ingsw.triton.launcher.utils.exceptions.*;
 import it.polimi.ingsw.triton.launcher.utils.message.servermessage.InfoMessage;
 import it.polimi.ingsw.triton.launcher.utils.obs.Observable;
 
+import java.security.SecureRandom;
 import java.util.List;
 import java.util.Map;
-import java.util.Random;
 
 /**
  * This class contains all the declaration of the methods that are in game and expertGame classes.
  */
 public abstract class GameMode extends Observable<InfoMessage>{
+    protected final SecureRandom random = new SecureRandom();
+
     public abstract void setup();
     abstract void setupPlayers();
     abstract void planningPhase();
@@ -65,5 +67,5 @@ public abstract class GameMode extends Observable<InfoMessage>{
     public abstract void setMaxNumberOfPlayers(int maxNumberOfPlayers);
     abstract void setCurrentPlayer(Player player);
     public abstract void removePlayer(String username);
-    protected final Random random = new Random();
+
 }
