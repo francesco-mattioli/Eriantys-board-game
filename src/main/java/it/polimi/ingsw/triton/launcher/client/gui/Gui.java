@@ -23,6 +23,7 @@ import javafx.stage.Stage;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -35,6 +36,8 @@ public class Gui extends Observable<Message> implements ClientView {
     private MainSceneController mainController;
     private FXMLLoader activeLoader;
     private Method lastCalledMethod;
+    private final List<Alert> alertsQueue = new ArrayList<>();
+    private int count = 0;
 
 
     public Gui(Stage activeStage) {
@@ -48,7 +51,7 @@ public class Gui extends Observable<Message> implements ClientView {
 
     @Override
     public void showGenericMessage(String genericMessage) {
-        //showAlert(Alert.AlertType.INFORMATION, "Information Message", genericMessage);
+        showAlert(Alert.AlertType.INFORMATION, "Information Message", genericMessage);
     }
 
     @Override
@@ -104,7 +107,7 @@ public class Gui extends Observable<Message> implements ClientView {
             initializeMainStage();
         }
         actualGamePhase = gameState;
-        //showAlert(Alert.AlertType.INFORMATION, "Game phase info", "New game phase:\n" + gameState + " is beginning..");
+        showAlert(Alert.AlertType.INFORMATION, "Game phase info", "New game phase:\n" + gameState + " is beginning..");
 
     }
 
@@ -122,12 +125,12 @@ public class Gui extends Observable<Message> implements ClientView {
 
     @Override
     public void showLoginReply() {
-        //showAlert(Alert.AlertType.INFORMATION, "Login Reply", "Username Accepted. Your username will be \"" + clientModel.getUsername() + "\"");
+        showAlert(Alert.AlertType.INFORMATION, "Login Reply", "Username Accepted. Your username will be \"" + clientModel.getUsername() + "\"");
     }
 
     @Override
     public void showErrorMessage(ErrorTypeID fullLobby) {
-        //showAlert(Alert.AlertType.WARNING, "Incorrect input", fullLobby.getDescription());
+        showAlert(Alert.AlertType.WARNING, "Incorrect input", fullLobby.getDescription());
     }
 
 
@@ -159,12 +162,27 @@ public class Gui extends Observable<Message> implements ClientView {
     private void showAlert(Alert.AlertType alertType, String title, String contentText) {
         Platform.runLater(() -> {
             Alert alert = new Alert(alertType);
+            alert.setAlertType(alertType);
             alert.setTitle(title);
             alert.setHeaderText(null);
             alert.setContentText(contentText);
-            alert.showAndWait();
+            alertsQueue.add(alert);
+            if(count == alertsQueue.size()-1){
+                showNextAlert();
+            }
         });
     }
+
+    private void showNextAlert(){
+        if(count < alertsQueue.size()){
+            Optional<ButtonType> result = alertsQueue.get(count).showAndWait();
+            if(result.isPresent()){
+                count++;
+                showNextAlert();
+            }
+        }
+    }
+
 
     private void closeGui() {
         Platform.runLater(() -> {
