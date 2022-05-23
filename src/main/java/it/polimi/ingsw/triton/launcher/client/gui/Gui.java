@@ -93,7 +93,7 @@ public class Gui extends Observable<Message> implements ClientView {
 
     @Override
     public void showGameInfo() {
-
+        Client.LOGGER.severe("This method should be called only in CLI mode");
     }
 
     /**
@@ -218,9 +218,8 @@ public class Gui extends Observable<Message> implements ClientView {
                 controller.addObserver(client);
                 controller.setUsername(clientModel.getUsername());
                 controller.setupScene(clientModel, parameters);
-                if(controller instanceof CharacterCardSceneController){
+                if(controller instanceof CharacterCardSceneController)
                     backButton(((CharacterCardSceneController)controller).getBackButton());
-                }
                 activeStage.setScene(new Scene(root));
                 activeStage.setResizable(false);
                 activeStage.setTitle(clientModel.getUsername());
@@ -230,7 +229,7 @@ public class Gui extends Observable<Message> implements ClientView {
                     logout(activeStage);
                 });
             } catch (IOException e) {
-                e.printStackTrace();
+                Client.LOGGER.info("Cannot load FXML file!");
             }
         });
     }
@@ -267,7 +266,7 @@ public class Gui extends Observable<Message> implements ClientView {
     }
 
     /**
-     * If the game mode is expert, there is a button that permits the player to play a character card, the button has to be activated
+     * If the game mode is expert, there is a button that allows the player to play a character card, the button has to be activated
      * Is also saved last method, because the user can watch available character cards and then decide not to play a card:
      * in case mentioned above, this method is re-called
      */
@@ -282,11 +281,15 @@ public class Gui extends Observable<Message> implements ClientView {
             try {
                 lastCalledMethod = getClass().getDeclaredMethod(methodName);
             } catch (NoSuchMethodException e) {
-                e.printStackTrace();
+                Client.LOGGER.info("Cannot call "+methodName+" method");
             }
         });
     }
 
+    /**
+     * This method asks player to choose a cloud tile.
+     * It loads the correct fxml based on number of players.
+     */
     @Override
     public void askCloudTile() {
         if(clientModel.getSchoolBoards().size() == 2){
@@ -424,7 +427,7 @@ public class Gui extends Observable<Message> implements ClientView {
                     logout(mainStage);
                 });
             } catch (IOException e) {
-                e.printStackTrace();
+                Client.LOGGER.info("Cannot load FXML file for main stage!");
             }
         });
     }
@@ -446,7 +449,7 @@ public class Gui extends Observable<Message> implements ClientView {
             try {
                 lastCalledMethod.invoke(this);
             } catch (IllegalAccessException | InvocationTargetException e) {
-                e.printStackTrace();
+                Client.LOGGER.info("Cannot call "+lastCalledMethod.getName()+" method back");
             }
         });
     }
