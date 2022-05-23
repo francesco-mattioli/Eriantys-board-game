@@ -33,7 +33,6 @@ class GameTest {
         player2 = new Player("TestPlayer2");
         game.getPlayers().add(player2);
         game.setCurrentPlayer(player1);
-        //game.setup();
     }
 
     @AfterEach
