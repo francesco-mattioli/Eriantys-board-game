@@ -235,4 +235,9 @@ public class GameDecorator extends GameMode{
     public void removePlayer(String username){
         game.removePlayer(username);
     }
+
+    @Override
+    public void drawCharacterCards() throws IllegalClientInputException{
+        game.drawCharacterCards();
+    }
 }

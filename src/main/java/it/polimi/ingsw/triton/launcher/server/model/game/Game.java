@@ -447,6 +447,11 @@ public class Game extends GameMode {
         throw new IllegalClientInputException(ErrorTypeID.ILLEGAL_MOVE_FOR_MODE);
         // This method is implemented by ExpertGame
     }
+    @Override
+    public void drawCharacterCards() throws IllegalClientInputException{
+        throw new IllegalClientInputException(ErrorTypeID.ILLEGAL_MOVE_FOR_MODE);
+        // This method is implemented by ExpertGame
+    }
 
     public void applyCharacterCardEffect(int characterCardID, CardEffect cardEffect) throws IllegalClientInputException{
         throw new IllegalClientInputException(ErrorTypeID.ILLEGAL_MOVE_FOR_MODE);
@@ -506,6 +511,7 @@ public class Game extends GameMode {
         players.removeIf(player -> (player.getUsername().equals(username)));
         notify(new LobbyMessage(getAllUsernames(players), maxNumberOfPlayers));
     }
+
 
     /**
      * Ends the game resetting the instance of the game.

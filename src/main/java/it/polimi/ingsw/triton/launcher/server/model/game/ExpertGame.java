@@ -151,7 +151,7 @@ public class ExpertGame extends GameDecorator {
     /**
      * Creates three character cards.
      */
-    private void drawCharacterCards() {
+    public void drawCharacterCards() {
         ArrayList<Integer> idAlreadyChosen = new ArrayList<>();
         int id;
         int cost;

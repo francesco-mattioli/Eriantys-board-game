@@ -67,5 +67,6 @@ public abstract class GameMode extends Observable<InfoMessage>{
     public abstract void setMaxNumberOfPlayers(int maxNumberOfPlayers);
     abstract void setCurrentPlayer(Player player);
     public abstract void removePlayer(String username);
+    public abstract void drawCharacterCards() throws IllegalClientInputException;
 
 }
