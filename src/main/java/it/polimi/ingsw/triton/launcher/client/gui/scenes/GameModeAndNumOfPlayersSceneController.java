@@ -38,7 +38,7 @@ public class GameModeAndNumOfPlayersSceneController extends SceneController {
         int numOfPlayers = 2;
         if (rdb3Players.isSelected())
             numOfPlayers = 3;
-        notify(new PlayersNumberAndGameModeReply(username, numOfPlayers,rdbExpert.isSelected()));
+        notify(new PlayersNumberAndGameModeReply(numOfPlayers,rdbExpert.isSelected()));
         confirmButton.setDisable(true);
     }
 

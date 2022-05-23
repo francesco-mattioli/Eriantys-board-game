@@ -38,7 +38,7 @@ public class TowerColorSceneController extends SceneController {
      * @param event
      */
     public void select(ActionEvent event){
-        notify(new TowerColorReply(username, towerColorMap.get(towerColorChoice.getValue())));
+        notify(new TowerColorReply(towerColorMap.get(towerColorChoice.getValue())));
         selectButton.setDisable(true);
     }
 

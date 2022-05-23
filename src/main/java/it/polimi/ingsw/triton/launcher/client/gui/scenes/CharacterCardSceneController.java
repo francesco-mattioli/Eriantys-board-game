@@ -48,7 +48,7 @@ public class CharacterCardSceneController extends SceneController {
     private ClientModel clientModel;
 
     public void playCharacterCard(ActionEvent event){
-        notify(new UseCharacterCardRequest(username, cardID));
+        notify(new UseCharacterCardRequest(cardID));
         buttonPlay.setDisable(true);
     }
 

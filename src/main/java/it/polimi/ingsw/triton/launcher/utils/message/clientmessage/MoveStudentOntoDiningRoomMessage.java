@@ -19,7 +19,7 @@ public class MoveStudentOntoDiningRoomMessage extends ClientMessage {
         return student;
     }
 
-    public MoveStudentOntoDiningRoomMessage(String senderUsername, Color student) {
+    public MoveStudentOntoDiningRoomMessage(Color student) {
         this.student = student;
     }
 
