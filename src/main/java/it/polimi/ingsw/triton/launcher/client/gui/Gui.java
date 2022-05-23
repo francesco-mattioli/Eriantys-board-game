@@ -94,7 +94,7 @@ public class Gui extends Observable<Message> implements ClientView {
     }
 
     /**
-     * During the transition between setup phase and planning phase, main scene is instanciated, because client model
+     * During the transition between setup phase and planning phase, main scene is instantiated, because client model
      * contains all the information to draw the model's objects
      * @param gameState the new phase of the game.
      */
