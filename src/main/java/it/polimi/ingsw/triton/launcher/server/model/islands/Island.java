@@ -69,35 +69,38 @@ public class Island extends Observable<InfoMessage> implements Serializable {
      * @param professors specifies for each professor which player has that professor.
      */
     public void updateInfluence(List<Player> players, Player[] professors) throws EndGameException{
-        boolean modifiedDominator = false;
         if (noEntryTiles == 0) {
             int[] nonDominatorPlayersInfluences = new int[players.size()];
             for(int i = 0; i < players.size(); i++){
-                if(dominator != players.get(i)){
+                if(dominator != players.get(i))
                     nonDominatorPlayersInfluences[i] = calculateInfluence(players.get(i), professors, dominator);
-                }
             }
-            if(!checkForTie(nonDominatorPlayersInfluences)) {
-                Player newDominator = dominator;
-                int max = calculateInfluence(dominator, professors, dominator);
-                for (Player p : players) {
-                    int influence = calculateInfluence(p, professors, dominator);
-                    if (influence > max) {
-                        max = influence;
-                        newDominator = p;
-                        modifiedDominator = true;
-                    }
-                }
-                towerInfluence(newDominator);
-                if(modifiedDominator)
-                    notify(new ChangeInfluenceMessage(this, newDominator.getUsername()));
-            }
+            if(!checkForTie(nonDominatorPlayersInfluences))
+                updateIslandDominatorAndTowerInfluence(players,professors);
         } else {
             characterCard05.addNoEntryTile();
             noEntryTiles--;
             notify(new UpdateIslandWithNoEntryTilesMessage(this));
         }
     }
+
+    private void updateIslandDominatorAndTowerInfluence(List<Player> players, Player[] professors) throws EndGameException {
+        boolean modifiedDominator = false;
+        Player newDominator = dominator;
+        int max = calculateInfluence(dominator, professors, dominator);
+        for (Player p : players) {
+            int influence = calculateInfluence(p, professors, dominator);
+            if (influence > max) {
+                max = influence;
+                newDominator = p;
+                modifiedDominator = true;
+            }
+        }
+        towerInfluence(newDominator);
+        if(modifiedDominator)
+            notify(new ChangeInfluenceMessage(this, newDominator.getUsername()));
+    }
+
 
     private boolean checkForTie(int [] nonDominatorPlayersInfluences){
         OptionalInt max = Arrays.stream(nonDominatorPlayersInfluences).max();

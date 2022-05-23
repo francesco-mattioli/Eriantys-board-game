@@ -20,7 +20,10 @@ import it.polimi.ingsw.triton.launcher.server.model.playeractions.MoveStudentInt
 import it.polimi.ingsw.triton.launcher.server.model.playeractions.MoveStudentOntoIsland;
 import it.polimi.ingsw.triton.launcher.server.model.playeractions.PlayAssistantCard;
 import it.polimi.ingsw.triton.launcher.server.model.professor.ProfessorsManager;
-import it.polimi.ingsw.triton.launcher.utils.exceptions.*;
+import it.polimi.ingsw.triton.launcher.utils.exceptions.ChangeTurnException;
+import it.polimi.ingsw.triton.launcher.utils.exceptions.EndGameException;
+import it.polimi.ingsw.triton.launcher.utils.exceptions.IllegalClientInputException;
+import it.polimi.ingsw.triton.launcher.utils.exceptions.LastMoveException;
 import it.polimi.ingsw.triton.launcher.utils.message.ErrorTypeID;
 import it.polimi.ingsw.triton.launcher.utils.message.servermessage.infoMessage.*;
 import it.polimi.ingsw.triton.launcher.utils.message.servermessage.infoMessage.infoMessageWithReceiver.GiveAssistantDeckMessage;
@@ -32,32 +35,19 @@ import java.util.stream.Collectors;
 public class Game extends GameMode {
     private static Game instance;
     private final Bag bag;
-    private int maxNumberOfPlayers;
     private final ArrayList<Player> players;
     private final ArrayList<CloudTile> cloudTiles;
-    private Player currentPlayer;
     private final Player[] professors;
-    private ProfessorsManager professorsManager;
     private final IslandManager islandManager;
     private final ArrayList<AssistantCard> usedAssistantCards;
     private final ArrayList<Wizard> availableWizards;
+    private int maxNumberOfPlayers;
+    private Player currentPlayer;
+    private ProfessorsManager professorsManager;
     private GameState gameState;
     private boolean notFullCloudTiles;
     // The following array must be shown to users, so they can choose a towerColor that is not already chosen.
     private boolean[] towerColorChosen;
-
-    /**
-     * Realize the Singleton Pattern in order to instantiate the Game Class only once.
-     *
-     * @param maxNumberOfPlayers chosen by the first player
-     * @return the instance of Game
-     */
-    public static Game instance(int maxNumberOfPlayers) {
-        if (instance == null)
-            instance = new Game(maxNumberOfPlayers);
-        return instance;
-    }
-
 
     private Game(int maxNumberOfPlayers) {
         this.islandManager = new IslandManager();
@@ -73,8 +63,27 @@ public class Game extends GameMode {
         this.professorsManager = new ProfessorsManager(); // PHASE 6
     }
 
+    /**
+     * Realize the Singleton Pattern in order to instantiate the Game Class only once.
+     *
+     * @param maxNumberOfPlayers chosen by the first player
+     * @return the instance of Game
+     */
+    public static Game instance(int maxNumberOfPlayers) {
+        if (instance == null)
+            instance = new Game(maxNumberOfPlayers);
+        return instance;
+    }
+
 
     //----------------------------------------- LOGIN PHASE METHODS ----------------------------------------------------
+
+    /**
+     * Sets the instance of the game to null.
+     */
+    private static void resetInstance() {
+        instance = null;
+    }
 
     /**
      * Checks the username.
@@ -97,7 +106,6 @@ public class Game extends GameMode {
             throw new IllegalArgumentException("Username already chosen");
     }
 
-
     /**
      * This method set the player's school board with the chosen tower color.
      *
@@ -119,6 +127,11 @@ public class Game extends GameMode {
         setNextPlayer();
     }
 
+    //------------------------------------------------------------------------------------------------------------------
+
+
+    //----------------------------------------- SETUP PHASE METHODS ----------------------------------------------------
+
     /**
      * Set the wizard to the player and removes it from the available wizards list;
      * Create a new request to the next player.
@@ -137,17 +150,12 @@ public class Game extends GameMode {
         setNextPlayer();
     }
 
-    //------------------------------------------------------------------------------------------------------------------
-
-
-    //----------------------------------------- SETUP PHASE METHODS ----------------------------------------------------
-
     /**
      * When last player chooses an assistant card, sort players ArrayList based on assistant cards value,
      * thus the ACTION PHASE starts.
      * Otherwise, set next player that should choose an assistant card.
      *
-     * @param player the current player.
+     * @param player        the current player.
      * @param assistantCard the assistant card to play.
      * @throws IllegalClientInputException if the player can't play the given assistant card.
      */
@@ -159,7 +167,6 @@ public class Game extends GameMode {
             sortPlayerPerTurn();
         } else setNextPlayer();
     }
-
 
     /**
      * This method executes the SETUP phase of the game.
@@ -180,9 +187,6 @@ public class Game extends GameMode {
         notify(new ChangeTurnMessage(currentPlayer.getUsername()));
         planningPhase();
     }
-
-
-
 
     /**
      * This method places two students for each color into the bag.
@@ -226,6 +230,13 @@ public class Game extends GameMode {
         }
     }
 
+    //------------------------------------------------------------------------------------------------------------------
+
+
+    //-------------------------------------- PLANNING PHASE METHODS ----------------------------------------------------
+    // TODO continuare metodi sotto; i metodi sopra sono revisionati. Alcuni da migliorare, vedi notes (PAP)
+    //------------------------------------------------------------------------------------------------------------------
+
     /**
      * This method sorts the players ArrayList randomly and sets the current player.
      */
@@ -239,46 +250,27 @@ public class Game extends GameMode {
         currentPlayer = players.get(0);
     }
 
-    //------------------------------------------------------------------------------------------------------------------
-
-
-    //-------------------------------------- PLANNING PHASE METHODS ----------------------------------------------------
-    // TODO continuare metodi sotto; i metodi sopra sono revisionati. Alcuni da migliorare, vedi notes (PAP)
-    //------------------------------------------------------------------------------------------------------------------
-
     /**
      * Adds the students to the cloud tiles and sets the last round flag if the bag is empty.
      * It sends messages to communicate the new filled cloud tiles and if the bag is empty.
      */
-    public void addStudentsToCloudTiles() {
-        Color student;
-        int numStudents;
-        if (maxNumberOfPlayers == 2)
-            numStudents = 3;
-        else
-            numStudents = 4;
+        public void addStudentsToCloudTiles() {
+        int maxNumOfStudentsOnCloudTile = (maxNumberOfPlayers == 2) ? 3 : 4;
         for (CloudTile cloudTile : cloudTiles) {
             cloudTile.setAlreadyUsed(false);
-            for (int i = 0; i < numStudents; i++) {
-                try {
-                    if (!bag.isEmpty())
-                        student = bag.drawStudent();
-                    else {
+                for (int i = 0; i < maxNumOfStudentsOnCloudTile; i++) {
+                    try{
+                        cloudTile.setStudents(bag.drawStudent());
+                    }catch(NoSuchElementException e){
+                        notFullCloudTiles = true;
+                    }
+                    if (bag.isEmpty()) {
                         notFullCloudTiles = true;
                         break;
                     }
-                } catch (NoSuchElementException e) {           //HERE we don't expect to enter
-                    notFullCloudTiles = true;
-                    break;
                 }
-                cloudTile.setStudents(student);
-                if (bag.isEmpty()) {
-                    notFullCloudTiles = true;
+                if (notFullCloudTiles)
                     break;
-                }
-            }
-            if (notFullCloudTiles)
-                break;
         }
         notify(new CloudTilesInfoMessage(cloudTiles));
     }
@@ -293,7 +285,6 @@ public class Game extends GameMode {
         throw new ChangeTurnException();
     }
 
-
     /**
      * Executes a part of the planning phase, filling the cloud tiles and resetting the assistant
      * cards played in last round.
@@ -306,7 +297,6 @@ public class Game extends GameMode {
         addStudentsToCloudTiles();
         resetPlayedCardInTurn();
     }
-
 
     /**
      * Executes the action of moving a player from entrance to the dining room.
@@ -321,7 +311,6 @@ public class Game extends GameMode {
         currentPlayer.setMoveCounter(currentPlayer.getMoveCounter() + 1);
         checkNumberMoves();   //checks if the move was the last one throwing lastMoveException
     }
-
 
     /**
      * @param student  the color of the student to move.
@@ -369,8 +358,6 @@ public class Game extends GameMode {
             nextGameTurn();
     }
 
-
-
     /**
      * Manages the action of the player to choose the cloud tile.
      *
@@ -383,7 +370,6 @@ public class Game extends GameMode {
         notify(new InfoChosenCloudTileMessage(currentPlayer.getUsername(), currentPlayer.getSchoolBoard(), cloudTile, choiceDescription));
         nextGameTurn();
     }
-
 
     /**
      * This method calculates the winner when one player has the max number of towers onto islands.
@@ -401,7 +387,6 @@ public class Game extends GameMode {
             checkForTie(players.stream().filter(player -> player.getSchoolBoard().getNumTowers() == min).collect(Collectors.toList()));
     }
 
-
     /**
      * This method checks occurrences of players in list into the professors array.
      * If one of the players has more professors than the others, he's the winner, else we have a tie.
@@ -416,10 +401,9 @@ public class Game extends GameMode {
         if (frequency == 1) {
             player = list.stream().filter(pl -> (Collections.frequency(Arrays.stream(professors).collect(Collectors.toList()), pl) == max)).findFirst();
             player.ifPresent(value -> notify(new WinMessage(value.getUsername())));
-        }else
+        } else
             notify(new TieMessage(list.stream().filter(pl -> (Collections.frequency(Arrays.stream(professors).collect(Collectors.toList()), pl) == max)).collect(Collectors.toList()).stream().map(Player::getUsername).collect(Collectors.toList())));
     }
-
 
     /**
      * Changes current player at the end of every action phase.
@@ -442,17 +426,18 @@ public class Game extends GameMode {
         }
     }
 
-    public void useCharacterCard(Player player, int idCard) throws IllegalClientInputException{
-        throw new IllegalClientInputException(ErrorTypeID.ILLEGAL_MOVE_FOR_MODE);
-        // This method is implemented by ExpertGame
-    }
-    @Override
-    public void drawCharacterCards() throws IllegalClientInputException{
+    public void useCharacterCard(Player player, int idCard) throws IllegalClientInputException {
         throw new IllegalClientInputException(ErrorTypeID.ILLEGAL_MOVE_FOR_MODE);
         // This method is implemented by ExpertGame
     }
 
-    public void applyCharacterCardEffect(int characterCardID, CardEffect cardEffect) throws IllegalClientInputException{
+    @Override
+    public void drawCharacterCards() throws IllegalClientInputException {
+        throw new IllegalClientInputException(ErrorTypeID.ILLEGAL_MOVE_FOR_MODE);
+        // This method is implemented by ExpertGame
+    }
+
+    public void applyCharacterCardEffect(int characterCardID, CardEffect cardEffect) throws IllegalClientInputException {
         throw new IllegalClientInputException(ErrorTypeID.ILLEGAL_MOVE_FOR_MODE);
     }
 
@@ -463,8 +448,6 @@ public class Game extends GameMode {
     public ArrayList<CharacterCard> getCharacterCards() throws IllegalClientInputException {
         throw new IllegalClientInputException(ErrorTypeID.ILLEGAL_MOVE_FOR_MODE);
     }
-
-
 
     /**
      * This method removes the played assistant card of the previous turn.
@@ -495,14 +478,12 @@ public class Game extends GameMode {
         return chosenWizardsPerUsername;
     }
 
-
-
     /**
      * @return an array of String about professors with their respective owner.
      * If a professor is not on a player's school board, it has a '_' on his position of the array.
      */
     public String[] professorsWithUsernameOwner() {
-        return Arrays.stream(professors).map(p -> (p==null ? null: p.getUsername())).toArray(String[]::new);
+        return Arrays.stream(professors).map(p -> (p == null ? null : p.getUsername())).toArray(String[]::new);
     }
 
     @Override
@@ -510,7 +491,6 @@ public class Game extends GameMode {
         players.removeIf(player -> (player.getUsername().equals(username)));
         notify(new LobbyMessage(getAllUsernames(players), maxNumberOfPlayers));
     }
-
 
     /**
      * Ends the game resetting the instance of the game.
@@ -520,14 +500,6 @@ public class Game extends GameMode {
         if (!correctEnd)
             notify(new DisconnectionMessage());
         resetInstance();
-    }
-
-
-    /**
-     * Sets the instance of the game to null.
-     */
-    private static void resetInstance() {
-        instance = null;
     }
     //------------------------------------------------------------------------------------------------------------------
 
@@ -606,6 +578,10 @@ public class Game extends GameMode {
         return currentPlayer;
     }
 
+    public void setCurrentPlayer(Player currentPlayer) {
+        this.currentPlayer = currentPlayer;
+    }
+
     public boolean[] getTowerColorChosen() {
         return towerColorChosen;
     }
@@ -626,6 +602,12 @@ public class Game extends GameMode {
         return gameState;
     }
 
+    public void setGameState(GameState gameState) {
+        this.gameState = gameState;
+        if (gameState == GameState.PLANNING_PHASE || gameState == GameState.ACTION_PHASE) {
+            notify(new ChangePhaseMessage(gameState));
+        }
+    }
 
     /**
      * @param cloudTileId the id of the cloud tile to return.
@@ -639,7 +621,6 @@ public class Game extends GameMode {
         }
         throw new IllegalClientInputException();
     }
-
 
     public int getMaxNumberOfPlayers() {
         return maxNumberOfPlayers;
@@ -666,15 +647,12 @@ public class Game extends GameMode {
         this.towerColorChosen = new boolean[maxNumberOfPlayers];
     }
 
-    public void setCurrentPlayer(Player currentPlayer) {
-        this.currentPlayer = currentPlayer;
+    public IslandManager getIslandManager() {
+        return islandManager;
     }
 
-    public void setGameState(GameState gameState) {
-        this.gameState = gameState;
-        if (gameState == GameState.PLANNING_PHASE || gameState == GameState.ACTION_PHASE) {
-            notify(new ChangePhaseMessage(gameState));
-        }
+    public List<AssistantCard> getUsedAssistantCards() {
+        return usedAssistantCards;
     }
     //------------------------------------------------------------------------------------------------------------------
 }
