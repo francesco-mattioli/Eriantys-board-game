@@ -24,4 +24,8 @@ public abstract class ClientMessage implements Message{
     }
 
     public abstract void createInputErrorMessage(ClientMessageErrorVisitor visitor);
+
+    protected String unsupportedStringMessage(ClientMessage clientMessage){
+        return "This operation is not supported in message "+ clientMessage.getClass().getSimpleName();
+    }
 }

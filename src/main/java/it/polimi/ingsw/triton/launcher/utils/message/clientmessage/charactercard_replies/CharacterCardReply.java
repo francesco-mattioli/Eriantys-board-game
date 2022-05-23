@@ -1,4 +1,4 @@
-package it.polimi.ingsw.triton.launcher.utils.message.clientmessage.characterCardReply;
+package it.polimi.ingsw.triton.launcher.utils.message.clientmessage.charactercard_replies;
 
 import it.polimi.ingsw.triton.launcher.utils.message.clientmessage.ClientMessage;
 import it.polimi.ingsw.triton.launcher.server.controller.visitors.ClientMessageErrorVisitor;
