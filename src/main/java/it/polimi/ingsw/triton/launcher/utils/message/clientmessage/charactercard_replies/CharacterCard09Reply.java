@@ -1,4 +1,4 @@
-package it.polimi.ingsw.triton.launcher.utils.message.clientmessage.characterCardReply;
+package it.polimi.ingsw.triton.launcher.utils.message.clientmessage.charactercard_replies;
 
 import it.polimi.ingsw.triton.launcher.server.model.enums.Color;
 import it.polimi.ingsw.triton.launcher.utils.exceptions.EndGameException;
@@ -7,22 +7,22 @@ import it.polimi.ingsw.triton.launcher.server.controller.visitors.ClientMessageM
 
 /**
  * This message is sent by the client to communicate to server the color chosen by the current player
- * in order to build and apply the effect of the character card 12.
+ * in order to build and apply the effect of the character card 09.
  */
-public class CharacterCard12Reply extends CharacterCardReply{
-    private final Color student;
+public class CharacterCard09Reply extends CharacterCardReply{
+    private final Color color;
 
-    public CharacterCard12Reply(String senderUsername, Color student) {
+    public CharacterCard09Reply(String senderUsername, Color color) {
         super(senderUsername);
-        this.student = student;
+        this.color = color;
     }
 
     @Override
-    public void modifyModel(ClientMessageModifierVisitor visitor) throws IllegalClientInputException, EndGameException{
+    public void modifyModel(ClientMessageModifierVisitor visitor) throws IllegalClientInputException, EndGameException {
         visitor.visitForModify(this);
     }
 
-    public Color getStudent() {
-        return student;
+    public Color getColor() {
+        return color;
     }
 }

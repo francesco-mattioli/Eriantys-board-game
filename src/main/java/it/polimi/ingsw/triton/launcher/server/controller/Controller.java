@@ -6,7 +6,6 @@ import it.polimi.ingsw.triton.launcher.server.model.enums.GameState;
 import it.polimi.ingsw.triton.launcher.server.model.game.ExpertGame;
 import it.polimi.ingsw.triton.launcher.server.model.game.Game;
 import it.polimi.ingsw.triton.launcher.server.model.game.GameMode;
-import it.polimi.ingsw.triton.launcher.server.model.player.Player;
 import it.polimi.ingsw.triton.launcher.server.view.VirtualView;
 import it.polimi.ingsw.triton.launcher.utils.exceptions.*;
 import it.polimi.ingsw.triton.launcher.utils.message.ErrorTypeID;
@@ -138,12 +137,6 @@ public class Controller implements Observer<ClientMessage> {
         virtualViews.clear();
     }
 
-    public List<String> getPlayersUsernames(){
-        List<String> usernames = new ArrayList<>();
-        for(Player player: game.getPlayers())
-            usernames.add(player.getUsername());
-        return usernames;
-    }
 
     public void setGame(GameMode game) {
         this.game=game;
@@ -169,9 +162,6 @@ public class Controller implements Observer<ClientMessage> {
         game.removePlayer(username);
     }
 
-    public int getCurrentNumberOfGamePlayers(){
-        return game.getPlayers().size();
-    }
 
     public void addGamePlayer(String username){
         game.addPlayer(username);

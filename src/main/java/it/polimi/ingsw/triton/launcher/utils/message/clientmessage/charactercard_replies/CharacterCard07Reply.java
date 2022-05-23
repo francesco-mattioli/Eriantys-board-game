@@ -1,4 +1,4 @@
-package it.polimi.ingsw.triton.launcher.utils.message.clientmessage.characterCardReply;
+package it.polimi.ingsw.triton.launcher.utils.message.clientmessage.charactercard_replies;
 
 import it.polimi.ingsw.triton.launcher.utils.exceptions.EndGameException;
 import it.polimi.ingsw.triton.launcher.utils.exceptions.IllegalClientInputException;
