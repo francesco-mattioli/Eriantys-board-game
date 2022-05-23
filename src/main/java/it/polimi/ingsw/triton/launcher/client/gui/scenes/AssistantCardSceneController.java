@@ -3,12 +3,10 @@ package it.polimi.ingsw.triton.launcher.client.gui.scenes;
 import it.polimi.ingsw.triton.launcher.client.model.ClientModel;
 import it.polimi.ingsw.triton.launcher.server.model.AssistantCard;
 import it.polimi.ingsw.triton.launcher.utils.message.clientmessage.AssistantCardReply;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Polygon;
@@ -40,9 +38,8 @@ public class AssistantCardSceneController extends SceneController {
      * The user can scroll through the assistant card images
      * When user clicks on selectButton, the currently selected assistant card is assigned to him
      * To do this, we have a map between Image and AssistantCard
-     * @param event
      */
-    public void select(ActionEvent event){
+    public void select(){
         AssistantCard selectedAssistantCard = assistantCardImages.get(assistantCardImageView.getImage());
         notify(new AssistantCardReply(selectedAssistantCard));
         selectButton.setDisable(true);
@@ -52,12 +49,10 @@ public class AssistantCardSceneController extends SceneController {
     /**
      * This method permits user to scroll through the assistant card images
      * When card is last one, so you can't scroll, darts are different colorized
-     * @param event
      */
-    public void switchLeft(MouseEvent event){
+    public void switchLeft(){
         if (shownAssistantCard > 0){
-            assistantCardImageView.setImage((Image) assistantCardImages.keySet().toArray()[shownAssistantCard-1]);
-            shownAssistantCard--;
+            showAdjacentAssistantCard(-1);
             rightSwitch.setFill(Color.BLUE);
             rightSwitch.setOpacity(1);
         }
@@ -68,15 +63,15 @@ public class AssistantCardSceneController extends SceneController {
 
     }
 
+
+
     /**
-     * This method permits user to scroll through the assistant card images
+     * This method allows user to scroll through the assistant card images
      * When card is last one, so you can't scroll, darts are different colorized
-     * @param event
      */
-    public void switchRight(MouseEvent event){
+    public void switchRight(){
         if (shownAssistantCard < assistantCardImages.size() - 1){
-            assistantCardImageView.setImage((Image) assistantCardImages.keySet().toArray()[shownAssistantCard+1]);
-            shownAssistantCard++;
+            showAdjacentAssistantCard(1);
             leftSwitch.setFill(Color.BLUE);
             leftSwitch.setOpacity(1);
         }
@@ -86,6 +81,12 @@ public class AssistantCardSceneController extends SceneController {
         }
 
     }
+
+    private void showAdjacentAssistantCard(int offset) {
+        assistantCardImageView.setImage((Image) assistantCardImages.keySet().toArray()[shownAssistantCard+offset]);
+        shownAssistantCard+=offset;
+    }
+
 
     /**
      * In this method we create the map that associates Images and AssistantCard, and we prepare everything for user interaction
