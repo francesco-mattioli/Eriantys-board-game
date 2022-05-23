@@ -17,6 +17,8 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.util.Arrays;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 class GameTest {
@@ -197,6 +199,124 @@ class GameTest {
         }
         assertEquals(GameState.ACTION_PHASE, game.getGameState());
     }
+
+    /**
+     * Tests if the number of students on each island (except the mother nature position and her opposite one) is 1.
+     */
+    @Test
+    void testNumberOfStudentsOnIslands(){
+        player1.setSchoolBoard(TowerColor.BLACK, 2);
+        player1.setWizard(Wizard.BLUE);
+        player2.setSchoolBoard(TowerColor.WHITE, 2);
+        player2.setWizard(Wizard.GREEN);
+        game.setup();
+        assertEquals(1, Arrays.stream(game.getIslandManager().nextIsland(game.getIslandManager().getMotherNature().getPosition()).getStudents()).sum());
+    }
+
+    /**
+     * Tests if the number of students on mother nature position and her opposite is 0.
+     */
+    @Test
+    void testNumberOfStudentsOnMotherNatureIsland(){
+        player1.setSchoolBoard(TowerColor.BLACK, 2);
+        player1.setWizard(Wizard.BLUE);
+        player2.setSchoolBoard(TowerColor.WHITE, 2);
+        player2.setWizard(Wizard.GREEN);
+        game.setup();
+        assertEquals(0, Arrays.stream(game.getIslandManager().getMotherNature().getPosition().getStudents()).sum());
+        try {
+            assertEquals(0, Arrays.stream(game.getIslandManager().getIslandByID(game.getIslandManager().getMotherNature().getIndexOfOppositeIsland(game.getIslandManager().getIslands())).getStudents()).sum());
+        } catch (IllegalClientInputException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    /**
+     * Tests if the number of students in each entrance, after the setup method, is 7 (two-players game).
+     */
+    @Test
+    void testNumberOfStudentsInEntrance(){
+        player1.setSchoolBoard(TowerColor.BLACK, 2);
+        player1.setWizard(Wizard.BLUE);
+        player2.setSchoolBoard(TowerColor.WHITE, 2);
+        player2.setWizard(Wizard.GREEN);
+        game.setup();
+        assertEquals(7, Arrays.stream(player1.getSchoolBoard().getEntrance()).sum());
+    }
+
+    /**
+     * Tests if the number of cloud tiles created corresponds to the number of players in the game.
+     */
+    @Test
+    void testNumberOfCloudTiles(){
+        player1.setSchoolBoard(TowerColor.BLACK, 2);
+        player1.setWizard(Wizard.BLUE);
+        player2.setSchoolBoard(TowerColor.WHITE, 2);
+        player2.setWizard(Wizard.GREEN);
+        game.setup();
+        assertEquals(game.getMaxNumberOfPlayers(), game.getCloudTiles().size());
+    }
+
+    /**
+     * Tests if the number of students in the bag after the setup method is 100.
+     */
+    @Test
+    void testNumberOfStudentsInBagAfterSetup(){
+        player1.setSchoolBoard(TowerColor.BLACK, 2);
+        player1.setWizard(Wizard.BLUE);
+        player2.setSchoolBoard(TowerColor.WHITE, 2);
+        player2.setWizard(Wizard.GREEN);
+        game.setup();
+        assertEquals(100, Arrays.stream(game.getBag().getStudents()).sum());
+    }
+
+    /**
+     * Tests if the cloud tiles are correctly reset in the planning phase.
+     */
+    @Test
+    void testResetCloudTiles(){
+        player1.setSchoolBoard(TowerColor.BLACK, 2);
+        player1.setWizard(Wizard.BLUE);
+        player2.setSchoolBoard(TowerColor.WHITE, 2);
+        player2.setWizard(Wizard.GREEN);
+        game.setup();
+        try {
+            assertFalse(game.getCloudTileById(1).isAlreadyUsed());
+        } catch (IllegalClientInputException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    /**
+     * Tests if the cloud tiles are filled with three students (two-player mode).
+     */
+    @Test
+    void testNumberOfStudentsOnCloudTile(){
+        player1.setSchoolBoard(TowerColor.BLACK, 2);
+        player1.setWizard(Wizard.BLUE);
+        player2.setSchoolBoard(TowerColor.WHITE, 2);
+        player2.setWizard(Wizard.GREEN);
+        game.setup();
+        try {
+            assertEquals(3, Arrays.stream(game.getCloudTileById(1).getStudents()).sum());
+        } catch (IllegalClientInputException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    /*@Test
+    void testFillCloudTilesWithEmptyBag(){
+        player1.setSchoolBoard(TowerColor.BLACK, 2);
+        player1.setWizard(Wizard.BLUE);
+        player2.setSchoolBoard(TowerColor.WHITE, 2);
+        player2.setWizard(Wizard.GREEN);
+        Arrays.fill(game.getBag().getStudents(), 0);
+        int sum = 0;
+        for(CloudTile cloudTile: game.getCloudTiles()){
+            sum += Arrays.stream(cloudTile.getStudents()).sum();
+        }
+        assertNotEquals(6, sum);
+    }*/
 
     /**
      * Tests if the number of islands created is twelve.
