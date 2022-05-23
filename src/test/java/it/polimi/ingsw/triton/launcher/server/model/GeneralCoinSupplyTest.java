@@ -3,11 +3,14 @@ package it.polimi.ingsw.triton.launcher.server.model;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+
 import java.util.NoSuchElementException;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 class GeneralCoinSupplyTest {
     private GeneralCoinSupply generalCoinSupply;
+
     @BeforeEach
     void setUp() {
         generalCoinSupply = new GeneralCoinSupply(5);
@@ -17,7 +20,6 @@ class GeneralCoinSupplyTest {
     void tearDown() {
         generalCoinSupply = null;
     }
-
 
     /**
      * Tests if the supply is incremented correctly.
@@ -40,7 +42,7 @@ class GeneralCoinSupplyTest {
     }
 
     /**
-     * Tests if returns true when the supply is empty.
+     * Tests if the method returns true when the supply is empty.
      */
     @Test
     void isEmptyTest() {

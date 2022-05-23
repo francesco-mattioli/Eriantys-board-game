@@ -1,6 +1,8 @@
 package it.polimi.ingsw.triton.launcher.client.gui.scenes;
 
-import it.polimi.ingsw.triton.launcher.utils.message.clientmessage.UpdatedServerInfoMessage;
+
+
+import it.polimi.ingsw.triton.launcher.utils.message.UpdatedServerInfoMessage;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -18,7 +20,8 @@ public class IpAddressSceneController extends SceneController {
     @FXML
     TextField ipTextField;
 
-    public void connect(ActionEvent event){
+
+    public void connect(ActionEvent event) {
         String ip = ipTextField.getText();
         notify(new UpdatedServerInfoMessage(ip));
         ipAddressPane.setDisable(true);

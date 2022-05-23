@@ -1,11 +1,8 @@
 package it.polimi.ingsw.triton.launcher.server.model.islands;
 
 import it.polimi.ingsw.triton.launcher.server.model.AssistantCard;
-import it.polimi.ingsw.triton.launcher.server.model.islands.Island;
 import it.polimi.ingsw.triton.launcher.utils.exceptions.IllegalClientInputException;
 import it.polimi.ingsw.triton.launcher.utils.message.ErrorTypeID;
-
-
 
 import java.io.Serializable;
 import java.util.List;
@@ -21,7 +18,7 @@ public class MotherNature implements Serializable {
     }
 
     /**
-     *  @return This method returns the island where MotherNature is
+     *  @return the island where MotherNature is.
      */
     public Island getPosition() {
         return islandOn;
@@ -29,11 +26,11 @@ public class MotherNature implements Serializable {
 
     /**
      * Moves MotherNature onto another island.
-     * @param assistantCard specifies the played card, witch contains information about the max number of steps
-     * @param steps specifies the number of steps that MotherNature has to do
-     * @param islands specifies the ArrayList of Islands
-     * @return returns the islands where MotherNature has been moved on
-     * @throws IllegalArgumentException if the request steps are more than the number permitted
+     * @param assistantCard specifies the played card, witch contains information about the max number of steps.
+     * @param steps specifies the number of steps that MotherNature has to do.
+     * @param islands specifies the ArrayList of Islands.
+     * @return returns the islands where MotherNature has been moved on.
+     * @throws IllegalArgumentException if the request steps are more than the number permitted.
      */
     public Island move(AssistantCard assistantCard, int steps, List<Island> islands) throws IllegalClientInputException {
         int maxSteps = assistantCard.getType().getMaxSteps() + additionalSteps;
@@ -86,5 +83,4 @@ public class MotherNature implements Serializable {
     public void setIslandOn(Island islandOn) {
         this.islandOn = islandOn;
     }
-
 }

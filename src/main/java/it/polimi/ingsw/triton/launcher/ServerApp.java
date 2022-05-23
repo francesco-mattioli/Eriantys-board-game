@@ -2,6 +2,7 @@ package it.polimi.ingsw.triton.launcher;
 
 import it.polimi.ingsw.triton.launcher.server.network.Server;
 import java.io.IOException;
+import java.util.logging.Level;
 
 
 public class ServerApp {
@@ -29,9 +30,12 @@ public class ServerApp {
         server = Server.instance(port);
         try {
             server.run();
+            if(Server.LOGGER.isLoggable(Level.INFO))
+                Server.LOGGER.log(Level.INFO, String.format("Server listening on port %d",port));
         } catch (IOException e) {
             Server.LOGGER.severe("Impossible to initialize the server: " + e.getMessage() + "!");
         }
-        Server.LOGGER.info("Server listening on port " + port);
+
+
     }
 }

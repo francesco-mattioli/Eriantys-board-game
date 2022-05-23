@@ -7,7 +7,7 @@ import it.polimi.ingsw.triton.launcher.server.model.player.Player;
  * This class contains code that is used by Default and Effect08.
  * This class is the superClass of Default and Effect08 in order to remove duplicated code.
  */
-public class InfluenceStrategyDefaultSuper extends InfluenceStrategy{
+public class InfluenceStrategyDefaultSuper implements InfluenceStrategy {
 
     /**
      * This method calculate the default influence between two players on an island.

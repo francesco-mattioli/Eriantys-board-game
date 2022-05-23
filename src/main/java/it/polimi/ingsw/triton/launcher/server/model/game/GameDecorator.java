@@ -57,7 +57,7 @@ public class GameDecorator extends GameMode{
     }
 
     @Override
-    public List<CharacterCard> getCharacterCards() {
+    public List<CharacterCard> getCharacterCards() throws IllegalClientInputException {
         return game.getCharacterCards();
     }
 
@@ -99,6 +99,11 @@ public class GameDecorator extends GameMode{
     @Override
     public GameState getGameState() {
         return game.getGameState();
+    }
+
+    @Override
+    public List<AssistantCard> getUsedAssistantCards(){
+        return game.getUsedAssistantCards();
     }
 
     @Override
@@ -234,5 +239,10 @@ public class GameDecorator extends GameMode{
     @Override
     public void removePlayer(String username){
         game.removePlayer(username);
+    }
+
+    @Override
+    public void drawCharacterCards() throws IllegalClientInputException{
+        game.drawCharacterCards();
     }
 }

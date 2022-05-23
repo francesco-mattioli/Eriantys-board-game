@@ -2,7 +2,7 @@ package it.polimi.ingsw.triton.launcher.client.gui.scenes;
 
 import it.polimi.ingsw.triton.launcher.client.model.ClientModel;
 import it.polimi.ingsw.triton.launcher.server.model.enums.Color;
-import it.polimi.ingsw.triton.launcher.utils.message.clientmessage.characterCardReply.CharacterCard10Reply;
+import it.polimi.ingsw.triton.launcher.utils.message.clientmessage.charactercard_replies.CharacterCard10Reply;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;

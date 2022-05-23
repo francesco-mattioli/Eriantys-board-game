@@ -31,7 +31,7 @@ public abstract class GameMode extends Observable<InfoMessage>{
     public abstract void executeActionMoveStudentToDiningRoom(Color student) throws LastMoveException, IllegalClientInputException;
     public abstract void useCharacterCard(Player player, int idCard) throws IllegalClientInputException, CharacterCardWithParametersException;
     public abstract void applyCharacterCardEffect(int characterCardID, CardEffect cardEffect) throws IllegalClientInputException, EndGameException;
-    public abstract List<CharacterCard> getCharacterCards();
+    public abstract List<CharacterCard> getCharacterCards() throws IllegalClientInputException;
     public abstract CharacterCard getCharacterCardByID(int id) throws IllegalClientInputException;
     public abstract void setGameState(GameState setup);
     public abstract boolean[] getTowerColorChosen();
@@ -40,6 +40,7 @@ public abstract class GameMode extends Observable<InfoMessage>{
     public abstract void addPlayer(String username);
     public abstract IslandManager getIslandManager();
     public abstract GameState getGameState();
+    public abstract List<AssistantCard> getUsedAssistantCards();
     public abstract void endGame(boolean correctEnd);
     public abstract List<Player> getPlayers();
     public abstract void chooseTowerColor(Player player, TowerColor playerColor) throws IllegalClientInputException, ChangeTurnException;
@@ -65,7 +66,8 @@ public abstract class GameMode extends Observable<InfoMessage>{
     abstract String[] professorsWithUsernameOwner();
     public abstract int getMaxNumberOfPlayers();
     public abstract void setMaxNumberOfPlayers(int maxNumberOfPlayers);
-    abstract void setCurrentPlayer(Player player);
+    public abstract void setCurrentPlayer(Player player);
     public abstract void removePlayer(String username);
+    public abstract void drawCharacterCards() throws IllegalClientInputException;
 
 }

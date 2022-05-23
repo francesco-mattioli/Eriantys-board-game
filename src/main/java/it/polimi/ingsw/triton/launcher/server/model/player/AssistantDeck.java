@@ -15,7 +15,7 @@ public class AssistantDeck implements Serializable {
      * The maximum number of cards a deck can contain
      */
     private final Wizard wizard;
-    private final List<AssistantCard> assistantDeck;
+    private final List<AssistantCard> assistantCards;
 
     /**
      * Instantiates a new Assistant deck.
@@ -24,10 +24,10 @@ public class AssistantDeck implements Serializable {
      */
     public AssistantDeck(Wizard wizard) {
         int cardsNumber = AssistantCardType.values().length;
-        this.assistantDeck = new ArrayList<>();
+        this.assistantCards = new ArrayList<>();
         this.wizard = wizard;
         for (int i = 0; i < cardsNumber; i++) {
-            assistantDeck.add(new AssistantCard(AssistantCardType.values()[i]));
+            assistantCards.add(new AssistantCard(AssistantCardType.values()[i]));
         }
     }
 
@@ -37,7 +37,7 @@ public class AssistantDeck implements Serializable {
      * @return the assistant deck
      */
     public List<AssistantCard> getAssistantDeck() {
-        return assistantDeck;
+        return assistantCards;
     }
 
     /**
@@ -48,9 +48,9 @@ public class AssistantDeck implements Serializable {
      * @param cardToRemove the card to remove
      */
     public void removeCard(AssistantCard cardToRemove) {
-        for (int i = 0; i < assistantDeck.size(); i++) {
-            if (assistantDeck.get(i).getType().getValue() == cardToRemove.getType().getValue()) {
-                assistantDeck.remove(i);
+        for (int i = 0; i < assistantCards.size(); i++) {
+            if (assistantCards.get(i).getType().getValue() == cardToRemove.getType().getValue()) {
+                assistantCards.remove(i);
                 break;
             }
         }
@@ -60,11 +60,11 @@ public class AssistantDeck implements Serializable {
      * @return the string with all the assistant cards.
      */
     public String printAllAssistantCards(){
-        String results = " ";
-        for (AssistantCard assistantCard: assistantDeck) {
-            results += "\t" + assistantCard.toString();
+        StringBuilder result = new StringBuilder(" ");
+        for (AssistantCard assistantCard: assistantCards) {
+            result.append("\t").append(assistantCard.toString());
         }
-        return results;
+        return result.toString();
     }
 
     public Wizard getWizard() {

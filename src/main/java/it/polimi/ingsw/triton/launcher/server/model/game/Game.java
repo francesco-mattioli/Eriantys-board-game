@@ -155,8 +155,8 @@ public class Game extends GameMode {
         player.executeAction(new PlayAssistantCard(assistantCard, player, usedAssistantCards));
         notify(new InfoAssistantCardPlayedMessage(currentPlayer.getUsername(), assistantCard));
         if (usedAssistantCards.size() == maxNumberOfPlayers) {
-            sortPlayerPerTurn();
             setGameState(GameState.ACTION_PHASE);
+            sortPlayerPerTurn();
         } else setNextPlayer();
     }
 
@@ -337,7 +337,7 @@ public class Game extends GameMode {
             currentPlayer.executeAction(new MoveStudentOntoIsland(currentPlayer.getSchoolBoard(), student, islandManager.getIslandByID(idIsland)));
             currentPlayer.setMoveCounter(currentPlayer.getMoveCounter() + 1);
             String moveDescription = currentPlayer.getUsername() + " has moved a " + student.name().toLowerCase() + " student on the island " + idIsland + ".";
-            notify(new InfoStudentOntoIslandMessage(currentPlayer.getUsername(), currentPlayer.getSchoolBoard(), islandManager.getIslandByID(idIsland), professorsWithUsernameOwner(), moveDescription));
+            notify(new InfoStudentOntoIslandMessage(currentPlayer.getUsername(), currentPlayer.getSchoolBoard(), islandManager.getIslandByID(idIsland), moveDescription));
             checkNumberMoves();
         }
     }
@@ -381,7 +381,7 @@ public class Game extends GameMode {
         currentPlayer.executeAction(new ChooseCloudTile(cloudTile, currentPlayer.getSchoolBoard()));
         cloudTile.setAlreadyUsed(true);
         String choiceDescription = currentPlayer.getUsername() + " has chosen the cloud tile " + cloudTile.getId() + ".";
-        notify(new InfoChosenCloudTileMessage(currentPlayer.getUsername(), currentPlayer.getSchoolBoard(), cloudTile, professorsWithUsernameOwner(), choiceDescription));
+        notify(new InfoChosenCloudTileMessage(currentPlayer.getUsername(), currentPlayer.getSchoolBoard(), cloudTile, choiceDescription));
         nextGameTurn();
     }
 
@@ -443,22 +443,26 @@ public class Game extends GameMode {
         }
     }
 
-    public void useCharacterCard(Player player, int idCard) throws IllegalClientInputException, CharacterCardWithParametersException {
+    public void useCharacterCard(Player player, int idCard) throws IllegalClientInputException{
+        throw new IllegalClientInputException(ErrorTypeID.ILLEGAL_MOVE_FOR_MODE);
+        // This method is implemented by ExpertGame
+    }
+    @Override
+    public void drawCharacterCards() throws IllegalClientInputException{
+        throw new IllegalClientInputException(ErrorTypeID.ILLEGAL_MOVE_FOR_MODE);
         // This method is implemented by ExpertGame
     }
 
-    public void applyCharacterCardEffect(int characterCardID, CardEffect cardEffect) throws IllegalClientInputException, EndGameException {
-        // This method is implemented by ExpertGame
+    public void applyCharacterCardEffect(int characterCardID, CardEffect cardEffect) throws IllegalClientInputException{
+        throw new IllegalClientInputException(ErrorTypeID.ILLEGAL_MOVE_FOR_MODE);
     }
 
     public CharacterCard getCharacterCardByID(int id) throws IllegalClientInputException {
-        // This method is implemented by ExpertGame
-        return null;
+        throw new IllegalClientInputException(ErrorTypeID.ILLEGAL_MOVE_FOR_MODE);
     }
 
-    public ArrayList<CharacterCard> getCharacterCards() {
-        // This method is implemented by ExpertGame
-        return new ArrayList<>();
+    public ArrayList<CharacterCard> getCharacterCards() throws IllegalClientInputException {
+        throw new IllegalClientInputException(ErrorTypeID.ILLEGAL_MOVE_FOR_MODE);
     }
 
 
@@ -507,6 +511,7 @@ public class Game extends GameMode {
         players.removeIf(player -> (player.getUsername().equals(username)));
         notify(new LobbyMessage(getAllUsernames(players), maxNumberOfPlayers));
     }
+
 
     /**
      * Ends the game resetting the instance of the game.
@@ -643,6 +648,10 @@ public class Game extends GameMode {
 
     public IslandManager getIslandManager() {
         return islandManager;
+    }
+
+    public List<AssistantCard> getUsedAssistantCards() {
+        return usedAssistantCards;
     }
     //------------------------------------------------------------------------------------------------------------------
 

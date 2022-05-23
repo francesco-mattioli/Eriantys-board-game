@@ -11,6 +11,7 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 
@@ -139,8 +140,8 @@ public class Server {
                 beginGameOrRemoveExtraPlayer(maxNumPlayers);
             } else
                 waitingList.get(0).showGenericMessage("Waiting for " + (maxNumPlayers - waitingList.size()) + " to connect...");
-
-            LOGGER.info(CLIENTS_CONNECTED + waitingList.size());
+            if(Server.LOGGER.isLoggable(Level.INFO))
+                LOGGER.info(CLIENTS_CONNECTED+waitingList.size());
         }
     }
 
@@ -210,7 +211,8 @@ public class Server {
         waitingList.remove(virtualView);
         controller.getVirtualViews().remove(virtualView);
         LOGGER.severe("Player not accepted, username already chosen");
-        LOGGER.info(CLIENTS_CONNECTED + waitingList.size());
+        if(Server.LOGGER.isLoggable(Level.INFO))
+            LOGGER.info(CLIENTS_CONNECTED + waitingList.size());
     }
 
     //------------------------------------------------------------------------------------------------------------------

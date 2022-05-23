@@ -35,11 +35,11 @@ class IslandTest {
         island1 = new Island(1);
         island2 = new Island(2);
         professors = new Player[5];
-        professors[0] = p1;
-        professors[1] = p1;
-        professors[2] = null;
-        professors[3] = p2;
-        professors[4] = p1;
+        professors[Color.GREEN.ordinal()] = p1;
+        professors[Color.RED.ordinal()] = p1;
+        professors[Color.YELLOW.ordinal()] = null;
+        professors[Color.PINK.ordinal()] = p2;
+        professors[Color.BLUE.ordinal()] = p1;
         island1.addStudent(Color.YELLOW);
         island1.addStudent(Color.BLUE);
         island1.addStudent(Color.GREEN);
@@ -95,8 +95,8 @@ class IslandTest {
      */
     @Test
     void updateInfluenceEquals(){
-        island1.addStudent(Color.RED);
-        island1.addStudent(Color.RED);
+        island1.addStudent(Color.PINK);
+        island1.addStudent(Color.PINK);
         try {
             island1.updateInfluence(players, professors);
         } catch (EndGameException e) {
@@ -164,15 +164,15 @@ class IslandTest {
      */
     @Test
     void updateInfluenceWithChangeDomination(){
-        island1.addStudent(Color.RED);
         try {
             island1.updateInfluence(players, professors);
         } catch (EndGameException e) {
             e.printStackTrace();
         }
-        island1.addStudent(Color.RED);
-        island1.addStudent(Color.RED);
-        island1.addStudent(Color.RED);
+        island1.addStudent(Color.PINK);
+        island1.addStudent(Color.PINK);
+        island1.addStudent(Color.PINK);
+        island1.addStudent(Color.PINK);
         try {
             island1.updateInfluence(players, professors);
         } catch (EndGameException e) {
@@ -283,5 +283,20 @@ class IslandTest {
         }
         island1.merge(island2);
         assertEquals(3, island1.getStudents()[Color.BLUE.ordinal()]);
+    }
+
+    @Test
+    void testGetDominatorWhenIsNotNull(){
+        try {
+            island1.updateInfluence(players, professors);
+        } catch (EndGameException e) {
+            throw new RuntimeException(e);
+        }
+        assertNotNull(island1.getDominatorEvenIfNull());
+    }
+
+    @Test
+    void testGetDominatorWhenIsNull(){
+        assertEquals("/", island1.getDominatorEvenIfNull());
     }
 }

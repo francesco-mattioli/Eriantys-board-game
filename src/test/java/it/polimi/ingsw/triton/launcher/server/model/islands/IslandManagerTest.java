@@ -1,6 +1,8 @@
 package it.polimi.ingsw.triton.launcher.server.model.islands;
 
 import it.polimi.ingsw.triton.launcher.server.model.enums.TowerColor;
+import it.polimi.ingsw.triton.launcher.server.model.influencestrategy.InfluenceStrategyDefault;
+import it.polimi.ingsw.triton.launcher.server.model.influencestrategy.InfluenceStrategyWithEffect08;
 import it.polimi.ingsw.triton.launcher.server.model.player.Player;
 import it.polimi.ingsw.triton.launcher.utils.exceptions.EndGameException;
 import it.polimi.ingsw.triton.launcher.utils.exceptions.IllegalClientInputException;
@@ -46,14 +48,34 @@ class IslandManagerTest {
     }
 
     /**
-     * Checks if the size of islands list is decreased when two islands merged correctly.
+     * Checks if the size of islands list is decreased when an island merged correctly with the next one.
      */
     @Test
-    void mergeNearIslandsWhenSameDominator() {
+    void mergeWithNextIslandWhenHaveSameDominator() {
         int numIslands = islandManager.getIslands().size();
         try {
             islandManager.getIslandByID(5).setDominator(p1);
             islandManager.getIslandByID(6).setDominator(p1);
+        } catch (IllegalClientInputException e) {
+            throw new RuntimeException(e);
+        }
+        try {
+            islandManager.mergeNearIslands(islandManager.getIslandByID(5), players, professors);
+        } catch (EndGameException | IllegalClientInputException e) {
+            throw new RuntimeException(e);
+        }
+        assertEquals(numIslands - 1, islandManager.getIslands().size());
+    }
+
+    /**
+     * Checks if the size of islands list is decreased when an island merged correctly with the previous one.
+     */
+    @Test
+    void mergeWithPreviousIslandWhenHaveSameDominator() {
+        int numIslands = islandManager.getIslands().size();
+        try {
+            islandManager.getIslandByID(5).setDominator(p1);
+            islandManager.getIslandByID(4).setDominator(p1);
         } catch (IllegalClientInputException e) {
             throw new RuntimeException(e);
         }
@@ -142,5 +164,20 @@ class IslandManagerTest {
     void testGetIslandByIDWhenNotExists() {
         islandManager.getIslands().remove(3);
         assertThrows(IllegalClientInputException.class, ()->islandManager.getIslandByID(3));
+    }
+
+    /**
+     * Checks if the influence strategy of an island is set again to default.
+     */
+    @Test
+    void testResetInfluenceStrategy() {
+        try {
+            islandManager.getIslandByID(5).setInfluenceStrategy(new InfluenceStrategyWithEffect08(p1));
+            assertInstanceOf(InfluenceStrategyWithEffect08.class, islandManager.getIslandByID(5).getInfluenceStrategy());
+            islandManager.resetIslandsInfluenceStrategy();
+            assertInstanceOf(InfluenceStrategyDefault.class, islandManager.getIslandByID(5).getInfluenceStrategy());
+        } catch (IllegalClientInputException e) {
+            throw new RuntimeException(e);
+        }
     }
 }

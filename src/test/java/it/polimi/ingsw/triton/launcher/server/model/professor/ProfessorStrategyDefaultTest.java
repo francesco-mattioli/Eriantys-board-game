@@ -1,10 +1,8 @@
-package it.polimi.ingsw.triton.launcher.server.model;
+package it.polimi.ingsw.triton.launcher.server.model.professor;
 
 import it.polimi.ingsw.triton.launcher.server.model.enums.Color;
 import it.polimi.ingsw.triton.launcher.server.model.enums.TowerColor;
 import it.polimi.ingsw.triton.launcher.server.model.player.Player;
-import it.polimi.ingsw.triton.launcher.server.model.professor.ProfessorStrategyDefault;
-import it.polimi.ingsw.triton.launcher.server.model.professor.ProfessorsManager;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -12,10 +10,8 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
 class ProfessorStrategyDefaultTest {
-
     private ProfessorsManager professorsManager;
     private Player player;
-
     private Player[] professors;
 
     @BeforeEach
@@ -34,28 +30,26 @@ class ProfessorStrategyDefaultTest {
     }
 
     /**
-     * Test throws an exception if the parameter color is null
+     * Tests if the method throws an exception if the parameter color is null.
      */
     @Test
     void throwExceptionIfColorIsNull() {
-        assertThrows(IllegalArgumentException.class, () -> {
-            professorsManager.updateProfessors(player,null, professors);
-        });
+        assertThrows(IllegalArgumentException.class, () -> professorsManager.updateProfessors(player,null, professors));
     }
 
 
     /**
-     * Tests if update correctly the influence when the professor is not taken
+     * Tests if the influence is updated correctly when the professor is not taken.
      */
     @Test
     void updateProfessorInfluenceWhenPlayerIsNull(){
         player.getSchoolBoard().getDiningRoom()[Color.BLUE.ordinal()]=1;
         professorsManager.updateProfessors(player,Color.BLUE, professors);
-        assertTrue(player.equals(professors[Color.BLUE.ordinal()]));
+        assertEquals(player, professors[Color.BLUE.ordinal()]);
     }
 
     /**
-     * Tests if update correctly the influence when the professor is taken
+     * Tests if the influence is updated correctly when the professor is taken.
      */
     @Test
     void updateProfessorInfluenceWhenPlayerIsNotNull(){
@@ -65,6 +59,6 @@ class ProfessorStrategyDefaultTest {
         professors[Color.BLUE.ordinal()] = playerWithProfessor;
         player.getSchoolBoard().getDiningRoom()[Color.BLUE.ordinal()]=2;
         professorsManager.updateProfessors(player,Color.BLUE, professors);
-        assertTrue(player.equals(professors[Color.BLUE.ordinal()]));
+        assertEquals(player, professors[Color.BLUE.ordinal()]);
     }
 }

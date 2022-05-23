@@ -165,6 +165,10 @@ public class Island extends Observable<InfoMessage> implements Serializable {
         return dominator;
     }
 
+    /**
+     * This method is useful to build the string that describes the island.
+     * @return the island dominator's username if present, '/' otherwise.
+     */
     public String getDominatorEvenIfNull(){
         if(dominator == null)
             return "/";
@@ -177,10 +181,10 @@ public class Island extends Observable<InfoMessage> implements Serializable {
     }
 
     public String toString(){
-        return "\n\t{id:" + id +", " +
-                "dimension:" + dim + ", " +
-                "dominator:" + getDominatorEvenIfNull() + ", " +
-                "students:" + Utility.printColoredStudents(students) + ", " +
-                "no entry tiles:" + noEntryTiles + "}";
+        return "\n\t{id: " + id +", " +
+                "dimension: " + dim + ", " +
+                "dominator: " + getDominatorEvenIfNull() + ", " +
+                 Utility.printColoredStudents(students) + ", " +
+                "no entry tiles: " + noEntryTiles + "}";
     }
 }

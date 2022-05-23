@@ -8,7 +8,6 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
 class CloudTileTest {
-
     private CloudTile cloudTile;
 
     @BeforeEach
@@ -40,11 +39,11 @@ class CloudTileTest {
      */
     @Test
     void setNullColor(){
-        assertThrows(IllegalArgumentException.class, () -> {cloudTile.setStudents(null);});
+        assertThrows(IllegalArgumentException.class, () -> cloudTile.setStudents(null));
     }
 
     /**
-     * Tests if removeStudentFromCloudTile throws an exception when cloudtile is empty
+     * Tests if removeStudentFromCloudTile throws an exception when the cloud tile is empty.
      */
     @Test
     void throwExceptionWhenCloudTileIsEmpty() {
@@ -52,7 +51,7 @@ class CloudTileTest {
     }
 
     /**
-     * Tests if removeStudentFromCloudTile remove the correct student
+     * Tests if removeStudentFromCloudTile removes the correct student.
      */
     @Test
     void removeOneBlueStudentWhenThereIsOne(){

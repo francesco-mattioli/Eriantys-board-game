@@ -118,10 +118,10 @@ public class SchoolBoard implements Serializable {
     @Override
     public String toString() {
         return "{" +
-                "towerColor=" + towerColor +
-                ", numTowers=" + numTowers +
-                ", entrance=" + Utility.printColoredStudents(entrance) +
-                ", diningRoom=" + Utility.printColoredStudents(diningRoom) +
+                "Tower color: " + towerColor +
+                ", Number of Towers: " + numTowers +
+                ", Entrance > " + Utility.printColoredStudents(entrance) +
+                ", Dining Room > " + Utility.printColoredStudents(diningRoom) +
                 "}\n\t";
     }
 
