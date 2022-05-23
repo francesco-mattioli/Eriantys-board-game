@@ -36,6 +36,12 @@ public class AssistantCardSceneController extends SceneController {
     private Map<Image, AssistantCard> assistantCardImages;
     private int shownAssistantCard = 0;
 
+    /**
+     * The user can scroll through the assistant card images
+     * When user clicks on selectButton, the currently selected assistant card is assigned to him
+     * To do this, we have a map between Image and AssistantCard
+     * @param event
+     */
     public void select(ActionEvent event){
         AssistantCard selectedAssistantCard = assistantCardImages.get(assistantCardImageView.getImage());
         notify(new AssistantCardReply(username, selectedAssistantCard));
@@ -43,6 +49,11 @@ public class AssistantCardSceneController extends SceneController {
         ((Stage) assistantCardPane.getScene().getWindow()).close();
     }
 
+    /**
+     * This method permits user to scroll through the assistant card images
+     * When card is last one, so you can't scroll, darts are different colorized
+     * @param event
+     */
     public void switchLeft(MouseEvent event){
         if (shownAssistantCard > 0){
             assistantCardImageView.setImage((Image) assistantCardImages.keySet().toArray()[shownAssistantCard-1]);
@@ -57,6 +68,11 @@ public class AssistantCardSceneController extends SceneController {
 
     }
 
+    /**
+     * This method permits user to scroll through the assistant card images
+     * When card is last one, so you can't scroll, darts are different colorized
+     * @param event
+     */
     public void switchRight(MouseEvent event){
         if (shownAssistantCard < assistantCardImages.size() - 1){
             assistantCardImageView.setImage((Image) assistantCardImages.keySet().toArray()[shownAssistantCard+1]);
@@ -71,6 +87,12 @@ public class AssistantCardSceneController extends SceneController {
 
     }
 
+    /**
+     * In this method we create the map that associates Images and AssistantCard, and we prepare everything for user interaction
+     * @param clientModel
+     * @param parameters
+     * @param <T>
+     */
     @Override
     public <T> void setupScene(ClientModel clientModel, T parameters) {
         assistantCardImages = new HashMap<>();

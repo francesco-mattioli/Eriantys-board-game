@@ -1,7 +1,6 @@
 package it.polimi.ingsw.triton.launcher.client.gui.scenes;
 
 import it.polimi.ingsw.triton.launcher.client.model.ClientModel;
-import it.polimi.ingsw.triton.launcher.server.model.islands.Island;
 import it.polimi.ingsw.triton.launcher.server.model.enums.Color;
 import it.polimi.ingsw.triton.launcher.utils.message.Message;
 import it.polimi.ingsw.triton.launcher.utils.obs.Observable;
@@ -22,6 +21,12 @@ public abstract class SceneController extends Observable<Message> {
     public <T> void setupScene(ClientModel clientModel, T parameters){
     }
 
+    /**
+     * This method writes elements in choice box, when user has to choose a student color
+     * It is called by many subclassed
+     * @param choiceBox
+     * @param students
+     */
     public void setupStudentsChoiceBox(ChoiceBox<String> choiceBox, int [] students){
         List<String> list = new ArrayList<>();
         for (int i = 0; i < students.length; i++) {

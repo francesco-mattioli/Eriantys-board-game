@@ -36,8 +36,8 @@ public class CharCard10SceneController extends SceneController{
     @FXML
     ChoiceBox<String> fromEntrance2;
 
-    private int[] fromEntrance = new int[5];
-    private int[] fromDiningRoom = new int[5];
+    private final int[] fromEntrance = new int[5];
+    private final int[] fromDiningRoom = new int[5];
     private ClientModel clientModel;
     private Button currentButton;
 

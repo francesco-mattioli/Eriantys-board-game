@@ -8,7 +8,6 @@ import it.polimi.ingsw.triton.launcher.server.model.enums.TowerColor;
 import it.polimi.ingsw.triton.launcher.server.model.player.SchoolBoard;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
-import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -72,6 +71,13 @@ public class MainSceneController extends SceneController {
     private final Map<String, AnchorPane> schoolBoardsMap = new HashMap<>();
     private final Map<String,GridPane> deckMap = new HashMap<>();
 
+    /**
+     * This method draws the students on the correct dining room
+     * For each color, the user can have a max of 10 students in his dining room
+     * First 10 children are image views which represents green students, then reds and so on
+     * @param studentsOnDiningRoom is an array of int, which contains, for each color, the number of students on dining room
+     * @param schoolBoard schoolBoard
+     */
     private void drawStudentsOnDiningRoom(List<Node> studentsOnDiningRoom, SchoolBoard schoolBoard){
         studentsOnDiningRoom.forEach(x -> x.setVisible(false));
         for(int i = 0; i < schoolBoard.getDiningRoom().length; i++){
@@ -81,6 +87,12 @@ public class MainSceneController extends SceneController {
         }
     }
 
+    /**
+     * This method draws students on the correct entrance
+     * In the enum of Color, for each color we know the path of the associate image, so we can take it easily
+     * @param studentsOnEntrance studentsOnEntrance
+     * @param schoolBoard schoolBoard
+     */
     private void drawStudentsOnEntrance(List<Node> studentsOnEntrance, SchoolBoard schoolBoard){
         studentsOnEntrance.forEach(x -> x.setVisible(false));
         int offset = 0;
@@ -94,6 +106,12 @@ public class MainSceneController extends SceneController {
         }
     }
 
+    /**
+     * This method draws the correct number of towers on the schoolBoard
+     * Towers are colorized circles, which are normally not visible and are made visible if are present in schoolBoard
+     * @param towersOnSchoolBoard towersOnSchoolBoard
+     * @param schoolBoard schoolBoard
+     */
     private void drawTowersOnSchoolBoard(List<Node> towersOnSchoolBoard, SchoolBoard schoolBoard){
         towersOnSchoolBoard.forEach(x -> x.setVisible(false));
         for(int i = 0; i<schoolBoard.getNumTowers(); i++){
@@ -110,6 +128,16 @@ public class MainSceneController extends SceneController {
             towerShape.setVisible(true);
         }
     }
+
+
+    /**
+     * This methods draws professors on correct schoolBoards
+     * for each professor we know the username of the possessor, so if username is equals to the possessor of that professor,
+     * we set visible the associated image view
+     * @param professorsOnSchoolBoard professorsOnSchoolBoard
+     * @param username username
+     * @param clientModel clientModel
+     */
     private void drawProfessors(List<Node> professorsOnSchoolBoard, String username, ClientModel clientModel){
         for(int i=0; i < clientModel.getProfessors().length; i++){
             if(clientModel.getProfessors()[i] != null) {
@@ -118,6 +146,31 @@ public class MainSceneController extends SceneController {
         }
     }
 
+    /**
+     * This method draws the correct number of tower on schoolBoards, for each player
+     * @param clientModel clientModel
+     */
+    private void drawAllSchoolBoardsTowers(ClientModel clientModel) {
+        for(int i = 0; i < schoolBoardsMap.keySet().size(); i++){
+            AnchorPane schoolBoardPane = schoolBoardsMap.get(new ArrayList<>(schoolBoardsMap.keySet()).get(i));
+            drawTowersOnSchoolBoard(((GridPane)schoolBoardPane.getChildren().get(4)).getChildren(), clientModel.getSchoolBoards().get(new ArrayList<>(schoolBoardsMap.keySet()).get(i)));
+        }
+    }
+
+    /**
+     * This method draws the entire island block
+     * It is very complex, so uses a lot of helper methods
+     * We use 2 grid panes, to dispose islands on two lines (superior line and inferior line)
+     * islandGrids[0] identifies the superior line
+     * islandGrids[1] identifies the inferior line
+     * Every grid's box contains and anchor pane, which contains an HBox
+     * In every HBox there is a number of ImageViews equals to the number of merged islands in that position
+     * The number of islands in superior and inferior line is decided dividing by 2 the islands arrayList dimension:
+     * The floor will be the superior grid size
+     * The selling will be the inferior grid size
+     * When we pass the mouse on and island's HBox, we can see a new pane with island's information
+     * @param clientModel clientModel
+     */
     private void drawIslands(ClientModel clientModel){
         List<Node> islands = islandPane.getChildren();
         islands.clear();
@@ -136,13 +189,13 @@ public class MainSceneController extends SceneController {
         addIslandsAsChildren(islandGrids,nodeList, islands);
     }
 
-    private void drawSchoolBoard(ClientModel clientModel) {
-        for(int i = 0; i < schoolBoardsMap.keySet().size(); i++){
-            AnchorPane schoolBoardPane = schoolBoardsMap.get(new ArrayList<>(schoolBoardsMap.keySet()).get(i));
-            drawTowersOnSchoolBoard(((GridPane)schoolBoardPane.getChildren().get(4)).getChildren(), clientModel.getSchoolBoards().get(new ArrayList<>(schoolBoardsMap.keySet()).get(i)));
-        }
-    }
-
+    /**
+     *
+     * @param clientModel clientModel
+     * @param dimensions array that contains the size of superior and inferior grid
+     * @param islandGrids islandGrids
+     * @param nodeList array of lists that will contain, for each list, anchorPanes associated to islands
+     */
     private void setupIslandGrid(ClientModel clientModel, int [] dimensions, GridPane [] islandGrids, List<Node>[] nodeList){
         dimensions[0] = clientModel.getIslands().size()/2;
         dimensions[1] = clientModel.getIslands().size() - dimensions[0];
@@ -372,8 +425,7 @@ public class MainSceneController extends SceneController {
 
     public void showChangeInfluenceMessage(ClientModel clientModel) {
         drawIslands(clientModel);
-        drawSchoolBoard(clientModel);
-
+        drawAllSchoolBoardsTowers(clientModel);
     }
 
 
@@ -387,7 +439,7 @@ public class MainSceneController extends SceneController {
     }
 
     public void showMoveTowerOntoSchoolBoard(ClientModel clientModel) {
-        drawSchoolBoard(clientModel);
+        drawAllSchoolBoardsTowers(clientModel);
     }
 
     public void showInfoChosenCloudTile(String username, ClientModel clientModel) {

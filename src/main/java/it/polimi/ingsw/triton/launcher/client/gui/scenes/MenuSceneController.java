@@ -28,7 +28,7 @@ public class MenuSceneController extends SceneController {
     AnchorPane menuPane;
 
 
-    public void join(ActionEvent event) throws IOException {
+    public void join(ActionEvent event) {
         Gui gui = new Gui(((Stage)((Node)event.getSource()).getScene().getWindow()));
         gui.startGui();
     }
