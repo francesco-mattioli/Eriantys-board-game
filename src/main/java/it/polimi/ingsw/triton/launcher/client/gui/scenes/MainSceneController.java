@@ -543,20 +543,42 @@ public class MainSceneController extends SceneController {
         drawAllSchoolBoardsTowers(clientModel);
     }
 
+    /**
+     * This method is called by gui when a player chooses his cloud tile
+     * The entrance of the player is re-drawn
+     * @param username username
+     * @param clientModel clientModel
+     */
     public void showInfoChosenCloudTile(String username, ClientModel clientModel) {
-        showInfoStudentOntoIsland(username, clientModel);
+        AnchorPane schoolBoardPane = schoolBoardsMap.get(username);
+        drawStudentsOnEntrance(((GridPane)schoolBoardPane.getChildren().get(2)).getChildren(), clientModel.getSchoolBoards().get(username));
     }
 
+    /**
+     * This method is called when the character card 1 has been executed
+     * The entire island block is re-drawn
+     * @param clientModel clientModel
+     */
     public void showCCModifies01(ClientModel clientModel){
         drawIslands(clientModel);
     }
 
+    /**
+     * This method is called when the character card 7 has been executed
+     * Everyone's entrance grid is re-drawn
+     * @param clientModel clientModel
+     */
     public void showCCModifies07(ClientModel clientModel){
         for(int i = 0; i < schoolBoardsMap.size(); i++){
             drawStudentsOnEntrance(((GridPane)schoolBoardsMap.get(new ArrayList<>(schoolBoardsMap.keySet()).get(i)).getChildren().get(2)).getChildren(), clientModel.getSchoolBoards().get(new ArrayList<>(schoolBoardsMap.keySet()).get(i)));
         }
     }
 
+    /**
+     * This method is called when the character card 10 has been executed
+     * Everyone's entrance and dining room grid are re-drawn
+     * @param clientModel clientModel
+     */
     public void showCCModifies10(ClientModel clientModel){
         for(int i = 0; i < schoolBoardsMap.size(); i++){
             drawStudentsOnDiningRoom(((GridPane)schoolBoardsMap.get(new ArrayList<>(schoolBoardsMap.keySet()).get(i)).getChildren().get(1)).getChildren(), clientModel.getSchoolBoards().get(new ArrayList<>(schoolBoardsMap.keySet()).get(i)));
@@ -564,12 +586,22 @@ public class MainSceneController extends SceneController {
         }
     }
 
+    /**
+     * This method is called when the character card 11 has been executed
+     * Everyone's dining room grid are re-drawn
+     * @param clientModel clientModel
+     */
     public void showCCModifies11(ClientModel clientModel){
         for(int i = 0; i < schoolBoardsMap.size(); i++){
             drawStudentsOnDiningRoom(((GridPane)schoolBoardsMap.get(new ArrayList<>(schoolBoardsMap.keySet()).get(i)).getChildren().get(1)).getChildren(), clientModel.getSchoolBoards().get(new ArrayList<>(schoolBoardsMap.keySet()).get(i)));
         }
     }
 
+    /**
+     * This method is called when the character card 12 has been executed
+     * Everyone's dining room grid is re-drawn
+     * @param clientModel clientModel
+     */
     public void showCCModifies12(ClientModel clientModel){
         for(int i = 0; i<schoolBoardsMap.size(); i++){
             String username = new ArrayList<>(schoolBoardsMap.keySet()).get(i);
@@ -577,12 +609,15 @@ public class MainSceneController extends SceneController {
         }
     }
 
+    /**
+     * This method is called by gui when wallet is updated
+     * The coin's grid is re-drawn
+     * @param clientModel clientModel
+     */
     public void showUpdatedWallet(ClientModel clientModel){
         moneyPane.getChildren().forEach(x -> x.setVisible(false));
         for(int i = 0; i<clientModel.getWallet(); i++){
             moneyPane.getChildren().get(i).setVisible(true);
         }
     }
-
-
 }
