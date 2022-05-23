@@ -7,6 +7,7 @@ import it.polimi.ingsw.triton.launcher.utils.message.clientmessage.MoveStudentOn
 import it.polimi.ingsw.triton.launcher.utils.message.clientmessage.MoveStudentOntoIslandMessage;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
@@ -37,15 +38,13 @@ public class MoveStudentFromEntranceSceneController extends ActionPhaseSceneCont
     Button moveButton;
 
     public void move(ActionEvent event){
-        Stage stage = (Stage) moveStudentFromEntrancePane.getScene().getWindow();
         if (whereChoiceBox.getValue().equals("dining room")){
             notify(new MoveStudentOntoDiningRoomMessage(Color.valueOf(colorChoiceBox.getValue())));
-            stage.close();
         }
         else {
             notify(new MoveStudentOntoIslandMessage(islandIdChoiceBox.getValue(),Color.valueOf(colorChoiceBox.getValue())));
-            stage.close();
         }
+        ((Stage)moveStudentFromEntrancePane.getScene().getWindow()).close();
     }
 
     public void show(ActionEvent event){
@@ -70,6 +69,11 @@ public class MoveStudentFromEntranceSceneController extends ActionPhaseSceneCont
         islandIdChoiceBox.setOnAction(this::activeButton);
     }
 
+    /**
+     * At the beginning there are 2 visible choice boxes : we need to enable the button only if all choice boxes don't contain null
+     * if users select "Island" in second choice box, the third choice box is set visible, and contains the available island numbers
+     * @param event onClick
+     */
     private void activeButton(ActionEvent event){
         if(whereChoiceBox.getValue() != null && whereChoiceBox.getValue().equals("island")){
             islandIdLabel.setVisible(true);
@@ -79,16 +83,11 @@ public class MoveStudentFromEntranceSceneController extends ActionPhaseSceneCont
             islandIdLabel.setVisible(false);
             islandIdChoiceBox.setVisible(false);
         }
-        if(!moveStudentFromEntrancePane.getChildren().stream().filter(
-                x->x instanceof ChoiceBox).filter(
-                x->x.isVisible()).map(
-                x->((ChoiceBox<?>) x).getValue()).collect(
-                Collectors.toList()).contains(null)){
-            moveButton.setDisable(false);
-        }
-        else{
-            moveButton.setDisable(true);
-        }
+        moveButton.setDisable(moveStudentFromEntrancePane.getChildren().stream().filter(
+                ChoiceBox.class::isInstance).filter(
+                Node::isVisible).map(
+                x -> ((ChoiceBox<?>) x).getValue()).collect(
+                Collectors.toList()).contains(null));
     }
 
 }

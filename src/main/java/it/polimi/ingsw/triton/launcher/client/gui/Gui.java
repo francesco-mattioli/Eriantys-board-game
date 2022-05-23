@@ -63,35 +63,27 @@ public class Gui extends Observable<Message> implements ClientView {
 
     /**
      * This method is used to update the graphic when a character card's effect has been applied
-     * @param characterCardId
+     * @param characterCardId character card id
      */
     @Override
     public void showGameInfo(int characterCardId) {
         switch (characterCardId){
             case 1:
-                Platform.runLater(() -> {
-                    mainController.showCCModifies01(clientModel);
-                });
+                Platform.runLater(() -> mainController.showCCModifies01(clientModel));
                 break;
             case 7:
-                Platform.runLater(() -> {
-                    mainController.showCCModifies07(clientModel);
-                });
+                Platform.runLater(() -> mainController.showCCModifies07(clientModel));
                 break;
             case 10:
-                Platform.runLater(() -> {
-                    mainController.showCCModifies10(clientModel);
-                });
+                Platform.runLater(() -> mainController.showCCModifies10(clientModel));
                 break;
             case 11:
-                Platform.runLater(() -> {
-                    mainController.showCCModifies11(clientModel);
-                });
+                Platform.runLater(() -> mainController.showCCModifies11(clientModel));
                 break;
             case 12:
-                Platform.runLater(() -> {
-                    mainController.showCCModifies12(clientModel);
-                });
+                Platform.runLater(() -> mainController.showCCModifies12(clientModel));
+                break;
+            default:
                 break;
         }
     }
@@ -102,8 +94,8 @@ public class Gui extends Observable<Message> implements ClientView {
     }
 
     /**
-     * During the transition between setup phase and planning phase, we instantiate the main scene, because in client model
-     * we have all the information to draw the model's objects
+     * During the transition between setup phase and planning phase, main scene is instantiated, because client model
+     * contains all the information to draw the model's objects
      * @param gameState the new phase of the game.
      */
     @Override
@@ -198,7 +190,6 @@ public class Gui extends Observable<Message> implements ClientView {
      * activeLoader changes dynamically, basing on server requests and following the game flow
      * @param path the path of fxml file to load
      * @param parameters a generic parameter, that in some cases is necessary for the controller
-     * @param <T>
      */
     private <T> void prepareController(String path, T parameters) {
         Platform.runLater(() -> {
@@ -258,9 +249,9 @@ public class Gui extends Observable<Message> implements ClientView {
     }
 
     /**
-     * If the game mode is expert, we have a button that permits the player to play a character card, so we need to activate the button
-     * We also need to save last method, because the user can watch available character cards and then decide not to play a card:
-     * in case mentioned above, we need to re-call this method
+     * If the game mode is expert, there is a button that permits the player to play a character card, the button has to be activated
+     * Is also saved last method, because the user can watch available character cards and then decide not to play a card:
+     * in case mentioned above, this method is re-called
      */
     private void activateCharacterCardButton(String methodName){
         Platform.runLater(() -> {
@@ -326,36 +317,30 @@ public class Gui extends Observable<Message> implements ClientView {
             case 10:
                 prepareController("/charCard10-scene.fxml", id);
                 break;
+            default:
+                break;
         }
     }
 
 
     @Override
     public void showMyInfoAssistantCardPlayed (AssistantCard assistantCard){
-        Platform.runLater(() -> {
-            mainController.showMyInfoAssistantCardPlayed(assistantCard, clientModel);
-        });
+        Platform.runLater(() -> mainController.showMyInfoAssistantCardPlayed(assistantCard, clientModel));
     }
 
     @Override
     public void showInfoAssistantCardPlayed (String username, AssistantCard assistantCard){
-        Platform.runLater(() -> {
-            mainController.showInfoAssistantCardPlayed(username, assistantCard);
-        });
+        Platform.runLater(() -> mainController.showInfoAssistantCardPlayed(username, assistantCard));
     }
 
     @Override
     public void showInfoStudentIntoDiningRoom (String username, String moveDescription){
-        Platform.runLater(() -> {
-            mainController.showInfoStudentIntoDiningRoom(username, clientModel);
-        });
+        Platform.runLater(() -> mainController.showInfoStudentIntoDiningRoom(username, clientModel));
     }
 
     @Override
     public void showInfoStudentOntoIsland (String username, String moveDescription){
-        Platform.runLater(() -> {
-            mainController.showInfoStudentOntoIsland(username, clientModel);
-        });
+        Platform.runLater(() -> mainController.showInfoStudentOntoIsland(username, clientModel));
     }
 
     @Override
@@ -427,18 +412,16 @@ public class Gui extends Observable<Message> implements ClientView {
     }
 
     /**
-     * We keep listening on the button for play a character card
-     * When this button is clicked, we open the stage that shows available character cards
-     * @param button
+     * This method keeps listening on the button for play a character card
+     * When this button is clicked, stage that shows available character cards is opened
      */
     private void playCharacterCard(Button button){
         button.setOnAction(event -> prepareController("/characterCard-scene.fxml", null));
     }
 
     /**
-     * If activeStage is the stage that shows character cards, we need to listen on a button to permit the user to come back,
+     * If activeStage is the stage that shows character cards, this method starts listen on a button to permit the user to come back,
      * if he doesn't want to play any character card
-     * @param button
      */
     private void backButton(Button button){
         button.setOnAction(event -> {
@@ -452,7 +435,7 @@ public class Gui extends Observable<Message> implements ClientView {
 
     /**
      * When a game has a regular end (because someone wins, and not because someone was disconnected)
-     * we ask to the player if he wants to play again, using an interactive alert
+     * This method asks player if he wants to play again, using an interactive alert
      */
     @Override
     public void askPlayAgain() {
@@ -462,7 +445,7 @@ public class Gui extends Observable<Message> implements ClientView {
             alert.setHeaderText(null);
             alert.setContentText("Do you want to play again?");
             Optional<ButtonType> result = alert.showAndWait();
-            if (result.get() == ButtonType.OK) {
+            if (result.isPresent() && result.get() == ButtonType.OK) {
                 mainStage.close();
                 askUsername();
             } else {
@@ -473,16 +456,16 @@ public class Gui extends Observable<Message> implements ClientView {
 
 
     /**
-     * When a user click on X (top-right), we ask him if he really wants to quit
+     * When a user click on X (top-right), this method asks him if he really wants to quit
      * If he says "yes" we disconnect him
-     * @param stage
      */
     public void logout(Stage stage){
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.setTitle("Logout");
         alert.setHeaderText("You're about to logout!");
         alert.setContentText("Are you sure?");
-        if (alert.showAndWait().get() == ButtonType.OK){
+        Optional<ButtonType> result = alert.showAndWait();
+        if (result.isPresent() && result.get() == ButtonType.OK){
             System.exit(1);
             stage.close();
         }

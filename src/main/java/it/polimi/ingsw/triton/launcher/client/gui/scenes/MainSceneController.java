@@ -89,7 +89,7 @@ public class MainSceneController extends SceneController {
 
     /**
      * This method draws students on the correct entrance
-     * In the enum of Color, for each color we know the path of the associate image, so we can take it easily
+     * In the enum of Color, for each color we know the path of the associate image, can be taken easily
      * @param studentsOnEntrance studentsOnEntrance
      * @param schoolBoard schoolBoard
      */
@@ -132,8 +132,8 @@ public class MainSceneController extends SceneController {
 
     /**
      * This methods draws professors on correct schoolBoards
-     * for each professor we know the username of the possessor, so if username is equals to the possessor of that professor,
-     * we set visible the associated image view
+     * for each professor is given the username of the possessor, so if username is equals to the possessor of that professor,
+     * the associated image view is set visible
      * @param professorsOnSchoolBoard professorsOnSchoolBoard
      * @param username username
      * @param clientModel clientModel
@@ -160,7 +160,7 @@ public class MainSceneController extends SceneController {
     /**
      * This method draws the entire island block
      * It is very complex, so uses a lot of helper methods
-     * We use 2 grid panes, to dispose islands on two lines (superior line and inferior line)
+     * Are used 2 grid panes, to dispose islands on two lines (superior line and inferior line)
      * islandGrids[0] identifies the superior line
      * islandGrids[1] identifies the inferior line
      * Every grid's box contains and anchor pane, which contains an HBox
@@ -168,7 +168,7 @@ public class MainSceneController extends SceneController {
      * The number of islands in superior and inferior line is decided dividing by 2 the islands arrayList dimension:
      * The floor will be the superior grid size
      * The selling will be the inferior grid size
-     * When we pass the mouse on and island's HBox, we can see a new pane with island's information
+     * When we pass the mouse on and island's HBox, user can see a new pane with island's information
      * @param clientModel clientModel
      */
     private void drawIslands(ClientModel clientModel){
@@ -202,7 +202,7 @@ public class MainSceneController extends SceneController {
             islandGrids[i] = new GridPane();
             islandGrids[i].setHgap(100);
             islandGrids[i].setLayoutX(100);
-            islandGrids[i].setLayoutY(200*i);
+            islandGrids[i].setLayoutY(200*(double)i);
             nodeList[i] = new ArrayList<>();
         }
     }
@@ -226,7 +226,7 @@ public class MainSceneController extends SceneController {
             box.getChildren().add(imageView);
             drawTowersOnIsland(island, box.getChildren().get(0).getLayoutX() + 60 + 100*(j), box.getChildren().get(0).getLayoutY() + 60, anchorPane, clientModel);
         }
-        box.setPrefWidth(island.getDim()*100);
+        box.setPrefWidth((double)island.getDim()*100);
         box.setPrefHeight(100);
         return box;
     }
@@ -303,7 +303,7 @@ public class MainSceneController extends SceneController {
         int dimTot = 0;
         for(int j= 0; j<dimensions.length; j++) {
             if (i < dimensions[j] + dimTot) {
-                handleMouseEntranceAndExit(i, box, islands, clientModel, anchorPane, 100 + 200*j);
+                handleMouseEntranceAndExit(i, box, islands, clientModel, anchorPane, 100 + 200*(double)j);
                 break;
             }
             dimTot+=dimensions[j];
@@ -328,8 +328,8 @@ public class MainSceneController extends SceneController {
 
     /**
      * This method prepares everything to listen for mouseEvents on islands
-     * onMouseEntered -> we show island's information
-     * onMouseExited -> we hide island's information
+     * onMouseEntered -> is shown island's information
+     * onMouseExited -> is shown island's information
      * It uses 3 helper methods, that are defined under this
      * @param i island index
      * @param box HBox
@@ -347,7 +347,7 @@ public class MainSceneController extends SceneController {
             setupInfoPane(infoPane, island.getId(), anchorPane.getLayoutX() + 40, y);
             int labelY = 15;
             for(int j = 0; j<Color.numOfColors(); j++){
-                setupLabel(Color.values()[j].name(), island.getStudents()[j], 5, labelY, infoPane);
+                setupLabel(Color.values()[j].name(), island.getStudents()[j], labelY, infoPane);
                 labelY+= 15;
             }
             setupNoEntryTiles(infoPane, island.getNoEntryTiles());
@@ -360,10 +360,10 @@ public class MainSceneController extends SceneController {
         });
     }
 
-    private void setupLabel(String color, int numberOfStudents, int x, int y, AnchorPane anchorPane){
+    private void setupLabel(String color, int numberOfStudents, int y, AnchorPane anchorPane){
         Label label = new Label("Number of " + color.toLowerCase() + " students:" + numberOfStudents);
         anchorPane.getChildren().add(label);
-        label.setLayoutX(x);
+        label.setLayoutX(5);
         label.setLayoutY(y);
         label.setStyle("-fx-text-fill: " + color.toLowerCase() + ";");
     }
@@ -428,7 +428,7 @@ public class MainSceneController extends SceneController {
 
     private void createSchoolBoardsMap(ClientModel clientModel){
         int cont = 0;
-        List<Node> otherPlayersPane = otherSchoolBoardPane.getChildren().stream().filter(x -> x instanceof AnchorPane).collect(Collectors.toList());
+        List<Node> otherPlayersPane = otherSchoolBoardPane.getChildren().stream().filter(AnchorPane.class::isInstance).collect(Collectors.toList());
         for(int i = 0; i < clientModel.getSchoolBoards().size(); i++){
             if(clientModel.getUsername().equals(new ArrayList<>(clientModel.getSchoolBoards().keySet()).get(i)))
                 schoolBoardsMap.put(clientModel.getUsername(), mySchoolBoard);
@@ -441,7 +441,7 @@ public class MainSceneController extends SceneController {
 
     public void createDeckMap(ClientModel clientModel){
         int cont = 0;
-        List<Node> otherPlayersGrid = otherSchoolBoardPane.getChildren().stream().filter(x -> x instanceof GridPane).collect(Collectors.toList());
+        List<Node> otherPlayersGrid = otherSchoolBoardPane.getChildren().stream().filter(GridPane.class::isInstance).collect(Collectors.toList());
         for (int i = 0; i < clientModel.getChosenWizardsPerUsername().size(); i++){
             if (clientModel.getUsername().equals(new ArrayList<>(clientModel.getChosenWizardsPerUsername().keySet()).get(i)))
                 deckMap.put(clientModel.getUsername(), myDeckGrid);
@@ -493,8 +493,6 @@ public class MainSceneController extends SceneController {
         drawAllSchoolBoardsTowers(clientModel);
     }
 
-
-
     public void showMergeIslandsMessage(ClientModel clientModel) {
         drawIslands(clientModel);
     }
@@ -508,8 +506,7 @@ public class MainSceneController extends SceneController {
     }
 
     public void showInfoChosenCloudTile(String username, ClientModel clientModel) {
-        AnchorPane schoolBoardPane = schoolBoardsMap.get(username);
-        drawStudentsOnEntrance(((GridPane)schoolBoardPane.getChildren().get(2)).getChildren(), clientModel.getSchoolBoards().get(username));
+        showInfoStudentOntoIsland(username, clientModel);
     }
 
     public void showCCModifies01(ClientModel clientModel){
