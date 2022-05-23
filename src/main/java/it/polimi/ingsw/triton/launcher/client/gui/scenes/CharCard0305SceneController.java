@@ -12,7 +12,7 @@ import javafx.scene.layout.AnchorPane;
 
 import java.util.stream.Collectors;
 
-public class CharCard0305SceneController extends SceneController{
+public class CharCard0305SceneController extends SceneController {
 
     @FXML
     Button confirmButton;
@@ -33,7 +33,7 @@ public class CharCard0305SceneController extends SceneController{
     }
 
 
-    public void confirm(ActionEvent event){
+    public void confirm() {
         confirmButton.setDisable(true);
         if (id == 3)
             notify(new CharacterCard03Reply(username, selectIslandIdChoiceBox.getValue()));
@@ -41,7 +41,7 @@ public class CharCard0305SceneController extends SceneController{
             notify(new CharacterCard05Reply(username, selectIslandIdChoiceBox.getValue()));
     }
 
-    private void activeButton(ActionEvent event){
+    private void activeButton(ActionEvent event) {
         confirmButton.setDisable(false);
     }
 }

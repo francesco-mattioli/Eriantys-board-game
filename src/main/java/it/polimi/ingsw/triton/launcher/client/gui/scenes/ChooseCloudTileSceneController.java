@@ -19,15 +19,15 @@ public class ChooseCloudTileSceneController extends ActionPhaseSceneControllers 
     @FXML
     AnchorPane chooseCloudTilePane;
 
-    public void selectCloudTile0(MouseEvent event){
+    public void selectCloudTile0(){
         notifyChosenCloudTileAndClosePane(0);
     }
 
-    public void selectCloudTile1(MouseEvent event){
+    public void selectCloudTile1(){
         notifyChosenCloudTileAndClosePane(1);
     }
 
-    public void selectCloudTile2(MouseEvent event){
+    public void selectCloudTile2(){
         notifyChosenCloudTileAndClosePane(2);
     }
 

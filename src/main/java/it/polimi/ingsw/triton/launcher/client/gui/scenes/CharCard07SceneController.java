@@ -5,6 +5,7 @@ import it.polimi.ingsw.triton.launcher.server.model.enums.Color;
 import it.polimi.ingsw.triton.launcher.utils.message.clientmessage.charactercard_replies.CharacterCard07Reply;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.layout.AnchorPane;
@@ -57,11 +58,11 @@ public class CharCard07SceneController extends SceneController {
         setChoiceBoxEntrance(fromEntrance1);
         setChoiceBoxCharCard(fromCharCard1);
         currentButton = confirmButton1;
-        charCard07Pane.getChildren().stream().filter(x -> x instanceof ChoiceBox).forEach(x->((ChoiceBox<?>) x).setOnAction(this::activateButton));
+        charCard07Pane.getChildren().stream().filter(ChoiceBox.class::isInstance).forEach(x->((ChoiceBox<?>) x).setOnAction(this::activateButton));
     }
 
 
-    public void confirm1(ActionEvent event){
+    public void confirm1(){
         updateSwitchStudents(fromEntrance1, fromCharCard1);
         setChoiceBoxCharCard(fromCharCard2);
         setChoiceBoxEntrance(fromEntrance2);
@@ -69,7 +70,7 @@ public class CharCard07SceneController extends SceneController {
         currentButton = confirmButton2;
     }
 
-    public void confirm2(ActionEvent event){
+    public void confirm2(){
         updateSwitchStudents(fromEntrance2, fromCharCard2);
         setChoiceBoxCharCard(fromCharCard3);
         setChoiceBoxEntrance(fromEntrance3);
@@ -77,7 +78,7 @@ public class CharCard07SceneController extends SceneController {
         currentButton = confirmButton3;
     }
 
-    public void confirm3(ActionEvent event){
+    public void confirm3(){
         updateSwitchStudents(fromEntrance3, fromCharCard3);
         fromEntrance3.setDisable(true);
         fromCharCard3.setDisable(true);
@@ -86,7 +87,7 @@ public class CharCard07SceneController extends SceneController {
         notify(new CharacterCard07Reply(username,fromCharCard,fromEntrance, clientModel.getCharacterCardById(7).getStudents()));
     }
 
-    public void stop(ActionEvent event){
+    public void stop(){
         fromEntrance1.setDisable(true);
         fromCharCard1.setDisable(true);
         confirmButton1.setDisable(true);
@@ -130,17 +131,12 @@ public class CharCard07SceneController extends SceneController {
     }
 
     private void activateButton(ActionEvent event){
-        if(!charCard07Pane.getChildren().stream().filter(
-                x->x instanceof ChoiceBox).filter(
-                        x->x.isVisible()).filter(
-                                x->!x.isDisable()).map(
-                                        x->((ChoiceBox<?>) x).getValue()).collect(
-                                                Collectors.toList()).contains(null)){
-            currentButton.setDisable(false);
-        }
-        else{
-            currentButton.setDisable(true);
-        }
+        currentButton.setDisable(charCard07Pane.getChildren().stream().filter(
+                ChoiceBox.class::isInstance).filter(
+                Node::isVisible).filter(
+                x -> !x.isDisable()).map(
+                x -> ((ChoiceBox<?>) x).getValue()).collect(
+                Collectors.toList()).contains(null));
     }
 
 }
