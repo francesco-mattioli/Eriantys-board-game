@@ -120,8 +120,8 @@ public class SchoolBoard implements Serializable {
         return "{" +
                 "Tower color: " + towerColor +
                 ", Number of Towers: " + numTowers +
-                ", Entrance > " + Utility.printColoredStudents(entrance) +
-                ", Dining Room > " + Utility.printColoredStudents(diningRoom) +
+                ", Entrance -> " + Utility.printColoredStudents(entrance) +
+                ", Dining Room -> " + Utility.printColoredStudents(diningRoom) +
                 "}\n\t";
     }
 

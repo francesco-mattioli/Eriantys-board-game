@@ -28,7 +28,7 @@ public class Cli extends Observable<Message> implements ClientView{
     private ClientModel clientModel;
     private Thread inputReadThread;
     private static final String DEFAULT_IP = "localhost";
-    private static final String TRY_AGAIN = "Incorrect input! Try again...";
+    private static final String TRY_AGAIN = Utility.ANSI_RED + "Incorrect input! Try again..." + Utility.ANSI_RESET;
     private static final String ENTER_THE ="Enter the ";
     private static final String SCHOOLBOARD = "SchoolBoards:";
     public static final String CHARACTER_CARD_COMMAND="--playCC";
@@ -389,13 +389,12 @@ public class Cli extends Observable<Message> implements ClientView{
         out.print(Utility.ANSI_BOLDGREEN + "\nIslands:" + Utility.ANSI_RESET);
         out.println(clientModel.printIslands());
         out.print("\n");
-        out.println(Utility.ANSI_BOLDGREEN +SCHOOLBOARD + Utility.ANSI_RESET);
+        out.println(Utility.ANSI_BOLDGREEN + SCHOOLBOARD + Utility.ANSI_RESET);
         out.print(clientModel.printOtherSchoolBoards());
-        out.print(clientModel.printYourSchoolBoard());
-        out.println(Utility.ANSI_BOLDGREEN + CHARACTER_CARDS + Utility.ANSI_RESET);
+        out.print("\n" + clientModel.printYourSchoolBoard());
         if(clientModel.isExpertMode())
             showUpdateWallet();
-        out.println("Mother nature is on the island: " + clientModel.getMotherNaturePosition().getId());
+        out.println("\nMother nature is on the island: " + clientModel.getMotherNaturePosition().getId());
         out.print("You have played: " + clientModel.getLastAssistantCardPlayed(clientModel.getUsername()));
     }
 
@@ -418,8 +417,7 @@ public class Cli extends Observable<Message> implements ClientView{
             }
             out.println(Utility.ANSI_BOLDGREEN +SCHOOLBOARD + Utility.ANSI_RESET);
             out.print(clientModel.printOtherSchoolBoards());
-            out.println(clientModel.printYourSchoolBoard());
-            out.println(Utility.ANSI_BOLDGREEN + "Useful game info:" + Utility.ANSI_RESET);
+            out.println("\n" + clientModel.printYourSchoolBoard());
             if(clientModel.isExpertMode())
                 showUpdateWallet();
             out.print(Utility.ANSI_BOLDGREEN + "\nAvailable Cloud Tiles:" + Utility.ANSI_RESET);

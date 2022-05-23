@@ -51,7 +51,7 @@ public class ClientModel extends Observable<Object> {
                     " \n- Cloud Tiles:" + printCloudTiles() +
                     " \n- Islands =" + printIslands() +
                     " \n- Mother Nature is on Island " + motherNaturePosition.getId() +
-                    " \n- Professors: " + Utility.printColoredProfessorsOnTable(professors);
+                    " \n- Professors on table: " + Utility.printColoredProfessorsOnTable(professors);
         if(expertMode)
             result += "\n- Character Cards: " + printAvailableCharacterCard();
         result+="\n";

@@ -1,6 +1,5 @@
 package it.polimi.ingsw.triton.launcher.server.controller.visitors;
 
-import it.polimi.ingsw.triton.launcher.server.model.enums.GameState;
 import it.polimi.ingsw.triton.launcher.server.model.game.GameMode;
 import it.polimi.ingsw.triton.launcher.server.view.VirtualView;
 import it.polimi.ingsw.triton.launcher.utils.message.clientmessage.*;
@@ -40,7 +39,6 @@ public class ClientMessageExceptionalVisitor {
      * @param message the last message received.
      */
     public void visitForSendExceptionalMessage(AssistantCardReply message){
-        game.setGameState(GameState.ACTION_PHASE);
         virtualView.askMoveStudentFromEntrance();
     }
 

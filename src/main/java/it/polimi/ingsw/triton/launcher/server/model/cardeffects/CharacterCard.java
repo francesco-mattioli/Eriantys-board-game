@@ -119,7 +119,7 @@ public class CharacterCard implements Serializable {
 
     public String toString() {
         if (id == 1 || id == 7 || id == 11) {
-            return CHARACTER_CARD + id + COST_OF_CHARACTER_CARD + cost + ", Students=" + Utility.printColoredStudents(students) + " }";
+            return CHARACTER_CARD + id + COST_OF_CHARACTER_CARD + cost + ", Students -> " + Utility.printColoredStudents(students) + " }";
         }
         if (id == 5) {
             return CHARACTER_CARD + id + COST_OF_CHARACTER_CARD + cost + ", No Entry Tiles: " + noEntryTiles + " }";

@@ -308,6 +308,7 @@ public class ServerMessageVisitor {
         if(message.getPlayers().contains(clientView.getClientModel().getUsername()))
             clientView.showTieMessage();
         else{
+
             StringBuilder loserMessage = new StringBuilder();
             for(String username: message.getPlayers())
                 loserMessage.append(username).append(" ");
