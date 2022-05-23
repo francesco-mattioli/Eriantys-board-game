@@ -646,13 +646,5 @@ public class Game extends GameMode {
         this.maxNumberOfPlayers = maxNumberOfPlayers;
         this.towerColorChosen = new boolean[maxNumberOfPlayers];
     }
-
-    public IslandManager getIslandManager() {
-        return islandManager;
-    }
-
-    public List<AssistantCard> getUsedAssistantCards() {
-        return usedAssistantCards;
-    }
     //------------------------------------------------------------------------------------------------------------------
 }
