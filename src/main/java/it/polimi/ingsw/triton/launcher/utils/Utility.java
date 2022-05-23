@@ -25,7 +25,7 @@ public class Utility {
         StringBuilder result = new StringBuilder();
         for (int i = 0; i < students.length; i++){
             if (i == 0)
-                result.append("students: [ " + ANSI_GREEN).append(students[i]).append(ANSI_RESET).append(",");
+                result.append("[ " + ANSI_GREEN).append(students[i]).append(ANSI_RESET).append(",");
             else if (i == 1)
                 result.append(" " + ANSI_RED).append(students[i]).append(ANSI_RESET).append(",");
             else if (i == 2)
