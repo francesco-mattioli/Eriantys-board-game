@@ -6,6 +6,7 @@ import it.polimi.ingsw.triton.launcher.server.model.islands.Island;
 import it.polimi.ingsw.triton.launcher.utils.message.clientmessage.charactercard_replies.CharacterCard01Reply;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.layout.AnchorPane;
@@ -36,21 +37,16 @@ public class CharCard01SceneController extends SceneController {
     }
 
 
-    public void confirm(ActionEvent event){
+    public void confirm(){
         confirmButton.setDisable(true);
         notify(new CharacterCard01Reply(username, Color.valueOf(selectColorChoiceBox.getValue()), selectIslandIdChoiceBox.getValue()));
     }
 
     private void activeButton(ActionEvent event){
-        if(!charCard01Pane.getChildren().stream().filter(
-                x->x instanceof ChoiceBox).filter(
-                x->x.isVisible()).map(
-                x->((ChoiceBox<?>) x).getValue()).collect(
-                Collectors.toList()).contains(null)){
-            confirmButton.setDisable(false);
-        }
-        else{
-            confirmButton.setDisable(true);
-        }
+        confirmButton.setDisable(charCard01Pane.getChildren().stream().filter(
+                ChoiceBox.class::isInstance).filter(
+                Node::isVisible).map(
+                x -> ((ChoiceBox<?>) x).getValue()).collect(
+                Collectors.toList()).contains(null));
     }
 }
