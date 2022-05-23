@@ -2,22 +2,15 @@ package it.polimi.ingsw.triton.launcher.client.gui.scenes;
 
 import it.polimi.ingsw.triton.launcher.client.model.ClientModel;
 import it.polimi.ingsw.triton.launcher.server.model.enums.TowerColor;
-import it.polimi.ingsw.triton.launcher.utils.message.Message;
 import it.polimi.ingsw.triton.launcher.utils.message.clientmessage.TowerColorReply;
-import it.polimi.ingsw.triton.launcher.utils.obs.Observable;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
-import javafx.collections.ObservableListBase;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.layout.AnchorPane;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 public class TowerColorSceneController extends SceneController {
 
@@ -35,9 +28,8 @@ public class TowerColorSceneController extends SceneController {
 
     /**
      * This method assigns to the player the chosen tower color, when he clicks the button
-     * @param event
      */
-    public void select(ActionEvent event){
+    public void select(){
         notify(new TowerColorReply(towerColorMap.get(towerColorChoice.getValue())));
         selectButton.setDisable(true);
     }

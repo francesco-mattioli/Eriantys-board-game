@@ -2,19 +2,14 @@ package it.polimi.ingsw.triton.launcher.client.gui.scenes;
 
 import it.polimi.ingsw.triton.launcher.client.model.ClientModel;
 import it.polimi.ingsw.triton.launcher.server.model.enums.Wizard;
-import it.polimi.ingsw.triton.launcher.utils.message.Message;
 import it.polimi.ingsw.triton.launcher.utils.message.clientmessage.WizardReply;
-import it.polimi.ingsw.triton.launcher.utils.obs.Observable;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Polygon;
-import javafx.stage.Stage;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -45,9 +40,8 @@ public class WizardSceneController extends SceneController {
      * The user can scroll through the wizard images
      * When user clicks on selectButton, the currently selected wizard is assigned to him
      * To do this, we have a map between Image and Wizard
-     * @param event
      */
-    public void select(ActionEvent event) {
+    public void select() {
         Wizard selectedWizard = wizardsImages.get(wizardImageView.getImage());
         notify(new WizardReply(selectedWizard));
         selectButton.setDisable(true);
@@ -56,9 +50,8 @@ public class WizardSceneController extends SceneController {
     /**
      * This method permits user to scroll through the wizard images
      * When wizard is last one, so you can't scroll, darts are different colorized
-     * @param event
      */
-    public void switchLeft(MouseEvent event) {
+    public void switchLeft() {
         if (shownWizard > 0) {
             wizardImageView.setImage((Image) wizardsImages.keySet().toArray()[shownWizard - 1]);
             shownWizard--;
@@ -75,9 +68,8 @@ public class WizardSceneController extends SceneController {
     /**
      * This method permits user to scroll through the wizard images
      * When wizard is last one, so you can't scroll, darts are different colorized
-     * @param event
      */
-    public void switchRight(MouseEvent event) {
+    public void switchRight() {
         if (shownWizard < wizardsImages.size() - 1) {
             wizardImageView.setImage((Image) wizardsImages.keySet().toArray()[shownWizard + 1]);
             shownWizard++;
@@ -99,11 +91,11 @@ public class WizardSceneController extends SceneController {
      */
     @Override
     public <T> void setupScene(ClientModel clientModel, T parameters) {
-        ArrayList<Wizard> wizards = (ArrayList<Wizard>) parameters;
+        ArrayList<?> wizards = (ArrayList<?>) parameters;
         wizardsImages = new HashMap<>();
         String currentPath = new File("src/main/resources/Images/Wizards").getAbsolutePath().replace('\\', '/');
-        for (Wizard wizard : wizards) {
-            wizardsImages.put(new Image("file:" + currentPath + wizard.getImagePath()), wizard);
+        for (Object wizard : wizards) {
+            wizardsImages.put(new Image("file:" + currentPath + ((Wizard)wizard).getImagePath()), (Wizard)wizard);
         }
         wizardImageView.setImage((Image) wizardsImages.keySet().toArray()[0]);
         leftSwitch.setFill(Color.GRAY);
