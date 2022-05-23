@@ -35,4 +35,8 @@ public class ProfessorsManager implements Serializable {
     public void resetProfessorStrategy() {
         professorStrategy = new ProfessorStrategyDefault();
     }
+
+    public ProfessorStrategy getProfessorStrategy() {
+        return professorStrategy;
+    }
 }

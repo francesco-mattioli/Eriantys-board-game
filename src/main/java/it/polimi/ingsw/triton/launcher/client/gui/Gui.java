@@ -382,8 +382,7 @@ public class Gui extends Observable<Message> implements ClientView {
     }
 
     /**
-     * This method preparers everything of main stage
-     * Main stage is a window with fixed dimensions
+     * This method preparers everything of main stage, which is a window with fixed dimensions.
      */
     private void initializeMainStage() {
         Platform.runLater(() -> {
