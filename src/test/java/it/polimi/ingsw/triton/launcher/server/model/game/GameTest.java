@@ -333,6 +333,23 @@ class GameTest {
     }
 
     /**
+     * Tests if the cloud tiles are filled when there are exactly six students in the bag and so, the attribute
+     * notFullCloudTiles is set to true.
+     */
+    @Test
+    void testFillCloudTilesWithExactlySixStudents(){
+        game.getBag().addStudent(Color.BLUE);
+        game.getBag().addStudent(Color.BLUE);
+        game.getBag().addStudent(Color.BLUE);
+        game.getBag().addStudent(Color.BLUE);
+        game.getBag().addStudent(Color.BLUE);
+        game.getBag().addStudent(Color.BLUE);
+        game.createCloudTiles();
+        game.addStudentsToCloudTiles();
+        assertTrue(game.isNotFullCloudTiles());
+    }
+
+    /**
      * Tests if current player's move counter is incremented when he moves a student from his entrance.
      */
     @Test

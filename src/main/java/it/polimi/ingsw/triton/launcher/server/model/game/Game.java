@@ -86,7 +86,7 @@ public class Game extends GameMode {
      *                                  This exception is caught by lobby() method in Server.
      */
     public void addPlayer(@NotNull String username) throws IllegalArgumentException {
-        if (username.length() == 0 || username.equals(" ") || username.equals(Cli.CHARACHTER_CARD_COMMAND))
+        if (username.length() == 0 || username.equals(" ") || username.equals(Cli.CHARACTER_CARD_COMMAND))
             throw new IllegalArgumentException("Illegal username");
         if (!isUsernameChosen(username)) {
             players.add(new Player(username));
@@ -651,6 +651,10 @@ public class Game extends GameMode {
 
     public List<AssistantCard> getUsedAssistantCards() {
         return usedAssistantCards;
+    }
+
+    public boolean isNotFullCloudTiles(){
+        return notFullCloudTiles;
     }
     //------------------------------------------------------------------------------------------------------------------
 

@@ -28,10 +28,10 @@ public class Cli extends Observable<Message> implements ClientView{
     private ClientModel clientModel;
     private Thread inputReadThread;
     private static final String DEFAULT_IP = "localhost";
-    private static final String TRY_AGAIN = "Try again...";
+    private static final String TRY_AGAIN = "Incorrect input! Try again...";
     private static final String ENTER_THE ="Enter the ";
     private static final String SCHOOLBOARD = "SchoolBoards:";
-    public static final String CHARACHTER_CARD_COMMAND="--playCC";
+    public static final String CHARACTER_CARD_COMMAND="--playCC";
     private static final String CHARACTER_CARDS="Available Character Cards:";
 
     /**
@@ -124,7 +124,7 @@ public class Cli extends Observable<Message> implements ClientView{
     public void askNumPlayersAndGameMode(){
         boolean expertMode = askGameMode();
         int numOfPlayers = askNumOfPlayers();
-        notify(new PlayersNumberAndGameModeReply( numOfPlayers, expertMode));
+        notify(new PlayersNumberAndGameModeReply(numOfPlayers, expertMode));
     }
 
     /**
@@ -156,9 +156,9 @@ public class Cli extends Observable<Message> implements ClientView{
     private int askNumOfPlayers() {
         int numPlayers = 2;
         try {
-                out.print(Utility.ANSI_BOLDGREEN + "Enter number of players [2 or 3]: " + Utility.ANSI_RESET);
-                String input = readLine();
-                numPlayers = Integer.parseInt(input);
+            out.print(Utility.ANSI_BOLDGREEN + "Enter number of players [2 or 3]: " + Utility.ANSI_RESET);
+            String input = readLine();
+            numPlayers = Integer.parseInt(input);
         } catch(NumberFormatException e){
             out.println(TRY_AGAIN);
             askNumOfPlayers();
@@ -330,7 +330,7 @@ public class Cli extends Observable<Message> implements ClientView{
             else
                 out.print(Utility.ANSI_BOLDGREEN + "Please, enter data: " + Utility.ANSI_RESET);
             String input = readLine();
-            if(input.equals(CHARACHTER_CARD_COMMAND) && clientModel.isExpertMode())
+            if(input.equals(CHARACTER_CARD_COMMAND) && clientModel.isExpertMode())
                 showAndPlayCharacterCard();
             else {
                 String[] splittedInput = input.split(",");
@@ -367,7 +367,7 @@ public class Cli extends Observable<Message> implements ClientView{
             else
                 out.print(Utility.ANSI_BOLDGREEN + "Enter the number of steps that mother nature has to do: " + Utility.ANSI_RESET);
             String input = readLine();
-            if(input.equals(CHARACHTER_CARD_COMMAND) && clientModel.isExpertMode())
+            if(input.equals(CHARACTER_CARD_COMMAND) && clientModel.isExpertMode())
                 showAndPlayCharacterCard();
             else
                 notify(new MotherNatureReply(Integer.parseInt(input)));
@@ -430,7 +430,7 @@ public class Cli extends Observable<Message> implements ClientView{
             else
                 out.print(Utility.ANSI_BOLDGREEN + "Enter the id of the cloud tile you choose: " + Utility.ANSI_RESET);
             String input = readLine();
-            if(input.equals(CHARACHTER_CARD_COMMAND) && clientModel.isExpertMode())
+            if(input.equals(CHARACTER_CARD_COMMAND) && clientModel.isExpertMode())
                 showAndPlayCharacterCard();
             else
                 notify(new CloudTileReply(Integer.parseInt(input)));
