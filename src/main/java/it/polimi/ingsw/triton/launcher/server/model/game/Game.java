@@ -578,10 +578,6 @@ public class Game extends GameMode {
         return currentPlayer;
     }
 
-    public void setCurrentPlayer(Player currentPlayer) {
-        this.currentPlayer = currentPlayer;
-    }
-
     public boolean[] getTowerColorChosen() {
         return towerColorChosen;
     }
@@ -600,13 +596,6 @@ public class Game extends GameMode {
 
     public GameState getGameState() {
         return gameState;
-    }
-
-    public void setGameState(GameState gameState) {
-        this.gameState = gameState;
-        if (gameState == GameState.PLANNING_PHASE || gameState == GameState.ACTION_PHASE) {
-            notify(new ChangePhaseMessage(gameState));
-        }
     }
 
     /**
@@ -645,6 +634,17 @@ public class Game extends GameMode {
     public void setMaxNumberOfPlayers(int maxNumberOfPlayers) {
         this.maxNumberOfPlayers = maxNumberOfPlayers;
         this.towerColorChosen = new boolean[maxNumberOfPlayers];
+    }
+
+    public void setGameState(GameState gameState) {
+        this.gameState = gameState;
+        if (gameState == GameState.PLANNING_PHASE || gameState == GameState.ACTION_PHASE) {
+            notify(new ChangePhaseMessage(gameState));
+        }
+    }
+
+    public void setCurrentPlayer(Player currentPlayer) {
+        this.currentPlayer = currentPlayer;
     }
     //------------------------------------------------------------------------------------------------------------------
 }
