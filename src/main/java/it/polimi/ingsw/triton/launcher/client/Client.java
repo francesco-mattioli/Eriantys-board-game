@@ -1,7 +1,7 @@
 package it.polimi.ingsw.triton.launcher.client;
 
 import it.polimi.ingsw.triton.launcher.client.view.ClientView;
-import it.polimi.ingsw.triton.launcher.utils.message.clientmessage.UpdatedServerInfoMessage;
+import it.polimi.ingsw.triton.launcher.utils.message.UpdatedServerInfoMessage;
 import it.polimi.ingsw.triton.launcher.utils.message.servermessage.ServerMessage;
 import it.polimi.ingsw.triton.launcher.utils.message.servermessage.infoMessage.DisconnectionMessage;
 import it.polimi.ingsw.triton.launcher.utils.obs.Observer;

@@ -1,8 +1,8 @@
 package it.polimi.ingsw.triton.launcher.client.gui.scenes;
 
 import it.polimi.ingsw.triton.launcher.client.model.ClientModel;
-import it.polimi.ingsw.triton.launcher.utils.message.clientmessage.characterCardReply.CharacterCard03Reply;
-import it.polimi.ingsw.triton.launcher.utils.message.clientmessage.characterCardReply.CharacterCard05Reply;
+import it.polimi.ingsw.triton.launcher.utils.message.clientmessage.charactercard_replies.CharacterCard03Reply;
+import it.polimi.ingsw.triton.launcher.utils.message.clientmessage.charactercard_replies.CharacterCard05Reply;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;

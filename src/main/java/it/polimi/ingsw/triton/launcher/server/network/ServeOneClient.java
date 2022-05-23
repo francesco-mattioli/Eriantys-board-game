@@ -2,8 +2,8 @@ package it.polimi.ingsw.triton.launcher.server.network;
 
 import it.polimi.ingsw.triton.launcher.utils.message.Message;
 import it.polimi.ingsw.triton.launcher.utils.message.clientmessage.ClientMessage;
-import it.polimi.ingsw.triton.launcher.utils.message.clientmessage.LoginRequest;
-import it.polimi.ingsw.triton.launcher.utils.message.clientmessage.PlayersNumberAndGameModeReply;
+import it.polimi.ingsw.triton.launcher.utils.message.clientmessage.login_messages.LoginRequest;
+import it.polimi.ingsw.triton.launcher.utils.message.clientmessage.login_messages.PlayersNumberAndGameModeReply;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -28,6 +28,7 @@ public class ServeOneClient implements Runnable {
     private ObjectInputStream inSocket;
     private ObjectOutputStream outSocket;
     private boolean active = true;
+    private static final String AT_PORT = " at port: ";
 
     public ServeOneClient(Socket socketClient, Server server) {
         this.socket = socketClient;
@@ -62,7 +63,7 @@ public class ServeOneClient implements Runnable {
                 } else {
                     server.notifyVirtualView(this, message);
                 }
-                LOGGER.info("Received: " + message.getClass().getSimpleName() + " at port: " + socket.getPort());
+                LOGGER.info("Received: " + message.getClass().getSimpleName() + AT_PORT + socket.getPort());
             }
         } catch (SocketTimeoutException e) {
             LOGGER.severe("Cannot receive message at port " + socket.getPort() + " because connection with client dropped! Disconnecting players...");
@@ -83,13 +84,13 @@ public class ServeOneClient implements Runnable {
         try {
             outSocket.reset();
             outSocket.writeObject(message);
-            LOGGER.info("Sent: " + message.getClass().getSimpleName() + " at port: " + socket.getPort());
+            LOGGER.info("Sent: " + message.getClass().getSimpleName() + AT_PORT + socket.getPort());
             outSocket.flush();
         } catch (SocketTimeoutException e) {
             LOGGER.severe("Connection dropped due to timeout of socket at port: " + socket.getPort());
             close();
         } catch (SocketException e) {
-            LOGGER.severe("Cannot send message " + message.getClass().getSimpleName() + " at port: " + socket.getPort() + " because connection with client dropped!");
+            LOGGER.severe("Cannot send message " + message.getClass().getSimpleName() + AT_PORT + socket.getPort() + " because connection with client dropped!");
             close();
         } catch (IOException e) {
             LOGGER.severe("Connection dropped due to IOException at port: " + socket.getPort());

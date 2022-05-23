@@ -2,12 +2,14 @@ package it.polimi.ingsw.triton.launcher.server.model;
 
 import it.polimi.ingsw.triton.launcher.server.model.cardeffects.CharacterCard;
 import it.polimi.ingsw.triton.launcher.server.model.enums.Color;
+import it.polimi.ingsw.triton.launcher.server.model.enums.GameState;
 import it.polimi.ingsw.triton.launcher.server.model.enums.TowerColor;
 import it.polimi.ingsw.triton.launcher.server.model.enums.Wizard;
 import it.polimi.ingsw.triton.launcher.server.model.game.Game;
 import it.polimi.ingsw.triton.launcher.server.model.game.GameMode;
 import it.polimi.ingsw.triton.launcher.server.model.islands.Island;
 import it.polimi.ingsw.triton.launcher.server.model.islands.IslandManager;
+import it.polimi.ingsw.triton.launcher.server.model.player.AssistantDeck;
 import it.polimi.ingsw.triton.launcher.server.model.player.Player;
 import it.polimi.ingsw.triton.launcher.utils.exceptions.ChangeTurnException;
 import it.polimi.ingsw.triton.launcher.utils.exceptions.IllegalClientInputException;
@@ -26,57 +28,181 @@ class GameTest {
 
     @BeforeEach
     public void setUp() {
-        game = Game.instance(3);
-        Player p1 = new Player("TestPlayer1");
-        game.getPlayers().add(p1);
-        Player p2 = new Player("TestPlayer2");
-        game.getPlayers().add(p2);
-        Player p3 = new Player("TestPlayer3");
-        game.getPlayers().add(p3);
-        try {
-            game.chooseTowerColor(p1, TowerColor.WHITE);
-        } catch (IllegalClientInputException | ChangeTurnException e) {
-            e.printStackTrace();
-        }
-        try {
-            game.chooseTowerColor(p2, TowerColor.BLACK);
-        } catch (IllegalClientInputException | ChangeTurnException e) {
-            e.printStackTrace();
-        }
-        try {
-            game.chooseTowerColor(p3, TowerColor.GREY);
-        } catch (IllegalClientInputException | ChangeTurnException e) {
-            e.printStackTrace();
-        }
-        try {
-            game.chooseWizard(p1, Wizard.BLUE);
-        } catch (IllegalClientInputException | ChangeTurnException e) {
-            e.printStackTrace();
-        }
-        try {
-            game.chooseWizard(p2, Wizard.GREEN);
-        } catch (IllegalClientInputException | ChangeTurnException e) {
-            e.printStackTrace();
-        }
-        try {
-            game.chooseWizard(p3, Wizard.PURPLE);
-        } catch (IllegalClientInputException | ChangeTurnException e) {
-            e.printStackTrace();
-        }
-        game.setup();
+        game = Game.instance(2);
+        player1 = new Player("TestPlayer1");
+        game.getPlayers().add(player1);
+        player2 = new Player("TestPlayer2");
+        game.getPlayers().add(player2);
+        game.setCurrentPlayer(player1);
+        //game.setup();
     }
 
     @AfterEach
     public void tearDown() {
-        game = null;
+        game.endGame(true);
     }
 
+    /**
+     * Tests if the method addPlayer throws an exception when the username is blank.
+     */
+    @Test
+    void testAddPlayerWhenUsernameIsBlank(){
+        assertThrows(IllegalArgumentException.class, () -> game.addPlayer(""));
+    }
+
+    /**
+     * Tests if the method addPlayer throws an exception when the username is a space.
+     */
+    @Test
+    void testAddPlayerWhenUsernameIsSpace(){
+        assertThrows(IllegalArgumentException.class, () -> game.addPlayer(" "));
+    }
+
+    /**
+     * Tests if the method addPlayer throws an exception when the username is the command of play character card.
+     */
+    @Test
+    void testAddPlayerWhenUsernameIsCharacterCardCommand(){
+        assertThrows(IllegalArgumentException.class, () -> game.addPlayer("--playCC"));
+    }
+
+    /**
+     * Tests if the method addPlayer throws an exception when the username is already used by another player.
+     */
+    @Test
+    void testAddPLayerWithUsernameAlreadyChosen(){
+        assertThrows(IllegalArgumentException.class, () -> game.addPlayer("TestPlayer1"));
+    }
+
+    /**
+     * Tests if the first player becomes the current player.
+     */
+    @Test
+    void testCurrentPlayerAfterAddPlayerIfFirst(){
+        game.getPlayers().clear();
+        game.getPlayers().add(player1);
+        assertEquals(player1, game.getCurrentPlayer());
+    }
+
+    /**
+     * Tests if the method chooseTowerColor throws an exception when the player selects a tower color already chosen.
+     */
+    @Test
+    void testChooseTowerColorAlreadySelected(){
+        try {
+            game.chooseTowerColor(player1, TowerColor.BLACK);
+        } catch (IllegalClientInputException | ChangeTurnException e) {
+            throw new RuntimeException(e);
+        }
+        assertThrows(IllegalClientInputException.class, () -> game.chooseTowerColor(player2, TowerColor.BLACK));
+    }
+
+    /**
+     * Tests if the tower color is set correctly to the player when not already used.
+     */
+    @Test
+    void testChooseCorrectTowerColor(){
+        try {
+            game.chooseTowerColor(player1, TowerColor.BLACK);
+        } catch (IllegalClientInputException | ChangeTurnException e) {
+            throw new RuntimeException(e);
+        }
+        assertEquals(TowerColor.BLACK, player1.getSchoolBoard().getTowerColor());
+    }
+
+    /**
+     * Tests if the array of towerColor chosen is updated correctly when the player selects his tower color and so, the
+     * current player is updated.
+     */
+    @Test
+    void testUpdateTowerColorChosenAndCurrentPlayer(){
+        try {
+            game.chooseTowerColor(player1, TowerColor.BLACK);
+        } catch (IllegalClientInputException | ChangeTurnException e) {
+            throw new RuntimeException(e);
+        }
+        assertTrue(game.getTowerColorChosen()[TowerColor.BLACK.ordinal()]);
+        assertEquals(player2, game.getCurrentPlayer());
+    }
+
+    /**
+     * Tests if the method throws an exception when a player selects grey tower color but the game is for two
+     * players so that color is forbidden.
+     */
+    @Test
+    void testColorGreySelectedButOnlyTwoPlayers(){
+        assertThrows(IllegalClientInputException.class, () -> game.chooseTowerColor(player1, TowerColor.GREY));
+    }
+
+    /**
+     * Tests if the initial size of available wizards list is four.
+     */
+    @Test
+    void testInitialSizeOfWizards(){
+        assertEquals(4, game.getAvailableWizards().size());
+    }
+
+    /**
+     * Tests if the method throws an exception when the wizard selected by the player is already used.
+     */
+    @Test
+    void testWizardAlreadyChosen(){
+        game.getAvailableWizards().remove(Wizard.BLUE);
+        assertThrows(IllegalClientInputException.class, () -> game.chooseWizard(player2, Wizard.BLUE));
+    }
+
+    /**
+     * Tests if the method sets correctly the wizard to the player when it's not used.
+     */
+    @Test
+    void testSetWizardWhenAvailable(){
+        try {
+            game.chooseWizard(player1, Wizard.BLUE);
+        } catch (IllegalClientInputException | ChangeTurnException e) {
+            throw new RuntimeException(e);
+        }
+        assertEquals(Wizard.BLUE, player1.getAssistantDeck().getWizard());
+        assertEquals(3, game.getAvailableWizards().size());
+    }
+
+    /**
+     * Tests if the list of used assistant cards is updated when a player plays an assistant card.
+     */
+    @Test
+    void testUpdateUsedAssistantCards(){
+        player1.setAssistantDeck(new AssistantDeck(Wizard.BLUE));
+        int oldUsedAssistantCardsSize = game.getUsedAssistantCards().size();
+        try {
+            game.chooseAssistantCard(player1, player1.getAssistantDeck().getAssistantDeck().get(2));
+        } catch (IllegalClientInputException | ChangeTurnException e) {
+            throw new RuntimeException(e);
+        }
+        assertEquals(oldUsedAssistantCardsSize + 1, game.getUsedAssistantCards().size());
+    }
+
+    /**
+     * Tests if the list of used assistant cards is updated when a player plays an assistant card.
+     */
+    @Test
+    void testUpdateGameStateAfterLastPlayerChoice(){
+        player1.setAssistantDeck(new AssistantDeck(Wizard.BLUE));
+        player2.setAssistantDeck(new AssistantDeck(Wizard.PURPLE));
+        try {
+            game.chooseAssistantCard(player1, player1.getAssistantDeck().getAssistantDeck().get(2));
+            game.chooseAssistantCard(player2, player2.getAssistantDeck().getAssistantDeck().get(8));
+        } catch (IllegalClientInputException e) {
+            throw new RuntimeException(e);
+        } catch (ChangeTurnException e){
+            assertTrue(true);
+        }
+        assertEquals(GameState.ACTION_PHASE, game.getGameState());
+    }
 
     /**
      * Tests if the number of islands created is twelve.
      */
     @Test
-    public void checkNumberOfIslands() {
+    void checkNumberOfIslands() {
         assertEquals(12, game.getIslandManager().getIslands().size());
     }
 
@@ -84,7 +210,7 @@ class GameTest {
      * Tests if mother nature is onto an island at the begin of the game.
      */
     @Test
-    public void checkMotherNaturePosition() {
+    void checkMotherNaturePosition() {
         assertTrue(game.getIslandManager().getMotherNature().getPosition() != null);
     }
 
@@ -178,7 +304,7 @@ class GameTest {
         }
     }
 
-   /* @Test
+   @Test
     public void checksIfEachCloudTilesHasFourStudents(){
         int numStudentsOnCloudTile;
         for (CloudTile cloudTile : game.getCloudTiles()) {
@@ -188,43 +314,6 @@ class GameTest {
             }
             assertEquals(4,numStudentsOnCloudTile);
         }
-    }*/
-
-    /**
-     * Tests if the method launches an exception if the nickname is already chosen.
-     */
-    @Test
-    public void addPlayerWhenUsernameIsChosen() {
-        Player playerTest = new Player("TestPlayer1");
-        assertThrows(IllegalArgumentException.class, () -> game.addPlayer(playerTest.getUsername()));
-    }
-
-    /**
-     * Tests if the method launches an exception if the nickname is eriantys.
-     */
-    @Test
-    public void addPlayerWhenUsernameIsEriantys() {
-        Player playerTest = new Player("eriantys");
-        assertThrows(IllegalArgumentException.class, () -> game.addPlayer(playerTest.getUsername()));
-    }
-
-    /**
-     * Tests if the method launches an exception if the nickname is written in capital letters
-     * but is already chosen.
-     */
-    @Test
-    public void addPlayerWhenUsernameIsChosenInCapitalLetters() {
-        Player playerTest = new Player("TESTPLAYER2");
-        assertThrows(IllegalArgumentException.class, () -> game.addPlayer(playerTest.getUsername()));
-    }
-
-    /**
-     * Tests if the array of chosen tower colors is updated correctly when a player
-     * selects a tower color.
-     */
-    @Test
-    public void checkTowerColorSelected() {
-        assertTrue(game.getTowerColorChosen()[TowerColor.WHITE.ordinal()]);
     }
 
    /* @Test

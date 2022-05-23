@@ -1,16 +1,12 @@
 package it.polimi.ingsw.triton.launcher.client.gui.scenes;
 
-import it.polimi.ingsw.triton.launcher.utils.message.Message;
-import it.polimi.ingsw.triton.launcher.utils.message.clientmessage.PlayersNumberAndGameModeReply;
-import it.polimi.ingsw.triton.launcher.utils.obs.Observable;
+import it.polimi.ingsw.triton.launcher.utils.message.clientmessage.login_messages.PlayersNumberAndGameModeReply;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.layout.AnchorPane;
-
-import java.io.IOException;
 
 public class GameModeAndNumOfPlayersSceneController extends SceneController {
 

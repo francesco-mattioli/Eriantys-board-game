@@ -1,4 +1,4 @@
-package it.polimi.ingsw.triton.launcher.utils.message.clientmessage.characterCardReply;
+package it.polimi.ingsw.triton.launcher.utils.message.clientmessage.charactercard_replies;
 
 import it.polimi.ingsw.triton.launcher.utils.exceptions.EndGameException;
 import it.polimi.ingsw.triton.launcher.utils.exceptions.IllegalClientInputException;
@@ -7,14 +7,15 @@ import java.util.NoSuchElementException;
 
 /**
  * This message is sent by the client to communicate to server the id of the island chosen by the current player
- * in order to build and apply the effect of the character card 03.
+ * in order to build and apply the effect of the character card 05.
  */
-public class CharacterCard03Reply  extends CharacterCardReply{
+public class CharacterCard05Reply  extends CharacterCardReply{
     private final int islandID;
-    public CharacterCard03Reply(String senderUsername, int islandID) {
+    public CharacterCard05Reply(String senderUsername, int islandID) {
         super(senderUsername);
         this.islandID = islandID;
     }
+
 
     @Override
     public void modifyModel(ClientMessageModifierVisitor visitor) throws IllegalClientInputException, EndGameException, NoSuchElementException {

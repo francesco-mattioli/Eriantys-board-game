@@ -102,6 +102,11 @@ public class GameDecorator extends GameMode{
     }
 
     @Override
+    public List<AssistantCard> getUsedAssistantCards(){
+        return game.getUsedAssistantCards();
+    }
+
+    @Override
     public List<Player> getPlayers() {
         return game.getPlayers();
     }

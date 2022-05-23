@@ -2,7 +2,7 @@ package it.polimi.ingsw.triton.launcher.server.controller.visitors;
 
 import it.polimi.ingsw.triton.launcher.server.model.game.GameMode;
 import it.polimi.ingsw.triton.launcher.server.view.VirtualView;
-import it.polimi.ingsw.triton.launcher.utils.message.clientmessage.characterCardReply.CharacterCardReply;
+import it.polimi.ingsw.triton.launcher.utils.message.clientmessage.charactercard_replies.CharacterCardReply;
 import it.polimi.ingsw.triton.launcher.utils.message.clientmessage.*;
 
 /**
