@@ -181,10 +181,10 @@ public class Island extends Observable<InfoMessage> implements Serializable {
     }
 
     public String toString(){
-        return "\n\t{id:" + id +", " +
-                "dimension:" + dim + ", " +
-                "dominator:" + getDominatorEvenIfNull() + ", " +
-                "students:" + Utility.printColoredStudents(students) + ", " +
-                "no entry tiles:" + noEntryTiles + "}";
+        return "\n\t{id: " + id +", " +
+                "dimension: " + dim + ", " +
+                "dominator: " + getDominatorEvenIfNull() + ", " +
+                 Utility.printColoredStudents(students) + ", " +
+                "no entry tiles: " + noEntryTiles + "}";
     }
 }

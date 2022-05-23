@@ -16,14 +16,12 @@ public class InfoStudentOntoIslandMessage extends InfoMessage {
     private final String playerUsername;
     private final SchoolBoard schoolBoard;
     private final Island island;
-    private final String[] professors;
     private final String moveDescription;
 
-    public InfoStudentOntoIslandMessage(String username, SchoolBoard schoolBoard, Island island, String[] professors, String moveDescription) {
+    public InfoStudentOntoIslandMessage(String username, SchoolBoard schoolBoard, Island island, String moveDescription) {
         this.playerUsername = username;
         this.schoolBoard = schoolBoard;
         this.island = island;
-        this.professors = professors;
         this.moveDescription = moveDescription;
     }
 

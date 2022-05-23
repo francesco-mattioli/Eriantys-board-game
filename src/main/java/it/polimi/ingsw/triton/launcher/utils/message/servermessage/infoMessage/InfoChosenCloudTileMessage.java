@@ -13,14 +13,12 @@ public class InfoChosenCloudTileMessage extends InfoMessage {
     private final String playerUsername;
     private final SchoolBoard playerSchoolBoard;
     private final CloudTile cloudTile;
-    private final String[] professors;
     private final String choiceDescription;
 
-    public InfoChosenCloudTileMessage(String playerUsername, SchoolBoard playerSchoolBoard, CloudTile cloudTile, String[] professors, String choiceDescription) {
+    public InfoChosenCloudTileMessage(String playerUsername, SchoolBoard playerSchoolBoard, CloudTile cloudTile, String choiceDescription) {
         this.playerUsername = playerUsername;
         this.playerSchoolBoard = playerSchoolBoard;
         this.cloudTile = cloudTile;
-        this.professors = professors;
         this.choiceDescription = choiceDescription;
     }
 

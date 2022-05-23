@@ -40,21 +40,21 @@ public class ClientModel extends Observable<Object> {
      */
     @Override
     public String toString() {
-        String result = "{";
+        String result = "";
         if(expertMode)
-            result += "\n- EXPERT GAME:" ;
+            result += "\nEXPERT GAME:" ;
         else
-            result += "\n- GAME:" ;
+            result += "\nGAME:" ;
         result+=    " \n- " + assistantDeck.toString() +
-                    " \n- players' wizards: " + chosenWizardsPerUsername.toString()+
-                    " \n- schoolBoards: \n\t" + printAllSchoolBoards() +
-                    " \n- cloudTiles:" + printCloudTiles() +
-                    " \n- islands =" + printIslands() +
-                    " \n- motherNature is on island " + motherNaturePosition.getId() +
-                    " \n- professors: " + Utility.printColoredProfessorsOnTable(professors);
+                    " \n- Players' Wizards: " + chosenWizardsPerUsername.toString()+
+                    " \n- School Boards:\n" + printAllSchoolBoards() +
+                    " \n- Cloud Tiles:" + printCloudTiles() +
+                    " \n- Islands =" + printIslands() +
+                    " \n- Mother Nature is on Island " + motherNaturePosition.getId() +
+                    " \n- Professors: " + Utility.printColoredProfessorsOnTable(professors);
         if(expertMode)
-            result += ", \n- availableCharacterCards: " + printAvailableCharacterCard();
-        result+="\n}";
+            result += "\n- Character Cards: " + printAvailableCharacterCard();
+        result+="\n";
         return result;
     }
 
@@ -291,13 +291,13 @@ public class ClientModel extends Observable<Object> {
     }
 
     private String printSchoolBoard(Map.Entry<String, SchoolBoard> schoolBoardEntry) {
-        String result = "";
+        String result = "\t";
         if(schoolBoardEntry.getKey().equals(username))
             result += "Your ";
         else
             result += schoolBoardEntry.getKey() + "'s ";
         result += "SchoolBoard: " + schoolBoardEntry.getValue().toString();
-        result += "\t\t\tProfessors: " + printProfessors(schoolBoardEntry.getKey()) + "\n\n";
+        result += "\t\t\tProfessors: " + printProfessors(schoolBoardEntry.getKey()) + "\n";
         return result;
     }
 
