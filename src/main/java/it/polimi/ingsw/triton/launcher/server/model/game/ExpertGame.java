@@ -159,7 +159,7 @@ public class ExpertGame extends GameDecorator {
         ArrayList<Integer> idAlreadyChosen = new ArrayList<>();
         int id;
         while (characterCards.size() < 3) {
-            id = random.nextInt(7) + 1;
+            id = random.nextInt(12) + 1;
             if (!idAlreadyChosen.contains(id)) {
                 characterCards.add(new CharacterCard(id, characterCardCostById(id), 0, game.getBag()));
                 idAlreadyChosen.add(id);
@@ -191,6 +191,7 @@ public class ExpertGame extends GameDecorator {
         if (player.hasAlreadyPlayedACharacterCard()) {
             throw new IllegalClientInputException(ErrorTypeID.CHARACTER_CARD_ALREADY_PLAYED);
         } else {
+            player.setTrueHasAlreadyPlayedACharacterCard();
             game.getCurrentPlayer().executeAction(new UseCharacterCard(getCharacterCardByID(idCard), game.getCurrentPlayer(), generalCoinSupply));
             game.notify(new UpdateWalletMessage(game.getCurrentPlayer().getUsername(), game.getCurrentPlayer().getWallet().getValue()));
             if (getCharacterCardByID(idCard).hasParameters())
