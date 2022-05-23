@@ -1,8 +1,9 @@
-package it.polimi.ingsw.triton.launcher.server.model;
+package it.polimi.ingsw.triton.launcher.server.model.game;
 
+import it.polimi.ingsw.triton.launcher.server.model.AssistantCard;
+import it.polimi.ingsw.triton.launcher.server.model.CloudTile;
 import it.polimi.ingsw.triton.launcher.server.model.cardeffects.CardEffect08;
 import it.polimi.ingsw.triton.launcher.server.model.enums.*;
-import it.polimi.ingsw.triton.launcher.server.model.game.Game;
 import it.polimi.ingsw.triton.launcher.server.model.influencestrategy.InfluenceStrategyDefault;
 import it.polimi.ingsw.triton.launcher.server.model.player.AssistantDeck;
 import it.polimi.ingsw.triton.launcher.server.model.player.Player;
