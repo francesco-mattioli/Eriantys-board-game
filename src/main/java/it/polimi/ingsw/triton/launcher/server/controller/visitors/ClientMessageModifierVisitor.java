@@ -101,9 +101,6 @@ public class ClientMessageModifierVisitor {
      */
     public void visitForModify(UseCharacterCardRequest message) throws IllegalClientInputException, CharacterCardWithParametersException, EndGameException {
         game.useCharacterCard(game.getCurrentPlayer(),message.getCharacterCardID());
-        // If the player has not played a character card ability yet, set true the attribute that indicates so.
-        // Otherwise, an IllegalClientInputException is thrown.
-        game.getCurrentPlayer().setTrueHasAlreadyPlayedACharacterCard();
         switch (message.getCharacterCardID()){
             case 2:
                 game.applyCharacterCardEffect(message.getCharacterCardID(), new CardEffect02(game.getCurrentPlayer(), game.getProfessorsManager(), game.getProfessors()));

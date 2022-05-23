@@ -52,6 +52,10 @@ public class CharacterCardSceneController extends SceneController {
         buttonPlay.setDisable(true);
     }
 
+    /**
+     * This methods prepares the scene for the player, drawing available character cards in image views
+     * @param clientModel clientModel
+     */
     @Override
     public <T> void setupScene(ClientModel clientModel, T parameters) {
         this.clientModel = clientModel;
@@ -96,6 +100,11 @@ public class CharacterCardSceneController extends SceneController {
         buttonPlay.setDisable(false);
     }
 
+    /**
+     * This method shows a form that contains the information about the character card
+     * It uses helper methods, that are specified under this
+     * @param event onMouseEntered
+     */
     public void showInfo(javafx.scene.input.MouseEvent event){
         characterCardPane.getChildren().removeIf(x-> x instanceof AnchorPane);
         BorderPane actualPane = (BorderPane) event.getSource();
@@ -142,7 +151,6 @@ public class CharacterCardSceneController extends SceneController {
         noEntryTilesLabel.setLayoutX(5);
         noEntryTilesLabel.setLayoutY(105);
     }
-
 
     public void hideInfo(MouseEvent event){
         infoPane.setVisible(false);

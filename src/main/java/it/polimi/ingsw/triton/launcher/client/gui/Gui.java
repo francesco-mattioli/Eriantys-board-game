@@ -10,7 +10,6 @@ import it.polimi.ingsw.triton.launcher.server.model.enums.Wizard;
 import it.polimi.ingsw.triton.launcher.server.model.player.SchoolBoard;
 import it.polimi.ingsw.triton.launcher.utils.message.ErrorTypeID;
 import it.polimi.ingsw.triton.launcher.utils.message.Message;
-import it.polimi.ingsw.triton.launcher.utils.message.servermessage.infoMessage.DisconnectionMessage;
 import it.polimi.ingsw.triton.launcher.utils.obs.Observable;
 import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
@@ -19,14 +18,11 @@ import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
-import javafx.scene.image.Image;
-import javafx.scene.layout.*;
 import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
@@ -57,12 +53,12 @@ public class Gui extends Observable<Message> implements ClientView {
 
     @Override
     public void showLobbyMessage(List<String> onlineNicknames) {
-        String usernames = "";
+        StringBuilder usernames = new StringBuilder();
         for (String name : onlineNicknames) {
-            usernames += name + "\n";
+            usernames.append(name).append("\n");
         }
-        usernames = "A new player has been connected.\nNow players online are:\n" + usernames;
-        showAlert(Alert.AlertType.INFORMATION, "New player online", usernames);
+        usernames.insert(0, "A new player has been connected.\nNow players online are:\n");
+        showAlert(Alert.AlertType.INFORMATION, "New player online", usernames.toString());
     }
 
     /**
@@ -198,7 +194,7 @@ public class Gui extends Observable<Message> implements ClientView {
     /**
      * This method loads the correct fxml file (in javafx thread)
      * Here is made the controller setup, adding observer, username, and calling setupScene
-     * Every controller has override of method setupScene, that dynamically prepares the graphic
+     * Every controller has overridden of method setupScene, that dynamically prepares the graphic
      * activeLoader changes dynamically, basing on server requests and following the game flow
      * @param path the path of fxml file to load
      * @param parameters a generic parameter, that in some cases is necessary for the controller
@@ -364,44 +360,32 @@ public class Gui extends Observable<Message> implements ClientView {
 
     @Override
     public void showMotherNaturePosition ( int islandId){
-        Platform.runLater(() -> {
-            mainController.showMotherNaturePosition(clientModel);
-        });
+        Platform.runLater(() -> mainController.showMotherNaturePosition(clientModel));
     }
 
     @Override
     public void showChangeInfluenceMessage (String username,int islandId){
-        Platform.runLater(() -> {
-            mainController.showChangeInfluenceMessage(clientModel);
-        });
+        Platform.runLater(() -> mainController.showChangeInfluenceMessage(clientModel));
     }
 
     @Override
     public void showMergeIslandsMessage ( int island1Id, int island2Id){
-        Platform.runLater(() -> {
-            mainController.showMergeIslandsMessage(clientModel);
-        });
+        Platform.runLater(() -> mainController.showMergeIslandsMessage(clientModel));
     }
 
     @Override
     public void showMoveTowerOntoIsland ( int islandId){
-        Platform.runLater(() -> {
-            mainController.showMoveTowerOntoIsland(clientModel);
-        });
+        Platform.runLater(() -> mainController.showMoveTowerOntoIsland(clientModel));
     }
 
     @Override
     public void showMoveTowerOntoSchoolBoard (String username, SchoolBoard schoolBoard){
-        Platform.runLater(() -> {
-            mainController.showMoveTowerOntoSchoolBoard(clientModel);
-        });
+        Platform.runLater(() -> mainController.showMoveTowerOntoSchoolBoard(clientModel));
     }
 
     @Override
     public void showInfoChosenCloudTile(String username, String choiceDescription){
-        Platform.runLater(() -> {
-            mainController.showInfoChosenCloudTile(username, clientModel);
-        });
+        Platform.runLater(() -> mainController.showInfoChosenCloudTile(username, clientModel));
     }
 
     @Override
@@ -413,8 +397,7 @@ public class Gui extends Observable<Message> implements ClientView {
     }
 
     /**
-     * This method preparers everything of main stage
-     * Main stage is a window with fixed dimensions
+     * This method preparers everything of main stage, which is a window with fixed dimensions.
      */
     private void initializeMainStage() {
         Platform.runLater(() -> {
@@ -449,9 +432,7 @@ public class Gui extends Observable<Message> implements ClientView {
      * @param button
      */
     private void playCharacterCard(Button button){
-        button.setOnAction(event -> {
-            prepareController("/characterCard-scene.fxml", null);
-        });
+        button.setOnAction(event -> prepareController("/characterCard-scene.fxml", null));
     }
 
     /**

@@ -13,7 +13,7 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class InfluenceStrategyDefaultSuperTest {
+class InfluenceStrategyDefaultTest {
     private Player p1;
     private Player p2;
     private Player[] professors;
@@ -59,7 +59,7 @@ class InfluenceStrategyDefaultSuperTest {
      */
     @Test
     void testCalculateInfluenceDefaultWhenDominatorIsNull() {
-        assertEquals(2, new InfluenceStrategyDefaultSuper().execute(p1, professors, null, island));
+        assertEquals(2, new InfluenceStrategyDefault().execute(p1, professors, null, island));
     }
 
     /**
@@ -73,7 +73,7 @@ class InfluenceStrategyDefaultSuperTest {
         } catch (EndGameException e) {
             throw new RuntimeException(e);
         }
-        assertEquals(3, new InfluenceStrategyDefaultSuper().execute(p1, professors, p1, island));
+        assertEquals(3, new InfluenceStrategyDefault().execute(p1, professors, p1, island));
     }
 
     /**
@@ -87,6 +87,6 @@ class InfluenceStrategyDefaultSuperTest {
         } catch (EndGameException e) {
             throw new RuntimeException(e);
         }
-        assertEquals(2, new InfluenceStrategyDefaultSuper().execute(p1, professors, p2, island));
+        assertEquals(2, new InfluenceStrategyDefault().execute(p1, professors, p2, island));
     }
 }

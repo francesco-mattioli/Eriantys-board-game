@@ -452,6 +452,11 @@ public class MainSceneController extends SceneController {
         }
     }
 
+    /**
+     * This series of methods is called by Gui, and permits to show the model changes into the graphic interface
+     * @param assistantCard assistantCard
+     * @param clientModel clientModel
+     */
     public void showMyInfoAssistantCardPlayed(AssistantCard assistantCard, ClientModel clientModel) {
         String currentPath = new java.io.File("src/main/resources/Images/AssistantCards").getAbsolutePath().replace('\\', '/');
         ImageView imageView = (ImageView) deckMap.get(clientModel.getUsername()).getChildren().get(1);
