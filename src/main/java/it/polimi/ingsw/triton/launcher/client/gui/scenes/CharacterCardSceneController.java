@@ -3,7 +3,6 @@ package it.polimi.ingsw.triton.launcher.client.gui.scenes;
 import it.polimi.ingsw.triton.launcher.client.model.ClientModel;
 import it.polimi.ingsw.triton.launcher.server.model.cardeffects.CharacterCard;
 import it.polimi.ingsw.triton.launcher.utils.message.clientmessage.UseCharacterCardRequest;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -47,13 +46,13 @@ public class CharacterCardSceneController extends SceneController {
 
     private ClientModel clientModel;
 
-    public void playCharacterCard(ActionEvent event){
+    public void playCharacterCard(){
         notify(new UseCharacterCardRequest(cardID));
         buttonPlay.setDisable(true);
     }
 
     /**
-     * This methods prepares the scene for the player, drawing available character cards in image views
+     * This method prepares the scene for the player, drawing available character cards in image views
      * @param clientModel clientModel
      */
     @Override
@@ -73,7 +72,7 @@ public class CharacterCardSceneController extends SceneController {
         imageView.setImage(image);
     }
 
-    public void selectCharacterCard1(javafx.scene.input.MouseEvent event){
+    public void selectCharacterCard1(){
         card1Pane.setBorder(new Border(new BorderStroke(Color.WHITE,
                 BorderStrokeStyle.SOLID, CornerRadii.EMPTY, BorderWidths.DEFAULT)));
         cardID = characterCardsMap.get(card1Pane);
@@ -82,7 +81,7 @@ public class CharacterCardSceneController extends SceneController {
         buttonPlay.setDisable(false);
     }
 
-    public void selectCharacterCard2(javafx.scene.input.MouseEvent event){
+    public void selectCharacterCard2(){
         card2Pane.setBorder(new Border(new BorderStroke(Color.WHITE,
                 BorderStrokeStyle.SOLID, CornerRadii.EMPTY, BorderWidths.DEFAULT)));
         cardID = characterCardsMap.get(card2Pane);
@@ -91,7 +90,7 @@ public class CharacterCardSceneController extends SceneController {
         buttonPlay.setDisable(false);
     }
 
-    public void selectCharacterCard3(javafx.scene.input.MouseEvent event){
+    public void selectCharacterCard3(){
         card3Pane.setBorder(new Border(new BorderStroke(Color.WHITE,
                 BorderStrokeStyle.SOLID, CornerRadii.EMPTY, BorderWidths.DEFAULT)));
         cardID = characterCardsMap.get(card3Pane);
@@ -105,8 +104,8 @@ public class CharacterCardSceneController extends SceneController {
      * It uses helper methods, that are specified under this
      * @param event onMouseEntered
      */
-    public void showInfo(javafx.scene.input.MouseEvent event){
-        characterCardPane.getChildren().removeIf(x-> x instanceof AnchorPane);
+    public void showInfo(MouseEvent event){
+        characterCardPane.getChildren().removeIf(AnchorPane.class::isInstance);
         BorderPane actualPane = (BorderPane) event.getSource();
         infoPane = new AnchorPane();
         characterCardPane.getChildren().add(infoPane);
@@ -116,22 +115,22 @@ public class CharacterCardSceneController extends SceneController {
         setupInfoPane(infoPane, characterCard.getId(), characterCard.getCost() ,x, y);
         int labelY = 30;
         for(int j = 0; j< it.polimi.ingsw.triton.launcher.server.model.enums.Color.numOfColors(); j++){
-            setupLabel(it.polimi.ingsw.triton.launcher.server.model.enums.Color.values()[j].name(), characterCard.getStudents()[j], 5, labelY, infoPane);
+            setupLabel(it.polimi.ingsw.triton.launcher.server.model.enums.Color.values()[j].name(), characterCard.getStudents()[j], labelY, infoPane);
             labelY+= 15;
         }
         setupNoEntryTiles(infoPane, characterCard.getNoEntryTiles());
     }
 
-    private void setupLabel(String color, int numberOfStudents, int x, int y, AnchorPane anchorPane){
+    private void setupLabel(String color, int numberOfStudents, int y, AnchorPane anchorPane){
         Label label = new Label("Number of " + color.toLowerCase() + " students:" + numberOfStudents);
         anchorPane.getChildren().add(label);
-        label.setLayoutX(x);
+        label.setLayoutX(5);
         label.setLayoutY(y);
         label.setStyle("-fx-text-fill: " + color.toLowerCase() + ";");
     }
 
-    private void setupInfoPane(AnchorPane infoPane, int ID, int cost, double x, double y){
-        Label idLabel = new Label("Card ID:" + ID);
+    private void setupInfoPane(AnchorPane infoPane, int id, int cost, double x, double y){
+        Label idLabel = new Label("Card ID:" + id);
         idLabel.setLayoutX(5);
         infoPane.getChildren().add(idLabel);
         Label costLabel = new Label("Card cost:" + cost);
@@ -152,7 +151,7 @@ public class CharacterCardSceneController extends SceneController {
         noEntryTilesLabel.setLayoutY(105);
     }
 
-    public void hideInfo(MouseEvent event){
+    public void hideInfo(){
         infoPane.setVisible(false);
     }
 }
