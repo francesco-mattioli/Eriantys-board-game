@@ -1,5 +1,7 @@
 package it.polimi.ingsw.triton.launcher.client.gui.scenes;
 
+
+
 import it.polimi.ingsw.triton.launcher.utils.message.UpdatedServerInfoMessage;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -19,10 +21,7 @@ public class IpAddressSceneController extends SceneController {
     TextField ipTextField;
 
 
-
-    private final String path = new java.io.File("src/main/resources/Images/Buttons/blueconnect.jpg").getAbsolutePath().replace('\\','/');
-
-    public void connect(ActionEvent event){
+    public void connect(ActionEvent event) {
         String ip = ipTextField.getText();
         notify(new UpdatedServerInfoMessage(ip));
         ipAddressPane.setDisable(true);

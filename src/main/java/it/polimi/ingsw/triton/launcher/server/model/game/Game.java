@@ -155,8 +155,8 @@ public class Game extends GameMode {
         player.executeAction(new PlayAssistantCard(assistantCard, player, usedAssistantCards));
         notify(new InfoAssistantCardPlayedMessage(currentPlayer.getUsername(), assistantCard));
         if (usedAssistantCards.size() == maxNumberOfPlayers) {
-            sortPlayerPerTurn();
             setGameState(GameState.ACTION_PHASE);
+            sortPlayerPerTurn();
         } else setNextPlayer();
     }
 
@@ -447,6 +447,11 @@ public class Game extends GameMode {
         throw new IllegalClientInputException(ErrorTypeID.ILLEGAL_MOVE_FOR_MODE);
         // This method is implemented by ExpertGame
     }
+    @Override
+    public void drawCharacterCards() throws IllegalClientInputException{
+        throw new IllegalClientInputException(ErrorTypeID.ILLEGAL_MOVE_FOR_MODE);
+        // This method is implemented by ExpertGame
+    }
 
     public void applyCharacterCardEffect(int characterCardID, CardEffect cardEffect) throws IllegalClientInputException{
         throw new IllegalClientInputException(ErrorTypeID.ILLEGAL_MOVE_FOR_MODE);
@@ -506,6 +511,7 @@ public class Game extends GameMode {
         players.removeIf(player -> (player.getUsername().equals(username)));
         notify(new LobbyMessage(getAllUsernames(players), maxNumberOfPlayers));
     }
+
 
     /**
      * Ends the game resetting the instance of the game.
@@ -642,6 +648,10 @@ public class Game extends GameMode {
 
     public IslandManager getIslandManager() {
         return islandManager;
+    }
+
+    public List<AssistantCard> getUsedAssistantCards() {
+        return usedAssistantCards;
     }
     //------------------------------------------------------------------------------------------------------------------
 
