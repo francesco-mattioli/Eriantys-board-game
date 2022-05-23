@@ -27,7 +27,5 @@ public class CardEffect02 implements CardEffect, Serializable {
     @Override
     public void execute() {
         professorsManager.setProfessorStrategy(new ProfessorStrategyWithEffect());
-        for(Color color: Color.values())
-            professorsManager.updateProfessors(player,color, professors);
     }
 }
