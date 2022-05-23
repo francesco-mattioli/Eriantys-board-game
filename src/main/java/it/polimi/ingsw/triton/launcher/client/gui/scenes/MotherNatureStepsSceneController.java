@@ -22,7 +22,7 @@ public class MotherNatureStepsSceneController extends ActionPhaseSceneController
     Button moveButton;
 
     public void move(ActionEvent event){
-        notify(new MotherNatureReply(username, stepsChoiceBox.getValue()));
+        notify(new MotherNatureReply(stepsChoiceBox.getValue()));
         ((Stage) motherNaturePane.getScene().getWindow()).close();
     }
 

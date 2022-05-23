@@ -364,7 +364,7 @@ public class Server {
         started = true;
         if (expertMode)
             controller.makeGameModeExpert();
-        controller.setGameState(GameState.SETUP);
+        controller.setSETUPAsGameState();
         controller.createTowerColorRequestMessage(controller.getVirtualViews().get(0).getUsername());
         waitingList.clear();
     }

@@ -15,7 +15,7 @@ import it.polimi.ingsw.triton.launcher.server.controller.visitors.ClientMessageS
 public class CloudTileReply extends ClientMessage {
     private final int selectedCloudTileID;
 
-    public CloudTileReply(String username, int selectedCloudTileID) {
+    public CloudTileReply(int selectedCloudTileID) {
         this.selectedCloudTileID = selectedCloudTileID;
     }
 

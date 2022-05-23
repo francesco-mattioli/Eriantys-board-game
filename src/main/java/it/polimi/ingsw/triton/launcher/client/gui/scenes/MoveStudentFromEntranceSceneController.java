@@ -39,11 +39,11 @@ public class MoveStudentFromEntranceSceneController extends ActionPhaseSceneCont
     public void move(ActionEvent event){
         Stage stage = (Stage) moveStudentFromEntrancePane.getScene().getWindow();
         if (whereChoiceBox.getValue().equals("dining room")){
-            notify(new MoveStudentOntoDiningRoomMessage(username,Color.valueOf(colorChoiceBox.getValue())));
+            notify(new MoveStudentOntoDiningRoomMessage(Color.valueOf(colorChoiceBox.getValue())));
             stage.close();
         }
         else {
-            notify(new MoveStudentOntoIslandMessage(username,islandIdChoiceBox.getValue(),Color.valueOf(colorChoiceBox.getValue())));
+            notify(new MoveStudentOntoIslandMessage(islandIdChoiceBox.getValue(),Color.valueOf(colorChoiceBox.getValue())));
             stage.close();
         }
     }

@@ -1,6 +1,7 @@
 package it.polimi.ingsw.triton.launcher.utils.message.clientmessage.login_messages;
 
 import it.polimi.ingsw.triton.launcher.server.controller.visitors.ClientMessageErrorVisitor;
+import it.polimi.ingsw.triton.launcher.server.controller.visitors.ClientMessageExceptionalVisitor;
 import it.polimi.ingsw.triton.launcher.server.controller.visitors.ClientMessageModifierVisitor;
 import it.polimi.ingsw.triton.launcher.server.controller.visitors.ClientMessageStandardVisitor;
 import it.polimi.ingsw.triton.launcher.utils.exceptions.CharacterCardWithParametersException;
@@ -19,7 +20,7 @@ public class PlayersNumberAndGameModeReply extends ClientMessage {
     private final int playersNumber;
     private final boolean expertMode;
 
-    public PlayersNumberAndGameModeReply(String username, int playersNumber, boolean expertMode) {
+    public PlayersNumberAndGameModeReply(int playersNumber, boolean expertMode) {
         this.playersNumber = playersNumber;
         this.expertMode = expertMode;
     }

@@ -16,7 +16,7 @@ import it.polimi.ingsw.triton.launcher.server.controller.visitors.ClientMessageS
 public class UseCharacterCardRequest extends ClientMessage {
     private final int characterCardID;
 
-    public UseCharacterCardRequest(String username, int characterCardID) {
+    public UseCharacterCardRequest(int characterCardID) {
         this.characterCardID = characterCardID;    }
 
     public int getCharacterCardID() {

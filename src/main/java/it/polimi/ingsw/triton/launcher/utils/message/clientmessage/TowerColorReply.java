@@ -14,7 +14,7 @@ import it.polimi.ingsw.triton.launcher.utils.exceptions.IllegalClientInputExcept
 public class TowerColorReply extends ClientMessage {
     private final TowerColor playerColor;
 
-    public TowerColorReply(String username, TowerColor playerColor) {
+    public TowerColorReply(TowerColor playerColor) {
         this.playerColor = playerColor;
     }
 

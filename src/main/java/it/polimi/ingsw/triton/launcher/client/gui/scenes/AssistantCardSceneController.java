@@ -44,7 +44,7 @@ public class AssistantCardSceneController extends SceneController {
      */
     public void select(ActionEvent event){
         AssistantCard selectedAssistantCard = assistantCardImages.get(assistantCardImageView.getImage());
-        notify(new AssistantCardReply(username, selectedAssistantCard));
+        notify(new AssistantCardReply(selectedAssistantCard));
         selectButton.setDisable(true);
         ((Stage) assistantCardPane.getScene().getWindow()).close();
     }

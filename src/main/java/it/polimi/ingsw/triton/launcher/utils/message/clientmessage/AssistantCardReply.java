@@ -15,7 +15,7 @@ import it.polimi.ingsw.triton.launcher.server.controller.visitors.ClientMessageS
 public class AssistantCardReply extends ClientMessage {
     private final AssistantCard chosenAssistantCard;
 
-    public AssistantCardReply(String username, AssistantCard chosenAssistantCard) {
+    public AssistantCardReply(AssistantCard chosenAssistantCard) {
         this.chosenAssistantCard = chosenAssistantCard;
     }
 

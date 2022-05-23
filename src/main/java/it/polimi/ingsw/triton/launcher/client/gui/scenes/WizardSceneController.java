@@ -49,7 +49,7 @@ public class WizardSceneController extends SceneController {
      */
     public void select(ActionEvent event) {
         Wizard selectedWizard = wizardsImages.get(wizardImageView.getImage());
-        notify(new WizardReply(username, selectedWizard));
+        notify(new WizardReply(selectedWizard));
         selectButton.setDisable(true);
     }
 

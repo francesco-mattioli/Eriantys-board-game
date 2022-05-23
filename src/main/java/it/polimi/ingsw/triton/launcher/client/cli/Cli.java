@@ -124,7 +124,7 @@ public class Cli extends Observable<Message> implements ClientView{
     public void askNumPlayersAndGameMode(){
         boolean expertMode = askGameMode();
         int numOfPlayers = askNumOfPlayers();
-        notify(new PlayersNumberAndGameModeReply(clientModel.getUsername(), numOfPlayers, expertMode));
+        notify(new PlayersNumberAndGameModeReply( numOfPlayers, expertMode));
     }
 
     /**
@@ -200,7 +200,7 @@ public class Cli extends Observable<Message> implements ClientView{
             }
             out.print("]: " + Utility.ANSI_RESET);
             String input = readLine();
-            notify(new TowerColorReply(clientModel.getUsername(), TowerColor.values()[Integer.parseInt(input)]));
+            notify(new TowerColorReply(TowerColor.values()[Integer.parseInt(input)]));
         }catch(NumberFormatException | ArrayIndexOutOfBoundsException e){
             out.println(TRY_AGAIN);
             askTowerColor(chosenTowerColors);
@@ -221,7 +221,7 @@ public class Cli extends Observable<Message> implements ClientView{
             out.print(Utility.ANSI_BOLDGREEN + "Choose a Wizard " + Utility.printAvailableWizards(wizards));
             out.print(": " + Utility.ANSI_RESET);
             String input = readLine();
-            notify(new WizardReply(clientModel.getUsername(), Wizard.valueOf(input.toUpperCase())));
+            notify(new WizardReply(Wizard.valueOf(input.toUpperCase())));
         }catch(IllegalArgumentException e){
             out.println(TRY_AGAIN);
             askWizard(wizards);
@@ -280,7 +280,7 @@ public class Cli extends Observable<Message> implements ClientView{
                 if ((assistantCard.getType()).equals(AssistantCardType.valueOf(input.toUpperCase())))
                     assistantCardReply = assistantCard;
             }
-            notify(new AssistantCardReply(clientModel.getUsername(), assistantCardReply));
+            notify(new AssistantCardReply(assistantCardReply));
         } catch(IllegalArgumentException e){
             out.println(TRY_AGAIN);
             askAssistantCard();
@@ -336,9 +336,9 @@ public class Cli extends Observable<Message> implements ClientView{
                 String[] splittedInput = input.split(",");
                 Color color = Color.valueOf(splittedInput[0].toUpperCase());
                 if (removeSpaces(splittedInput[1]).equals("d"))
-                    notify(new MoveStudentOntoDiningRoomMessage(clientModel.getUsername(), color));
+                    notify(new MoveStudentOntoDiningRoomMessage(color));
                 else
-                    notify(new MoveStudentOntoIslandMessage(clientModel.getUsername(), Integer.parseInt(removeSpaces(splittedInput[1])), color));
+                    notify(new MoveStudentOntoIslandMessage(Integer.parseInt(removeSpaces(splittedInput[1])), color));
             }
         } catch (IllegalArgumentException | ArrayIndexOutOfBoundsException e) {
             out.println(TRY_AGAIN);
@@ -370,7 +370,7 @@ public class Cli extends Observable<Message> implements ClientView{
             if(input.equals(CHARACHTER_CARD_COMMAND) && clientModel.isExpertMode())
                 showAndPlayCharacterCard();
             else
-                notify(new MotherNatureReply(clientModel.getUsername(), Integer.parseInt(input)));
+                notify(new MotherNatureReply(Integer.parseInt(input)));
         } catch (NumberFormatException e) {
             out.println(TRY_AGAIN);
             askNumberStepsMotherNature();
@@ -433,7 +433,7 @@ public class Cli extends Observable<Message> implements ClientView{
             if(input.equals(CHARACHTER_CARD_COMMAND) && clientModel.isExpertMode())
                 showAndPlayCharacterCard();
             else
-                notify(new CloudTileReply(clientModel.getUsername(), Integer.parseInt(input)));
+                notify(new CloudTileReply(Integer.parseInt(input)));
         }
         catch (NumberFormatException e){
             out.println(TRY_AGAIN);
@@ -915,7 +915,7 @@ public class Cli extends Observable<Message> implements ClientView{
             String input=readLine();
             if(input.isEmpty())
                 input = "-1";
-            notify(new UseCharacterCardRequest(clientModel.getUsername(),Integer.parseInt(removeSpaces(input))));
+            notify(new UseCharacterCardRequest(Integer.parseInt(removeSpaces(input))));
         } catch (NullPointerException e) {
             System.exit(1);
         } catch(NumberFormatException e){
