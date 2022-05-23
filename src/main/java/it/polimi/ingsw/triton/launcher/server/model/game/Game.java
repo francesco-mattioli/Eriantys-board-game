@@ -155,8 +155,8 @@ public class Game extends GameMode {
         player.executeAction(new PlayAssistantCard(assistantCard, player, usedAssistantCards));
         notify(new InfoAssistantCardPlayedMessage(currentPlayer.getUsername(), assistantCard));
         if (usedAssistantCards.size() == maxNumberOfPlayers) {
-            sortPlayerPerTurn();
             setGameState(GameState.ACTION_PHASE);
+            sortPlayerPerTurn();
         } else setNextPlayer();
     }
 
@@ -642,6 +642,10 @@ public class Game extends GameMode {
 
     public IslandManager getIslandManager() {
         return islandManager;
+    }
+
+    public List<AssistantCard> getUsedAssistantCards() {
+        return usedAssistantCards;
     }
     //------------------------------------------------------------------------------------------------------------------
 
