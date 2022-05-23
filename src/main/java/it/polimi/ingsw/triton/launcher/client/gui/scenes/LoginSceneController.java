@@ -18,7 +18,7 @@ public class LoginSceneController extends SceneController {
     @FXML
     TextField loginTextField;
 
-    public void login(ActionEvent event) {
+    public void login() {
         String username = loginTextField.getText();
         notify(new LoginRequest(username));
         loginButton.setDisable(true);

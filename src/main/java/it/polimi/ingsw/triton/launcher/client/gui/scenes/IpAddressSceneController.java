@@ -21,7 +21,7 @@ public class IpAddressSceneController extends SceneController {
     TextField ipTextField;
 
 
-    public void connect(ActionEvent event) {
+    public void connect() {
         String ip = ipTextField.getText();
         notify(new UpdatedServerInfoMessage(ip));
         ipAddressPane.setDisable(true);

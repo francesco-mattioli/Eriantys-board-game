@@ -18,7 +18,7 @@ import java.util.stream.Collectors;
 
 
 public class MoveStudentFromEntranceSceneController extends ActionPhaseSceneControllers {
-
+    private static final String ISLAND = "island";
     @FXML
     AnchorPane moveStudentFromEntrancePane;
 
@@ -37,7 +37,7 @@ public class MoveStudentFromEntranceSceneController extends ActionPhaseSceneCont
     @FXML
     Button moveButton;
 
-    public void move(ActionEvent event){
+    public void move(){
         if (whereChoiceBox.getValue().equals("dining room")){
             notify(new MoveStudentOntoDiningRoomMessage(Color.valueOf(colorChoiceBox.getValue())));
         }
@@ -47,8 +47,8 @@ public class MoveStudentFromEntranceSceneController extends ActionPhaseSceneCont
         ((Stage)moveStudentFromEntrancePane.getScene().getWindow()).close();
     }
 
-    public void show(ActionEvent event){
-        if(whereChoiceBox.getValue().equals("island")){
+    public void show(){
+        if(whereChoiceBox.getValue().equals(ISLAND)){
             islandIdLabel.setVisible(true);
             islandIdChoiceBox.setVisible(true);
         }
@@ -60,7 +60,7 @@ public class MoveStudentFromEntranceSceneController extends ActionPhaseSceneCont
 
     @Override
     public <T> void setupScene(ClientModel clientModel, T parameters) {
-        String[] whereMove = {"dining room", "island"};
+        String[] whereMove = {"dining room", ISLAND};
         setupStudentsChoiceBox(colorChoiceBox, clientModel.getMySchoolBoard().getEntrance());
         islandIdChoiceBox.getItems().addAll(clientModel.getIslands().stream().map(Island::getId).collect(Collectors.toList()));
         whereChoiceBox.getItems().addAll(whereMove);
@@ -75,7 +75,7 @@ public class MoveStudentFromEntranceSceneController extends ActionPhaseSceneCont
      * @param event onClick
      */
     private void activeButton(ActionEvent event){
-        if(whereChoiceBox.getValue() != null && whereChoiceBox.getValue().equals("island")){
+        if(whereChoiceBox.getValue() != null && whereChoiceBox.getValue().equals(ISLAND)){
             islandIdLabel.setVisible(true);
             islandIdChoiceBox.setVisible(true);
         }

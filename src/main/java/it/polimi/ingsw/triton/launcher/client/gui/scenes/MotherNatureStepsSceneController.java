@@ -21,7 +21,7 @@ public class MotherNatureStepsSceneController extends ActionPhaseSceneController
     @FXML
     Button moveButton;
 
-    public void move(ActionEvent event){
+    public void move(){
         notify(new MotherNatureReply(stepsChoiceBox.getValue()));
         ((Stage) motherNaturePane.getScene().getWindow()).close();
     }

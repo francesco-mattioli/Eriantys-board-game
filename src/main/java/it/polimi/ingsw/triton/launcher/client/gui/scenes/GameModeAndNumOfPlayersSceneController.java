@@ -1,7 +1,6 @@
 package it.polimi.ingsw.triton.launcher.client.gui.scenes;
 
 import it.polimi.ingsw.triton.launcher.utils.message.clientmessage.login_messages.PlayersNumberAndGameModeReply;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.RadioButton;
@@ -34,7 +33,7 @@ public class GameModeAndNumOfPlayersSceneController extends SceneController {
     @FXML
     ToggleGroup numOfPlayersGroup;
 
-    public void confirm(ActionEvent event) {
+    public void confirm() {
         int numOfPlayers = 2;
         if (rdb3Players.isSelected())
             numOfPlayers = 3;
