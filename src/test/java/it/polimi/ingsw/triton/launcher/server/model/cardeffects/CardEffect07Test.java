@@ -21,7 +21,7 @@ class CardEffect07Test {
     private int[] fromSchoolBoard;
 
     @BeforeEach
-    public void setUp(){
+    void setUp(){
         bag = new Bag();
         bag.fillBag();
         fromCard = new int[5];
@@ -34,7 +34,7 @@ class CardEffect07Test {
     }
 
     @AfterEach
-    public void tearDown(){
+    void tearDown(){
         bag = null;
         characterCard = null;
         player = null;
@@ -44,7 +44,7 @@ class CardEffect07Test {
      * This test checks if students are swapped correctly from the card to the entrance.
      */
     @Test
-    public void checkIfStudentSwitchedInEntrance(){
+    void checkIfStudentSwitchedInEntrance(){
         fromCard[Color.PINK.ordinal()] = 3;
         fromSchoolBoard[Color.BLUE.ordinal()] = 3;
         try {
@@ -59,17 +59,17 @@ class CardEffect07Test {
      * This test throws an exception if entrance hasn't enough students.
      */
     @Test
-    public void throwExceptionIfNotEnoughStudentsInEntrance(){
+    void throwExceptionIfNotEnoughStudentsInEntrance(){
         fromCard[Color.PINK.ordinal()] = 3;
         fromSchoolBoard[Color.BLUE.ordinal()] = 4;
-        assertThrows(IllegalClientInputException.class, () -> {characterCard.executeEffect(new CardEffect07(characterCard, characterCard.getStudents(), fromCard, fromSchoolBoard, player.getSchoolBoard()));});
+        assertThrows(IllegalClientInputException.class, () -> characterCard.executeEffect(new CardEffect07(characterCard, characterCard.getStudents(), fromCard, fromSchoolBoard, player.getSchoolBoard())));
     }
 
     /**
      * This test checks if students are swapped correctly from the entrance to the card.
      */
     @Test
-    public void checkIfStudentSwitchedInCharacterCard(){
+    void checkIfStudentSwitchedInCharacterCard(){
         int previousBlueOnCard;
         previousBlueOnCard = characterCard.getStudents()[Color.BLUE.ordinal()];
         fromCard[Color.PINK.ordinal()] = 3;
@@ -86,9 +86,9 @@ class CardEffect07Test {
      * This test throws an exception if card hasn't enough students.
      */
     @Test
-    public void throwExceptionIfNotEnoughStudentsOnCharacterCard(){
+    void throwExceptionIfNotEnoughStudentsOnCharacterCard(){
         fromCard[Color.PINK.ordinal()] = 4;
         fromSchoolBoard[Color.BLUE.ordinal()] = 3;
-        assertThrows(IllegalClientInputException.class, () -> {characterCard.executeEffect(new CardEffect07(characterCard, characterCard.getStudents(), fromCard, fromSchoolBoard, player.getSchoolBoard()));});
+        assertThrows(IllegalClientInputException.class, () -> characterCard.executeEffect(new CardEffect07(characterCard, characterCard.getStudents(), fromCard, fromSchoolBoard, player.getSchoolBoard())));
     }
 }

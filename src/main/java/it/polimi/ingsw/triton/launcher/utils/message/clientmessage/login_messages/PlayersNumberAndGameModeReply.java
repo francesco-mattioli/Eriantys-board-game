@@ -1,7 +1,6 @@
 package it.polimi.ingsw.triton.launcher.utils.message.clientmessage.login_messages;
 
 import it.polimi.ingsw.triton.launcher.server.controller.visitors.ClientMessageErrorVisitor;
-import it.polimi.ingsw.triton.launcher.server.controller.visitors.ClientMessageExceptionalVisitor;
 import it.polimi.ingsw.triton.launcher.server.controller.visitors.ClientMessageModifierVisitor;
 import it.polimi.ingsw.triton.launcher.server.controller.visitors.ClientMessageStandardVisitor;
 import it.polimi.ingsw.triton.launcher.utils.exceptions.CharacterCardWithParametersException;

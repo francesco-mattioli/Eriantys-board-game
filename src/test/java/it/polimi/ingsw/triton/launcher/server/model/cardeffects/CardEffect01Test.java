@@ -20,7 +20,7 @@ class CardEffect01Test {
 
 
     @BeforeEach
-    public void setUp(){
+    void setUp(){
         bag = new Bag();
         bag.fillBag();
         island = new Island(1);
@@ -29,7 +29,7 @@ class CardEffect01Test {
 
 
     @AfterEach
-    public void tearDown(){
+    void tearDown(){
         bag = null;
         island = null;
         characterCard = null;
@@ -40,7 +40,7 @@ class CardEffect01Test {
      * is not on the character card.
      */
     @Test
-    public void addStudentWhenCardHasNotStudentOfThatColor(){
+    void addStudentWhenCardHasNotStudentOfThatColor(){
         characterCard.getStudents()[Color.GREEN.ordinal()] = 0;
         assertThrows(IllegalClientInputException.class, ()->characterCard.executeEffect(new CardEffect01(characterCard, Color.GREEN, island, bag)));
     }
@@ -51,7 +51,7 @@ class CardEffect01Test {
      * drawing a student that is actually on the card.
      */
     @Test
-    public void addStudentIntoIslandWhenHasZeroStudent(){
+     void addStudentIntoIslandWhenHasZeroStudent(){
         int studentColorToDraw = aStudentOnTheCard(characterCard);
         assert studentColorToDraw != -1;
         try {
@@ -67,7 +67,7 @@ class CardEffect01Test {
      * @param card on which identify a student present on the card.
      * @return the student Color of a student present on the card.
      */
-    public int aStudentOnTheCard(CharacterCard card){
+    private int aStudentOnTheCard(CharacterCard card){
         for(int i=0;i<card.getStudents().length;i++){
             if(card.getStudents()[i]!=0){
                 return i;

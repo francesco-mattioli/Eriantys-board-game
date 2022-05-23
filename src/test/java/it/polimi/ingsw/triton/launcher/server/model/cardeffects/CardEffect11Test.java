@@ -19,7 +19,7 @@ class CardEffect11Test {
     private Bag bag;
 
     @BeforeEach
-    public void setUp(){
+    void setUp(){
         bag = new Bag();
         bag.fillBag();
         player = new Player("TestPlayer");
@@ -30,7 +30,7 @@ class CardEffect11Test {
     }
 
     @AfterEach
-    public void tearDown(){
+    void tearDown(){
         bag = null;
         player = null;
         characterCard = null;
@@ -41,7 +41,7 @@ class CardEffect11Test {
      * is not on the character card.
      */
     @Test
-    public void addStudentWithColorNotOnTheCard(){
+    void addStudentWithColorNotOnTheCard(){
         assertThrows(IllegalClientInputException.class, ()->characterCard.executeEffect(new CardEffect11(Color.GREEN, player.getSchoolBoard(),bag,characterCard)));
     }
 
@@ -49,7 +49,7 @@ class CardEffect11Test {
      * This test checks if the effect adds only one student when the entrance has zero.
      */
     @Test
-    public void addStudentWhenDiningRoomHasZero(){
+    void addStudentWhenDiningRoomHasZero(){
         try {
             characterCard.executeEffect(new CardEffect11(Color.BLUE, player.getSchoolBoard(),bag,characterCard));
         } catch (EndGameException | IllegalClientInputException e) {
