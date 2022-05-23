@@ -453,7 +453,7 @@ public class MainSceneController extends SceneController {
     }
 
     /**
-     * This series of methods is called by Gui, and permits to show the model changes into the graphic interface
+     * This method modifies the graphic interface setting in imageview the last assistant card played
      * @param assistantCard assistantCard
      * @param clientModel clientModel
      */
@@ -469,6 +469,12 @@ public class MainSceneController extends SceneController {
         imageView.setImage(new Image("file:" + currentPath +assistantCard.getType().getImagePath()));
     }
 
+    /**
+     * This method is called by gui when a student has been moved into diningRoom
+     * It re-draws dining room, entrance and professors grid of the specified player
+     * @param username the player whose SchoolBoard has been changed
+     * @param clientModel clientModel
+     */
     public void showInfoStudentIntoDiningRoom(String username, ClientModel clientModel) {
         AnchorPane schoolBoardPane = schoolBoardsMap.get(username);
         drawStudentsOnDiningRoom(((GridPane)schoolBoardPane.getChildren().get(1)).getChildren(), clientModel.getSchoolBoards().get(username));
@@ -479,28 +485,60 @@ public class MainSceneController extends SceneController {
         }
     }
 
+    /**
+     * This method is called by gui when a student has been moved from entrance to an island
+     * It re-draws only the entrance grid of the specified player
+     * @param username the player whose SchoolBoard has been changed
+     * @param clientModel clientModel
+     */
     public void showInfoStudentOntoIsland(String username, ClientModel clientModel) {
         AnchorPane schoolBoardPane = schoolBoardsMap.get(username);
         drawStudentsOnEntrance(((GridPane)schoolBoardPane.getChildren().get(2)).getChildren(), clientModel.getSchoolBoards().get(username));
     }
 
+    /**
+     * This method is called by gui when mother nature is moved
+     * The entire island block is re-drawn
+     * @param clientModel clientModel
+     */
     public void showMotherNaturePosition(ClientModel clientModel) {
         drawIslands(clientModel);
     }
 
+
+    /**
+     * This method is called by gui when influence changes on an island
+     * The entire island block and the tower grid on each schoolBoard are re-drawn
+     * @param clientModel clientModel
+     */
     public void showChangeInfluenceMessage(ClientModel clientModel) {
         drawIslands(clientModel);
         drawAllSchoolBoardsTowers(clientModel);
     }
 
+    /**
+     * This method is called by gui when 2 or more islands are merged
+     * The entire island block is re-drawn
+     * @param clientModel clientModel
+     */
     public void showMergeIslandsMessage(ClientModel clientModel) {
         drawIslands(clientModel);
     }
 
+    /**
+     * This method is called when a tower is moved onto an island
+     * The entire island block is re-drawn
+     * @param clientModel clientModel
+     */
     public void showMoveTowerOntoIsland(ClientModel clientModel) {
         drawIslands(clientModel);
     }
 
+    /**
+     * This method is called by gui when a tower is moved into a schoolBoard
+     * The tower grid on each schoolBoard is re-drawn
+     * @param clientModel clientModel
+     */
     public void showMoveTowerOntoSchoolBoard(ClientModel clientModel) {
         drawAllSchoolBoardsTowers(clientModel);
     }
@@ -514,17 +552,22 @@ public class MainSceneController extends SceneController {
     }
 
     public void showCCModifies07(ClientModel clientModel){
-        drawStudentsOnEntrance(((GridPane)schoolBoardsMap.get(clientModel.getUsername()).getChildren().get(2)).getChildren(), clientModel.getSchoolBoards().get(clientModel.getUsername()));
+        for(int i = 0; i < schoolBoardsMap.size(); i++){
+            drawStudentsOnEntrance(((GridPane)schoolBoardsMap.get(new ArrayList<>(schoolBoardsMap.keySet()).get(i)).getChildren().get(2)).getChildren(), clientModel.getSchoolBoards().get(new ArrayList<>(schoolBoardsMap.keySet()).get(i)));
+        }
     }
 
     public void showCCModifies10(ClientModel clientModel){
-        drawStudentsOnDiningRoom(((GridPane)schoolBoardsMap.get(clientModel.getUsername()).getChildren().get(1)).getChildren(), clientModel.getSchoolBoards().get(clientModel.getUsername()));
-        drawStudentsOnEntrance(((GridPane)schoolBoardsMap.get(clientModel.getUsername()).getChildren().get(2)).getChildren(), clientModel.getSchoolBoards().get(clientModel.getUsername()));
+        for(int i = 0; i < schoolBoardsMap.size(); i++){
+            drawStudentsOnDiningRoom(((GridPane)schoolBoardsMap.get(new ArrayList<>(schoolBoardsMap.keySet()).get(i)).getChildren().get(1)).getChildren(), clientModel.getSchoolBoards().get(new ArrayList<>(schoolBoardsMap.keySet()).get(i)));
+            drawStudentsOnEntrance(((GridPane)schoolBoardsMap.get(new ArrayList<>(schoolBoardsMap.keySet()).get(i)).getChildren().get(2)).getChildren(), clientModel.getSchoolBoards().get(new ArrayList<>(schoolBoardsMap.keySet()).get(i)));
+        }
     }
 
     public void showCCModifies11(ClientModel clientModel){
-        drawStudentsOnDiningRoom(((GridPane)schoolBoardsMap.get(clientModel.getUsername()).getChildren().get(1)).getChildren(), clientModel.getSchoolBoards().get(clientModel.getUsername()));
-
+        for(int i = 0; i < schoolBoardsMap.size(); i++){
+            drawStudentsOnDiningRoom(((GridPane)schoolBoardsMap.get(new ArrayList<>(schoolBoardsMap.keySet()).get(i)).getChildren().get(1)).getChildren(), clientModel.getSchoolBoards().get(new ArrayList<>(schoolBoardsMap.keySet()).get(i)));
+        }
     }
 
     public void showCCModifies12(ClientModel clientModel){
