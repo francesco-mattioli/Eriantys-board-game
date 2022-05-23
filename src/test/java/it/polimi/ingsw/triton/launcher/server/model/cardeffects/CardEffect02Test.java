@@ -48,7 +48,7 @@ class CardEffect02Test {
      */
     @Test
     void testChangeProfessorWithSameNumberOfStudents() {
-        CardEffect02 cardEffect02 = new CardEffect02(p1, professorsManager, professors);
+        CardEffect02 cardEffect02 = new CardEffect02 (professorsManager);
         cardEffect02.execute();
         assertEquals(p1, professors[Color.RED.ordinal()]);
     }
@@ -64,7 +64,7 @@ class CardEffect02Test {
         } catch (IllegalClientInputException e) {
             throw new RuntimeException(e);
         }
-        CardEffect02 cardEffect02 = new CardEffect02(p1, professorsManager, professors);
+        CardEffect02 cardEffect02 = new CardEffect02(professorsManager);
         cardEffect02.execute();
         assertEquals(p2, professors[Color.RED.ordinal()]);
     }

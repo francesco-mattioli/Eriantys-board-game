@@ -103,7 +103,7 @@ public class ClientMessageModifierVisitor {
         game.useCharacterCard(game.getCurrentPlayer(),message.getCharacterCardID());
         switch (message.getCharacterCardID()){
             case 2:
-                game.applyCharacterCardEffect(message.getCharacterCardID(), new CardEffect02(game.getCurrentPlayer(), game.getProfessorsManager(), game.getProfessors()));
+                game.applyCharacterCardEffect(message.getCharacterCardID(), new CardEffect02(game.getProfessorsManager()));
                 break;
             case 4:
                 game.applyCharacterCardEffect(message.getCharacterCardID(), new CardEffect04(game.getIslandManager().getMotherNature()));

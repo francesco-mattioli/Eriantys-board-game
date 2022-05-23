@@ -38,7 +38,7 @@ public class CharCard091112SceneController extends SceneController {
     }
 
 
-    public void confirm(ActionEvent event) {
+    public void confirm() {
         confirmButton.setDisable(true);
         if (id == 9)
             notify(new CharacterCard09Reply(username, Color.valueOf(selectColorChoiceBox.getValue())));
