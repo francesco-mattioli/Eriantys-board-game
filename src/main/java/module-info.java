@@ -22,6 +22,7 @@ module it.polimi.ingsw.triton.launcher {
     exports it.polimi.ingsw.triton.launcher.server.model.enums to javafx.fxml;
     exports it.polimi.ingsw.triton.launcher.utils.message to javafx.fxml;
     exports it.polimi.ingsw.triton.launcher.server.model to javafx.fxml;
+    exports it.polimi.ingsw.triton.launcher.server.model.player to javafx.fxml;
 
 
 }
