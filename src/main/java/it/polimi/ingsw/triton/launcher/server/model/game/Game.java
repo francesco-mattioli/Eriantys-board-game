@@ -304,7 +304,6 @@ public class Game extends GameMode {
         for (Player player : players)
             player.resetAlreadyPlayedAnCharacterCard();
         addStudentsToCloudTiles();
-
         resetPlayedCardInTurn();
     }
 
@@ -468,7 +467,7 @@ public class Game extends GameMode {
 
 
     /**
-     * This method removes the played assistant card from the player's deck.
+     * This method removes the played assistant card of the previous turn.
      */
     private void resetPlayedCardInTurn() {
         usedAssistantCards.clear();

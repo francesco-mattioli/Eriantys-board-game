@@ -1,18 +1,16 @@
 package it.polimi.ingsw.triton.launcher.server.model;
 
-import it.polimi.ingsw.triton.launcher.server.model.cardeffects.CharacterCard;
-import it.polimi.ingsw.triton.launcher.server.model.enums.Color;
-import it.polimi.ingsw.triton.launcher.server.model.enums.GameState;
-import it.polimi.ingsw.triton.launcher.server.model.enums.TowerColor;
-import it.polimi.ingsw.triton.launcher.server.model.enums.Wizard;
+import it.polimi.ingsw.triton.launcher.server.model.cardeffects.CardEffect08;
+import it.polimi.ingsw.triton.launcher.server.model.enums.*;
 import it.polimi.ingsw.triton.launcher.server.model.game.Game;
-import it.polimi.ingsw.triton.launcher.server.model.game.GameMode;
-import it.polimi.ingsw.triton.launcher.server.model.islands.Island;
-import it.polimi.ingsw.triton.launcher.server.model.islands.IslandManager;
+import it.polimi.ingsw.triton.launcher.server.model.influencestrategy.InfluenceStrategyDefault;
 import it.polimi.ingsw.triton.launcher.server.model.player.AssistantDeck;
 import it.polimi.ingsw.triton.launcher.server.model.player.Player;
+import it.polimi.ingsw.triton.launcher.server.model.professor.ProfessorStrategyDefault;
 import it.polimi.ingsw.triton.launcher.utils.exceptions.ChangeTurnException;
+import it.polimi.ingsw.triton.launcher.utils.exceptions.EndGameException;
 import it.polimi.ingsw.triton.launcher.utils.exceptions.IllegalClientInputException;
+import it.polimi.ingsw.triton.launcher.utils.exceptions.LastMoveException;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -22,11 +20,9 @@ import java.util.Arrays;
 import static org.junit.jupiter.api.Assertions.*;
 
 class GameTest {
-    private GameMode game;
+    private Game game;
     private Player player1;
     private Player player2;
-    private Player player3;
-    private IslandManager islandManager;
 
     @BeforeEach
     public void setUp() {
@@ -198,6 +194,7 @@ class GameTest {
             assertTrue(true);
         }
         assertEquals(GameState.ACTION_PHASE, game.getGameState());
+        assertEquals(player1, game.getCurrentPlayer());
     }
 
     /**
@@ -304,19 +301,285 @@ class GameTest {
         }
     }
 
-    /*@Test
+    /**
+     * Tests if the cloud tiles remain empty when the bag is already empty.
+     */
+    @Test
     void testFillCloudTilesWithEmptyBag(){
-        player1.setSchoolBoard(TowerColor.BLACK, 2);
-        player1.setWizard(Wizard.BLUE);
-        player2.setSchoolBoard(TowerColor.WHITE, 2);
-        player2.setWizard(Wizard.GREEN);
         Arrays.fill(game.getBag().getStudents(), 0);
+        game.createCloudTiles();
+        game.addStudentsToCloudTiles();
         int sum = 0;
         for(CloudTile cloudTile: game.getCloudTiles()){
             sum += Arrays.stream(cloudTile.getStudents()).sum();
         }
         assertNotEquals(6, sum);
-    }*/
+    }
+
+    /**
+     * Tests if the cloud tiles aren't filled completely when the bag becomes empty during the execution
+     * of the method.
+     */
+    @Test
+    void testFillCloudTilesWithPartiallyEmptyBag(){
+        Arrays.fill(game.getBag().getStudents(), 1);
+        game.createCloudTiles();
+        game.addStudentsToCloudTiles();
+        int sum = 0;
+        for(CloudTile cloudTile: game.getCloudTiles()){
+            sum += Arrays.stream(cloudTile.getStudents()).sum();
+        }
+        assertEquals(5, sum);
+    }
+
+    /**
+     * Tests if current player's move counter is incremented when he moves a student from his entrance.
+     */
+    @Test
+    void testUpdatePlayerMoveCounter(){
+        player1.setSchoolBoard(TowerColor.BLACK, 2);
+        player1.getSchoolBoard().addStudentIntoEntrance(Color.BLUE);
+        player1.getSchoolBoard().addStudentIntoEntrance(Color.BLUE);
+        int player1MoveCounter = player1.getMoveCounter();
+        game.setCurrentPlayer(player1);
+        try {
+            game.executeActionMoveStudentToDiningRoom(Color.BLUE);
+            game.executeActionMoveStudentToIsland(Color.BLUE, 5);
+        } catch (LastMoveException | IllegalClientInputException e) {
+            throw new RuntimeException(e);
+        }
+        assertEquals(player1MoveCounter + 2, player1.getMoveCounter());
+    }
+
+    /**
+     * Tests if the method throws an exception when current player has just done his last move.
+     */
+    @Test
+    void testFinishMoves(){
+        player1.setSchoolBoard(TowerColor.BLACK, 2);
+        player1.getSchoolBoard().addStudentIntoEntrance(Color.BLUE);
+        player1.getSchoolBoard().addStudentIntoEntrance(Color.BLUE);
+        player1.getSchoolBoard().addStudentIntoEntrance(Color.BLUE);
+        game.setCurrentPlayer(player1);
+        try {
+            game.executeActionMoveStudentToDiningRoom(Color.BLUE);
+            game.executeActionMoveStudentToDiningRoom(Color.BLUE);
+        } catch (LastMoveException | IllegalClientInputException e) {
+            throw new RuntimeException(e);
+        }
+        assertThrows(LastMoveException.class, () -> game.executeActionMoveStudentToDiningRoom(Color.BLUE));
+        assertEquals(0, player1.getMoveCounter());
+    }
+
+    /**
+     * Tests if mother nature is moved correctly when the number of steps the current player inserted
+     * is allowed.
+     */
+    @Test
+    void testNewPositionOfMotherNatureWhenStepsAreCorrect(){
+        game.setCurrentPlayer(player1);
+        player1.setLastPlayedAssistantCard(new AssistantCard(AssistantCardType.EAGLE));
+        int oldMotherNatureId = game.getIslandManager().getMotherNature().getPosition().getId();
+        int newMotherNatureId = oldMotherNatureId + 2;
+        try {
+            game.moveMotherNature(2);
+        } catch (IllegalClientInputException | EndGameException | ChangeTurnException e) {
+            throw new RuntimeException(e);
+        }
+        if(oldMotherNatureId == 10)
+            newMotherNatureId = 0;
+        if(oldMotherNatureId == 11)
+            newMotherNatureId = 1;
+        assertEquals(newMotherNatureId, game.getIslandManager().getMotherNature().getPosition().getId());
+    }
+
+    /**
+     * Tests if mother nature is moved correctly when the number of steps the current player inserted exceeds
+     * the maximum possible.
+     */
+    @Test
+    void testNewPositionOfMotherNatureWhenStepsAreNotCorrect(){
+        game.setCurrentPlayer(player1);
+        player1.setLastPlayedAssistantCard(new AssistantCard(AssistantCardType.EAGLE));
+        assertThrows(IllegalClientInputException.class, () -> game.moveMotherNature(8));
+    }
+
+    /**
+     * Tests if current player's move counter is incremented when he moves a student from his entrance.
+     */
+    @Test
+    void testMoveStudentToIslandThatNotExists(){
+        player1.setSchoolBoard(TowerColor.BLACK, 2);
+        player1.getSchoolBoard().addStudentIntoEntrance(Color.BLUE);
+        game.setCurrentPlayer(player1);
+        assertThrows(IllegalClientInputException.class, () -> game.executeActionMoveStudentToIsland(Color.BLUE, 13));
+    }
+
+    /**
+     * Tests if the cloud tile selected by the player becomes already used.
+     */
+    @Test
+    void testPlayerChoosesAvailableCloudTile(){
+        player1.setSchoolBoard(TowerColor.BLACK, 2);
+        player2.setSchoolBoard(TowerColor.WHITE, 2);
+        player1.setWizard(Wizard.BLUE);
+        player2.setWizard(Wizard.GREEN);
+        game.setup();
+        try {
+            game.chooseCloudTile(game.getCloudTileById(0));
+            assertTrue(game.getCloudTileById(0).isAlreadyUsed());
+        } catch (IllegalClientInputException | ChangeTurnException | EndGameException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    /**
+     * Tests if the method throws an exception when the player selected a cloud tile which is already used.
+     */
+    @Test
+    void testPlayerChoosesACloudTileAlreadyUsed(){
+        player1.setSchoolBoard(TowerColor.BLACK, 2);
+        player2.setSchoolBoard(TowerColor.WHITE, 2);
+        player1.setWizard(Wizard.BLUE);
+        player2.setWizard(Wizard.GREEN);
+        game.setup();
+        try {
+            game.chooseCloudTile(game.getCloudTileById(0));
+        } catch (IllegalClientInputException | ChangeTurnException | EndGameException e) {
+            throw new RuntimeException(e);
+        }
+        assertThrows(IllegalClientInputException.class, () -> game.chooseCloudTile(game.getCloudTiles().get(0)));
+    }
+
+    /**
+     * Tests if all the strategies are set again to default at the end of turn.
+     */
+    @Test
+    void testResetStrategiesAtTheEndOfTurn(){
+        player1.setSchoolBoard(TowerColor.BLACK, 2);
+        player2.setSchoolBoard(TowerColor.WHITE, 2);
+        player1.setWizard(Wizard.BLUE);
+        player2.setWizard(Wizard.GREEN);
+        game.setup();
+        try {
+            game.chooseCloudTile(game.getCloudTileById(0));
+        } catch (IllegalClientInputException | ChangeTurnException | EndGameException e) {
+            throw new RuntimeException(e);
+        }
+        assertInstanceOf(ProfessorStrategyDefault.class, game.getProfessorsManager().getProfessorStrategy());
+        assertEquals(0, game.getIslandManager().getMotherNature().getAdditionalSteps());
+        try {
+            assertInstanceOf(InfluenceStrategyDefault.class, game.getIslandManager().getIslandByID(4).getInfluenceStrategy());
+        } catch (IllegalClientInputException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    /**
+     * Tests if the new current player is set correctly.
+     */
+    @Test
+    void testSetNewCurrentPlayer(){
+        player1.setSchoolBoard(TowerColor.BLACK, 2);
+        player2.setSchoolBoard(TowerColor.WHITE, 2);
+        player1.setWizard(Wizard.BLUE);
+        player2.setWizard(Wizard.GREEN);
+        game.setup();
+        game.setCurrentPlayer(game.getPlayers().get(0));
+        try {
+            game.chooseCloudTile(game.getCloudTileById(0));
+        } catch (IllegalClientInputException | ChangeTurnException | EndGameException e) {
+            assertTrue(true);
+        }
+        assertEquals(game.getPlayers().get(1), game.getCurrentPlayer());
+    }
+
+    /**
+     * Tests if the game ends because the bag is empty after choose cloud tile phase.
+     */
+    @Test
+    void testEndGameBecauseBagIsEmpty(){
+        player1.setSchoolBoard(TowerColor.BLACK, 2);
+        player2.setSchoolBoard(TowerColor.WHITE, 2);
+        player1.setWizard(Wizard.BLUE);
+        player2.setWizard(Wizard.GREEN);
+        game.setup();
+        game.setCurrentPlayer(game.getPlayers().get(1));
+        Arrays.fill(game.getBag().getStudents(), 0);
+        try {
+            game.getCloudTileById(0).setStudents(Color.BLUE);
+            game.getCloudTileById(0).setStudents(Color.BLUE);
+            game.getCloudTileById(0).setStudents(Color.BLUE);
+        } catch (IllegalClientInputException e){
+            throw new RuntimeException();
+        }
+        assertThrows(EndGameException.class, () -> game.chooseCloudTile(game.getCloudTileById(0)));
+    }
+
+    /**
+     * Tests if the game goes to planning phase after the last player chose his cloud tile.
+     */
+    @Test
+    void testChangeTurnAfterChooseCloudTile(){
+        player1.setSchoolBoard(TowerColor.BLACK, 2);
+        player2.setSchoolBoard(TowerColor.WHITE, 2);
+        player1.setWizard(Wizard.BLUE);
+        player2.setWizard(Wizard.GREEN);
+        game.setup();
+        game.setCurrentPlayer(game.getPlayers().get(1));
+        assertThrows(ChangeTurnException.class, () -> game.chooseCloudTile(game.getCloudTileById(0)));
+    }
+
+    /**
+     * Tests if the method throws an exception because use character card is forbidden in normal mode.
+     */
+    @Test
+    void testUseCharacterCardNotAllowed(){
+        assertThrows(IllegalClientInputException.class, () -> game.useCharacterCard(player1, 2));
+    }
+
+    /**
+     * Tests if the method throws an exception because use character card is forbidden in normal mode.
+     */
+    @Test
+    void testDrawCharacterCardNotAllowed(){
+        assertThrows(IllegalClientInputException.class, () -> game.drawCharacterCards());
+    }
+
+    /**
+     * Tests if the method throws an exception because apply a card effect is forbidden in normal mode.
+     */
+    @Test
+    void testApplyCharacterCardEffectNotAllowed(){
+        assertThrows(IllegalClientInputException.class, () -> game.applyCharacterCardEffect(8, new CardEffect08(game.getIslandManager().getIslands(), game.getCurrentPlayer())));
+    }
+
+    /**
+     * Tests if the method throws an exception because use character card is forbidden in normal mode.
+     */
+    @Test
+    void testGetCharacterCardByIdNotAllowed(){
+        assertThrows(IllegalClientInputException.class, () -> game.getCharacterCardByID(3));
+    }
+
+    /**
+     * Tests if the method throws an exception because use character card is forbidden in normal mode.
+     */
+    @Test
+    void testGetCharacterCardsNotAllowed(){
+        assertThrows(IllegalClientInputException.class, () -> game.getCharacterCards());
+    }
+
+    /**
+     * Tests if the player is removed correctly.
+     */
+    @Test
+    void testRemovePlayerWithUsername(){
+        int oldNumPlayers = game.getPlayers().size();
+        game.removePlayer("TestPlayer2");
+        assertEquals(oldNumPlayers - 1, game.getPlayers().size());
+        assertEquals("TestPlayer1", game.getPlayers().get(0).getUsername());
+    }
 
     /**
      * Tests if the number of islands created is twelve.
@@ -327,197 +590,68 @@ class GameTest {
     }
 
     /**
-     * Tests if mother nature is onto an island at the begin of the game.
+     * Tests if mother nature is onto an island at the beginning of the game.
      */
     @Test
     void checkMotherNaturePosition() {
-        assertTrue(game.getIslandManager().getMotherNature().getPosition() != null);
+        assertNotNull(game.getIslandManager().getMotherNature().getPosition());
     }
 
     /**
-     * Tests if the number of students in the bag at the begin of the game is greater than zero.
+     * This test checks if game creates three cloud tiles when there are three players.
      */
     @Test
-    public void checkInitialNumberStudentsInBag() {
-        for (Color color : Color.values())
-            assertTrue(game.getBag().getStudents()[color.ordinal()] > 0);
-    }
-
-    /**
-     * Tests if the number of students is 0 when the island contains mother nature.
-     */
-    @Test
-    public void checkNumberOfStudentsOnIslandWithMotherNature() {
-        Island islandWithMotherNature = game.getIslandManager().getMotherNature().getPosition();
-        int numOfStudents = 0;
-        for (Color color : Color.values())
-            numOfStudents += islandWithMotherNature.getStudents()[color.ordinal()];
-        assertEquals(0, numOfStudents);
-    }
-
-    /**
-     * Tests if the number of students is 0 when the island is opposite to mother nature..
-     */
-    @Test
-    public void checkNumberOfStudentsOnIslandOppositeToMotherNature() {
-        int idIslandOppositeToMotherNature = (game.getIslandManager().getMotherNature().getPosition().getId() + 6) % 12;
-        int numOfStudents = 0;
-        for (Color color : Color.values())
-            numOfStudents += game.getIslandManager().getIslands().get(idIslandOppositeToMotherNature).getStudents()[color.ordinal()];
-        assertEquals(0, numOfStudents);
-    }
-
-    /**
-     * Tests if the number of students is 1 onto other islands.
-     */
-    @Test
-    public void checkNumberOfStudentsOnOtherIslands() {
-        int idIslandWithMotherNature = game.getIslandManager().getMotherNature().getPosition().getId();
-        int idIslandOppositeToMotherNature = (game.getIslandManager().getMotherNature().getPosition().getId() + 6) % 12;
-        boolean numOfStudentsNotEqualsToOne = false;
-        int numOfStudents = 0;
-        for (Island island : game.getIslandManager().getIslands()) {
-            if (island.getId() != idIslandWithMotherNature && island.getId() != idIslandOppositeToMotherNature) {
-                for (Color color : Color.values()) {
-                    numOfStudents += island.getStudents()[color.ordinal()];
-                }
-                if (numOfStudents != 1)
-                    numOfStudentsNotEqualsToOne = true;
-            }
-            numOfStudents = 0;
-        }
-        assertFalse(numOfStudentsNotEqualsToOne);
-    }
-
-    /**
-     * This test checks if game creates three cloudtiels when there are three players.
-     */
-    @Test
-    public void checkCreateCloudTilesWithThreePlayers() {
+    void checkCreateCloudTilesWithThreePlayers() {
+        game.endGame(true);
+        game = Game.instance(3);
+        game.addPlayer("TestPlayer1");
+        game.getPlayerByUsername("TestPlayer1").setSchoolBoard(TowerColor.BLACK, 3);
+        game.getPlayerByUsername("TestPlayer1").setAssistantDeck(new AssistantDeck(Wizard.BLUE));
+        game.addPlayer("TestPlayer2");
+        game.getPlayerByUsername("TestPlayer2").setSchoolBoard(TowerColor.WHITE, 3);
+        game.getPlayerByUsername("TestPlayer2").setAssistantDeck(new AssistantDeck(Wizard.GREEN));
+        game.addPlayer("TestPlayer3");
+        game.getPlayerByUsername("TestPlayer3").setSchoolBoard(TowerColor.GREY, 3);
+        game.getPlayerByUsername("TestPlayer3").setAssistantDeck(new AssistantDeck(Wizard.YELLOW));
+        game.setup();
         assertEquals(3, game.getCloudTiles().size());
     }
 
     /**
-     * This method checks if game add nine students into the entrance of every players when the game has three players.
+     * This method checks if game add nine students into the entrance of every player when the game has three players.
      */
     @Test
-    public void checkIfEachPlayerHasNineStudentsIntoEntrance() {
-        int numStudentsIntoEntrance;
-        for (Player player : game.getPlayers()) {
-            numStudentsIntoEntrance = 0;
-            for (int i = 0; i < Color.values().length; i++) {
-                numStudentsIntoEntrance += player.getSchoolBoard().getEntrance()[i];
-            }
-            assertEquals(9, numStudentsIntoEntrance);
-        }
-    }
-
-    /**
-     * Tests if the number of character cards created is three.
-     */
-    @Test
-    public void checkCharacterCardsSizeIsThree() {
-        try {
-            assertEquals(3, game.getCharacterCards().size());
-        } catch (IllegalClientInputException e) {
-            e.printStackTrace();
-        }
+    void checkIfEachPlayerHasNineStudentsIntoEntrance() {
+        game.endGame(true);
+        game = Game.instance(3);
+        game.addPlayer("TestPlayer1");
+        game.getPlayerByUsername("TestPlayer1").setSchoolBoard(TowerColor.BLACK, 3);
+        game.getPlayerByUsername("TestPlayer1").setAssistantDeck(new AssistantDeck(Wizard.BLUE));
+        game.addPlayer("TestPlayer2");
+        game.getPlayerByUsername("TestPlayer2").setSchoolBoard(TowerColor.WHITE, 3);
+        game.getPlayerByUsername("TestPlayer2").setAssistantDeck(new AssistantDeck(Wizard.GREEN));
+        game.addPlayer("TestPlayer3");
+        game.getPlayerByUsername("TestPlayer3").setSchoolBoard(TowerColor.GREY, 3);
+        game.getPlayerByUsername("TestPlayer3").setAssistantDeck(new AssistantDeck(Wizard.YELLOW));
+        game.setup();
+        assertEquals(9, Arrays.stream(game.getPlayers().get(0).getSchoolBoard().getEntrance()).sum());
     }
 
    @Test
-    public void checksIfEachCloudTilesHasFourStudents(){
-        int numStudentsOnCloudTile;
-        for (CloudTile cloudTile : game.getCloudTiles()) {
-            numStudentsOnCloudTile = 0;
-            for (int i = 0; i < Color.values().length; i++){
-                numStudentsOnCloudTile += cloudTile.getStudents()[i];
-            }
-            assertEquals(4,numStudentsOnCloudTile);
-        }
-    }
-
-   /* @Test
-    public void checkSortingPlayers(){
-        player1.setLastPlayedAssistantCard(new AssistantCard(AssistantCardType.SNAKE));
-        player2.setLastPlayedAssistantCard(new AssistantCard(AssistantCardType.TIGER));
-        player3.setLastPlayedAssistantCard(new AssistantCard(AssistantCardType.CAT));
-        game.sortPlayerPerTurn();
-        assertEquals("TestPlayer2", game.getPlayers().get(0).getUsername());
-        assertEquals("TestPlayer3", game.getPlayers().get(1).getUsername());
-        assertEquals("TestPlayer1", game.getPlayers().get(2).getUsername());
-
-    }*/
-
-
-    /**
-     * Tests if the id of the three character cards are different.
-     */
-    @Test
-    public void checkCharacterCardsIdAreDifferent() throws IllegalClientInputException {
-        boolean foundSameId = false;
-        for (int i = 0; i < game.getCharacterCards().size() - 1; i++) {
-            for (int j = i + 1; j < game.getCharacterCards().size(); j++) {
-                if (game.getCharacterCards().get(i).getId() == game.getCharacterCards().get(j).getId())
-                    foundSameId = true;
-            }
-        }
-        assertFalse(foundSameId);
-    }
-
-
-    //test calculate winner
-   /*@Test
-    public void checkOneWinnerWithTower(){
-        game.getPlayers().get(0).getSchoolBoard().moveTowerOntoIsland(2);
-        game.getPlayers().get(1).getSchoolBoard().moveTowerOntoIsland(5);
-        game.getPlayers().get(2).getSchoolBoard().moveTowerOntoIsland(3);
-        assertEquals(game.getPlayers().get(1).getUsername(), game.calculateWinner());
-    }
-
-
-    @Test
-    public void checkOneWinnerWithProfessors(){
-        game.getPlayers().get(0).getSchoolBoard().moveTowerOntoIsland(2);
-        game.getPlayers().get(1).getSchoolBoard().moveTowerOntoIsland(5);
-        game.getPlayers().get(2).getSchoolBoard().moveTowerOntoIsland(5);
-        game.getProfessors()[Color.BLUE.ordinal()] = game.getPlayers().get(1);
-        game.getProfessors()[Color.GREEN.ordinal()] = game.getPlayers().get(2);
-        game.getProfessors()[Color.YELLOW.ordinal()] = game.getPlayers().get(2);
-        assertEquals(game.getPlayers().get(2).getUsername(), game.calculateWinner());
-
-    }
-
-    @Test
-    public void checkTieWinners(){
-        game.getPlayers().get(0).getSchoolBoard().moveTowerOntoIsland(2);
-        game.getPlayers().get(1).getSchoolBoard().moveTowerOntoIsland(5);
-        game.getPlayers().get(2).getSchoolBoard().moveTowerOntoIsland(5);
-        game.getProfessors()[Color.BLUE.ordinal()] = game.getPlayers().get(1);
-        game.getProfessors()[Color.GREEN.ordinal()] = game.getPlayers().get(2);
-        assertEquals("Tie", game.calculateWinner());
-    }*/
-
-    /**
-     * Tests if the method returns the correct island when exists.
-     */
-    @Test
-    void testGetIslandByIdWhenExists() {
-        Island island;
-        int indexIsland = 4;
-        try {
-            island = game.getIslandManager().getIslandByID(indexIsland);
-        } catch (IllegalClientInputException e) {
-            throw new RuntimeException(e);
-        }
-        assertEquals(indexIsland, island.getId());
-    }
-
-    /**
-     * Tests if the method launches an exception when the island doesn't exists.
-     */
-    @Test
-    void testGetIslandByIdWhenNotExists() {
-        assertThrows(IllegalClientInputException.class, () -> game.getIslandManager().getIslandByID(20));
+    void checksIfEachCloudTilesHasFourStudents(){
+       game.endGame(true);
+       game = Game.instance(3);
+       game.addPlayer("TestPlayer1");
+       game.getPlayerByUsername("TestPlayer1").setSchoolBoard(TowerColor.BLACK, 3);
+       game.getPlayerByUsername("TestPlayer1").setAssistantDeck(new AssistantDeck(Wizard.BLUE));
+       game.addPlayer("TestPlayer2");
+       game.getPlayerByUsername("TestPlayer2").setSchoolBoard(TowerColor.WHITE, 3);
+       game.getPlayerByUsername("TestPlayer2").setAssistantDeck(new AssistantDeck(Wizard.GREEN));
+       game.addPlayer("TestPlayer3");
+       game.getPlayerByUsername("TestPlayer3").setSchoolBoard(TowerColor.GREY, 3);
+       game.getPlayerByUsername("TestPlayer3").setAssistantDeck(new AssistantDeck(Wizard.YELLOW));
+       game.setup();
+       assertEquals(4, Arrays.stream(game.getCloudTiles().get(0).getStudents()).sum());
     }
 
     /**
@@ -525,6 +659,11 @@ class GameTest {
      */
     @Test
     void testGetCloudTileByIdWhenExists() {
+        player1.setSchoolBoard(TowerColor.BLACK, 2);
+        player1.setWizard(Wizard.BLUE);
+        player2.setSchoolBoard(TowerColor.WHITE, 2);
+        player2.setWizard(Wizard.GREEN);
+        game.setup();
         CloudTile cloudTile;
         int indexCloudTile = 1;
         try {
@@ -536,39 +675,11 @@ class GameTest {
     }
 
     /**
-     * Tests if the method launches an exception when the cloud tile doesn't exists.
+     * Tests if the method launches an exception when the cloud tile doesn't exist.
      */
     @Test
     void testGetCloudTileByIdWhenNotExists() {
         assertThrows(IllegalClientInputException.class, () -> game.getCloudTileById(20));
-    }
-
-    /**
-     * Tests if the method returns the correct character card when exists.
-     */
-    @Test
-    void testGetCharacterCardByIdWhenExists() {
-        CharacterCard characterCard;
-        int indexCharacterCard = 0;
-        try {
-            indexCharacterCard = game.getCharacterCards().get(1).getId();
-        } catch (IllegalClientInputException e) {
-            e.printStackTrace();
-        }
-        try {
-            characterCard = game.getCharacterCardByID(indexCharacterCard);
-        } catch (IllegalClientInputException e) {
-            throw new RuntimeException(e);
-        }
-        assertEquals(indexCharacterCard, characterCard.getId());
-    }
-
-    /**
-     * Tests if the method launches an exception when the character card doesn't exists.
-     */
-    @Test
-    void testGetCharacterCardByIdWhenNotExists() {
-        assertThrows(IllegalClientInputException.class, () -> game.getCharacterCardByID(20));
     }
 }
 
