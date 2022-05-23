@@ -65,6 +65,10 @@ public class Gui extends Observable<Message> implements ClientView {
         showAlert(Alert.AlertType.INFORMATION, "New player online", usernames);
     }
 
+    /**
+     * This method is used to update the graphic when a character card's effect has been applied
+     * @param characterCardId
+     */
     @Override
     public void showGameInfo(int characterCardId) {
         switch (characterCardId){
@@ -77,25 +81,21 @@ public class Gui extends Observable<Message> implements ClientView {
                 Platform.runLater(() -> {
                     mainController.showCCModifies07(clientModel);
                 });
-                //mainController.showCCModifies07(clientModel);
                 break;
             case 10:
                 Platform.runLater(() -> {
                     mainController.showCCModifies10(clientModel);
                 });
-                //mainController.showCCModifies10(clientModel);
                 break;
             case 11:
                 Platform.runLater(() -> {
                     mainController.showCCModifies11(clientModel);
                 });
-                //mainController.showCCModifies11(clientModel);
                 break;
             case 12:
                 Platform.runLater(() -> {
                     mainController.showCCModifies12(clientModel);
                 });
-                //mainController.showCCModifies12(clientModel);
                 break;
         }
     }
@@ -105,6 +105,11 @@ public class Gui extends Observable<Message> implements ClientView {
 
     }
 
+    /**
+     * During the transition between setup phase and planning phase, we instantiate the main scene, because in client model
+     * we have all the information to draw the model's objects
+     * @param gameState the new phase of the game.
+     */
     @Override
     public void showChangePhase(GameState gameState) {
         if (gameState == (GameState.PLANNING_PHASE) && actualGamePhase == (GameState.SETUP)) {
@@ -180,6 +185,9 @@ public class Gui extends Observable<Message> implements ClientView {
         });
     }
 
+    /**
+     * This method starts gui, adds observer and prepares everything for user interactions
+     */
     public void startGui() {
         client = new Client(this);
         this.addObserver(client);
@@ -187,6 +195,15 @@ public class Gui extends Observable<Message> implements ClientView {
         askIpAddress();
     }
 
+    /**
+     * This method loads the correct fxml file (in javafx thread)
+     * Here is made the controller setup, adding observer, username, and calling setupScene
+     * Every controller has override of method setupScene, that dynamically prepares the graphic
+     * activeLoader changes dynamically, basing on server requests and following the game flow
+     * @param path the path of fxml file to load
+     * @param parameters a generic parameter, that in some cases is necessary for the controller
+     * @param <T>
+     */
     private <T> void prepareController(String path, T parameters) {
         Platform.runLater(() -> {
             activeLoader = new FXMLLoader(getClass().getResource(path));
@@ -244,6 +261,27 @@ public class Gui extends Observable<Message> implements ClientView {
         prepareController("/assistantCard-scene.fxml", null);
     }
 
+    /**
+     * If the game mode is expert, we have a button that permits the player to play a character card, so we need to activate the button
+     * We also need to save last method, because the user can watch available character cards and then decide not to play a card:
+     * in case mentioned above, we need to re-call this method
+     */
+    private void activateCharacterCardButton(String methodName){
+        Platform.runLater(() -> {
+            if (clientModel.isExpertMode()) {
+                ActionPhaseSceneControllers controller = activeLoader.getController();
+                controller.getPlayCCButton().setVisible(true);
+                controller.getPlayCCButton().setDisable(false);
+                playCharacterCard(controller.getPlayCCButton());
+            }
+            try {
+                lastCalledMethod = getClass().getDeclaredMethod(methodName);
+            } catch (NoSuchMethodException e) {
+                e.printStackTrace();
+            }
+        });
+    }
+
     @Override
     public void askCloudTile() {
         if(clientModel.getSchoolBoards().size() == 2){
@@ -252,36 +290,13 @@ public class Gui extends Observable<Message> implements ClientView {
         else{
             prepareController("/chooseCloudTile-scene.fxml", null);
         }
-        Platform.runLater(() -> {
-            if (clientModel.isExpertMode()) {
-                ChooseCloudTileSceneController controller = activeLoader.getController();
-                controller.getPlayCCButton().setVisible(true);
-                controller.getPlayCCButton().setDisable(false);
-                playCharacterCard(controller.getPlayCCButton());
-            }
-        });
-        try {
-            lastCalledMethod = getClass().getDeclaredMethod("askCloudTile");
-        } catch (NoSuchMethodException e) {
-            e.printStackTrace();
-        }
+        activateCharacterCardButton("askCloudTile");
     }
 
     @Override
     public void askMoveStudentFromEntrance() {
         prepareController("/moveStudentFromEntrance-scene.fxml", null);
-        Platform.runLater(() -> {
-            if (clientModel.isExpertMode()) {
-                MoveStudentFromEntranceSceneController controller = activeLoader.getController();
-                controller.getPlayCCButton().setVisible(true);
-                playCharacterCard(controller.getPlayCCButton());
-            }
-        });
-        try {
-            lastCalledMethod = getClass().getDeclaredMethod("askMoveStudentFromEntrance");
-        } catch (NoSuchMethodException e) {
-            e.printStackTrace();
-        }
+        activateCharacterCardButton("askMoveStudentFromEntrance");
     }
 
     @Override
@@ -290,18 +305,7 @@ public class Gui extends Observable<Message> implements ClientView {
         if (clientModel.getLastCharacterCardPlayed() != null && clientModel.getLastCharacterCardPlayed().getId() == 4)
             additionalSteps = 2;
         prepareController("/motherNatureSteps-scene.fxml", additionalSteps);
-        Platform.runLater(() -> {
-            if (clientModel.isExpertMode()) {
-                MotherNatureStepsSceneController controller = activeLoader.getController();
-                controller.getPlayCCButton().setVisible(true);
-                playCharacterCard(controller.getPlayCCButton());
-            }
-        });
-        try {
-            lastCalledMethod = getClass().getDeclaredMethod("askNumberStepsMotherNature");
-        } catch (NoSuchMethodException e) {
-            e.printStackTrace();
-        }
+        activateCharacterCardButton("askNumberStepsMotherNature");
     }
 
 
@@ -309,28 +313,22 @@ public class Gui extends Observable<Message> implements ClientView {
     public void askCharacterCardParameters(int id) {
         switch (id) {
             case 1:
-                prepareController("/charCard01-scene.fxml", 1);
+                prepareController("/charCard01-scene.fxml", id);
                 break;
             case 3:
-                prepareController("/charCard03-05-scene.fxml", 3);
-                break;
             case 5:
-                prepareController("/charCard03-05-scene.fxml", 5);
+                prepareController("/charCard03-05-scene.fxml", id);
                 break;
             case 7:
-                prepareController("/charCard07-scene.fxml", 7);
+                prepareController("/charCard07-scene.fxml", id);
                 break;
             case 9:
-                prepareController("/charCard09-11-12-scene.fxml", 9);
+            case 11:
+            case 12:
+                prepareController("/charCard09-11-12-scene.fxml", id);
                 break;
             case 10:
-                prepareController("/charCard10-scene.fxml", 10);
-                break;
-            case 11:
-                prepareController("/charCard09-11-12-scene.fxml", 11);
-                break;
-            case 12:
-                prepareController("/charCard09-11-12-scene.fxml", 12);
+                prepareController("/charCard10-scene.fxml", id);
                 break;
         }
     }
@@ -414,51 +412,67 @@ public class Gui extends Observable<Message> implements ClientView {
         });
     }
 
-        private void initializeMainStage() {
-            Platform.runLater(() -> {
-                FXMLLoader mainLoader;
-                if (clientModel.getSchoolBoards().size() == 2)
-                    mainLoader = new FXMLLoader(getClass().getResource("/main-scene.fxml"));
-                else mainLoader = new FXMLLoader(getClass().getResource("/main3players-scene.fxml"));
-                try {
-                    Parent root = mainLoader.load();
-                    Scene scene = new Scene(root);
-                    mainStage = new Stage();
-                    mainStage.setTitle(clientModel.getUsername());
-                    mainStage.setResizable(false);
-                    mainController = mainLoader.getController();
-                    mainController.initializeMainScene(clientModel);
-                    mainStage.setScene(scene);
-                    mainStage.show();
-                    activeStage.close();
-                    mainStage.setOnCloseRequest(event -> {
-                        event.consume();
-                        logout(mainStage);
-                    });
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            });
-        }
+    /**
+     * This method preparers everything of main stage
+     * Main stage is a window with fixed dimensions
+     */
+    private void initializeMainStage() {
+        Platform.runLater(() -> {
+            FXMLLoader mainLoader;
+            if (clientModel.getSchoolBoards().size() == 2)
+                mainLoader = new FXMLLoader(getClass().getResource("/main-scene.fxml"));
+            else mainLoader = new FXMLLoader(getClass().getResource("/main3players-scene.fxml"));
+            try {
+                Parent root = mainLoader.load();
+                Scene scene = new Scene(root);
+                mainStage = new Stage();
+                mainStage.setTitle(clientModel.getUsername());
+                mainStage.setResizable(false);
+                mainController = mainLoader.getController();
+                mainController.initializeMainScene(clientModel);
+                mainStage.setScene(scene);
+                mainStage.show();
+                activeStage.close();
+                mainStage.setOnCloseRequest(event -> {
+                    event.consume();
+                    logout(mainStage);
+                });
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        });
+    }
 
+    /**
+     * We keep listening on the button for play a character card
+     * When this button is clicked, we open the stage that shows available character cards
+     * @param button
+     */
     private void playCharacterCard(Button button){
         button.setOnAction(event -> {
             prepareController("/characterCard-scene.fxml", null);
         });
     }
 
+    /**
+     * If activeStage is the stage that shows character cards, we need to listen on a button to permit the user to come back,
+     * if he doesn't want to play any character card
+     * @param button
+     */
     private void backButton(Button button){
         button.setOnAction(event -> {
             try {
                 lastCalledMethod.invoke(this);
-            } catch (IllegalAccessException e) {
-                e.printStackTrace();
-            } catch (InvocationTargetException e) {
+            } catch (IllegalAccessException | InvocationTargetException e) {
                 e.printStackTrace();
             }
         });
     }
 
+    /**
+     * When a game has a regular end (because someone wins, and not because someone was disconnected)
+     * we ask to the player if he wants to play again, using an interactive alert
+     */
     @Override
     public void askPlayAgain() {
         Platform.runLater(() -> {
@@ -477,6 +491,11 @@ public class Gui extends Observable<Message> implements ClientView {
     }
 
 
+    /**
+     * When a user click on X (top-right), we ask him if he really wants to quit
+     * If he says "yes" we disconnect him
+     * @param stage
+     */
     public void logout(Stage stage){
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.setTitle("Logout");

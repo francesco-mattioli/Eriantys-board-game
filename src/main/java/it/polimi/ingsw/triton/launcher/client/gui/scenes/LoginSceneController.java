@@ -6,7 +6,6 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
-import java.io.IOException;
 
 public class LoginSceneController extends SceneController {
 
@@ -19,7 +18,7 @@ public class LoginSceneController extends SceneController {
     @FXML
     TextField loginTextField;
 
-    public void login(ActionEvent event) throws IOException {
+    public void login(ActionEvent event) {
         String username = loginTextField.getText();
         notify(new LoginRequest(username));
         loginButton.setDisable(true);

@@ -20,7 +20,7 @@ class CardEffect10Test {
     private int[] fromEntrance;
 
     @BeforeEach
-    public void setUp(){
+    void setUp(){
         bag = new Bag();
         bag.fillBag();
         fromDiningRoom = new int[5];
@@ -33,7 +33,7 @@ class CardEffect10Test {
     }
 
     @AfterEach
-    public void tearDown(){
+    void tearDown(){
         bag = null;
         characterCard = null;
         player = null;
@@ -44,7 +44,7 @@ class CardEffect10Test {
      * This test checks if students are swapped correctly from the dining room to the entrance.
      */
     @Test
-    public void checkIfStudentSwitchedInEntrance(){
+    void checkIfStudentSwitchedInEntrance(){
         fromDiningRoom[Color.PINK.ordinal()] = 3;
         fromEntrance[Color.BLUE.ordinal()] = 3;
         try {
@@ -59,7 +59,7 @@ class CardEffect10Test {
      * This test throws an exception if entrance hasn't enough students.
      */
     @Test
-    public void throwExceptionIfNotEnoughStudentsInEntrance(){
+    void throwExceptionIfNotEnoughStudentsInEntrance(){
         fromDiningRoom[Color.PINK.ordinal()] = 3;
         fromEntrance[Color.BLUE.ordinal()] = 4;
         assertThrows(IllegalClientInputException.class, () -> {characterCard.executeEffect(new CardEffect10(fromEntrance,fromDiningRoom,player.getSchoolBoard()));});
@@ -69,7 +69,7 @@ class CardEffect10Test {
      * This test checks if students are swapped correctly from the entrance to the dining room.
      */
     @Test
-    public void checkIfStudentSwitchedInDiningRoom(){
+    void checkIfStudentSwitchedInDiningRoom(){
         fromDiningRoom[Color.PINK.ordinal()] = 3;
         fromEntrance[Color.BLUE.ordinal()] = 3;
         try {
@@ -84,7 +84,7 @@ class CardEffect10Test {
      * This test throws an exception if dining room hasn't enough students.
      */
     @Test
-    public void throwExceptionIfNotEnoughStudentsInDiningRoom(){
+    void throwExceptionIfNotEnoughStudentsInDiningRoom(){
         fromDiningRoom[Color.PINK.ordinal()] = 4;
         fromEntrance[Color.BLUE.ordinal()] = 3;
         assertThrows(IllegalClientInputException.class, () -> {characterCard.executeEffect(new CardEffect10(fromEntrance,fromDiningRoom,player.getSchoolBoard()));});

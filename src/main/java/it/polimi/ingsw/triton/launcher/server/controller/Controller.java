@@ -167,7 +167,7 @@ public class Controller implements Observer<ClientMessage> {
         game.addPlayer(username);
     }
 
-    public void setGameState(GameState setup) {
+    public void setSETUPAsGameState() {
         game.setGameState(GameState.SETUP);
     }
 

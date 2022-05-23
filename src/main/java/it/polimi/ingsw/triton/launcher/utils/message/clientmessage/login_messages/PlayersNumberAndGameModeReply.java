@@ -19,7 +19,7 @@ public class PlayersNumberAndGameModeReply extends ClientMessage {
     private final int playersNumber;
     private final boolean expertMode;
 
-    public PlayersNumberAndGameModeReply(String username, int playersNumber, boolean expertMode) {
+    public PlayersNumberAndGameModeReply(int playersNumber, boolean expertMode) {
         this.playersNumber = playersNumber;
         this.expertMode = expertMode;
     }

@@ -8,7 +8,6 @@ import it.polimi.ingsw.triton.launcher.server.model.enums.TowerColor;
 import it.polimi.ingsw.triton.launcher.server.model.player.SchoolBoard;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
-import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -72,6 +71,13 @@ public class MainSceneController extends SceneController {
     private final Map<String, AnchorPane> schoolBoardsMap = new HashMap<>();
     private final Map<String,GridPane> deckMap = new HashMap<>();
 
+    /**
+     * This method draws the students on the correct dining room
+     * For each color, the user can have a max of 10 students in his dining room
+     * First 10 children are image views which represents green students, then reds and so on
+     * @param studentsOnDiningRoom is an array of int, which contains, for each color, the number of students on dining room
+     * @param schoolBoard schoolBoard
+     */
     private void drawStudentsOnDiningRoom(List<Node> studentsOnDiningRoom, SchoolBoard schoolBoard){
         studentsOnDiningRoom.forEach(x -> x.setVisible(false));
         for(int i = 0; i < schoolBoard.getDiningRoom().length; i++){
@@ -81,6 +87,12 @@ public class MainSceneController extends SceneController {
         }
     }
 
+    /**
+     * This method draws students on the correct entrance
+     * In the enum of Color, for each color we know the path of the associate image, so we can take it easily
+     * @param studentsOnEntrance studentsOnEntrance
+     * @param schoolBoard schoolBoard
+     */
     private void drawStudentsOnEntrance(List<Node> studentsOnEntrance, SchoolBoard schoolBoard){
         studentsOnEntrance.forEach(x -> x.setVisible(false));
         int offset = 0;
@@ -94,6 +106,12 @@ public class MainSceneController extends SceneController {
         }
     }
 
+    /**
+     * This method draws the correct number of towers on the schoolBoard
+     * Towers are colorized circles, which are normally not visible and are made visible if are present in schoolBoard
+     * @param towersOnSchoolBoard towersOnSchoolBoard
+     * @param schoolBoard schoolBoard
+     */
     private void drawTowersOnSchoolBoard(List<Node> towersOnSchoolBoard, SchoolBoard schoolBoard){
         towersOnSchoolBoard.forEach(x -> x.setVisible(false));
         for(int i = 0; i<schoolBoard.getNumTowers(); i++){
@@ -110,6 +128,16 @@ public class MainSceneController extends SceneController {
             towerShape.setVisible(true);
         }
     }
+
+
+    /**
+     * This methods draws professors on correct schoolBoards
+     * for each professor we know the username of the possessor, so if username is equals to the possessor of that professor,
+     * we set visible the associated image view
+     * @param professorsOnSchoolBoard professorsOnSchoolBoard
+     * @param username username
+     * @param clientModel clientModel
+     */
     private void drawProfessors(List<Node> professorsOnSchoolBoard, String username, ClientModel clientModel){
         for(int i=0; i < clientModel.getProfessors().length; i++){
             if(clientModel.getProfessors()[i] != null) {
@@ -118,6 +146,31 @@ public class MainSceneController extends SceneController {
         }
     }
 
+    /**
+     * This method draws the correct number of tower on schoolBoards, for each player
+     * @param clientModel clientModel
+     */
+    private void drawAllSchoolBoardsTowers(ClientModel clientModel) {
+        for(int i = 0; i < schoolBoardsMap.keySet().size(); i++){
+            AnchorPane schoolBoardPane = schoolBoardsMap.get(new ArrayList<>(schoolBoardsMap.keySet()).get(i));
+            drawTowersOnSchoolBoard(((GridPane)schoolBoardPane.getChildren().get(4)).getChildren(), clientModel.getSchoolBoards().get(new ArrayList<>(schoolBoardsMap.keySet()).get(i)));
+        }
+    }
+
+    /**
+     * This method draws the entire island block
+     * It is very complex, so uses a lot of helper methods
+     * We use 2 grid panes, to dispose islands on two lines (superior line and inferior line)
+     * islandGrids[0] identifies the superior line
+     * islandGrids[1] identifies the inferior line
+     * Every grid's box contains and anchor pane, which contains an HBox
+     * In every HBox there is a number of ImageViews equals to the number of merged islands in that position
+     * The number of islands in superior and inferior line is decided dividing by 2 the islands arrayList dimension:
+     * The floor will be the superior grid size
+     * The selling will be the inferior grid size
+     * When we pass the mouse on and island's HBox, we can see a new pane with island's information
+     * @param clientModel clientModel
+     */
     private void drawIslands(ClientModel clientModel){
         List<Node> islands = islandPane.getChildren();
         islands.clear();
@@ -136,13 +189,12 @@ public class MainSceneController extends SceneController {
         addIslandsAsChildren(islandGrids,nodeList, islands);
     }
 
-    private void drawSchoolBoard(ClientModel clientModel) {
-        for(int i = 0; i < schoolBoardsMap.keySet().size(); i++){
-            AnchorPane schoolBoardPane = schoolBoardsMap.get(new ArrayList<>(schoolBoardsMap.keySet()).get(i));
-            drawTowersOnSchoolBoard(((GridPane)schoolBoardPane.getChildren().get(4)).getChildren(), clientModel.getSchoolBoards().get(new ArrayList<>(schoolBoardsMap.keySet()).get(i)));
-        }
-    }
-
+    /**
+     * @param clientModel clientModel
+     * @param dimensions array that contains the size of superior and inferior grid
+     * @param islandGrids islandGrids
+     * @param nodeList array of lists that will contain, for each list, anchorPanes associated to islands
+     */
     private void setupIslandGrid(ClientModel clientModel, int [] dimensions, GridPane [] islandGrids, List<Node>[] nodeList){
         dimensions[0] = clientModel.getIslands().size()/2;
         dimensions[1] = clientModel.getIslands().size() - dimensions[0];
@@ -155,6 +207,13 @@ public class MainSceneController extends SceneController {
         }
     }
 
+    /**
+     * This method physically draws the island: creates the HBox, adds image views in that, and then adds the HBox as anchor pane's child
+     * @param island island to draw
+     * @param anchorPane anchor pane where island has to be drawn
+     * @param clientModel clientModel
+     * @return HBox
+     */
     private HBox drawSingleIsland(Island island, AnchorPane anchorPane, ClientModel clientModel){
         String currentPath = new java.io.File("src/main/resources/Images/Islands").getAbsolutePath().replace('\\','/');
         HBox box = new HBox();
@@ -172,6 +231,14 @@ public class MainSceneController extends SceneController {
         return box;
     }
 
+    /**
+     * This method draws towers on an island or an islands group
+     * @param island island
+     * @param x x coordinate where draw the tower
+     * @param y y coordinate where draw the tower
+     * @param anchorPane anchor pane
+     * @param clientModel client model
+     */
     private void drawTowersOnIsland(Island island, double x, double y, AnchorPane anchorPane, ClientModel clientModel){
         if(island.getDominator() != null){
             Circle tower = new Circle(13);
@@ -188,6 +255,13 @@ public class MainSceneController extends SceneController {
         }
     }
 
+    /**
+     * This method draws mother nature on the correct island
+     * @param clientModel clientModel
+     * @param anchorPane anchor pane
+     * @param box HBox
+     * @param i index of island, we have to draw mother nature only if he is on that island
+     */
     private void drawMotherNatureOnIsland(ClientModel clientModel, AnchorPane anchorPane, HBox box, int i){
         if(clientModel.getIslands().get(i).getId() == clientModel.getMotherNaturePosition().getId()) {
             Circle motherNature = new Circle(11);
@@ -198,6 +272,13 @@ public class MainSceneController extends SceneController {
         }
     }
 
+    /**
+     * This method chooses if and Island is drawn in superior grid or inferior grid
+     * @param i index of island
+     * @param dimensions dimensions
+     * @param nodeList nodeList
+     * @param anchorPane anchor pane
+     */
     private void setupNodeList(int i, int [] dimensions, List<Node>[] nodeList, AnchorPane anchorPane){
         int dimTot = 0;
         for(int j= 0; j<dimensions.length; j++) {
@@ -209,6 +290,15 @@ public class MainSceneController extends SceneController {
         }
     }
 
+    /**
+     * This method permits starts listen for mouseEvent on HBox panes
+     * @param i island index
+     * @param dimensions dimensions
+     * @param clientModel clientModel
+     * @param box HBox
+     * @param anchorPane anchor pane
+     * @param islands all the islandPane's children
+     */
     private void startListenForMouseEvent(int i, int [] dimensions, ClientModel clientModel, HBox box, AnchorPane anchorPane, List<Node> islands){
         int dimTot = 0;
         for(int j= 0; j<dimensions.length; j++) {
@@ -221,6 +311,12 @@ public class MainSceneController extends SceneController {
 
     }
 
+    /**
+     * This method physically adds drawn islands with all the structure to the island Pane
+     * @param islandGrids islandGrids
+     * @param nodeList nodeList
+     * @param islands islands
+     */
     private void addIslandsAsChildren(GridPane [] islandGrids, List<Node>[] nodeList, List<Node> islands){
         for(int i=0; i<islandGrids.length; i++) {
             for(int j = 0; j<nodeList[i].size(); j++) {
@@ -230,6 +326,18 @@ public class MainSceneController extends SceneController {
         }
     }
 
+    /**
+     * This method prepares everything to listen for mouseEvents on islands
+     * onMouseEntered -> we show island's information
+     * onMouseExited -> we hide island's information
+     * It uses 3 helper methods, that are defined under this
+     * @param i island index
+     * @param box HBox
+     * @param islands all island pane's children
+     * @param clientModel clientModel
+     * @param anchorPane anchorPane
+     * @param y y coordinate of form that should be shown
+     */
     private void handleMouseEntranceAndExit(int i, HBox box, List<Node>islands, ClientModel clientModel, AnchorPane anchorPane, double y) {
         AnchorPane infoPane = new AnchorPane();
         islands.add(infoPane);
@@ -280,6 +388,11 @@ public class MainSceneController extends SceneController {
         noEntryTilesLabel.setLayoutY(90);
     }
 
+    /**
+     * This method starts everything, drawing students and towers on schoolBoards and also islands
+     * It uses helper methods, that are defined under this
+     * @param clientModel clientModel
+     */
     public void initializeMainScene(ClientModel clientModel){
         createSchoolBoardsMap(clientModel);
         createDeckMap(clientModel);
@@ -372,8 +485,7 @@ public class MainSceneController extends SceneController {
 
     public void showChangeInfluenceMessage(ClientModel clientModel) {
         drawIslands(clientModel);
-        drawSchoolBoard(clientModel);
-
+        drawAllSchoolBoardsTowers(clientModel);
     }
 
 
@@ -387,7 +499,7 @@ public class MainSceneController extends SceneController {
     }
 
     public void showMoveTowerOntoSchoolBoard(ClientModel clientModel) {
-        drawSchoolBoard(clientModel);
+        drawAllSchoolBoardsTowers(clientModel);
     }
 
     public void showInfoChosenCloudTile(String username, ClientModel clientModel) {

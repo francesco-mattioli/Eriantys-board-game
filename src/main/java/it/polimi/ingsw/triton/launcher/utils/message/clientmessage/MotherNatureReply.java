@@ -14,7 +14,7 @@ import it.polimi.ingsw.triton.launcher.server.controller.visitors.ClientMessageS
  */
 public class MotherNatureReply extends ClientMessage{
     private final int numSteps;
-    public MotherNatureReply(String senderUsername, int numSteps) {
+    public MotherNatureReply(int numSteps) {
         this.numSteps = numSteps;
     }
 

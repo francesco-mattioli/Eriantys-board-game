@@ -1,57 +1,43 @@
 package it.polimi.ingsw.triton.launcher.client.gui.scenes;
 
 import it.polimi.ingsw.triton.launcher.client.model.ClientModel;
-import it.polimi.ingsw.triton.launcher.server.model.CloudTile;
 import it.polimi.ingsw.triton.launcher.server.model.enums.Color;
-import it.polimi.ingsw.triton.launcher.utils.message.Message;
 import it.polimi.ingsw.triton.launcher.utils.message.clientmessage.CloudTileReply;
-import it.polimi.ingsw.triton.launcher.utils.obs.Observable;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
-import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-public class ChooseCloudTileSceneController extends SceneController {
+public class ChooseCloudTileSceneController extends ActionPhaseSceneControllers {
 
     @FXML
     AnchorPane chooseCloudTilePane;
 
-    @FXML
-    Button playCCButton;
-
     private Map<Integer, AnchorPane> cloudTilesMap;
 
-    public Button getPlayCCButton() {
-        return playCCButton;
-    }
-
     public void selectCloudTile0(MouseEvent event){
-        notify(new CloudTileReply(username,0));
-        ((Stage) chooseCloudTilePane.getScene().getWindow()).close();
+        notifyChosenCloudTileAndClosePane(0);
     }
 
     public void selectCloudTile1(MouseEvent event){
-        notify(new CloudTileReply(username,1));
-        ((Stage) chooseCloudTilePane.getScene().getWindow()).close();
+        notifyChosenCloudTileAndClosePane(1);
     }
 
     public void selectCloudTile2(MouseEvent event){
-        notify(new CloudTileReply(username,2));
+        notifyChosenCloudTileAndClosePane(2);
+    }
+
+    private void notifyChosenCloudTileAndClosePane(int cloudTileId){
+        notify(new CloudTileReply(cloudTileId));
         ((Stage) chooseCloudTilePane.getScene().getWindow()).close();
     }
 

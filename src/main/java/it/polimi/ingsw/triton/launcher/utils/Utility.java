@@ -25,7 +25,7 @@ public class Utility {
         StringBuilder result = new StringBuilder();
         for (int i = 0; i < students.length; i++){
             if (i == 0)
-                result.append("students=[ " + ANSI_GREEN).append(students[i]).append(ANSI_RESET).append(",");
+                result.append("students: [ " + ANSI_GREEN).append(students[i]).append(ANSI_RESET).append(",");
             else if (i == 1)
                 result.append(" " + ANSI_RED).append(students[i]).append(ANSI_RESET).append(",");
             else if (i == 2)
@@ -43,7 +43,7 @@ public class Utility {
      * @return the string of professors to print with their colors.
      */
     public static String printColoredProfessorsOnTable(String[] professors){
-        StringBuilder result = new StringBuilder();
+        StringBuilder result = new StringBuilder("[");
         for(int i = 0; i < professors.length; i++){
             if (i == 0 && professors[i] == null)
                 result.append(ANSI_GREEN + "X" + ANSI_RESET + ",");

@@ -2,6 +2,7 @@ package it.polimi.ingsw.triton.launcher.client.gui.scenes;
 
 import it.polimi.ingsw.triton.launcher.client.model.ClientModel;
 import it.polimi.ingsw.triton.launcher.server.model.enums.Color;
+import it.polimi.ingsw.triton.launcher.server.model.islands.Island;
 import it.polimi.ingsw.triton.launcher.utils.message.clientmessage.MoveStudentOntoDiningRoomMessage;
 import it.polimi.ingsw.triton.launcher.utils.message.clientmessage.MoveStudentOntoIslandMessage;
 import javafx.event.ActionEvent;
@@ -15,7 +16,7 @@ import javafx.stage.Stage;
 import java.util.stream.Collectors;
 
 
-public class MoveStudentFromEntranceSceneController extends SceneController {
+public class MoveStudentFromEntranceSceneController extends ActionPhaseSceneControllers {
 
     @FXML
     AnchorPane moveStudentFromEntrancePane;
@@ -33,28 +34,19 @@ public class MoveStudentFromEntranceSceneController extends SceneController {
     Label islandIdLabel;
 
     @FXML
-    Button playCCButton;
-
-    @FXML
     Button moveButton;
-
-    public Button getPlayCCButton() {
-        return playCCButton;
-    }
-
 
     public void move(ActionEvent event){
         Stage stage = (Stage) moveStudentFromEntrancePane.getScene().getWindow();
         if (whereChoiceBox.getValue().equals("dining room")){
-            notify(new MoveStudentOntoDiningRoomMessage(username,Color.valueOf(colorChoiceBox.getValue())));
+            notify(new MoveStudentOntoDiningRoomMessage(Color.valueOf(colorChoiceBox.getValue())));
             stage.close();
         }
         else {
-            notify(new MoveStudentOntoIslandMessage(username,islandIdChoiceBox.getValue(),Color.valueOf(colorChoiceBox.getValue())));
+            notify(new MoveStudentOntoIslandMessage(islandIdChoiceBox.getValue(),Color.valueOf(colorChoiceBox.getValue())));
             stage.close();
         }
     }
-
 
     public void show(ActionEvent event){
         if(whereChoiceBox.getValue().equals("island")){
@@ -70,9 +62,8 @@ public class MoveStudentFromEntranceSceneController extends SceneController {
     @Override
     public <T> void setupScene(ClientModel clientModel, T parameters) {
         String[] whereMove = {"dining room", "island"};
-        setUpEntranceChoiceBox(clientModel);
-        colorChoiceBox.getItems().addAll(colorEntrance);
-        islandIdChoiceBox.getItems().addAll(setUpIslandIdChoiceBox(clientModel));
+        setupStudentsChoiceBox(colorChoiceBox, clientModel.getMySchoolBoard().getEntrance());
+        islandIdChoiceBox.getItems().addAll(clientModel.getIslands().stream().map(Island::getId).collect(Collectors.toList()));
         whereChoiceBox.getItems().addAll(whereMove);
         whereChoiceBox.setOnAction(this::activeButton);
         colorChoiceBox.setOnAction(this::activeButton);

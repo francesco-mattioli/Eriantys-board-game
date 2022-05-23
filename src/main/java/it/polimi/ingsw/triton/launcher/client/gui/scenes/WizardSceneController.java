@@ -41,12 +41,23 @@ public class WizardSceneController extends SceneController {
     private Map<Image, Wizard> wizardsImages;
     private int shownWizard = 0;
 
+    /**
+     * The user can scroll through the wizard images
+     * When user clicks on selectButton, the currently selected wizard is assigned to him
+     * To do this, we have a map between Image and Wizard
+     * @param event
+     */
     public void select(ActionEvent event) {
         Wizard selectedWizard = wizardsImages.get(wizardImageView.getImage());
-        notify(new WizardReply(username, selectedWizard));
+        notify(new WizardReply(selectedWizard));
         selectButton.setDisable(true);
     }
 
+    /**
+     * This method permits user to scroll through the wizard images
+     * When wizard is last one, so you can't scroll, darts are different colorized
+     * @param event
+     */
     public void switchLeft(MouseEvent event) {
         if (shownWizard > 0) {
             wizardImageView.setImage((Image) wizardsImages.keySet().toArray()[shownWizard - 1]);
@@ -61,6 +72,11 @@ public class WizardSceneController extends SceneController {
 
     }
 
+    /**
+     * This method permits user to scroll through the wizard images
+     * When wizard is last one, so you can't scroll, darts are different colorized
+     * @param event
+     */
     public void switchRight(MouseEvent event) {
         if (shownWizard < wizardsImages.size() - 1) {
             wizardImageView.setImage((Image) wizardsImages.keySet().toArray()[shownWizard + 1]);
@@ -75,6 +91,12 @@ public class WizardSceneController extends SceneController {
 
     }
 
+    /**
+     * In this method we create the map that associates Images and Wizards, and we prepare everything for user interaction
+     * @param clientModel
+     * @param parameters in this case contains the available wizards' arraylist, that is sent by the server
+     * @param <T>
+     */
     @Override
     public <T> void setupScene(ClientModel clientModel, T parameters) {
         ArrayList<Wizard> wizards = (ArrayList<Wizard>) parameters;

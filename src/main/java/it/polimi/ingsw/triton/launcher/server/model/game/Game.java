@@ -337,7 +337,7 @@ public class Game extends GameMode {
             currentPlayer.executeAction(new MoveStudentOntoIsland(currentPlayer.getSchoolBoard(), student, islandManager.getIslandByID(idIsland)));
             currentPlayer.setMoveCounter(currentPlayer.getMoveCounter() + 1);
             String moveDescription = currentPlayer.getUsername() + " has moved a " + student.name().toLowerCase() + " student on the island " + idIsland + ".";
-            notify(new InfoStudentOntoIslandMessage(currentPlayer.getUsername(), currentPlayer.getSchoolBoard(), islandManager.getIslandByID(idIsland), professorsWithUsernameOwner(), moveDescription));
+            notify(new InfoStudentOntoIslandMessage(currentPlayer.getUsername(), currentPlayer.getSchoolBoard(), islandManager.getIslandByID(idIsland), moveDescription));
             checkNumberMoves();
         }
     }
@@ -381,7 +381,7 @@ public class Game extends GameMode {
         currentPlayer.executeAction(new ChooseCloudTile(cloudTile, currentPlayer.getSchoolBoard()));
         cloudTile.setAlreadyUsed(true);
         String choiceDescription = currentPlayer.getUsername() + " has chosen the cloud tile " + cloudTile.getId() + ".";
-        notify(new InfoChosenCloudTileMessage(currentPlayer.getUsername(), currentPlayer.getSchoolBoard(), cloudTile, professorsWithUsernameOwner(), choiceDescription));
+        notify(new InfoChosenCloudTileMessage(currentPlayer.getUsername(), currentPlayer.getSchoolBoard(), cloudTile, choiceDescription));
         nextGameTurn();
     }
 

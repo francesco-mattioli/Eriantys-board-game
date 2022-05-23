@@ -88,7 +88,7 @@ public class Island extends Observable<InfoMessage> implements Serializable {
                         modifiedDominator = true;
                     }
                 }
-                towerInfluence(newDominator, professors);
+                towerInfluence(newDominator);
                 if(modifiedDominator)
                     notify(new ChangeInfluenceMessage(this, newDominator.getUsername()));
             }
@@ -109,7 +109,7 @@ public class Island extends Observable<InfoMessage> implements Serializable {
      * @param newDominator specifies the player that is now dominating on the island.
      * @throws EndGameException if a player has not any other towers.
      */
-    public void towerInfluence(Player newDominator, Player [] professors)  throws EndGameException {
+    public void towerInfluence(Player newDominator)  throws EndGameException {
         if (dominator != null && dominator != newDominator) {
             dominator.getSchoolBoard().moveTowerOntoSchoolBoard(dim);
             notify(new MoveTowerOntoSchoolBoardMessage(dominator.getUsername(), dominator.getSchoolBoard()));
@@ -181,10 +181,10 @@ public class Island extends Observable<InfoMessage> implements Serializable {
     }
 
     public String toString(){
-        return "\n\t{id:" + id +", " +
-                "dimension:" + dim + ", " +
-                "dominator:" + getDominatorEvenIfNull() + ", " +
-                "students:" + Utility.printColoredStudents(students) + ", " +
-                "no entry tiles:" + noEntryTiles + "}";
+        return "\n\t{id: " + id +", " +
+                "dimension: " + dim + ", " +
+                "dominator: " + getDominatorEvenIfNull() + ", " +
+                 Utility.printColoredStudents(students) + ", " +
+                "no entry tiles: " + noEntryTiles + "}";
     }
 }
