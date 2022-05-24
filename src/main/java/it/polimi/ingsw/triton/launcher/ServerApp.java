@@ -10,7 +10,7 @@ public class ServerApp {
         Server server;
         int port = 50535;
 
-        /**
+        /*
          * This for loop reads the port number when the user enters a certain port number followed by the command --port.
          * If an invalid input is entered, the program throws a NumberFormatException and starts the server with default port.
          */
