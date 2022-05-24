@@ -21,7 +21,6 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 public class MainSceneController extends SceneController {
-    private static final String FILE = "file:";
     private final Map<String, AnchorPane> schoolBoardsMap = new HashMap<>();
     private final Map<String, GridPane> deckMap = new HashMap<>();
     @FXML
@@ -82,10 +81,9 @@ public class MainSceneController extends SceneController {
     private void drawStudentsOnEntrance(List<Node> studentsOnEntrance, SchoolBoard schoolBoard) {
         studentsOnEntrance.forEach(x -> x.setVisible(false));
         int offset = 0;
-        String currentPath = new java.io.File("src/main/resources/Images/Students").getAbsolutePath().replace('\\', '/');
         for (int i = 0; i < schoolBoard.getEntrance().length; i++) {
             for (int j = 0; j < schoolBoard.getEntrance()[i]; j++) {
-                ((ImageView) (studentsOnEntrance.get(offset))).setImage(new Image(FILE + currentPath + Color.values()[i].getStudentImagePath()));
+                ((ImageView) (studentsOnEntrance.get(offset))).setImage(new Image(MainSceneController.class.getResource("/Images/Students" + Color.values()[i].getStudentImagePath()).toString()));
                 (studentsOnEntrance.get(offset)).setVisible(true);
                 offset++;
             }
@@ -204,11 +202,10 @@ public class MainSceneController extends SceneController {
      * @return HBox
      */
     private HBox drawSingleIsland(Island island, AnchorPane anchorPane, ClientModel clientModel) {
-        String currentPath = new java.io.File("src/main/resources/Images/Islands").getAbsolutePath().replace('\\', '/');
         HBox box = new HBox();
         anchorPane.getChildren().add(box);
         for (int j = 0; j < island.getDim(); j++) {
-            Image image = new Image(FILE + currentPath + "/Island1.png");
+            Image image = new Image(MainSceneController.class.getResource("/Images/Islands/Island1.png").toString());
             ImageView imageView = new ImageView(image);
             imageView.setFitWidth(100);
             imageView.setFitHeight(100);
@@ -410,14 +407,13 @@ public class MainSceneController extends SceneController {
     }
 
     private void initializeDeckInformation(ClientModel clientModel) {
-        String currentPath = new java.io.File("src/main/resources/Images/Wizards").getAbsolutePath().replace('\\', '/');
         ImageView imageView = (ImageView) deckMap.get(clientModel.getUsername()).getChildren().get(0);
-        imageView.setImage(new Image(FILE + currentPath + clientModel.getAssistantDeck().getWizard().getImagePath()));
+        imageView.setImage(new Image(MainSceneController.class.getResource("/Images/Wizards" + clientModel.getAssistantDeck().getWizard().getImagePath()).toString()));
         Set<String> usernames = clientModel.getChosenWizardsPerUsername().keySet();
         for (String username : usernames) {
             if (!username.equals(clientModel.getUsername())) {
                 imageView = (ImageView) deckMap.get(username).getChildren().get(0);
-                imageView.setImage(new Image(FILE + currentPath + clientModel.getChosenWizardsPerUsername().get(username).getImagePath()));
+                imageView.setImage(new Image(MainSceneController.class.getResource("/Images/Wizards" + clientModel.getChosenWizardsPerUsername().get(username).getImagePath()).toString()));
             }
         }
     }
@@ -455,15 +451,13 @@ public class MainSceneController extends SceneController {
      * @param clientModel   clientModel
      */
     public void showMyInfoAssistantCardPlayed(AssistantCard assistantCard, ClientModel clientModel) {
-        String currentPath = new java.io.File("src/main/resources/Images/AssistantCards").getAbsolutePath().replace('\\', '/');
         ImageView imageView = (ImageView) deckMap.get(clientModel.getUsername()).getChildren().get(1);
-        imageView.setImage(new Image(FILE + currentPath + assistantCard.getType().getImagePath()));
+        imageView.setImage(new Image(MainSceneController.class.getResource("/Images/AssistantCards" + assistantCard.getType().getImagePath()).toString()));
     }
 
     public void showInfoAssistantCardPlayed(String username, AssistantCard assistantCard) {
-        String currentPath = new java.io.File("src/main/resources/Images/AssistantCards").getAbsolutePath().replace('\\', '/');
         ImageView imageView = (ImageView) deckMap.get(username).getChildren().get(1);
-        imageView.setImage(new Image(FILE + currentPath + assistantCard.getType().getImagePath()));
+        imageView.setImage(new Image(MainSceneController.class.getResource("/Images/AssistantCards" + assistantCard.getType().getImagePath()).toString()));
     }
 
     /**

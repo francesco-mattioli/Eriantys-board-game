@@ -10,8 +10,6 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Polygon;
-
-import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -85,17 +83,16 @@ public class WizardSceneController extends SceneController {
 
     /**
      * In this method we create the map that associates Images and Wizards, and we prepare everything for user interaction
-     * @param clientModel
+     * @param clientModel the client-side model.
      * @param parameters in this case contains the available wizards' arraylist, that is sent by the server
-     * @param <T>
+     * @param <T> generic type parameter.
      */
     @Override
     public <T> void setupScene(ClientModel clientModel, T parameters) {
         ArrayList<?> wizards = (ArrayList<?>) parameters;
         wizardsImages = new HashMap<>();
-        String currentPath = new File("src/main/resources/Images/Wizards").getAbsolutePath().replace('\\', '/');
         for (Object wizard : wizards) {
-            wizardsImages.put(new Image("file:" + currentPath + ((Wizard)wizard).getImagePath()), (Wizard)wizard);
+            wizardsImages.put(new Image(WizardSceneController.class.getResource("/Images/Wizards" + ((Wizard)wizard).getImagePath()).toString()),(Wizard)wizard);
         }
         wizardImageView.setImage((Image) wizardsImages.keySet().toArray()[0]);
         leftSwitch.setFill(Color.GRAY);

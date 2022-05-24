@@ -14,6 +14,7 @@ import javafx.stage.Stage;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 public class AssistantCardSceneController extends SceneController {
     @FXML
@@ -97,9 +98,9 @@ public class AssistantCardSceneController extends SceneController {
     @Override
     public <T> void setupScene(ClientModel clientModel, T parameters) {
         assistantCardImages = new HashMap<>();
-        String currentPath = new java.io.File("src/main/resources/Images/AssistantCards").getAbsolutePath().replace('\\', '/');
         for (AssistantCard assistantCard : clientModel.getAssistantDeck().getAssistantDeck()) {
-            assistantCardImages.put(new Image("file:" + currentPath + assistantCard.getType().getImagePath()), assistantCard);
+            assistantCardImages.put(new Image(Objects.requireNonNull(AssistantCardSceneController.class.getResource("/Images/AssistantCards" + assistantCard.getType().getImagePath())).toString()), assistantCard);
+
         }
         assistantCardImageView.setImage((Image) assistantCardImages.keySet().toArray()[0]);
         leftSwitch.setFill(javafx.scene.paint.Color.GRAY);

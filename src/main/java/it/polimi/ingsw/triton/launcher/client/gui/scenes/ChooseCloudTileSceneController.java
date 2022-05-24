@@ -45,23 +45,21 @@ public class ChooseCloudTileSceneController extends ActionPhaseSceneControllers 
      */
     @Override
     public <T> void setupScene(ClientModel clientModel, T parameters) {
-        String currentPath = new java.io.File("src/main/resources/Images/Students").getAbsolutePath().replace('\\', '/');
         Map<Integer, AnchorPane> cloudTilesMap = new HashMap<>();
         List<Node> cloudTilesPanes = chooseCloudTilePane.getChildren().stream().filter(AnchorPane.class::isInstance).collect(Collectors.toList());
         for(int i = 0; i<3; i++){
             if(clientModel.getCloudTileById(i) != null)
                 cloudTilesMap.put(i, ((AnchorPane)cloudTilesPanes.get(i)));
         }
-        prepareImages(clientModel, cloudTilesMap,currentPath);
+        prepareImages(clientModel, cloudTilesMap);
     }
 
     /**
      * This method graphically adds students on correct cloud tile
      * @param clientModel clientModel
      * @param cloudTilesMap association between a CloudTileID and his anchorPane
-     * @param currentPath path of the students' images folder
      */
-    private void prepareImages(ClientModel clientModel, Map<Integer,AnchorPane> cloudTilesMap, String currentPath){
+    private void prepareImages(ClientModel clientModel, Map<Integer,AnchorPane> cloudTilesMap){
         for(int i = 0; i<3; i++){
             if(clientModel.getCloudTileById(i) != null){
                 Optional<Node> result = cloudTilesMap.get(i).getChildren().stream().filter(AnchorPane.class::isInstance).findFirst();
@@ -70,7 +68,7 @@ public class ChooseCloudTileSceneController extends ActionPhaseSceneControllers 
                     List<Node> imagesOnCloudTile = studentsPane.getChildren();
                     List<Color> studentsOnCloudTile = arrayToList(clientModel, i);
                     for (int j = 0; j < imagesOnCloudTile.size(); j++) {
-                        ((ImageView) imagesOnCloudTile.get(j)).setImage(new Image("file:" + currentPath + studentsOnCloudTile.get(j).getStudentImagePath()));
+                        ((ImageView) imagesOnCloudTile.get(j)).setImage(new Image(ChooseCloudTileSceneController.class.getResource("/Images/Students" + studentsOnCloudTile.get(j).getStudentImagePath()).toString()));
                     }
                     cloudTilesMap.get(i).setVisible(true);
                 }

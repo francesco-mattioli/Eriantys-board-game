@@ -73,8 +73,7 @@ public class CharacterCardSceneController extends SceneController {
     private void setCharacterCardImage(BorderPane cardPane, int index, ClientModel clientModel){
         characterCardsMap.put(cardPane, clientModel.getAvailableCharacterCards().get(index).getId());
         ImageView imageView = (ImageView) cardPane.getCenter();
-        String currentPath = new java.io.File( "src/main/resources/Images/CharacterCards").getAbsolutePath().replace('\\','/');
-        Image image = new Image("file:"+currentPath+"/CharacterCard"+characterCardsMap.get(cardPane) + ".jpg");
+        Image image = new Image(CharacterCardSceneController.class.getResource("/Images/CharacterCards/CharacterCard" + characterCardsMap.get(cardPane)+ ".jpg").toString());
         imageView.setImage(image);
     }
 
