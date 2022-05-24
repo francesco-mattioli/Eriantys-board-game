@@ -188,8 +188,10 @@ public class Gui extends Observable<Message> implements ClientView {
 
     private void closeGui() {
         Platform.runLater(() -> {
-            activeStage.close();
-            mainStage.close();
+            if(activeStage != null)
+                activeStage.close();
+            if(mainStage!= null)
+                mainStage.close();
         });
     }
 
