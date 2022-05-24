@@ -11,7 +11,7 @@ import it.polimi.ingsw.triton.launcher.utils.message.clientmessage.AssistantCard
 public class AssistantCardRequest extends AskMessage {
 
     public AssistantCardRequest() {
-        super.expectedResponseMessageClass=AssistantCardReply.class;
+        super.expectedResponseMessageClasses.add(AssistantCardReply.class);
     }
 
     @Override

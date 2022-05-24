@@ -14,7 +14,7 @@ public class CharacterCardParameterRequest extends AskMessage {
     private final int characterCardID;
 
     public CharacterCardParameterRequest(int characterCardID) {
-        super.expectedResponseMessageClass=getClassByCharacterCardId(characterCardID);
+        super.expectedResponseMessageClasses.add(getClassByCharacterCardId(characterCardID));
         this.characterCardID = characterCardID;
     }
 

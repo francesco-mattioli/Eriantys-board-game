@@ -14,7 +14,7 @@ public class TowerColorRequest extends AskMessage {
 
     public TowerColorRequest(boolean [] chosenTowerColors) {
         this.chosenTowerColors = chosenTowerColors;
-        super.expectedResponseMessageClass= TowerColorReply.class;
+        super.expectedResponseMessageClasses.add(TowerColorReply.class);
     }
 
     public boolean[] getChosenTowerColors() {

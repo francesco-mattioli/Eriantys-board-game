@@ -14,6 +14,7 @@ import it.polimi.ingsw.triton.launcher.server.controller.visitors.ClientMessageE
 import it.polimi.ingsw.triton.launcher.server.controller.visitors.ClientMessageExceptionalVisitor;
 import it.polimi.ingsw.triton.launcher.server.controller.visitors.ClientMessageModifierVisitor;
 import it.polimi.ingsw.triton.launcher.server.controller.visitors.ClientMessageStandardVisitor;
+import it.polimi.ingsw.triton.launcher.utils.message.clientmessage.charactercard_replies.CharacterCardReply;
 import it.polimi.ingsw.triton.launcher.utils.obs.Observer;
 
 import java.util.ArrayList;
@@ -206,7 +207,10 @@ public class Controller implements Observer<ClientMessage> {
     }
 
     public boolean checkCorrectnessOfClientMessage(VirtualView virtualView,ClientMessage message){
-        return message.getClass()==virtualView.getLastMessage().getExpectedResponseMessageClass() || message.getClass()==UseCharacterCardRequest.class;
+        if(message instanceof CharacterCardReply){
+            return virtualView.getLastCharacterCardMessage().getExpectedResponseMessageClasses().contains(message.getClass());
+        }
+        else return virtualView.getLastMessage().getExpectedResponseMessageClasses().contains(message.getClass());
     }
 
 }

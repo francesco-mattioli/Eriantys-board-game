@@ -9,7 +9,7 @@ import it.polimi.ingsw.triton.launcher.utils.message.clientmessage.login_message
  */
 public class PlayersNumberAndGameModeRequest extends AskMessage {
     public PlayersNumberAndGameModeRequest() {
-        super.expectedResponseMessageClass= PlayersNumberAndGameModeReply.class;
+        super.expectedResponseMessageClasses.add(PlayersNumberAndGameModeReply.class);
     }
 
     @Override

@@ -17,7 +17,7 @@ public class WizardRequest extends AskMessage {
     private final List<Wizard> availableWizards;
 
     public WizardRequest(List<Wizard> availableWizards) {
-        super.expectedResponseMessageClass=WizardReply.class;
+        super.expectedResponseMessageClasses.add(WizardReply.class);
         this.availableWizards = availableWizards;
     }
 

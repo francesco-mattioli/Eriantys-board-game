@@ -10,7 +10,7 @@ import it.polimi.ingsw.triton.launcher.utils.message.clientmessage.CloudTileRepl
 public class CloudTileRequest extends AskMessage {
 
     public CloudTileRequest() {
-        super.expectedResponseMessageClass= CloudTileReply.class;
+        super.expectedResponseMessageClasses.add(CloudTileReply.class);
     }
 
     @Override
