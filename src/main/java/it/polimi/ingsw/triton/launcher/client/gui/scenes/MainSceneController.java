@@ -83,7 +83,7 @@ public class MainSceneController extends SceneController {
         int offset = 0;
         for (int i = 0; i < schoolBoard.getEntrance().length; i++) {
             for (int j = 0; j < schoolBoard.getEntrance()[i]; j++) {
-                ((ImageView) (studentsOnEntrance.get(offset))).setImage(new Image(MainSceneController.class.getResource("/Images/Students" + Color.values()[i].getStudentImagePath()).toString()));
+                ((ImageView) (studentsOnEntrance.get(offset))).setImage(new Image(Objects.requireNonNull(MainSceneController.class.getResource("/Images/Students" + Color.values()[i].getStudentImagePath())).toString()));
                 (studentsOnEntrance.get(offset)).setVisible(true);
                 offset++;
             }
@@ -205,7 +205,7 @@ public class MainSceneController extends SceneController {
         HBox box = new HBox();
         anchorPane.getChildren().add(box);
         for (int j = 0; j < island.getDim(); j++) {
-            Image image = new Image(MainSceneController.class.getResource("/Images/Islands/Island1.png").toString());
+            Image image = new Image(Objects.requireNonNull(MainSceneController.class.getResource("/Images/Islands/Island1.png")).toString());
             ImageView imageView = new ImageView(image);
             imageView.setFitWidth(100);
             imageView.setFitHeight(100);
@@ -408,12 +408,12 @@ public class MainSceneController extends SceneController {
 
     private void initializeDeckInformation(ClientModel clientModel) {
         ImageView imageView = (ImageView) deckMap.get(clientModel.getUsername()).getChildren().get(0);
-        imageView.setImage(new Image(MainSceneController.class.getResource("/Images/Wizards" + clientModel.getAssistantDeck().getWizard().getImagePath()).toString()));
+        imageView.setImage(new Image(Objects.requireNonNull(MainSceneController.class.getResource("/Images/Wizards" + clientModel.getAssistantDeck().getWizard().getImagePath())).toString()));
         Set<String> usernames = clientModel.getChosenWizardsPerUsername().keySet();
         for (String username : usernames) {
             if (!username.equals(clientModel.getUsername())) {
                 imageView = (ImageView) deckMap.get(username).getChildren().get(0);
-                imageView.setImage(new Image(MainSceneController.class.getResource("/Images/Wizards" + clientModel.getChosenWizardsPerUsername().get(username).getImagePath()).toString()));
+                imageView.setImage(new Image(Objects.requireNonNull(MainSceneController.class.getResource("/Images/Wizards" + clientModel.getChosenWizardsPerUsername().get(username).getImagePath())).toString()));
             }
         }
     }
@@ -452,12 +452,12 @@ public class MainSceneController extends SceneController {
      */
     public void showMyInfoAssistantCardPlayed(AssistantCard assistantCard, ClientModel clientModel) {
         ImageView imageView = (ImageView) deckMap.get(clientModel.getUsername()).getChildren().get(1);
-        imageView.setImage(new Image(MainSceneController.class.getResource("/Images/AssistantCards" + assistantCard.getType().getImagePath()).toString()));
+        imageView.setImage(new Image(Objects.requireNonNull(MainSceneController.class.getResource("/Images/AssistantCards" + assistantCard.getType().getImagePath())).toString()));
     }
 
     public void showInfoAssistantCardPlayed(String username, AssistantCard assistantCard) {
         ImageView imageView = (ImageView) deckMap.get(username).getChildren().get(1);
-        imageView.setImage(new Image(MainSceneController.class.getResource("/Images/AssistantCards" + assistantCard.getType().getImagePath()).toString()));
+        imageView.setImage(new Image(Objects.requireNonNull(MainSceneController.class.getResource("/Images/AssistantCards" + assistantCard.getType().getImagePath())).toString()));
     }
 
     /**

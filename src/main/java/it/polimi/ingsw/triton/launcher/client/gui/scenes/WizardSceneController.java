@@ -13,6 +13,7 @@ import javafx.scene.shape.Polygon;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 public class WizardSceneController extends SceneController {
 
@@ -92,7 +93,7 @@ public class WizardSceneController extends SceneController {
         ArrayList<?> wizards = (ArrayList<?>) parameters;
         wizardsImages = new HashMap<>();
         for (Object wizard : wizards) {
-            wizardsImages.put(new Image(WizardSceneController.class.getResource("/Images/Wizards" + ((Wizard)wizard).getImagePath()).toString()),(Wizard)wizard);
+            wizardsImages.put(new Image(Objects.requireNonNull(WizardSceneController.class.getResource("/Images/Wizards" + ((Wizard) wizard).getImagePath())).toString()),(Wizard)wizard);
         }
         wizardImageView.setImage((Image) wizardsImages.keySet().toArray()[0]);
         leftSwitch.setFill(Color.GRAY);

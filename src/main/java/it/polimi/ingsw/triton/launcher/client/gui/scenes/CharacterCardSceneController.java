@@ -14,6 +14,7 @@ import javafx.scene.paint.Color;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 public class CharacterCardSceneController extends SceneController {
     @FXML
@@ -73,7 +74,7 @@ public class CharacterCardSceneController extends SceneController {
     private void setCharacterCardImage(BorderPane cardPane, int index, ClientModel clientModel){
         characterCardsMap.put(cardPane, clientModel.getAvailableCharacterCards().get(index).getId());
         ImageView imageView = (ImageView) cardPane.getCenter();
-        Image image = new Image(CharacterCardSceneController.class.getResource("/Images/CharacterCards/CharacterCard" + characterCardsMap.get(cardPane)+ ".jpg").toString());
+        Image image = new Image(Objects.requireNonNull(CharacterCardSceneController.class.getResource("/Images/CharacterCards/CharacterCard" + characterCardsMap.get(cardPane) + ".jpg")).toString());
         imageView.setImage(image);
     }
 
