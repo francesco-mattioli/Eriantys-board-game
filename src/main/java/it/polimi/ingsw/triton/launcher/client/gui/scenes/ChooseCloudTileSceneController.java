@@ -68,7 +68,7 @@ public class ChooseCloudTileSceneController extends ActionPhaseSceneControllers 
                     List<Node> imagesOnCloudTile = studentsPane.getChildren();
                     List<Color> studentsOnCloudTile = arrayToList(clientModel, i);
                     for (int j = 0; j < imagesOnCloudTile.size(); j++) {
-                        ((ImageView) imagesOnCloudTile.get(j)).setImage(new Image(ChooseCloudTileSceneController.class.getResource("/Images/Students" + studentsOnCloudTile.get(j).getStudentImagePath()).toString()));
+                        ((ImageView) imagesOnCloudTile.get(j)).setImage(new Image(Objects.requireNonNull(ChooseCloudTileSceneController.class.getResource("/Images/Students" + studentsOnCloudTile.get(j).getStudentImagePath())).toString()));
                     }
                     cloudTilesMap.get(i).setVisible(true);
                 }
