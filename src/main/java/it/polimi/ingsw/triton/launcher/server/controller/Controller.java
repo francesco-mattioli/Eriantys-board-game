@@ -198,8 +198,12 @@ public class Controller implements Observer<ClientMessage> {
         VirtualView virtualView = virtualViews.stream().filter(vv -> vv.getServeOneClient().equals(serveOneClient)).findAny().orElseThrow( ()-> new NoSuchElementException("The Virtual View does not exist"));
         if (checkCorrectnessOfClientMessage(virtualView, message) && checkCorrectnessOfSender(virtualView))
             virtualView.notify(message);
-        else
+        else{
+            virtualView.showErrorMessage(ErrorTypeID.ILLEGAL_MOVE);
+            virtualViews.forEach(vv->vv.showErrorMessage(ErrorTypeID.COMPROMISED));
             disconnectAllPlayers();
+        }
+
     }
 
     public boolean checkCorrectnessOfSender(VirtualView virtualView) {
