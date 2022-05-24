@@ -8,6 +8,8 @@ import it.polimi.ingsw.triton.launcher.client.ServerMessageVisitor;
  */
 public class MoveStudentFromEntranceMessage extends AskMessage {
 
+
+
     @Override
     public void accept(ServerMessageVisitor messageVisitor) {
         messageVisitor.visit(this);

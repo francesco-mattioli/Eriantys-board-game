@@ -1,6 +1,7 @@
 package it.polimi.ingsw.triton.launcher.utils.message.servermessage.Requests;
 
 import it.polimi.ingsw.triton.launcher.client.ServerMessageVisitor;
+import it.polimi.ingsw.triton.launcher.utils.message.clientmessage.charactercard_replies.*;
 
 
 /**
@@ -11,7 +12,9 @@ import it.polimi.ingsw.triton.launcher.client.ServerMessageVisitor;
  */
 public class CharacterCardParameterRequest extends AskMessage {
     private final int characterCardID;
+
     public CharacterCardParameterRequest(int characterCardID) {
+        super.expectedResponseMessageClass=getClassByCharacterCardId(characterCardID);
         this.characterCardID = characterCardID;
     }
 
@@ -22,5 +25,28 @@ public class CharacterCardParameterRequest extends AskMessage {
 
     public int getCharacterCardID() {
         return characterCardID;
+    }
+
+    private Class<?> getClassByCharacterCardId(int characterCardID){
+        switch(characterCardID){
+            case 1:
+                return CharacterCard01Reply.class;
+            case 3:
+                return CharacterCard03Reply.class;
+            case 5:
+                return CharacterCard05Reply.class;
+            case 7:
+                return CharacterCard07Reply.class;
+            case 9:
+                return CharacterCard09Reply.class;
+            case 10:
+                return CharacterCard10Reply.class;
+            case 11:
+                return CharacterCard11Reply.class;
+            case 12:
+                return CharacterCard12Reply.class;
+            default:
+                throw new IllegalStateException();
+        }
     }
 }

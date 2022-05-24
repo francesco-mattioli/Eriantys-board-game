@@ -61,7 +61,7 @@ public class ServeOneClient implements Runnable {
                 } else if (message instanceof PlayersNumberAndGameModeReply) {
                     server.activateGame(((PlayersNumberAndGameModeReply) message).getPlayersNumber(), ((PlayersNumberAndGameModeReply) message).isExpertMode());
                 } else {
-                    server.notifyVirtualView(this, message);
+                     server.notifyVirtualView(this, message);
                 }
                 LOGGER.info("Received: " + message.getClass().getSimpleName() + AT_PORT + socket.getPort());
             }

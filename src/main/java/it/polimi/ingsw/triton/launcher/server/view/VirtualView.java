@@ -1,8 +1,8 @@
 package it.polimi.ingsw.triton.launcher.server.view;
 
 import it.polimi.ingsw.triton.launcher.client.view.View;
-import it.polimi.ingsw.triton.launcher.server.network.ServeOneClient;
 import it.polimi.ingsw.triton.launcher.server.model.enums.Wizard;
+import it.polimi.ingsw.triton.launcher.server.network.ServeOneClient;
 import it.polimi.ingsw.triton.launcher.utils.message.ErrorTypeID;
 import it.polimi.ingsw.triton.launcher.utils.message.Message;
 import it.polimi.ingsw.triton.launcher.utils.message.clientmessage.ClientMessage;
@@ -60,6 +60,16 @@ public class VirtualView extends Observable<ClientMessage> implements View, Obse
     public void reSendLastCharacterCardMessage() {
         serveOneClient.sendMessage(lastCharacterCardMessage);
     }
+
+    /**
+     * //TODO
+     *
+     * @param askMessage
+     */
+    private void sendAndSave(AskMessage askMessage) {
+        lastMessage = askMessage;
+        serveOneClient.sendMessage(lastMessage);
+    }
     //------------------------------------------------------------------------------------------------------------------
 
     //--------------------------------------------- ASK METHODS --------------------------------------------------------
@@ -69,7 +79,7 @@ public class VirtualView extends Observable<ClientMessage> implements View, Obse
      */
     @Override
     public void askNumPlayersAndGameMode() {
-        serveOneClient.sendMessage(new PlayersNumberAndGameModeRequest());
+        sendAndSave(new PlayersNumberAndGameModeRequest());
     }
 
     /**
@@ -79,9 +89,7 @@ public class VirtualView extends Observable<ClientMessage> implements View, Obse
      */
     @Override
     public void askAssistantCard() {
-        AssistantCardRequest requestMessage = new AssistantCardRequest();
-        serveOneClient.sendMessage(requestMessage);
-        lastMessage = requestMessage;
+        sendAndSave(new AssistantCardRequest());
     }
 
     /**
@@ -91,9 +99,7 @@ public class VirtualView extends Observable<ClientMessage> implements View, Obse
      */
     @Override
     public void askCloudTile() {
-        CloudTileRequest requestMessage = new CloudTileRequest();
-        serveOneClient.sendMessage(requestMessage);
-        lastMessage = requestMessage;
+        sendAndSave(new CloudTileRequest());
     }
 
     /**
@@ -103,9 +109,7 @@ public class VirtualView extends Observable<ClientMessage> implements View, Obse
      */
     @Override
     public void askMoveStudentFromEntrance() {
-        MoveStudentFromEntranceMessage requestMessage = new MoveStudentFromEntranceMessage();
-        serveOneClient.sendMessage(requestMessage);
-        lastMessage = requestMessage;
+        sendAndSave(new MoveStudentFromEntranceMessage());
     }
 
     /**
@@ -115,9 +119,7 @@ public class VirtualView extends Observable<ClientMessage> implements View, Obse
      */
     @Override
     public void askNumberStepsMotherNature() {
-        MotherNatureRequest requestMessage = new MotherNatureRequest();
-        serveOneClient.sendMessage(requestMessage);
-        lastMessage = requestMessage;
+        sendAndSave(new MotherNatureRequest());
     }
 
     /**
@@ -125,15 +127,16 @@ public class VirtualView extends Observable<ClientMessage> implements View, Obse
      */
     @Override
     public void askTowerColor(boolean[] towerColorChosen) {
-        serveOneClient.sendMessage(new TowerColorRequest(towerColorChosen));
+        sendAndSave(new TowerColorRequest(towerColorChosen));
     }
+
 
     /**
      * Sends a message to the current player to ask which wizard wants.
      */
     @Override
     public void askWizard(List<Wizard> wizards) {
-        serveOneClient.sendMessage(new WizardRequest(wizards));
+        sendAndSave(new WizardRequest(wizards));
     }
 
     /**
@@ -143,10 +146,11 @@ public class VirtualView extends Observable<ClientMessage> implements View, Obse
      */
     @Override
     public void askCharacterCardParameters(int id) {
-        CharacterCardParameterRequest requestMessage = new CharacterCardParameterRequest(id);
-        serveOneClient.sendMessage(requestMessage);
-        lastCharacterCardMessage = requestMessage;
+        lastCharacterCardMessage = new CharacterCardParameterRequest(id);
+        serveOneClient.sendMessage(lastCharacterCardMessage);
     }
+
+
     //------------------------------------------------------------------------------------------------------------------
 
 

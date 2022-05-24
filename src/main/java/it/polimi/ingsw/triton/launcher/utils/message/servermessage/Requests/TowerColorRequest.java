@@ -1,6 +1,7 @@
 package it.polimi.ingsw.triton.launcher.utils.message.servermessage.Requests;
 
 import it.polimi.ingsw.triton.launcher.client.ServerMessageVisitor;
+import it.polimi.ingsw.triton.launcher.server.model.enums.TowerColor;
 
 /**
  * This message is sent from the server to ask a player which tower color wants
@@ -12,6 +13,7 @@ public class TowerColorRequest extends AskMessage {
 
     public TowerColorRequest(boolean [] chosenTowerColors) {
         this.chosenTowerColors = chosenTowerColors;
+        super.expectedResponseMessageClass= TowerColor.class;
     }
 
     public boolean[] getChosenTowerColors() {
