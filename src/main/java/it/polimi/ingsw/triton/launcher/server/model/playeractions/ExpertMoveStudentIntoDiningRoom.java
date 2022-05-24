@@ -8,7 +8,6 @@ import it.polimi.ingsw.triton.launcher.utils.exceptions.IllegalClientInputExcept
 import it.polimi.ingsw.triton.launcher.utils.message.ErrorTypeID;
 import it.polimi.ingsw.triton.launcher.utils.message.servermessage.infoMessage.infoMessageWithReceiver.EmptyGeneralCoinSupplyMessage;
 import it.polimi.ingsw.triton.launcher.utils.message.servermessage.infoMessage.infoMessageWithReceiver.UpdateWalletMessage;
-import java.util.NoSuchElementException;
 
 public class ExpertMoveStudentIntoDiningRoom extends MoveStudentIntoDiningRoom{
     private final GeneralCoinSupply generalCoinSupply;
