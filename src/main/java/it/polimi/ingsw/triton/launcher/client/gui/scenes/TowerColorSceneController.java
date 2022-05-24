@@ -35,10 +35,10 @@ public class TowerColorSceneController extends SceneController {
     }
 
     /**
-     * In this method we create the map between Strings and TowerColor, to associate the choiceBox value and tower coolor
-     * @param clientModel
-     * @param parameters in this case contains the arraylist available tower colors
-     * @param <T>
+     * In this method we create the map between Strings and TowerColor, to associate the choiceBox value and tower color.
+     * @param clientModel the client-side model.
+     * @param parameters in this case contains the arraylist available tower colors.
+     * @param <T> generic type parameter.
      */
     @Override
     public <T> void setupScene(ClientModel clientModel, T parameters) {

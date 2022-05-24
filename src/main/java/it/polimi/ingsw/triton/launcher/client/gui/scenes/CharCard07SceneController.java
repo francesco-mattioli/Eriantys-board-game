@@ -136,7 +136,7 @@ public class CharCard07SceneController extends SceneController {
     }
 
     /**
-     * setting character card choice box, adding all available students on characher card
+     * setting character card choice box, adding all available students on character card.
      */
     public void setChoiceBoxCharCard(ChoiceBox<String> choiceBox){
         int [] array = new int[clientModel.getCharacterCardById(7).getStudents().length];

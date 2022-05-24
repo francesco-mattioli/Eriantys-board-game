@@ -1,8 +1,11 @@
 package it.polimi.ingsw.triton.launcher.server.model.game;
 
+import it.polimi.ingsw.triton.launcher.server.model.cardeffects.CardEffect02;
 import it.polimi.ingsw.triton.launcher.server.model.cardeffects.CharacterCard;
+import it.polimi.ingsw.triton.launcher.server.model.enums.GameState;
 import it.polimi.ingsw.triton.launcher.server.model.enums.TowerColor;
 import it.polimi.ingsw.triton.launcher.server.model.player.Player;
+import it.polimi.ingsw.triton.launcher.server.model.professor.ProfessorsManager;
 import it.polimi.ingsw.triton.launcher.utils.exceptions.CharacterCardWithParametersException;
 import it.polimi.ingsw.triton.launcher.utils.exceptions.IllegalClientInputException;
 import org.junit.jupiter.api.AfterEach;
@@ -128,6 +131,7 @@ class ExpertGameTest {
      */
     @Test
     void playCharacterCard(){
+        expertGame.setGameState(GameState.ACTION_PHASE);
         setUpCharacterCards(new CharacterCard(2, 2, 0, expertGame.getBag()),p1,2);
         try {
             expertGame.useCharacterCard(p1,2);
@@ -142,6 +146,7 @@ class ExpertGameTest {
      */
     @Test
     void playCharacterCard01WithParameters(){
+        expertGame.setGameState(GameState.ACTION_PHASE);
         setUpCharacterCards(new CharacterCard(1,1,0, expertGame.getBag()), p1,1);
         assertThrows(CharacterCardWithParametersException.class, () -> expertGame.useCharacterCard(p1,1));
     }
@@ -151,6 +156,7 @@ class ExpertGameTest {
      */
     @Test
     void playCharacterCard03WithParameters(){
+        expertGame.setGameState(GameState.ACTION_PHASE);
         setUpCharacterCards(new CharacterCard(3,3,0, expertGame.getBag()), p1,3);
         assertThrows(CharacterCardWithParametersException.class, () -> expertGame.useCharacterCard(p1,3));
     }
@@ -160,6 +166,7 @@ class ExpertGameTest {
      */
     @Test
     void playCharacterCard05WithParameters(){
+        expertGame.setGameState(GameState.ACTION_PHASE);
         setUpCharacterCards(new CharacterCard(5,2,0, expertGame.getBag()), p1,2);
         assertThrows(CharacterCardWithParametersException.class, () -> expertGame.useCharacterCard(p1,5));
     }
@@ -169,6 +176,7 @@ class ExpertGameTest {
      */
     @Test
     void playCharacterCard07WithParameters(){
+        expertGame.setGameState(GameState.ACTION_PHASE);
         p1.setSchoolBoard(TowerColor.WHITE,3);
         p1.getSchoolBoard().getEntrance()[0] = 3;
         p1.getSchoolBoard().getDiningRoom()[1] = 3;
@@ -181,6 +189,7 @@ class ExpertGameTest {
      */
     @Test
     void playCharacterCard09WithParameters(){
+        expertGame.setGameState(GameState.ACTION_PHASE);
         setUpCharacterCards(new CharacterCard(9,3,0, expertGame.getBag()), p1,3);
         assertThrows(CharacterCardWithParametersException.class, () -> expertGame.useCharacterCard(p1,9));
     }
@@ -190,6 +199,7 @@ class ExpertGameTest {
      */
     @Test
     void playCharacterCard10WithParameters(){
+        expertGame.setGameState(GameState.ACTION_PHASE);
         p1.setSchoolBoard(TowerColor.WHITE,3);
         p1.getSchoolBoard().getEntrance()[0] = 2;
         p1.getSchoolBoard().getDiningRoom()[1] = 2;
@@ -202,6 +212,7 @@ class ExpertGameTest {
      */
     @Test
     void playCharacterCard11WithParameters(){
+        expertGame.setGameState(GameState.ACTION_PHASE);
         setUpCharacterCards(new CharacterCard(11,2,0, expertGame.getBag()), p1,2);
         assertThrows(CharacterCardWithParametersException.class, () -> expertGame.useCharacterCard(p1,11));
     }
@@ -211,11 +222,32 @@ class ExpertGameTest {
      */
     @Test
     void playCharacterCard12WithParameters(){
+        expertGame.setGameState(GameState.ACTION_PHASE);
         setUpCharacterCards(new CharacterCard(12,3,0, expertGame.getBag()), p1,3);
         assertThrows(CharacterCardWithParametersException.class, () -> expertGame.useCharacterCard(p1,12));
     }
 
+    /**
+     * Tests if the method useCharacterCard throws an exception when the player
+     * wants to play a character card in a phase which is not the action phase.
+     */
+    @Test
+    void playCharacterCardWhenNotActionPhase(){
+        expertGame.setGameState(GameState.PLANNING_PHASE);
+        setUpCharacterCards(new CharacterCard(3, 3, 0, expertGame.getBag()), p1, 3);
+        assertThrows(IllegalClientInputException.class, () -> expertGame.useCharacterCard(p1, 3));
+    }
 
+    /**
+     * Tests if the method useCharacterCard throws an exception when the player
+     * wants to apply a character card effect in a phase which is not the action phase.
+     */
+    @Test
+    void applyCharacterCardEffectWhenNotActionPhase(){
+        expertGame.setGameState(GameState.PLANNING_PHASE);
+        setUpCharacterCards(new CharacterCard(2, 2, 0, expertGame.getBag()), p1, 3);
+        assertThrows(IllegalClientInputException.class, () -> expertGame.applyCharacterCardEffect(2, new CardEffect02(new ProfessorsManager())));
+    }
 
     private int studentsOnCharacterCard(){
         int cont = 0;
@@ -257,4 +289,4 @@ class ExpertGameTest {
 
     }
 
-    }
+}

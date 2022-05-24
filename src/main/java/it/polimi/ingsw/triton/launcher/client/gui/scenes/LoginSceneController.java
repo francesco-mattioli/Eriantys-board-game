@@ -22,7 +22,7 @@ public class LoginSceneController extends SceneController {
      * User chooses his username
      * When he clicks on login button, a message is sent to server
      */
-    public void login(ActionEvent event) {
+    public void login() {
         String username = loginTextField.getText();
         notify(new LoginRequest(username));
         loginButton.setDisable(true);

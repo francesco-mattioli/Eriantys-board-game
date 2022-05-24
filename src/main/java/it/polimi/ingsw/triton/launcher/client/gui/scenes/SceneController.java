@@ -22,10 +22,10 @@ public abstract class SceneController extends Observable<Message> {
     }
 
     /**
-     * This method writes elements in choice box, when user has to choose a student color
-     * It is called by many subclassed
-     * @param choiceBox
-     * @param students
+     * This method writes elements in choice box, when user has to choose a student color.
+     * It is called by many subclassed.
+     * @param choiceBox to fill.
+     * @param students the array of students.
      */
     public void setupStudentsChoiceBox(ChoiceBox<String> choiceBox, int [] students){
         List<String> list = new ArrayList<>();

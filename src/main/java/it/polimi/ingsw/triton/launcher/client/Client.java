@@ -96,14 +96,14 @@ public class Client implements Observer<Message> {
             socket= new Socket(message.getServerInfo(), PORT);
             outSocket = new ObjectOutputStream(socket.getOutputStream());
             inSocket = new ObjectInputStream(socket.getInputStream());
-        } catch (IOException e) {
+            this.receiveExecutionQueue = Executors.newSingleThreadExecutor();
+            this.visitExecutionQueue = Executors.newSingleThreadExecutor();
+            receiveMessage();
+            clientView.askUsername();
+        } catch (IOException | NullPointerException e) {
             clientView.showGenericMessage("ERROR: Cannot connect to this server!");
             clientView.askIpAddress();
         }
-        this.receiveExecutionQueue = Executors.newSingleThreadExecutor();
-        this.visitExecutionQueue = Executors.newSingleThreadExecutor();
-        receiveMessage();
-        clientView.askUsername();
     }
 
     /**
