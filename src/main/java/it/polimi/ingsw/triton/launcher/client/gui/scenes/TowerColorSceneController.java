@@ -28,9 +28,8 @@ public class TowerColorSceneController extends SceneController {
 
     /**
      * This method assigns to the player the chosen tower color, when he clicks the button
-     * @param event
      */
-    public void select(ActionEvent event){
+    public void select(){
         notify(new TowerColorReply(towerColorMap.get(towerColorChoice.getValue())));
         selectButton.setDisable(true);
     }
