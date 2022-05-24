@@ -4,6 +4,7 @@ import it.polimi.ingsw.triton.launcher.server.model.GeneralCoinSupply;
 import it.polimi.ingsw.triton.launcher.server.model.cardeffects.CardEffect;
 import it.polimi.ingsw.triton.launcher.server.model.cardeffects.CharacterCard;
 import it.polimi.ingsw.triton.launcher.server.model.enums.Color;
+import it.polimi.ingsw.triton.launcher.server.model.enums.GameState;
 import it.polimi.ingsw.triton.launcher.server.model.enums.TowerColor;
 import it.polimi.ingsw.triton.launcher.server.model.enums.Wizard;
 import it.polimi.ingsw.triton.launcher.server.model.player.Player;
@@ -188,15 +189,20 @@ public class ExpertGame extends GameDecorator {
      */
     @Override
     public void useCharacterCard(Player player, int idCard) throws IllegalClientInputException, CharacterCardWithParametersException {
-        if (player.hasAlreadyPlayedACharacterCard()) {
-            throw new IllegalClientInputException(ErrorTypeID.CHARACTER_CARD_ALREADY_PLAYED);
-        } else {
-            player.setTrueHasAlreadyPlayedACharacterCard();
-            game.getCurrentPlayer().executeAction(new UseCharacterCard(getCharacterCardByID(idCard), game.getCurrentPlayer(), generalCoinSupply));
-            game.notify(new UpdateWalletMessage(game.getCurrentPlayer().getUsername(), game.getCurrentPlayer().getWallet().getValue()));
-            if (getCharacterCardByID(idCard).hasParameters())
-                throw new CharacterCardWithParametersException();
+        if(game.getGameState() != GameState.ACTION_PHASE)
+            throw new IllegalClientInputException(ErrorTypeID.ILLEGAL_MOVE_FOR_PHASE);
+        else{
+            if (player.hasAlreadyPlayedACharacterCard()) {
+                throw new IllegalClientInputException(ErrorTypeID.CHARACTER_CARD_ALREADY_PLAYED);
+            } else {
+                player.setTrueHasAlreadyPlayedACharacterCard();
+                game.getCurrentPlayer().executeAction(new UseCharacterCard(getCharacterCardByID(idCard), game.getCurrentPlayer(), generalCoinSupply));
+                game.notify(new UpdateWalletMessage(game.getCurrentPlayer().getUsername(), game.getCurrentPlayer().getWallet().getValue()));
+                if (getCharacterCardByID(idCard).hasParameters())
+                    throw new CharacterCardWithParametersException();
+            }
         }
+
     }
 
     /**
@@ -205,8 +211,12 @@ public class ExpertGame extends GameDecorator {
      */
     @Override
     public void applyCharacterCardEffect(int characterCardID, CardEffect cardEffect) throws IllegalClientInputException, EndGameException {
-        getCharacterCardByID(characterCardID).executeEffect(cardEffect);
-        game.notify(new InfoCharacterCardPlayedMessage(game.getCurrentPlayer().getUsername(), getCharacterCardByID(characterCardID), game.getIslandManager().getIslands(), game.getAllSchoolBoards()));
+        if(game.getGameState() != GameState.ACTION_PHASE)
+            throw new IllegalClientInputException(ErrorTypeID.ILLEGAL_MOVE_FOR_PHASE);
+        else{
+            getCharacterCardByID(characterCardID).executeEffect(cardEffect);
+            game.notify(new InfoCharacterCardPlayedMessage(game.getCurrentPlayer().getUsername(), getCharacterCardByID(characterCardID), game.getIslandManager().getIslands(), game.getAllSchoolBoards()));
+        }
     }
 
     @Override
