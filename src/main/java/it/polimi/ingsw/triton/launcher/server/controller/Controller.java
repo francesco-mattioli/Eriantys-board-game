@@ -30,6 +30,7 @@ import java.util.NoSuchElementException;
 public class Controller implements Observer<ClientMessage> {
     private GameMode game;
     private final List<VirtualView> virtualViews = new ArrayList<>();
+    private VirtualView lastVirtualView;
 
     public Controller() {
         this.game = Game.instance(3);
@@ -41,6 +42,7 @@ public class Controller implements Observer<ClientMessage> {
      */
     public void createTowerColorRequestMessage(String username) {
         getVirtualViewByUsername(username).askTowerColor(game.getTowerColorChosen());
+        lastVirtualView=getVirtualViewByUsername(username);
     }
 
     /**
@@ -56,18 +58,23 @@ public class Controller implements Observer<ClientMessage> {
      */
     @Override
     public void update(ClientMessage message) {
+            //TODO change name
             try {
                 message.modifyModel(new ClientMessageModifierVisitor(game));
-                message.createStandardNextMessage(new ClientMessageStandardVisitor(game, getVirtualViewByUsername(game.getCurrentPlayer().getUsername())));
+                lastVirtualView= getVirtualViewByUsername(game.getCurrentPlayer().getUsername());
+                message.createStandardNextMessage(new ClientMessageStandardVisitor(game, lastVirtualView));
             }catch(NullPointerException e){
-                getVirtualViewByUsername(game.getCurrentPlayer().getUsername()).showErrorMessage(ErrorTypeID.NULL_VALUE);
-                message.createInputErrorMessage(new ClientMessageErrorVisitor(game, getVirtualViewByUsername(game.getCurrentPlayer().getUsername())));
+                lastVirtualView= getVirtualViewByUsername(game.getCurrentPlayer().getUsername());
+                lastVirtualView.showErrorMessage(ErrorTypeID.NULL_VALUE);
+                message.createInputErrorMessage(new ClientMessageErrorVisitor(game,lastVirtualView));
             }
             catch (IllegalClientInputException e) {
-                getVirtualViewByUsername(game.getCurrentPlayer().getUsername()).showErrorMessage(e.getTypeError());
-                message.createInputErrorMessage(new ClientMessageErrorVisitor(game, getVirtualViewByUsername(game.getCurrentPlayer().getUsername())));
+                lastVirtualView= getVirtualViewByUsername(game.getCurrentPlayer().getUsername());
+                lastVirtualView.showErrorMessage(e.getTypeError());
+                message.createInputErrorMessage(new ClientMessageErrorVisitor(game,lastVirtualView));
             } catch (LastMoveException | CharacterCardWithParametersException | ChangeTurnException e) {
-                message.createExceptionalNextMessage(new ClientMessageExceptionalVisitor(game, getVirtualViewByUsername(game.getCurrentPlayer().getUsername())));
+                lastVirtualView =getVirtualViewByUsername(game.getCurrentPlayer().getUsername());
+                message.createExceptionalNextMessage(new ClientMessageExceptionalVisitor(game,lastVirtualView));
             } catch (EndGameException e) {
                 game.calculateWinner();
                 resetGame();
@@ -107,6 +114,11 @@ public class Controller implements Observer<ClientMessage> {
                 return vw;
         }
         throw new NoSuchElementException("The Virtual View does not exist");
+    }
+
+    //TODO javadoc
+    public VirtualView getLastVirtualViewByServeOneClient(ServeOneClient serveOneClient){
+        return virtualViews.stream().filter(vv -> vv.getServeOneClient().equals(serveOneClient)).findAny().orElseThrow( ()-> new NoSuchElementException("The Virtual View does not exist"));
     }
 
     public List<VirtualView> getVirtualViews() {
@@ -175,7 +187,26 @@ public class Controller implements Observer<ClientMessage> {
         this.game=new ExpertGame(game);
     }
 
-    public void notifyVirtualView(ServeOneClient serveOneClient, ClientMessage message) {
-        virtualViews.stream().filter(virtualView -> virtualView.getServeOneClient().equals(serveOneClient)).findAny().orElseThrow( ()-> new NoSuchElementException("The Virtual View does not exist")).notify(message);
+    public void setLastVirtualView(VirtualView lastVirtualView) {
+        this.lastVirtualView = lastVirtualView;
     }
+
+
+
+    public void notifyVirtualView(ServeOneClient serveOneClient, ClientMessage message) {
+        VirtualView virtualView = virtualViews.stream().filter(vv -> vv.getServeOneClient().equals(serveOneClient)).findAny().orElseThrow( ()-> new NoSuchElementException("The Virtual View does not exist"));
+        if (checkCorrectnessOfClientMessage(virtualView, message) && checkCorrectnessOfSender(virtualView))
+            virtualView.notify(message);
+        else
+            disconnectAllPlayers();
+    }
+
+    public boolean checkCorrectnessOfSender(VirtualView virtualView) {
+        return virtualView==lastVirtualView;
+    }
+
+    public boolean checkCorrectnessOfClientMessage(VirtualView virtualView,ClientMessage message){
+        return message.getClass()==virtualView.getLastMessage().getExpectedResponseMessageClass() || message.getClass()==UseCharacterCardRequest.class;
+    }
+
 }

@@ -25,8 +25,8 @@ import java.util.List;
 public class VirtualView extends Observable<ClientMessage> implements View, Observer<InfoMessage> {
     private final ServeOneClient serveOneClient;
     private final String username;
-    private Message lastMessage;
-    private Message lastCharacterCardMessage;
+    private AskMessage lastMessage;
+    private AskMessage lastCharacterCardMessage;
 
     public VirtualView(ServeOneClient serveOneClient, String username) {
         this.serveOneClient = serveOneClient;
@@ -190,6 +190,14 @@ public class VirtualView extends Observable<ClientMessage> implements View, Obse
 
     public ServeOneClient getServeOneClient() {
         return serveOneClient;
+    }
+
+    public AskMessage getLastMessage() {
+        return lastMessage;
+    }
+
+    public AskMessage getLastCharacterCardMessage() {
+        return lastCharacterCardMessage;
     }
     //------------------------------------------------------------------------------------------------------------------
 

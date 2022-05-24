@@ -59,7 +59,7 @@ public class ServeOneClient implements Runnable {
                 if (message instanceof LoginRequest) {
                     server.lobby(this, ((LoginRequest)message).getUsername());
                 } else if (message instanceof PlayersNumberAndGameModeReply) {
-                    server.activateGame(((PlayersNumberAndGameModeReply) message).getPlayersNumber(), ((PlayersNumberAndGameModeReply) message).isExpertMode());
+                    server.activateGame(this,((PlayersNumberAndGameModeReply) message).getPlayersNumber(), ((PlayersNumberAndGameModeReply) message).isExpertMode());
                 } else {
                      server.notifyVirtualView(this, message);
                 }
