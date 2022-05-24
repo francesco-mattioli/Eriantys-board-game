@@ -26,7 +26,7 @@ class ExpertGameTest {
         expertGame.getPlayers().add(p2);
         Player p3 = new Player("TestPlayer3");
         expertGame.getPlayers().add(p3);
-        expertGame.setupBag();
+        expertGame.getBag().fillBag();
 
     }
 

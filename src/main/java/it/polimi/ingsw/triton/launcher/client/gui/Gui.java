@@ -177,6 +177,8 @@ public class Gui extends Observable<Message> implements ClientView {
         if(count < alertsQueue.size()){
             Optional<ButtonType> result = alertsQueue.get(count).showAndWait();
             if(result.isPresent()){
+                if (result.get() == ButtonType.OK && alertsQueue.get(count).getAlertType().equals(Alert.AlertType.ERROR))
+                    System.exit(1);
                 count++;
                 showNextAlert();
             }
@@ -188,7 +190,6 @@ public class Gui extends Observable<Message> implements ClientView {
         Platform.runLater(() -> {
             activeStage.close();
             mainStage.close();
-            System.exit(1);
         });
     }
 
