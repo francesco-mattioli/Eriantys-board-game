@@ -475,6 +475,7 @@ public class Gui extends Observable<Message> implements ClientView {
                 askUsername();
             } else {
                 closeGui();
+                System.exit(0);
             }
         });
     }
