@@ -10,7 +10,7 @@ public class ServerApp {
         Server server;
         int port = 50535;
 
-        /*
+        /**
          * This for loop reads the port number when the user enters a certain port number followed by the command --port.
          * If an invalid input is entered, the program throws a NumberFormatException and starts the server with default port.
          */
@@ -23,7 +23,7 @@ public class ServerApp {
             Server.LOGGER.severe("Invalid port. Using default port");
         }
 
-        /*
+        /**
          * Instantiates the server using Singleton Pattern, then runs it.
          * If it cannot be run, it throws an exception and the program ends.
          */

@@ -18,6 +18,10 @@ public class LoginSceneController extends SceneController {
     @FXML
     TextField loginTextField;
 
+    /**
+     * User chooses his username
+     * When he clicks on login button, a message is sent to server
+     */
     public void login(ActionEvent event) {
         String username = loginTextField.getText();
         notify(new LoginRequest(username));

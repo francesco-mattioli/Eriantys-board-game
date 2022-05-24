@@ -34,10 +34,6 @@ public class CharacterCardSceneController extends SceneController {
     @FXML
     Button backButton;
 
-    public Button getBackButton() {
-        return backButton;
-    }
-
     private int cardID;
 
     private AnchorPane infoPane;
@@ -45,6 +41,10 @@ public class CharacterCardSceneController extends SceneController {
     private final Map<BorderPane, Integer> characterCardsMap = new HashMap<>();
 
     private ClientModel clientModel;
+
+    public Button getBackButton() {
+        return backButton;
+    }
 
     public void playCharacterCard(){
         notify(new UseCharacterCardRequest(cardID));
@@ -64,6 +64,12 @@ public class CharacterCardSceneController extends SceneController {
     }
 
 
+    /**
+     * This method sets a character card image in the right Imageview
+     * @param cardPane the pane that contains the character card ImageView
+     * @param index index of character card in client model ArrayList
+     * @param clientModel clientModel
+     */
     private void setCharacterCardImage(BorderPane cardPane, int index, ClientModel clientModel){
         characterCardsMap.put(cardPane, clientModel.getAvailableCharacterCards().get(index).getId());
         ImageView imageView = (ImageView) cardPane.getCenter();
@@ -72,6 +78,11 @@ public class CharacterCardSceneController extends SceneController {
         imageView.setImage(image);
     }
 
+    /**
+     * When user selects first available character card
+     * Border of image is differently colorized, and selected character cards is saved, so if user clicks "play character card",
+     * the selected card will be played, sending a message to server
+     */
     public void selectCharacterCard1(){
         card1Pane.setBorder(new Border(new BorderStroke(Color.WHITE,
                 BorderStrokeStyle.SOLID, CornerRadii.EMPTY, BorderWidths.DEFAULT)));
@@ -81,6 +92,11 @@ public class CharacterCardSceneController extends SceneController {
         buttonPlay.setDisable(false);
     }
 
+    /**
+     * When user selects second available character card
+     * Border of image is differently colorized, and selected character cards is saved, so if user clicks "play character card",
+     * the selected card will be played, sending a message to server
+     */
     public void selectCharacterCard2(){
         card2Pane.setBorder(new Border(new BorderStroke(Color.WHITE,
                 BorderStrokeStyle.SOLID, CornerRadii.EMPTY, BorderWidths.DEFAULT)));
@@ -90,6 +106,11 @@ public class CharacterCardSceneController extends SceneController {
         buttonPlay.setDisable(false);
     }
 
+    /**
+     * When user selects third available character card
+     * Border of image is differently colorized, and selected character cards is saved, so if user clicks "play character card",
+     * the selected card will be played, sending a message to server
+     */
     public void selectCharacterCard3(){
         card3Pane.setBorder(new Border(new BorderStroke(Color.WHITE,
                 BorderStrokeStyle.SOLID, CornerRadii.EMPTY, BorderWidths.DEFAULT)));
@@ -151,6 +172,9 @@ public class CharacterCardSceneController extends SceneController {
         noEntryTilesLabel.setLayoutY(105);
     }
 
+    /**
+     * This method hides the info pane when mouse exits from the card image border
+     */
     public void hideInfo(){
         infoPane.setVisible(false);
     }

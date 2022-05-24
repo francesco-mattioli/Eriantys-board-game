@@ -34,7 +34,11 @@ public class GameModeAndNumOfPlayersSceneController extends SceneController {
     @FXML
     ToggleGroup numOfPlayersGroup;
 
-    public void confirm(ActionEvent event) {
+    /**
+     * User chooses the number of players and the game mode
+     * When he clicks on confirm, a message is sent to server
+     */
+    public void confirm() {
         int numOfPlayers = 2;
         if (rdb3Players.isSelected())
             numOfPlayers = 3;

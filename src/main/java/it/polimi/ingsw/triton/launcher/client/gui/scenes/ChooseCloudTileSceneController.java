@@ -7,7 +7,6 @@ import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 
@@ -19,24 +18,31 @@ public class ChooseCloudTileSceneController extends ActionPhaseSceneControllers 
     @FXML
     AnchorPane chooseCloudTilePane;
 
-    public void selectCloudTile0(MouseEvent event){
+    public void selectCloudTile0(){
         notifyChosenCloudTileAndClosePane(0);
     }
 
-    public void selectCloudTile1(MouseEvent event){
+    public void selectCloudTile1(){
         notifyChosenCloudTileAndClosePane(1);
     }
 
-    public void selectCloudTile2(MouseEvent event){
+    public void selectCloudTile2(){
         notifyChosenCloudTileAndClosePane(2);
     }
 
+    /**
+     * This method sends a message to server containing the cloud tile id that user has chosen
+     * @param cloudTileId the id of cloud tile that user has chosen
+     */
     private void notifyChosenCloudTileAndClosePane(int cloudTileId){
         notify(new CloudTileReply(cloudTileId));
         ((Stage)chooseCloudTilePane.getScene().getWindow()).close();
     }
 
-
+    /**
+     * This method prepares the cloud tile scene, setting correct image views containing the correct students colors
+     * @param clientModel clientModel
+     */
     @Override
     public <T> void setupScene(ClientModel clientModel, T parameters) {
         String currentPath = new java.io.File("src/main/resources/Images/Students").getAbsolutePath().replace('\\', '/');
@@ -46,18 +52,23 @@ public class ChooseCloudTileSceneController extends ActionPhaseSceneControllers 
             if(clientModel.getCloudTileById(i) != null)
                 cloudTilesMap.put(i, ((AnchorPane)cloudTilesPanes.get(i)));
         }
+        prepareImages(clientModel, cloudTilesMap,currentPath);
+    }
+
+    /**
+     * This method graphically adds students on correct cloud tile
+     * @param clientModel clientModel
+     * @param cloudTilesMap association between a CloudTileID and his anchorPane
+     * @param currentPath path of the students' images folder
+     */
+    private void prepareImages(ClientModel clientModel, Map<Integer,AnchorPane> cloudTilesMap, String currentPath){
         for(int i = 0; i<3; i++){
             if(clientModel.getCloudTileById(i) != null){
                 Optional<Node> result = cloudTilesMap.get(i).getChildren().stream().filter(AnchorPane.class::isInstance).findFirst();
                 if(result.isPresent()) {
                     AnchorPane studentsPane = (AnchorPane) result.get();
                     List<Node> imagesOnCloudTile = studentsPane.getChildren();
-                    List<Color> studentsOnCloudTile = new ArrayList<>();
-                    for (int j = 0; j < clientModel.getCloudTileById(i).getStudents().length; j++) {
-                        for (int k = 0; k < clientModel.getCloudTileById(i).getStudents()[j]; k++) {
-                            studentsOnCloudTile.add(Color.values()[j]);
-                        }
-                    }
+                    List<Color> studentsOnCloudTile = arrayToList(clientModel, i);
                     for (int j = 0; j < imagesOnCloudTile.size(); j++) {
                         ((ImageView) imagesOnCloudTile.get(j)).setImage(new Image("file:" + currentPath + studentsOnCloudTile.get(j).getStudentImagePath()));
                     }
@@ -67,4 +78,19 @@ public class ChooseCloudTileSceneController extends ActionPhaseSceneControllers 
         }
     }
 
+    /**
+     * This method creates a List of Color
+     * Students are stored as an array of 5 elements: every element counts number of students with that color
+     * Is necessary to create a list to take correct students on cloud tile
+     * @param clientModel clientModel
+     */
+    private List<Color> arrayToList(ClientModel clientModel, int i){
+        List<Color> studentsOnCloudTile = new ArrayList<>();
+        for (int j = 0; j < clientModel.getCloudTileById(i).getStudents().length; j++) {
+            for (int k = 0; k < clientModel.getCloudTileById(i).getStudents()[j]; k++) {
+                studentsOnCloudTile.add(Color.values()[j]);
+            }
+        }
+        return studentsOnCloudTile;
+    }
 }

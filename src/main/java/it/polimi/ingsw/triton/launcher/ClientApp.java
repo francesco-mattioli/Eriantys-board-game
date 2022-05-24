@@ -7,7 +7,7 @@ import javafx.application.Application;
 public class ClientApp {
 
     public static void main(String[] args) {
-        /*
+        /**
          * Default mode: GUI
          */
         boolean cliParam = false;

@@ -21,11 +21,18 @@ public class MotherNatureStepsSceneController extends ActionPhaseSceneController
     @FXML
     Button moveButton;
 
-    public void move(ActionEvent event){
+    /**
+     * When user clicks on button, a message is sent to server containing the number of steps that mother nature has to do
+     */
+    public void move(){
         notify(new MotherNatureReply(stepsChoiceBox.getValue()));
         ((Stage) motherNaturePane.getScene().getWindow()).close();
     }
 
+    /**
+     * This method prepares the scene, populating choice box and setting everything correctly
+     * @param clientModel clientModel
+     */
     @Override
     public <T> void setupScene(ClientModel clientModel, T parameters) {
         ArrayList<Integer> steps = new ArrayList<>();
@@ -33,10 +40,10 @@ public class MotherNatureStepsSceneController extends ActionPhaseSceneController
             steps.add(i);
         }
         stepsChoiceBox.getItems().addAll(steps);
-        stepsChoiceBox.setOnAction(this::activeButton);
+        stepsChoiceBox.setOnAction(this::activateButton);
     }
 
-    private void activeButton(ActionEvent event){
+    private void activateButton(ActionEvent event){
         moveButton.setDisable(false);
     }
 

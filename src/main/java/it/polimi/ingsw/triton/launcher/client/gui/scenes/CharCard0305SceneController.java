@@ -25,6 +25,11 @@ public class CharCard0305SceneController extends SceneController{
 
     private int id;
 
+    /**
+     * This method prepares the form to ask character card 3 and 5 parameters
+     * Choice boxes are populated with available colors and islands
+     * @param clientModel clientModel
+     */
     @Override
     public <T> void setupScene(ClientModel clientModel, T parameters) {
         id = (int) parameters;
@@ -32,8 +37,11 @@ public class CharCard0305SceneController extends SceneController{
         selectIslandIdChoiceBox.setOnAction(this::activeButton);
     }
 
-
-    public void confirm(ActionEvent event){
+    /**
+     * User has to choose an island
+     * On confirm button click, is sent a message to server containing the card id, 3 or 5
+     */
+    public void confirm(){
         confirmButton.setDisable(true);
         if (id == 3)
             notify(new CharacterCard03Reply(username, selectIslandIdChoiceBox.getValue()));
@@ -41,6 +49,10 @@ public class CharCard0305SceneController extends SceneController{
             notify(new CharacterCard05Reply(username, selectIslandIdChoiceBox.getValue()));
     }
 
+    /**
+     * At the beginning, button is disabled, because user must choose an island
+     * When choice box contains a value, button is activated
+     */
     private void activeButton(ActionEvent event){
         confirmButton.setDisable(false);
     }

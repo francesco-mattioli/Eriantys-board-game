@@ -11,9 +11,6 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.layout.AnchorPane;
 
-import java.util.HashMap;
-import java.util.Map;
-
 public class CharCard091112SceneController extends SceneController{
 
     @FXML
@@ -25,15 +22,16 @@ public class CharCard091112SceneController extends SceneController{
     @FXML
     Button confirmButton;
 
-    private Map<String, Color> colorMap;
-    private ClientModel clientModel;
     private int id;
 
+    /**
+     * This method prepares the form to ask character card 9,11 and 12 parameters
+     * Choice boxes are populated with available colors and islands
+     * @param clientModel clientModel
+     */
     @Override
     public <T> void setupScene(ClientModel clientModel, T parameters) {
-        colorMap = new HashMap<>();
         id = (int) parameters;
-        this.clientModel = clientModel;
         if (id == 11)
             setupStudentsChoiceBox(selectColorChoiceBox, clientModel.getCharacterCardById(11).getStudents());
         else {
@@ -44,7 +42,11 @@ public class CharCard091112SceneController extends SceneController{
     }
 
 
-    public void confirm(ActionEvent event){
+    /**
+     * User has to choose a color
+     * On confirm button click, is sent a message to server containing the card id, 9, 11 or 12
+     */
+    public void confirm(){
         confirmButton.setDisable(true);
         if (id == 9)
             notify(new CharacterCard09Reply(username, Color.valueOf(selectColorChoiceBox.getValue())));
@@ -54,6 +56,10 @@ public class CharCard091112SceneController extends SceneController{
             notify(new CharacterCard12Reply(username, Color.valueOf(selectColorChoiceBox.getValue())));
     }
 
+    /**
+     * At the beginning, button is disabled, because user must choose a color
+     * When choice box contains a value, button is activated
+     */
     private void activeButton(ActionEvent event){
         confirmButton.setDisable(false);
     }

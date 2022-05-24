@@ -37,7 +37,10 @@ public class MoveStudentFromEntranceSceneController extends ActionPhaseSceneCont
     @FXML
     Button moveButton;
 
-    public void move(ActionEvent event){
+    /**
+     * This method sends a message to server, containing student and position where move it
+     */
+    public void move(){
         if (whereChoiceBox.getValue().equals("dining room")){
             notify(new MoveStudentOntoDiningRoomMessage(Color.valueOf(colorChoiceBox.getValue())));
         }
@@ -47,7 +50,10 @@ public class MoveStudentFromEntranceSceneController extends ActionPhaseSceneCont
         ((Stage)moveStudentFromEntrancePane.getScene().getWindow()).close();
     }
 
-    public void show(ActionEvent event){
+    /**
+     * When students chooses "island" into second choice box, the island choice box is shown
+     */
+    public void show(){
         if(whereChoiceBox.getValue().equals("island")){
             islandIdLabel.setVisible(true);
             islandIdChoiceBox.setVisible(true);
@@ -58,15 +64,19 @@ public class MoveStudentFromEntranceSceneController extends ActionPhaseSceneCont
         }
     }
 
+    /**
+     * This method prepares the scene, populating choice boxes and setting everything correctly
+     * @param clientModel clientModel
+     */
     @Override
     public <T> void setupScene(ClientModel clientModel, T parameters) {
         String[] whereMove = {"dining room", "island"};
         setupStudentsChoiceBox(colorChoiceBox, clientModel.getMySchoolBoard().getEntrance());
         islandIdChoiceBox.getItems().addAll(clientModel.getIslands().stream().map(Island::getId).collect(Collectors.toList()));
         whereChoiceBox.getItems().addAll(whereMove);
-        whereChoiceBox.setOnAction(this::activeButton);
-        colorChoiceBox.setOnAction(this::activeButton);
-        islandIdChoiceBox.setOnAction(this::activeButton);
+        whereChoiceBox.setOnAction(this::activateButton);
+        colorChoiceBox.setOnAction(this::activateButton);
+        islandIdChoiceBox.setOnAction(this::activateButton);
     }
 
     /**
@@ -74,7 +84,7 @@ public class MoveStudentFromEntranceSceneController extends ActionPhaseSceneCont
      * if users select "Island" in second choice box, the third choice box is set visible, and contains the available island numbers
      * @param event onClick
      */
-    private void activeButton(ActionEvent event){
+    private void activateButton(ActionEvent event){
         if(whereChoiceBox.getValue() != null && whereChoiceBox.getValue().equals("island")){
             islandIdLabel.setVisible(true);
             islandIdChoiceBox.setVisible(true);

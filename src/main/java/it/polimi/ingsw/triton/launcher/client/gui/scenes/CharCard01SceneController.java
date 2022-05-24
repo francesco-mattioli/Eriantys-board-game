@@ -28,21 +28,33 @@ public class CharCard01SceneController extends SceneController {
     ChoiceBox<Integer> selectIslandIdChoiceBox;
 
 
+    /**
+     * This method prepares the form to ask character card 1 parameters
+     * Choice boxes are populated with available colors and islands
+     * @param clientModel clientModel
+     */
     @Override
     public <T> void setupScene(ClientModel clientModel, T parameters) {
         setupStudentsChoiceBox(selectColorChoiceBox, clientModel.getCharacterCardById(1).getStudents());
         selectIslandIdChoiceBox.getItems().addAll(clientModel.getIslands().stream().map(Island::getId).collect(Collectors.toList()));
-        selectColorChoiceBox.setOnAction(this::activeButton);
-        selectIslandIdChoiceBox.setOnAction(this::activeButton);
+        selectColorChoiceBox.setOnAction(this::activateButton);
+        selectIslandIdChoiceBox.setOnAction(this::activateButton);
     }
 
 
+    /**
+     * This method sends the message to server which contains the character card 1 parameters
+     */
     public void confirm(){
         confirmButton.setDisable(true);
         notify(new CharacterCard01Reply(username, Color.valueOf(selectColorChoiceBox.getValue()), selectIslandIdChoiceBox.getValue()));
     }
 
-    private void activeButton(ActionEvent event){
+    /**
+     * At the beginning, button is disabled, because user must choose a student and an island
+     * When choice boxes contain a value, button is activated
+     */
+    private void activateButton(ActionEvent event){
         confirmButton.setDisable(charCard01Pane.getChildren().stream().filter(
                 ChoiceBox.class::isInstance).filter(
                 Node::isVisible).map(

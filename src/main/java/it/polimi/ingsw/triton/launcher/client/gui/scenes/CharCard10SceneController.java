@@ -5,6 +5,7 @@ import it.polimi.ingsw.triton.launcher.server.model.enums.Color;
 import it.polimi.ingsw.triton.launcher.utils.message.clientmessage.charactercard_replies.CharacterCard10Reply;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.layout.AnchorPane;
@@ -41,17 +42,28 @@ public class CharCard10SceneController extends SceneController{
     private ClientModel clientModel;
     private Button currentButton;
 
+    /**
+     * This method prepares the form to ask character card 10 parameters
+     * Choice boxes are populated with available colors and islands
+     * This card allows user to exchange up to 3 students between entrance and dining room,
+     * so at the beginning is only populated the first couple of choice boxes, to exchange first two students
+     * @param clientModel clientModel
+     */
     @Override
     public <T> void setupScene(ClientModel clientModel, T parameters) {
         this.clientModel = clientModel;
         setChoiceBoxEntrance(fromEntrance1);
         setChoiceBoxDiningRoom(fromDiningRoom1);
         currentButton = confirmButton1;
-        charCard10Pane.getChildren().stream().filter(x -> x instanceof ChoiceBox).forEach(x->((ChoiceBox<?>) x).setOnAction(this::activateButton));
+        charCard10Pane.getChildren().stream().filter(ChoiceBox.class::isInstance).forEach(x->((ChoiceBox<?>) x).setOnAction(this::activateButton));
 
     }
 
-    public void confirm1(ActionEvent event){
+    /**
+     * When user confirms first 2 students to exchange
+     * The first couple of choice boxes is disabled, and second one is populated
+     */
+    public void confirm1(){
         updateSwitchStudents(fromEntrance1, fromDiningRoom1);
         setChoiceBoxDiningRoom(fromDiningRoom2);
         setChoiceBoxEntrance(fromEntrance2);
@@ -59,7 +71,11 @@ public class CharCard10SceneController extends SceneController{
         currentButton = confirmButton2;
     }
 
-    public void confirm2(ActionEvent event){
+    /**
+     * When user confirms last 2 students to exchange
+     * A message is sent to server, which contains character card 10 parameters
+     */
+    public void confirm2(){
         updateSwitchStudents(fromEntrance2, fromDiningRoom2);
         fromEntrance2.setDisable(true);
         fromDiningRoom2.setDisable(true);
@@ -70,7 +86,11 @@ public class CharCard10SceneController extends SceneController{
     }
 
 
-    public void stop(ActionEvent event){
+    /**
+     * User can stop to move students at every time, so when he clicks stop button the message is sent immediately,
+     * containing only students he has chosen until that moment
+     */
+    public void stop(){
         fromEntrance1.setDisable(true);
         fromDiningRoom1.setDisable(true);
         confirmButton1.setDisable(true);
@@ -80,6 +100,9 @@ public class CharCard10SceneController extends SceneController{
         notify(new CharacterCard10Reply(username, fromEntrance, fromDiningRoom));
     }
 
+    /**
+     * setting entrance choice box, adding all available students on entrance
+     */
     public void setChoiceBoxEntrance(ChoiceBox<String> choiceBox){
         int [] array = new int[clientModel.getMySchoolBoard().getEntrance().length];
         for(int i = 0; i<clientModel.getMySchoolBoard().getEntrance().length; i++){
@@ -88,6 +111,9 @@ public class CharCard10SceneController extends SceneController{
         setupStudentsChoiceBox(choiceBox, array);
     }
 
+    /**
+     * setting dining room choice box, adding all available students on dining room
+     */
     public void setChoiceBoxDiningRoom(ChoiceBox<String> choiceBox){
         int [] array = new int[clientModel.getMySchoolBoard().getDiningRoom().length];
         for(int i = 0; i<clientModel.getMySchoolBoard().getDiningRoom().length; i++){
@@ -96,6 +122,10 @@ public class CharCard10SceneController extends SceneController{
         setupStudentsChoiceBox(choiceBox, array);
     }
 
+    /**
+     * when a student is chosen, that place will have one less student
+     * for example, if I move a red student from entrance, entrance will have one less red student
+     */
     public void updateSwitchStudents(ChoiceBox<String> fromEntranceBox, ChoiceBox<String> fromDiningRoomBox){
         fromEntrance[Color.valueOf(fromEntranceBox.getValue()).ordinal()] ++;
         fromDiningRoom[Color.valueOf(fromDiningRoomBox.getValue()).ordinal()] ++;
@@ -109,19 +139,17 @@ public class CharCard10SceneController extends SceneController{
         fromCharCardBox1.setDisable(false);
     }
 
-
+    /**
+     * At the beginning, button is disabled, because user must choose a couple of students
+     * When choice boxes contain a value, button is activated
+     */
     private void activateButton(ActionEvent event){
-        if(!charCard10Pane.getChildren().stream().filter(
-                x->x instanceof ChoiceBox).filter(
-                x->x.isVisible()).filter(
-                x->!x.isDisable()).map(
-                x->((ChoiceBox<?>) x).getValue()).collect(
-                Collectors.toList()).contains(null)){
-            currentButton.setDisable(false);
-        }
-        else{
-            currentButton.setDisable(true);
-        }
+        currentButton.setDisable(charCard10Pane.getChildren().stream().filter(
+                ChoiceBox.class::isInstance).filter(
+                Node::isVisible).filter(
+                x -> !x.isDisable()).map(
+                x -> ((ChoiceBox<?>) x).getValue()).collect(
+                Collectors.toList()).contains(null));
     }
 }
 

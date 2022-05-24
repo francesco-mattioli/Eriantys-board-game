@@ -63,8 +63,6 @@ public class AssistantCardSceneController extends SceneController {
 
     }
 
-
-
     /**
      * This method allows user to scroll through the assistant card images
      * When card is last one, so you can't scroll, darts are different colorized
@@ -82,6 +80,10 @@ public class AssistantCardSceneController extends SceneController {
 
     }
 
+    /**
+     * This method shows to the user the next assistant card, allowing him to scroll between assistant cards
+     * @param offset position of next card in deck
+     */
     private void showAdjacentAssistantCard(int offset) {
         assistantCardImageView.setImage((Image) assistantCardImages.keySet().toArray()[shownAssistantCard+offset]);
         shownAssistantCard+=offset;
@@ -90,9 +92,7 @@ public class AssistantCardSceneController extends SceneController {
 
     /**
      * In this method we create the map that associates Images and AssistantCard, and we prepare everything for user interaction
-     * @param clientModel
-     * @param parameters
-     * @param <T>
+     * @param clientModel clientModel
      */
     @Override
     public <T> void setupScene(ClientModel clientModel, T parameters) {
