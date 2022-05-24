@@ -112,6 +112,7 @@ class ExpertGameTest {
      */
     @Test
     void alreadyPlayedACharacterCard(){
+        expertGame.setGameState(GameState.ACTION_PHASE);
         setUpCharacterCards(new CharacterCard(2, 2, 0,expertGame.getBag()), p1,4);
         try {
             expertGame.getCharacterCards().add(new CharacterCard(8, 2, 0, expertGame.getBag()));

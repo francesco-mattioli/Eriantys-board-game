@@ -1,9 +1,11 @@
 package it.polimi.ingsw.triton.launcher.server.model.cardeffects;
 
 import it.polimi.ingsw.triton.launcher.server.model.Bag;
+import it.polimi.ingsw.triton.launcher.server.model.GeneralCoinSupply;
 import it.polimi.ingsw.triton.launcher.server.model.player.Player;
 import it.polimi.ingsw.triton.launcher.server.model.enums.Color;
 import it.polimi.ingsw.triton.launcher.server.model.enums.TowerColor;
+import it.polimi.ingsw.triton.launcher.utils.exceptions.EmptyGeneralCoinSupplyException;
 import it.polimi.ingsw.triton.launcher.utils.exceptions.EndGameException;
 import it.polimi.ingsw.triton.launcher.utils.exceptions.IllegalClientInputException;
 import org.junit.jupiter.api.AfterEach;
@@ -42,7 +44,7 @@ class CardEffect11Test {
      */
     @Test
     void addStudentWithColorNotOnTheCard(){
-        assertThrows(IllegalClientInputException.class, ()->characterCard.executeEffect(new CardEffect11(Color.GREEN, player.getSchoolBoard(),bag,characterCard)));
+        assertThrows(IllegalClientInputException.class, ()->characterCard.executeEffect(new CardEffect11(Color.GREEN, player,bag,characterCard, new GeneralCoinSupply(5))));
     }
 
     /**
@@ -51,10 +53,31 @@ class CardEffect11Test {
     @Test
     void addStudentWhenDiningRoomHasZero(){
         try {
-            characterCard.executeEffect(new CardEffect11(Color.BLUE, player.getSchoolBoard(),bag,characterCard));
-        } catch (EndGameException | IllegalClientInputException e) {
-            e.printStackTrace();
+            characterCard.executeEffect(new CardEffect11(Color.BLUE, player,bag,characterCard, new GeneralCoinSupply(5)));
+        } catch (EndGameException | IllegalClientInputException | EmptyGeneralCoinSupplyException e) {
+            throw new RuntimeException(e);
         }
         assertEquals(1,player.getSchoolBoard().getDiningRoom()[Color.BLUE.ordinal()]);
+    }
+
+    /**
+     * Checks if the player's wallet is updated when he plays the character card 11, and he moves
+     * a student in a position of his dining room which is multiple of three.
+     */
+    @Test
+    void checkUpdateWalletIfMultipleOfThree(){
+        int oldWallet = player.getWallet().getValue();
+        try {
+            player.getSchoolBoard().addStudentIntoDiningRoom(Color.BLUE);
+            player.getSchoolBoard().addStudentIntoDiningRoom(Color.BLUE);
+        } catch (IllegalClientInputException e) {
+            throw new RuntimeException(e);
+        }
+        try {
+            characterCard.executeEffect(new CardEffect11(Color.BLUE, player, bag, characterCard, new GeneralCoinSupply(5)));
+        } catch (EndGameException | IllegalClientInputException | EmptyGeneralCoinSupplyException e) {
+            throw new RuntimeException(e);
+        }
+        assertEquals(oldWallet + 1, player.getWallet().getValue());
     }
 }

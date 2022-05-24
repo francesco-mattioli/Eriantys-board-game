@@ -4,6 +4,7 @@ import it.polimi.ingsw.triton.launcher.client.cli.Cli;
 import it.polimi.ingsw.triton.launcher.server.model.AssistantCard;
 import it.polimi.ingsw.triton.launcher.server.model.Bag;
 import it.polimi.ingsw.triton.launcher.server.model.CloudTile;
+import it.polimi.ingsw.triton.launcher.server.model.GeneralCoinSupply;
 import it.polimi.ingsw.triton.launcher.server.model.cardeffects.CardEffect;
 import it.polimi.ingsw.triton.launcher.server.model.cardeffects.CharacterCard;
 import it.polimi.ingsw.triton.launcher.server.model.enums.Color;
@@ -426,6 +427,7 @@ public class Game extends GameMode {
         }
     }
 
+    @Override
     public void useCharacterCard(Player player, int idCard) throws IllegalClientInputException {
         throw new IllegalClientInputException(ErrorTypeID.ILLEGAL_MOVE_FOR_MODE);
         // This method is implemented by ExpertGame
@@ -437,14 +439,17 @@ public class Game extends GameMode {
         // This method is implemented by ExpertGame
     }
 
+    @Override
     public void applyCharacterCardEffect(int characterCardID, CardEffect cardEffect) throws IllegalClientInputException {
         throw new IllegalClientInputException(ErrorTypeID.ILLEGAL_MOVE_FOR_MODE);
     }
 
+    @Override
     public CharacterCard getCharacterCardByID(int id) throws IllegalClientInputException {
         throw new IllegalClientInputException(ErrorTypeID.ILLEGAL_MOVE_FOR_MODE);
     }
 
+    @Override
     public ArrayList<CharacterCard> getCharacterCards() throws IllegalClientInputException {
         throw new IllegalClientInputException(ErrorTypeID.ILLEGAL_MOVE_FOR_MODE);
     }
@@ -625,6 +630,10 @@ public class Game extends GameMode {
 
     public boolean isNotFullCloudTiles(){
         return notFullCloudTiles;
+    }
+
+    public GeneralCoinSupply getGeneralCoinSupply() throws IllegalClientInputException{
+        throw new IllegalClientInputException(ErrorTypeID.ILLEGAL_MOVE_FOR_MODE);
     }
     //------------------------------------------------------------------------------------------------------------------
 

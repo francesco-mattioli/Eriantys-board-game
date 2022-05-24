@@ -124,8 +124,12 @@ public class ExpertGame extends GameDecorator {
     @Override
     public void setupPlayers() {
         for (Player player : game.getPlayers()) {
-            generalCoinSupply.decrement();
-            player.getWallet().increaseValue();
+            try {
+                generalCoinSupply.decrement();
+                player.getWallet().increaseValue();
+            } catch (EmptyGeneralCoinSupplyException e) {   //In this phase, this exception will never be thrown.
+                notify(new EmptyGeneralCoinSupplyMessage(player.getUsername()));
+            }
         }
         game.setupPlayers();
     }
@@ -214,8 +218,13 @@ public class ExpertGame extends GameDecorator {
         if(game.getGameState() != GameState.ACTION_PHASE)
             throw new IllegalClientInputException(ErrorTypeID.ILLEGAL_MOVE_FOR_PHASE);
         else{
-            getCharacterCardByID(characterCardID).executeEffect(cardEffect);
+            try{
+                getCharacterCardByID(characterCardID).executeEffect(cardEffect);
+            } catch (EmptyGeneralCoinSupplyException e){
+                notify(new EmptyGeneralCoinSupplyMessage(game.getCurrentPlayer().getUsername()));
+            }
             game.notify(new InfoCharacterCardPlayedMessage(game.getCurrentPlayer().getUsername(), getCharacterCardByID(characterCardID), game.getIslandManager().getIslands(), game.getAllSchoolBoards()));
+            game.notify(new UpdateWalletMessage(game.getCurrentPlayer().getUsername(), game.getCurrentPlayer().getWallet().getValue()));
         }
     }
 
@@ -238,5 +247,10 @@ public class ExpertGame extends GameDecorator {
                 return characterCard;
         }
         throw new IllegalClientInputException(ErrorTypeID.CHARACTER_CARD_NOT_AVAILABLE);
+    }
+
+    @Override
+    public GeneralCoinSupply getGeneralCoinSupply(){
+        return generalCoinSupply;
     }
 }

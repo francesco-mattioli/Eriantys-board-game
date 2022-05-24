@@ -3,6 +3,7 @@ package it.polimi.ingsw.triton.launcher.server.model.playeractions;
 import it.polimi.ingsw.triton.launcher.server.model.GeneralCoinSupply;
 import it.polimi.ingsw.triton.launcher.server.model.enums.Color;
 import it.polimi.ingsw.triton.launcher.server.model.player.Player;
+import it.polimi.ingsw.triton.launcher.utils.exceptions.EmptyGeneralCoinSupplyException;
 import it.polimi.ingsw.triton.launcher.utils.exceptions.IllegalClientInputException;
 import it.polimi.ingsw.triton.launcher.utils.message.ErrorTypeID;
 import it.polimi.ingsw.triton.launcher.utils.message.servermessage.infoMessage.infoMessageWithReceiver.EmptyGeneralCoinSupplyMessage;
@@ -42,7 +43,7 @@ public class ExpertMoveStudentIntoDiningRoom extends MoveStudentIntoDiningRoom{
             generalCoinSupply.decrement();
             currentPlayer.getWallet().increaseValue();
             notify(new UpdateWalletMessage(currentPlayer.getUsername(), currentPlayer.getWallet().getValue()));
-        }catch (NoSuchElementException e){
+        }catch (EmptyGeneralCoinSupplyException e){
             notify(new EmptyGeneralCoinSupplyMessage(currentPlayer.getUsername()));
         }
     }

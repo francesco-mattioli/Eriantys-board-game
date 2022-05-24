@@ -1,5 +1,7 @@
 package it.polimi.ingsw.triton.launcher.server.model;
 
+import it.polimi.ingsw.triton.launcher.utils.exceptions.EmptyGeneralCoinSupplyException;
+
 import java.io.Serializable;
 import java.util.NoSuchElementException;
 
@@ -28,12 +30,12 @@ public class GeneralCoinSupply implements Serializable {
 
     /**
      * Decrements by one coins the supply.
-     * @throws NoSuchElementException if the general coins supply is already empty.
+     * @throws EmptyGeneralCoinSupplyException if the general coins supply is already empty.
      */
-    public void decrement() throws NoSuchElementException{
+    public void decrement() throws EmptyGeneralCoinSupplyException {
         if(coinsAmount > 0)
             coinsAmount--;
         else
-            throw new NoSuchElementException();
+            throw new EmptyGeneralCoinSupplyException();
     }
 }
