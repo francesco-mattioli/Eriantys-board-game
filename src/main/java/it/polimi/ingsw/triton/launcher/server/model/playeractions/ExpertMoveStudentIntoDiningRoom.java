@@ -23,11 +23,15 @@ public class ExpertMoveStudentIntoDiningRoom extends MoveStudentIntoDiningRoom{
     }
 
     /**
+     * School board contains a matrix, that specifies for each position if a coin is available
      * @param studentColor is the color of student
-     * @return true if the number of students of a certain color is a multiple of 3, false otherwise.
+     * @return true if the coin in that position was not taken anymore
      */
     private boolean isMultiple3(Color studentColor) {
-        return (currentPlayer.getSchoolBoard().getStudentsNumber(studentColor) % 3) == 0;
+        int numberOfThisColorStudents = currentPlayer.getSchoolBoard().getStudentsNumber(studentColor);
+        boolean returnValue = currentPlayer.getSchoolBoard().getAvailableCoins()[studentColor.ordinal()][numberOfThisColorStudents];
+        currentPlayer.getSchoolBoard().getAvailableCoins()[studentColor.ordinal()][numberOfThisColorStudents] = false;
+        return returnValue;
     }
 
     /**
