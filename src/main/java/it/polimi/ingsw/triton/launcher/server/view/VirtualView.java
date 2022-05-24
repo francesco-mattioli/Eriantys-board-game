@@ -4,7 +4,6 @@ import it.polimi.ingsw.triton.launcher.client.view.View;
 import it.polimi.ingsw.triton.launcher.server.model.enums.Wizard;
 import it.polimi.ingsw.triton.launcher.server.network.ServeOneClient;
 import it.polimi.ingsw.triton.launcher.utils.message.ErrorTypeID;
-import it.polimi.ingsw.triton.launcher.utils.message.Message;
 import it.polimi.ingsw.triton.launcher.utils.message.clientmessage.ClientMessage;
 import it.polimi.ingsw.triton.launcher.utils.message.servermessage.ErrorMessage;
 import it.polimi.ingsw.triton.launcher.utils.message.servermessage.InfoMessage;
@@ -62,9 +61,12 @@ public class VirtualView extends Observable<ClientMessage> implements View, Obse
     }
 
     /**
-     * //TODO
+     * This method saves the last message for two reasons: first, when a request for character card use is received,
+     * the Server can ask the previous request again. Secondly, when the Server receives a message it can check if it
+     * is the expected message based on the message sent previously.
+     * Eventually, sends the message to the client using ServeOneClient class.
      *
-     * @param askMessage
+     * @param askMessage the request Message to save and send to Client.
      */
     private void sendAndSave(AskMessage askMessage) {
         lastMessage = askMessage;

@@ -7,23 +7,24 @@ import javafx.application.Application;
 public class ClientApp {
 
     public static void main(String[] args) {
-        /**
-         * Default mode: GUI
+        /*
+          Default mode: GUI
          */
-        boolean cliParam = false;
+        boolean cli = false;
 
+        /*
+         * This method sets the cli boolean true if the client enters as arguments --cli.
+         */
         for (String arg : args) {
             if (arg.equals("--cli")) {
-                cliParam = true;
+                cli = true;
                 break;
             }
         }
 
-        if (cliParam) {
-            Cli cli = new Cli();
-            cli.start();
-        } else {
+        if (cli)
+            new Cli().start();
+        else
             Application.launch(GuiApplication.class);
-        }
     }
 }
