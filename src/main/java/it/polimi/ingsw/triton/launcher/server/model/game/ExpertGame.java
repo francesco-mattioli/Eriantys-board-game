@@ -149,7 +149,7 @@ public class ExpertGame extends GameDecorator {
         } catch (EmptyGeneralCoinSupplyException e) {
             game.notify(new EmptyGeneralCoinSupplyMessage(game.getCurrentPlayer().getUsername()));
         }
-        game.getProfessorsManager().updateProfessors(game.getCurrentPlayer(), student, game.getProfessors());
+        game.getProfessorsManager().updateProfessorsForAddInDiningRoom(game.getCurrentPlayer(), student, game.getProfessors());
         String moveDescription = game.getCurrentPlayer().getUsername() + " has moved a " + student.name().toLowerCase() + " student in his dining room";
         game.notify(new InfoStudentIntoDiningRoomMessage(game.getCurrentPlayer().getUsername(), game.getCurrentPlayer().getSchoolBoard(), game.professorsWithUsernameOwner(), moveDescription));
         game.getCurrentPlayer().setMoveCounter(game.getCurrentPlayer().getMoveCounter() + 1);
@@ -227,7 +227,7 @@ public class ExpertGame extends GameDecorator {
             } catch (EmptyGeneralCoinSupplyException e){
                 game.notify(new EmptyGeneralCoinSupplyMessage(game.getCurrentPlayer().getUsername()));
             }
-            game.notify(new InfoCharacterCardPlayedMessage(game.getCurrentPlayer().getUsername(), getCharacterCardByID(characterCardID), game.getIslandManager().getIslands(), game.getAllSchoolBoards()));
+            game.notify(new InfoCharacterCardPlayedMessage(game.getCurrentPlayer().getUsername(), getCharacterCardByID(characterCardID), game.getIslandManager().getIslands(), game.getAllSchoolBoards(), game.professorsWithUsernameOwner()));
             game.notify(new UpdateWalletMessage(game.getCurrentPlayer().getUsername(), game.getCurrentPlayer().getWallet().getValue()));
         }
     }

@@ -19,13 +19,15 @@ public class InfoCharacterCardPlayedMessage extends InfoMessage {
     private final List<Island> updatedIslands;
     private final Map<String, SchoolBoard> updatedSchoolBoards;
     private final String choiceDescription;
+    private final String[] professors;
 
-    public InfoCharacterCardPlayedMessage(String playerUsername, CharacterCard characterCard, List<Island> updatedIslands, Map<String, SchoolBoard> updatedSchoolBoards) {
+    public InfoCharacterCardPlayedMessage(String playerUsername, CharacterCard characterCard, List<Island> updatedIslands, Map<String, SchoolBoard> updatedSchoolBoards, String[] professors) {
         this.playerUsername = playerUsername;
         this.characterCard = characterCard;
         this.choiceDescription = playerUsername + " has just played the character card " + characterCard.getId();
         this.updatedIslands = updatedIslands;
         this.updatedSchoolBoards = updatedSchoolBoards;
+        this.professors = professors;
     }
 
     public String getPlayerUsername() {
@@ -51,5 +53,9 @@ public class InfoCharacterCardPlayedMessage extends InfoMessage {
 
     public Map<String, SchoolBoard> getUpdatedSchoolBoards() {
         return updatedSchoolBoards;
+    }
+
+    public String[] getProfessors(){
+        return professors;
     }
 }

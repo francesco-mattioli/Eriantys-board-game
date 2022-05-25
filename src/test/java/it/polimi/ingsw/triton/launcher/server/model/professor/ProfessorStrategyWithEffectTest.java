@@ -38,7 +38,7 @@ class ProfessorStrategyWithEffectTest {
      */
     @Test
     void throwExceptionIfColorIsNull() {
-        assertThrows(IllegalArgumentException.class, () -> professorsManager.updateProfessors(player,null, professors));
+        assertThrows(IllegalArgumentException.class, () -> professorsManager.updateProfessorsForAddInDiningRoom(player,null, professors));
     }
 
 
@@ -49,7 +49,7 @@ class ProfessorStrategyWithEffectTest {
     @Test
     void updateProfessorInfluenceWhenPlayerIsNull(){
         player.getSchoolBoard().getDiningRoom()[Color.BLUE.ordinal()]=1;
-        professorsManager.updateProfessors(player,Color.BLUE, professors);
+        professorsManager.updateProfessorsForAddInDiningRoom(player,Color.BLUE, professors);
         assertEquals(player, professors[Color.BLUE.ordinal()]);
     }
 
@@ -64,7 +64,7 @@ class ProfessorStrategyWithEffectTest {
         playerWithProfessor.getSchoolBoard().getDiningRoom()[Color.BLUE.ordinal()]=1;
         professors[Color.BLUE.ordinal()] = playerWithProfessor;
         player.getSchoolBoard().getDiningRoom()[Color.BLUE.ordinal()]=2;
-        professorsManager.updateProfessors(player,Color.BLUE, professors);
+        professorsManager.updateProfessorsForAddInDiningRoom(player,Color.BLUE, professors);
         assertEquals(player, professors[Color.BLUE.ordinal()]);
     }
 
@@ -79,7 +79,7 @@ class ProfessorStrategyWithEffectTest {
         playerWithProfessor.getSchoolBoard().getDiningRoom()[Color.BLUE.ordinal()]=1;
         professors[Color.BLUE.ordinal()] = playerWithProfessor;
         player.getSchoolBoard().getDiningRoom()[Color.BLUE.ordinal()]=1;
-        professorsManager.updateProfessors(player,Color.BLUE, professors);
+        professorsManager.updateProfessorsForAddInDiningRoom(player,Color.BLUE, professors);
         assertEquals(player, professors[Color.BLUE.ordinal()]);
     }
 

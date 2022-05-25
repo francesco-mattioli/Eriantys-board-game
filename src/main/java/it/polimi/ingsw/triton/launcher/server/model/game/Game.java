@@ -311,7 +311,7 @@ public class Game extends GameMode {
         } catch (EmptyGeneralCoinSupplyException e) {
             throw new IllegalClientInputException(ErrorTypeID.ILLEGAL_MOVE_FOR_MODE);
         }
-        professorsManager.updateProfessors(currentPlayer, student, professors);
+        professorsManager.updateProfessorsForAddInDiningRoom(currentPlayer, student, professors);
         String moveDescription = currentPlayer.getUsername() + " has moved a " + student.name().toLowerCase() + " student in his dining room.";
         notify(new InfoStudentIntoDiningRoomMessage(currentPlayer.getUsername(), currentPlayer.getSchoolBoard(), professorsWithUsernameOwner(), moveDescription));
         currentPlayer.setMoveCounter(currentPlayer.getMoveCounter() + 1);

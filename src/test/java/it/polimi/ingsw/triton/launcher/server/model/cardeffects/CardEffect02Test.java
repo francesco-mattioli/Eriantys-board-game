@@ -50,7 +50,7 @@ class CardEffect02Test {
     void testChangeProfessorWithSameNumberOfStudents() {
         new CardEffect02(professorsManager).execute();
         p1.getSchoolBoard().getDiningRoom()[Color.RED.ordinal()] = 1;
-        professorsManager.updateProfessors(p1, Color.RED, professors);
+        professorsManager.updateProfessorsForAddInDiningRoom(p1, Color.RED, professors);
         assertEquals(p1, professors[Color.RED.ordinal()]);
     }
 
@@ -63,7 +63,7 @@ class CardEffect02Test {
         p2.getSchoolBoard().getDiningRoom()[Color.RED.ordinal()] = 2;
         new CardEffect02(professorsManager).execute();
         p1.getSchoolBoard().getDiningRoom()[Color.RED.ordinal()] = 1;
-        professorsManager.updateProfessors(p1, Color.RED, professors);
+        professorsManager.updateProfessorsForAddInDiningRoom(p1, Color.RED, professors);
         assertEquals(p2, professors[Color.RED.ordinal()]);
     }
 }
