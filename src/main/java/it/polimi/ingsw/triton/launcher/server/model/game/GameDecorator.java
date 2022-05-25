@@ -245,4 +245,9 @@ public class GameDecorator extends GameMode{
     public void drawCharacterCards() throws IllegalClientInputException{
         game.drawCharacterCards();
     }
+
+    @Override
+    public GeneralCoinSupply getGeneralCoinSupply() throws IllegalClientInputException{
+         return game.getGeneralCoinSupply();
+    }
 }

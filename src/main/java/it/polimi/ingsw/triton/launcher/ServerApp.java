@@ -23,7 +23,7 @@ public class ServerApp {
             Server.LOGGER.severe("Invalid port. Using default port");
         }
 
-        /**
+        /*
          * Instantiates the server using Singleton Pattern, then runs it.
          * If it cannot be run, it throws an exception and the program ends.
          */

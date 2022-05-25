@@ -2,12 +2,11 @@ package it.polimi.ingsw.triton.launcher.server.model.playeractions;
 
 import it.polimi.ingsw.triton.launcher.server.model.enums.Color;
 import it.polimi.ingsw.triton.launcher.server.model.player.Player;
+import it.polimi.ingsw.triton.launcher.utils.exceptions.EmptyGeneralCoinSupplyException;
 import it.polimi.ingsw.triton.launcher.utils.exceptions.IllegalClientInputException;
 import it.polimi.ingsw.triton.launcher.utils.message.ErrorTypeID;
-import it.polimi.ingsw.triton.launcher.utils.message.servermessage.InfoMessage;
-import it.polimi.ingsw.triton.launcher.utils.obs.Observable;
 
-public class MoveStudentIntoDiningRoom extends Observable<InfoMessage> implements Action {
+public class MoveStudentIntoDiningRoom implements Action {
     protected final Color student;
     protected final Player currentPlayer;
 
@@ -37,7 +36,7 @@ public class MoveStudentIntoDiningRoom extends Observable<InfoMessage> implement
      * a number of students which is multiple of 3.
      */
     @Override
-    public void execute() throws IllegalClientInputException {
+    public void execute() throws IllegalClientInputException, EmptyGeneralCoinSupplyException {
         if(currentPlayer.getSchoolBoard().isEntranceEmpty() || noStudentsColorInTheEntrance())
             throw new IllegalClientInputException(ErrorTypeID.NO_STUDENT_WITH_COLOR_ENTRANCE);
         else{

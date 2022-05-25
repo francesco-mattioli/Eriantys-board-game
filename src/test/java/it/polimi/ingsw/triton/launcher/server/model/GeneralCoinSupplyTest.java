@@ -1,10 +1,9 @@
 package it.polimi.ingsw.triton.launcher.server.model;
 
+import it.polimi.ingsw.triton.launcher.utils.exceptions.EmptyGeneralCoinSupplyException;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-
-import java.util.NoSuchElementException;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -37,7 +36,11 @@ class GeneralCoinSupplyTest {
     @Test
     void decrementTest() {
         int oldAmount = generalCoinSupply.getCoinsAmount();
-        generalCoinSupply.decrement();
+        try {
+            generalCoinSupply.decrement();
+        } catch (EmptyGeneralCoinSupplyException e) {
+            throw new RuntimeException(e);
+        }
         assertEquals(oldAmount - 1, generalCoinSupply.getCoinsAmount());
     }
 
@@ -47,7 +50,11 @@ class GeneralCoinSupplyTest {
     @Test
     void isEmptyTest() {
         for(int i = 0; i < 5; i++){
-            generalCoinSupply.decrement();
+            try {
+                generalCoinSupply.decrement();
+            } catch (EmptyGeneralCoinSupplyException e) {
+                throw new RuntimeException(e);
+            }
         }
         assertTrue(generalCoinSupply.isEmpty());
     }
@@ -58,8 +65,12 @@ class GeneralCoinSupplyTest {
     @Test
     void decrementWhenTheSupplyIsEmpty(){
         for(int i = 0; i < 5; i++){
-            generalCoinSupply.decrement();
+            try {
+                generalCoinSupply.decrement();
+            } catch (EmptyGeneralCoinSupplyException e) {
+                throw new RuntimeException(e);
+            }
         }
-        assertThrows(NoSuchElementException.class, ()-> generalCoinSupply.decrement());
+        assertThrows(EmptyGeneralCoinSupplyException.class, ()-> generalCoinSupply.decrement());
     }
 }

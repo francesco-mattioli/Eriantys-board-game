@@ -69,5 +69,5 @@ public abstract class GameMode extends Observable<InfoMessage>{
     public abstract void setCurrentPlayer(Player player);
     public abstract void removePlayer(String username);
     public abstract void drawCharacterCards() throws IllegalClientInputException;
-
+    public abstract GeneralCoinSupply getGeneralCoinSupply() throws IllegalClientInputException;
 }

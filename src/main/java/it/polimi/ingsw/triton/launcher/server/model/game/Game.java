@@ -4,6 +4,7 @@ import it.polimi.ingsw.triton.launcher.client.cli.Cli;
 import it.polimi.ingsw.triton.launcher.server.model.AssistantCard;
 import it.polimi.ingsw.triton.launcher.server.model.Bag;
 import it.polimi.ingsw.triton.launcher.server.model.CloudTile;
+import it.polimi.ingsw.triton.launcher.server.model.GeneralCoinSupply;
 import it.polimi.ingsw.triton.launcher.server.model.cardeffects.CardEffect;
 import it.polimi.ingsw.triton.launcher.server.model.cardeffects.CharacterCard;
 import it.polimi.ingsw.triton.launcher.server.model.enums.Color;
@@ -20,10 +21,7 @@ import it.polimi.ingsw.triton.launcher.server.model.playeractions.MoveStudentInt
 import it.polimi.ingsw.triton.launcher.server.model.playeractions.MoveStudentOntoIsland;
 import it.polimi.ingsw.triton.launcher.server.model.playeractions.PlayAssistantCard;
 import it.polimi.ingsw.triton.launcher.server.model.professor.ProfessorsManager;
-import it.polimi.ingsw.triton.launcher.utils.exceptions.ChangeTurnException;
-import it.polimi.ingsw.triton.launcher.utils.exceptions.EndGameException;
-import it.polimi.ingsw.triton.launcher.utils.exceptions.IllegalClientInputException;
-import it.polimi.ingsw.triton.launcher.utils.exceptions.LastMoveException;
+import it.polimi.ingsw.triton.launcher.utils.exceptions.*;
 import it.polimi.ingsw.triton.launcher.utils.message.ErrorTypeID;
 import it.polimi.ingsw.triton.launcher.utils.message.servermessage.infoMessage.*;
 import it.polimi.ingsw.triton.launcher.utils.message.servermessage.infoMessage.infoMessageWithReceiver.GiveAssistantDeckMessage;
@@ -160,7 +158,11 @@ public class Game extends GameMode {
      * @throws IllegalClientInputException if the player can't play the given assistant card.
      */
     public void chooseAssistantCard(Player player, AssistantCard assistantCard) throws IllegalClientInputException, ChangeTurnException {
-        player.executeAction(new PlayAssistantCard(assistantCard, player, usedAssistantCards));
+        try {
+            player.executeAction(new PlayAssistantCard(assistantCard, player, usedAssistantCards));
+        } catch (EmptyGeneralCoinSupplyException e) {
+            throw new IllegalClientInputException(ErrorTypeID.ILLEGAL_MOVE_FOR_MODE);
+        }
         notify(new InfoAssistantCardPlayedMessage(currentPlayer.getUsername(), assistantCard));
         if (usedAssistantCards.size() == maxNumberOfPlayers) {
             setGameState(GameState.ACTION_PHASE);
@@ -304,7 +306,11 @@ public class Game extends GameMode {
      * @param student the color of the student to move.
      */
     public void executeActionMoveStudentToDiningRoom(Color student) throws LastMoveException, IllegalClientInputException {
-        currentPlayer.executeAction(new MoveStudentIntoDiningRoom(student, currentPlayer));
+        try {
+            currentPlayer.executeAction(new MoveStudentIntoDiningRoom(student, currentPlayer));
+        } catch (EmptyGeneralCoinSupplyException e) {
+            throw new IllegalClientInputException(ErrorTypeID.ILLEGAL_MOVE_FOR_MODE);
+        }
         professorsManager.updateProfessors(currentPlayer, student, professors);
         String moveDescription = currentPlayer.getUsername() + " has moved a " + student.name().toLowerCase() + " student in his dining room.";
         notify(new InfoStudentIntoDiningRoomMessage(currentPlayer.getUsername(), currentPlayer.getSchoolBoard(), professorsWithUsernameOwner(), moveDescription));
@@ -322,7 +328,11 @@ public class Game extends GameMode {
         if (!islandManager.existsIsland(idIsland)) {
             throw new IllegalClientInputException();
         } else {
-            currentPlayer.executeAction(new MoveStudentOntoIsland(currentPlayer.getSchoolBoard(), student, islandManager.getIslandByID(idIsland)));
+            try {
+                currentPlayer.executeAction(new MoveStudentOntoIsland(currentPlayer.getSchoolBoard(), student, islandManager.getIslandByID(idIsland)));
+            } catch (EmptyGeneralCoinSupplyException e) {
+                throw new IllegalClientInputException(ErrorTypeID.ILLEGAL_MOVE_FOR_MODE);
+            }
             currentPlayer.setMoveCounter(currentPlayer.getMoveCounter() + 1);
             String moveDescription = currentPlayer.getUsername() + " has moved a " + student.name().toLowerCase() + " student on the island " + idIsland + ".";
             notify(new InfoStudentOntoIslandMessage(currentPlayer.getUsername(), currentPlayer.getSchoolBoard(), islandManager.getIslandByID(idIsland), moveDescription));
@@ -364,7 +374,11 @@ public class Game extends GameMode {
      * @param cloudTile the cloud tile selected from the player.
      */
     public void chooseCloudTile(CloudTile cloudTile) throws IllegalClientInputException, ChangeTurnException, EndGameException {
-        currentPlayer.executeAction(new ChooseCloudTile(cloudTile, currentPlayer.getSchoolBoard()));
+        try {
+            currentPlayer.executeAction(new ChooseCloudTile(cloudTile, currentPlayer.getSchoolBoard()));
+        } catch (EmptyGeneralCoinSupplyException e) {
+            throw new IllegalClientInputException(ErrorTypeID.ILLEGAL_MOVE_FOR_MODE);
+        }
         cloudTile.setAlreadyUsed(true);
         String choiceDescription = currentPlayer.getUsername() + " has chosen the cloud tile " + cloudTile.getId() + ".";
         notify(new InfoChosenCloudTileMessage(currentPlayer.getUsername(), currentPlayer.getSchoolBoard(), cloudTile, choiceDescription));
@@ -426,6 +440,7 @@ public class Game extends GameMode {
         }
     }
 
+    @Override
     public void useCharacterCard(Player player, int idCard) throws IllegalClientInputException {
         throw new IllegalClientInputException(ErrorTypeID.ILLEGAL_MOVE_FOR_MODE);
         // This method is implemented by ExpertGame
@@ -437,14 +452,17 @@ public class Game extends GameMode {
         // This method is implemented by ExpertGame
     }
 
+    @Override
     public void applyCharacterCardEffect(int characterCardID, CardEffect cardEffect) throws IllegalClientInputException {
         throw new IllegalClientInputException(ErrorTypeID.ILLEGAL_MOVE_FOR_MODE);
     }
 
+    @Override
     public CharacterCard getCharacterCardByID(int id) throws IllegalClientInputException {
         throw new IllegalClientInputException(ErrorTypeID.ILLEGAL_MOVE_FOR_MODE);
     }
 
+    @Override
     public ArrayList<CharacterCard> getCharacterCards() throws IllegalClientInputException {
         throw new IllegalClientInputException(ErrorTypeID.ILLEGAL_MOVE_FOR_MODE);
     }
@@ -625,6 +643,10 @@ public class Game extends GameMode {
 
     public boolean isNotFullCloudTiles(){
         return notFullCloudTiles;
+    }
+
+    public GeneralCoinSupply getGeneralCoinSupply() throws IllegalClientInputException{
+        throw new IllegalClientInputException(ErrorTypeID.ILLEGAL_MOVE_FOR_MODE);
     }
     //------------------------------------------------------------------------------------------------------------------
 

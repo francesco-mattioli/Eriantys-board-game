@@ -124,8 +124,12 @@ public class ExpertGame extends GameDecorator {
     @Override
     public void setupPlayers() {
         for (Player player : game.getPlayers()) {
-            generalCoinSupply.decrement();
-            player.getWallet().increaseValue();
+            try {
+                generalCoinSupply.decrement();
+                player.getWallet().increaseValue();
+            } catch (EmptyGeneralCoinSupplyException e) {   //In this phase, this exception will never be thrown.
+                game.notify(new EmptyGeneralCoinSupplyMessage(player.getUsername()));
+            }
         }
         game.setupPlayers();
     }
@@ -139,12 +143,12 @@ public class ExpertGame extends GameDecorator {
      */
     @Override
     public void executeActionMoveStudentToDiningRoom(Color student) throws LastMoveException, IllegalClientInputException {
-        boolean empty = generalCoinSupply.isEmpty();
-        game.getCurrentPlayer().executeAction(new ExpertMoveStudentIntoDiningRoom(student, game.getCurrentPlayer(), generalCoinSupply));
-        if (game.getCurrentPlayer().getSchoolBoard().getDiningRoom()[student.ordinal()] % 3 == 0 && !empty)
+        try {
+            game.getCurrentPlayer().executeAction(new ExpertMoveStudentIntoDiningRoom(student, game.getCurrentPlayer(), generalCoinSupply));
             game.notify(new UpdateWalletMessage(game.getCurrentPlayer().getUsername(), game.getCurrentPlayer().getWallet().getValue()));
-        else if (game.getCurrentPlayer().getSchoolBoard().getDiningRoom()[student.ordinal()] % 3 == 0 && empty)
+        } catch (EmptyGeneralCoinSupplyException e) {
             game.notify(new EmptyGeneralCoinSupplyMessage(game.getCurrentPlayer().getUsername()));
+        }
         game.getProfessorsManager().updateProfessors(game.getCurrentPlayer(), student, game.getProfessors());
         String moveDescription = game.getCurrentPlayer().getUsername() + " has moved a " + student.name().toLowerCase() + " student in his dining room";
         game.notify(new InfoStudentIntoDiningRoomMessage(game.getCurrentPlayer().getUsername(), game.getCurrentPlayer().getSchoolBoard(), game.professorsWithUsernameOwner(), moveDescription));
@@ -196,7 +200,11 @@ public class ExpertGame extends GameDecorator {
                 throw new IllegalClientInputException(ErrorTypeID.CHARACTER_CARD_ALREADY_PLAYED);
             } else {
                 player.setTrueHasAlreadyPlayedACharacterCard();
-                game.getCurrentPlayer().executeAction(new UseCharacterCard(getCharacterCardByID(idCard), game.getCurrentPlayer(), generalCoinSupply));
+                try {
+                    game.getCurrentPlayer().executeAction(new UseCharacterCard(getCharacterCardByID(idCard), game.getCurrentPlayer(), generalCoinSupply));
+                } catch (EmptyGeneralCoinSupplyException e) {
+                    game.notify(new EmptyGeneralCoinSupplyMessage(game.getCurrentPlayer().getUsername()));
+                }
                 game.notify(new UpdateWalletMessage(game.getCurrentPlayer().getUsername(), game.getCurrentPlayer().getWallet().getValue()));
                 if (getCharacterCardByID(idCard).hasParameters())
                     throw new CharacterCardWithParametersException();
@@ -214,8 +222,13 @@ public class ExpertGame extends GameDecorator {
         if(game.getGameState() != GameState.ACTION_PHASE)
             throw new IllegalClientInputException(ErrorTypeID.ILLEGAL_MOVE_FOR_PHASE);
         else{
-            getCharacterCardByID(characterCardID).executeEffect(cardEffect);
+            try{
+                getCharacterCardByID(characterCardID).executeEffect(cardEffect);
+            } catch (EmptyGeneralCoinSupplyException e){
+                game.notify(new EmptyGeneralCoinSupplyMessage(game.getCurrentPlayer().getUsername()));
+            }
             game.notify(new InfoCharacterCardPlayedMessage(game.getCurrentPlayer().getUsername(), getCharacterCardByID(characterCardID), game.getIslandManager().getIslands(), game.getAllSchoolBoards()));
+            game.notify(new UpdateWalletMessage(game.getCurrentPlayer().getUsername(), game.getCurrentPlayer().getWallet().getValue()));
         }
     }
 
@@ -238,5 +251,10 @@ public class ExpertGame extends GameDecorator {
                 return characterCard;
         }
         throw new IllegalClientInputException(ErrorTypeID.CHARACTER_CARD_NOT_AVAILABLE);
+    }
+
+    @Override
+    public GeneralCoinSupply getGeneralCoinSupply(){
+        return generalCoinSupply;
     }
 }

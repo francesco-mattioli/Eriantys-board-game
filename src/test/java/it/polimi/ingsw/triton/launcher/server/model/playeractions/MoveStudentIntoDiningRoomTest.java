@@ -3,6 +3,7 @@ package it.polimi.ingsw.triton.launcher.server.model.playeractions;
 import it.polimi.ingsw.triton.launcher.server.model.enums.Color;
 import it.polimi.ingsw.triton.launcher.server.model.enums.TowerColor;
 import it.polimi.ingsw.triton.launcher.server.model.player.Player;
+import it.polimi.ingsw.triton.launcher.utils.exceptions.EmptyGeneralCoinSupplyException;
 import it.polimi.ingsw.triton.launcher.utils.exceptions.IllegalClientInputException;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -56,7 +57,7 @@ class MoveStudentIntoDiningRoomTest {
         int oldNumberStudents = Arrays.stream(player.getSchoolBoard().getEntrance()).sum();
         try {
             new MoveStudentIntoDiningRoom(Color.BLUE, player).execute();
-        } catch (IllegalClientInputException e) {
+        } catch (IllegalClientInputException | EmptyGeneralCoinSupplyException e) {
             throw new RuntimeException(e);
         }
         assertEquals(oldNumberStudents - 1, Arrays.stream(player.getSchoolBoard().getEntrance()).sum());
@@ -73,7 +74,7 @@ class MoveStudentIntoDiningRoomTest {
         int oldNumberBlueStudents = player.getSchoolBoard().getDiningRoom()[Color.BLUE.ordinal()];
         try {
             new MoveStudentIntoDiningRoom(Color.BLUE, player).execute();
-        } catch (IllegalClientInputException e) {
+        } catch (IllegalClientInputException | EmptyGeneralCoinSupplyException e) {
             throw new RuntimeException(e);
         }
         assertEquals(oldNumberBlueStudents + 1, player.getSchoolBoard().getDiningRoom()[Color.BLUE.ordinal()]);
