@@ -186,8 +186,8 @@ public class ClientMessageModifierVisitor {
      * @throws EndGameException if the bag is empty after drawing a student from it to deposit on the character card.
      */
     public void visitForModify(CharacterCard11Reply message) throws IllegalClientInputException, EndGameException {
-        game.applyCharacterCardEffect(11, new CardEffect11(message.getStudent(), game.getCurrentPlayer(), game.getBag(), game.getCharacterCardByID(11), game.getGeneralCoinSupply()));
-        game.getProfessorsManager().updateProfessors(game.getCurrentPlayer(), message.getStudent(), game.getProfessors());
+        game.applyCharacterCardEffect(11, new CardEffect11(message.getStudent(), game.getCurrentPlayer(), game.getBag(), game.getCharacterCardByID(11), game.getGeneralCoinSupply(), game.getProfessorsManager(), game.getProfessors()));
+        game.getProfessorsManager().updateProfessorsForAddInDiningRoom(game.getCurrentPlayer(), message.getStudent(), game.getProfessors());
     }
 
     /**
