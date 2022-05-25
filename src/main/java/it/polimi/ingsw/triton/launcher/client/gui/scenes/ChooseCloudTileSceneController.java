@@ -42,6 +42,8 @@ public class ChooseCloudTileSceneController extends ActionPhaseSceneControllers 
     /**
      * This method prepares the cloud tile scene, setting correct image views containing the correct students colors
      * @param clientModel clientModel
+     * @param parameters a generic parameter which depends, based on specific scene
+     * @param <T> generic parameter
      */
     @Override
     public <T> void setupScene(ClientModel clientModel, T parameters) {
@@ -81,6 +83,8 @@ public class ChooseCloudTileSceneController extends ActionPhaseSceneControllers 
      * Students are stored as an array of 5 elements: every element counts number of students with that color
      * Is necessary to create a list to take correct students on cloud tile
      * @param clientModel clientModel
+     * @param i cloud tile index in arrayList of cloud tiles
+     * @return the list of colors
      */
     private List<Color> arrayToList(ClientModel clientModel, int i){
         List<Color> studentsOnCloudTile = new ArrayList<>();

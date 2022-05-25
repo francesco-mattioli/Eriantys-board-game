@@ -21,6 +21,13 @@ public abstract class SceneController extends Observable<Message> {
         this.username = username;
     }
 
+    /**
+     * This abstract method is implemented in every scene controller.
+     * It sets up the scene for the user, adding all javafx elements
+     * @param clientModel client model
+     * @param parameters a generic parameter which depends, based on specific scene
+     * @param <T> generic parameter
+     */
     public <T> void setupScene(ClientModel clientModel, T parameters){
     }
 

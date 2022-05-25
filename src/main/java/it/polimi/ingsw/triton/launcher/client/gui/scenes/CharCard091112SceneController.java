@@ -28,6 +28,8 @@ public class CharCard091112SceneController extends SceneController{
      * This method prepares the form to ask character card 9,11 and 12 parameters
      * Choice boxes are populated with available colors and islands
      * @param clientModel clientModel
+     * @param parameters a generic parameter which depends, based on specific scene
+     * @param <T>generic parameter
      */
     @Override
     public <T> void setupScene(ClientModel clientModel, T parameters) {
@@ -59,6 +61,7 @@ public class CharCard091112SceneController extends SceneController{
     /**
      * At the beginning, button is disabled, because user must choose a color
      * When choice box contains a value, button is activated
+     * @param event on choice box action
      */
     private void activeButton(ActionEvent event){
         confirmButton.setDisable(false);
