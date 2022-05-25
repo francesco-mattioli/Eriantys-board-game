@@ -3,6 +3,7 @@ package it.polimi.ingsw.triton.launcher.server.model.cardeffects;
 import it.polimi.ingsw.triton.launcher.server.model.Bag;
 import it.polimi.ingsw.triton.launcher.server.model.enums.Color;
 import it.polimi.ingsw.triton.launcher.utils.Utility;
+import it.polimi.ingsw.triton.launcher.utils.exceptions.EmptyGeneralCoinSupplyException;
 import it.polimi.ingsw.triton.launcher.utils.exceptions.EndGameException;
 import it.polimi.ingsw.triton.launcher.utils.exceptions.IllegalClientInputException;
 import it.polimi.ingsw.triton.launcher.utils.message.ErrorTypeID;
@@ -64,7 +65,7 @@ public class CharacterCard implements Serializable {
     /**
      * @param cardEffect is the effect that will be executed when the method is called.
      */
-    public void executeEffect(CardEffect cardEffect) throws EndGameException, IllegalClientInputException {
+    public void executeEffect(CardEffect cardEffect) throws EndGameException, IllegalClientInputException, EmptyGeneralCoinSupplyException {
         cardEffect.execute();
     }
 
