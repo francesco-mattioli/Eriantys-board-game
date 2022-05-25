@@ -13,11 +13,11 @@ public class CardEffect10 implements CardEffect, Serializable {
     private final SchoolBoard schoolBoard;
 
     /**
-     * @param fromEntrance students to take from entrance.
+     * @param fromEntrance   students to take from entrance.
      * @param fromDiningRoom students to take from dining room.
-     * @param schoolBoard of the player who played the character card.
+     * @param schoolBoard    of the player who played the character card.
      */
-    public CardEffect10(int[] fromEntrance, int[] fromDiningRoom, SchoolBoard schoolBoard){
+    public CardEffect10(int[] fromEntrance, int[] fromDiningRoom, SchoolBoard schoolBoard) {
         this.fromEntrance = fromEntrance;
         this.fromDiningRoom = fromDiningRoom;
         this.schoolBoard = schoolBoard;
@@ -28,69 +28,43 @@ public class CardEffect10 implements CardEffect, Serializable {
      */
     @Override
     public void execute() throws IllegalClientInputException {
-        removeStudentsFromDiningRoom();
-        removeStudentsFromEntrance();
-        addStudentsIntoDiningRoom();
-        addStudentsIntoEntrance();
+        removeStudents(schoolBoard.getDiningRoom(), fromDiningRoom);
+        removeStudents(schoolBoard.getEntrance(), fromEntrance);
+        addStudentsInto(schoolBoard.getDiningRoom(), fromEntrance);
+        addStudentsInto(schoolBoard.getEntrance(), fromDiningRoom);
+
+
     }
 
 
     /**
-     * This method remove the selected students from the dining room.
-     * @throws IllegalClientInputException if the number of students to remove from dining room is uncorrected.
+     * This method remove the selected students (in studentToRemove array) from the source array (entrance or dining room).
+     * @throws IllegalClientInputException if the number of students to remove from source is incorrect.
      */
-    public void removeStudentsFromDiningRoom() throws IllegalClientInputException {
-        for (int i = 0; i < schoolBoard.getDiningRoom().length; i++){
-            for (int j = 0; j < fromDiningRoom.length; j++){
-                if (Color.values()[i].ordinal() == Color.values()[j].ordinal()){
-                    if (fromDiningRoom[j] <= schoolBoard.getDiningRoom()[i]){
-                        schoolBoard.getDiningRoom()[i] -= fromDiningRoom[j];
-                    }
-                    else throw new IllegalClientInputException(ErrorTypeID.ILLEGAL_MOVE);
-                }
-
-            }
-        }
-    }
-
-
-    /**
-     * This method remove the selected students from the entrance.
-     * @throws IllegalClientInputException if the number of students to remove from entrance is uncorrected.
-     */
-    public void removeStudentsFromEntrance() throws IllegalClientInputException {
-        for (int i = 0; i < schoolBoard.getEntrance().length; i++){
-            for (int j = 0; j < fromEntrance.length; j++){
-                if (Color.values()[i].ordinal() == Color.values()[j].ordinal()){
-                    if (fromEntrance[j] <= schoolBoard.getEntrance()[i]){
-                        schoolBoard.getEntrance()[i] -= fromEntrance[j];
-                    }
-                    else throw new IllegalClientInputException(ErrorTypeID.ILLEGAL_MOVE);
-                }
-            }
-        }
-    }
-
-    /**
-     * This method adds the students taken from the entrance to the dining room.
-     */
-    public void addStudentsIntoDiningRoom(){
-        for (int i = 0; i < schoolBoard.getDiningRoom().length; i++){
-            for (int j = 0; j < fromEntrance.length; j++){
+    public void removeStudents(int[] source, int[] studentsToRemove) throws IllegalClientInputException {
+        for (int i = 0; i < source.length; i++) {
+            for (int j = 0; j < studentsToRemove.length; j++) {
                 if (Color.values()[i].ordinal() == Color.values()[j].ordinal())
-                    schoolBoard.getDiningRoom()[i] += fromEntrance[j];
+                   removeOrThrowException(source,studentsToRemove,i,j);
             }
         }
     }
 
+    private void removeOrThrowException(int[] source, int[] studentsToRemove,int i,int j) throws IllegalClientInputException {
+        if (studentsToRemove[j] <= source[i]) {
+            source[i] -= studentsToRemove[j];
+        } else throw new IllegalClientInputException(ErrorTypeID.ILLEGAL_MOVE);
+    }
+
+
     /**
-     * This method adds the students taken from the dining room to the entrance.
+     * This method adds the students taken from the studentsToAdd array into the destination array (entrance or dining room)
      */
-    public void addStudentsIntoEntrance(){
-        for (int i = 0; i < schoolBoard.getEntrance().length; i++){
-            for (int j = 0; j < fromDiningRoom.length; j++){
+    public void addStudentsInto(int[] destination, int[] studentsToAdd) {
+        for (int i = 0; i < destination.length; i++) {
+            for (int j = 0; j < studentsToAdd.length; j++) {
                 if (Color.values()[i].ordinal() == Color.values()[j].ordinal())
-                    schoolBoard.getEntrance()[i] += fromDiningRoom[j];
+                    destination[i] += studentsToAdd[j];
             }
         }
     }
