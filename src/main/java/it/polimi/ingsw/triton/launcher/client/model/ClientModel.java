@@ -271,11 +271,12 @@ public class ClientModel extends Observable<Object> {
      * @return the string with the description of opponents' school boards.
      */
     public String printOtherSchoolBoards(){
+        StringBuilder result = new StringBuilder();
         for(Map.Entry<String, SchoolBoard> schoolBoardEntry: schoolBoards.entrySet()){
             if(!schoolBoardEntry.getKey().equals(username))
-                return printSchoolBoard(schoolBoardEntry);
+                result.append(printSchoolBoard(schoolBoardEntry));
         }
-        return "";
+        return result.toString();
     }
 
     /**

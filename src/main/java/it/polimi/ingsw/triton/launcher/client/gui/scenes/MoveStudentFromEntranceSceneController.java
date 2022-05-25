@@ -18,6 +18,8 @@ import java.util.stream.Collectors;
 
 
 public class MoveStudentFromEntranceSceneController extends ActionPhaseSceneControllers {
+    private static final String ISLAND="island";
+    private static final String DINING_ROOM="dining room";
 
     @FXML
     AnchorPane moveStudentFromEntrancePane;
@@ -41,7 +43,7 @@ public class MoveStudentFromEntranceSceneController extends ActionPhaseSceneCont
      * This method sends a message to server, containing student and position where move it
      */
     public void move(){
-        if (whereChoiceBox.getValue().equals("dining room")){
+        if (whereChoiceBox.getValue().equals(DINING_ROOM)){
             notify(new MoveStudentOntoDiningRoomMessage(Color.valueOf(colorChoiceBox.getValue())));
         }
         else {
@@ -54,7 +56,7 @@ public class MoveStudentFromEntranceSceneController extends ActionPhaseSceneCont
      * When students chooses "island" into second choice box, the island choice box is shown
      */
     public void show(){
-        if(whereChoiceBox.getValue().equals("island")){
+        if(whereChoiceBox.getValue().equals(ISLAND)){
             islandIdLabel.setVisible(true);
             islandIdChoiceBox.setVisible(true);
         }
@@ -70,7 +72,7 @@ public class MoveStudentFromEntranceSceneController extends ActionPhaseSceneCont
      */
     @Override
     public <T> void setupScene(ClientModel clientModel, T parameters) {
-        String[] whereMove = {"dining room", "island"};
+        String[] whereMove = {DINING_ROOM, ISLAND};
         setupStudentsChoiceBox(colorChoiceBox, clientModel.getMySchoolBoard().getEntrance());
         islandIdChoiceBox.getItems().addAll(clientModel.getIslands().stream().map(Island::getId).collect(Collectors.toList()));
         whereChoiceBox.getItems().addAll(whereMove);
@@ -85,7 +87,7 @@ public class MoveStudentFromEntranceSceneController extends ActionPhaseSceneCont
      * @param event onClick
      */
     private void activateButton(ActionEvent event){
-        if(whereChoiceBox.getValue() != null && whereChoiceBox.getValue().equals("island")){
+        if(whereChoiceBox.getValue() != null && whereChoiceBox.getValue().equals(ISLAND)){
             islandIdLabel.setVisible(true);
             islandIdChoiceBox.setVisible(true);
         }

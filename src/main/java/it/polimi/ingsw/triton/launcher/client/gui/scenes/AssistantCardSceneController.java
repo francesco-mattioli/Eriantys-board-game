@@ -98,6 +98,7 @@ public class AssistantCardSceneController extends SceneController {
     @Override
     public <T> void setupScene(ClientModel clientModel, T parameters) {
         assistantCardImages = new HashMap<>();
+        rightSwitch.setFill(Color.BLUE);
         for (AssistantCard assistantCard : clientModel.getAssistantDeck().getAssistantDeck()) {
             assistantCardImages.put(new Image(Objects.requireNonNull(AssistantCardSceneController.class.getResource("/Images/AssistantCards" + assistantCard.getType().getImagePath())).toString()), assistantCard);
 

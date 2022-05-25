@@ -2,6 +2,9 @@ package it.polimi.ingsw.triton.launcher.utils.message.servermessage.Requests;
 
 import it.polimi.ingsw.triton.launcher.client.ServerMessageVisitor;
 import it.polimi.ingsw.triton.launcher.server.model.enums.Wizard;
+import it.polimi.ingsw.triton.launcher.utils.message.clientmessage.ClientMessage;
+import it.polimi.ingsw.triton.launcher.utils.message.clientmessage.WizardReply;
+
 import java.util.List;
 
 /**
@@ -10,14 +13,19 @@ import java.util.List;
  * The parameter availableWizards contains the wizards the player can choose.
  */
 public class WizardRequest extends AskMessage {
+
     private final List<Wizard> availableWizards;
+
     public WizardRequest(List<Wizard> availableWizards) {
+        super.expectedResponseMessageClasses.add(WizardReply.class);
         this.availableWizards = availableWizards;
     }
 
     public List<Wizard> getAvailableWizards() {
         return availableWizards;
     }
+
+
 
     @Override
     public void accept(ServerMessageVisitor serverMessageVisitor) {
