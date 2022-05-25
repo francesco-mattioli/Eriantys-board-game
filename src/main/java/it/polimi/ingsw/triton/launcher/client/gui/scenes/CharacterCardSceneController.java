@@ -145,8 +145,7 @@ public class CharacterCardSceneController extends SceneController {
     private void setupLabel(String color, int numberOfStudents, int y, AnchorPane anchorPane){
         Label label = new Label("Number of " + color.toLowerCase() + " students:" + numberOfStudents);
         anchorPane.getChildren().add(label);
-        label.setLayoutX(5);
-        label.setLayoutY(y);
+        setLabelLayout(label, y);
         label.setStyle("-fx-text-fill: " + color.toLowerCase() + ";");
     }
 
@@ -155,23 +154,30 @@ public class CharacterCardSceneController extends SceneController {
         idLabel.setLayoutX(5);
         infoPane.getChildren().add(idLabel);
         Label costLabel = new Label("Card cost:" + cost);
-        costLabel.setLayoutX(5);
-        costLabel.setLayoutY(15);
+        setLabelLayout(costLabel, 15);
         infoPane.getChildren().add(costLabel);
         infoPane.setOpacity(1);
         infoPane.setStyle("-fx-background-color: #C7C7C7; -fx-border-color: black;");
-        infoPane.setLayoutX(x);
-        infoPane.setLayoutY(y);
+        setAnchorPaneLayout(infoPane,x,y);
         infoPane.setVisible(true);
+    }
+
+    private void setAnchorPaneLayout(AnchorPane anchorPane, double x, double y) {
+        anchorPane.setLayoutX(x);
+        anchorPane.setLayoutY(y);
     }
 
     private void setupNoEntryTiles(AnchorPane infoPane, int number){
         Label noEntryTilesLabel = new Label("Number of no entry tiles:" + number);
         infoPane.getChildren().add(noEntryTilesLabel);
-        noEntryTilesLabel.setLayoutX(5);
-        noEntryTilesLabel.setLayoutY(105);
+        setLabelLayout(noEntryTilesLabel, 105);
     }
 
+
+    private void setLabelLayout(Label label, int y){
+        label.setLayoutX(5);
+        label.setLayoutY(y);
+    }
     /**
      * This method hides the info pane when mouse exits from the card image border
      */
