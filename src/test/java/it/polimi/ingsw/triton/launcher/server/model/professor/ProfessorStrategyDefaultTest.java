@@ -37,6 +37,21 @@ class ProfessorStrategyDefaultTest {
         assertThrows(IllegalArgumentException.class, () -> professorsManager.updateProfessorsForAddInDiningRoom(player,null, professors));
     }
 
+    /**
+     * Tests if the method throws an exception if the parameter player is null.
+     */
+    @Test
+    void throwExceptionIfPlayerIsNull() {
+        assertThrows(IllegalArgumentException.class, () -> professorsManager.updateProfessorsForAddInDiningRoom(null,Color.BLUE, professors));
+    }
+
+    /**
+     * Tests if the method throws an exception if the parameter professors is null.
+     */
+    @Test
+    void throwExceptionIfProfessorsIsNull() {
+        assertThrows(IllegalArgumentException.class, () -> professorsManager.updateProfessorsForAddInDiningRoom(player,Color.BLUE, null));
+    }
 
     /**
      * Tests if the influence is updated correctly when the professor is not taken.

@@ -6,6 +6,7 @@ import it.polimi.ingsw.triton.launcher.utils.exceptions.IllegalClientInputExcept
 import it.polimi.ingsw.triton.launcher.utils.message.ErrorTypeID;
 
 import java.io.Serializable;
+import java.util.Arrays;
 
 public class CardEffect07 implements CardEffect, Serializable {
     private final int[] fromCard;
@@ -34,17 +35,20 @@ public class CardEffect07 implements CardEffect, Serializable {
      */
     @Override
     public void execute() throws IllegalClientInputException {
-        removeStudentsFromCard();
-        removeStudentsFromEntrance();
-        addStudentsIntoEntrance();
-        addStudentsOnTheCard();
+        if(Arrays.stream(fromCard).sum() > 3 || Arrays.stream(fromCard).sum() != Arrays.stream(fromSchoolBoard).sum())
+            throw new IllegalClientInputException(ErrorTypeID.ILLEGAL_MOVE);
+        else {
+            removeStudentsFromCard();
+            removeStudentsFromEntrance();
+            addStudentsIntoEntrance();
+            addStudentsOnTheCard();
+        }
     }
 
     /**
      * This method remove the selected students from the character card.
      * @throws IllegalClientInputException if the number of students to fetch from the card is uncorrected.
      */
-
     public void removeStudentsFromCard() throws IllegalClientInputException {
         for (int i = 0; i < studentsOnCard.length; i++){
             for (int j = 0; j < fromCard.length; j++){
