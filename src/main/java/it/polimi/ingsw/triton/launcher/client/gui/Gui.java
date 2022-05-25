@@ -159,6 +159,12 @@ public class Gui extends Observable<Message> implements ClientView {
         askPlayAgain();
     }
 
+    /**
+     * Creates a new alert and adds it in the alert queue
+     * @param alertType the alert type: INFO, ERROR or WARNING
+     * @param title the alert title
+     * @param contentText the alert text
+     */
     private void showAlert(Alert.AlertType alertType, String title, String contentText) {
         Platform.runLater(() -> {
             Alert alert = new Alert(alertType);
@@ -173,6 +179,9 @@ public class Gui extends Observable<Message> implements ClientView {
         });
     }
 
+    /**
+     * Shows the next alert in queue, when the current one has been closed
+     */
     private void showNextAlert(){
         if(count < alertsQueue.size()){
             Optional<ButtonType> result = alertsQueue.get(count).showAndWait();
@@ -186,6 +195,9 @@ public class Gui extends Observable<Message> implements ClientView {
     }
 
 
+    /**
+     * Closes every scene
+     */
     private void closeGui() {
         Platform.runLater(() -> {
             if(activeStage != null)
@@ -212,6 +224,7 @@ public class Gui extends Observable<Message> implements ClientView {
      * activeLoader changes dynamically, basing on server requests and following the game flow
      * @param path the path of fxml file to load
      * @param parameters a generic parameter, that in some cases is necessary for the controller
+     * @param <T> a generic parameter
      */
     private <T> void prepareController(String path, T parameters) {
         Platform.runLater(() -> {
@@ -273,6 +286,7 @@ public class Gui extends Observable<Message> implements ClientView {
      * If the game mode is expert, there is a button that allows the player to play a character card, the button has to be activated
      * Is also saved last method, because the user can watch available character cards and then decide not to play a card:
      * in case mentioned above, this method is re-called
+     * @param methodName the name of method to call
      */
     private void activateCharacterCardButton(String methodName){
         Platform.runLater(() -> {
@@ -439,6 +453,7 @@ public class Gui extends Observable<Message> implements ClientView {
     /**
      * This method keeps listening on the button for play a character card
      * When this button is clicked, stage that shows available character cards is opened
+     * @param button play character card button
      */
     private void playCharacterCard(Button button){
         button.setOnAction(event -> prepareController("/characterCard-scene.fxml", null));
@@ -447,6 +462,7 @@ public class Gui extends Observable<Message> implements ClientView {
     /**
      * If activeStage is the stage that shows character cards, this method starts listen on a button to permit the user to come back,
      * if he doesn't want to play any character card
+     * @param button the button for come back
      */
     private void backButton(Button button){
         button.setOnAction(event -> {
@@ -484,6 +500,7 @@ public class Gui extends Observable<Message> implements ClientView {
     /**
      * When a user click on X (top-right), this method asks him if he really wants to quit
      * If he says "yes" we disconnect him
+     * @param stage the stage to close
      */
     public void logout(Stage stage){
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
