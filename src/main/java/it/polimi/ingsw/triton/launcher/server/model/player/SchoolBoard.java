@@ -16,7 +16,7 @@ public class SchoolBoard implements Serializable {
     private final int[] diningRoom;
     private int numTowers;
 
-    private boolean [][] availableCoins;
+    private final boolean [][] availableCoins;
 
     /**
      * @param towerColor the color of towers in the school board.
@@ -56,7 +56,7 @@ public class SchoolBoard implements Serializable {
     private void setupAvailableCoins(){
         for(int i = 0; i<Color.numOfColors(); i++){
             for(int j = 0; j < 10; j++) {
-                availableCoins[i][j] = j % 3 == 0;
+                availableCoins[i][j] = ((j + 1) % 3) == 0;
             }
         }
     }

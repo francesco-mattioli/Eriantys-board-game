@@ -40,7 +40,7 @@ public class CardEffect11 implements CardEffect, Serializable {
         player.getSchoolBoard().addStudentIntoDiningRoom(characterCard.drawStudent(student));
         if(!bag.isEmpty())
             characterCard.addStudent(bag.drawStudent());
-        if(player.getSchoolBoard().getDiningRoom()[student.ordinal()] % 3 == 0){
+        if(player.getSchoolBoard().getAvailableCoins()[student.ordinal()][player.getSchoolBoard().getStudentsNumber(student)-1]){
             generalCoinSupply.decrement();
             player.getWallet().increaseValue();
         }

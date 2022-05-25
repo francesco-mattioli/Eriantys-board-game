@@ -29,22 +29,20 @@ public class ExpertMoveStudentIntoDiningRoom extends MoveStudentIntoDiningRoom{
      */
     private boolean isMultiple3(Color studentColor) {
         int numberOfThisColorStudents = currentPlayer.getSchoolBoard().getStudentsNumber(studentColor);
-        boolean returnValue = currentPlayer.getSchoolBoard().getAvailableCoins()[studentColor.ordinal()][numberOfThisColorStudents];
-        currentPlayer.getSchoolBoard().getAvailableCoins()[studentColor.ordinal()][numberOfThisColorStudents] = false;
+        boolean returnValue = false;
+        if(numberOfThisColorStudents != 0) {
+            returnValue = currentPlayer.getSchoolBoard().getAvailableCoins()[studentColor.ordinal()][numberOfThisColorStudents - 1];
+            currentPlayer.getSchoolBoard().getAvailableCoins()[studentColor.ordinal()][numberOfThisColorStudents - 1] = false;
+        }
         return returnValue;
     }
 
     /**
      * Calls increaseValue() to add a coin in the wallet and to remove a coin from the supply.
      */
-    private void updateWallet() {
-        try{
-            generalCoinSupply.decrement();
-            currentPlayer.getWallet().increaseValue();
-            notify(new UpdateWalletMessage(currentPlayer.getUsername(), currentPlayer.getWallet().getValue()));
-        }catch (EmptyGeneralCoinSupplyException e){
-            notify(new EmptyGeneralCoinSupplyMessage(currentPlayer.getUsername()));
-        }
+    private void updateWallet() throws EmptyGeneralCoinSupplyException{
+        generalCoinSupply.decrement();
+        currentPlayer.getWallet().increaseValue();
     }
 
     /**
@@ -52,7 +50,7 @@ public class ExpertMoveStudentIntoDiningRoom extends MoveStudentIntoDiningRoom{
      * a number of students which is multiple of 3.
      */
     @Override
-    public void execute() throws IllegalClientInputException {
+    public void execute() throws IllegalClientInputException, EmptyGeneralCoinSupplyException {
         if(currentPlayer.getSchoolBoard().isEntranceEmpty() || noStudentsColorInTheEntrance())
             throw new IllegalClientInputException(ErrorTypeID.NO_STUDENT_WITH_COLOR_ENTRANCE);
         else{

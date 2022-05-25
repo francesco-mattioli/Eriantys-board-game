@@ -4,6 +4,7 @@ import it.polimi.ingsw.triton.launcher.server.model.AssistantCard;
 import it.polimi.ingsw.triton.launcher.server.model.enums.TowerColor;
 import it.polimi.ingsw.triton.launcher.server.model.enums.Wizard;
 import it.polimi.ingsw.triton.launcher.server.model.playeractions.Action;
+import it.polimi.ingsw.triton.launcher.utils.exceptions.EmptyGeneralCoinSupplyException;
 import it.polimi.ingsw.triton.launcher.utils.exceptions.IllegalClientInputException;
 
 import java.io.Serializable;
@@ -27,7 +28,7 @@ public class Player implements Serializable {
     /**
      * @param action to be executed.
      */
-    public void executeAction(Action action) throws IllegalClientInputException{
+    public void executeAction(Action action) throws IllegalClientInputException, EmptyGeneralCoinSupplyException {
         action.execute();
     }
 

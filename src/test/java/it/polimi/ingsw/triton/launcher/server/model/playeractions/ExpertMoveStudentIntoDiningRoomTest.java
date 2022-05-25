@@ -4,6 +4,7 @@ import it.polimi.ingsw.triton.launcher.server.model.GeneralCoinSupply;
 import it.polimi.ingsw.triton.launcher.server.model.enums.Color;
 import it.polimi.ingsw.triton.launcher.server.model.enums.TowerColor;
 import it.polimi.ingsw.triton.launcher.server.model.player.Player;
+import it.polimi.ingsw.triton.launcher.utils.exceptions.EmptyGeneralCoinSupplyException;
 import it.polimi.ingsw.triton.launcher.utils.exceptions.IllegalClientInputException;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -60,7 +61,7 @@ class ExpertMoveStudentIntoDiningRoomTest {
         int oldNumberStudents = Arrays.stream(player.getSchoolBoard().getEntrance()).sum();
         try {
             new ExpertMoveStudentIntoDiningRoom(Color.BLUE, player, generalCoinSupply).execute();
-        } catch (IllegalClientInputException e) {
+        } catch (IllegalClientInputException | EmptyGeneralCoinSupplyException e) {
             throw new RuntimeException(e);
         }
         assertEquals(oldNumberStudents - 1, Arrays.stream(player.getSchoolBoard().getEntrance()).sum());
@@ -75,7 +76,7 @@ class ExpertMoveStudentIntoDiningRoomTest {
         player.getSchoolBoard().addStudentIntoEntrance(Color.BLUE);
         try {
             new ExpertMoveStudentIntoDiningRoom(Color.BLUE, player, generalCoinSupply).execute();
-        } catch (IllegalClientInputException e) {
+        } catch (IllegalClientInputException | EmptyGeneralCoinSupplyException e) {
             throw new RuntimeException(e);
         }
         assertEquals(oldWallet, player.getWallet().getValue());
@@ -93,7 +94,7 @@ class ExpertMoveStudentIntoDiningRoomTest {
         for(int i = 0; i < 3; i++){
             try {
                 new ExpertMoveStudentIntoDiningRoom(Color.BLUE, player, generalCoinSupply).execute();
-            } catch (IllegalClientInputException e) {
+            } catch (IllegalClientInputException | EmptyGeneralCoinSupplyException e) {
                 throw new RuntimeException(e);
             }
         }
@@ -110,13 +111,14 @@ class ExpertMoveStudentIntoDiningRoomTest {
         player.getSchoolBoard().addStudentIntoEntrance(Color.BLUE);
         player.getSchoolBoard().addStudentIntoEntrance(Color.BLUE);
         GeneralCoinSupply newGeneralCoinSupply = new GeneralCoinSupply(0);
-        for(int i = 0; i < 3; i++){
+        for(int i = 0; i < 2; i++){
             try {
                 new ExpertMoveStudentIntoDiningRoom(Color.BLUE, player, newGeneralCoinSupply).execute();
-            } catch (IllegalClientInputException e) {
+            } catch (IllegalClientInputException | EmptyGeneralCoinSupplyException e) {
                 throw new RuntimeException(e);
             }
         }
+        assertThrows(EmptyGeneralCoinSupplyException.class, () -> new ExpertMoveStudentIntoDiningRoom(Color.BLUE, player, newGeneralCoinSupply).execute());
         assertEquals(oldWallet, player.getWallet().getValue());
     }
 
@@ -132,7 +134,7 @@ class ExpertMoveStudentIntoDiningRoomTest {
         for(int i = 0; i < 3; i++){
             try {
                 new ExpertMoveStudentIntoDiningRoom(Color.BLUE, player, generalCoinSupply).execute();
-            } catch (IllegalClientInputException e) {
+            } catch (IllegalClientInputException | EmptyGeneralCoinSupplyException e) {
                 throw new RuntimeException(e);
             }
         }

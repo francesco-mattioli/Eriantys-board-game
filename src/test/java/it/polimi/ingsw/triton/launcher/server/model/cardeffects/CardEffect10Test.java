@@ -1,6 +1,7 @@
 package it.polimi.ingsw.triton.launcher.server.model.cardeffects;
 
 import it.polimi.ingsw.triton.launcher.server.model.Bag;
+import it.polimi.ingsw.triton.launcher.server.model.GeneralCoinSupply;
 import it.polimi.ingsw.triton.launcher.server.model.player.Player;
 import it.polimi.ingsw.triton.launcher.server.model.enums.Color;
 import it.polimi.ingsw.triton.launcher.server.model.enums.TowerColor;
@@ -26,7 +27,7 @@ class CardEffect10Test {
         bag.fillBag();
         fromDiningRoom = new int[5];
         fromEntrance = new int[5];
-        characterCard = new CharacterCard(7,0,0,bag);
+        characterCard = new CharacterCard(10,1,0,bag);
         player = new Player("TestPlayer");
         player.setSchoolBoard(TowerColor.BLACK, 2);
         player.getSchoolBoard().getEntrance()[Color.BLUE.ordinal()] = 3;
@@ -49,7 +50,7 @@ class CardEffect10Test {
         fromDiningRoom[Color.PINK.ordinal()] = 3;
         fromEntrance[Color.BLUE.ordinal()] = 3;
         try {
-            characterCard.executeEffect(new CardEffect10(fromEntrance,fromDiningRoom,player.getSchoolBoard()));
+            characterCard.executeEffect(new CardEffect10(fromEntrance,fromDiningRoom,player, new GeneralCoinSupply(5)));
         } catch (EndGameException | IllegalClientInputException | EmptyGeneralCoinSupplyException e) {
             throw new RuntimeException(e);
         }
@@ -63,7 +64,7 @@ class CardEffect10Test {
     void throwExceptionIfNotEnoughStudentsInEntrance(){
         fromDiningRoom[Color.PINK.ordinal()] = 3;
         fromEntrance[Color.BLUE.ordinal()] = 4;
-        assertThrows(IllegalClientInputException.class, () -> {characterCard.executeEffect(new CardEffect10(fromEntrance,fromDiningRoom,player.getSchoolBoard()));});
+        assertThrows(IllegalClientInputException.class, () -> characterCard.executeEffect(new CardEffect10(fromEntrance,fromDiningRoom,player, new GeneralCoinSupply(5))));
     }
 
     /**
@@ -74,7 +75,7 @@ class CardEffect10Test {
         fromDiningRoom[Color.PINK.ordinal()] = 3;
         fromEntrance[Color.BLUE.ordinal()] = 3;
         try {
-            characterCard.executeEffect(new CardEffect10(fromEntrance,fromDiningRoom,player.getSchoolBoard()));
+            characterCard.executeEffect(new CardEffect10(fromEntrance,fromDiningRoom,player, new GeneralCoinSupply(5)));
         } catch (EndGameException | IllegalClientInputException | EmptyGeneralCoinSupplyException e) {
             throw new RuntimeException(e);
         }
@@ -88,6 +89,6 @@ class CardEffect10Test {
     void throwExceptionIfNotEnoughStudentsInDiningRoom(){
         fromDiningRoom[Color.PINK.ordinal()] = 4;
         fromEntrance[Color.BLUE.ordinal()] = 3;
-        assertThrows(IllegalClientInputException.class, () -> {characterCard.executeEffect(new CardEffect10(fromEntrance,fromDiningRoom,player.getSchoolBoard()));});
+        assertThrows(IllegalClientInputException.class, () -> characterCard.executeEffect(new CardEffect10(fromEntrance,fromDiningRoom,player, new GeneralCoinSupply(5))));
     }
 }
