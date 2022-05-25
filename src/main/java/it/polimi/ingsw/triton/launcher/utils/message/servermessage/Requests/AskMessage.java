@@ -11,8 +11,8 @@ import java.util.List;
  * This abstract class is extended by all the messages that are sent by the server
  * for requests.
  */
-public abstract class AskMessage extends ServerMessage {
-    protected final transient List<Class<?>> expectedResponseMessageClasses;
+public abstract class AskMessage implements ServerMessage {
+    protected final List<Class<?>> expectedResponseMessageClasses;
 
     protected AskMessage() {
         this.expectedResponseMessageClasses = new ArrayList<>();

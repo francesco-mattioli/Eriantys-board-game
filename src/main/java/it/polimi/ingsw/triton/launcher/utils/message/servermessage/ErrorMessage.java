@@ -8,7 +8,7 @@ import it.polimi.ingsw.triton.launcher.utils.message.ErrorTypeID;
  * occurs during an operation or after an input check.
  * The errorTypeID specifies which type of error is occurred.
  */
-public class ErrorMessage extends ServerMessage {
+public class ErrorMessage implements ServerMessage {
     private final ErrorTypeID errorTypeID;
 
     public ErrorMessage(ErrorTypeID errorTypeID) {
