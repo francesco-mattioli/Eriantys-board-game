@@ -32,6 +32,8 @@ public class CharCard01SceneController extends SceneController {
      * This method prepares the form to ask character card 1 parameters
      * Choice boxes are populated with available colors and islands
      * @param clientModel clientModel
+     * @param parameters a generic parameter which depends, based on specific scene
+     * @param <T> generic parameter
      */
     @Override
     public <T> void setupScene(ClientModel clientModel, T parameters) {
@@ -53,6 +55,7 @@ public class CharCard01SceneController extends SceneController {
     /**
      * At the beginning, button is disabled, because user must choose a student and an island
      * When choice boxes contain a value, button is activated
+     * @param event on choice box action
      */
     private void activateButton(ActionEvent event){
         confirmButton.setDisable(charCard01Pane.getChildren().stream().filter(

@@ -199,7 +199,7 @@ public class MainSceneController extends SceneController {
      * @param island      island to draw
      * @param anchorPane  anchor pane where island has to be drawn
      * @param clientModel clientModel
-     * @return HBox
+     * @return HBox the hbox where island is drawn
      */
     private HBox drawSingleIsland(Island island, AnchorPane anchorPane, ClientModel clientModel) {
         HBox box = new HBox();
@@ -230,7 +230,7 @@ public class MainSceneController extends SceneController {
         if (island.getDominator() != null) {
             Circle tower = new Circle(13);
             anchorPane.getChildren().add(tower);
-            setCircleLayout(tower,x,y);
+            setCircleLayout(tower, x, y);
             SchoolBoard schoolBoard = clientModel.getSchoolBoards().get(island.getDominator().getUsername());
             if (schoolBoard.getTowerColor() == TowerColor.BLACK)
                 tower.setFill(javafx.scene.paint.Color.BLACK);
@@ -254,7 +254,7 @@ public class MainSceneController extends SceneController {
             Circle motherNature = new Circle(11);
             motherNature.setFill(javafx.scene.paint.Color.ORANGE);
             anchorPane.getChildren().add(motherNature);
-            setCircleLayout(motherNature,box.getChildren().get(0).getLayoutX() + 30,box.getChildren().get(0).getLayoutY() + 30);
+            setCircleLayout(motherNature, box.getChildren().get(0).getLayoutX() + 30, box.getChildren().get(0).getLayoutY() + 30);
         }
     }
 
@@ -365,7 +365,7 @@ public class MainSceneController extends SceneController {
         infoPane.setPrefWidth(160);
         infoPane.setOpacity(1);
         infoPane.setStyle("-fx-background-color: #C7C7C7; -fx-border-color: black;");
-        setAnchorPaneLayout(infoPane,x,y);
+        setAnchorPaneLayout(infoPane, x, y);
         infoPane.setVisible(true);
     }
 

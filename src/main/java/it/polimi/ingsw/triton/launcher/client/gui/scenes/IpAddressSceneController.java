@@ -1,7 +1,5 @@
 package it.polimi.ingsw.triton.launcher.client.gui.scenes;
 
-
-
 import it.polimi.ingsw.triton.launcher.utils.message.UpdatedServerInfoMessage;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;

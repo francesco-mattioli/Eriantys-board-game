@@ -58,6 +58,8 @@ public class CharCard07SceneController extends SceneController {
      * This card allows user to exchange up to 3 students between entrance and character card,
      * so at the beginning is only populated the first couple of choice boxes, to exchange first two students
      * @param clientModel clientModel
+     * @param parameters a generic parameter which depends, based on specific scene
+     * @param <T> generic parameter
      */
     @Override
     public <T> void setupScene(ClientModel clientModel, T parameters) {
@@ -126,6 +128,7 @@ public class CharCard07SceneController extends SceneController {
 
     /**
      * setting entrance choice box, adding all available students on entrance
+     * @param choiceBox the choice box to populate
      */
     public void setChoiceBoxEntrance(ChoiceBox<String> choiceBox){
         int [] array = new int[clientModel.getMySchoolBoard().getEntrance().length];
@@ -137,6 +140,7 @@ public class CharCard07SceneController extends SceneController {
 
     /**
      * setting character card choice box, adding all available students on character card.
+     * @param choiceBox the choice box to populate
      */
     public void setChoiceBoxCharCard(ChoiceBox<String> choiceBox){
         int [] array = new int[clientModel.getCharacterCardById(7).getStudents().length];
@@ -149,6 +153,8 @@ public class CharCard07SceneController extends SceneController {
     /**
      * when a student is chosen, that place will have one less student
      * for example, if I move a red student from entrance, entrance will have one less red student
+     * @param fromCharCardBox the choice box of character card
+     * @param fromEntranceBox the choice box of entrance
      */
     public void updateSwitchStudents(ChoiceBox<String> fromEntranceBox, ChoiceBox<String> fromCharCardBox){
         fromEntrance[Color.valueOf(fromEntranceBox.getValue()).ordinal()] ++;
@@ -166,6 +172,7 @@ public class CharCard07SceneController extends SceneController {
     /**
      * At the beginning, button is disabled, because user must choose a couple of students
      * When choice boxes contain a value, button is activated
+     * @param event on choice box action
      */
     private void activateButton(ActionEvent event){
         currentButton.setDisable(charCard07Pane.getChildren().stream().filter(
