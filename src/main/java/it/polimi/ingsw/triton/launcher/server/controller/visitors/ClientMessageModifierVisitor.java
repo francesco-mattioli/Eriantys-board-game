@@ -177,6 +177,7 @@ public class ClientMessageModifierVisitor {
      */
     public void visitForModify(CharacterCard10Reply message) throws IllegalClientInputException, EndGameException {
         game.applyCharacterCardEffect(10, new CardEffect10(message.getFromEntrance(), message.getFromDiningRoom(), game.getCurrentPlayer(), game.getGeneralCoinSupply()));
+
     }
 
     /**

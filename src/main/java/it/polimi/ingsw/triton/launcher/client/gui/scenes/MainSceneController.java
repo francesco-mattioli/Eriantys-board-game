@@ -582,9 +582,12 @@ public class MainSceneController extends SceneController {
      * @param clientModel clientModel
      */
     public void showCCModifies10(ClientModel clientModel) {
+        AnchorPane schoolBoardPane;
         for (int i = 0; i < schoolBoardsMap.size(); i++) {
-            drawStudentsOnDiningRoom(((GridPane) schoolBoardsMap.get(new ArrayList<>(schoolBoardsMap.keySet()).get(i)).getChildren().get(1)).getChildren(), clientModel.getSchoolBoards().get(new ArrayList<>(schoolBoardsMap.keySet()).get(i)));
-            drawStudentsOnEntrance(((GridPane) schoolBoardsMap.get(new ArrayList<>(schoolBoardsMap.keySet()).get(i)).getChildren().get(2)).getChildren(), clientModel.getSchoolBoards().get(new ArrayList<>(schoolBoardsMap.keySet()).get(i)));
+            schoolBoardPane = schoolBoardsMap.get(new ArrayList<>(schoolBoardsMap.keySet()).get(i));
+            drawStudentsOnDiningRoom(((GridPane) schoolBoardPane.getChildren().get(1)).getChildren(), clientModel.getSchoolBoards().get(new ArrayList<>(schoolBoardsMap.keySet()).get(i)));
+            drawStudentsOnEntrance(((GridPane) schoolBoardPane.getChildren().get(2)).getChildren(), clientModel.getSchoolBoards().get(new ArrayList<>(schoolBoardsMap.keySet()).get(i)));
+            drawProfessors(((GridPane) schoolBoardPane.getChildren().get(3)).getChildren(), new ArrayList<>(schoolBoardsMap.keySet()).get(i), clientModel);
         }
     }
 
@@ -595,8 +598,11 @@ public class MainSceneController extends SceneController {
      * @param clientModel clientModel
      */
     public void showCCModifies11(ClientModel clientModel) {
+        AnchorPane schoolBoardPane;
         for (int i = 0; i < schoolBoardsMap.size(); i++) {
-            drawStudentsOnDiningRoom(((GridPane) schoolBoardsMap.get(new ArrayList<>(schoolBoardsMap.keySet()).get(i)).getChildren().get(1)).getChildren(), clientModel.getSchoolBoards().get(new ArrayList<>(schoolBoardsMap.keySet()).get(i)));
+            schoolBoardPane = schoolBoardsMap.get(new ArrayList<>(schoolBoardsMap.keySet()).get(i));
+            drawStudentsOnDiningRoom(((GridPane) schoolBoardPane.getChildren().get(1)).getChildren(), clientModel.getSchoolBoards().get(new ArrayList<>(schoolBoardsMap.keySet()).get(i)));
+            drawProfessors(((GridPane) schoolBoardPane.getChildren().get(3)).getChildren(), new ArrayList<>(schoolBoardsMap.keySet()).get(i), clientModel);
         }
     }
 
