@@ -82,8 +82,10 @@ class CardEffect10Test {
      */
     @Test
     void throwExceptionIfNotEnoughStudentsInEntrance(){
-        fromDiningRoom[Color.PINK.ordinal()] = 3;
-        fromEntrance[Color.BLUE.ordinal()] = 4;
+        player.getSchoolBoard().getDiningRoom()[Color.PINK.ordinal()] = 1;
+        fromDiningRoom[Color.PINK.ordinal()] = 2;
+        secondPlayer.getSchoolBoard().getEntrance()[Color.BLUE.ordinal()] = 1;
+        fromEntrance[Color.BLUE.ordinal()] = 2;
         assertThrows(IllegalClientInputException.class, () -> characterCard.executeEffect(new CardEffect10(fromEntrance,fromDiningRoom,player, new GeneralCoinSupply(5), new ProfessorsManager(), professors, players)));
     }
 
@@ -107,8 +109,73 @@ class CardEffect10Test {
      */
     @Test
     void throwExceptionIfNotEnoughStudentsInDiningRoom(){
-        fromDiningRoom[Color.PINK.ordinal()] = 4;
+        player.getSchoolBoard().getDiningRoom()[Color.PINK.ordinal()] = 1;
+        fromDiningRoom[Color.PINK.ordinal()] = 2;
         fromEntrance[Color.BLUE.ordinal()] = 3;
         assertThrows(IllegalClientInputException.class, () -> characterCard.executeEffect(new CardEffect10(fromEntrance,fromDiningRoom,player, new GeneralCoinSupply(5), new ProfessorsManager(), professors, players)));
+    }
+
+    /**
+     * This test throws an exception if player moves more than two students.
+     */
+    @Test
+    void throwExceptionIfPlayerMovesThreeStudents(){
+        fromDiningRoom[Color.PINK.ordinal()] = 4;
+        fromEntrance[Color.BLUE.ordinal()] = 4;
+        assertThrows(IllegalClientInputException.class, () -> characterCard.executeEffect(new CardEffect10(fromEntrance,fromDiningRoom,player, new GeneralCoinSupply(5), new ProfessorsManager(), professors, players)));
+    }
+
+    /**
+     * Checks if the professor goes to another player when the current player has fewer students of a certain color
+     * than the other one after applying character card 10 effect.
+     */
+    @Test
+    void checkIfProfessorIsSwitchedBetweenPlayers(){
+        professors[Color.BLUE.ordinal()] = player;
+        player.getSchoolBoard().getDiningRoom()[Color.BLUE.ordinal()] = 4;
+        player.getSchoolBoard().getEntrance()[Color.PINK.ordinal()] = 3;
+        secondPlayer.getSchoolBoard().getDiningRoom()[Color.BLUE.ordinal()] = 3;
+        fromDiningRoom[Color.BLUE.ordinal()] = 2;
+        fromEntrance[Color.PINK.ordinal()] = 2;
+        try {
+            characterCard.executeEffect(new CardEffect10(fromEntrance, fromDiningRoom, player, new GeneralCoinSupply(5), new ProfessorsManager(), professors, players));
+        } catch (EndGameException | IllegalClientInputException | EmptyGeneralCoinSupplyException e) {
+            throw new RuntimeException(e);
+        }
+        assertEquals(secondPlayer, professors[Color.BLUE.ordinal()]);
+    }
+
+    /**
+     * Checks if the player's wallet is increased when he moves at least one student in a position of dining room
+     * that gives an additional coin.
+     */
+    @Test
+    void checkUpdateWalletAfterEffectTen(){
+        int oldWallet = player.getWallet().getValue();
+        player.getSchoolBoard().getDiningRoom()[Color.BLUE.ordinal()] = 1;
+        player.getSchoolBoard().getEntrance()[Color.BLUE.ordinal()] = 2;
+        player.getSchoolBoard().getDiningRoom()[Color.PINK.ordinal()] = 2;
+        fromDiningRoom[Color.PINK.ordinal()] = 2;
+        fromEntrance[Color.BLUE.ordinal()] = 2;
+        try {
+            characterCard.executeEffect(new CardEffect10(fromEntrance, fromDiningRoom, player, new GeneralCoinSupply(5), new ProfessorsManager(), professors, players));
+        } catch (EndGameException | IllegalClientInputException | EmptyGeneralCoinSupplyException e) {
+            throw new RuntimeException(e);
+        }
+        assertEquals(oldWallet + 1, player.getWallet().getValue());
+    }
+
+    /**
+     * Checks if the method throws an exception when the general coin supply is empty and the player
+     * has to receive an additional coin after using the card effect 10.
+     */
+    @Test
+    void checkThrowsExceptionIfSupplyIsEmpty(){
+        player.getSchoolBoard().getDiningRoom()[Color.BLUE.ordinal()] = 1;
+        player.getSchoolBoard().getEntrance()[Color.BLUE.ordinal()] = 2;
+        player.getSchoolBoard().getDiningRoom()[Color.PINK.ordinal()] = 2;
+        fromDiningRoom[Color.PINK.ordinal()] = 2;
+        fromEntrance[Color.BLUE.ordinal()] = 2;
+        assertThrows(EmptyGeneralCoinSupplyException.class, () -> characterCard.executeEffect(new CardEffect10(fromEntrance, fromDiningRoom, player, new GeneralCoinSupply(0), new ProfessorsManager(), professors, players)));
     }
 }

@@ -61,8 +61,9 @@ class CardEffect07Test {
      */
     @Test
     void throwExceptionIfNotEnoughStudentsInEntrance(){
+        player.getSchoolBoard().getEntrance()[Color.BLUE.ordinal()] = 1;
         fromCard[Color.PINK.ordinal()] = 3;
-        fromSchoolBoard[Color.BLUE.ordinal()] = 4;
+        fromSchoolBoard[Color.PINK.ordinal()] = 3;
         assertThrows(IllegalClientInputException.class, () -> characterCard.executeEffect(new CardEffect07(characterCard, characterCard.getStudents(), fromCard, fromSchoolBoard, player.getSchoolBoard())));
     }
 
@@ -88,7 +89,21 @@ class CardEffect07Test {
      */
     @Test
     void throwExceptionIfNotEnoughStudentsOnCharacterCard(){
-        fromCard[Color.PINK.ordinal()] = 4;
+        characterCard.getStudents()[Color.PINK.ordinal()] = 1;
+        fromCard[Color.PINK.ordinal()] = 3;
+        fromSchoolBoard[Color.BLUE.ordinal()] = 3;
+        assertThrows(IllegalClientInputException.class, () -> characterCard.executeEffect(new CardEffect07(characterCard, characterCard.getStudents(), fromCard, fromSchoolBoard, player.getSchoolBoard())));
+    }
+
+    /**
+     * This test throws an exception if player moves more than three students.
+     */
+    @Test
+    void throwExceptionIfNumberOfStudentsIsMoreThanThree(){
+        fromCard[Color.PINK.ordinal()] = 2;
+        fromCard[Color.BLUE.ordinal()] = 1;
+        fromCard[Color.GREEN.ordinal()] = 2;
+        player.getSchoolBoard().getEntrance()[Color.GREEN.ordinal()] = 2;
         fromSchoolBoard[Color.BLUE.ordinal()] = 3;
         assertThrows(IllegalClientInputException.class, () -> characterCard.executeEffect(new CardEffect07(characterCard, characterCard.getStudents(), fromCard, fromSchoolBoard, player.getSchoolBoard())));
     }
