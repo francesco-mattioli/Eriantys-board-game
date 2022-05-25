@@ -5,6 +5,9 @@ import it.polimi.ingsw.triton.launcher.server.model.enums.Color;
 import it.polimi.ingsw.triton.launcher.utils.message.Message;
 import it.polimi.ingsw.triton.launcher.utils.obs.Observable;
 import javafx.scene.control.ChoiceBox;
+import javafx.scene.control.Label;
+import javafx.scene.layout.AnchorPane;
+import javafx.scene.shape.Circle;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -42,5 +45,22 @@ public abstract class SceneController extends Observable<Message> {
             colorsName[i] = Color.values()[i].name();
         }
     }
+
+    protected void setAnchorPaneLayout(AnchorPane anchorPane, double x, double y) {
+        anchorPane.setLayoutX(x);
+        anchorPane.setLayoutY(y);
+    }
+
+    protected void setLabelLayout(Label label, int y){
+        label.setLayoutX(5);
+        label.setLayoutY(y);
+    }
+
+    protected void setCircleLayout(Circle circle, double x, double y){
+        circle.setLayoutX(x);
+        circle.setLayoutY(y);
+    }
+
+
 
 }

@@ -230,8 +230,7 @@ public class MainSceneController extends SceneController {
         if (island.getDominator() != null) {
             Circle tower = new Circle(13);
             anchorPane.getChildren().add(tower);
-            tower.setLayoutX(x);
-            tower.setLayoutY(y);
+            setCircleLayout(tower,x,y);
             SchoolBoard schoolBoard = clientModel.getSchoolBoards().get(island.getDominator().getUsername());
             if (schoolBoard.getTowerColor() == TowerColor.BLACK)
                 tower.setFill(javafx.scene.paint.Color.BLACK);
@@ -255,8 +254,7 @@ public class MainSceneController extends SceneController {
             Circle motherNature = new Circle(11);
             motherNature.setFill(javafx.scene.paint.Color.ORANGE);
             anchorPane.getChildren().add(motherNature);
-            motherNature.setLayoutX(box.getChildren().get(0).getLayoutX() + 30);
-            motherNature.setLayoutY(box.getChildren().get(0).getLayoutY() + 30);
+            setCircleLayout(motherNature,box.getChildren().get(0).getLayoutX() + 30,box.getChildren().get(0).getLayoutY() + 30);
         }
     }
 
@@ -355,8 +353,7 @@ public class MainSceneController extends SceneController {
     private void setupLabel(String color, int numberOfStudents, int y, AnchorPane anchorPane) {
         Label label = new Label("Number of " + color.toLowerCase() + " students:" + numberOfStudents);
         anchorPane.getChildren().add(label);
-        label.setLayoutX(5);
-        label.setLayoutY(y);
+        setLabelLayout(label, y);
         label.setStyle("-fx-text-fill: " + color.toLowerCase() + ";");
     }
 
@@ -368,16 +365,14 @@ public class MainSceneController extends SceneController {
         infoPane.setPrefWidth(160);
         infoPane.setOpacity(1);
         infoPane.setStyle("-fx-background-color: #C7C7C7; -fx-border-color: black;");
-        infoPane.setLayoutX(x);
-        infoPane.setLayoutY(y);
+        setAnchorPaneLayout(infoPane,x,y);
         infoPane.setVisible(true);
     }
 
     private void setupNoEntryTiles(AnchorPane infoPane, int number) {
         Label noEntryTilesLabel = new Label("Number of no entry tiles:" + number);
         infoPane.getChildren().add(noEntryTilesLabel);
-        noEntryTilesLabel.setLayoutX(5);
-        noEntryTilesLabel.setLayoutY(90);
+        setLabelLayout(noEntryTilesLabel, 90);
     }
 
     /**

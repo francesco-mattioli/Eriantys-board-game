@@ -162,10 +162,6 @@ public class CharacterCardSceneController extends SceneController {
         infoPane.setVisible(true);
     }
 
-    private void setAnchorPaneLayout(AnchorPane anchorPane, double x, double y) {
-        anchorPane.setLayoutX(x);
-        anchorPane.setLayoutY(y);
-    }
 
     private void setupNoEntryTiles(AnchorPane infoPane, int number){
         Label noEntryTilesLabel = new Label("Number of no entry tiles:" + number);
@@ -174,10 +170,7 @@ public class CharacterCardSceneController extends SceneController {
     }
 
 
-    private void setLabelLayout(Label label, int y){
-        label.setLayoutX(5);
-        label.setLayoutY(y);
-    }
+
     /**
      * This method hides the info pane when mouse exits from the card image border
      */
