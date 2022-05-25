@@ -92,6 +92,7 @@ public class WizardSceneController extends SceneController {
     public <T> void setupScene(ClientModel clientModel, T parameters) {
         ArrayList<?> wizards = (ArrayList<?>) parameters;
         wizardsImages = new HashMap<>();
+        rightSwitch.setFill(Color.BLUE);
         for (Object wizard : wizards) {
             wizardsImages.put(new Image(Objects.requireNonNull(WizardSceneController.class.getResource("/Images/Wizards" + ((Wizard) wizard).getImagePath())).toString()),(Wizard)wizard);
         }
