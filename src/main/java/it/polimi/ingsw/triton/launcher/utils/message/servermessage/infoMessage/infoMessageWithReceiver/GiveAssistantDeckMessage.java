@@ -9,6 +9,7 @@ import it.polimi.ingsw.triton.launcher.utils.message.servermessage.InfoWithRecei
  */
 public class GiveAssistantDeckMessage extends InfoWithReceiverMessage {
     private final AssistantDeck assistantDeck;
+
     public GiveAssistantDeckMessage(String receiverUsername, AssistantDeck assistantDeck) {
         super(receiverUsername);
         this.assistantDeck = assistantDeck;

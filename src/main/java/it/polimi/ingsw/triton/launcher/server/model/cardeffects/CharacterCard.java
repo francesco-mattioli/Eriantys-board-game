@@ -11,11 +11,11 @@ import it.polimi.ingsw.triton.launcher.utils.message.ErrorTypeID;
 import java.io.Serializable;
 
 public class CharacterCard implements Serializable {
-    protected int id;
+    protected final int id;
     protected int cost;
     protected int[] students;
     protected int noEntryTiles;
-    protected Bag bag;
+    protected final Bag bag;
     private static final String CHARACTER_CARD = "\n\tCharacterCard ";
     private static final String COST_OF_CHARACTER_CARD = ": { Cost: ";
 
@@ -64,7 +64,7 @@ public class CharacterCard implements Serializable {
 
     /**
      * @param cardEffect is the effect that will be executed when the method is called.
-     * @throws EndGameException when the game ends.
+     * @throws EndGameException            when the game ends.
      * @throws IllegalClientInputException
      */
     public void executeEffect(CardEffect cardEffect) throws EndGameException, IllegalClientInputException, EmptyGeneralCoinSupplyException {

@@ -40,7 +40,7 @@ public class AssistantCardSceneController extends SceneController {
      * When user clicks on selectButton, the currently selected assistant card is assigned to him
      * To do this, we have a map between Image and AssistantCard
      */
-    public void select(){
+    public void select() {
         AssistantCard selectedAssistantCard = assistantCardImages.get(assistantCardImageView.getImage());
         notify(new AssistantCardReply(selectedAssistantCard));
         selectButton.setDisable(true);
@@ -51,13 +51,13 @@ public class AssistantCardSceneController extends SceneController {
      * This method permits user to scroll through the assistant card images
      * When card is last one, so you can't scroll, darts are different colorized
      */
-    public void switchLeft(){
-        if (shownAssistantCard > 0){
+    public void switchLeft() {
+        if (shownAssistantCard > 0) {
             showAdjacentAssistantCard(-1);
             rightSwitch.setFill(Color.BLUE);
             rightSwitch.setOpacity(1);
         }
-        if (shownAssistantCard == 0){
+        if (shownAssistantCard == 0) {
             leftSwitch.setFill(Color.GRAY);
             leftSwitch.setOpacity(0.5);
         }
@@ -68,13 +68,13 @@ public class AssistantCardSceneController extends SceneController {
      * This method allows user to scroll through the assistant card images
      * When card is last one, so you can't scroll, darts are different colorized
      */
-    public void switchRight(){
-        if (shownAssistantCard < assistantCardImages.size() - 1){
+    public void switchRight() {
+        if (shownAssistantCard < assistantCardImages.size() - 1) {
             showAdjacentAssistantCard(1);
             leftSwitch.setFill(Color.BLUE);
             leftSwitch.setOpacity(1);
         }
-        if (shownAssistantCard == assistantCardImages.size() - 1){
+        if (shownAssistantCard == assistantCardImages.size() - 1) {
             rightSwitch.setFill(Color.GRAY);
             rightSwitch.setOpacity(0.5);
         }
@@ -83,16 +83,18 @@ public class AssistantCardSceneController extends SceneController {
 
     /**
      * This method shows to the user the next assistant card, allowing him to scroll between assistant cards
+     *
      * @param offset position of next card in deck
      */
     private void showAdjacentAssistantCard(int offset) {
-        assistantCardImageView.setImage((Image) assistantCardImages.keySet().toArray()[shownAssistantCard+offset]);
-        shownAssistantCard+=offset;
+        assistantCardImageView.setImage((Image) assistantCardImages.keySet().toArray()[shownAssistantCard + offset]);
+        shownAssistantCard += offset;
     }
 
 
     /**
      * In this method we create the map that associates Images and AssistantCard, and we prepare everything for user interaction
+     *
      * @param clientModel clientModel
      */
     @Override

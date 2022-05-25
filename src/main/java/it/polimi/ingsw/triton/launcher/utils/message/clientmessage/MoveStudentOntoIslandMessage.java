@@ -1,18 +1,18 @@
 package it.polimi.ingsw.triton.launcher.utils.message.clientmessage;
 
-import it.polimi.ingsw.triton.launcher.server.model.enums.Color;
-import it.polimi.ingsw.triton.launcher.utils.exceptions.IllegalClientInputException;
-import it.polimi.ingsw.triton.launcher.utils.exceptions.LastMoveException;
 import it.polimi.ingsw.triton.launcher.server.controller.visitors.ClientMessageErrorVisitor;
 import it.polimi.ingsw.triton.launcher.server.controller.visitors.ClientMessageExceptionalVisitor;
 import it.polimi.ingsw.triton.launcher.server.controller.visitors.ClientMessageModifierVisitor;
 import it.polimi.ingsw.triton.launcher.server.controller.visitors.ClientMessageStandardVisitor;
+import it.polimi.ingsw.triton.launcher.server.model.enums.Color;
+import it.polimi.ingsw.triton.launcher.utils.exceptions.IllegalClientInputException;
+import it.polimi.ingsw.triton.launcher.utils.exceptions.LastMoveException;
 
 /**
  * This message is sent by the client to communicate to server the color of the student the current
  * player wants to move and the id of the destination island.
  */
-public class MoveStudentOntoIslandMessage extends ClientMessage{
+public class MoveStudentOntoIslandMessage extends ClientMessage {
     private final int islandID;
     private final Color student;
 

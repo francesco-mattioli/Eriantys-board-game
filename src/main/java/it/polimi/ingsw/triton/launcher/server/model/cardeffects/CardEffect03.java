@@ -16,11 +16,11 @@ public class CardEffect03 implements CardEffect, Serializable {
 
     /**
      * @param islandWithEffect is the chosen island where the influence must be calculated.
-     * @param islandManager the manager of islands that contains useful methods to manage them.
-     * @param players to be passed as a parameter for the updateInfluence method.
-     * @param professors to be passed as a parameter for the updateInfluence method.
+     * @param islandManager    the manager of islands that contains useful methods to manage them.
+     * @param players          to be passed as a parameter for the updateInfluence method.
+     * @param professors       to be passed as a parameter for the updateInfluence method.
      */
-    public CardEffect03(Island islandWithEffect, IslandManager islandManager, List<Player> players, Player[] professors){
+    public CardEffect03(Island islandWithEffect, IslandManager islandManager, List<Player> players, Player[] professors) {
         this.islandWithEffect = islandWithEffect;
         this.islandManager = islandManager;
         this.players = players;
@@ -31,7 +31,7 @@ public class CardEffect03 implements CardEffect, Serializable {
      * This method calls the updateInfluence method on the island chosen by the player.
      */
     @Override
-    public void execute() throws EndGameException{
+    public void execute() throws EndGameException {
         islandManager.mergeNearIslands(islandWithEffect, players, professors);
     }
 }

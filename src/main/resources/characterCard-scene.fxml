@@ -8,41 +8,54 @@
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="characterCardPane" prefHeight="420.0" prefWidth="600.0" styleClass="characterCardPane" stylesheets="@css/charCard-css.css" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.triton.launcher.client.gui.scenes.CharacterCardSceneController">
-   <children>
-      <BorderPane fx:id="card1Pane" layoutX="117.0" layoutY="118.0" onMouseClicked="#selectCharacterCard1" onMouseEntered="#showInfo" onMouseExited="#hideInfo" prefHeight="164.0" prefWidth="114.0">
-         <center>
-            <ImageView fitHeight="150.0" fitWidth="122.0" pickOnBounds="true" preserveRatio="true" BorderPane.alignment="CENTER">
-               <image>
-                  <Image url="@Images/CharacterCards/CharacterCard1.jpg" />
-               </image>
-            </ImageView>
-         </center>
-      </BorderPane>
-      <BorderPane fx:id="card2Pane" layoutX="243.0" layoutY="118.0" onMouseClicked="#selectCharacterCard2" onMouseEntered="#showInfo" onMouseExited="#hideInfo" prefHeight="164.0" prefWidth="114.0">
-         <center>
-            <ImageView fitHeight="150.0" fitWidth="122.0" pickOnBounds="true" preserveRatio="true" BorderPane.alignment="CENTER">
-               <image>
-                  <Image url="@Images/CharacterCards/CharacterCard1.jpg" />
-               </image>
-            </ImageView>
-         </center>
-      </BorderPane>
-      <BorderPane fx:id="card3Pane" layoutX="369.0" layoutY="118.0" onMouseClicked="#selectCharacterCard3" onMouseEntered="#showInfo" onMouseExited="#hideInfo" prefHeight="164.0" prefWidth="114.0">
-         <center>
-            <ImageView fitHeight="150.0" fitWidth="122.0" pickOnBounds="true" preserveRatio="true" BorderPane.alignment="CENTER">
-               <image>
-                  <Image url="@Images/CharacterCards/CharacterCard1.jpg" />
-               </image>
-            </ImageView>
-         </center>
-      </BorderPane>
-      <Label layoutX="183.0" layoutY="66.0" prefHeight="22.0" prefWidth="234.0" text="Click a character card to select">
-         <font>
-            <Font name="Calibri" size="18.0" />
-         </font>
-      </Label>
-      <Button fx:id="buttonPlay" disable="true" layoutX="232.0" layoutY="321.0" mnemonicParsing="false" onAction="#playCharacterCard" prefHeight="33.0" prefWidth="136.0" styleClass="buttonPlay" stylesheets="@css/charCard-css.css" />
-      <Button fx:id="backButton" layoutX="34.0" layoutY="321.0" maxHeight="78.0" maxWidth="124.0" minHeight="33.0" minWidth="60.0" mnemonicParsing="false" prefHeight="33.0" prefWidth="102.0" styleClass="backButton" stylesheets="@css/charCard-css.css" />
-   </children>
+<AnchorPane fx:id="characterCardPane" prefHeight="420.0" prefWidth="600.0" styleClass="characterCardPane"
+            stylesheets="@css/charCard-css.css" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="it.polimi.ingsw.triton.launcher.client.gui.scenes.CharacterCardSceneController">
+    <children>
+        <BorderPane fx:id="card1Pane" layoutX="117.0" layoutY="118.0" onMouseClicked="#selectCharacterCard1"
+                    onMouseEntered="#showInfo" onMouseExited="#hideInfo" prefHeight="164.0" prefWidth="114.0">
+            <center>
+                <ImageView fitHeight="150.0" fitWidth="122.0" pickOnBounds="true" preserveRatio="true"
+                           BorderPane.alignment="CENTER">
+                    <image>
+                        <Image url="@Images/CharacterCards/CharacterCard1.jpg"/>
+                    </image>
+                </ImageView>
+            </center>
+        </BorderPane>
+        <BorderPane fx:id="card2Pane" layoutX="243.0" layoutY="118.0" onMouseClicked="#selectCharacterCard2"
+                    onMouseEntered="#showInfo" onMouseExited="#hideInfo" prefHeight="164.0" prefWidth="114.0">
+            <center>
+                <ImageView fitHeight="150.0" fitWidth="122.0" pickOnBounds="true" preserveRatio="true"
+                           BorderPane.alignment="CENTER">
+                    <image>
+                        <Image url="@Images/CharacterCards/CharacterCard1.jpg"/>
+                    </image>
+                </ImageView>
+            </center>
+        </BorderPane>
+        <BorderPane fx:id="card3Pane" layoutX="369.0" layoutY="118.0" onMouseClicked="#selectCharacterCard3"
+                    onMouseEntered="#showInfo" onMouseExited="#hideInfo" prefHeight="164.0" prefWidth="114.0">
+            <center>
+                <ImageView fitHeight="150.0" fitWidth="122.0" pickOnBounds="true" preserveRatio="true"
+                           BorderPane.alignment="CENTER">
+                    <image>
+                        <Image url="@Images/CharacterCards/CharacterCard1.jpg"/>
+                    </image>
+                </ImageView>
+            </center>
+        </BorderPane>
+        <Label layoutX="183.0" layoutY="66.0" prefHeight="22.0" prefWidth="234.0"
+               text="Click a character card to select">
+            <font>
+                <Font name="Calibri" size="18.0"/>
+            </font>
+        </Label>
+        <Button fx:id="buttonPlay" disable="true" layoutX="232.0" layoutY="321.0" mnemonicParsing="false"
+                onAction="#playCharacterCard" prefHeight="33.0" prefWidth="136.0" styleClass="buttonPlay"
+                stylesheets="@css/charCard-css.css"/>
+        <Button fx:id="backButton" layoutX="34.0" layoutY="321.0" maxHeight="78.0" maxWidth="124.0" minHeight="33.0"
+                minWidth="60.0" mnemonicParsing="false" prefHeight="33.0" prefWidth="102.0" styleClass="backButton"
+                stylesheets="@css/charCard-css.css"/>
+    </children>
 </AnchorPane>

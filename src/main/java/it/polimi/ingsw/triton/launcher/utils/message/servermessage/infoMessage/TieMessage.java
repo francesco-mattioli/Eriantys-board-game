@@ -10,6 +10,7 @@ import java.util.List;
  */
 public class TieMessage extends InfoMessage {
     private final List<String> players;
+
     public TieMessage(List<String> players) {
         this.players = players;
     }

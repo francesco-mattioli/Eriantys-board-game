@@ -9,7 +9,7 @@ public class CardEffect02 implements CardEffect, Serializable {
     private final ProfessorsManager professorsManager;
 
 
-    public CardEffect02(ProfessorsManager professorsManager){
+    public CardEffect02(ProfessorsManager professorsManager) {
         this.professorsManager = professorsManager;
     }
 

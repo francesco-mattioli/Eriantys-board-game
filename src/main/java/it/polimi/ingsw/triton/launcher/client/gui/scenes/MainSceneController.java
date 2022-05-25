@@ -199,7 +199,7 @@ public class MainSceneController extends SceneController {
      * @param island      island to draw
      * @param anchorPane  anchor pane where island has to be drawn
      * @param clientModel clientModel
-     * @return HBox the hbox where island is drawn
+     * @return HBox where island is drawn
      */
     private HBox drawSingleIsland(Island island, AnchorPane anchorPane, ClientModel clientModel) {
         HBox box = new HBox();

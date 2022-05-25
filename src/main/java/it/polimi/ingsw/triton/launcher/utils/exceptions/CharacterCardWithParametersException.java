@@ -5,7 +5,7 @@ package it.polimi.ingsw.triton.launcher.utils.exceptions;
  * parameters to build his effect.
  * When this exception is thrown, the server asks the current player to insert the parameters.
  */
-public class CharacterCardWithParametersException extends Exception{
+public class CharacterCardWithParametersException extends Exception {
     public CharacterCardWithParametersException() {
         super("This character card needs some parameters");
     }

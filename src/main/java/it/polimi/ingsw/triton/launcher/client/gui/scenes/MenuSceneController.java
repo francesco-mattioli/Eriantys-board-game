@@ -20,7 +20,7 @@ public class MenuSceneController extends SceneController {
      * Gui is created, and stage is set
      */
     public void join(ActionEvent event) {
-        Gui gui = new Gui(((Stage)((Node)event.getSource()).getScene().getWindow()));
+        Gui gui = new Gui(((Stage) ((Node) event.getSource()).getScene().getWindow()));
         gui.startGui();
     }
 

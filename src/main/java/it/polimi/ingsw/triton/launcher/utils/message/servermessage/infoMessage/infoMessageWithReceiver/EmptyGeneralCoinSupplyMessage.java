@@ -9,7 +9,7 @@ import it.polimi.ingsw.triton.launcher.utils.message.servermessage.InfoWithRecei
  */
 public class EmptyGeneralCoinSupplyMessage extends InfoWithReceiverMessage {
 
-    public EmptyGeneralCoinSupplyMessage(String receiverUsername){
+    public EmptyGeneralCoinSupplyMessage(String receiverUsername) {
         super(receiverUsername);
     }
 

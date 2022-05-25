@@ -25,5 +25,10 @@ module it.polimi.ingsw.triton.launcher {
     exports it.polimi.ingsw.triton.launcher.server.model.player to javafx.fxml;
     exports it.polimi.ingsw.triton.launcher.server.model.playeractions to javafx.fxml;
     exports it.polimi.ingsw.triton.launcher.utils.exceptions to javafx.fxml;
+    exports it.polimi.ingsw.triton.launcher.server.model.cardeffects to javafx.fxml;
+    exports it.polimi.ingsw.triton.launcher.server.model.islands to javafx.fxml;
+    exports it.polimi.ingsw.triton.launcher.server.model.professor to javafx.fxml;
+    exports it.polimi.ingsw.triton.launcher.server.model.influencestrategy to javafx.fxml;
+
 
 }

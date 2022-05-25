@@ -5,12 +5,17 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane fx:id="charCard01Pane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="300.0" prefWidth="488.0" styleClass="charCard01Pane" stylesheets="@css/charCard01-css.css" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.triton.launcher.client.gui.scenes.CharCard01SceneController">
-   <children>
-      <ChoiceBox fx:id="selectColorChoiceBox" layoutX="55.0" layoutY="139.0" prefWidth="150.0" />
-      <ChoiceBox fx:id="selectIslandIdChoiceBox" layoutX="283.0" layoutY="139.0" prefWidth="150.0" />
-      <Label layoutX="55.0" layoutY="110.0" text="Select Color:" />
-      <Label layoutX="283.0" layoutY="110.0" text="Select Island Id:" />
-      <Button fx:id="confirmButton" disable="true" layoutX="193.0" layoutY="227.0" maxHeight="78.0" maxWidth="124.0" minHeight="33.0" minWidth="60.0" mnemonicParsing="false" onAction="#confirm" prefHeight="33.0" prefWidth="102.0" styleClass="confirmButton" stylesheets="@css/charCard01-css.css" />
-   </children>
+<AnchorPane fx:id="charCard01Pane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
+            prefHeight="300.0" prefWidth="488.0" styleClass="charCard01Pane" stylesheets="@css/charCard01-css.css"
+            xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="it.polimi.ingsw.triton.launcher.client.gui.scenes.CharCard01SceneController">
+    <children>
+        <ChoiceBox fx:id="selectColorChoiceBox" layoutX="55.0" layoutY="139.0" prefWidth="150.0"/>
+        <ChoiceBox fx:id="selectIslandIdChoiceBox" layoutX="283.0" layoutY="139.0" prefWidth="150.0"/>
+        <Label layoutX="55.0" layoutY="110.0" text="Select Color:"/>
+        <Label layoutX="283.0" layoutY="110.0" text="Select Island Id:"/>
+        <Button fx:id="confirmButton" disable="true" layoutX="193.0" layoutY="227.0" maxHeight="78.0" maxWidth="124.0"
+                minHeight="33.0" minWidth="60.0" mnemonicParsing="false" onAction="#confirm" prefHeight="33.0"
+                prefWidth="102.0" styleClass="confirmButton" stylesheets="@css/charCard01-css.css"/>
+    </children>
 </AnchorPane>

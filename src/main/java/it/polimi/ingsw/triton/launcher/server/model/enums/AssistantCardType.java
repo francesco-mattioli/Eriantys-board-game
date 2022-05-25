@@ -7,26 +7,25 @@ import java.io.Serializable;
  * Each type has a value and the maximum number of steps mother nature can do.
  */
 public enum AssistantCardType implements Serializable {
-    TIGER(1,1,"/Tiger.png"),
-    DUCK(2,1,"/Duck.png"),
-    CAT(3,2,"/Cat.png"),
-    EAGLE(4,2,"/Eagle.png"),
-    FOX(5,3,"/Fox.png"),
-    SNAKE(6,3,"/Snake.png"),
-    OCTOPUS(7,4,"/Octopus.png"),
-    DOG(8,4,"/Dog.png"),
-    ELEPHANT(9,5,"/Elephant.png"),
-    TURTLE(10,5,"/Turtle.png");
+    TIGER(1, 1, "/Tiger.png"),
+    DUCK(2, 1, "/Duck.png"),
+    CAT(3, 2, "/Cat.png"),
+    EAGLE(4, 2, "/Eagle.png"),
+    FOX(5, 3, "/Fox.png"),
+    SNAKE(6, 3, "/Snake.png"),
+    OCTOPUS(7, 4, "/Octopus.png"),
+    DOG(8, 4, "/Dog.png"),
+    ELEPHANT(9, 5, "/Elephant.png"),
+    TURTLE(10, 5, "/Turtle.png");
 
     private final int value;
     private final int maxSteps;
     private final String imagePath;
 
 
-
-    AssistantCardType(int value, int maxSteps, String imagePath){
-        this.value=value;
-        this.maxSteps=maxSteps;
+    AssistantCardType(int value, int maxSteps, String imagePath) {
+        this.value = value;
+        this.maxSteps = maxSteps;
         this.imagePath = imagePath;
     }
 

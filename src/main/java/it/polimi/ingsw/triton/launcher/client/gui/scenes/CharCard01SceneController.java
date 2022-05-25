@@ -31,9 +31,10 @@ public class CharCard01SceneController extends SceneController {
     /**
      * This method prepares the form to ask character card 1 parameters
      * Choice boxes are populated with available colors and islands
+     *
      * @param clientModel clientModel
-     * @param parameters a generic parameter which depends, based on specific scene
-     * @param <T> generic parameter
+     * @param parameters  a generic parameter which depends, based on specific scene
+     * @param <T>         generic parameter
      */
     @Override
     public <T> void setupScene(ClientModel clientModel, T parameters) {
@@ -47,17 +48,18 @@ public class CharCard01SceneController extends SceneController {
     /**
      * This method sends the message to server which contains the character card 1 parameters
      */
-    public void confirm(){
+    public void confirm() {
         confirmButton.setDisable(true);
-        notify(new CharacterCard01Reply(username, Color.valueOf(selectColorChoiceBox.getValue()), selectIslandIdChoiceBox.getValue()));
+        notify(new CharacterCard01Reply(Color.valueOf(selectColorChoiceBox.getValue()), selectIslandIdChoiceBox.getValue()));
     }
 
     /**
      * At the beginning, button is disabled, because user must choose a student and an island
      * When choice boxes contain a value, button is activated
+     *
      * @param event on choice box action
      */
-    private void activateButton(ActionEvent event){
+    private void activateButton(ActionEvent event) {
         confirmButton.setDisable(charCard01Pane.getChildren().stream().filter(
                 ChoiceBox.class::isInstance).filter(
                 Node::isVisible).map(

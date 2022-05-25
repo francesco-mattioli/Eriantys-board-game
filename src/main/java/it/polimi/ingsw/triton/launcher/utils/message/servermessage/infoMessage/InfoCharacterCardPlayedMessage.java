@@ -1,10 +1,11 @@
 package it.polimi.ingsw.triton.launcher.utils.message.servermessage.infoMessage;
 
 import it.polimi.ingsw.triton.launcher.client.ServerMessageVisitor;
-import it.polimi.ingsw.triton.launcher.server.model.islands.Island;
 import it.polimi.ingsw.triton.launcher.server.model.cardeffects.CharacterCard;
+import it.polimi.ingsw.triton.launcher.server.model.islands.Island;
 import it.polimi.ingsw.triton.launcher.server.model.player.SchoolBoard;
 import it.polimi.ingsw.triton.launcher.utils.message.servermessage.InfoMessage;
+
 import java.util.List;
 import java.util.Map;
 
@@ -55,7 +56,7 @@ public class InfoCharacterCardPlayedMessage extends InfoMessage {
         return updatedSchoolBoards;
     }
 
-    public String[] getProfessors(){
+    public String[] getProfessors() {
         return professors;
     }
 }

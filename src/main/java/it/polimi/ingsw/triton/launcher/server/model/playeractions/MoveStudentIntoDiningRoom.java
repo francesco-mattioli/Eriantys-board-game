@@ -12,7 +12,7 @@ public class MoveStudentIntoDiningRoom implements Action {
 
 
     /**
-     * @param student     the color of student to move into the dining room.
+     * @param student       the color of student to move into the dining room.
      * @param currentPlayer the current player who executes the action.
      */
     public MoveStudentIntoDiningRoom(Color student, Player currentPlayer) {
@@ -25,10 +25,9 @@ public class MoveStudentIntoDiningRoom implements Action {
     /**
      * @return true if the player has not any students of the specified color in his entrance, false otherwise.
      */
-    protected boolean noStudentsColorInTheEntrance(){
+    protected boolean noStudentsColorInTheEntrance() {
         return currentPlayer.getSchoolBoard().getEntrance()[student.ordinal()] == 0;
     }
-
 
 
     /**
@@ -37,9 +36,9 @@ public class MoveStudentIntoDiningRoom implements Action {
      */
     @Override
     public void execute() throws IllegalClientInputException, EmptyGeneralCoinSupplyException {
-        if(currentPlayer.getSchoolBoard().isEntranceEmpty() || noStudentsColorInTheEntrance())
+        if (currentPlayer.getSchoolBoard().isEntranceEmpty() || noStudentsColorInTheEntrance())
             throw new IllegalClientInputException(ErrorTypeID.NO_STUDENT_WITH_COLOR_ENTRANCE);
-        else{
+        else {
             currentPlayer.getSchoolBoard().removeStudentFromEntrance(student);
             currentPlayer.getSchoolBoard().addStudentIntoDiningRoom(student);
         }

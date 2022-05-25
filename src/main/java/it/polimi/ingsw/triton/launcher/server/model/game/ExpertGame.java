@@ -193,9 +193,9 @@ public class ExpertGame extends GameDecorator {
      */
     @Override
     public void useCharacterCard(Player player, int idCard) throws IllegalClientInputException, CharacterCardWithParametersException {
-        if(game.getGameState() != GameState.ACTION_PHASE)
+        if (game.getGameState() != GameState.ACTION_PHASE)
             throw new IllegalClientInputException(ErrorTypeID.ILLEGAL_MOVE_FOR_PHASE);
-        else{
+        else {
             if (player.hasAlreadyPlayedACharacterCard()) {
                 throw new IllegalClientInputException(ErrorTypeID.CHARACTER_CARD_ALREADY_PLAYED);
             } else {
@@ -219,12 +219,12 @@ public class ExpertGame extends GameDecorator {
      */
     @Override
     public void applyCharacterCardEffect(int characterCardID, CardEffect cardEffect) throws IllegalClientInputException, EndGameException {
-        if(game.getGameState() != GameState.ACTION_PHASE)
+        if (game.getGameState() != GameState.ACTION_PHASE)
             throw new IllegalClientInputException(ErrorTypeID.ILLEGAL_MOVE_FOR_PHASE);
-        else{
-            try{
+        else {
+            try {
                 getCharacterCardByID(characterCardID).executeEffect(cardEffect);
-            } catch (EmptyGeneralCoinSupplyException e){
+            } catch (EmptyGeneralCoinSupplyException e) {
                 game.notify(new EmptyGeneralCoinSupplyMessage(game.getCurrentPlayer().getUsername()));
             }
             game.notify(new InfoCharacterCardPlayedMessage(game.getCurrentPlayer().getUsername(), getCharacterCardByID(characterCardID), game.getIslandManager().getIslands(), game.getAllSchoolBoards(), game.professorsWithUsernameOwner()));
@@ -254,7 +254,7 @@ public class ExpertGame extends GameDecorator {
     }
 
     @Override
-    public GeneralCoinSupply getGeneralCoinSupply(){
+    public GeneralCoinSupply getGeneralCoinSupply() {
         return generalCoinSupply;
     }
 }

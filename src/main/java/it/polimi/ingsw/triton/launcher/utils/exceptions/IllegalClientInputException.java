@@ -5,7 +5,7 @@ import it.polimi.ingsw.triton.launcher.utils.message.ErrorTypeID;
 /**
  * This exception is thrown when the player input is uncorrected.
  */
-public class IllegalClientInputException extends Exception{
+public class IllegalClientInputException extends Exception {
     private final ErrorTypeID typeError;
 
     public IllegalClientInputException() {
@@ -13,7 +13,7 @@ public class IllegalClientInputException extends Exception{
         typeError = ErrorTypeID.GENERIC_CLIENT_INPUT_ERROR;
     }
 
-    public IllegalClientInputException(ErrorTypeID typeError){
+    public IllegalClientInputException(ErrorTypeID typeError) {
         super(typeError.getDescription());
         this.typeError = typeError;
     }

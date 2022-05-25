@@ -20,15 +20,15 @@ public class CardEffect11 implements CardEffect, Serializable {
     private final Player[] professors;
 
     /**
-     * @param student to draw from the Card.
-     * @param player the current player.
-     * @param bag to draw a student.
-     * @param characterCard the character card 11.
+     * @param student           to draw from the Card.
+     * @param player            the current player.
+     * @param bag               to draw a student.
+     * @param characterCard     the character card 11.
      * @param generalCoinSupply the supply to withdraw money from.
-     * @param professors owned by players.
+     * @param professors        owned by players.
      * @param professorsManager to calculate influence.
      */
-    public CardEffect11(Color student, Player player, Bag bag, CharacterCard characterCard, GeneralCoinSupply generalCoinSupply, ProfessorsManager professorsManager, Player[] professors){
+    public CardEffect11(Color student, Player player, Bag bag, CharacterCard characterCard, GeneralCoinSupply generalCoinSupply, ProfessorsManager professorsManager, Player[] professors) {
         this.student = student;
         this.player = player;
         this.bag = bag;
@@ -47,9 +47,9 @@ public class CardEffect11 implements CardEffect, Serializable {
     public void execute() throws IllegalClientInputException, EmptyGeneralCoinSupplyException {
         player.getSchoolBoard().addStudentIntoDiningRoom(characterCard.drawStudent(student));
         professorsManager.updateProfessorsForAddInDiningRoom(player, student, professors);
-        if(!bag.isEmpty())
+        if (!bag.isEmpty())
             characterCard.addStudent(bag.drawStudent());
-        if(player.getSchoolBoard().getAvailableCoins()[student.ordinal()][player.getSchoolBoard().getStudentsNumber(student)-1]){
+        if (player.getSchoolBoard().getAvailableCoins()[student.ordinal()][player.getSchoolBoard().getStudentsNumber(student) - 1]) {
             generalCoinSupply.decrement();
             player.getWallet().increaseValue();
         }

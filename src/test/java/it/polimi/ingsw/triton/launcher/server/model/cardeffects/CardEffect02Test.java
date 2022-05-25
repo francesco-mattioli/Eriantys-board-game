@@ -8,14 +8,13 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class CardEffect02Test {
     private ProfessorsManager professorsManager;
     private Player p1;
     private Player p2;
     private Player[] professors;
-
 
 
     @BeforeEach

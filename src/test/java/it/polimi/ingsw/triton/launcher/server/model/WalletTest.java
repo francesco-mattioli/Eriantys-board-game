@@ -5,18 +5,18 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class WalletTest {
     private Wallet wallet;
 
     @BeforeEach
-    void setUp(){
+    void setUp() {
         wallet = new Wallet();
     }
 
     @AfterEach
-    void tearDown(){
+    void tearDown() {
         wallet = null;
     }
 
@@ -39,6 +39,6 @@ class WalletTest {
         wallet.increaseValue();
         int oldValue = wallet.getValue();
         wallet.decrease(1);
-        assertEquals(oldValue -1, wallet.getValue());
+        assertEquals(oldValue - 1, wallet.getValue());
     }
 }

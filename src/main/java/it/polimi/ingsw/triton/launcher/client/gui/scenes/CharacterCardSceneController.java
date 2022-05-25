@@ -47,13 +47,14 @@ public class CharacterCardSceneController extends SceneController {
         return backButton;
     }
 
-    public void playCharacterCard(){
+    public void playCharacterCard() {
         notify(new UseCharacterCardRequest(cardID));
         buttonPlay.setDisable(true);
     }
 
     /**
      * This method prepares the scene for the player, drawing available character cards in image views
+     *
      * @param clientModel clientModel
      */
     @Override
@@ -67,11 +68,12 @@ public class CharacterCardSceneController extends SceneController {
 
     /**
      * This method sets a character card image in the right Imageview
-     * @param cardPane the pane that contains the character card ImageView
-     * @param index index of character card in client model ArrayList
+     *
+     * @param cardPane    the pane that contains the character card ImageView
+     * @param index       index of character card in client model ArrayList
      * @param clientModel clientModel
      */
-    private void setCharacterCardImage(BorderPane cardPane, int index, ClientModel clientModel){
+    private void setCharacterCardImage(BorderPane cardPane, int index, ClientModel clientModel) {
         characterCardsMap.put(cardPane, clientModel.getAvailableCharacterCards().get(index).getId());
         ImageView imageView = (ImageView) cardPane.getCenter();
         Image image = new Image(Objects.requireNonNull(CharacterCardSceneController.class.getResource("/Images/CharacterCards/CharacterCard" + characterCardsMap.get(cardPane) + ".jpg")).toString());
@@ -83,7 +85,7 @@ public class CharacterCardSceneController extends SceneController {
      * Border of image is differently colorized, and selected character cards is saved, so if user clicks "play character card",
      * the selected card will be played, sending a message to server
      */
-    public void selectCharacterCard1(){
+    public void selectCharacterCard1() {
         card1Pane.setBorder(new Border(new BorderStroke(Color.WHITE,
                 BorderStrokeStyle.SOLID, CornerRadii.EMPTY, BorderWidths.DEFAULT)));
         cardID = characterCardsMap.get(card1Pane);
@@ -97,7 +99,7 @@ public class CharacterCardSceneController extends SceneController {
      * Border of image is differently colorized, and selected character cards is saved, so if user clicks "play character card",
      * the selected card will be played, sending a message to server
      */
-    public void selectCharacterCard2(){
+    public void selectCharacterCard2() {
         card2Pane.setBorder(new Border(new BorderStroke(Color.WHITE,
                 BorderStrokeStyle.SOLID, CornerRadii.EMPTY, BorderWidths.DEFAULT)));
         cardID = characterCardsMap.get(card2Pane);
@@ -111,7 +113,7 @@ public class CharacterCardSceneController extends SceneController {
      * Border of image is differently colorized, and selected character cards is saved, so if user clicks "play character card",
      * the selected card will be played, sending a message to server
      */
-    public void selectCharacterCard3(){
+    public void selectCharacterCard3() {
         card3Pane.setBorder(new Border(new BorderStroke(Color.WHITE,
                 BorderStrokeStyle.SOLID, CornerRadii.EMPTY, BorderWidths.DEFAULT)));
         cardID = characterCardsMap.get(card3Pane);
@@ -123,9 +125,10 @@ public class CharacterCardSceneController extends SceneController {
     /**
      * This method shows a form that contains the information about the character card
      * It uses helper methods, that are specified under this
+     *
      * @param event onMouseEntered
      */
-    public void showInfo(MouseEvent event){
+    public void showInfo(MouseEvent event) {
         characterCardPane.getChildren().removeIf(AnchorPane.class::isInstance);
         BorderPane actualPane = (BorderPane) event.getSource();
         infoPane = new AnchorPane();
@@ -133,23 +136,23 @@ public class CharacterCardSceneController extends SceneController {
         CharacterCard characterCard = clientModel.getCharacterCardById(characterCardsMap.get(actualPane));
         double x = actualPane.getLayoutX();
         double y = actualPane.getLayoutY() + actualPane.getHeight();
-        setupInfoPane(infoPane, characterCard.getId(), characterCard.getCost() ,x, y);
+        setupInfoPane(infoPane, characterCard.getId(), characterCard.getCost(), x, y);
         int labelY = 30;
-        for(int j = 0; j< it.polimi.ingsw.triton.launcher.server.model.enums.Color.numOfColors(); j++){
+        for (int j = 0; j < it.polimi.ingsw.triton.launcher.server.model.enums.Color.numOfColors(); j++) {
             setupLabel(it.polimi.ingsw.triton.launcher.server.model.enums.Color.values()[j].name(), characterCard.getStudents()[j], labelY, infoPane);
-            labelY+= 15;
+            labelY += 15;
         }
         setupNoEntryTiles(infoPane, characterCard.getNoEntryTiles());
     }
 
-    private void setupLabel(String color, int numberOfStudents, int y, AnchorPane anchorPane){
+    private void setupLabel(String color, int numberOfStudents, int y, AnchorPane anchorPane) {
         Label label = new Label("Number of " + color.toLowerCase() + " students:" + numberOfStudents);
         anchorPane.getChildren().add(label);
         setLabelLayout(label, y);
         label.setStyle("-fx-text-fill: " + color.toLowerCase() + ";");
     }
 
-    private void setupInfoPane(AnchorPane infoPane, int id, int cost, double x, double y){
+    private void setupInfoPane(AnchorPane infoPane, int id, int cost, double x, double y) {
         Label idLabel = new Label("Card ID:" + id);
         idLabel.setLayoutX(5);
         infoPane.getChildren().add(idLabel);
@@ -158,23 +161,22 @@ public class CharacterCardSceneController extends SceneController {
         infoPane.getChildren().add(costLabel);
         infoPane.setOpacity(1);
         infoPane.setStyle("-fx-background-color: #C7C7C7; -fx-border-color: black;");
-        setAnchorPaneLayout(infoPane,x,y);
+        setAnchorPaneLayout(infoPane, x, y);
         infoPane.setVisible(true);
     }
 
 
-    private void setupNoEntryTiles(AnchorPane infoPane, int number){
+    private void setupNoEntryTiles(AnchorPane infoPane, int number) {
         Label noEntryTilesLabel = new Label("Number of no entry tiles:" + number);
         infoPane.getChildren().add(noEntryTilesLabel);
         setLabelLayout(noEntryTilesLabel, 105);
     }
 
 
-
     /**
      * This method hides the info pane when mouse exits from the card image border
      */
-    public void hideInfo(){
+    public void hideInfo() {
         infoPane.setVisible(false);
     }
 }

@@ -6,7 +6,7 @@ import it.polimi.ingsw.triton.launcher.utils.message.Message;
 /**
  * This abstract class is extended by all the messages that are sent by the server.
  */
-public abstract class ServerMessage implements Message {
+public interface ServerMessage extends Message {
 
-    public abstract void accept(ServerMessageVisitor messageVisitor);
+  void accept(ServerMessageVisitor messageVisitor);
 }

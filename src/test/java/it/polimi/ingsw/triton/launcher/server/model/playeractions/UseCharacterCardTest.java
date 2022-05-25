@@ -11,7 +11,8 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 class UseCharacterCardTest {
     private CharacterCard characterCard;
@@ -19,16 +20,16 @@ class UseCharacterCardTest {
     private GeneralCoinSupply generalCoinSupply;
 
     @BeforeEach
-    void setup(){
+    void setup() {
         characterCard = new CharacterCard(3, 2, 0, new Bag());
         player = new Player("Test");
-        for(int i = 0; i < 5; i++)
+        for (int i = 0; i < 5; i++)
             player.getWallet().increaseValue();
         generalCoinSupply = new GeneralCoinSupply(5);
     }
 
     @AfterEach
-    void tearDown(){
+    void tearDown() {
         characterCard = null;
         player = null;
         generalCoinSupply = null;
@@ -56,7 +57,7 @@ class UseCharacterCardTest {
         } catch (IllegalClientInputException e) {
             e.printStackTrace();
         }
-        assertEquals(oldCost+1, characterCard.getCost());
+        assertEquals(oldCost + 1, characterCard.getCost());
     }
 
     /**
@@ -96,7 +97,7 @@ class UseCharacterCardTest {
      * any students in his entrance.
      */
     @Test
-    void testWhenCard7AndEntranceIsEmpty(){
+    void testWhenCard7AndEntranceIsEmpty() {
         Bag bag = new Bag();
         bag.fillBag();
         player.setSchoolBoard(TowerColor.BLACK, 2);
@@ -110,7 +111,7 @@ class UseCharacterCardTest {
      * any students in his entrance.
      */
     @Test
-    void testWhenCard10AndEntranceIsEmpty(){
+    void testWhenCard10AndEntranceIsEmpty() {
         player.setSchoolBoard(TowerColor.BLACK, 2);
         try {
             player.getSchoolBoard().addStudentIntoDiningRoom(Color.BLUE);
@@ -127,7 +128,7 @@ class UseCharacterCardTest {
      * any students in his dining room.
      */
     @Test
-    void testWhenCard10AndDiningRoomIsEmpty(){
+    void testWhenCard10AndDiningRoomIsEmpty() {
         player.setSchoolBoard(TowerColor.BLACK, 2);
         player.getSchoolBoard().addStudentIntoEntrance(Color.BLUE);
         characterCard = new CharacterCard(10, 1, 0, new Bag());

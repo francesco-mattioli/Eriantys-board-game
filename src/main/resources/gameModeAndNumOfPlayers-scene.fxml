@@ -5,20 +5,29 @@
 <?import javafx.scene.control.ToggleGroup?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane fx:id="gameModePane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="312.0" prefWidth="437.0" styleClass="gameModePane" stylesheets="@css/mode-css.css" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.triton.launcher.client.gui.scenes.GameModeAndNumOfPlayersSceneController">
-   <children>
-      <RadioButton fx:id="rdbStandard" layoutX="73.0" layoutY="115.0" mnemonicParsing="false" selected="true" text="Standard Mode">
-         <toggleGroup>
-            <ToggleGroup fx:id="modeGroup" />
-         </toggleGroup>
-      </RadioButton>
-      <RadioButton fx:id="rdbExpert" layoutX="73.0" layoutY="179.0" mnemonicParsing="false" text="Expert Mode" toggleGroup="$modeGroup" />
-      <Button fx:id="confirmButton" layoutX="168.0" layoutY="225.0" maxHeight="78.0" maxWidth="124.0" minHeight="33.0" minWidth="60.0" mnemonicParsing="false" onAction="#confirm" prefHeight="33.0" prefWidth="102.0" styleClass="confirmButton" stylesheets="@css/mode-css.css" />
-      <RadioButton fx:id="rdb2Players" layoutX="292.0" layoutY="115.0" mnemonicParsing="false" selected="true" text="2 players">
-         <toggleGroup>
-            <ToggleGroup fx:id="numOfPlayersGroup" />
-         </toggleGroup>
-      </RadioButton>
-      <RadioButton fx:id="rdb3Players" layoutX="292.0" layoutY="179.0" mnemonicParsing="false" text="3 players" toggleGroup="$numOfPlayersGroup" />
-   </children>
+<AnchorPane fx:id="gameModePane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
+            prefHeight="312.0" prefWidth="437.0" styleClass="gameModePane" stylesheets="@css/mode-css.css"
+            xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="it.polimi.ingsw.triton.launcher.client.gui.scenes.GameModeAndNumOfPlayersSceneController">
+    <children>
+        <RadioButton fx:id="rdbStandard" layoutX="73.0" layoutY="115.0" mnemonicParsing="false" selected="true"
+                     text="Standard Mode">
+            <toggleGroup>
+                <ToggleGroup fx:id="modeGroup"/>
+            </toggleGroup>
+        </RadioButton>
+        <RadioButton fx:id="rdbExpert" layoutX="73.0" layoutY="179.0" mnemonicParsing="false" text="Expert Mode"
+                     toggleGroup="$modeGroup"/>
+        <Button fx:id="confirmButton" layoutX="168.0" layoutY="225.0" maxHeight="78.0" maxWidth="124.0" minHeight="33.0"
+                minWidth="60.0" mnemonicParsing="false" onAction="#confirm" prefHeight="33.0" prefWidth="102.0"
+                styleClass="confirmButton" stylesheets="@css/mode-css.css"/>
+        <RadioButton fx:id="rdb2Players" layoutX="292.0" layoutY="115.0" mnemonicParsing="false" selected="true"
+                     text="2 players">
+            <toggleGroup>
+                <ToggleGroup fx:id="numOfPlayersGroup"/>
+            </toggleGroup>
+        </RadioButton>
+        <RadioButton fx:id="rdb3Players" layoutX="292.0" layoutY="179.0" mnemonicParsing="false" text="3 players"
+                     toggleGroup="$numOfPlayersGroup"/>
+    </children>
 </AnchorPane>

@@ -25,6 +25,7 @@ public interface ClientView extends View {
     void askIpAddress();
 
     // Ask methods
+
     /**
      * Asks the player to insert his username.
      */
@@ -36,14 +37,17 @@ public interface ClientView extends View {
     void askPlayAgain();
 
     // Show methods
+
     /**
      * Shows to the player a generic message.
+     *
      * @param genericMessage the string to print.
      */
     void showGenericMessage(String genericMessage);
 
     /**
      * Shows which players are online.
+     *
      * @param onlineNicknames the list with the online players.
      */
     void showLobbyMessage(List<String> onlineNicknames);
@@ -61,6 +65,7 @@ public interface ClientView extends View {
 
     /**
      * Shows to the player that a new phase is starting.
+     *
      * @param gameState the new phase of the game.
      */
     void showChangePhase(GameState gameState);
@@ -77,7 +82,8 @@ public interface ClientView extends View {
 
     /**
      * Shows to other players which card is played by current player.
-     * @param username the current player's username.
+     *
+     * @param username      the current player's username.
      * @param assistantCard the assistant card just played.
      */
     void showInfoAssistantCardPlayed(String username, AssistantCard assistantCard);
@@ -89,26 +95,30 @@ public interface ClientView extends View {
 
     /**
      * Shows to other players which student is moved to the dining room by current player.
-     * @param username the current player's username.
+     *
+     * @param username        the current player's username.
      * @param moveDescription the description of the move.
      */
     void showInfoStudentIntoDiningRoom(String username, String moveDescription);
 
     /**
      * Shows to other players which student is moved to an island by current player.
-     * @param username the current player's username.
+     *
+     * @param username        the current player's username.
      * @param moveDescription the description of the move.
      */
     void showInfoStudentOntoIsland(String username, String moveDescription);
 
     /**
      * Shows to the players the new position of mother nature.
+     *
      * @param islandId the id of the island with mother nature.
      */
     void showMotherNaturePosition(int islandId);
 
     /**
      * Shows to the players that an island has a new dominator.
+     *
      * @param username the new island dominator's username.
      * @param islandId the id of the island.
      */
@@ -116,6 +126,7 @@ public interface ClientView extends View {
 
     /**
      * Shows to the players that an island is now merged with another one.
+     *
      * @param island1Id the id of the island merged with mother nature.
      * @param island2Id the id of the island merged to delete.
      */
@@ -123,20 +134,23 @@ public interface ClientView extends View {
 
     /**
      * Shows to the players that a new tower is built onto an island.
+     *
      * @param islandId the id of the island where a new tower is built.
      */
     void showMoveTowerOntoIsland(int islandId);
 
     /**
      * Shows to the players that a tower came back onto a school board.
-     * @param username the school board owner's username.
+     *
+     * @param username    the school board owner's username.
      * @param schoolBoard the school board with new towers.
      */
-    void showMoveTowerOntoSchoolBoard(String username,SchoolBoard schoolBoard);
+    void showMoveTowerOntoSchoolBoard(String username, SchoolBoard schoolBoard);
 
     /**
      * Shows to the players which cloud tile the current player chose.
-     * @param username the current player's username.
+     *
+     * @param username          the current player's username.
      * @param choiceDescription the description of the chosen cloud tile.
      */
     void showInfoChosenCloudTile(String username, String choiceDescription);
@@ -153,6 +167,7 @@ public interface ClientView extends View {
 
     /**
      * Shows to the losers who won the game.
+     *
      * @param winnerUsername the winner's username.
      */
     void showLoseMessage(String winnerUsername);
@@ -164,6 +179,7 @@ public interface ClientView extends View {
 
     /**
      * Shows to the current player which assistant card has just played.
+     *
      * @param assistantCard the assistant card played.
      */
     void showMyInfoAssistantCardPlayed(AssistantCard assistantCard);

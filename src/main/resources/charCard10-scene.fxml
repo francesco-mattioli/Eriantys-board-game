@@ -5,16 +5,25 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane fx:id="charCard10Pane" prefHeight="400.0" prefWidth="600.0" styleClass="charCard10Pane" stylesheets="@css/charCard10-css.css" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.triton.launcher.client.gui.scenes.CharCard10SceneController">
-   <children>
-      <ChoiceBox fx:id="fromDiningRoom1" layoutX="70.0" layoutY="160.0" prefWidth="150.0" />
-      <ChoiceBox fx:id="fromEntrance1" layoutX="300.0" layoutY="163.0" prefWidth="150.0" />
-      <Button fx:id="confirmButton1" disable="true" layoutX="488.0" layoutY="162.0" mnemonicParsing="false" onAction="#confirm1" prefHeight="25.0" prefWidth="89.0" styleClass="confirmButton1" stylesheets="@css/charCard10-css.css" />
-      <Button fx:id="stopButton" layoutX="249.0" layoutY="308.0" maxHeight="78.0" maxWidth="124.0" minHeight="33.0" minWidth="60.0" mnemonicParsing="false" onAction="#stop" prefHeight="33.0" prefWidth="102.0" styleClass="stopButton" stylesheets="@css/charCard10-css.css" />
-      <ChoiceBox fx:id="fromDiningRoom2" disable="true" layoutX="70.0" layoutY="213.0" prefWidth="150.0" />
-      <ChoiceBox fx:id="fromEntrance2" disable="true" layoutX="300.0" layoutY="216.0" prefWidth="150.0" />
-      <Button fx:id="confirmButton2" disable="true" layoutX="488.0" layoutY="212.0" mnemonicParsing="false" onAction="#confirm2" prefHeight="25.0" prefWidth="89.0" styleClass="confirmButton2" stylesheets="@css/charCard10-css.css" />
-      <Label layoutX="70.0" layoutY="127.0" text="From Dining Room:" />
-      <Label layoutX="300.0" layoutY="130.0" text="From Entrance:" />
-   </children>
+<AnchorPane fx:id="charCard10Pane" prefHeight="400.0" prefWidth="600.0" styleClass="charCard10Pane"
+            stylesheets="@css/charCard10-css.css" xmlns="http://javafx.com/javafx/18"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="it.polimi.ingsw.triton.launcher.client.gui.scenes.CharCard10SceneController">
+    <children>
+        <ChoiceBox fx:id="fromDiningRoom1" layoutX="70.0" layoutY="160.0" prefWidth="150.0"/>
+        <ChoiceBox fx:id="fromEntrance1" layoutX="300.0" layoutY="163.0" prefWidth="150.0"/>
+        <Button fx:id="confirmButton1" disable="true" layoutX="488.0" layoutY="162.0" mnemonicParsing="false"
+                onAction="#confirm1" prefHeight="25.0" prefWidth="89.0" styleClass="confirmButton1"
+                stylesheets="@css/charCard10-css.css"/>
+        <Button fx:id="stopButton" layoutX="249.0" layoutY="308.0" maxHeight="78.0" maxWidth="124.0" minHeight="33.0"
+                minWidth="60.0" mnemonicParsing="false" onAction="#stop" prefHeight="33.0" prefWidth="102.0"
+                styleClass="stopButton" stylesheets="@css/charCard10-css.css"/>
+        <ChoiceBox fx:id="fromDiningRoom2" disable="true" layoutX="70.0" layoutY="213.0" prefWidth="150.0"/>
+        <ChoiceBox fx:id="fromEntrance2" disable="true" layoutX="300.0" layoutY="216.0" prefWidth="150.0"/>
+        <Button fx:id="confirmButton2" disable="true" layoutX="488.0" layoutY="212.0" mnemonicParsing="false"
+                onAction="#confirm2" prefHeight="25.0" prefWidth="89.0" styleClass="confirmButton2"
+                stylesheets="@css/charCard10-css.css"/>
+        <Label layoutX="70.0" layoutY="127.0" text="From Dining Room:"/>
+        <Label layoutX="300.0" layoutY="130.0" text="From Entrance:"/>
+    </children>
 </AnchorPane>

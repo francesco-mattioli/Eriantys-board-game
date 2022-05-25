@@ -1,7 +1,6 @@
 package it.polimi.ingsw.triton.launcher.utils.message.servermessage.Requests;
 
 import it.polimi.ingsw.triton.launcher.client.ServerMessageVisitor;
-import it.polimi.ingsw.triton.launcher.server.model.enums.TowerColor;
 import it.polimi.ingsw.triton.launcher.utils.message.clientmessage.TowerColorReply;
 
 /**
@@ -10,9 +9,9 @@ import it.polimi.ingsw.triton.launcher.utils.message.clientmessage.TowerColorRep
  * The parameter chosenTowerColors contains all the colors of the game and if they are free or already used.
  */
 public class TowerColorRequest extends AskMessage {
-    private final boolean [] chosenTowerColors;
+    private final boolean[] chosenTowerColors;
 
-    public TowerColorRequest(boolean [] chosenTowerColors) {
+    public TowerColorRequest(boolean[] chosenTowerColors) {
         this.chosenTowerColors = chosenTowerColors;
         super.expectedResponseMessageClasses.add(TowerColorReply.class);
     }

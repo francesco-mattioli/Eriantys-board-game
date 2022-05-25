@@ -11,10 +11,10 @@ public class ChooseCloudTile implements Action {
     private final SchoolBoard schoolBoard;
 
     /**
-     * @param cloudTile the cloud tile chosen by the player.
+     * @param cloudTile   the cloud tile chosen by the player.
      * @param schoolBoard the school board of the player.
      */
-    public ChooseCloudTile(CloudTile cloudTile, SchoolBoard schoolBoard){
+    public ChooseCloudTile(CloudTile cloudTile, SchoolBoard schoolBoard) {
         this.cloudTile = cloudTile;
         this.schoolBoard = schoolBoard;
     }
@@ -22,7 +22,7 @@ public class ChooseCloudTile implements Action {
     /**
      * @return true if the cloud tile is not already chosen, false otherwise.
      */
-    private boolean isCloudTileAlreadyChosen(){
+    private boolean isCloudTileAlreadyChosen() {
         return cloudTile.isAlreadyUsed();
     }
 
@@ -31,12 +31,12 @@ public class ChooseCloudTile implements Action {
      */
     @Override
     public void execute() throws IllegalClientInputException {
-        if(isCloudTileAlreadyChosen()){
+        if (isCloudTileAlreadyChosen()) {
             throw new IllegalClientInputException(ErrorTypeID.CLOUD_TILE_ALREADY_CHOSEN);
-        }else{
-            for(int i = 0; i < cloudTile.getStudents().length; i++){
+        } else {
+            for (int i = 0; i < cloudTile.getStudents().length; i++) {
                 int repeat = cloudTile.getStudents()[i];
-                for(int j = 0; j < repeat; j++){
+                for (int j = 0; j < repeat; j++) {
                     cloudTile.removeStudentFromCloudTile(Color.values()[i]);
                     schoolBoard.addStudentIntoEntrance(Color.values()[i]);
                 }

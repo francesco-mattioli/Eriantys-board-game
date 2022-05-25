@@ -34,8 +34,8 @@ public class MotherNatureStepsSceneController extends ActionPhaseSceneController
      * This method prepares the scene, populating choice box and setting everything correctly
      *
      * @param clientModel clientModel
-     * @param parameters a generic parameter which depends, based on specific scene
-     * @param <T> generic parameter
+     * @param parameters  a generic parameter which depends, based on specific scene
+     * @param <T>         generic parameter
      */
     @Override
     public <T> void setupScene(ClientModel clientModel, T parameters) {

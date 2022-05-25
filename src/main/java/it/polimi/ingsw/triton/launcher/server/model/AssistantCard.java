@@ -14,6 +14,7 @@ public class AssistantCard implements Serializable {
 
     /**
      * Assigns the type of assistantCard to the assistant card.
+     *
      * @param assistantCardType the assistant card type.
      */
     public AssistantCard(AssistantCardType assistantCardType) {
@@ -22,6 +23,7 @@ public class AssistantCard implements Serializable {
 
     /**
      * Gets assistant card type.
+     *
      * @return the assistant card type.
      */
     public AssistantCardType getType() {
@@ -29,7 +31,7 @@ public class AssistantCard implements Serializable {
     }
 
     @Override
-    public String toString(){
+    public String toString() {
         return assistantCardType.name() + ", value: " + assistantCardType.getValue() + ", max steps: " + assistantCardType.getMaxSteps() + "\n";
     }
 }

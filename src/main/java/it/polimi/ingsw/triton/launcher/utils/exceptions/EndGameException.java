@@ -7,7 +7,7 @@ package it.polimi.ingsw.triton.launcher.utils.exceptions;
  * 3. a player draws the last student into the bag or ends his assistant deck (at the end of this round).
  * In these cases, this exception allows the server to call the method calculateWinner to establish the winner.
  */
-public class EndGameException extends Exception{
+public class EndGameException extends Exception {
     public EndGameException() {
         super("The game must finish!");
     }

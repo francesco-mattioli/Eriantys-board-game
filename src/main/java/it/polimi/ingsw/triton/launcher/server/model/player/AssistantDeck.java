@@ -20,6 +20,7 @@ public class AssistantDeck implements Serializable {
     /**
      * Instantiates a new Assistant deck.
      * Fills the deck with all the cards associated with the type of Wizard
+     *
      * @param wizard the wizard to assign to the deck
      */
     public AssistantDeck(Wizard wizard) {
@@ -59,9 +60,9 @@ public class AssistantDeck implements Serializable {
     /**
      * @return the string with all the assistant cards.
      */
-    public String printAllAssistantCards(){
+    public String printAllAssistantCards() {
         StringBuilder result = new StringBuilder(" ");
-        for (AssistantCard assistantCard: assistantCards) {
+        for (AssistantCard assistantCard : assistantCards) {
             result.append("\t").append(assistantCard.toString());
         }
         return result.toString();
@@ -72,7 +73,7 @@ public class AssistantDeck implements Serializable {
     }
 
     @Override
-    public String toString(){
-        return "AssistantDeck: " + wizard +"\n"+ printAllAssistantCards();
+    public String toString() {
+        return "AssistantDeck: " + wizard + "\n" + printAllAssistantCards();
     }
 }
