@@ -11,7 +11,7 @@ public enum ErrorTypeID {
     TOWER_COLOR_ALREADY_CHOSEN("This tower color is already chosen!"),
     WIZARD_ALREADY_CHOSEN("This wizard is already chosen!"),
     ASSISTANTCARD_ALREADY_CHOSEN("This assistant card is already used!"),
-    TOO_MANY_MOTHERNATURE_STEPS("The number of steps exceeds the maximum possible!"),
+    INCORRECT_MOTHERNATURE_STEPS("The number of steps is incorrect!"),
     NULL_COLOR("Color cannot be null!"),
     EMPTY_BAG("The bag is empty; a student cannot be drawn!"),
     CLOUD_TILE_ALREADY_CHOSEN("The selected cloud tile is already selected!"),
