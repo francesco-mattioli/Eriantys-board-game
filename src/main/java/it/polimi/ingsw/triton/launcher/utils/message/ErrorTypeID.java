@@ -10,7 +10,6 @@ public enum ErrorTypeID {
     FULL_LOBBY("Lobby is full!"),
     TOWER_COLOR_ALREADY_CHOSEN("This tower color is already chosen!"),
     WIZARD_ALREADY_CHOSEN("This wizard is already chosen!"),
-    ILLEGAL_MOVE("This move cannot be done"),
     ASSISTANTCARD_ALREADY_CHOSEN("This assistant card is already used!"),
     TOO_MANY_MOTHERNATURE_STEPS("The number of steps exceeds the maximum possible!"),
     NULL_COLOR("Color cannot be null!"),
@@ -27,7 +26,9 @@ public enum ErrorTypeID {
     NULL_VALUE("Entered a null value"),
     COMMAND_CANCELLED("Command successfully canceled!"),
     ILLEGAL_MOVE_FOR_MODE("This move cannot be done in this game mode!"),
-    ILLEGAL_MOVE_FOR_PHASE("This move cannot be done in this phase!");
+    ILLEGAL_MOVE("This move cannot be done"),
+    ILLEGAL_MOVE_FOR_PHASE("This move cannot be done in this phase!"),
+    COMPROMISED("Game rules or code has been compromised!");
 
     private final String description;
 
