@@ -21,6 +21,7 @@ public class CardEffect07 implements CardEffect, Serializable {
      * @param fromCard students to take from the character card.
      * @param fromSchoolBoard students to take from the entrance.
      * @param schoolBoard the school board of the player.
+     * @param characterCard associated with this effect.
      */
     public CardEffect07(CharacterCard characterCard, int[] studentsOnCard, int[] fromCard, int[] fromSchoolBoard, SchoolBoard schoolBoard){
         this.fromCard = fromCard;

@@ -16,6 +16,8 @@ public class CardEffect01 implements CardEffect, Serializable {
     /**
      * @param student to draw from the card.
      * @param island  where the student must be moved.
+     * @param characterCard associated with this effect.
+     * @param bag to draw students.
      */
     public CardEffect01(CharacterCard characterCard, Color student, Island island, Bag bag) {
         this.characterCard = characterCard;

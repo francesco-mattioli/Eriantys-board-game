@@ -24,6 +24,9 @@ public class CardEffect11 implements CardEffect, Serializable {
      * @param player the current player.
      * @param bag to draw a student.
      * @param characterCard the character card 11.
+     * @param generalCoinSupply the supply to withdraw money from.
+     * @param professors owned by players.
+     * @param professorsManager to calculate influence.
      */
     public CardEffect11(Color student, Player player, Bag bag, CharacterCard characterCard, GeneralCoinSupply generalCoinSupply, ProfessorsManager professorsManager, Player[] professors){
         this.student = student;
