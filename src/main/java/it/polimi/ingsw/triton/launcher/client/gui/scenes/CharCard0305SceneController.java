@@ -46,9 +46,9 @@ public class CharCard0305SceneController extends SceneController{
     public void confirm(){
         confirmButton.setDisable(true);
         if (id == 3)
-            notify(new CharacterCard03Reply(username, selectIslandIdChoiceBox.getValue()));
+            notify(new CharacterCard03Reply(selectIslandIdChoiceBox.getValue()));
         if (id == 5)
-            notify(new CharacterCard05Reply(username, selectIslandIdChoiceBox.getValue()));
+            notify(new CharacterCard05Reply(selectIslandIdChoiceBox.getValue()));
     }
 
     /**

@@ -105,7 +105,7 @@ public class CharCard07SceneController extends SceneController {
         fromCharCard3.setDisable(true);
         confirmButton3.setDisable(true);
         stopButton.setDisable(true);
-        notify(new CharacterCard07Reply(username,fromCharCard,fromEntrance, clientModel.getCharacterCardById(7).getStudents()));
+        notify(new CharacterCard07Reply(fromCharCard,fromEntrance, clientModel.getCharacterCardById(7).getStudents()));
     }
 
     /**
@@ -122,7 +122,7 @@ public class CharCard07SceneController extends SceneController {
         fromEntrance3.setDisable(true);
         fromCharCard3.setDisable(true);
         confirmButton3.setDisable(true);
-        notify(new CharacterCard07Reply(username,fromCharCard,fromEntrance, clientModel.getCharacterCardById(7).getStudents()));
+        notify(new CharacterCard07Reply(fromCharCard,fromEntrance, clientModel.getCharacterCardById(7).getStudents()));
     }
 
 

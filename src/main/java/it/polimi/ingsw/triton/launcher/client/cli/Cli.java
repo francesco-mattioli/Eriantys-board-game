@@ -493,7 +493,7 @@ public class Cli extends Observable<Message> implements ClientView{
             out.println(clientModel.printIslands());
             out.print(Utility.ANSI_BLUE + "Choose the id of the island: " + Utility.ANSI_RESET);
             input = readLine();
-            notify(new CharacterCard01Reply(clientModel.getUsername(), studentToMove, Integer.parseInt(input)));
+            notify(new CharacterCard01Reply(studentToMove, Integer.parseInt(input)));
         } catch (NumberFormatException e){
             out.println(TRY_AGAIN);
             askCharCard01();
@@ -512,7 +512,7 @@ public class Cli extends Observable<Message> implements ClientView{
         out.print(Utility.ANSI_BLUE + "Select the island where you want to calculate the influence: " + Utility.ANSI_RESET);
         try {
             String input = readLine();
-            notify(new CharacterCard03Reply(clientModel.getUsername(), Integer.parseInt(input)));
+            notify(new CharacterCard03Reply(Integer.parseInt(input)));
         } catch (NumberFormatException e){
             out.println(TRY_AGAIN);
             askCharCard03();
@@ -531,7 +531,7 @@ public class Cli extends Observable<Message> implements ClientView{
         out.print(Utility.ANSI_BLUE + "Select the island where to put a no entry tile: " + Utility.ANSI_RESET);
         try {
             String input = readLine();
-            notify(new CharacterCard05Reply(clientModel.getUsername(), Integer.parseInt(input)));
+            notify(new CharacterCard05Reply(Integer.parseInt(input)));
         } catch (NumberFormatException e){
             out.println(TRY_AGAIN);
             askCharCard05();
@@ -579,7 +579,7 @@ public class Cli extends Observable<Message> implements ClientView{
                 showAbortMessage();
             }
         }while (repeat < 3);
-        notify(new CharacterCard07Reply(clientModel.getUsername(), fromCard, fromSchoolBoard, clientModel.getCharacterCardById(7).getStudents()));
+        notify(new CharacterCard07Reply(fromCard, fromSchoolBoard, clientModel.getCharacterCardById(7).getStudents()));
     }
 
     /**
@@ -615,7 +615,7 @@ public class Cli extends Observable<Message> implements ClientView{
             out.print(Utility.ANSI_BLUE + "Enter the color that will not count in the calculation of influence: " + Utility.ANSI_RESET);
             String input = readLine();
             Color color = Color.valueOf(input.toUpperCase());
-            notify(new CharacterCard09Reply(clientModel.getUsername(), color));
+            notify(new CharacterCard09Reply(color));
         } catch (IllegalArgumentException e){
             out.println(TRY_AGAIN);
             askCharCard09();
@@ -662,7 +662,7 @@ public class Cli extends Observable<Message> implements ClientView{
                 showAbortMessage();
             }
         }while (repeat < 2);
-        notify(new CharacterCard10Reply(clientModel.getUsername(), fromEntrance, fromDiningRoom));
+        notify(new CharacterCard10Reply(fromEntrance, fromDiningRoom));
     }
 
     /**
@@ -677,7 +677,7 @@ public class Cli extends Observable<Message> implements ClientView{
         try {
             String input = readLine();
             Color color = Color.valueOf(input.toUpperCase());
-            notify(new CharacterCard11Reply(clientModel.getUsername(), color));
+            notify(new CharacterCard11Reply(color));
         } catch (IllegalArgumentException e){
             out.println(TRY_AGAIN);
             askCharCard11();
@@ -701,7 +701,7 @@ public class Cli extends Observable<Message> implements ClientView{
         try {
             String input = readLine();
             Color color = Color.valueOf(input.toUpperCase());
-            notify(new CharacterCard12Reply(clientModel.getUsername(), color));
+            notify(new CharacterCard12Reply(color));
         } catch (IllegalArgumentException e){
             out.println(TRY_AGAIN);
             askCharCard12();

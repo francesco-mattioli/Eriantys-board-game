@@ -49,7 +49,7 @@ public class CharCard01SceneController extends SceneController {
      */
     public void confirm(){
         confirmButton.setDisable(true);
-        notify(new CharacterCard01Reply(username, Color.valueOf(selectColorChoiceBox.getValue()), selectIslandIdChoiceBox.getValue()));
+        notify(new CharacterCard01Reply(Color.valueOf(selectColorChoiceBox.getValue()), selectIslandIdChoiceBox.getValue()));
     }
 
     /**

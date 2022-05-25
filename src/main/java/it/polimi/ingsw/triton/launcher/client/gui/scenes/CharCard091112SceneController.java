@@ -51,11 +51,11 @@ public class CharCard091112SceneController extends SceneController{
     public void confirm(){
         confirmButton.setDisable(true);
         if (id == 9)
-            notify(new CharacterCard09Reply(username, Color.valueOf(selectColorChoiceBox.getValue())));
+            notify(new CharacterCard09Reply(Color.valueOf(selectColorChoiceBox.getValue())));
         if (id == 11)
-            notify(new CharacterCard11Reply(username, Color.valueOf(selectColorChoiceBox.getValue())));
+            notify(new CharacterCard11Reply(Color.valueOf(selectColorChoiceBox.getValue())));
         if (id == 12)
-            notify(new CharacterCard12Reply(username, Color.valueOf(selectColorChoiceBox.getValue())));
+            notify(new CharacterCard12Reply(Color.valueOf(selectColorChoiceBox.getValue())));
     }
 
     /**

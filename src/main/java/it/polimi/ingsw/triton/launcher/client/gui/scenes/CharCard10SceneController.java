@@ -83,7 +83,7 @@ public class CharCard10SceneController extends SceneController{
         fromDiningRoom2.setDisable(true);
         confirmButton2.setDisable(true);
         stopButton.setDisable(true);
-        notify(new CharacterCard10Reply(username,fromEntrance, fromDiningRoom));
+        notify(new CharacterCard10Reply(fromEntrance, fromDiningRoom));
         currentButton = confirmButton2;
     }
 
@@ -99,7 +99,7 @@ public class CharCard10SceneController extends SceneController{
         fromEntrance2.setDisable(true);
         fromDiningRoom2.setDisable(true);
         confirmButton2.setDisable(true);
-        notify(new CharacterCard10Reply(username, fromEntrance, fromDiningRoom));
+        notify(new CharacterCard10Reply(fromEntrance, fromDiningRoom));
     }
 
     /**

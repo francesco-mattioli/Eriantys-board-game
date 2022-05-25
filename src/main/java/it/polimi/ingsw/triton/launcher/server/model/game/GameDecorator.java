@@ -20,7 +20,7 @@ import java.util.Map;
  * This decorator provides additional methods that can be called in expertGame.
  */
 public class GameDecorator extends GameMode{
-    protected GameMode game;
+    protected final GameMode game;
 
     public GameDecorator(GameMode game) {
         this.game = game;

@@ -10,19 +10,15 @@ import java.util.List;
  */
 public class LobbyMessage extends InfoMessage {
     private final List<String> onlineNicknames;
-    private final int maxNumberPlayers;
-    public LobbyMessage(List<String> onlineNicknames, int maxNumberPlayers) {
+
+    public LobbyMessage(List<String> onlineNicknames) {
         this.onlineNicknames = onlineNicknames;
-        this.maxNumberPlayers = maxNumberPlayers;
     }
 
     public List<String> getOnlineNicknames() {
         return onlineNicknames;
     }
 
-    public int getMaxNumberPlayers() {
-        return maxNumberPlayers;
-    }
 
     @Override
     public void accept(ServerMessageVisitor serverMessageVisitor) {

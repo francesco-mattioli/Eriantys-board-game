@@ -12,8 +12,7 @@ public class CharacterCard10Reply extends CharacterCardReply{
     private final int[] fromEntrance;
     private final int[] fromDiningRoom;
 
-    public CharacterCard10Reply(String senderUsername, int[] fromEntrance, int[] fromDiningRoom) {
-        super(senderUsername);
+    public CharacterCard10Reply(int[] fromEntrance, int[] fromDiningRoom) {
         this.fromDiningRoom = fromDiningRoom;
         this.fromEntrance = fromEntrance;
     }

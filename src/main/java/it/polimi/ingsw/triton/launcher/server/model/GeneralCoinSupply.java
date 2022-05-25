@@ -3,7 +3,6 @@ package it.polimi.ingsw.triton.launcher.server.model;
 import it.polimi.ingsw.triton.launcher.utils.exceptions.EmptyGeneralCoinSupplyException;
 
 import java.io.Serializable;
-import java.util.NoSuchElementException;
 
 public class GeneralCoinSupply implements Serializable {
     private int coinsAmount;

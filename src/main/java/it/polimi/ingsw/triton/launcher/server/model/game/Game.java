@@ -99,7 +99,7 @@ public class Game extends GameMode {
             players.add(new Player(username));
             if (players.size() == 1)
                 currentPlayer = players.get(0);
-            notify(new LobbyMessage(getAllUsernames(players), maxNumberOfPlayers));
+            notify(new LobbyMessage(getAllUsernames(players)));
         } else
             throw new IllegalArgumentException("Username already chosen");
     }
@@ -507,7 +507,7 @@ public class Game extends GameMode {
     @Override
     public void removePlayer(String username) {
         players.removeIf(player -> (player.getUsername().equals(username)));
-        notify(new LobbyMessage(getAllUsernames(players), maxNumberOfPlayers));
+        notify(new LobbyMessage(getAllUsernames(players)));
     }
 
     /**

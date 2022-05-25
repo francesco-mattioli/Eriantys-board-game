@@ -12,7 +12,7 @@ import java.util.List;
  * for requests.
  */
 public abstract class AskMessage extends ServerMessage {
-    protected transient List<Class<?>> expectedResponseMessageClasses;
+    protected final transient List<Class<?>> expectedResponseMessageClasses;
 
     protected AskMessage(){
         this.expectedResponseMessageClasses=new ArrayList<>();

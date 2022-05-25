@@ -15,7 +15,7 @@ import java.util.List;
 
 public abstract class SceneController extends Observable<Message> {
     protected String username;
-    protected String[] colorsName = new String[5];
+    protected final String[] colorsName = new String[5];
 
     public void setUsername(String username){
         this.username = username;

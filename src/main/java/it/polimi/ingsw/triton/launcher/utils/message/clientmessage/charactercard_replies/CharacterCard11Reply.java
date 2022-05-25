@@ -12,8 +12,7 @@ import it.polimi.ingsw.triton.launcher.server.controller.visitors.ClientMessageM
 public class CharacterCard11Reply extends CharacterCardReply{
     private final Color student;
 
-    public CharacterCard11Reply(String senderUsername, Color student) {
-        super(senderUsername);
+    public CharacterCard11Reply(Color student) {
         this.student = student;
     }
 

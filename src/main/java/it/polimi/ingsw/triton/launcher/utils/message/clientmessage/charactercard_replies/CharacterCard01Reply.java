@@ -13,8 +13,7 @@ public class CharacterCard01Reply extends CharacterCardReply{
     private final Color student;
     private final int islandID;
 
-    public CharacterCard01Reply(String senderUsername, Color student, int islandID) {
-        super(senderUsername);
+    public CharacterCard01Reply(Color student, int islandID) {
         this.islandID = islandID;
         this.student = student;
     }

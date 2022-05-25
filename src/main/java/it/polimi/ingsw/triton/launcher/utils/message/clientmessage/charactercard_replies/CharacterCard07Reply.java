@@ -13,8 +13,7 @@ public class CharacterCard07Reply  extends CharacterCardReply{
     private final int[] fromSchoolBoard;
     private final int[] studentsOnCard;
 
-    public CharacterCard07Reply(String senderUsername, int[] fromCard, int[] fromSchoolBoard, int[] studentsOnCard) {
-        super(senderUsername);
+    public CharacterCard07Reply(int[] fromCard, int[] fromSchoolBoard, int[] studentsOnCard) {
         this.fromCard = fromCard;
         this.fromSchoolBoard = fromSchoolBoard;
         this.studentsOnCard = studentsOnCard;
