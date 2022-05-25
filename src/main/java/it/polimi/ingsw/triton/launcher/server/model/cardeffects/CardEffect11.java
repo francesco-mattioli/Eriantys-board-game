@@ -4,6 +4,7 @@ import it.polimi.ingsw.triton.launcher.server.model.Bag;
 import it.polimi.ingsw.triton.launcher.server.model.GeneralCoinSupply;
 import it.polimi.ingsw.triton.launcher.server.model.enums.Color;
 import it.polimi.ingsw.triton.launcher.server.model.player.Player;
+import it.polimi.ingsw.triton.launcher.server.model.professor.ProfessorsManager;
 import it.polimi.ingsw.triton.launcher.utils.exceptions.EmptyGeneralCoinSupplyException;
 import it.polimi.ingsw.triton.launcher.utils.exceptions.IllegalClientInputException;
 
@@ -15,6 +16,8 @@ public class CardEffect11 implements CardEffect, Serializable {
     private final Bag bag;
     private final CharacterCard characterCard;
     private final GeneralCoinSupply generalCoinSupply;
+    private final ProfessorsManager professorsManager;
+    private final Player[] professors;
 
     /**
      * @param student to draw from the Card.
@@ -22,12 +25,14 @@ public class CardEffect11 implements CardEffect, Serializable {
      * @param bag to draw a student.
      * @param characterCard the character card 11.
      */
-    public CardEffect11(Color student, Player player, Bag bag, CharacterCard characterCard, GeneralCoinSupply generalCoinSupply){
+    public CardEffect11(Color student, Player player, Bag bag, CharacterCard characterCard, GeneralCoinSupply generalCoinSupply, ProfessorsManager professorsManager, Player[] professors){
         this.student = student;
         this.player = player;
         this.bag = bag;
         this.characterCard = characterCard;
         this.generalCoinSupply = generalCoinSupply;
+        this.professorsManager = professorsManager;
+        this.professors = professors;
     }
 
     /**
@@ -38,6 +43,7 @@ public class CardEffect11 implements CardEffect, Serializable {
     @Override
     public void execute() throws IllegalClientInputException, EmptyGeneralCoinSupplyException {
         player.getSchoolBoard().addStudentIntoDiningRoom(characterCard.drawStudent(student));
+        professorsManager.updateProfessorsForAddInDiningRoom(player, student, professors);
         if(!bag.isEmpty())
             characterCard.addStudent(bag.drawStudent());
         if(player.getSchoolBoard().getAvailableCoins()[student.ordinal()][player.getSchoolBoard().getStudentsNumber(student)-1]){

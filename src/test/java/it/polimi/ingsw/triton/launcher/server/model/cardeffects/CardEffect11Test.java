@@ -5,6 +5,7 @@ import it.polimi.ingsw.triton.launcher.server.model.GeneralCoinSupply;
 import it.polimi.ingsw.triton.launcher.server.model.player.Player;
 import it.polimi.ingsw.triton.launcher.server.model.enums.Color;
 import it.polimi.ingsw.triton.launcher.server.model.enums.TowerColor;
+import it.polimi.ingsw.triton.launcher.server.model.professor.ProfessorsManager;
 import it.polimi.ingsw.triton.launcher.utils.exceptions.EmptyGeneralCoinSupplyException;
 import it.polimi.ingsw.triton.launcher.utils.exceptions.EndGameException;
 import it.polimi.ingsw.triton.launcher.utils.exceptions.IllegalClientInputException;
@@ -19,6 +20,7 @@ class CardEffect11Test {
     private Player player;
     private CharacterCard characterCard;
     private Bag bag;
+    private Player[] professors;
 
     @BeforeEach
     void setUp(){
@@ -29,6 +31,12 @@ class CardEffect11Test {
         characterCard = new CharacterCard(11,0,0,bag);
         characterCard.getStudents()[Color.BLUE.ordinal()] = 1;
         characterCard.getStudents()[Color.GREEN.ordinal()] = 0;
+        professors = new Player[5];
+        professors[Color.BLUE.ordinal()] = null;
+        professors[Color.RED.ordinal()] = null;
+        professors[Color.GREEN.ordinal()] = null;
+        professors[Color.PINK.ordinal()] = null;
+        professors[Color.YELLOW.ordinal()] = null;
     }
 
     @AfterEach
@@ -44,7 +52,7 @@ class CardEffect11Test {
      */
     @Test
     void addStudentWithColorNotOnTheCard(){
-        assertThrows(IllegalClientInputException.class, ()->characterCard.executeEffect(new CardEffect11(Color.GREEN, player,bag,characterCard, new GeneralCoinSupply(5))));
+        assertThrows(IllegalClientInputException.class, ()->characterCard.executeEffect(new CardEffect11(Color.GREEN, player,bag,characterCard, new GeneralCoinSupply(5), new ProfessorsManager(), professors)));
     }
 
     /**
@@ -53,7 +61,7 @@ class CardEffect11Test {
     @Test
     void addStudentWhenDiningRoomHasZero(){
         try {
-            characterCard.executeEffect(new CardEffect11(Color.BLUE, player,bag,characterCard, new GeneralCoinSupply(5)));
+            characterCard.executeEffect(new CardEffect11(Color.BLUE, player,bag,characterCard, new GeneralCoinSupply(5), new ProfessorsManager(), professors));
         } catch (EndGameException | IllegalClientInputException | EmptyGeneralCoinSupplyException e) {
             throw new RuntimeException(e);
         }
@@ -74,7 +82,7 @@ class CardEffect11Test {
             throw new RuntimeException(e);
         }
         try {
-            characterCard.executeEffect(new CardEffect11(Color.BLUE, player, bag, characterCard, new GeneralCoinSupply(5)));
+            characterCard.executeEffect(new CardEffect11(Color.BLUE, player, bag, characterCard, new GeneralCoinSupply(5), new ProfessorsManager(), professors));
         } catch (EndGameException | IllegalClientInputException | EmptyGeneralCoinSupplyException e) {
             throw new RuntimeException(e);
         }

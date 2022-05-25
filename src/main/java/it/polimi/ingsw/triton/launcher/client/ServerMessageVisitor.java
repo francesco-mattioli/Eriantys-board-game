@@ -275,6 +275,7 @@ public class ServerMessageVisitor {
         clientView.getClientModel().setAvailableCharacterCard(message.getCharacterCard());
         clientView.getClientModel().setIslands(message.getUpdatedIslands());
         clientView.getClientModel().setSchoolBoards(message.getUpdatedSchoolBoards());
+        clientView.getClientModel().setProfessors(message.getProfessors());
         if(!clientView.getClientModel().getUsername().equals(message.getPlayerUsername()))
             clientView.showGenericMessage(message.getChoiceDescription());
         if(clientView.getClientModel().getUsername().equals(message.getPlayerUsername()))

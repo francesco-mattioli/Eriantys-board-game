@@ -3,11 +3,14 @@ package it.polimi.ingsw.triton.launcher.server.model.cardeffects;
 import it.polimi.ingsw.triton.launcher.server.model.GeneralCoinSupply;
 import it.polimi.ingsw.triton.launcher.server.model.enums.Color;
 import it.polimi.ingsw.triton.launcher.server.model.player.Player;
+import it.polimi.ingsw.triton.launcher.server.model.professor.ProfessorsManager;
 import it.polimi.ingsw.triton.launcher.utils.exceptions.EmptyGeneralCoinSupplyException;
 import it.polimi.ingsw.triton.launcher.utils.exceptions.IllegalClientInputException;
 import it.polimi.ingsw.triton.launcher.utils.message.ErrorTypeID;
 
 import java.io.Serializable;
+import java.util.Arrays;
+import java.util.List;
 
 public class CardEffect10 implements CardEffect, Serializable {
     private final int[] fromEntrance;
@@ -15,6 +18,9 @@ public class CardEffect10 implements CardEffect, Serializable {
     private final Player player;
     private final GeneralCoinSupply generalCoinSupply;
     private final int[] oldDiningRoom;
+    private final ProfessorsManager professorsManager;
+    private final Player[] professors;
+    private final List<Player> players;
 
     /**
      * @param fromEntrance      students to take from entrance.
@@ -22,12 +28,15 @@ public class CardEffect10 implements CardEffect, Serializable {
      * @param player            the player who played the character card.
      * @param generalCoinSupply the coin supply of the game.
      */
-    public CardEffect10(int[] fromEntrance, int[] fromDiningRoom, Player player, GeneralCoinSupply generalCoinSupply) {
+    public CardEffect10(int[] fromEntrance, int[] fromDiningRoom, Player player, GeneralCoinSupply generalCoinSupply, ProfessorsManager professorsManager, Player[] professors, List<Player> players) {
         this.fromEntrance = fromEntrance;
         this.fromDiningRoom = fromDiningRoom;
         this.player = player;
         this.generalCoinSupply = generalCoinSupply;
         this.oldDiningRoom = player.getSchoolBoard().getDiningRoom().clone();
+        this.professorsManager = professorsManager;
+        this.professors = professors;
+        this.players = players;
     }
 
     /**
@@ -35,11 +44,16 @@ public class CardEffect10 implements CardEffect, Serializable {
      */
     @Override
     public void execute() throws IllegalClientInputException, EmptyGeneralCoinSupplyException {
-        removeStudents(player.getSchoolBoard().getDiningRoom(), fromDiningRoom);
-        removeStudents(player.getSchoolBoard().getEntrance(), fromEntrance);
-        addStudentsInto(player.getSchoolBoard().getDiningRoom(), fromEntrance);
-        addStudentsInto(player.getSchoolBoard().getEntrance(), fromDiningRoom);
-        checkPositionForWallet();
+        if(Arrays.stream(fromDiningRoom).sum() > 2 || Arrays.stream(fromDiningRoom).sum() != Arrays.stream(fromEntrance).sum())
+            throw new IllegalClientInputException(ErrorTypeID.ILLEGAL_MOVE);
+        else{
+            removeStudents(player.getSchoolBoard().getDiningRoom(), fromDiningRoom);
+            removeStudents(player.getSchoolBoard().getEntrance(), fromEntrance);
+            addStudentsInto(player.getSchoolBoard().getDiningRoom(), fromEntrance);
+            addStudentsInto(player.getSchoolBoard().getEntrance(), fromDiningRoom);
+            checkForProfessors();
+            checkPositionForWallet();
+        }
     }
 
 
@@ -92,4 +106,14 @@ public class CardEffect10 implements CardEffect, Serializable {
         }
     }
 
+    private void checkForProfessors(){
+        for(int i = 0; i < fromEntrance.length; i++){
+            int changedNumberStudents = fromEntrance[i] - fromDiningRoom[i];
+            if(changedNumberStudents > 0)
+                professorsManager.updateProfessorsForAddInDiningRoom(player, Color.values()[i], professors);
+            else if(changedNumberStudents < 0){
+                professorsManager.updateProfessorsForRemoveFromDiningRoom(players, Color.values()[i], professors);
+            }
+        }
+    }
 }
