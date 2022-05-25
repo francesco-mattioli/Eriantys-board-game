@@ -19,6 +19,7 @@ import static it.polimi.ingsw.triton.launcher.server.network.Server.LOGGER;
  * Each player must be treated as a thread
  */
 public class ServeOneClient implements Runnable {
+    private static final String AT_PORT = " at port: ";
     /**
      * input stream for receiving messages from the client
      * output stream for sending messages to the client
@@ -28,7 +29,6 @@ public class ServeOneClient implements Runnable {
     private ObjectInputStream inSocket;
     private ObjectOutputStream outSocket;
     private boolean active = true;
-    private static final String AT_PORT = " at port: ";
 
     public ServeOneClient(Socket socketClient, Server server) {
         this.socket = socketClient;
@@ -57,9 +57,9 @@ public class ServeOneClient implements Runnable {
             while (isActive()) {
                 ClientMessage message = (ClientMessage) inSocket.readObject();
                 if (message instanceof LoginRequest) {
-                    server.lobby(this, ((LoginRequest)message).getUsername());
+                    server.lobby(this, ((LoginRequest) message).getUsername());
                 } else if (message instanceof PlayersNumberAndGameModeReply) {
-                    server.activateGame(((PlayersNumberAndGameModeReply) message).getPlayersNumber(), ((PlayersNumberAndGameModeReply) message).isExpertMode());
+                    server.activateGame(this, ((PlayersNumberAndGameModeReply) message).getPlayersNumber(), ((PlayersNumberAndGameModeReply) message).isExpertMode());
                 } else {
                     server.notifyVirtualView(this, message);
                 }

@@ -129,20 +129,23 @@ public class Server {
      * @param maxNumPlayers decided by the first player
      * @param expertMode    the expert mode
      */
-    public synchronized void activateGame(int maxNumPlayers, boolean expertMode) {
-        if (!isNumberOfPlayersValid(maxNumPlayers)) {
-            askFirstPlayerGameSettingsAgain();
-        } else {
-            starting = true;
-            this.expertMode = expertMode;
-            controller.setMaxNumberOfGamePlayers(maxNumPlayers);
-            if (maxNumPlayers <= controller.getVirtualViews().size()) {
-                beginGameOrRemoveExtraPlayer(maxNumPlayers);
-            } else
-                waitingList.get(0).showGenericMessage("Waiting for " + (maxNumPlayers - waitingList.size()) + " to connect...");
-            if(Server.LOGGER.isLoggable(Level.INFO))
-                LOGGER.info(CLIENTS_CONNECTED+waitingList.size());
-        }
+    public synchronized void activateGame(ServeOneClient serveOneClient, int maxNumPlayers, boolean expertMode) {
+        if (controller.getLastVirtualViewByServeOneClient(serveOneClient) == waitingList.get(0)) {
+            if (!isNumberOfPlayersValid(maxNumPlayers)) {
+                askFirstPlayerGameSettingsAgain();
+            } else {
+                starting = true;
+                this.expertMode = expertMode;
+                controller.setMaxNumberOfGamePlayers(maxNumPlayers);
+                if (maxNumPlayers <= controller.getVirtualViews().size()) {
+                    beginGameOrRemoveExtraPlayer(maxNumPlayers);
+                } else
+                    waitingList.get(0).showGenericMessage("Waiting for " + (maxNumPlayers - waitingList.size()) + " to connect...");
+                if (Server.LOGGER.isLoggable(Level.INFO))
+                    LOGGER.info(CLIENTS_CONNECTED + waitingList.size());
+            }
+        } else
+            disconnectAllPlayers();
     }
 
 
@@ -173,8 +176,10 @@ public class Server {
      * number of players and game mode.
      */
     private void askSettingsIfMinimumNumberOfPlayersIsReached() {
-        if (waitingList.size() == 2 && !starting)
+        if (waitingList.size() == 2 && !starting) {
             waitingList.get(0).askNumPlayersAndGameMode();
+            controller.setVirtualViewToValidate(waitingList.get(0));
+        }
     }
 
     /**
@@ -211,7 +216,7 @@ public class Server {
         waitingList.remove(virtualView);
         controller.getVirtualViews().remove(virtualView);
         LOGGER.severe("Player not accepted, username already chosen");
-        if(Server.LOGGER.isLoggable(Level.INFO))
+        if (Server.LOGGER.isLoggable(Level.INFO))
             LOGGER.info(CLIENTS_CONNECTED + waitingList.size());
     }
 
@@ -277,16 +282,16 @@ public class Server {
     //------------------------------------------------------------------------------------------------------------------
 
 
-
 //-------------------------  METHODS CALLED BY SERVEONECLIENT CLASS ------------------------------------------------
+
     /**
      * Notify the virtual view associated with the specific ServeOneClient
      *
      * @param serveOneClient the ServeOneClient class that receives messages from the Client
      * @param message        the message from Client
      */
-    public void notifyVirtualView(ServeOneClient serveOneClient,ClientMessage message) {
-        controller.notifyVirtualView(serveOneClient,message);
+    public void notifyVirtualView(ServeOneClient serveOneClient, ClientMessage message) {
+        controller.notifyVirtualView(serveOneClient, message);
     }
 
     /**
@@ -343,6 +348,7 @@ public class Server {
         controller.disconnectAllPlayers();
         resetServer();
     }
+
 
     public Controller getController() {
         return controller;

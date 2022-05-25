@@ -120,6 +120,7 @@ class ExpertGameTest {
             e.printStackTrace();
         }
         try {
+            expertGame.setGameState(GameState.ACTION_PHASE);
             expertGame.useCharacterCard(p1, 8);
         } catch (IllegalClientInputException | CharacterCardWithParametersException e) {
             e.printStackTrace();

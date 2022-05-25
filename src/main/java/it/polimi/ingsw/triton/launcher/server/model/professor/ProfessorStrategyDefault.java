@@ -4,7 +4,6 @@ import it.polimi.ingsw.triton.launcher.server.model.enums.Color;
 import it.polimi.ingsw.triton.launcher.server.model.player.Player;
 
 public class ProfessorStrategyDefault extends ProfessorStrategy {
-
     /**
      * If there is no player who owns the professor, i.e. the element of the array is null, the professor is simply assigned to the player.
      * If the number of students in dining room is greater than the number of students in
