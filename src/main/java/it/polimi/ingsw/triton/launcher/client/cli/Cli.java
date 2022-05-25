@@ -650,7 +650,7 @@ public class Cli extends Observable<Message> implements ClientView{
                 fromEntrance[color.ordinal()]++;
 
                 // choose the student to swap on dining room, then update fromDiningRoom array to send to Server
-                out.print(Utility.ANSI_BLUE + ENTER_THE+ ordinal(repeat) + " - student from your dining room: " + Utility.ANSI_RESET);
+                out.print(Utility.ANSI_BLUE + ENTER_THE+ ordinal(repeat) + " student from your dining room: " + Utility.ANSI_RESET);
                 String inputFromDiningRoom = readLine();
                 color = Color.valueOf(inputFromDiningRoom.toUpperCase());
                 fromDiningRoom[color.ordinal()]++;
