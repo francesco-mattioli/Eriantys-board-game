@@ -1,11 +1,11 @@
 package it.polimi.ingsw.triton.launcher.server.model.islands;
 
-import it.polimi.ingsw.triton.launcher.server.model.influencestrategy.InfluenceStrategyDefault;
-import it.polimi.ingsw.triton.launcher.utils.Utility;
 import it.polimi.ingsw.triton.launcher.server.model.cardeffects.CharacterCard;
 import it.polimi.ingsw.triton.launcher.server.model.enums.Color;
 import it.polimi.ingsw.triton.launcher.server.model.influencestrategy.InfluenceStrategy;
+import it.polimi.ingsw.triton.launcher.server.model.influencestrategy.InfluenceStrategyDefault;
 import it.polimi.ingsw.triton.launcher.server.model.player.Player;
+import it.polimi.ingsw.triton.launcher.utils.Utility;
 import it.polimi.ingsw.triton.launcher.utils.exceptions.EndGameException;
 import it.polimi.ingsw.triton.launcher.utils.message.servermessage.InfoMessage;
 import it.polimi.ingsw.triton.launcher.utils.message.servermessage.infoMessage.ChangeInfluenceMessage;
@@ -42,9 +42,10 @@ public class Island extends Observable<InfoMessage> implements Serializable {
     /**
      * This method merges two islands, keeping the current island.
      * The current island's parameters will become the sum of the two islands parameters.
+     *
      * @param island specifies the island to merge with the current island.
      */
-    public void merge(Island island){
+    public void merge(Island island) {
         this.dim += island.getDim();
         for (int i = 0; i < students.length; i++) {
             this.students[i] += island.getStudents()[i];
@@ -54,9 +55,10 @@ public class Island extends Observable<InfoMessage> implements Serializable {
 
     /**
      * This method calculates the influence that the specified player has on the island.
-     * @param player specifies the player we want to calculate the influence.
+     *
+     * @param player     specifies the player we want to calculate the influence.
      * @param professors specifies for each professor which player has that professor.
-     * @param dominator specifies the player that is now dominating on the island.
+     * @param dominator  specifies the player that is now dominating on the island.
      * @return returns the value of influence for the specified player.
      */
     public int calculateInfluence(Player player, Player[] professors, Player dominator) {
@@ -65,18 +67,19 @@ public class Island extends Observable<InfoMessage> implements Serializable {
 
     /**
      * This method updates the island dominator.
-     * @param players specifies the list of players.
+     *
+     * @param players    specifies the list of players.
      * @param professors specifies for each professor which player has that professor.
      */
-    public void updateInfluence(List<Player> players, Player[] professors) throws EndGameException{
+    public void updateInfluence(List<Player> players, Player[] professors) throws EndGameException {
         if (noEntryTiles == 0) {
             int[] nonDominatorPlayersInfluences = new int[players.size()];
-            for(int i = 0; i < players.size(); i++){
-                if(dominator != players.get(i))
+            for (int i = 0; i < players.size(); i++) {
+                if (dominator != players.get(i))
                     nonDominatorPlayersInfluences[i] = calculateInfluence(players.get(i), professors, dominator);
             }
-            if(!checkForTie(nonDominatorPlayersInfluences))
-                updateIslandDominatorAndTowerInfluence(players,professors);
+            if (!checkForTie(nonDominatorPlayersInfluences))
+                updateIslandDominatorAndTowerInfluence(players, professors);
         } else {
             characterCard05.addNoEntryTile();
             noEntryTiles--;
@@ -97,22 +100,23 @@ public class Island extends Observable<InfoMessage> implements Serializable {
             }
         }
         towerInfluence(newDominator);
-        if(modifiedDominator)
+        if (modifiedDominator)
             notify(new ChangeInfluenceMessage(this, newDominator.getUsername()));
     }
 
 
-    private boolean checkForTie(int [] nonDominatorPlayersInfluences){
+    private boolean checkForTie(int[] nonDominatorPlayersInfluences) {
         OptionalInt max = Arrays.stream(nonDominatorPlayersInfluences).max();
         return Arrays.stream(nonDominatorPlayersInfluences).filter(i -> i == max.getAsInt()).count() > 1;
     }
 
     /**
      * This method updates the number of tower on the school boards of the players that are taking or losing the domination.
+     *
      * @param newDominator specifies the player that is now dominating on the island.
      * @throws EndGameException if a player has not any other towers.
      */
-    public void towerInfluence(Player newDominator)  throws EndGameException {
+    public void towerInfluence(Player newDominator) throws EndGameException {
         if (dominator != null && dominator != newDominator) {
             dominator.getSchoolBoard().moveTowerOntoSchoolBoard(dim);
             notify(new MoveTowerOntoSchoolBoardMessage(dominator.getUsername(), dominator.getSchoolBoard()));
@@ -126,6 +130,7 @@ public class Island extends Observable<InfoMessage> implements Serializable {
 
     /**
      * This method adds one student on the onto this island
+     *
      * @param color specifies the color of the student that has to be added onto the island
      */
     public void addStudent(Color color) {
@@ -156,7 +161,7 @@ public class Island extends Observable<InfoMessage> implements Serializable {
         this.noEntryTiles = noEntryTiles;
     }
 
-    public InfluenceStrategy getInfluenceStrategy(){
+    public InfluenceStrategy getInfluenceStrategy() {
         return influenceStrategy;
     }
 
@@ -170,10 +175,11 @@ public class Island extends Observable<InfoMessage> implements Serializable {
 
     /**
      * This method is useful to build the string that describes the island.
+     *
      * @return the island dominator's username if present, '/' otherwise.
      */
-    public String getDominatorEvenIfNull(){
-        if(dominator == null)
+    public String getDominatorEvenIfNull() {
+        if (dominator == null)
             return "/";
         else
             return dominator.getUsername();
@@ -183,11 +189,11 @@ public class Island extends Observable<InfoMessage> implements Serializable {
         this.dominator = dominator;
     }
 
-    public String toString(){
-        return "\n\t{id: " + id +", " +
+    public String toString() {
+        return "\n\t{id: " + id + ", " +
                 "dimension: " + dim + ", " +
                 "dominator: " + getDominatorEvenIfNull() + ", " +
-                 Utility.printColoredStudents(students) + ", " +
+                Utility.printColoredStudents(students) + ", " +
                 "no entry tiles: " + noEntryTiles + "}";
     }
 }

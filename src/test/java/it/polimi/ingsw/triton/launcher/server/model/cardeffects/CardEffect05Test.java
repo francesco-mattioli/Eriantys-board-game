@@ -7,7 +7,8 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 class CardEffect05Test {
     private Island island;
@@ -30,7 +31,7 @@ class CardEffect05Test {
      */
     @Test
     void testAddEntryTileWhenCardHasNotEntryTiles() {
-        for(int i = 0; i < 4; i++)
+        for (int i = 0; i < 4; i++)
             characterCard.noEntryTiles--;
         assertThrows(IllegalClientInputException.class, () -> new CardEffect05(island, characterCard).execute());
     }

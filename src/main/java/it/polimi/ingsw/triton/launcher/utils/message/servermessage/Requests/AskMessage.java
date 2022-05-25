@@ -14,13 +14,14 @@ import java.util.List;
 public abstract class AskMessage extends ServerMessage {
     protected final transient List<Class<?>> expectedResponseMessageClasses;
 
-    protected AskMessage(){
-        this.expectedResponseMessageClasses=new ArrayList<>();
+    protected AskMessage() {
+        this.expectedResponseMessageClasses = new ArrayList<>();
         this.expectedResponseMessageClasses.add(UseCharacterCardRequest.class);
     }
+
     public abstract void accept(ServerMessageVisitor messageVisitor);
 
-    public List<Class<?>> getExpectedResponseMessageClasses(){
+    public List<Class<?>> getExpectedResponseMessageClasses() {
         return expectedResponseMessageClasses;
     }
 

@@ -10,9 +10,9 @@ public class CardEffect05 implements CardEffect, Serializable {
     private final Island island;
     private final CharacterCard characterCard;
 
-    public CardEffect05(Island island, CharacterCard characterCard){
+    public CardEffect05(Island island, CharacterCard characterCard) {
         this.island = island;
-        this.characterCard=characterCard;
+        this.characterCard = characterCard;
     }
 
     /**
@@ -22,11 +22,11 @@ public class CardEffect05 implements CardEffect, Serializable {
      */
     @Override
     public void execute() throws IllegalClientInputException {
-        if(characterCard.noEntryTiles > 0){
+        if (characterCard.noEntryTiles > 0) {
             characterCard.noEntryTiles--;
             island.setNoEntryTiles(island.getNoEntryTiles() + 1);
             island.setCharacterCard05(characterCard);
-        }else{
+        } else {
             throw new IllegalClientInputException(ErrorTypeID.ILLEGAL_MOVE);
         }
     }

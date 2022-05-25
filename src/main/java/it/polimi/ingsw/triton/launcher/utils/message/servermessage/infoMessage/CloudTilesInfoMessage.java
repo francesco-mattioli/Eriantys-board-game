@@ -3,6 +3,7 @@ package it.polimi.ingsw.triton.launcher.utils.message.servermessage.infoMessage;
 import it.polimi.ingsw.triton.launcher.client.ServerMessageVisitor;
 import it.polimi.ingsw.triton.launcher.server.model.CloudTile;
 import it.polimi.ingsw.triton.launcher.utils.message.servermessage.InfoMessage;
+
 import java.util.List;
 
 /**

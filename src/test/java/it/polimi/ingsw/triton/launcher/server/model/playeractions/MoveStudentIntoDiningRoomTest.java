@@ -11,7 +11,8 @@ import org.junit.jupiter.api.Test;
 
 import java.util.Arrays;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 class MoveStudentIntoDiningRoomTest {
     private Player player;
@@ -32,7 +33,7 @@ class MoveStudentIntoDiningRoomTest {
      * any students of the color he selected in his entrance.
      */
     @Test
-    void moveStudentWithColorIncorrect(){
+    void moveStudentWithColorIncorrect() {
         assertThrows(IllegalClientInputException.class, () -> new MoveStudentIntoDiningRoom(Color.BLUE, player).execute());
     }
 
@@ -41,7 +42,7 @@ class MoveStudentIntoDiningRoomTest {
      * is empty.
      */
     @Test
-    void moveStudentWhenEntranceIsEmpty(){
+    void moveStudentWhenEntranceIsEmpty() {
         player.getSchoolBoard().addStudentIntoEntrance(Color.YELLOW);
         assertThrows(IllegalClientInputException.class, () -> new MoveStudentIntoDiningRoom(Color.BLUE, player).execute());
     }
@@ -51,7 +52,7 @@ class MoveStudentIntoDiningRoomTest {
      * executing the action.
      */
     @Test
-    void checkNumberStudentsEntrance(){
+    void checkNumberStudentsEntrance() {
         player.getSchoolBoard().addStudentIntoEntrance(Color.YELLOW);
         player.getSchoolBoard().addStudentIntoEntrance(Color.BLUE);
         int oldNumberStudents = Arrays.stream(player.getSchoolBoard().getEntrance()).sum();
@@ -68,7 +69,7 @@ class MoveStudentIntoDiningRoomTest {
      * is increased after executing the action.
      */
     @Test
-    void checkNumberStudentsDiningRoom(){
+    void checkNumberStudentsDiningRoom() {
         player.getSchoolBoard().addStudentIntoEntrance(Color.YELLOW);
         player.getSchoolBoard().addStudentIntoEntrance(Color.BLUE);
         int oldNumberBlueStudents = player.getSchoolBoard().getDiningRoom()[Color.BLUE.ordinal()];

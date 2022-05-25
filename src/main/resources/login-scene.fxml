@@ -5,10 +5,15 @@
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane fx:id="loginPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="312.0" prefWidth="437.0" styleClass="loginPane" stylesheets="@css/login-css.css" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.triton.launcher.client.gui.scenes.LoginSceneController">
-   <children>
-      <Button fx:id="loginButton" layoutX="167.0" layoutY="220.0" maxHeight="78.0" maxWidth="124.0" minHeight="33.0" minWidth="60.0" mnemonicParsing="false" onAction="#login" prefHeight="33.0" prefWidth="102.0" styleClass="loginButton" stylesheets="@css/login-css.css" />
-      <TextField fx:id="loginTextField" layoutX="138.0" layoutY="146.0" />
-      <Label layoutX="189.0" layoutY="123.0" text="Username:" />
-   </children>
+<AnchorPane fx:id="loginPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
+            prefHeight="312.0" prefWidth="437.0" styleClass="loginPane" stylesheets="@css/login-css.css"
+            xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="it.polimi.ingsw.triton.launcher.client.gui.scenes.LoginSceneController">
+    <children>
+        <Button fx:id="loginButton" layoutX="167.0" layoutY="220.0" maxHeight="78.0" maxWidth="124.0" minHeight="33.0"
+                minWidth="60.0" mnemonicParsing="false" onAction="#login" prefHeight="33.0" prefWidth="102.0"
+                styleClass="loginButton" stylesheets="@css/login-css.css"/>
+        <TextField fx:id="loginTextField" layoutX="138.0" layoutY="146.0"/>
+        <Label layoutX="189.0" layoutY="123.0" text="Username:"/>
+    </children>
 </AnchorPane>

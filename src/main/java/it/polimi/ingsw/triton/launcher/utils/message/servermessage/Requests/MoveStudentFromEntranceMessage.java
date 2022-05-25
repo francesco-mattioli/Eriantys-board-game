@@ -10,7 +10,7 @@ import it.polimi.ingsw.triton.launcher.utils.message.clientmessage.MoveStudentOn
  */
 public class MoveStudentFromEntranceMessage extends AskMessage {
 
-    public MoveStudentFromEntranceMessage(){
+    public MoveStudentFromEntranceMessage() {
         super.expectedResponseMessageClasses.add(MoveStudentOntoDiningRoomMessage.class);
         super.expectedResponseMessageClasses.add(MoveStudentOntoIslandMessage.class);
 

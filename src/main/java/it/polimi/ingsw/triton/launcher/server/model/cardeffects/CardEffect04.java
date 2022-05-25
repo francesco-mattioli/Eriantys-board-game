@@ -7,7 +7,7 @@ import java.io.Serializable;
 public class CardEffect04 implements CardEffect, Serializable {
     private final MotherNature motherNature;
 
-    public CardEffect04(MotherNature motherNature){
+    public CardEffect04(MotherNature motherNature) {
         this.motherNature = motherNature;
     }
 

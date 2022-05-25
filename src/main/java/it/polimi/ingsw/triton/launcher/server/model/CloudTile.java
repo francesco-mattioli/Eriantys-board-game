@@ -1,7 +1,7 @@
 package it.polimi.ingsw.triton.launcher.server.model;
 
-import it.polimi.ingsw.triton.launcher.utils.Utility;
 import it.polimi.ingsw.triton.launcher.server.model.enums.Color;
+import it.polimi.ingsw.triton.launcher.utils.Utility;
 
 import java.io.Serializable;
 
@@ -19,8 +19,8 @@ public class CloudTile implements Serializable {
      * @param color the student to put on the cloud tile.
      * @throws IllegalArgumentException if the color is null.
      */
-    public void setStudents(Color color) throws IllegalArgumentException{
-        if(color == null)    //To ask if create a new error of type abort that closes the game?
+    public void setStudents(Color color) throws IllegalArgumentException {
+        if (color == null)    //To ask if create a new error of type abort that closes the game?
             throw new IllegalArgumentException("Color not valid");
         students[color.ordinal()]++;
     }
@@ -56,7 +56,7 @@ public class CloudTile implements Serializable {
     }
 
     @Override
-    public String toString(){
-        return "\n\tCloudTile " +  getId() + ": " + Utility.printColoredStudents(students);
+    public String toString() {
+        return "\n\tCloudTile " + getId() + ": " + Utility.printColoredStudents(students);
     }
 }

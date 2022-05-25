@@ -11,21 +11,22 @@ import java.util.NoSuchElementException;
 
 public class Bag extends Observable<InfoMessage> implements Serializable {
     private final int[] students;
-    private final SecureRandom random ;
+    private final SecureRandom random;
 
     public Bag() {
         this.students = new int[5];
-        this.random= new SecureRandom();
+        this.random = new SecureRandom();
     }
 
 
     /**
      * Draws a random student from the bag.
+     *
      * @return a random student.
      * @throws NoSuchElementException if the bag is empty.
      */
     public Color drawStudent() throws NoSuchElementException {
-        if(isEmpty())
+        if (isEmpty())
             throw new NoSuchElementException("There aren't any other students");
         else {
             // generates a random number until it finds a student's color that has at least one pawn
@@ -38,7 +39,7 @@ public class Bag extends Observable<InfoMessage> implements Serializable {
             }
             // decrements the number of the drawn student
             students[randomIndex]--;
-            if(isEmpty())
+            if (isEmpty())
                 notify(new EmptyBagMessage());
             return Color.values()[randomIndex];
         }

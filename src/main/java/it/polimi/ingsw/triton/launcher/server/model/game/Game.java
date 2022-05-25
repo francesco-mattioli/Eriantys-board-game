@@ -256,23 +256,23 @@ public class Game extends GameMode {
      * Adds the students to the cloud tiles and sets the last round flag if the bag is empty.
      * It sends messages to communicate the new filled cloud tiles and if the bag is empty.
      */
-        public void addStudentsToCloudTiles() {
+    public void addStudentsToCloudTiles() {
         int maxNumOfStudentsOnCloudTile = (maxNumberOfPlayers == 2) ? 3 : 4;
         for (CloudTile cloudTile : cloudTiles) {
             cloudTile.setAlreadyUsed(false);
-                for (int i = 0; i < maxNumOfStudentsOnCloudTile; i++) {
-                    try{
-                        cloudTile.setStudents(bag.drawStudent());
-                    }catch(NoSuchElementException e){
-                        notFullCloudTiles = true;
-                    }
-                    if (bag.isEmpty()) {
-                        notFullCloudTiles = true;
-                        break;
-                    }
+            for (int i = 0; i < maxNumOfStudentsOnCloudTile; i++) {
+                try {
+                    cloudTile.setStudents(bag.drawStudent());
+                } catch (NoSuchElementException e) {
+                    notFullCloudTiles = true;
                 }
-                if (notFullCloudTiles)
+                if (bag.isEmpty()) {
+                    notFullCloudTiles = true;
                     break;
+                }
+            }
+            if (notFullCloudTiles)
+                break;
         }
         notify(new CloudTilesInfoMessage(cloudTiles));
     }
@@ -641,11 +641,11 @@ public class Game extends GameMode {
         return usedAssistantCards;
     }
 
-    public boolean isNotFullCloudTiles(){
+    public boolean isNotFullCloudTiles() {
         return notFullCloudTiles;
     }
 
-    public GeneralCoinSupply getGeneralCoinSupply() throws IllegalClientInputException{
+    public GeneralCoinSupply getGeneralCoinSupply() throws IllegalClientInputException {
         throw new IllegalClientInputException(ErrorTypeID.ILLEGAL_MOVE_FOR_MODE);
     }
     //------------------------------------------------------------------------------------------------------------------

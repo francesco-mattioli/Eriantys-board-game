@@ -12,7 +12,7 @@ import it.polimi.ingsw.triton.launcher.utils.message.servermessage.InfoMessage;
 public class UpdateIslandWithNoEntryTilesMessage extends InfoMessage {
     private final Island islandToUpdate;
 
-    public UpdateIslandWithNoEntryTilesMessage(Island islandToUpdate){
+    public UpdateIslandWithNoEntryTilesMessage(Island islandToUpdate) {
         this.islandToUpdate = islandToUpdate;
     }
 

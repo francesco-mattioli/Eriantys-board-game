@@ -10,6 +10,7 @@ import it.polimi.ingsw.triton.launcher.utils.message.servermessage.InfoMessage;
  */
 public class MotherNaturePositionMessage extends InfoMessage {
     private final Island motherNaturePosition;
+
     public MotherNaturePositionMessage(Island motherNaturePosition) {
         this.motherNaturePosition = motherNaturePosition;
     }

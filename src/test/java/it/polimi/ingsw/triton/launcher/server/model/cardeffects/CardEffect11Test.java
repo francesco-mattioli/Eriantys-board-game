@@ -2,9 +2,9 @@ package it.polimi.ingsw.triton.launcher.server.model.cardeffects;
 
 import it.polimi.ingsw.triton.launcher.server.model.Bag;
 import it.polimi.ingsw.triton.launcher.server.model.GeneralCoinSupply;
-import it.polimi.ingsw.triton.launcher.server.model.player.Player;
 import it.polimi.ingsw.triton.launcher.server.model.enums.Color;
 import it.polimi.ingsw.triton.launcher.server.model.enums.TowerColor;
+import it.polimi.ingsw.triton.launcher.server.model.player.Player;
 import it.polimi.ingsw.triton.launcher.server.model.professor.ProfessorsManager;
 import it.polimi.ingsw.triton.launcher.utils.exceptions.EmptyGeneralCoinSupplyException;
 import it.polimi.ingsw.triton.launcher.utils.exceptions.EndGameException;
@@ -13,7 +13,8 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 class CardEffect11Test {
 
@@ -23,12 +24,12 @@ class CardEffect11Test {
     private Player[] professors;
 
     @BeforeEach
-    void setUp(){
+    void setUp() {
         bag = new Bag();
         bag.fillBag();
         player = new Player("TestPlayer");
         player.setSchoolBoard(TowerColor.BLACK, 2);
-        characterCard = new CharacterCard(11,0,0,bag);
+        characterCard = new CharacterCard(11, 0, 0, bag);
         characterCard.getStudents()[Color.BLUE.ordinal()] = 1;
         characterCard.getStudents()[Color.GREEN.ordinal()] = 0;
         professors = new Player[5];
@@ -40,7 +41,7 @@ class CardEffect11Test {
     }
 
     @AfterEach
-    void tearDown(){
+    void tearDown() {
         bag = null;
         player = null;
         characterCard = null;
@@ -51,21 +52,21 @@ class CardEffect11Test {
      * is not on the character card.
      */
     @Test
-    void addStudentWithColorNotOnTheCard(){
-        assertThrows(IllegalClientInputException.class, ()->characterCard.executeEffect(new CardEffect11(Color.GREEN, player,bag,characterCard, new GeneralCoinSupply(5), new ProfessorsManager(), professors)));
+    void addStudentWithColorNotOnTheCard() {
+        assertThrows(IllegalClientInputException.class, () -> characterCard.executeEffect(new CardEffect11(Color.GREEN, player, bag, characterCard, new GeneralCoinSupply(5), new ProfessorsManager(), professors)));
     }
 
     /**
      * This test checks if the effect adds only one student when the entrance has zero.
      */
     @Test
-    void addStudentWhenDiningRoomHasZero(){
+    void addStudentWhenDiningRoomHasZero() {
         try {
-            characterCard.executeEffect(new CardEffect11(Color.BLUE, player,bag,characterCard, new GeneralCoinSupply(5), new ProfessorsManager(), professors));
+            characterCard.executeEffect(new CardEffect11(Color.BLUE, player, bag, characterCard, new GeneralCoinSupply(5), new ProfessorsManager(), professors));
         } catch (EndGameException | IllegalClientInputException | EmptyGeneralCoinSupplyException e) {
             throw new RuntimeException(e);
         }
-        assertEquals(1,player.getSchoolBoard().getDiningRoom()[Color.BLUE.ordinal()]);
+        assertEquals(1, player.getSchoolBoard().getDiningRoom()[Color.BLUE.ordinal()]);
     }
 
     /**
@@ -73,7 +74,7 @@ class CardEffect11Test {
      * a student in a position of his dining room which is multiple of three.
      */
     @Test
-    void checkUpdateWalletIfMultipleOfThree(){
+    void checkUpdateWalletIfMultipleOfThree() {
         int oldWallet = player.getWallet().getValue();
         try {
             player.getSchoolBoard().addStudentIntoDiningRoom(Color.BLUE);

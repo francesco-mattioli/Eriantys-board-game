@@ -15,15 +15,16 @@ public class Wallet implements Serializable {
     /**
      * Increases the amount of coins of wallet.
      */
-    public void increaseValue(){
+    public void increaseValue() {
         value++;
     }
 
     /**
      * Decreases the player's wallet removing a number of coins specified as a parameter.
+     *
      * @param amount the number of coins to remove from the wallet.
      */
-    public void decrease(int amount){
+    public void decrease(int amount) {
         value -= amount;
     }
 

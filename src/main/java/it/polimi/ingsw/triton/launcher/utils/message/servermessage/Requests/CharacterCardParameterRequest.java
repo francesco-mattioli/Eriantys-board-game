@@ -27,8 +27,8 @@ public class CharacterCardParameterRequest extends AskMessage {
         return characterCardID;
     }
 
-    private Class<?> getClassByCharacterCardId(int characterCardID){
-        switch(characterCardID){
+    private Class<?> getClassByCharacterCardId(int characterCardID) {
+        switch (characterCardID) {
             case 1:
                 return CharacterCard01Reply.class;
             case 3:

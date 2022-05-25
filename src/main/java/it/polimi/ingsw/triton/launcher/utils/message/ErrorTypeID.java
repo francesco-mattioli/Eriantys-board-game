@@ -29,7 +29,7 @@ public enum ErrorTypeID {
 
     private final String description;
 
-    ErrorTypeID(final String description){
+    ErrorTypeID(final String description) {
         this.description = description;
     }
 

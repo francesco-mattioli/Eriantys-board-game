@@ -16,9 +16,9 @@ public class PlayAssistantCard implements Action {
 
 
     /**
-     * @param assistantCardToPlay     the assistant card selected by the player.
-     * @param player                  who plays the card.
-     * @param usedAssistantCards the cards already played in this turn.
+     * @param assistantCardToPlay the assistant card selected by the player.
+     * @param player              who plays the card.
+     * @param usedAssistantCards  the cards already played in this turn.
      */
     public PlayAssistantCard(AssistantCard assistantCardToPlay, Player player, List<AssistantCard> usedAssistantCards) {
         this.assistantCardToPlay = assistantCardToPlay;
@@ -39,9 +39,9 @@ public class PlayAssistantCard implements Action {
         return false;
     }
 
-    private boolean canBeUsedByPlayer(AssistantCard assistantCardToPlay){
-        for(AssistantCard assistantCard: player.getAssistantDeck().getAssistantDeck()){
-            if(assistantCard.getType().equals(assistantCardToPlay.getType()))
+    private boolean canBeUsedByPlayer(AssistantCard assistantCardToPlay) {
+        for (AssistantCard assistantCard : player.getAssistantDeck().getAssistantDeck()) {
+            if (assistantCard.getType().equals(assistantCardToPlay.getType()))
                 return true;
         }
         return false;
@@ -74,9 +74,9 @@ public class PlayAssistantCard implements Action {
      */
     @Override
     public void execute() throws IllegalClientInputException {
-        if(assistantCardToPlay == null)
+        if (assistantCardToPlay == null)
             throw new IllegalClientInputException(ErrorTypeID.NULL_VALUE);
-        else{
+        else {
             if (isUsedCard(assistantCardToPlay, usedAssistantCards)) {
                 if (isUniqueChoice(player.getAssistantDeck(), usedAssistantCards)) {
                     player.setLastPlayedAssistantCard(assistantCardToPlay);
@@ -84,7 +84,7 @@ public class PlayAssistantCard implements Action {
                     usedAssistantCards.add(assistantCardToPlay);
                 } else
                     throw new IllegalClientInputException(ErrorTypeID.ASSISTANTCARD_ALREADY_CHOSEN);
-            } else if(canBeUsedByPlayer(assistantCardToPlay)){
+            } else if (canBeUsedByPlayer(assistantCardToPlay)) {
                 player.setLastPlayedAssistantCard(assistantCardToPlay);
                 player.getAssistantDeck().removeCard(assistantCardToPlay);
                 usedAssistantCards.add(assistantCardToPlay);

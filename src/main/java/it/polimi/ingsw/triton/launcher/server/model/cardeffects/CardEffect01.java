@@ -14,10 +14,10 @@ public class CardEffect01 implements CardEffect, Serializable {
     private final Bag bag;
 
     /**
-     * @param student to draw from the card.
-     * @param island  where the student must be moved.
+     * @param student       to draw from the card.
+     * @param island        where the student must be moved.
      * @param characterCard associated with this effect.
-     * @param bag to draw students.
+     * @param bag           to draw students.
      */
     public CardEffect01(CharacterCard characterCard, Color student, Island island, Bag bag) {
         this.characterCard = characterCard;
@@ -35,7 +35,7 @@ public class CardEffect01 implements CardEffect, Serializable {
     @Override
     public void execute() throws IllegalClientInputException {
         island.addStudent(characterCard.drawStudent(student));
-        if(!bag.isEmpty())
+        if (!bag.isEmpty())
             characterCard.addStudent(bag.drawStudent());
     }
 }

@@ -1,7 +1,7 @@
 package it.polimi.ingsw.triton.launcher.server.model.cardeffects;
 
-import it.polimi.ingsw.triton.launcher.server.model.islands.Island;
 import it.polimi.ingsw.triton.launcher.server.model.influencestrategy.InfluenceStrategyWithEffect08;
+import it.polimi.ingsw.triton.launcher.server.model.islands.Island;
 import it.polimi.ingsw.triton.launcher.server.model.player.Player;
 
 import java.io.Serializable;

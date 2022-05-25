@@ -15,14 +15,14 @@ import java.security.SecureRandom;
 import java.util.ArrayList;
 import java.util.List;
 
-public class IslandManager extends Observable <InfoMessage> implements Serializable {
+public class IslandManager extends Observable<InfoMessage> implements Serializable {
     private final List<Island> islands;
     private MotherNature motherNature;
     private final SecureRandom random;
 
-    public IslandManager(){
+    public IslandManager() {
         this.islands = new ArrayList<>();
-        this.random=new SecureRandom();
+        this.random = new SecureRandom();
         createIslands();
         setupMotherNature();
     }
@@ -47,9 +47,10 @@ public class IslandManager extends Observable <InfoMessage> implements Serializa
      * This method merges two or more adjacent islands with the same dominator.
      * Firstly, update the influence on the island where mother nature is on.
      * It merges when dominator is not null, i.e. there is a dominator.
+     *
      * @param islandToPreserve island to not remove during merging.
-     * @param players the list of players.
-     * @param professors the array with professors associated to the players.
+     * @param players          the list of players.
+     * @param professors       the array with professors associated to the players.
      * @throws EndGameException when there are only three groups of islands.
      */
     public void mergeNearIslands(Island islandToPreserve, List<Player> players, Player[] professors) throws EndGameException {
@@ -66,14 +67,15 @@ public class IslandManager extends Observable <InfoMessage> implements Serializa
     /**
      * Merges two islands removing the one that has no Mother Nature on.
      * Then, it checks how many groups of islands remain in the game.
+     *
      * @param islandToPreserve the island to not remove during merging.
-     * @param islandToRemove the island to remove during merging.
+     * @param islandToRemove   the island to remove during merging.
      * @throws EndGameException if there are only three groups of islands after merging and so, the game has to finish.
      */
-    private void mergeAndNotify(Island islandToPreserve,Island islandToRemove) throws EndGameException {
+    private void mergeAndNotify(Island islandToPreserve, Island islandToRemove) throws EndGameException {
         islandToPreserve.merge(islandToRemove);
         islands.remove(islandToRemove);
-        if(!existsIsland(motherNature.getPosition().getId()))
+        if (!existsIsland(motherNature.getPosition().getId()))
             motherNature.setIslandOn(islandToPreserve);
         notify(new MergeIslandsMessage(islandToPreserve, islandToRemove));
         checkNumberIslands();
@@ -93,6 +95,7 @@ public class IslandManager extends Observable <InfoMessage> implements Serializa
 
     /**
      * Checks if the number of remaining groups of islands is three.
+     *
      * @throws RuntimeException if the number of groups islands is three because the game must finish.
      */
     private void checkNumberIslands() throws EndGameException {
@@ -142,8 +145,8 @@ public class IslandManager extends Observable <InfoMessage> implements Serializa
     /**
      * Resets the influence strategy to default strategy when the turn is over.
      */
-    public void resetIslandsInfluenceStrategy(){
-        for(Island island: islands)
+    public void resetIslandsInfluenceStrategy() {
+        for (Island island : islands)
             island.setInfluenceStrategy(new InfluenceStrategyDefault());
     }
 

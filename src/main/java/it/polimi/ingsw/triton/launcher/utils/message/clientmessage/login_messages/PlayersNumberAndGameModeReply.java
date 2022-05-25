@@ -28,7 +28,7 @@ public class PlayersNumberAndGameModeReply extends ClientMessage {
         return playersNumber;
     }
 
-    public boolean isExpertMode(){
+    public boolean isExpertMode() {
         return expertMode;
     }
 

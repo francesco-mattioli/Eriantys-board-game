@@ -2,7 +2,6 @@ package it.polimi.ingsw.triton.launcher.utils.message.servermessage.Requests;
 
 import it.polimi.ingsw.triton.launcher.client.ServerMessageVisitor;
 import it.polimi.ingsw.triton.launcher.server.model.enums.Wizard;
-import it.polimi.ingsw.triton.launcher.utils.message.clientmessage.ClientMessage;
 import it.polimi.ingsw.triton.launcher.utils.message.clientmessage.WizardReply;
 
 import java.util.List;
@@ -24,7 +23,6 @@ public class WizardRequest extends AskMessage {
     public List<Wizard> getAvailableWizards() {
         return availableWizards;
     }
-
 
 
     @Override

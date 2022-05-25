@@ -2,13 +2,14 @@ package it.polimi.ingsw.triton.launcher.client.model;
 
 import it.polimi.ingsw.triton.launcher.server.model.AssistantCard;
 import it.polimi.ingsw.triton.launcher.server.model.CloudTile;
-import it.polimi.ingsw.triton.launcher.server.model.islands.Island;
 import it.polimi.ingsw.triton.launcher.server.model.cardeffects.CharacterCard;
 import it.polimi.ingsw.triton.launcher.server.model.enums.Wizard;
+import it.polimi.ingsw.triton.launcher.server.model.islands.Island;
 import it.polimi.ingsw.triton.launcher.server.model.player.AssistantDeck;
 import it.polimi.ingsw.triton.launcher.server.model.player.SchoolBoard;
 import it.polimi.ingsw.triton.launcher.utils.Utility;
 import it.polimi.ingsw.triton.launcher.utils.obs.Observable;
+
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -30,31 +31,32 @@ public class ClientModel extends Observable<Object> {
     private String[] professors;
     private int wallet;
     private Map<String, Wizard> chosenWizardsPerUsername;
-    private final Map<String,AssistantCard> lastAssistantCardPlayedPerUsername=new HashMap<>();
+    private final Map<String, AssistantCard> lastAssistantCardPlayedPerUsername = new HashMap<>();
     private CharacterCard lastCharacterCardPlayed;
 
     /**
      * Generates the string with the descriptions of all the objects that are in client model.
      * This string is useful for the player to choose the strategies of his moves.
+     *
      * @return the string with the descriptions of all the elements of client model.
      */
     @Override
     public String toString() {
         String result = "";
-        if(expertMode)
-            result += "\nEXPERT GAME:" ;
+        if (expertMode)
+            result += "\nEXPERT GAME:";
         else
-            result += "\nGAME:" ;
-        result+=    " \n- " + assistantDeck.toString() +
-                    " \n- Players' Wizards: " + chosenWizardsPerUsername.toString()+
-                    " \n- School Boards:\n" + printAllSchoolBoards() +
-                    " \n- Cloud Tiles:" + printCloudTiles() +
-                    " \n- Islands =" + printIslands() +
-                    " \n- Mother Nature is on Island " + motherNaturePosition.getId() +
-                    " \n- Professors on table: " + Utility.printColoredProfessorsOnTable(professors);
-        if(expertMode)
+            result += "\nGAME:";
+        result += " \n- " + assistantDeck.toString() +
+                " \n- Players' Wizards: " + chosenWizardsPerUsername.toString() +
+                " \n- School Boards:\n" + printAllSchoolBoards() +
+                " \n- Cloud Tiles:" + printCloudTiles() +
+                " \n- Islands =" + printIslands() +
+                " \n- Mother Nature is on Island " + motherNaturePosition.getId() +
+                " \n- Professors on table: " + Utility.printColoredProfessorsOnTable(professors);
+        if (expertMode)
             result += "\n- Character Cards: " + printAvailableCharacterCard();
-        result+="\n";
+        result += "\n";
         return result;
     }
 
@@ -80,6 +82,7 @@ public class ClientModel extends Observable<Object> {
 
     /**
      * Removes the assistant card the player has just played.
+     *
      * @param assistantCardToRemove the assistant card to remove from the client model.
      */
     public void removeCard(AssistantCard assistantCardToRemove) {
@@ -102,17 +105,18 @@ public class ClientModel extends Observable<Object> {
      * Updates one of the character cards that are in the client model.
      * This method is called by the serverMessageVisitor when a character card is played by one of the players
      * and so, its cost is increased.
+     *
      * @param newCharacterCard the updated character card.
      */
     public void setAvailableCharacterCard(CharacterCard newCharacterCard) {
         CharacterCard characterCardToUpdate = getCharacterCardById(newCharacterCard.getId());
-        availableCharacterCards.set(availableCharacterCards.indexOf(characterCardToUpdate),newCharacterCard);
+        availableCharacterCards.set(availableCharacterCards.indexOf(characterCardToUpdate), newCharacterCard);
     }
 
 
-    public CharacterCard getCharacterCardById(int id){
-        for(CharacterCard characterCard: availableCharacterCards){
-            if(characterCard.getId() == id)
+    public CharacterCard getCharacterCardById(int id) {
+        for (CharacterCard characterCard : availableCharacterCards) {
+            if (characterCard.getId() == id)
                 return characterCard;
         }
         return null;
@@ -129,6 +133,7 @@ public class ClientModel extends Observable<Object> {
     /**
      * Updates one of the islands with updated values such as number of students, number of towers or the presence
      * of mother nature.
+     *
      * @param newIsland the updated island.
      */
     public void setIsland(Island newIsland) {
@@ -141,6 +146,7 @@ public class ClientModel extends Observable<Object> {
     /**
      * Removes an island in the list of islands after this one merged with another island.
      * The island with mother nature remains in the list of islands.
+     *
      * @param islandToDelete the island to remove from the list of islands in client model.
      */
     public void removeIsland(Island islandToDelete) {
@@ -153,14 +159,14 @@ public class ClientModel extends Observable<Object> {
 
 
     public CloudTile getCloudTileById(int id) {
-        for(CloudTile cloudTile: cloudTiles)
-            if(cloudTile.getId() == id)
+        for (CloudTile cloudTile : cloudTiles)
+            if (cloudTile.getId() == id)
                 return cloudTile;
         return null;
     }
 
 
-    public SchoolBoard getMySchoolBoard(){
+    public SchoolBoard getMySchoolBoard() {
         return schoolBoards.get(this.username);
     }
 
@@ -168,23 +174,24 @@ public class ClientModel extends Observable<Object> {
         this.schoolBoards.put(username, schoolBoard);
     }
 
-    public AssistantCard getLastAssistantCardPlayed(String username){
+    public AssistantCard getLastAssistantCardPlayed(String username) {
         return lastAssistantCardPlayedPerUsername.get(username);
     }
 
-    public void setLastAssistantCardPlayed(String username,AssistantCard lastAssistantCardPlayed){
-        this.lastAssistantCardPlayedPerUsername.put(username,lastAssistantCardPlayed);
+    public void setLastAssistantCardPlayed(String username, AssistantCard lastAssistantCardPlayed) {
+        this.lastAssistantCardPlayedPerUsername.put(username, lastAssistantCardPlayed);
     }
 
     /**
      * Generates a string with the description of player's wallet.
      * This method is called every time the player uses a character card or deposits a student in a specific
      * position in his dining room.
+     *
      * @return the string with the description of player's wallet.
      */
-    public String printWallet(){
+    public String printWallet() {
         String results = "Your Wallet: " + wallet;
-        if(wallet == 1)
+        if (wallet == 1)
             results += " coin";
         else
             results += " coins";
@@ -215,6 +222,7 @@ public class ClientModel extends Observable<Object> {
     /**
      * Generates a string with the description of the cloud tiles.
      * This method is called every time the player has to choose a cloud tile to draw students.
+     *
      * @return the string with the description of the cloud tiles.
      */
     public String printCloudTiles() {
@@ -228,6 +236,7 @@ public class ClientModel extends Observable<Object> {
     /**
      * Generates a string with the description of available character cards.
      * This method is called every time the player wants to play a character card and digits the command --playCC.
+     *
      * @return the string with the description of available character cards.
      */
     public String printAvailableCharacterCard() {
@@ -241,6 +250,7 @@ public class ClientModel extends Observable<Object> {
     /**
      * Generates a string with the description of the islands.
      * This method is called every time the player moves a student or when mother nature is moving onto another island.
+     *
      * @return the string with the description of the islands.
      */
     public String printIslands() {
@@ -254,11 +264,12 @@ public class ClientModel extends Observable<Object> {
     /**
      * Generates a string with the description of this model's owner school board.
      * This method is called every time the player has to move a student from entrance.
+     *
      * @return the string with the description of this model's owner school board.
      */
-    public String printYourSchoolBoard(){
-        for(Map.Entry<String, SchoolBoard> schoolBoardEntry: schoolBoards.entrySet()){
-            if(schoolBoardEntry.getKey().equals(username))
+    public String printYourSchoolBoard() {
+        for (Map.Entry<String, SchoolBoard> schoolBoardEntry : schoolBoards.entrySet()) {
+            if (schoolBoardEntry.getKey().equals(username))
                 return printSchoolBoard(schoolBoardEntry);
         }
         return "";
@@ -268,12 +279,13 @@ public class ClientModel extends Observable<Object> {
     /**
      * Generates a string with the description of opponents' school boards.
      * This method is called every time the player has to move a student from entrance to establish the strategy.
+     *
      * @return the string with the description of opponents' school boards.
      */
-    public String printOtherSchoolBoards(){
+    public String printOtherSchoolBoards() {
         StringBuilder result = new StringBuilder();
-        for(Map.Entry<String, SchoolBoard> schoolBoardEntry: schoolBoards.entrySet()){
-            if(!schoolBoardEntry.getKey().equals(username))
+        for (Map.Entry<String, SchoolBoard> schoolBoardEntry : schoolBoards.entrySet()) {
+            if (!schoolBoardEntry.getKey().equals(username))
                 result.append(printSchoolBoard(schoolBoardEntry));
         }
         return result.toString();
@@ -282,18 +294,19 @@ public class ClientModel extends Observable<Object> {
     /**
      * Generates a string with the description of all players' school boards.
      * This method is called every time the player has to move a student from entrance.
+     *
      * @return the string with the description of all players' school boards.
      */
-    public String printAllSchoolBoards(){
+    public String printAllSchoolBoards() {
         StringBuilder result = new StringBuilder();
-        for(Map.Entry<String, SchoolBoard> schoolBoardEntry: schoolBoards.entrySet())
+        for (Map.Entry<String, SchoolBoard> schoolBoardEntry : schoolBoards.entrySet())
             result.append(printSchoolBoard(schoolBoardEntry));
         return result.toString();
     }
 
     private String printSchoolBoard(Map.Entry<String, SchoolBoard> schoolBoardEntry) {
         String result = "\t";
-        if(schoolBoardEntry.getKey().equals(username))
+        if (schoolBoardEntry.getKey().equals(username))
             result += "Your ";
         else
             result += schoolBoardEntry.getKey() + "'s ";
@@ -305,9 +318,10 @@ public class ClientModel extends Observable<Object> {
     /**
      * Generates a string with the description of professors belonged to each player.
      * This method is called every time school boards are shown.
+     *
      * @return the string with the description of professors belonged to each player.
      */
-    public String printProfessors(String owner){
+    public String printProfessors(String owner) {
         return Utility.printColoredProfessorsOnSchoolBoard(professors, owner);
     }
 
@@ -327,7 +341,7 @@ public class ClientModel extends Observable<Object> {
         this.professors = professors;
     }
 
-    public void setWallet(int value){
+    public void setWallet(int value) {
         this.wallet = value;
     }
 
@@ -347,7 +361,7 @@ public class ClientModel extends Observable<Object> {
         this.chosenWizardsPerUsername = chosenWizardsPerUsername;
     }
 
-    public CharacterCard getLastCharacterCardPlayed(){
+    public CharacterCard getLastCharacterCardPlayed() {
         return lastCharacterCardPlayed;
     }
 
@@ -356,7 +370,7 @@ public class ClientModel extends Observable<Object> {
     }
 
     public void resetLastCharacterCardPlayed() {
-        this.lastCharacterCardPlayed=null;
+        this.lastCharacterCardPlayed = null;
     }
 
     public int getWallet() {

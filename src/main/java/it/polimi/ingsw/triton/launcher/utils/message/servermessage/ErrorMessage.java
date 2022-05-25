@@ -10,6 +10,7 @@ import it.polimi.ingsw.triton.launcher.utils.message.ErrorTypeID;
  */
 public class ErrorMessage extends ServerMessage {
     private final ErrorTypeID errorTypeID;
+
     public ErrorMessage(ErrorTypeID errorTypeID) {
         this.errorTypeID = errorTypeID;
     }
@@ -19,7 +20,7 @@ public class ErrorMessage extends ServerMessage {
     }
 
     @Override
-    public String toString(){
+    public String toString() {
         return errorTypeID.getDescription();
     }
 

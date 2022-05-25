@@ -11,6 +11,7 @@ import it.polimi.ingsw.triton.launcher.utils.message.servermessage.InfoMessage;
 public class InfoAssistantCardPlayedMessage extends InfoMessage {
     private final AssistantCard assistantCardPlayed;
     private final String currentPlayerUsername;
+
     public InfoAssistantCardPlayedMessage(String currentPlayerUsername, AssistantCard assistantCardPlayed) {
         this.currentPlayerUsername = currentPlayerUsername;
         this.assistantCardPlayed = assistantCardPlayed;

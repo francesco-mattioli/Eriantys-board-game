@@ -10,6 +10,7 @@ import it.polimi.ingsw.triton.launcher.utils.message.servermessage.InfoMessage;
  */
 public class WinMessage extends InfoMessage {
     private final String receiverUsername;
+
     public WinMessage(String receiverUsername) {
         this.receiverUsername = receiverUsername;
     }
@@ -19,7 +20,7 @@ public class WinMessage extends InfoMessage {
         messageVisitor.visit(this);
     }
 
-    public String getReceiverUsername(){
+    public String getReceiverUsername() {
         return receiverUsername;
     }
 }
