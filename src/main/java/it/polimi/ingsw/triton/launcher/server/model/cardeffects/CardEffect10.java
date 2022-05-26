@@ -67,7 +67,7 @@ public class CardEffect10 implements CardEffect, Serializable {
      * @param studentsToRemove students to remove.
      * @throws IllegalClientInputException if the number of students to remove from source is incorrect.
      */
-    public void removeStudents(int[] source, int[] studentsToRemove) throws IllegalClientInputException {
+    private void removeStudents(int[] source, int[] studentsToRemove) throws IllegalClientInputException {
         for (int i = 0; i < source.length; i++) {
             for (int j = 0; j < studentsToRemove.length; j++) {
                 if (Color.values()[i].ordinal() == Color.values()[j].ordinal())
@@ -97,7 +97,7 @@ public class CardEffect10 implements CardEffect, Serializable {
      * @param destination   entrance or dining room.
      * @param studentsToAdd students to add into the destination.
      */
-    public void addStudentsInto(int[] destination, int[] studentsToAdd) {
+    private void addStudentsInto(int[] destination, int[] studentsToAdd) {
         for (int i = 0; i < destination.length; i++) {
             for (int j = 0; j < studentsToAdd.length; j++) {
                 if (Color.values()[i].ordinal() == Color.values()[j].ordinal())
