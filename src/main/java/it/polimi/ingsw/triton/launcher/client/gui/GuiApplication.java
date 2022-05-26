@@ -15,6 +15,7 @@ public class GuiApplication extends Application {
         Stage newStage = new Stage();
         Scene scene = new Scene(root);
         newStage.setScene(scene);
+        newStage.setResizable(false);
         newStage.show();
     }
 
