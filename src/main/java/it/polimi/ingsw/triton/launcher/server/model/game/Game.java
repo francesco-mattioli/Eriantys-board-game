@@ -33,12 +33,12 @@ import java.util.stream.Collectors;
 public class Game extends GameMode {
     private static Game instance;
     private final Bag bag;
-    private final ArrayList<Player> players;
-    private final ArrayList<CloudTile> cloudTiles;
+    private final List<Player> players;
+    private final List<CloudTile> cloudTiles;
     private final Player[] professors;
     private final IslandManager islandManager;
-    private final ArrayList<AssistantCard> usedAssistantCards;
-    private final ArrayList<Wizard> availableWizards;
+    private final List<AssistantCard> usedAssistantCards;
+    private final List<Wizard> availableWizards;
     private int maxNumberOfPlayers;
     private Player currentPlayer;
     private ProfessorsManager professorsManager;
@@ -554,7 +554,7 @@ public class Game extends GameMode {
      * @throws IllegalClientInputException to tell the client this move is illegal for thi Game Mode.
      */
     @Override
-    public ArrayList<CharacterCard> getCharacterCards() throws IllegalClientInputException {
+    public List<CharacterCard> getCharacterCards() throws IllegalClientInputException {
         throw new IllegalClientInputException(ErrorTypeID.ILLEGAL_MOVE_FOR_MODE);
     }
 
@@ -576,7 +576,7 @@ public class Game extends GameMode {
      * @param players the array of players in the game.
      * @return all the usernames of the players that are playing.
      */
-    private List<String> getAllUsernames(@NotNull ArrayList<Player> players) {
+    private List<String> getAllUsernames(@NotNull List<Player> players) {
         return players.stream().map(Player::getUsername).collect(Collectors.toList());
     }
 

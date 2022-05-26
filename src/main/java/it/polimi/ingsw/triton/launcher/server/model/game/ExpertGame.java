@@ -21,10 +21,11 @@ import it.polimi.ingsw.triton.launcher.utils.message.servermessage.infoMessage.i
 import it.polimi.ingsw.triton.launcher.utils.message.servermessage.infoMessage.infoMessageWithReceiver.UpdateWalletMessage;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class ExpertGame extends GameDecorator {
     private final GeneralCoinSupply generalCoinSupply;
-    private final ArrayList<CharacterCard> characterCards;
+    private final List<CharacterCard> characterCards;
 
 
     public ExpertGame(GameMode game) {
@@ -161,7 +162,7 @@ public class ExpertGame extends GameDecorator {
      */
     @Override
     public void drawCharacterCards() {
-        ArrayList<Integer> idAlreadyChosen = new ArrayList<>();
+        List<Integer> idAlreadyChosen = new ArrayList<>();
         int id;
         while (characterCards.size() < 3) {
             id = random.nextInt(12) + 1;
@@ -233,7 +234,7 @@ public class ExpertGame extends GameDecorator {
     }
 
     @Override
-    public ArrayList<CharacterCard> getCharacterCards() {
+    public List<CharacterCard> getCharacterCards() {
         return characterCards;
     }
 
