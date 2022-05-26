@@ -273,7 +273,7 @@ public class Server {
     private void acceptClientConnection(ServerSocket serverSocket) {
         try {
             Socket connectionSocket = serverSocket.accept();
-            connectionSocket.setSoTimeout(600000);
+            connectionSocket.setSoTimeout(360000);
             new Thread(new ServeOneClient(connectionSocket, this)).start();
         } catch (IOException e) {
             listening = false;
