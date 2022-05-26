@@ -111,8 +111,6 @@ public class Gui extends Observable<Message> implements ClientView {
             initializeMainStage();
         }
         actualGamePhase = gameState;
-        showAlert(Alert.AlertType.INFORMATION, "Game phase info", "New game phase:\n" + gameState + " is beginning..");
-
     }
 
     @Override
