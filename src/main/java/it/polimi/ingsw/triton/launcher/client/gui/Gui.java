@@ -219,7 +219,6 @@ public class Gui extends Observable<Message> implements ClientView {
      */
     public void startGui() {
         client = new Client(this);
-        this.addObserver(client);
         this.clientModel = new ClientModel();
         askIpAddress();
     }
