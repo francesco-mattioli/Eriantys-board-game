@@ -3,7 +3,7 @@
 ## Project specification
 The project consists of a Java version of the board  game *Eriantys*, made by *Cranio Creations*.
 
-You can find the full game [here](https://https://craniointernational.com/products/eriantys/).
+You can find the full game [here](https://craniointernational.com/products/eriantys/).
 
 The final version includes:
 * initial UML diagram;
@@ -26,7 +26,7 @@ The final version includes:
 
 
 ## The Team
-* [Frati Davide](https://https://github.com/Davide-Frati)
-* [Mattioli Francesco](https://https://github.com/francesco-mattioli)
-* [Paparella Andrea](https://https://github.com/engpap)
-* [Sereni Luca](https://https://github.com/luca-sereni)
+* [Frati Davide](https://github.com/Davide-Frati)
+* [Mattioli Francesco](https://github.com/francesco-mattioli)
+* [Paparella Andrea](https://github.com/engpap)
+* [Sereni Luca](https://github.com/luca-sereni)
