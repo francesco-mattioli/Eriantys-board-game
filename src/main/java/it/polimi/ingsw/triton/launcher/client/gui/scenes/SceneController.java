@@ -31,7 +31,7 @@ public class SceneController extends Observable<Message> {
      * @param <T>         generic parameter
      */
     public <T> void setupScene(ClientModel clientModel, T parameters) {
-        Client.LOGGER.info("Setup not needed for this controller");
+        Client.LOGGER.info("Setup not needed for this scene controller");
     }
 
     /**
