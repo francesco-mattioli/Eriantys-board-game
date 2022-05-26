@@ -96,7 +96,7 @@ public class Gui extends Observable<Message> implements ClientView {
 
     @Override
     public void showGameInfo() {
-        Client.LOGGER.severe("This method should be called only in CLI mode");
+        Client.LOGGER.info("Received Game Info Message");
     }
 
     /**

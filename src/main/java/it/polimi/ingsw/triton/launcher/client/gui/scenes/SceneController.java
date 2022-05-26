@@ -1,5 +1,6 @@
 package it.polimi.ingsw.triton.launcher.client.gui.scenes;
 
+import it.polimi.ingsw.triton.launcher.client.Client;
 import it.polimi.ingsw.triton.launcher.client.model.ClientModel;
 import it.polimi.ingsw.triton.launcher.server.model.enums.Color;
 import it.polimi.ingsw.triton.launcher.utils.message.Message;
@@ -13,7 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public abstract class SceneController extends Observable<Message> {
+public class SceneController extends Observable<Message> {
     protected String username;
     protected final String[] colorsName = new String[5];
 
@@ -30,6 +31,7 @@ public abstract class SceneController extends Observable<Message> {
      * @param <T>         generic parameter
      */
     public <T> void setupScene(ClientModel clientModel, T parameters) {
+        Client.LOGGER.info("Setup not needed for this controller");
     }
 
     /**
