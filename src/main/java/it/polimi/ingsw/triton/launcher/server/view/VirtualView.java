@@ -36,10 +36,11 @@ public class VirtualView extends Observable<ClientMessage> implements View, Obse
     //--------------------------------------------- UTILITY METHODS -----------------------------------------------------
 
     /**
-     * Receives a message by notification of ServeOneClient.
+     * Receives a message from Game by notification.
      * Manages the message using Visitor Patter.
+     * Sends the message to Client using Visitor Pattern.
      *
-     * @param message received from the Client
+     * @param message received from the Game
      */
     @Override
     public void update(InfoMessage message) {

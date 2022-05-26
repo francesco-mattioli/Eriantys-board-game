@@ -18,7 +18,6 @@ public abstract class AskMessage implements ServerMessage {
         this.expectedResponseMessageClasses.add(UseCharacterCardRequest.class);
     }
 
-
     public List<Class<?>> getExpectedResponseMessageClasses() {
         return expectedResponseMessageClasses;
     }
