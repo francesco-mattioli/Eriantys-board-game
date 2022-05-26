@@ -12,7 +12,8 @@ import org.junit.jupiter.api.Test;
 
 import java.util.Arrays;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 class ExpertMoveStudentIntoDiningRoomTest {
     private Player player;
@@ -36,7 +37,7 @@ class ExpertMoveStudentIntoDiningRoomTest {
      * any students of the color he selected in his entrance.
      */
     @Test
-    void moveStudentWithColorIncorrect(){
+    void moveStudentWithColorIncorrect() {
         assertThrows(IllegalClientInputException.class, () -> new ExpertMoveStudentIntoDiningRoom(Color.BLUE, player, generalCoinSupply).execute());
     }
 
@@ -45,7 +46,7 @@ class ExpertMoveStudentIntoDiningRoomTest {
      * is empty.
      */
     @Test
-    void moveStudentWhenEntranceIsEmpty(){
+    void moveStudentWhenEntranceIsEmpty() {
         player.getSchoolBoard().addStudentIntoEntrance(Color.YELLOW);
         assertThrows(IllegalClientInputException.class, () -> new ExpertMoveStudentIntoDiningRoom(Color.BLUE, player, generalCoinSupply).execute());
     }
@@ -55,7 +56,7 @@ class ExpertMoveStudentIntoDiningRoomTest {
      * executing the action.
      */
     @Test
-    void checkNumberStudentsEntrance(){
+    void checkNumberStudentsEntrance() {
         player.getSchoolBoard().addStudentIntoEntrance(Color.YELLOW);
         player.getSchoolBoard().addStudentIntoEntrance(Color.BLUE);
         int oldNumberStudents = Arrays.stream(player.getSchoolBoard().getEntrance()).sum();
@@ -71,7 +72,7 @@ class ExpertMoveStudentIntoDiningRoomTest {
      * Checks if the wallet is not updated if the position of the student is not multiple of three.
      */
     @Test
-    void checkUpdatedWalletWhenNotMultipleOfThree(){
+    void checkUpdatedWalletWhenNotMultipleOfThree() {
         int oldWallet = player.getWallet().getValue();
         player.getSchoolBoard().addStudentIntoEntrance(Color.BLUE);
         try {
@@ -86,12 +87,12 @@ class ExpertMoveStudentIntoDiningRoomTest {
      * Checks if the wallet is updated correctly.
      */
     @Test
-    void checkUpdatedWalletWhenMultipleOfThree(){
+    void checkUpdatedWalletWhenMultipleOfThree() {
         int oldWallet = player.getWallet().getValue();
         player.getSchoolBoard().addStudentIntoEntrance(Color.BLUE);
         player.getSchoolBoard().addStudentIntoEntrance(Color.BLUE);
         player.getSchoolBoard().addStudentIntoEntrance(Color.BLUE);
-        for(int i = 0; i < 3; i++){
+        for (int i = 0; i < 3; i++) {
             try {
                 new ExpertMoveStudentIntoDiningRoom(Color.BLUE, player, generalCoinSupply).execute();
             } catch (IllegalClientInputException | EmptyGeneralCoinSupplyException e) {
@@ -105,13 +106,13 @@ class ExpertMoveStudentIntoDiningRoomTest {
      * Checks if the wallet is not increased if the general coin supply is empty.
      */
     @Test
-    void testNotUpdateWalletIfSupplyIsEmpty(){
+    void testNotUpdateWalletIfSupplyIsEmpty() {
         int oldWallet = player.getWallet().getValue();
         player.getSchoolBoard().addStudentIntoEntrance(Color.BLUE);
         player.getSchoolBoard().addStudentIntoEntrance(Color.BLUE);
         player.getSchoolBoard().addStudentIntoEntrance(Color.BLUE);
         GeneralCoinSupply newGeneralCoinSupply = new GeneralCoinSupply(0);
-        for(int i = 0; i < 2; i++){
+        for (int i = 0; i < 2; i++) {
             try {
                 new ExpertMoveStudentIntoDiningRoom(Color.BLUE, player, newGeneralCoinSupply).execute();
             } catch (IllegalClientInputException | EmptyGeneralCoinSupplyException e) {
@@ -126,12 +127,12 @@ class ExpertMoveStudentIntoDiningRoomTest {
      * Checks if the wallet is updated correctly.
      */
     @Test
-    void checkUpdatedGeneralCoinsSupply(){
+    void checkUpdatedGeneralCoinsSupply() {
         int oldSupply = generalCoinSupply.getCoinsAmount();
         player.getSchoolBoard().addStudentIntoEntrance(Color.BLUE);
         player.getSchoolBoard().addStudentIntoEntrance(Color.BLUE);
         player.getSchoolBoard().addStudentIntoEntrance(Color.BLUE);
-        for(int i = 0; i < 3; i++){
+        for (int i = 0; i < 3; i++) {
             try {
                 new ExpertMoveStudentIntoDiningRoom(Color.BLUE, player, generalCoinSupply).execute();
             } catch (IllegalClientInputException | EmptyGeneralCoinSupplyException e) {

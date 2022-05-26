@@ -27,6 +27,9 @@ public class CardEffect10 implements CardEffect, Serializable {
      * @param fromDiningRoom    students to take from dining room.
      * @param player            the player who played the character card.
      * @param generalCoinSupply the coin supply of the game.
+     * @param professorsManager to calculate influence.
+     * @param professors        owned by players.
+     * @param players           in game.
      */
     public CardEffect10(int[] fromEntrance, int[] fromDiningRoom, Player player, GeneralCoinSupply generalCoinSupply, ProfessorsManager professorsManager, Player[] professors, List<Player> players) {
         this.fromEntrance = fromEntrance;
@@ -44,9 +47,9 @@ public class CardEffect10 implements CardEffect, Serializable {
      */
     @Override
     public void execute() throws IllegalClientInputException, EmptyGeneralCoinSupplyException {
-        if(Arrays.stream(fromDiningRoom).sum() > 2 || Arrays.stream(fromDiningRoom).sum() != Arrays.stream(fromEntrance).sum())
+        if (Arrays.stream(fromDiningRoom).sum() > 2 || Arrays.stream(fromDiningRoom).sum() != Arrays.stream(fromEntrance).sum())
             throw new IllegalClientInputException(ErrorTypeID.ILLEGAL_MOVE);
-        else{
+        else {
             removeStudents(player.getSchoolBoard().getDiningRoom(), fromDiningRoom);
             removeStudents(player.getSchoolBoard().getEntrance(), fromEntrance);
             addStudentsInto(player.getSchoolBoard().getDiningRoom(), fromEntrance);
@@ -59,7 +62,10 @@ public class CardEffect10 implements CardEffect, Serializable {
 
     /**
      * This method remove the selected students (in studentToRemove array) from the source array (entrance or dining room).
-     * * @throws IllegalClientInputException if the number of students to remove from source is incorrect.
+     *
+     * @param source           entrance or dining room.
+     * @param studentsToRemove students to remove.
+     * @throws IllegalClientInputException if the number of students to remove from source is incorrect.
      */
     public void removeStudents(int[] source, int[] studentsToRemove) throws IllegalClientInputException {
         for (int i = 0; i < source.length; i++) {
@@ -70,6 +76,15 @@ public class CardEffect10 implements CardEffect, Serializable {
         }
     }
 
+    /**
+     * This method removes students from source if present, otherwise it throws an exception.
+     *
+     * @param source           entrance or dining room.
+     * @param studentsToRemove students to remove.
+     * @param i                source color.
+     * @param j                color to remove.
+     * @throws IllegalClientInputException if students to remove are more than available ones.
+     */
     private void removeOrThrowException(int[] source, int[] studentsToRemove, int i, int j) throws IllegalClientInputException {
         if (studentsToRemove[j] <= source[i]) {
             source[i] -= studentsToRemove[j];
@@ -78,6 +93,9 @@ public class CardEffect10 implements CardEffect, Serializable {
 
     /**
      * This method adds the students taken from the studentsToAdd array into the destination array (entrance or dining room)
+     *
+     * @param destination   entrance or dining room.
+     * @param studentsToAdd students to add into the destination.
      */
     public void addStudentsInto(int[] destination, int[] studentsToAdd) {
         for (int i = 0; i < destination.length; i++) {
@@ -106,12 +124,12 @@ public class CardEffect10 implements CardEffect, Serializable {
         }
     }
 
-    private void checkForProfessors(){
-        for(int i = 0; i < fromEntrance.length; i++){
+    private void checkForProfessors() {
+        for (int i = 0; i < fromEntrance.length; i++) {
             int changedNumberStudents = fromEntrance[i] - fromDiningRoom[i];
-            if(changedNumberStudents > 0)
+            if (changedNumberStudents > 0)
                 professorsManager.updateProfessorsForAddInDiningRoom(player, Color.values()[i], professors);
-            else if(changedNumberStudents < 0){
+            else if (changedNumberStudents < 0) {
                 professorsManager.updateProfessorsForRemoveFromDiningRoom(players, Color.values()[i], professors);
             }
         }

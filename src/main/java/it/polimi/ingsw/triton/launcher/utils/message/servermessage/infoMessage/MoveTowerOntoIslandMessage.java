@@ -13,6 +13,7 @@ public class MoveTowerOntoIslandMessage extends InfoMessage {
     private final Island island;
     private final String dominatorUsername;
     private final SchoolBoard schoolBoardDominator;
+
     public MoveTowerOntoIslandMessage(Island island, String dominatorUsername, SchoolBoard schoolBoardDominator) {
         this.island = island;
         this.dominatorUsername = dominatorUsername;

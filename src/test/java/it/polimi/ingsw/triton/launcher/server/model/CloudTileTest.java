@@ -5,18 +5,19 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 class CloudTileTest {
     private CloudTile cloudTile;
 
     @BeforeEach
-    public void setUp(){
+    public void setUp() {
         cloudTile = new CloudTile(1);
     }
 
     @AfterEach
-    public void tearDown(){
+    public void tearDown() {
         cloudTile = null;
     }
 
@@ -27,10 +28,10 @@ class CloudTileTest {
     void addOneStudentWhenCloudTileHasZero() {
         int current = 0;
         cloudTile.setStudents(Color.BLUE);
-        for (int i = 0; i < cloudTile.getStudents().length; i++){
+        for (int i = 0; i < cloudTile.getStudents().length; i++) {
             current += cloudTile.getStudents()[i];
         }
-        assertEquals(1,current);
+        assertEquals(1, current);
     }
 
 
@@ -38,7 +39,7 @@ class CloudTileTest {
      * Tests if the method throws an exception when the color is null.
      */
     @Test
-    void setNullColor(){
+    void setNullColor() {
         assertThrows(IllegalArgumentException.class, () -> cloudTile.setStudents(null));
     }
 
@@ -47,14 +48,14 @@ class CloudTileTest {
      */
     @Test
     void throwExceptionWhenCloudTileIsEmpty() {
-        assertThrows(IllegalArgumentException.class, ()->cloudTile.removeStudentFromCloudTile(Color.YELLOW));
+        assertThrows(IllegalArgumentException.class, () -> cloudTile.removeStudentFromCloudTile(Color.YELLOW));
     }
 
     /**
      * Tests if removeStudentFromCloudTile removes the correct student.
      */
     @Test
-    void removeOneBlueStudentWhenThereIsOne(){
+    void removeOneBlueStudentWhenThereIsOne() {
         cloudTile.setStudents(Color.BLUE);
         cloudTile.setStudents(Color.RED);
         cloudTile.setStudents(Color.GREEN);

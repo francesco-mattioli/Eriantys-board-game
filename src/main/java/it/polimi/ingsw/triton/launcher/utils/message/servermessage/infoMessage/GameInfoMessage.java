@@ -2,10 +2,11 @@ package it.polimi.ingsw.triton.launcher.utils.message.servermessage.infoMessage;
 
 import it.polimi.ingsw.triton.launcher.client.ServerMessageVisitor;
 import it.polimi.ingsw.triton.launcher.server.model.CloudTile;
-import it.polimi.ingsw.triton.launcher.server.model.islands.Island;
 import it.polimi.ingsw.triton.launcher.server.model.enums.Wizard;
+import it.polimi.ingsw.triton.launcher.server.model.islands.Island;
 import it.polimi.ingsw.triton.launcher.server.model.player.SchoolBoard;
 import it.polimi.ingsw.triton.launcher.utils.message.servermessage.InfoMessage;
+
 import java.util.List;
 import java.util.Map;
 
@@ -19,8 +20,8 @@ public class GameInfoMessage extends InfoMessage {
     private final Map<String, SchoolBoard> schoolBoards;
     private final List<CloudTile> cloudTiles;
     private final String[] professors;
-    protected boolean expertMode=false;
-    private final Map<String,Wizard> chosenWizardsPerUsername;
+    protected boolean expertMode = false;
+    private final Map<String, Wizard> chosenWizardsPerUsername;
 
     public GameInfoMessage(List<Island> islands, Island motherNaturePosition, Map<String, SchoolBoard> schoolBoards, List<CloudTile> cloudTiles, String[] professors, Map<String, Wizard> chosenWizardsPerUsername) {
         this.islands = islands;
@@ -28,7 +29,7 @@ public class GameInfoMessage extends InfoMessage {
         this.schoolBoards = schoolBoards;
         this.cloudTiles = cloudTiles;
         this.professors = professors;
-        this.chosenWizardsPerUsername=chosenWizardsPerUsername;
+        this.chosenWizardsPerUsername = chosenWizardsPerUsername;
     }
 
     public List<Island> getIslands() {

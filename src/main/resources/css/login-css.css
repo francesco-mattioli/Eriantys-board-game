@@ -1,10 +1,10 @@
-.loginPane{
+.loginPane {
     -fx-background-image: url("../Images/Backgrounds/blueCloud.jpg");
     -fx-background-size: stretch;
 }
 
 
-.loginButton{
+.loginButton {
     -fx-background-image: url("../Images/Buttons/login.png");
     -fx-border-color: transparent;
     -fx-background-size: stretch;

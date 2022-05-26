@@ -22,7 +22,7 @@ public class Player implements Serializable {
         this.username = username;
         this.moveCounter = 0;
         this.wallet = new Wallet();
-        this.alreadyPlayedAnAssistantCard=false;
+        this.alreadyPlayedAnAssistantCard = false;
     }
 
     /**
@@ -34,7 +34,7 @@ public class Player implements Serializable {
 
     /**
      * @param wizard chosen by the player.
-     * This method instantiates the deck of the corresponding wizard.
+     *               This method instantiates the deck of the corresponding wizard.
      */
     public void setWizard(Wizard wizard) {
         assistantDeck = new AssistantDeck(wizard);
@@ -69,7 +69,7 @@ public class Player implements Serializable {
         return lastPlayedAssistantCard;
     }
 
-    public Wallet getWallet(){
+    public Wallet getWallet() {
         return wallet;
     }
 
@@ -85,12 +85,12 @@ public class Player implements Serializable {
         return alreadyPlayedAnAssistantCard;
     }
 
-    public void setTrueHasAlreadyPlayedACharacterCard(){
-        this.alreadyPlayedAnAssistantCard=true;
+    public void setTrueHasAlreadyPlayedACharacterCard() {
+        this.alreadyPlayedAnAssistantCard = true;
     }
 
-    public void resetAlreadyPlayedAnCharacterCard(){
-        this.alreadyPlayedAnAssistantCard=false;
+    public void resetAlreadyPlayedAnCharacterCard() {
+        this.alreadyPlayedAnAssistantCard = false;
     }
 
 

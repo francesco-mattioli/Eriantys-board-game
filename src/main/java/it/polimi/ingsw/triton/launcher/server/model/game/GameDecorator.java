@@ -1,6 +1,9 @@
 package it.polimi.ingsw.triton.launcher.server.model.game;
 
-import it.polimi.ingsw.triton.launcher.server.model.*;
+import it.polimi.ingsw.triton.launcher.server.model.AssistantCard;
+import it.polimi.ingsw.triton.launcher.server.model.Bag;
+import it.polimi.ingsw.triton.launcher.server.model.CloudTile;
+import it.polimi.ingsw.triton.launcher.server.model.GeneralCoinSupply;
 import it.polimi.ingsw.triton.launcher.server.model.cardeffects.CardEffect;
 import it.polimi.ingsw.triton.launcher.server.model.cardeffects.CharacterCard;
 import it.polimi.ingsw.triton.launcher.server.model.enums.Color;
@@ -19,8 +22,8 @@ import java.util.Map;
 /**
  * This decorator provides additional methods that can be called in expertGame.
  */
-public class GameDecorator extends GameMode{
-    protected GameMode game;
+public class GameDecorator extends GameMode {
+    protected final GameMode game;
 
     public GameDecorator(GameMode game) {
         this.game = game;
@@ -48,12 +51,12 @@ public class GameDecorator extends GameMode{
 
     @Override
     public void useCharacterCard(Player player, int idCard) throws IllegalClientInputException, CharacterCardWithParametersException {
-        game.useCharacterCard(player,idCard);
+        game.useCharacterCard(player, idCard);
     }
 
     @Override
     public void applyCharacterCardEffect(int characterCardID, CardEffect cardEffect) throws IllegalClientInputException, EndGameException {
-        game.applyCharacterCardEffect(characterCardID,cardEffect);
+        game.applyCharacterCardEffect(characterCardID, cardEffect);
     }
 
     @Override
@@ -102,7 +105,7 @@ public class GameDecorator extends GameMode{
     }
 
     @Override
-    public List<AssistantCard> getUsedAssistantCards(){
+    public List<AssistantCard> getUsedAssistantCards() {
         return game.getUsedAssistantCards();
     }
 
@@ -123,12 +126,12 @@ public class GameDecorator extends GameMode{
 
     @Override
     public void chooseAssistantCard(Player player, AssistantCard chosenAssistantCard) throws IllegalClientInputException, ChangeTurnException {
-        game.chooseAssistantCard(player,chosenAssistantCard);
+        game.chooseAssistantCard(player, chosenAssistantCard);
     }
 
     @Override
     public void executeActionMoveStudentToIsland(Color student, int islandID) throws IllegalClientInputException, LastMoveException {
-        game.executeActionMoveStudentToIsland(student,islandID);
+        game.executeActionMoveStudentToIsland(student, islandID);
     }
 
     @Override
@@ -217,7 +220,7 @@ public class GameDecorator extends GameMode{
     }
 
     @Override
-    public void setMaxNumberOfPlayers(int maxNumberOfPlayers){
+    public void setMaxNumberOfPlayers(int maxNumberOfPlayers) {
         game.setMaxNumberOfPlayers(maxNumberOfPlayers);
     }
 
@@ -232,22 +235,22 @@ public class GameDecorator extends GameMode{
     }
 
     @Override
-    public Map<String,Wizard> getAllChosenWizards(){
+    public Map<String, Wizard> getAllChosenWizards() {
         return game.getAllChosenWizards();
     }
 
     @Override
-    public void removePlayer(String username){
+    public void removePlayer(String username) {
         game.removePlayer(username);
     }
 
     @Override
-    public void drawCharacterCards() throws IllegalClientInputException{
+    public void drawCharacterCards() throws IllegalClientInputException {
         game.drawCharacterCards();
     }
 
     @Override
-    public GeneralCoinSupply getGeneralCoinSupply() throws IllegalClientInputException{
-         return game.getGeneralCoinSupply();
+    public GeneralCoinSupply getGeneralCoinSupply() throws IllegalClientInputException {
+        return game.getGeneralCoinSupply();
     }
 }

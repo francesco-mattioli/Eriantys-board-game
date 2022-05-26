@@ -7,7 +7,8 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 class ProfessorStrategyWithEffectTest {
 
@@ -19,7 +20,7 @@ class ProfessorStrategyWithEffectTest {
     private Player[] professors;
 
     @BeforeEach
-    void setUp(){
+    void setUp() {
         professorsManager = new ProfessorsManager();
         professorsManager.setProfessorStrategy(new ProfessorStrategyWithEffect());
         professors = new Player[5];
@@ -28,7 +29,7 @@ class ProfessorStrategyWithEffectTest {
     }
 
     @AfterEach
-    void tearDown(){
+    void tearDown() {
         professorsManager = null;
         player = null;
     }
@@ -38,7 +39,7 @@ class ProfessorStrategyWithEffectTest {
      */
     @Test
     void throwExceptionIfColorIsNull() {
-        assertThrows(IllegalArgumentException.class, () -> professorsManager.updateProfessorsForAddInDiningRoom(player,null, professors));
+        assertThrows(IllegalArgumentException.class, () -> professorsManager.updateProfessorsForAddInDiningRoom(player, null, professors));
     }
 
 
@@ -47,9 +48,9 @@ class ProfessorStrategyWithEffectTest {
      * is not taken.
      */
     @Test
-    void updateProfessorInfluenceWhenPlayerIsNull(){
-        player.getSchoolBoard().getDiningRoom()[Color.BLUE.ordinal()]=1;
-        professorsManager.updateProfessorsForAddInDiningRoom(player,Color.BLUE, professors);
+    void updateProfessorInfluenceWhenPlayerIsNull() {
+        player.getSchoolBoard().getDiningRoom()[Color.BLUE.ordinal()] = 1;
+        professorsManager.updateProfessorsForAddInDiningRoom(player, Color.BLUE, professors);
         assertEquals(player, professors[Color.BLUE.ordinal()]);
     }
 
@@ -58,13 +59,13 @@ class ProfessorStrategyWithEffectTest {
      * when new player has more students as the previous one.
      */
     @Test
-    void updateProfessorInfluenceWhenGreaterThan(){
+    void updateProfessorInfluenceWhenGreaterThan() {
         Player playerWithProfessor = new Player("TestPlayer1");
         playerWithProfessor.setSchoolBoard(TowerColor.WHITE, 2);
-        playerWithProfessor.getSchoolBoard().getDiningRoom()[Color.BLUE.ordinal()]=1;
+        playerWithProfessor.getSchoolBoard().getDiningRoom()[Color.BLUE.ordinal()] = 1;
         professors[Color.BLUE.ordinal()] = playerWithProfessor;
-        player.getSchoolBoard().getDiningRoom()[Color.BLUE.ordinal()]=2;
-        professorsManager.updateProfessorsForAddInDiningRoom(player,Color.BLUE, professors);
+        player.getSchoolBoard().getDiningRoom()[Color.BLUE.ordinal()] = 2;
+        professorsManager.updateProfessorsForAddInDiningRoom(player, Color.BLUE, professors);
         assertEquals(player, professors[Color.BLUE.ordinal()]);
     }
 
@@ -73,13 +74,13 @@ class ProfessorStrategyWithEffectTest {
      * when new player has the same number of students as the previous one.
      */
     @Test
-    void updateProfessorInfluenceWhenEquals(){
+    void updateProfessorInfluenceWhenEquals() {
         Player playerWithProfessor = new Player("TestPlayer1");
         playerWithProfessor.setSchoolBoard(TowerColor.WHITE, 2);
-        playerWithProfessor.getSchoolBoard().getDiningRoom()[Color.BLUE.ordinal()]=1;
+        playerWithProfessor.getSchoolBoard().getDiningRoom()[Color.BLUE.ordinal()] = 1;
         professors[Color.BLUE.ordinal()] = playerWithProfessor;
-        player.getSchoolBoard().getDiningRoom()[Color.BLUE.ordinal()]=1;
-        professorsManager.updateProfessorsForAddInDiningRoom(player,Color.BLUE, professors);
+        player.getSchoolBoard().getDiningRoom()[Color.BLUE.ordinal()] = 1;
+        professorsManager.updateProfessorsForAddInDiningRoom(player, Color.BLUE, professors);
         assertEquals(player, professors[Color.BLUE.ordinal()]);
     }
 

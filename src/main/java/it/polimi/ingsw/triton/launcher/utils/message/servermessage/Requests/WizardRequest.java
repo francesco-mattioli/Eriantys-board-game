@@ -25,7 +25,6 @@ public class WizardRequest extends AskMessage {
     }
 
 
-
     @Override
     public void accept(ServerMessageVisitor serverMessageVisitor) {
         serverMessageVisitor.visit(this);

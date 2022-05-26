@@ -11,11 +11,11 @@ public class MoveStudentOntoIsland implements Action {
     private final SchoolBoard schoolBoard;
 
     /**
-     * @param schoolBoard the school board of the player.
-     * @param student the color of student to move onto island.
+     * @param schoolBoard       the school board of the player.
+     * @param student           the color of student to move onto island.
      * @param islandDestination the island where to put the student.
      */
-    public MoveStudentOntoIsland(SchoolBoard schoolBoard, Color student, Island islandDestination){
+    public MoveStudentOntoIsland(SchoolBoard schoolBoard, Color student, Island islandDestination) {
         this.schoolBoard = schoolBoard;
         this.student = student;
         this.islandDestination = islandDestination;
@@ -25,7 +25,7 @@ public class MoveStudentOntoIsland implements Action {
     /**
      * @return true if the player has not any students of the specified color in his entrance, false otherwise.
      */
-    private boolean noStudentsColorInTheEntrance(){
+    private boolean noStudentsColorInTheEntrance() {
         return schoolBoard.getEntrance()[student.ordinal()] == 0;
     }
 
@@ -34,11 +34,11 @@ public class MoveStudentOntoIsland implements Action {
      */
     @Override
     public void execute() throws IllegalClientInputException {
-        if(schoolBoard.isEntranceEmpty())
+        if (schoolBoard.isEntranceEmpty())
             throw new IllegalClientInputException();
-        else if(noStudentsColorInTheEntrance())
+        else if (noStudentsColorInTheEntrance())
             throw new IllegalClientInputException();
-        else{
+        else {
             schoolBoard.removeStudentFromEntrance(student);
             islandDestination.addStudent(student);
         }

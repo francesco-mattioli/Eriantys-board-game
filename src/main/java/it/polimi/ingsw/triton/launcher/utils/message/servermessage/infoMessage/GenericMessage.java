@@ -9,6 +9,7 @@ import it.polimi.ingsw.triton.launcher.utils.message.servermessage.InfoMessage;
  */
 public class GenericMessage extends InfoMessage {
     private final String stringMessage;
+
     public GenericMessage(String stringMessage) {
         this.stringMessage = stringMessage;
     }

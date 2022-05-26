@@ -18,7 +18,7 @@ public class MotherNature implements Serializable {
     }
 
     /**
-     *  @return the island where MotherNature is.
+     * @return the island where MotherNature is.
      */
     public Island getPosition() {
         return islandOn;
@@ -26,9 +26,10 @@ public class MotherNature implements Serializable {
 
     /**
      * Moves MotherNature onto another island.
+     *
      * @param assistantCard specifies the played card, witch contains information about the max number of steps.
-     * @param steps specifies the number of steps that MotherNature has to do.
-     * @param islands specifies the ArrayList of Islands.
+     * @param steps         specifies the number of steps that MotherNature has to do.
+     * @param islands       specifies the ArrayList of Islands.
      * @return returns the islands where MotherNature has been moved on.
      * @throws IllegalArgumentException if the request steps are more than the number permitted.
      */
@@ -43,8 +44,8 @@ public class MotherNature implements Serializable {
 
     /**
      * @param islandOn specifies the island where MotherNature is now.
-     * @param steps specifies the number of steps that MotherNature has to do.
-     * @param islands specifies the ArrayList of Islands.
+     * @param steps    specifies the number of steps that MotherNature has to do.
+     * @param islands  specifies the ArrayList of Islands.
      * @return returns the Island where MotherNature is going to be moved.
      */
     private Island nextMotherNaturePosition(Island islandOn, int steps, List<Island> islands) {
@@ -74,6 +75,7 @@ public class MotherNature implements Serializable {
 
     /**
      * This method sets the number of additional steps that MotherNature can do.
+     *
      * @param additionalSteps the number of additional steps that MotherNature can do.
      */
     public void setAdditionalSteps(int additionalSteps) {

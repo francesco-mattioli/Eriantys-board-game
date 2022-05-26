@@ -15,22 +15,31 @@ import java.util.List;
 
 public abstract class SceneController extends Observable<Message> {
     protected String username;
-    protected String[] colorsName = new String[5];
+    protected final String[] colorsName = new String[5];
 
-    public void setUsername(String username){
+    public void setUsername(String username) {
         this.username = username;
     }
 
-    public <T> void setupScene(ClientModel clientModel, T parameters){
+    /**
+     * This abstract method is implemented in every scene controller.
+     * It sets up the scene for the user, adding all javafx elements
+     *
+     * @param clientModel client model
+     * @param parameters  a generic parameter which depends, based on specific scene
+     * @param <T>         generic parameter
+     */
+    public <T> void setupScene(ClientModel clientModel, T parameters) {
     }
 
     /**
      * This method writes elements in choice box, when user has to choose a student color.
      * It is called by many subclassed.
+     *
      * @param choiceBox to fill.
-     * @param students the array of students.
+     * @param students  the array of students.
      */
-    public void setupStudentsChoiceBox(ChoiceBox<String> choiceBox, int [] students){
+    public void setupStudentsChoiceBox(ChoiceBox<String> choiceBox, int[] students) {
         List<String> list = new ArrayList<>();
         for (int i = 0; i < students.length; i++) {
             if (students[i] != 0) {
@@ -40,8 +49,8 @@ public abstract class SceneController extends Observable<Message> {
         choiceBox.getItems().addAll(list);
     }
 
-    public void setUpAllColors(){
-        for (int i = 0; i < Color.values().length; i++){
+    public void setUpAllColors() {
+        for (int i = 0; i < Color.values().length; i++) {
             colorsName[i] = Color.values()[i].name();
         }
     }
@@ -51,16 +60,15 @@ public abstract class SceneController extends Observable<Message> {
         anchorPane.setLayoutY(y);
     }
 
-    protected void setLabelLayout(Label label, int y){
+    protected void setLabelLayout(Label label, int y) {
         label.setLayoutX(5);
         label.setLayoutY(y);
     }
 
-    protected void setCircleLayout(Circle circle, double x, double y){
+    protected void setCircleLayout(Circle circle, double x, double y) {
         circle.setLayoutX(x);
         circle.setLayoutY(y);
     }
-
 
 
 }

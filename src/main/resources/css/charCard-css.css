@@ -1,17 +1,17 @@
-.characterCardPane{
+.characterCardPane {
     -fx-background-image: url("../Images/Backgrounds/blueCloud.jpg");
     -fx-background-size: stretch;
 }
 
 
-.buttonPlay{
+.buttonPlay {
     -fx-background-image: url("../Images/Buttons/charcardbtn.jpg");
     -fx-border-color: transparent;
     -fx-background-size: stretch;
     -fx-background-color: transparent;
 }
 
-.backButton{
+.backButton {
     -fx-background-image: url("../Images/Buttons/backbtn.jpg");
     -fx-border-color: transparent;
     -fx-background-size: stretch;

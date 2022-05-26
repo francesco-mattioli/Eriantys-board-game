@@ -9,7 +9,8 @@ import org.junit.jupiter.api.Test;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 class MotherNatureTest {
 
@@ -17,9 +18,9 @@ class MotherNatureTest {
     private MotherNature motherNature;
 
     @BeforeEach
-    void setupIslandsAndMotherNature(){
+    void setupIslandsAndMotherNature() {
         islands = new ArrayList<>();
-        for(int i=0; i<12; i++){
+        for (int i = 0; i < 12; i++) {
             islands.add(new Island(i));
         }
         motherNature = new MotherNature(islands.get(10));
@@ -30,7 +31,7 @@ class MotherNatureTest {
      * without additional steps.
      */
     @Test
-    void moveMotherNatureWithoutAdditionalSteps(){
+    void moveMotherNatureWithoutAdditionalSteps() {
         Island position = null;
         try {
             position = motherNature.move(new AssistantCard(AssistantCardType.TURTLE), 5, islands);
@@ -45,7 +46,7 @@ class MotherNatureTest {
      * with two additional steps.
      */
     @Test
-    void moveMotherNatureWithAdditionalSteps(){
+    void moveMotherNatureWithAdditionalSteps() {
         motherNature.setAdditionalSteps(2);
         Island island = null;
         try {
@@ -61,7 +62,7 @@ class MotherNatureTest {
      * with a number of steps which is not correct.
      */
     @Test
-    void moveMotherNatureWithIllegalArgument(){
+    void moveMotherNatureWithIllegalArgument() {
         assertThrows(IllegalClientInputException.class, () -> motherNature.move(new AssistantCard(AssistantCardType.EAGLE), 5, islands));
     }
 
@@ -69,7 +70,7 @@ class MotherNatureTest {
      * Tests if the method calculates correctly the opposite island to mother nature.
      */
     @Test
-    void oppositeIsland(){
+    void oppositeIsland() {
         assertEquals(4, motherNature.getIndexOfOppositeIsland(islands));
     }
 
@@ -77,7 +78,7 @@ class MotherNatureTest {
      * Tests if the number of additional steps of mother nature is set again to 0.
      */
     @Test
-    void testResetAdditionalSteps(){
+    void testResetAdditionalSteps() {
         motherNature.setAdditionalSteps(2);
         assertEquals(2, motherNature.getAdditionalSteps());
         motherNature.resetAdditionalSteps();
@@ -88,7 +89,7 @@ class MotherNatureTest {
      * Tests if the mother nature position is set correctly.
      */
     @Test
-    void testSetIslandOn(){
+    void testSetIslandOn() {
         motherNature.setIslandOn(islands.get(2));
         assertEquals(islands.get(2), motherNature.getPosition());
     }

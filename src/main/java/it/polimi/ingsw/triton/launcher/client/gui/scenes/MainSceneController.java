@@ -162,7 +162,7 @@ public class MainSceneController extends SceneController {
         islands.clear();
         int[] dimensions = new int[2];
         GridPane[] islandGrids = new GridPane[2];
-        List<Node>[] nodeList = new List[2];
+        List<List<Node>> nodeList = new ArrayList<>();
         setupIslandGrid(clientModel, dimensions, islandGrids, nodeList);
         for (int i = 0; i < clientModel.getIslands().size(); i++) {
             AnchorPane anchorPane = new AnchorPane();
@@ -171,7 +171,7 @@ public class MainSceneController extends SceneController {
             startListenForMouseEvent(i, dimensions, clientModel, box, anchorPane, islands);
             drawMotherNatureOnIsland(clientModel, anchorPane, box, i);
         }
-        Collections.reverse(nodeList[1]);
+        Collections.reverse(nodeList.get(1));
         addIslandsAsChildren(islandGrids, nodeList, islands);
     }
 
@@ -181,7 +181,7 @@ public class MainSceneController extends SceneController {
      * @param islandGrids islandGrids
      * @param nodeList    array of lists that will contain, for each list, anchorPanes associated to islands
      */
-    private void setupIslandGrid(ClientModel clientModel, int[] dimensions, GridPane[] islandGrids, List<Node>[] nodeList) {
+    private void setupIslandGrid(ClientModel clientModel, int[] dimensions, GridPane[] islandGrids, List<List<Node>> nodeList) {
         dimensions[0] = clientModel.getIslands().size() / 2;
         dimensions[1] = clientModel.getIslands().size() - dimensions[0];
         for (int i = 0; i < dimensions.length; i++) {
@@ -189,7 +189,7 @@ public class MainSceneController extends SceneController {
             islandGrids[i].setHgap(100);
             islandGrids[i].setLayoutX(80);
             islandGrids[i].setLayoutY(200 * (double) i);
-            nodeList[i] = new ArrayList<>();
+            nodeList.add(new ArrayList<>());
         }
     }
 
@@ -199,7 +199,7 @@ public class MainSceneController extends SceneController {
      * @param island      island to draw
      * @param anchorPane  anchor pane where island has to be drawn
      * @param clientModel clientModel
-     * @return HBox
+     * @return HBox where island is drawn
      */
     private HBox drawSingleIsland(Island island, AnchorPane anchorPane, ClientModel clientModel) {
         HBox box = new HBox();
@@ -230,7 +230,7 @@ public class MainSceneController extends SceneController {
         if (island.getDominator() != null) {
             Circle tower = new Circle(13);
             anchorPane.getChildren().add(tower);
-            setCircleLayout(tower,x,y);
+            setCircleLayout(tower, x, y);
             SchoolBoard schoolBoard = clientModel.getSchoolBoards().get(island.getDominator().getUsername());
             if (schoolBoard.getTowerColor() == TowerColor.BLACK)
                 tower.setFill(javafx.scene.paint.Color.BLACK);
@@ -254,7 +254,7 @@ public class MainSceneController extends SceneController {
             Circle motherNature = new Circle(11);
             motherNature.setFill(javafx.scene.paint.Color.ORANGE);
             anchorPane.getChildren().add(motherNature);
-            setCircleLayout(motherNature,box.getChildren().get(0).getLayoutX() + 30,box.getChildren().get(0).getLayoutY() + 30);
+            setCircleLayout(motherNature, box.getChildren().get(0).getLayoutX() + 30, box.getChildren().get(0).getLayoutY() + 30);
         }
     }
 
@@ -266,11 +266,11 @@ public class MainSceneController extends SceneController {
      * @param nodeList   nodeList
      * @param anchorPane anchor pane
      */
-    private void setupNodeList(int i, int[] dimensions, List<Node>[] nodeList, AnchorPane anchorPane) {
+    private void setupNodeList(int i, int[] dimensions, List<List<Node>> nodeList, AnchorPane anchorPane) {
         int dimTot = 0;
         for (int j = 0; j < dimensions.length; j++) {
             if (i < dimensions[j] + dimTot) {
-                nodeList[j].add(anchorPane);
+                nodeList.get(j).add(anchorPane);
                 break;
             }
             dimTot += dimensions[j];
@@ -306,10 +306,10 @@ public class MainSceneController extends SceneController {
      * @param nodeList    nodeList
      * @param islands     islands
      */
-    private void addIslandsAsChildren(GridPane[] islandGrids, List<Node>[] nodeList, List<Node> islands) {
+    private void addIslandsAsChildren(GridPane[] islandGrids, List<List<Node>> nodeList, List<Node> islands) {
         for (int i = 0; i < islandGrids.length; i++) {
-            for (int j = 0; j < nodeList[i].size(); j++) {
-                islandGrids[i].add(nodeList[i].get(j), j, 0);
+            for (int j = 0; j < nodeList.get(i).size(); j++) {
+                islandGrids[i].add(nodeList.get(i).get(j), j, 0);
             }
             islands.add(islandGrids[i]);
         }
@@ -365,7 +365,7 @@ public class MainSceneController extends SceneController {
         infoPane.setPrefWidth(160);
         infoPane.setOpacity(1);
         infoPane.setStyle("-fx-background-color: #C7C7C7; -fx-border-color: black;");
-        setAnchorPaneLayout(infoPane,x,y);
+        setAnchorPaneLayout(infoPane, x, y);
         infoPane.setVisible(true);
     }
 

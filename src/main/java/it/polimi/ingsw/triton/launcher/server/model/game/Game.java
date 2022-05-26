@@ -99,9 +99,15 @@ public class Game extends GameMode {
             players.add(new Player(username));
             if (players.size() == 1)
                 currentPlayer = players.get(0);
-            notify(new LobbyMessage(getAllUsernames(players), maxNumberOfPlayers));
+            notify(new LobbyMessage(getAllUsernames(players)));
         } else
             throw new IllegalArgumentException("Username already chosen");
+    }
+
+    @Override
+    public void removePlayer(String username) {
+        players.removeIf(player -> (player.getUsername().equals(username)));
+        notify(new LobbyMessage(getAllUsernames(players)));
     }
 
     /**
@@ -232,13 +238,6 @@ public class Game extends GameMode {
         }
     }
 
-    //------------------------------------------------------------------------------------------------------------------
-
-
-    //-------------------------------------- PLANNING PHASE METHODS ----------------------------------------------------
-    // TODO continuare metodi sotto; i metodi sopra sono revisionati. Alcuni da migliorare, vedi notes (PAP)
-    //------------------------------------------------------------------------------------------------------------------
-
     /**
      * This method sorts the players ArrayList randomly and sets the current player.
      */
@@ -252,40 +251,10 @@ public class Game extends GameMode {
         currentPlayer = players.get(0);
     }
 
-    /**
-     * Adds the students to the cloud tiles and sets the last round flag if the bag is empty.
-     * It sends messages to communicate the new filled cloud tiles and if the bag is empty.
-     */
-        public void addStudentsToCloudTiles() {
-        int maxNumOfStudentsOnCloudTile = (maxNumberOfPlayers == 2) ? 3 : 4;
-        for (CloudTile cloudTile : cloudTiles) {
-            cloudTile.setAlreadyUsed(false);
-                for (int i = 0; i < maxNumOfStudentsOnCloudTile; i++) {
-                    try{
-                        cloudTile.setStudents(bag.drawStudent());
-                    }catch(NoSuchElementException e){
-                        notFullCloudTiles = true;
-                    }
-                    if (bag.isEmpty()) {
-                        notFullCloudTiles = true;
-                        break;
-                    }
-                }
-                if (notFullCloudTiles)
-                    break;
-        }
-        notify(new CloudTilesInfoMessage(cloudTiles));
-    }
+    //------------------------------------------------------------------------------------------------------------------
 
-    /**
-     * This method defines the game turn based on the played assistant cards.
-     */
-    public void sortPlayerPerTurn() throws ChangeTurnException {
-        players.sort(new PlayerTurnComparator());
-        currentPlayer = players.get(0);
-        notify(new ChangeTurnMessage(currentPlayer.getUsername()));
-        throw new ChangeTurnException();
-    }
+
+    //-------------------------------------- PLANNING PHASE METHODS ----------------------------------------------------
 
     /**
      * Executes a part of the planning phase, filling the cloud tiles and resetting the assistant
@@ -299,6 +268,42 @@ public class Game extends GameMode {
         addStudentsToCloudTiles();
         resetPlayedCardInTurn();
     }
+
+    /**
+     * Adds the students to the cloud tiles and sets the last round flag if the bag is empty.
+     * It sends messages to communicate the new filled cloud tiles and if the bag is empty.
+     */
+    public void addStudentsToCloudTiles() {
+        int maxNumOfStudentsOnCloudTile = (maxNumberOfPlayers == 2) ? 3 : 4;
+        for (CloudTile cloudTile : cloudTiles) {
+            cloudTile.setAlreadyUsed(false);
+            for (int i = 0; i < maxNumOfStudentsOnCloudTile; i++) {
+                try {
+                    cloudTile.setStudents(bag.drawStudent());
+                } catch (NoSuchElementException e) {
+                    notFullCloudTiles = true;
+                }
+                if (bag.isEmpty()) {
+                    notFullCloudTiles = true;
+                    break;
+                }
+            }
+            if (notFullCloudTiles)
+                break;
+        }
+        notify(new CloudTilesInfoMessage(cloudTiles));
+    }
+
+    /**
+     * This method removes the played assistant card of the previous turn.
+     */
+    private void resetPlayedCardInTurn() {
+        usedAssistantCards.clear();
+    }
+
+    //------------------------------------------------------------------------------------------------------------------
+
+    //---------------------------------------- ACTION PHASE METHODS ----------------------------------------------------
 
     /**
      * Executes the action of moving a player from entrance to the dining room.
@@ -385,6 +390,70 @@ public class Game extends GameMode {
         nextGameTurn();
     }
 
+
+    //------------------------------------------------------------------------------------------------------------------
+
+
+    //---------------------------------------------- TURN METHODS ------------------------------------------------------
+
+    /**
+     * This method defines the game turn based on the played assistant cards.
+     */
+    public void sortPlayerPerTurn() throws ChangeTurnException {
+        players.sort(new PlayerTurnComparator());
+        currentPlayer = players.get(0);
+        notify(new ChangeTurnMessage(currentPlayer.getUsername()));
+        throw new ChangeTurnException();
+    }
+
+    /**
+     * This method is used to manage the turns in preparation and planning phases.
+     * When the currentPlayer is not the last in turn, set the currentPlayer to the next one.
+     * When the last wizard has been chosen, we call setup method and order randomly the players' arraylist.
+     * Otherwise, set current player to the first player in the sorted players' arraylist.
+     *
+     * @throws ChangeTurnException if there's not another player that has to play in the current phase.
+     */
+    public void setNextPlayer() throws ChangeTurnException {
+        if (players.indexOf(currentPlayer) < players.size() - 1) {
+            currentPlayer = players.get(players.indexOf(currentPlayer) + 1);
+        } else if (Wizard.values().length - availableWizards.size() == maxNumberOfPlayers) {
+            setup();
+            availableWizards.clear();
+            throw new ChangeTurnException();
+        } else {
+            currentPlayer = players.get(0);
+            throw new ChangeTurnException();
+        }
+    }
+
+    /**
+     * Changes current player at the end of every action phase.
+     * At the end of the last player's action phase, it starts a new planning phase.
+     */
+    private void nextGameTurn() throws EndGameException, ChangeTurnException {
+        professorsManager.resetProfessorStrategy();
+        islandManager.getMotherNature().resetAdditionalSteps();
+        islandManager.resetIslandsInfluenceStrategy();
+        if (players.indexOf(currentPlayer) < maxNumberOfPlayers - 1) {
+            currentPlayer = players.get(players.indexOf(currentPlayer) + 1);
+            notify(new ChangeTurnMessage(currentPlayer.getUsername()));
+        } else if (!currentPlayer.getAssistantDeck().getAssistantDeck().isEmpty() && !bag.isEmpty() && players.indexOf(currentPlayer) == maxNumberOfPlayers - 1) {
+            currentPlayer = players.get(0);
+            notify(new ChangeTurnMessage(currentPlayer.getUsername()));
+            planningPhase();
+            throw new ChangeTurnException();
+        } else {
+            throw new EndGameException();
+        }
+    }
+
+
+    //------------------------------------------------------------------------------------------------------------------
+
+
+    //--------------------------------------------- END GAME METHODS ---------------------------------------------------
+
     /**
      * This method calculates the winner when one player has the max number of towers onto islands.
      * If two or more players have the same number of towers on islands, is called a new method for the calculation of the winner because of professors.
@@ -420,97 +489,6 @@ public class Game extends GameMode {
     }
 
     /**
-     * Changes current player at the end of every action phase.
-     * At the end of the last player's action phase, it starts a new planning phase.
-     */
-    private void nextGameTurn() throws EndGameException, ChangeTurnException {
-        professorsManager.resetProfessorStrategy();
-        islandManager.getMotherNature().resetAdditionalSteps();
-        islandManager.resetIslandsInfluenceStrategy();
-        if (players.indexOf(currentPlayer) < maxNumberOfPlayers - 1) {
-            currentPlayer = players.get(players.indexOf(currentPlayer) + 1);
-            notify(new ChangeTurnMessage(currentPlayer.getUsername()));
-        } else if (!currentPlayer.getAssistantDeck().getAssistantDeck().isEmpty() && !bag.isEmpty() && players.indexOf(currentPlayer) == maxNumberOfPlayers - 1) {
-            currentPlayer = players.get(0);
-            notify(new ChangeTurnMessage(currentPlayer.getUsername()));
-            planningPhase();
-            throw new ChangeTurnException();
-        } else {
-            throw new EndGameException();
-        }
-    }
-
-    @Override
-    public void useCharacterCard(Player player, int idCard) throws IllegalClientInputException {
-        throw new IllegalClientInputException(ErrorTypeID.ILLEGAL_MOVE_FOR_MODE);
-        // This method is implemented by ExpertGame
-    }
-
-    @Override
-    public void drawCharacterCards() throws IllegalClientInputException {
-        throw new IllegalClientInputException(ErrorTypeID.ILLEGAL_MOVE_FOR_MODE);
-        // This method is implemented by ExpertGame
-    }
-
-    @Override
-    public void applyCharacterCardEffect(int characterCardID, CardEffect cardEffect) throws IllegalClientInputException {
-        throw new IllegalClientInputException(ErrorTypeID.ILLEGAL_MOVE_FOR_MODE);
-    }
-
-    @Override
-    public CharacterCard getCharacterCardByID(int id) throws IllegalClientInputException {
-        throw new IllegalClientInputException(ErrorTypeID.ILLEGAL_MOVE_FOR_MODE);
-    }
-
-    @Override
-    public ArrayList<CharacterCard> getCharacterCards() throws IllegalClientInputException {
-        throw new IllegalClientInputException(ErrorTypeID.ILLEGAL_MOVE_FOR_MODE);
-    }
-
-    /**
-     * This method removes the played assistant card of the previous turn.
-     */
-    private void resetPlayedCardInTurn() {
-        usedAssistantCards.clear();
-    }
-
-    /**
-     * @return all the school boards associate to their owner.
-     */
-    public Map<String, SchoolBoard> getAllSchoolBoards() {
-        Map<String, SchoolBoard> mapSchoolBoards = new HashMap<>();
-        for (Player player : players) {
-            mapSchoolBoards.put(player.getUsername(), player.getSchoolBoard());
-        }
-        return mapSchoolBoards;
-    }
-
-    /**
-     * @return all the wizards already chosen by the players.
-     */
-    public Map<String, Wizard> getAllChosenWizards() {
-        Map<String, Wizard> chosenWizardsPerUsername = new HashMap<>();
-        for (Player player : players) {
-            chosenWizardsPerUsername.put(player.getUsername(), player.getAssistantDeck().getWizard());
-        }
-        return chosenWizardsPerUsername;
-    }
-
-    /**
-     * @return an array of String about professors with their respective owner.
-     * If a professor is not on a player's school board, it has a '_' on his position of the array.
-     */
-    public String[] professorsWithUsernameOwner() {
-        return Arrays.stream(professors).map(p -> (p == null ? null : p.getUsername())).toArray(String[]::new);
-    }
-
-    @Override
-    public void removePlayer(String username) {
-        players.removeIf(player -> (player.getUsername().equals(username)));
-        notify(new LobbyMessage(getAllUsernames(players), maxNumberOfPlayers));
-    }
-
-    /**
      * Ends the game resetting the instance of the game.
      */
     public void endGame(boolean correctEnd) {
@@ -519,6 +497,67 @@ public class Game extends GameMode {
             notify(new DisconnectionMessage());
         resetInstance();
     }
+    //------------------------------------------------------------------------------------------------------------------
+
+    //------------------------------------------ INHERITED METHODS -----------------------------------------------------
+
+    /**
+     * This method throws an exception because should not be called in Normal Game Mode.
+     *
+     * @param player who wants to use the card.
+     * @param idCard to play.
+     * @throws IllegalClientInputException to tell the client this move is illegal for thi Game Mode.
+     */
+    @Override
+    public void useCharacterCard(Player player, int idCard) throws IllegalClientInputException {
+        throw new IllegalClientInputException(ErrorTypeID.ILLEGAL_MOVE_FOR_MODE);
+    }
+
+    /**
+     * This method throws an exception because should not be called in Normal Game Mode.
+     *
+     * @throws IllegalClientInputException to tell the client this move is illegal for thi Game Mode.
+     */
+    @Override
+    public void drawCharacterCards() throws IllegalClientInputException {
+        throw new IllegalClientInputException(ErrorTypeID.ILLEGAL_MOVE_FOR_MODE);
+    }
+
+    /**
+     * This method throws an exception because should not be called in Normal Game Mode.
+     *
+     * @param characterCardID associated with the effect.
+     * @param cardEffect      of the character card id.
+     * @throws IllegalClientInputException to tell the client this move is illegal for thi Game Mode.
+     */
+    @Override
+    public void applyCharacterCardEffect(int characterCardID, CardEffect cardEffect) throws IllegalClientInputException {
+        throw new IllegalClientInputException(ErrorTypeID.ILLEGAL_MOVE_FOR_MODE);
+    }
+
+    /**
+     * This method throws an exception because should not be called in Normal Game Mode.
+     *
+     * @param id of the character card
+     * @return the CharacterCard instance
+     * @throws IllegalClientInputException to tell the client this move is illegal for thi Game Mode.
+     */
+    @Override
+    public CharacterCard getCharacterCardByID(int id) throws IllegalClientInputException {
+        throw new IllegalClientInputException(ErrorTypeID.ILLEGAL_MOVE_FOR_MODE);
+    }
+
+    /**
+     * This method throws an exception because should not be called in Normal Game Mode.
+     *
+     * @return the ArrayList containing the available character cards
+     * @throws IllegalClientInputException to tell the client this move is illegal for thi Game Mode.
+     */
+    @Override
+    public ArrayList<CharacterCard> getCharacterCards() throws IllegalClientInputException {
+        throw new IllegalClientInputException(ErrorTypeID.ILLEGAL_MOVE_FOR_MODE);
+    }
+
     //------------------------------------------------------------------------------------------------------------------
 
     //--------------------------------------------- HELPER METHODS -----------------------------------------------------
@@ -555,30 +594,39 @@ public class Game extends GameMode {
     }
 
     /**
-     * This method is used to manage the turns in preparation and planning phases.
-     * When the currentPlayer is not the last in turn, set the currentPlayer to the next one.
-     * When the last wizard has been chosen, we call setup method and order randomly the players' arraylist.
-     * Otherwise, set current player to the first player in the sorted players' arraylist.
-     *
-     * @throws ChangeTurnException if there's not another player that has to play in the current phase.
+     * @return all the school boards associate to their owner.
      */
-    public void setNextPlayer() throws ChangeTurnException {
-        if (players.indexOf(currentPlayer) < players.size() - 1) {
-            currentPlayer = players.get(players.indexOf(currentPlayer) + 1);
-        } else if (Wizard.values().length - availableWizards.size() == maxNumberOfPlayers) {
-            setup();
-            availableWizards.clear();
-            throw new ChangeTurnException();
-        } else {
-            currentPlayer = players.get(0);
-            throw new ChangeTurnException();
+    public Map<String, SchoolBoard> getAllSchoolBoards() {
+        Map<String, SchoolBoard> mapSchoolBoards = new HashMap<>();
+        for (Player player : players) {
+            mapSchoolBoards.put(player.getUsername(), player.getSchoolBoard());
         }
+        return mapSchoolBoards;
     }
+
+    /**
+     * @return all the wizards already chosen by the players.
+     */
+    public Map<String, Wizard> getAllChosenWizards() {
+        Map<String, Wizard> chosenWizardsPerUsername = new HashMap<>();
+        for (Player player : players) {
+            chosenWizardsPerUsername.put(player.getUsername(), player.getAssistantDeck().getWizard());
+        }
+        return chosenWizardsPerUsername;
+    }
+
+    /**
+     * @return an array of String about professors with their respective owner.
+     * If a professor is not on a player's school board, it has a '_' on his position of the array.
+     */
+    public String[] professorsWithUsernameOwner() {
+        return Arrays.stream(professors).map(p -> (p == null ? null : p.getUsername())).toArray(String[]::new);
+    }
+
     //------------------------------------------------------------------------------------------------------------------
 
 
     //--------------------------------------------- GETTER METHODS -----------------------------------------------------
-
 
     public Bag getBag() {
         return bag;
@@ -594,6 +642,10 @@ public class Game extends GameMode {
 
     public Player getCurrentPlayer() {
         return currentPlayer;
+    }
+
+    public void setCurrentPlayer(Player currentPlayer) {
+        this.currentPlayer = currentPlayer;
     }
 
     public boolean[] getTowerColorChosen() {
@@ -616,6 +668,13 @@ public class Game extends GameMode {
         return gameState;
     }
 
+    public void setGameState(GameState gameState) {
+        this.gameState = gameState;
+        if (gameState == GameState.PLANNING_PHASE || gameState == GameState.ACTION_PHASE) {
+            notify(new ChangePhaseMessage(gameState));
+        }
+    }
+
     /**
      * @param cloudTileId the id of the cloud tile to return.
      * @return the cloud tile with the id passed by parameter.
@@ -633,40 +692,29 @@ public class Game extends GameMode {
         return maxNumberOfPlayers;
     }
 
+    public void setMaxNumberOfPlayers(int maxNumberOfPlayers) {
+        this.maxNumberOfPlayers = maxNumberOfPlayers;
+        this.towerColorChosen = new boolean[maxNumberOfPlayers];
+    }
+
     public IslandManager getIslandManager() {
         return islandManager;
-    }
-
-    public List<AssistantCard> getUsedAssistantCards() {
-        return usedAssistantCards;
-    }
-
-    public boolean isNotFullCloudTiles(){
-        return notFullCloudTiles;
-    }
-
-    public GeneralCoinSupply getGeneralCoinSupply() throws IllegalClientInputException{
-        throw new IllegalClientInputException(ErrorTypeID.ILLEGAL_MOVE_FOR_MODE);
     }
     //------------------------------------------------------------------------------------------------------------------
 
 
     //--------------------------------------------- SETTER METHODS -----------------------------------------------------
 
-    public void setMaxNumberOfPlayers(int maxNumberOfPlayers) {
-        this.maxNumberOfPlayers = maxNumberOfPlayers;
-        this.towerColorChosen = new boolean[maxNumberOfPlayers];
+    public List<AssistantCard> getUsedAssistantCards() {
+        return usedAssistantCards;
     }
 
-    public void setGameState(GameState gameState) {
-        this.gameState = gameState;
-        if (gameState == GameState.PLANNING_PHASE || gameState == GameState.ACTION_PHASE) {
-            notify(new ChangePhaseMessage(gameState));
-        }
+    public boolean isNotFullCloudTiles() {
+        return notFullCloudTiles;
     }
 
-    public void setCurrentPlayer(Player currentPlayer) {
-        this.currentPlayer = currentPlayer;
+    public GeneralCoinSupply getGeneralCoinSupply() throws IllegalClientInputException {
+        throw new IllegalClientInputException(ErrorTypeID.ILLEGAL_MOVE_FOR_MODE);
     }
     //------------------------------------------------------------------------------------------------------------------
 }

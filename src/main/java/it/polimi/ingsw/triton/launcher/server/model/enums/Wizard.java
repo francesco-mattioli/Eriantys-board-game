@@ -14,7 +14,7 @@ public enum Wizard implements Serializable {
 
     private final String imagePath;
 
-    Wizard(String imagePath){
+    Wizard(String imagePath) {
         this.imagePath = imagePath;
     }
 

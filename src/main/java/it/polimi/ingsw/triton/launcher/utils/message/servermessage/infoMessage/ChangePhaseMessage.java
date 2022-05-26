@@ -10,7 +10,7 @@ import it.polimi.ingsw.triton.launcher.utils.message.servermessage.InfoMessage;
 public class ChangePhaseMessage extends InfoMessage {
     private final GameState gameState;
 
-    public ChangePhaseMessage(GameState gameState){
+    public ChangePhaseMessage(GameState gameState) {
         this.gameState = gameState;
     }
 

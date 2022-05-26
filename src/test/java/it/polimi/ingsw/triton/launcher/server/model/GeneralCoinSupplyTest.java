@@ -49,7 +49,7 @@ class GeneralCoinSupplyTest {
      */
     @Test
     void isEmptyTest() {
-        for(int i = 0; i < 5; i++){
+        for (int i = 0; i < 5; i++) {
             try {
                 generalCoinSupply.decrement();
             } catch (EmptyGeneralCoinSupplyException e) {
@@ -63,14 +63,14 @@ class GeneralCoinSupplyTest {
      * Tests if the method launches an exception when the supply is empty.
      */
     @Test
-    void decrementWhenTheSupplyIsEmpty(){
-        for(int i = 0; i < 5; i++){
+    void decrementWhenTheSupplyIsEmpty() {
+        for (int i = 0; i < 5; i++) {
             try {
                 generalCoinSupply.decrement();
             } catch (EmptyGeneralCoinSupplyException e) {
                 throw new RuntimeException(e);
             }
         }
-        assertThrows(EmptyGeneralCoinSupplyException.class, ()-> generalCoinSupply.decrement());
+        assertThrows(EmptyGeneralCoinSupplyException.class, () -> generalCoinSupply.decrement());
     }
 }

@@ -1,6 +1,9 @@
 package it.polimi.ingsw.triton.launcher.server.model.game;
 
-import it.polimi.ingsw.triton.launcher.server.model.*;
+import it.polimi.ingsw.triton.launcher.server.model.AssistantCard;
+import it.polimi.ingsw.triton.launcher.server.model.Bag;
+import it.polimi.ingsw.triton.launcher.server.model.CloudTile;
+import it.polimi.ingsw.triton.launcher.server.model.GeneralCoinSupply;
 import it.polimi.ingsw.triton.launcher.server.model.cardeffects.CardEffect;
 import it.polimi.ingsw.triton.launcher.server.model.cardeffects.CharacterCard;
 import it.polimi.ingsw.triton.launcher.server.model.enums.Color;
@@ -22,52 +25,96 @@ import java.util.Map;
 /**
  * This class contains all the declaration of the methods that are in game and expertGame classes.
  */
-public abstract class GameMode extends Observable<InfoMessage>{
+public abstract class GameMode extends Observable<InfoMessage> {
     protected final SecureRandom random = new SecureRandom();
 
     public abstract void setup();
+
     abstract void setupPlayers();
+
     abstract void planningPhase();
+
     public abstract void executeActionMoveStudentToDiningRoom(Color student) throws LastMoveException, IllegalClientInputException;
+
     public abstract void useCharacterCard(Player player, int idCard) throws IllegalClientInputException, CharacterCardWithParametersException;
+
     public abstract void applyCharacterCardEffect(int characterCardID, CardEffect cardEffect) throws IllegalClientInputException, EndGameException;
+
     public abstract List<CharacterCard> getCharacterCards() throws IllegalClientInputException;
+
     public abstract CharacterCard getCharacterCardByID(int id) throws IllegalClientInputException;
+
     public abstract void setGameState(GameState setup);
+
     public abstract boolean[] getTowerColorChosen();
+
     public abstract Player getCurrentPlayer();
+
     public abstract void calculateWinner();
+
     public abstract void addPlayer(String username);
+
     public abstract IslandManager getIslandManager();
+
     public abstract GameState getGameState();
+
     public abstract List<AssistantCard> getUsedAssistantCards();
+
     public abstract void endGame(boolean correctEnd);
+
     public abstract List<Player> getPlayers();
+
     public abstract void chooseTowerColor(Player player, TowerColor playerColor) throws IllegalClientInputException, ChangeTurnException;
+
     public abstract void chooseWizard(Player player, Wizard playerWizard) throws IllegalClientInputException, ChangeTurnException;
+
     public abstract void chooseAssistantCard(Player player, AssistantCard chosenAssistantCard) throws IllegalClientInputException, ChangeTurnException;
+
     public abstract void executeActionMoveStudentToIsland(Color student, int islandID) throws IllegalClientInputException, LastMoveException;
+
     public abstract void moveMotherNature(int numSteps) throws IllegalClientInputException, EndGameException, ChangeTurnException;
+
     public abstract CloudTile getCloudTileById(int selectedCloudTileID) throws IllegalClientInputException;
+
     public abstract void chooseCloudTile(CloudTile cloudTileById) throws IllegalClientInputException, ChangeTurnException, EndGameException;
+
     public abstract Player getPlayerByUsername(String senderUsername);
+
     public abstract ProfessorsManager getProfessorsManager();
+
     public abstract Player[] getProfessors();
+
     public abstract Bag getBag();
+
     public abstract List<Wizard> getAvailableWizards();
+
     abstract void setupBag();
+
     abstract void setupIslands();
+
     abstract void createCloudTiles();
+
     abstract void setupEntrance();
+
     abstract void checkNumberMoves() throws LastMoveException;
+
     abstract Map<String, SchoolBoard> getAllSchoolBoards();
-    abstract Map<String,Wizard> getAllChosenWizards();
+
+    abstract Map<String, Wizard> getAllChosenWizards();
+
     public abstract List<CloudTile> getCloudTiles();
+
     abstract String[] professorsWithUsernameOwner();
+
     public abstract int getMaxNumberOfPlayers();
+
     public abstract void setMaxNumberOfPlayers(int maxNumberOfPlayers);
+
     public abstract void setCurrentPlayer(Player player);
+
     public abstract void removePlayer(String username);
+
     public abstract void drawCharacterCards() throws IllegalClientInputException;
+
     public abstract GeneralCoinSupply getGeneralCoinSupply() throws IllegalClientInputException;
 }

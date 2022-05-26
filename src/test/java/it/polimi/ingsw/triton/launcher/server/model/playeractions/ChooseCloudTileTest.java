@@ -9,20 +9,21 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 class ChooseCloudTileTest {
     private CloudTile ct;
     private SchoolBoard schoolBoard;
 
     @BeforeEach
-    void setup(){
+    void setup() {
         ct = new CloudTile(1);
         schoolBoard = new SchoolBoard(TowerColor.BLACK, 2);
     }
 
     @AfterEach
-    void tearDown(){
+    void tearDown() {
         ct = null;
         schoolBoard = null;
     }
@@ -55,7 +56,7 @@ class ChooseCloudTileTest {
      * Tests if the students are removed correctly from the cloud tile.
      */
     @Test
-    void testIfStudentsAreRemovedFromCloudTile(){
+    void testIfStudentsAreRemovedFromCloudTile() {
         ct.setStudents(Color.BLUE);
         ct.setStudents(Color.RED);
         ct.setStudents(Color.GREEN);

@@ -1,17 +1,17 @@
-.motherNaturePane{
+.motherNaturePane {
     -fx-background-image: url("../Images/Backgrounds/blueCloud.jpg");
     -fx-background-size: stretch;
 }
 
 
-.moveButton{
+.moveButton {
     -fx-background-image: url("../Images/Buttons/movebtn.jpg");
     -fx-border-color: transparent;
     -fx-background-size: stretch;
     -fx-background-color: transparent;
 }
 
-.playCCButton{
+.playCCButton {
     -fx-background-image: url("../Images/Buttons/charcardbtn.jpg");
     -fx-border-color: transparent;
     -fx-background-size: stretch;

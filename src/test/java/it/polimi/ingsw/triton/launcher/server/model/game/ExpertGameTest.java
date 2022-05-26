@@ -12,7 +12,8 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 class ExpertGameTest {
 
@@ -61,7 +62,7 @@ class ExpertGameTest {
      * Tests if every CharacterCard has the right cost.
      */
     @Test
-    void checkCharacterCardCost(){
+    void checkCharacterCardCost() {
         try {
             expertGame.drawCharacterCards();
         } catch (IllegalClientInputException e) {
@@ -69,9 +70,9 @@ class ExpertGameTest {
         }
         try {
             int id = expertGame.getCharacterCards().get(0).getId();
-            if(id == 1 || id == 4 || id == 7 || id == 10)
+            if (id == 1 || id == 4 || id == 7 || id == 10)
                 assertEquals(1, expertGame.getCharacterCards().get(0).getCost());
-            else if(id == 2 || id == 5 || id == 8 || id == 11)
+            else if (id == 2 || id == 5 || id == 8 || id == 11)
                 assertEquals(2, expertGame.getCharacterCards().get(0).getCost());
             else assertEquals(3, expertGame.getCharacterCards().get(0).getCost());
         } catch (IllegalClientInputException e) {
@@ -83,8 +84,8 @@ class ExpertGameTest {
      * Tests if CharacterCard 01 has the right number of students on it.
      */
     @Test
-    void checkNumberOfStudentsOnCharacterCard01(){
-        createACharacterCard(new CharacterCard(1,1,0, expertGame.getBag()));
+    void checkNumberOfStudentsOnCharacterCard01() {
+        createACharacterCard(new CharacterCard(1, 1, 0, expertGame.getBag()));
         assertEquals(4, studentsOnCharacterCard());
     }
 
@@ -92,8 +93,8 @@ class ExpertGameTest {
      * Tests if CharacterCard 07 has the right number of students on it.
      */
     @Test
-    void checkNumberOfStudentsOnCharacterCard07(){
-        createACharacterCard(new CharacterCard(7,1,0, expertGame.getBag()));
+    void checkNumberOfStudentsOnCharacterCard07() {
+        createACharacterCard(new CharacterCard(7, 1, 0, expertGame.getBag()));
         assertEquals(6, studentsOnCharacterCard());
     }
 
@@ -101,8 +102,8 @@ class ExpertGameTest {
      * Tests if CharacterCard 11 has the right number of students on it.
      */
     @Test
-    void checkNumberOfStudentsOnCharacterCard11(){
-        createACharacterCard(new CharacterCard(11,2,0, expertGame.getBag()));
+    void checkNumberOfStudentsOnCharacterCard11() {
+        createACharacterCard(new CharacterCard(11, 2, 0, expertGame.getBag()));
         assertEquals(4, studentsOnCharacterCard());
     }
 
@@ -111,9 +112,9 @@ class ExpertGameTest {
      * Tests if the method useCharacterCard throws an exception when the player has already played a character card.
      */
     @Test
-    void alreadyPlayedACharacterCard(){
+    void alreadyPlayedACharacterCard() {
         expertGame.setGameState(GameState.ACTION_PHASE);
-        setUpCharacterCards(new CharacterCard(2, 2, 0,expertGame.getBag()), p1,4);
+        setUpCharacterCards(new CharacterCard(2, 2, 0, expertGame.getBag()), p1, 4);
         try {
             expertGame.getCharacterCards().add(new CharacterCard(8, 2, 0, expertGame.getBag()));
         } catch (IllegalClientInputException e) {
@@ -132,11 +133,11 @@ class ExpertGameTest {
      * Tests if the method useCharacterCard update the player's wallet.
      */
     @Test
-    void playCharacterCard(){
+    void playCharacterCard() {
         expertGame.setGameState(GameState.ACTION_PHASE);
-        setUpCharacterCards(new CharacterCard(2, 2, 0, expertGame.getBag()),p1,2);
+        setUpCharacterCards(new CharacterCard(2, 2, 0, expertGame.getBag()), p1, 2);
         try {
-            expertGame.useCharacterCard(p1,2);
+            expertGame.useCharacterCard(p1, 2);
         } catch (IllegalClientInputException | CharacterCardWithParametersException e) {
             e.printStackTrace();
         }
@@ -147,86 +148,86 @@ class ExpertGameTest {
      * Tests if the method useCharacterCard throws an exception when the character card has parameters.
      */
     @Test
-    void playCharacterCard01WithParameters(){
+    void playCharacterCard01WithParameters() {
         expertGame.setGameState(GameState.ACTION_PHASE);
-        setUpCharacterCards(new CharacterCard(1,1,0, expertGame.getBag()), p1,1);
-        assertThrows(CharacterCardWithParametersException.class, () -> expertGame.useCharacterCard(p1,1));
+        setUpCharacterCards(new CharacterCard(1, 1, 0, expertGame.getBag()), p1, 1);
+        assertThrows(CharacterCardWithParametersException.class, () -> expertGame.useCharacterCard(p1, 1));
     }
 
     /**
      * Tests if the method useCharacterCard throws an exception when the character card has parameters.
      */
     @Test
-    void playCharacterCard03WithParameters(){
+    void playCharacterCard03WithParameters() {
         expertGame.setGameState(GameState.ACTION_PHASE);
-        setUpCharacterCards(new CharacterCard(3,3,0, expertGame.getBag()), p1,3);
-        assertThrows(CharacterCardWithParametersException.class, () -> expertGame.useCharacterCard(p1,3));
+        setUpCharacterCards(new CharacterCard(3, 3, 0, expertGame.getBag()), p1, 3);
+        assertThrows(CharacterCardWithParametersException.class, () -> expertGame.useCharacterCard(p1, 3));
     }
 
     /**
      * Tests if the method useCharacterCard throws an exception when the character card has parameters.
      */
     @Test
-    void playCharacterCard05WithParameters(){
+    void playCharacterCard05WithParameters() {
         expertGame.setGameState(GameState.ACTION_PHASE);
-        setUpCharacterCards(new CharacterCard(5,2,0, expertGame.getBag()), p1,2);
-        assertThrows(CharacterCardWithParametersException.class, () -> expertGame.useCharacterCard(p1,5));
+        setUpCharacterCards(new CharacterCard(5, 2, 0, expertGame.getBag()), p1, 2);
+        assertThrows(CharacterCardWithParametersException.class, () -> expertGame.useCharacterCard(p1, 5));
     }
 
     /**
      * Tests if the method useCharacterCard throws an exception when the character card has parameters.
      */
     @Test
-    void playCharacterCard07WithParameters(){
+    void playCharacterCard07WithParameters() {
         expertGame.setGameState(GameState.ACTION_PHASE);
-        p1.setSchoolBoard(TowerColor.WHITE,3);
+        p1.setSchoolBoard(TowerColor.WHITE, 3);
         p1.getSchoolBoard().getEntrance()[0] = 3;
         p1.getSchoolBoard().getDiningRoom()[1] = 3;
-        setUpCharacterCards(new CharacterCard(7,1,0, expertGame.getBag()), p1,1);
-        assertThrows(CharacterCardWithParametersException.class, () -> expertGame.useCharacterCard(p1,7));
+        setUpCharacterCards(new CharacterCard(7, 1, 0, expertGame.getBag()), p1, 1);
+        assertThrows(CharacterCardWithParametersException.class, () -> expertGame.useCharacterCard(p1, 7));
     }
 
     /**
      * Tests if the method useCharacterCard throws an exception when the character card has parameters.
      */
     @Test
-    void playCharacterCard09WithParameters(){
+    void playCharacterCard09WithParameters() {
         expertGame.setGameState(GameState.ACTION_PHASE);
-        setUpCharacterCards(new CharacterCard(9,3,0, expertGame.getBag()), p1,3);
-        assertThrows(CharacterCardWithParametersException.class, () -> expertGame.useCharacterCard(p1,9));
+        setUpCharacterCards(new CharacterCard(9, 3, 0, expertGame.getBag()), p1, 3);
+        assertThrows(CharacterCardWithParametersException.class, () -> expertGame.useCharacterCard(p1, 9));
     }
 
     /**
      * Tests if the method useCharacterCard throws an exception when the character card has parameters.
      */
     @Test
-    void playCharacterCard10WithParameters(){
+    void playCharacterCard10WithParameters() {
         expertGame.setGameState(GameState.ACTION_PHASE);
-        p1.setSchoolBoard(TowerColor.WHITE,3);
+        p1.setSchoolBoard(TowerColor.WHITE, 3);
         p1.getSchoolBoard().getEntrance()[0] = 2;
         p1.getSchoolBoard().getDiningRoom()[1] = 2;
-        setUpCharacterCards(new CharacterCard(10,1,0, expertGame.getBag()), p1,1);
-        assertThrows(CharacterCardWithParametersException.class, () -> expertGame.useCharacterCard(p1,10));
+        setUpCharacterCards(new CharacterCard(10, 1, 0, expertGame.getBag()), p1, 1);
+        assertThrows(CharacterCardWithParametersException.class, () -> expertGame.useCharacterCard(p1, 10));
     }
 
     /**
      * Tests if the method useCharacterCard throws an exception when the character card has parameters.
      */
     @Test
-    void playCharacterCard11WithParameters(){
+    void playCharacterCard11WithParameters() {
         expertGame.setGameState(GameState.ACTION_PHASE);
-        setUpCharacterCards(new CharacterCard(11,2,0, expertGame.getBag()), p1,2);
-        assertThrows(CharacterCardWithParametersException.class, () -> expertGame.useCharacterCard(p1,11));
+        setUpCharacterCards(new CharacterCard(11, 2, 0, expertGame.getBag()), p1, 2);
+        assertThrows(CharacterCardWithParametersException.class, () -> expertGame.useCharacterCard(p1, 11));
     }
 
     /**
      * Tests if the method useCharacterCard throws an exception when the character card has parameters.
      */
     @Test
-    void playCharacterCard12WithParameters(){
+    void playCharacterCard12WithParameters() {
         expertGame.setGameState(GameState.ACTION_PHASE);
-        setUpCharacterCards(new CharacterCard(12,3,0, expertGame.getBag()), p1,3);
-        assertThrows(CharacterCardWithParametersException.class, () -> expertGame.useCharacterCard(p1,12));
+        setUpCharacterCards(new CharacterCard(12, 3, 0, expertGame.getBag()), p1, 3);
+        assertThrows(CharacterCardWithParametersException.class, () -> expertGame.useCharacterCard(p1, 12));
     }
 
     /**
@@ -234,7 +235,7 @@ class ExpertGameTest {
      * wants to play a character card in a phase which is not the action phase.
      */
     @Test
-    void playCharacterCardWhenNotActionPhase(){
+    void playCharacterCardWhenNotActionPhase() {
         expertGame.setGameState(GameState.PLANNING_PHASE);
         setUpCharacterCards(new CharacterCard(3, 3, 0, expertGame.getBag()), p1, 3);
         assertThrows(IllegalClientInputException.class, () -> expertGame.useCharacterCard(p1, 3));
@@ -245,15 +246,15 @@ class ExpertGameTest {
      * wants to apply a character card effect in a phase which is not the action phase.
      */
     @Test
-    void applyCharacterCardEffectWhenNotActionPhase(){
+    void applyCharacterCardEffectWhenNotActionPhase() {
         expertGame.setGameState(GameState.PLANNING_PHASE);
         setUpCharacterCards(new CharacterCard(2, 2, 0, expertGame.getBag()), p1, 3);
         assertThrows(IllegalClientInputException.class, () -> expertGame.applyCharacterCardEffect(2, new CardEffect02(new ProfessorsManager())));
     }
 
-    private int studentsOnCharacterCard(){
+    private int studentsOnCharacterCard() {
         int cont = 0;
-        int [] array = new int[5];
+        int[] array = new int[5];
         try {
             array = expertGame.getCharacterCards().get(0).getStudents();
         } catch (IllegalClientInputException e) {
@@ -265,13 +266,13 @@ class ExpertGameTest {
         return cont;
     }
 
-    private void increaseWalletByValue(Player p, int value){
-        for (int i = 0; i < value; i++){
+    private void increaseWalletByValue(Player p, int value) {
+        for (int i = 0; i < value; i++) {
             p.getWallet().increaseValue();
         }
     }
 
-    private void createACharacterCard(CharacterCard characterCard){
+    private void createACharacterCard(CharacterCard characterCard) {
         try {
             expertGame.getCharacterCards().add(characterCard);
         } catch (IllegalClientInputException e) {
@@ -279,7 +280,7 @@ class ExpertGameTest {
         }
     }
 
-    private void setUpCharacterCards(CharacterCard characterCard, Player p, int walletValue){
+    private void setUpCharacterCards(CharacterCard characterCard, Player p, int walletValue) {
         expertGame.setCurrentPlayer(p);
         increaseWalletByValue(p, walletValue);
         try {

@@ -160,10 +160,6 @@ public class Controller implements Observer<ClientMessage> {
     }
 
 
-    public void setGame(GameMode game) {
-        this.game = game;
-    }
-
     public void addVirtualView(VirtualView virtualView) {
         this.virtualViews.add(virtualView);
     }

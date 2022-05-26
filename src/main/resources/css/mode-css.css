@@ -1,10 +1,10 @@
-.gameModePane{
+.gameModePane {
     -fx-background-image: url("../Images/Backgrounds/blueCloud.jpg");
     -fx-background-size: stretch;
 }
 
 
-.confirmButton{
+.confirmButton {
     -fx-background-image: url("../Images/Buttons/blueConnect.jpg");
     -fx-border-color: transparent;
     -fx-background-size: stretch;

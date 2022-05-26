@@ -1,10 +1,10 @@
 package it.polimi.ingsw.triton.launcher.server.model.playeractions;
 
 import it.polimi.ingsw.triton.launcher.server.model.AssistantCard;
-import it.polimi.ingsw.triton.launcher.server.model.player.AssistantDeck;
-import it.polimi.ingsw.triton.launcher.server.model.player.Player;
 import it.polimi.ingsw.triton.launcher.server.model.enums.AssistantCardType;
 import it.polimi.ingsw.triton.launcher.server.model.enums.Wizard;
+import it.polimi.ingsw.triton.launcher.server.model.player.AssistantDeck;
+import it.polimi.ingsw.triton.launcher.server.model.player.Player;
 import it.polimi.ingsw.triton.launcher.utils.exceptions.EmptyGeneralCoinSupplyException;
 import it.polimi.ingsw.triton.launcher.utils.exceptions.IllegalClientInputException;
 import org.junit.jupiter.api.AfterEach;
@@ -13,21 +13,22 @@ import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 class PlayAssistantCardTest {
     private Player player;
     private ArrayList<AssistantCard> usedAssistantCards;
 
     @BeforeEach
-    void setupPlayer(){
+    void setupPlayer() {
         player = new Player("Pippo");
         player.setAssistantDeck(new AssistantDeck(Wizard.BLUE));
         usedAssistantCards = new ArrayList<>();
     }
 
     @AfterEach
-    void tearDown(){
+    void tearDown() {
         player = null;
         usedAssistantCards = null;
     }
@@ -53,19 +54,19 @@ class PlayAssistantCardTest {
      * Tests if the method launches an exception because player can't play this card.
      */
     @Test
-    void cannotPlayThisCard(){
+    void cannotPlayThisCard() {
         AssistantCard cardToPlay = new AssistantCard(AssistantCardType.CAT);
         usedAssistantCards.add(new AssistantCard(AssistantCardType.SNAKE));
         usedAssistantCards.add(cardToPlay);
         PlayAssistantCard pc = new PlayAssistantCard(cardToPlay, player, usedAssistantCards);
-        assertThrows(IllegalClientInputException.class, ()->player.executeAction(pc));
+        assertThrows(IllegalClientInputException.class, () -> player.executeAction(pc));
     }
 
     /**
      * Tests if the card is accepted because player has only one card.
      */
     @Test
-    void playerHasNotOtherChoice(){
+    void playerHasNotOtherChoice() {
         usedAssistantCards.add(new AssistantCard(AssistantCardType.SNAKE));
         player.getAssistantDeck().getAssistantDeck().clear();
         AssistantCard uniqueCardInTheDeck = new AssistantCard(AssistantCardType.SNAKE);
@@ -84,7 +85,7 @@ class PlayAssistantCardTest {
      * Tests if the dimension of the deck is decreased by 1 once the card is played.
      */
     @Test
-    void checkDimensionDeckAfterPlayedCard(){
+    void checkDimensionDeckAfterPlayedCard() {
         AssistantCard cardToPlay = new AssistantCard(AssistantCardType.CAT);
         int initialDimDeck = player.getAssistantDeck().getAssistantDeck().size();
         usedAssistantCards.add(new AssistantCard(AssistantCardType.SNAKE));
@@ -95,14 +96,14 @@ class PlayAssistantCardTest {
         } catch (IllegalClientInputException | EmptyGeneralCoinSupplyException e) {
             throw new RuntimeException(e);
         }
-        assertEquals(initialDimDeck-1, player.getAssistantDeck().getAssistantDeck().size());
+        assertEquals(initialDimDeck - 1, player.getAssistantDeck().getAssistantDeck().size());
     }
 
     /**
      * Tests if the dimension of used cards array is increased after the player played a card.
      */
     @Test
-    void testIncreasedUsedCardsDimension(){
+    void testIncreasedUsedCardsDimension() {
         AssistantCard cardToPlay = new AssistantCard(AssistantCardType.CAT);
         usedAssistantCards.add(new AssistantCard(AssistantCardType.SNAKE));
         usedAssistantCards.add(new AssistantCard(AssistantCardType.TIGER));
@@ -113,11 +114,11 @@ class PlayAssistantCardTest {
         } catch (IllegalClientInputException | EmptyGeneralCoinSupplyException e) {
             throw new RuntimeException(e);
         }
-        assertEquals(initialDimDeck+1, usedAssistantCards.size());
+        assertEquals(initialDimDeck + 1, usedAssistantCards.size());
     }
 
     @Test
-    void testPlayerHasAlreadyPlayedTheCard(){
+    void testPlayerHasAlreadyPlayedTheCard() {
         AssistantCard assistantCard = player.getAssistantDeck().getAssistantDeck().get(1);
         try {
             new PlayAssistantCard(assistantCard, player, usedAssistantCards).execute();
@@ -129,7 +130,7 @@ class PlayAssistantCardTest {
     }
 
     @Test
-    void testAssistantCardIsNull(){
+    void testAssistantCardIsNull() {
         assertThrows(IllegalClientInputException.class, () -> new PlayAssistantCard(null, player, usedAssistantCards).execute());
     }
 }

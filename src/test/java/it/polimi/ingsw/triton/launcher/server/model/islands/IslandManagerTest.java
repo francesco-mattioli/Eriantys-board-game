@@ -139,7 +139,7 @@ class IslandManagerTest {
      * Checks if it didn't find an island when this doesn't exist anymore.
      */
     @Test
-    void testNotExistsIsland(){
+    void testNotExistsIsland() {
         islandManager.getIslands().remove(5);
         assertFalse(islandManager.existsIsland(5));
     }
@@ -163,7 +163,7 @@ class IslandManagerTest {
     @Test
     void testGetIslandByIDWhenNotExists() {
         islandManager.getIslands().remove(3);
-        assertThrows(IllegalClientInputException.class, ()->islandManager.getIslandByID(3));
+        assertThrows(IllegalClientInputException.class, () -> islandManager.getIslandByID(3));
     }
 
     /**

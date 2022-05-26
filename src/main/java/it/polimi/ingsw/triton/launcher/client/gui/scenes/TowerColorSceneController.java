@@ -23,26 +23,27 @@ public class TowerColorSceneController extends SceneController {
     @FXML
     AnchorPane towerColorPane;
 
-    private Map<String,TowerColor> towerColorMap;
+    private Map<String, TowerColor> towerColorMap;
 
 
     /**
      * This method assigns to the player the chosen tower color, when he clicks the button
      */
-    public void select(){
+    public void select() {
         notify(new TowerColorReply(towerColorMap.get(towerColorChoice.getValue())));
         selectButton.setDisable(true);
     }
 
     /**
      * In this method we create the map between Strings and TowerColor, to associate the choiceBox value and tower color.
+     *
      * @param clientModel the client-side model.
-     * @param parameters in this case contains the arraylist available tower colors.
-     * @param <T> generic type parameter.
+     * @param parameters  in this case contains the arraylist available tower colors.
+     * @param <T>         generic type parameter.
      */
     @Override
     public <T> void setupScene(ClientModel clientModel, T parameters) {
-        boolean [] towerColorChosen = (boolean[]) parameters;
+        boolean[] towerColorChosen = (boolean[]) parameters;
         towerColorMap = new HashMap<>();
         for (int i = 0; i < towerColorChosen.length; i++) {
             if (!towerColorChosen[i]) {
@@ -53,7 +54,7 @@ public class TowerColorSceneController extends SceneController {
         towerColorChoice.setOnAction(this::activateButton);
     }
 
-    private void activateButton(ActionEvent event){
+    private void activateButton(ActionEvent event) {
         selectButton.setDisable(false);
     }
 

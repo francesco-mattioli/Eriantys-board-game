@@ -8,6 +8,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
+
 import java.util.ArrayList;
 
 public class MotherNatureStepsSceneController extends ActionPhaseSceneControllers {
@@ -24,26 +25,29 @@ public class MotherNatureStepsSceneController extends ActionPhaseSceneController
     /**
      * When user clicks on button, a message is sent to server containing the number of steps that mother nature has to do
      */
-    public void move(){
+    public void move() {
         notify(new MotherNatureReply(stepsChoiceBox.getValue()));
         ((Stage) motherNaturePane.getScene().getWindow()).close();
     }
 
     /**
      * This method prepares the scene, populating choice box and setting everything correctly
+     *
      * @param clientModel clientModel
+     * @param parameters  a generic parameter which depends, based on specific scene
+     * @param <T>         generic parameter
      */
     @Override
     public <T> void setupScene(ClientModel clientModel, T parameters) {
         ArrayList<Integer> steps = new ArrayList<>();
-        for (int i = 1; i <= clientModel.getLastAssistantCardPlayedPerUsername().get(clientModel.getUsername()).getType().getMaxSteps() + (int)parameters; i++) {
+        for (int i = 1; i <= clientModel.getLastAssistantCardPlayedPerUsername().get(clientModel.getUsername()).getType().getMaxSteps() + (int) parameters; i++) {
             steps.add(i);
         }
         stepsChoiceBox.getItems().addAll(steps);
         stepsChoiceBox.setOnAction(this::activateButton);
     }
 
-    private void activateButton(ActionEvent event){
+    private void activateButton(ActionEvent event) {
         moveButton.setDisable(false);
     }
 

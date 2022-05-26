@@ -1,7 +1,10 @@
 package it.polimi.ingsw.triton.launcher.client.gui;
 
 import it.polimi.ingsw.triton.launcher.client.Client;
-import it.polimi.ingsw.triton.launcher.client.gui.scenes.*;
+import it.polimi.ingsw.triton.launcher.client.gui.scenes.ActionPhaseSceneControllers;
+import it.polimi.ingsw.triton.launcher.client.gui.scenes.CharacterCardSceneController;
+import it.polimi.ingsw.triton.launcher.client.gui.scenes.MainSceneController;
+import it.polimi.ingsw.triton.launcher.client.gui.scenes.SceneController;
 import it.polimi.ingsw.triton.launcher.client.model.ClientModel;
 import it.polimi.ingsw.triton.launcher.client.view.ClientView;
 import it.polimi.ingsw.triton.launcher.server.model.AssistantCard;
@@ -70,7 +73,7 @@ public class Gui extends Observable<Message> implements ClientView {
      */
     @Override
     public void showGameInfo(int characterCardId) {
-        switch (characterCardId){
+        switch (characterCardId) {
             case 1:
                 Platform.runLater(() -> mainController.showCCModifies01(clientModel));
                 break;
@@ -99,6 +102,7 @@ public class Gui extends Observable<Message> implements ClientView {
     /**
      * During the transition between setup phase and planning phase, main scene is instantiated, because client model
      * contains all the information to draw the model's objects
+     *
      * @param gameState the new phase of the game.
      */
     @Override
@@ -107,14 +111,11 @@ public class Gui extends Observable<Message> implements ClientView {
             initializeMainStage();
         }
         actualGamePhase = gameState;
-        showAlert(Alert.AlertType.INFORMATION, "Game phase info", "New game phase:\n" + gameState + " is beginning..");
-
     }
 
     @Override
     public void showDisconnectionMessage() {
         showAlert(Alert.AlertType.ERROR, "Disconnection", "A player has been disconnected. The game is over!");
-        closeGui();
     }
 
 
@@ -129,8 +130,11 @@ public class Gui extends Observable<Message> implements ClientView {
     }
 
     @Override
-    public void showErrorMessage(ErrorTypeID fullLobby) {
-        showAlert(Alert.AlertType.WARNING, "Incorrect input", fullLobby.getDescription());
+    public void showErrorMessage(ErrorTypeID errorTypeID) {
+        if(errorTypeID == ErrorTypeID.FULL_LOBBY)
+            showAlert(Alert.AlertType.ERROR, "Lobby is full!", errorTypeID.getDescription());
+        else
+            showAlert(Alert.AlertType.WARNING, "Incorrect input", errorTypeID.getDescription());
     }
 
 
@@ -144,7 +148,6 @@ public class Gui extends Observable<Message> implements ClientView {
     @Override
     public void showAbortMessage() {
         showAlert(Alert.AlertType.ERROR, "Disconnection", "Server error! You will be disconnected!");
-        closeGui();
     }
 
     @Override
@@ -159,6 +162,12 @@ public class Gui extends Observable<Message> implements ClientView {
         askPlayAgain();
     }
 
+    /**
+     * Creates a new alert and adds it in the alert queue
+     * @param alertType the alert type: INFO, ERROR or WARNING
+     * @param title the alert title
+     * @param contentText the alert text
+     */
     private void showAlert(Alert.AlertType alertType, String title, String contentText) {
         Platform.runLater(() -> {
             Alert alert = new Alert(alertType);
@@ -167,18 +176,23 @@ public class Gui extends Observable<Message> implements ClientView {
             alert.setHeaderText(null);
             alert.setContentText(contentText);
             alertsQueue.add(alert);
-            if(count == alertsQueue.size()-1){
+            if (count == alertsQueue.size() - 1) {
                 showNextAlert();
             }
         });
     }
 
+    /**
+     * Shows the next alert in queue, when the current one has been closed
+     */
     private void showNextAlert(){
-        if(count < alertsQueue.size()){
+        if (count < alertsQueue.size()) {
             Optional<ButtonType> result = alertsQueue.get(count).showAndWait();
-            if(result.isPresent()){
-                if (result.get() == ButtonType.OK && alertsQueue.get(count).getAlertType().equals(Alert.AlertType.ERROR))
+            if (result.isPresent()) {
+                if (result.get() == ButtonType.OK && alertsQueue.get(count).getAlertType().equals(Alert.AlertType.ERROR)) {
+                    closeGui();
                     System.exit(1);
+                }
                 count++;
                 showNextAlert();
             }
@@ -186,11 +200,14 @@ public class Gui extends Observable<Message> implements ClientView {
     }
 
 
+    /**
+     * Closes every scene
+     */
     private void closeGui() {
         Platform.runLater(() -> {
-            if(activeStage != null)
+            if (activeStage != null)
                 activeStage.close();
-            if(mainStage!= null)
+            if (mainStage != null)
                 mainStage.close();
         });
     }
@@ -200,7 +217,6 @@ public class Gui extends Observable<Message> implements ClientView {
      */
     public void startGui() {
         client = new Client(this);
-        this.addObserver(client);
         this.clientModel = new ClientModel();
         askIpAddress();
     }
@@ -210,8 +226,10 @@ public class Gui extends Observable<Message> implements ClientView {
      * Here is made the controller setup, adding observer, username, and calling setupScene
      * Every controller has overridden of method setupScene, that dynamically prepares the graphic
      * activeLoader changes dynamically, basing on server requests and following the game flow
-     * @param path the path of fxml file to load
+     *
+     * @param path       the path of fxml file to load
      * @param parameters a generic parameter, that in some cases is necessary for the controller
+     * @param <T> a generic parameter
      */
     private <T> void prepareController(String path, T parameters) {
         Platform.runLater(() -> {
@@ -222,8 +240,8 @@ public class Gui extends Observable<Message> implements ClientView {
                 controller.addObserver(client);
                 controller.setUsername(clientModel.getUsername());
                 controller.setupScene(clientModel, parameters);
-                if(controller instanceof CharacterCardSceneController)
-                    backButton(((CharacterCardSceneController)controller).getBackButton());
+                if (controller instanceof CharacterCardSceneController)
+                    backButton(((CharacterCardSceneController) controller).getBackButton());
                 activeStage.setScene(new Scene(root));
                 activeStage.setResizable(false);
                 activeStage.setTitle(clientModel.getUsername());
@@ -273,8 +291,9 @@ public class Gui extends Observable<Message> implements ClientView {
      * If the game mode is expert, there is a button that allows the player to play a character card, the button has to be activated
      * Is also saved last method, because the user can watch available character cards and then decide not to play a card:
      * in case mentioned above, this method is re-called
+     * @param methodName the name of method to call
      */
-    private void activateCharacterCardButton(String methodName){
+    private void activateCharacterCardButton(String methodName) {
         Platform.runLater(() -> {
             if (clientModel.isExpertMode()) {
                 ActionPhaseSceneControllers controller = activeLoader.getController();
@@ -285,7 +304,7 @@ public class Gui extends Observable<Message> implements ClientView {
             try {
                 lastCalledMethod = getClass().getDeclaredMethod(methodName);
             } catch (NoSuchMethodException e) {
-                Client.LOGGER.info("Cannot call "+methodName+" method");
+                Client.LOGGER.info("Cannot call " + methodName + " method");
             }
         });
     }
@@ -296,10 +315,9 @@ public class Gui extends Observable<Message> implements ClientView {
      */
     @Override
     public void askCloudTile() {
-        if(clientModel.getSchoolBoards().size() == 2){
+        if (clientModel.getSchoolBoards().size() == 2) {
             prepareController("/chooseCloudTile2player-scene.fxml", null);
-        }
-        else{
+        } else {
             prepareController("/chooseCloudTile-scene.fxml", null);
         }
         activateCharacterCardButton("askCloudTile");
@@ -349,59 +367,59 @@ public class Gui extends Observable<Message> implements ClientView {
 
 
     @Override
-    public void showMyInfoAssistantCardPlayed (AssistantCard assistantCard){
+    public void showMyInfoAssistantCardPlayed(AssistantCard assistantCard) {
         Platform.runLater(() -> mainController.showMyInfoAssistantCardPlayed(assistantCard, clientModel));
     }
 
     @Override
-    public void showInfoAssistantCardPlayed (String username, AssistantCard assistantCard){
+    public void showInfoAssistantCardPlayed(String username, AssistantCard assistantCard) {
         Platform.runLater(() -> mainController.showInfoAssistantCardPlayed(username, assistantCard));
     }
 
     @Override
-    public void showInfoStudentIntoDiningRoom (String username, String moveDescription){
+    public void showInfoStudentIntoDiningRoom(String username, String moveDescription) {
         Platform.runLater(() -> mainController.showInfoStudentIntoDiningRoom(username, clientModel));
     }
 
     @Override
-    public void showInfoStudentOntoIsland (String username, String moveDescription){
+    public void showInfoStudentOntoIsland(String username, String moveDescription) {
         Platform.runLater(() -> mainController.showInfoStudentOntoIsland(username, clientModel));
     }
 
     @Override
-    public void showMotherNaturePosition ( int islandId){
+    public void showMotherNaturePosition(int islandId) {
         Platform.runLater(() -> mainController.showMotherNaturePosition(clientModel));
     }
 
     @Override
-    public void showChangeInfluenceMessage (String username,int islandId){
+    public void showChangeInfluenceMessage(String username, int islandId) {
         Platform.runLater(() -> mainController.showChangeInfluenceMessage(clientModel));
     }
 
     @Override
-    public void showMergeIslandsMessage ( int island1Id, int island2Id){
+    public void showMergeIslandsMessage(int island1Id, int island2Id) {
         Platform.runLater(() -> mainController.showMergeIslandsMessage(clientModel));
     }
 
     @Override
-    public void showMoveTowerOntoIsland ( int islandId){
+    public void showMoveTowerOntoIsland(int islandId) {
         Platform.runLater(() -> mainController.showMoveTowerOntoIsland(clientModel));
     }
 
     @Override
-    public void showMoveTowerOntoSchoolBoard (String username, SchoolBoard schoolBoard){
+    public void showMoveTowerOntoSchoolBoard(String username, SchoolBoard schoolBoard) {
         Platform.runLater(() -> mainController.showMoveTowerOntoSchoolBoard(clientModel));
     }
 
     @Override
-    public void showInfoChosenCloudTile(String username, String choiceDescription){
+    public void showInfoChosenCloudTile(String username, String choiceDescription) {
         Platform.runLater(() -> mainController.showInfoChosenCloudTile(username, clientModel));
     }
 
     @Override
     public void showUpdateWallet() {
         Platform.runLater(() -> {
-            if(mainController != null)
+            if (mainController != null)
                 mainController.showUpdatedWallet(clientModel);
         });
     }
@@ -439,21 +457,23 @@ public class Gui extends Observable<Message> implements ClientView {
     /**
      * This method keeps listening on the button for play a character card
      * When this button is clicked, stage that shows available character cards is opened
+     * @param button play character card button
      */
-    private void playCharacterCard(Button button){
+    private void playCharacterCard(Button button) {
         button.setOnAction(event -> prepareController("/characterCard-scene.fxml", null));
     }
 
     /**
      * If activeStage is the stage that shows character cards, this method starts listen on a button to permit the user to come back,
      * if he doesn't want to play any character card
+     * @param button the button for come back
      */
-    private void backButton(Button button){
+    private void backButton(Button button) {
         button.setOnAction(event -> {
             try {
                 lastCalledMethod.invoke(this);
             } catch (IllegalAccessException | InvocationTargetException e) {
-                Client.LOGGER.info("Cannot call "+lastCalledMethod.getName()+" method back");
+                Client.LOGGER.info("Cannot call " + lastCalledMethod.getName() + " method back");
             }
         });
     }
@@ -484,14 +504,15 @@ public class Gui extends Observable<Message> implements ClientView {
     /**
      * When a user click on X (top-right), this method asks him if he really wants to quit
      * If he says "yes" we disconnect him
+     * @param stage the stage to close
      */
-    public void logout(Stage stage){
+    public void logout(Stage stage) {
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.setTitle("Logout");
         alert.setHeaderText("You're about to logout!");
         alert.setContentText("Are you sure?");
         Optional<ButtonType> result = alert.showAndWait();
-        if (result.isPresent() && result.get() == ButtonType.OK){
+        if (result.isPresent() && result.get() == ButtonType.OK) {
             System.exit(1);
             stage.close();
         }

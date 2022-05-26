@@ -16,13 +16,13 @@ class SchoolBoardTest {
     private SchoolBoard threePlayersSchoolBoard;
 
     @BeforeEach
-    void setup(){
+    void setup() {
         schoolBoard = new SchoolBoard(TowerColor.BLACK, 2);
         threePlayersSchoolBoard = new SchoolBoard(TowerColor.BLACK, 3);
     }
 
     @AfterEach
-    void tearDown(){
+    void tearDown() {
         schoolBoard = null;
         threePlayersSchoolBoard = null;
     }
@@ -47,14 +47,14 @@ class SchoolBoardTest {
      */
     @Test
     void testMoveTowerOntoIslandWhenTheyAreTheLast() {
-        for(int i = 0; i < 7; i++){
+        for (int i = 0; i < 7; i++) {
             try {
                 schoolBoard.moveTowerOntoIsland(1);
             } catch (EndGameException e) {
                 e.printStackTrace();
             }
         }
-        assertThrows(EndGameException.class, ()->schoolBoard.moveTowerOntoIsland(1));
+        assertThrows(EndGameException.class, () -> schoolBoard.moveTowerOntoIsland(1));
     }
 
     /**
@@ -93,14 +93,14 @@ class SchoolBoardTest {
      */
     @Test
     void testAddStudentIntoDiningRoomWhenFull() {
-        for(int i = 0; i < 10; i++){
+        for (int i = 0; i < 10; i++) {
             try {
                 schoolBoard.addStudentIntoDiningRoom(Color.GREEN);
             } catch (IllegalClientInputException e) {
                 throw new RuntimeException(e);
             }
         }
-        assertThrows(IllegalClientInputException.class, ()->schoolBoard.addStudentIntoDiningRoom(Color.GREEN));
+        assertThrows(IllegalClientInputException.class, () -> schoolBoard.addStudentIntoDiningRoom(Color.GREEN));
     }
 
     /**
@@ -135,7 +135,7 @@ class SchoolBoardTest {
     @Test
     void testRemoveWhenThereAreNoStudents() {
         Color student = Color.BLUE;
-        assertThrows(IllegalArgumentException.class, ()->schoolBoard.removeStudentFromEntrance(student));
+        assertThrows(IllegalArgumentException.class, () -> schoolBoard.removeStudentFromEntrance(student));
     }
 
     /**
@@ -155,7 +155,7 @@ class SchoolBoardTest {
      * Tests if the initial number of towers is correct at the start of the game.
      */
     @Test
-    void testCorrectInitialNumTowers(){
+    void testCorrectInitialNumTowers() {
         assertEquals(8, schoolBoard.getNumTowers());
         assertEquals(6, threePlayersSchoolBoard.getNumTowers());
     }
@@ -164,7 +164,7 @@ class SchoolBoardTest {
      * Tests if returns true when the entrance of the school board is empty.
      */
     @Test
-    void testEmptyEntrance(){
+    void testEmptyEntrance() {
         assertTrue(schoolBoard.isEntranceEmpty());
     }
 
@@ -172,7 +172,7 @@ class SchoolBoardTest {
      * Tests if returns true when the dining room of the school board is empty.
      */
     @Test
-    void testEmptyDiningRoom(){
+    void testEmptyDiningRoom() {
         assertTrue(schoolBoard.isDiningRoomEmpty());
     }
 }
