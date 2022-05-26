@@ -133,8 +133,11 @@ public class Gui extends Observable<Message> implements ClientView {
     }
 
     @Override
-    public void showErrorMessage(ErrorTypeID fullLobby) {
-        showAlert(Alert.AlertType.WARNING, "Incorrect input", fullLobby.getDescription());
+    public void showErrorMessage(ErrorTypeID errorTypeID) {
+        if(errorTypeID == ErrorTypeID.FULL_LOBBY)
+            showAlert(Alert.AlertType.ERROR, "Lobby is full!", errorTypeID.getDescription());
+        else
+            showAlert(Alert.AlertType.WARNING, "Incorrect input", errorTypeID.getDescription());
     }
 
 
@@ -190,8 +193,10 @@ public class Gui extends Observable<Message> implements ClientView {
         if (count < alertsQueue.size()) {
             Optional<ButtonType> result = alertsQueue.get(count).showAndWait();
             if (result.isPresent()) {
-                if (result.get() == ButtonType.OK && alertsQueue.get(count).getAlertType().equals(Alert.AlertType.ERROR))
+                if (result.get() == ButtonType.OK && alertsQueue.get(count).getAlertType().equals(Alert.AlertType.ERROR)) {
+                    closeGui();
                     System.exit(1);
+                }
                 count++;
                 showNextAlert();
             }
