@@ -187,8 +187,6 @@ public class Gui extends Observable<Message> implements ClientView {
      * Shows the next alert in queue, when the current one has been closed
      */
     private void showNextAlert(){
-        if(count < alertsQueue.size()){
-    private void showNextAlert() {
         if (count < alertsQueue.size()) {
             Optional<ButtonType> result = alertsQueue.get(count).showAndWait();
             if (result.isPresent()) {
