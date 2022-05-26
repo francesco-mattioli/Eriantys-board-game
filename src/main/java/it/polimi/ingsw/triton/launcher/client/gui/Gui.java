@@ -116,7 +116,6 @@ public class Gui extends Observable<Message> implements ClientView {
     @Override
     public void showDisconnectionMessage() {
         showAlert(Alert.AlertType.ERROR, "Disconnection", "A player has been disconnected. The game is over!");
-        closeGui();
     }
 
 
@@ -149,7 +148,6 @@ public class Gui extends Observable<Message> implements ClientView {
     @Override
     public void showAbortMessage() {
         showAlert(Alert.AlertType.ERROR, "Disconnection", "Server error! You will be disconnected!");
-        closeGui();
     }
 
     @Override
