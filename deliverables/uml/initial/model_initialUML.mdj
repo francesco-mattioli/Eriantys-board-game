@@ -14797,7 +14797,7 @@
 							"top": 792,
 							"width": 165.21533203125,
 							"height": 90,
-							"text": "ogni volta nextGameTurn() chiama resetProfessorStrategy(), in modo da resettare al calcolo dell'influenza di default"
+							"text": "Every time, nextGameTurn() calls resetProfessorStrategy() in order to reset the algorithm of assignment of professors"
 						},
 						{
 							"_type": "UMLNoteLinkView",
