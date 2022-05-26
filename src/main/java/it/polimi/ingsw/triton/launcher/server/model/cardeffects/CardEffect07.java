@@ -50,7 +50,7 @@ public class CardEffect07 implements CardEffect, Serializable {
      *
      * @throws IllegalClientInputException if the number of students to fetch from the card is uncorrected.
      */
-    public void removeStudentsFromCard() throws IllegalClientInputException {
+    private void removeStudentsFromCard() throws IllegalClientInputException {
         for (int i = 0; i < studentsOnCard.length; i++) {
             for (int j = 0; j < fromCard.length; j++) {
                 if (Color.values()[i].ordinal() == Color.values()[j].ordinal()) {
@@ -68,7 +68,7 @@ public class CardEffect07 implements CardEffect, Serializable {
      * @throws IllegalClientInputException if the number of students to remove from entrance is uncorrected.
      */
 
-    public void removeStudentsFromEntrance() throws IllegalClientInputException {
+    private void removeStudentsFromEntrance() throws IllegalClientInputException {
         for (int i = 0; i < schoolBoard.getEntrance().length; i++) {
             for (int j = 0; j < fromSchoolBoard.length; j++) {
                 if (Color.values()[i].ordinal() == Color.values()[j].ordinal()) {
@@ -84,7 +84,7 @@ public class CardEffect07 implements CardEffect, Serializable {
      * This method adds the students taken from the character card to the entrance.
      */
 
-    public void addStudentsIntoEntrance() {
+    private void addStudentsIntoEntrance() {
         for (int i = 0; i < fromCard.length; i++) {
             for (int j = 0; j < schoolBoard.getEntrance().length; j++) {
                 if (Color.values()[i].ordinal() == Color.values()[j].ordinal())
@@ -96,7 +96,7 @@ public class CardEffect07 implements CardEffect, Serializable {
     /**
      * This method adds the students taken from the entrance to the character card.
      */
-    public void addStudentsOnTheCard() {
+    private void addStudentsOnTheCard() {
         for (int i = 0; i < fromSchoolBoard.length; i++) {
             for (int j = 0; j < studentsOnCard.length; j++) {
                 if (Color.values()[i].ordinal() == Color.values()[j].ordinal())
