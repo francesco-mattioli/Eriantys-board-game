@@ -1,0 +1,893 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Diagram>
+  <ID>JAVA</ID>
+  <OriginalElement>C:/Users/andre/prova-finale-template-cremona/src/main/java/it/polimi/ingsw/triton/launcher</OriginalElement>
+  <nodes>
+    <node x="4777.625" y="0.0">it.polimi.ingsw.triton.launcher.client.view.View</node>
+    <node x="7200.0" y="4792.5">it.polimi.ingsw.triton.launcher.utils.message.servermessage.infoMessage.MergeIslandsMessage</node>
+    <node x="6332.1875" y="997.0">it.polimi.ingsw.triton.launcher.client.cli.Cli</node>
+    <node x="4098.0" y="4803.5">it.polimi.ingsw.triton.launcher.utils.message.servermessage.infoMessage.TieMessage</node>
+    <node x="3992.0" y="1503.5">it.polimi.ingsw.triton.launcher.server.model.islands.Island</node>
+    <node x="1922.5" y="1426.0">it.polimi.ingsw.triton.launcher.server.controller.Controller</node>
+    <node x="6906.5" y="5169.0">it.polimi.ingsw.triton.launcher.server.controller.visitors.ClientMessageModifierVisitor</node>
+    <node x="6778.2514880952385" y="306.0">it.polimi.ingsw.triton.launcher.client.view.ClientView</node>
+    <node x="12053.5" y="5320.0">it.polimi.ingsw.triton.launcher.server.model.professor.ProfessorStrategyDefault</node>
+    <node x="1583.5" y="1536.5">it.polimi.ingsw.triton.launcher.client.Client</node>
+    <node x="5975.1875" y="1206.0">it.polimi.ingsw.triton.launcher.server.model.game.GameMode</node>
+    <node x="500.0" y="4792.5">it.polimi.ingsw.triton.launcher.utils.message.servermessage.Requests.CharacterCardParameterRequest</node>
+    <node x="8963.0" y="5033.5">it.polimi.ingsw.triton.launcher.utils.message.servermessage.infoMessage.infoMessageWithReceiver.EmptyGeneralCoinSupplyMessage</node>
+    <node x="1666.0" y="4815.0">it.polimi.ingsw.triton.launcher.utils.message.servermessage.Requests.CloudTileRequest</node>
+    <node x="3968.5" y="2854.5">it.polimi.ingsw.triton.launcher.client.gui.scenes.CharCard10SceneController</node>
+    <node x="1964.5" y="5169.0">it.polimi.ingsw.triton.launcher.server.model.playeractions.Action</node>
+    <node x="11849.25" y="5169.0">it.polimi.ingsw.triton.launcher.server.model.professor.ProfessorStrategy</node>
+    <node x="3428.0" y="4335.5">it.polimi.ingsw.triton.launcher.utils.message.servermessage.ServerMessage</node>
+    <node x="3597.5" y="2987.0">it.polimi.ingsw.triton.launcher.client.gui.scenes.GameModeAndNumOfPlayersSceneController</node>
+    <node x="11063.5" y="5169.0">it.polimi.ingsw.triton.launcher.server.controller.visitors.ClientMessageExceptionalVisitor</node>
+    <node x="1195.5" y="5308.0">it.polimi.ingsw.triton.launcher.server.model.playeractions.MoveStudentIntoDiningRoom</node>
+    <node x="1416.0" y="4803.5">it.polimi.ingsw.triton.launcher.utils.message.servermessage.Requests.WizardRequest</node>
+    <node x="13173.5" y="5169.0">it.polimi.ingsw.triton.launcher.server.model.player.AssistantDeck</node>
+    <node x="11574.5" y="5169.0">it.polimi.ingsw.triton.launcher.server.model.enums.Color</node>
+    <node x="784.0" y="4815.0">it.polimi.ingsw.triton.launcher.utils.message.servermessage.Requests.MoveStudentFromEntranceMessage</node>
+    <node x="11593.0" y="4803.5">it.polimi.ingsw.triton.launcher.utils.message.clientmessage.charactercard_replies.CharacterCard12Reply</node>
+    <node x="0.0" y="6109.0">it.polimi.ingsw.triton.launcher.server.model.player.Wallet</node>
+    <node x="13452.5" y="5169.0">it.polimi.ingsw.triton.launcher.server.model.CloudTile</node>
+    <node x="11264.0" y="4792.5">it.polimi.ingsw.triton.launcher.utils.message.clientmessage.charactercard_replies.CharacterCard01Reply</node>
+    <node x="8491.0" y="4748.5">it.polimi.ingsw.triton.launcher.utils.message.servermessage.infoMessage.InfoCharacterCardPlayedMessage</node>
+    <node x="6153.6875" y="2612.5">it.polimi.ingsw.triton.launcher.server.model.game.GameDecorator</node>
+    <node x="9123.0" y="4803.5">it.polimi.ingsw.triton.launcher.utils.message.servermessage.InfoWithReceiverMessage</node>
+    <node x="355.0" y="5169.0">it.polimi.ingsw.triton.launcher.server.network.Server</node>
+    <node x="2692.5" y="2965.0">it.polimi.ingsw.triton.launcher.client.gui.scenes.WizardSceneController</node>
+    <node x="13283.5" y="4324.0">it.polimi.ingsw.triton.launcher.utils.message.UpdatedServerInfoMessage</node>
+    <node x="765.0" y="6109.0">it.polimi.ingsw.triton.launcher.server.model.player.PlayerTurnComparator</node>
+    <node x="5846.75" y="4552.5">it.polimi.ingsw.triton.launcher.utils.message.servermessage.InfoMessage</node>
+    <node x="11922.0" y="4803.5">it.polimi.ingsw.triton.launcher.utils.message.clientmessage.charactercard_replies.CharacterCard11Reply</node>
+    <node x="15015.5" y="4519.0">it.polimi.ingsw.triton.launcher.utils.message.clientmessage.login_messages.LoginRequest</node>
+    <node x="2180.5" y="5275.0">it.polimi.ingsw.triton.launcher.server.model.playeractions.PlayAssistantCard</node>
+    <node x="1009.0" y="6109.0">it.polimi.ingsw.triton.launcher.ClientApp</node>
+    <node x="460.0" y="6109.0">it.polimi.ingsw.triton.launcher.utils.exceptions.IllegalClientInputException</node>
+    <node x="13283.5" y="4508.0">it.polimi.ingsw.triton.launcher.utils.message.clientmessage.CloudTileReply</node>
+    <node x="0.0" y="4815.0">it.polimi.ingsw.triton.launcher.utils.message.servermessage.Requests.MotherNatureRequest</node>
+    <node x="9257.0" y="5033.5">it.polimi.ingsw.triton.launcher.utils.message.servermessage.infoMessage.infoMessageWithReceiver.LoginReply</node>
+    <node x="2405.5" y="3009.0">it.polimi.ingsw.triton.launcher.client.gui.scenes.CharCard091112SceneController</node>
+    <node x="7338.75" y="4199.0">it.polimi.ingsw.triton.launcher.utils.message.Message</node>
+    <node x="1090.0" y="4815.0">it.polimi.ingsw.triton.launcher.utils.message.servermessage.Requests.PlayersNumberAndGameModeRequest</node>
+    <node x="4775.0" y="1283.5">it.polimi.ingsw.triton.launcher.client.model.ClientModel</node>
+    <node x="4688.5" y="3042.0">it.polimi.ingsw.triton.launcher.client.gui.scenes.LoginSceneController</node>
+    <node x="7608.5" y="5169.0">it.polimi.ingsw.triton.launcher.server.model.enums.AssistantCardType</node>
+    <node x="3517.0" y="1470.5">it.polimi.ingsw.triton.launcher.server.view.VirtualView</node>
+    <node x="2958.5" y="2954.0">it.polimi.ingsw.triton.launcher.client.gui.scenes.AssistantCardSceneController</node>
+    <node x="2064.0" y="592.5">it.polimi.ingsw.triton.launcher.utils.obs.Observer</node>
+    <node x="12543.5" y="5169.0">it.polimi.ingsw.triton.launcher.server.model.islands.MotherNature</node>
+    <node x="2573.5" y="5297.0">it.polimi.ingsw.triton.launcher.server.model.playeractions.MoveStudentOntoIsland</node>
+    <node x="6676.0" y="4803.5">it.polimi.ingsw.triton.launcher.utils.message.servermessage.infoMessage.MotherNaturePositionMessage</node>
+    <node x="9507.0" y="5022.0">it.polimi.ingsw.triton.launcher.utils.message.servermessage.infoMessage.infoMessageWithReceiver.GiveAssistantDeckMessage</node>
+    <node x="6244.0" y="4770.5">it.polimi.ingsw.triton.launcher.utils.message.servermessage.infoMessage.InfoChosenCloudTileMessage</node>
+    <node x="14847.5" y="5169.0">it.polimi.ingsw.triton.launcher.server.model.GeneralCoinSupply</node>
+    <node x="14149.5" y="4508.0">it.polimi.ingsw.triton.launcher.utils.message.clientmessage.TowerColorReply</node>
+    <node x="11984.5" y="4497.0">it.polimi.ingsw.triton.launcher.utils.message.clientmessage.MoveStudentOntoIslandMessage</node>
+    <node x="13767.5" y="5169.0">it.polimi.ingsw.triton.launcher.server.model.enums.TowerColor</node>
+    <node x="2166.0" y="4737.0">it.polimi.ingsw.triton.launcher.utils.message.servermessage.infoMessage.GameInfoMessage</node>
+    <node x="3291.5" y="3009.0">it.polimi.ingsw.triton.launcher.client.gui.scenes.CharCard01SceneController</node>
+    <node x="14004.5" y="5169.0">it.polimi.ingsw.triton.launcher.server.model.professor.ProfessorsManager</node>
+    <node x="1939.0" y="6109.0">it.polimi.ingsw.triton.launcher.utils.exceptions.EmptyGeneralCoinSupplyException</node>
+    <node x="353.0" y="3887.0">it.polimi.ingsw.triton.launcher.client.gui.scenes.MotherNatureStepsSceneController</node>
+    <node x="250.0" y="4815.0">it.polimi.ingsw.triton.launcher.utils.message.servermessage.Requests.AssistantCardRequest</node>
+    <node x="634.5" y="3009.0">it.polimi.ingsw.triton.launcher.client.gui.scenes.TowerColorSceneController</node>
+    <node x="3844.0" y="4803.5">it.polimi.ingsw.triton.launcher.utils.message.servermessage.infoMessage.ChangePhaseMessage</node>
+    <node x="8475.5" y="5169.0">it.polimi.ingsw.triton.launcher.server.model.influencestrategy.InfluenceStrategy</node>
+    <node x="11140.5" y="4508.0">it.polimi.ingsw.triton.launcher.utils.message.clientmessage.login_messages.PlayersNumberAndGameModeReply</node>
+    <node x="12850.5" y="4280.0">it.polimi.ingsw.triton.launcher.utils.message.clientmessage.ClientMessage</node>
+    <node x="9407.5" y="5169.0">it.polimi.ingsw.triton.launcher.utils.Utility</node>
+    <node x="374.5" y="3075.5">it.polimi.ingsw.triton.launcher.client.gui.scenes.ActionPhaseSceneControllers</node>
+    <node x="3798.0" y="1613.0">it.polimi.ingsw.triton.launcher.server.model.Bag</node>
+    <node x="1916.0" y="4803.5">it.polimi.ingsw.triton.launcher.utils.message.servermessage.Requests.TowerColorRequest</node>
+    <node x="12417.5" y="4508.0">it.polimi.ingsw.triton.launcher.utils.message.clientmessage.UseCharacterCardRequest</node>
+    <node x="12939.5" y="5169.0">it.polimi.ingsw.triton.launcher.server.model.enums.GameState</node>
+    <node x="1201.0" y="6109.0">it.polimi.ingsw.triton.launcher.ServerApp</node>
+    <node x="0.0" y="3821.0">it.polimi.ingsw.triton.launcher.client.gui.scenes.MoveStudentFromEntranceSceneController</node>
+    <node x="15068.5" y="5169.0">it.polimi.ingsw.triton.launcher.server.model.AssistantCard</node>
+    <node x="2365.5" y="1591.0">it.polimi.ingsw.triton.launcher.client.gui.scenes.SceneController</node>
+    <node x="5994.0" y="4803.5">it.polimi.ingsw.triton.launcher.utils.message.servermessage.infoMessage.ChangeTurnMessage</node>
+    <node x="9064.5" y="5169.0">it.polimi.ingsw.triton.launcher.server.model.player.Player</node>
+    <node x="10606.0" y="4803.5">it.polimi.ingsw.triton.launcher.utils.message.clientmessage.charactercard_replies.CharacterCard05Reply</node>
+    <node x="8193.5" y="5286.5">it.polimi.ingsw.triton.launcher.server.model.influencestrategy.InfluenceStrategyDefault</node>
+    <node x="10802.5" y="5169.0">it.polimi.ingsw.triton.launcher.server.network.ServeOneClient</node>
+    <node x="0.0" y="5169.0">it.polimi.ingsw.triton.launcher.client.ServerMessageVisitor</node>
+    <node x="1302.5" y="3009.0">it.polimi.ingsw.triton.launcher.client.gui.scenes.CharCard0305SceneController</node>
+    <node x="5274.25" y="5169.0">it.polimi.ingsw.triton.launcher.server.model.cardeffects.CardEffect</node>
+    <node x="8102.0" y="4781.5">it.polimi.ingsw.triton.launcher.utils.message.servermessage.infoMessage.MoveTowerOntoIslandMessage</node>
+    <node x="7901.792307692308" y="5022.0">it.polimi.ingsw.triton.launcher.utils.message.servermessage.infoMessage.infoMessageWithReceiver.UpdateWalletMessage</node>
+    <node x="14582.5" y="4508.0">it.polimi.ingsw.triton.launcher.utils.message.clientmessage.MotherNatureReply</node>
+    <node x="2848.0" y="4803.5">it.polimi.ingsw.triton.launcher.utils.message.servermessage.infoMessage.CloudTilesInfoMessage</node>
+    <node x="7882.5" y="5169.0">it.polimi.ingsw.triton.launcher.server.model.player.SchoolBoard</node>
+    <node x="2093.0" y="5022.0">it.polimi.ingsw.triton.launcher.utils.message.servermessage.infoMessage.ExpertGameInfoMessage</node>
+    <node x="9948.0" y="4781.5">it.polimi.ingsw.triton.launcher.utils.message.clientmessage.charactercard_replies.CharacterCard07Reply</node>
+    <node x="4673.0" y="4770.5">it.polimi.ingsw.triton.launcher.utils.message.servermessage.infoMessage.InfoStudentOntoIslandMessage</node>
+    <node x="816.0" y="5169.0">it.polimi.ingsw.triton.launcher.utils.message.ErrorTypeID</node>
+    <node x="2501.0" y="6109.0">it.polimi.ingsw.triton.launcher.utils.exceptions.LastMoveException</node>
+    <node x="3428.0" y="4530.0">it.polimi.ingsw.triton.launcher.utils.message.servermessage.ErrorMessage</node>
+    <node x="5381.0" y="4803.5">it.polimi.ingsw.triton.launcher.utils.message.servermessage.infoMessage.GenericMessage</node>
+    <node x="1436.3095238095234" y="3865.0">it.polimi.ingsw.triton.launcher.client.gui.scenes.ChooseCloudTileSceneController</node>
+    <node x="12850.5" y="4508.0">it.polimi.ingsw.triton.launcher.utils.message.clientmessage.WizardReply</node>
+    <node x="7465.0" y="4803.5">it.polimi.ingsw.triton.launcher.utils.message.servermessage.infoMessage.LobbyMessage</node>
+    <node x="7323.5" y="5169.0">it.polimi.ingsw.triton.launcher.server.model.cardeffects.CharacterCard</node>
+    <node x="8757.5" y="5286.5">it.polimi.ingsw.triton.launcher.server.model.influencestrategy.InfluenceStrategyWithEffect06</node>
+    <node x="10729.5" y="4541.5">it.polimi.ingsw.triton.launcher.utils.message.clientmessage.charactercard_replies.CharacterCardReply</node>
+    <node x="1584.0" y="6109.0">it.polimi.ingsw.triton.launcher.utils.exceptions.CharacterCardWithParametersException</node>
+    <node x="5099.0" y="4792.5">it.polimi.ingsw.triton.launcher.utils.message.servermessage.infoMessage.ChangeInfluenceMessage</node>
+    <node x="2263.0" y="6109.0">it.polimi.ingsw.triton.launcher.utils.exceptions.ChangeTurnException</node>
+    <node x="8193.5" y="5427.0">it.polimi.ingsw.triton.launcher.server.model.influencestrategy.InfluenceStrategyWithEffect08</node>
+    <node x="3594.0" y="4803.5">it.polimi.ingsw.triton.launcher.utils.message.servermessage.infoMessage.WinMessage</node>
+    <node x="8475.5" y="5275.0">it.polimi.ingsw.triton.launcher.server.model.influencestrategy.InfluenceStrategyWithEffect09</node>
+    <node x="1848.5" y="2470.0">it.polimi.ingsw.triton.launcher.client.gui.scenes.MainSceneController</node>
+    <node x="5796.6875" y="2491.5">it.polimi.ingsw.triton.launcher.server.model.game.Game</node>
+    <node x="12330.5" y="5169.0">it.polimi.ingsw.triton.launcher.server.model.enums.Wizard</node>
+    <node x="11800.5" y="5320.0">it.polimi.ingsw.triton.launcher.server.model.professor.ProfessorStrategyWithEffect</node>
+    <node x="7715.0" y="4792.5">it.polimi.ingsw.triton.launcher.utils.message.servermessage.infoMessage.MoveTowerOntoSchoolBoardMessage</node>
+    <node x="3318.5" y="5341.0">it.polimi.ingsw.triton.launcher.server.model.cardeffects.CardEffect11</node>
+    <node x="6140.5" y="5385.0">it.polimi.ingsw.triton.launcher.server.model.cardeffects.CardEffect12</node>
+    <node x="10324.5" y="5169.0">it.polimi.ingsw.triton.launcher.server.controller.visitors.ClientMessageErrorVisitor</node>
+    <node x="4271.5" y="5275.0">it.polimi.ingsw.triton.launcher.server.model.cardeffects.CardEffect10</node>
+    <node x="10277.0" y="4803.5">it.polimi.ingsw.triton.launcher.utils.message.clientmessage.charactercard_replies.CharacterCard03Reply</node>
+    <node x="6950.0" y="4815.0">it.polimi.ingsw.triton.launcher.utils.message.servermessage.infoMessage.DisconnectionMessage</node>
+    <node x="4899.5" y="2810.5">it.polimi.ingsw.triton.launcher.client.gui.scenes.CharCard07SceneController</node>
+    <node x="4472.5" y="547.5">it.polimi.ingsw.triton.launcher.utils.obs.Observable</node>
+    <node x="6153.6875" y="3810.0">it.polimi.ingsw.triton.launcher.server.model.game.ExpertGame</node>
+    <node x="1890.5" y="5307.5">it.polimi.ingsw.triton.launcher.server.model.playeractions.ChooseCloudTile</node>
+    <node x="6724.1875" y="1074.0">it.polimi.ingsw.triton.launcher.client.gui.Gui</node>
+    <node x="161.5" y="3053.0">it.polimi.ingsw.triton.launcher.client.gui.scenes.MenuSceneController</node>
+    <node x="13716.5" y="4508.0">it.polimi.ingsw.triton.launcher.utils.message.clientmessage.MoveStudentOntoDiningRoomMessage</node>
+    <node x="9369.0" y="4815.0">it.polimi.ingsw.triton.launcher.utils.message.servermessage.infoMessage.EmptyBagMessage</node>
+    <node x="2722.0" y="6109.0">it.polimi.ingsw.triton.launcher.utils.exceptions.EndGameException</node>
+    <node x="10935.0" y="4803.5">it.polimi.ingsw.triton.launcher.utils.message.clientmessage.charactercard_replies.CharacterCard09Reply</node>
+    <node x="5318.5" y="5374.0">it.polimi.ingsw.triton.launcher.server.model.cardeffects.CardEffect01</node>
+    <node x="926.0" y="4552.5">it.polimi.ingsw.triton.launcher.utils.message.servermessage.Requests.AskMessage</node>
+    <node x="6412.5" y="5407.0">it.polimi.ingsw.triton.launcher.server.model.cardeffects.CardEffect04</node>
+    <node x="5636.5" y="5396.0">it.polimi.ingsw.triton.launcher.server.model.cardeffects.CardEffect05</node>
+    <node x="4830.5" y="5407.0">it.polimi.ingsw.triton.launcher.server.model.cardeffects.CardEffect02</node>
+    <node x="4348.0" y="4803.5">it.polimi.ingsw.triton.launcher.utils.message.servermessage.infoMessage.UpdateIslandWithNoEntryTilesMessage</node>
+    <node x="5631.0" y="4792.5">it.polimi.ingsw.triton.launcher.utils.message.servermessage.infoMessage.InfoAssistantCardPlayedMessage</node>
+    <node x="14524.5" y="5169.0">it.polimi.ingsw.triton.launcher.utils.message.servermessage.InfoMessageVisitor</node>
+    <node x="3894.5" y="5374.0">it.polimi.ingsw.triton.launcher.server.model.cardeffects.CardEffect03</node>
+    <node x="9619.0" y="4792.5">it.polimi.ingsw.triton.launcher.utils.message.clientmessage.charactercard_replies.CharacterCard10Reply</node>
+    <node x="1393.0" y="6109.0">it.polimi.ingsw.triton.launcher.client.gui.GuiApplication</node>
+    <node x="927.5" y="2854.5">it.polimi.ingsw.triton.launcher.client.gui.scenes.CharacterCardSceneController</node>
+    <node x="4431.0" y="1525.0">it.polimi.ingsw.triton.launcher.server.model.islands.IslandManager</node>
+    <node x="1126.0" y="5537.0">it.polimi.ingsw.triton.launcher.server.model.playeractions.ExpertMoveStudentIntoDiningRoom</node>
+    <node x="3131.0" y="4770.5">it.polimi.ingsw.triton.launcher.utils.message.servermessage.infoMessage.InfoStudentIntoDiningRoomMessage</node>
+    <node x="1608.5" y="3042.0">it.polimi.ingsw.triton.launcher.client.gui.scenes.IpAddressSceneController</node>
+    <node x="1500.5" y="5286.0">it.polimi.ingsw.triton.launcher.server.model.playeractions.UseCharacterCard</node>
+    <node x="199.0" y="6109.0">it.polimi.ingsw.triton.launcher.client.InputReadTask</node>
+    <node x="11551.5" y="4508.0">it.polimi.ingsw.triton.launcher.utils.message.clientmessage.AssistantCardReply</node>
+    <node x="6632.5" y="5396.0">it.polimi.ingsw.triton.launcher.server.model.cardeffects.CardEffect08</node>
+    <node x="5894.5" y="5396.0">it.polimi.ingsw.triton.launcher.server.model.cardeffects.CardEffect09</node>
+    <node x="9824.5" y="5169.0">it.polimi.ingsw.triton.launcher.server.controller.visitors.ClientMessageStandardVisitor</node>
+    <node x="5107.5" y="5407.0">it.polimi.ingsw.triton.launcher.server.model.cardeffects.CardEffect06</node>
+    <node x="2946.5" y="5319.0">it.polimi.ingsw.triton.launcher.server.model.cardeffects.CardEffect07</node>
+  </nodes>
+  <notes />
+  <edges>
+    <edge source="it.polimi.ingsw.triton.launcher.client.gui.scenes.ChooseCloudTileSceneController" target="it.polimi.ingsw.triton.launcher.client.gui.scenes.ActionPhaseSceneControllers" relationship="GENERALIZATION">
+      <point x="0.0" y="-117.0" />
+      <point x="1625.3095238095234" y="3785.0" />
+      <point x="494.5" y="3785.0" />
+      <point x="0.0" y="39.5" />
+    </edge>
+    <edge source="it.polimi.ingsw.triton.launcher.utils.message.clientmessage.login_messages.PlayersNumberAndGameModeReply" target="it.polimi.ingsw.triton.launcher.utils.message.clientmessage.ClientMessage" relationship="GENERALIZATION">
+      <point x="0.0" y="-84.0" />
+      <point x="11336.0" y="4472.0" />
+      <point x="13057.0" y="4472.0" />
+      <point x="0.0" y="83.5" />
+    </edge>
+    <edge source="it.polimi.ingsw.triton.launcher.utils.message.servermessage.Requests.PlayersNumberAndGameModeRequest" target="it.polimi.ingsw.triton.launcher.utils.message.servermessage.Requests.AskMessage" relationship="GENERALIZATION">
+      <point x="0.0" y="-39.5" />
+      <point x="1243.0" y="4712.0" />
+      <point x="1085.0" y="4712.0" />
+      <point x="0.0" y="39.5" />
+    </edge>
+    <edge source="it.polimi.ingsw.triton.launcher.utils.message.servermessage.infoMessage.InfoStudentIntoDiningRoomMessage" target="it.polimi.ingsw.triton.launcher.utils.message.servermessage.InfoMessage" relationship="GENERALIZATION">
+      <point x="0.0" y="-84.0" />
+      <point x="3352.5" y="4712.0" />
+      <point x="5955.75" y="4712.0" />
+      <point x="0.0" y="39.5" />
+    </edge>
+    <edge source="it.polimi.ingsw.triton.launcher.server.model.influencestrategy.InfluenceStrategyWithEffect06" target="it.polimi.ingsw.triton.launcher.server.model.influencestrategy.InfluenceStrategy" relationship="REALIZATION">
+      <point x="0.0" y="-39.5" />
+      <point x="8888.5" y="5250.0" />
+      <point x="8606.5" y="5250.0" />
+      <point x="0.0" y="28.0" />
+    </edge>
+    <edge source="it.polimi.ingsw.triton.launcher.server.model.playeractions.PlayAssistantCard" target="it.polimi.ingsw.triton.launcher.server.model.playeractions.Action" relationship="REALIZATION">
+      <point x="0.0" y="-106.0" />
+      <point x="2367.0" y="5250.0" />
+      <point x="2025.5" y="5250.0" />
+      <point x="0.0" y="28.0" />
+    </edge>
+    <edge source="it.polimi.ingsw.triton.launcher.utils.message.servermessage.infoMessage.InfoAssistantCardPlayedMessage" target="it.polimi.ingsw.triton.launcher.utils.message.servermessage.InfoMessage" relationship="GENERALIZATION">
+      <point x="0.0" y="-62.0" />
+      <point x="5802.5" y="4712.0" />
+      <point x="5955.75" y="4712.0" />
+      <point x="0.0" y="39.5" />
+    </edge>
+    <edge source="it.polimi.ingsw.triton.launcher.server.model.playeractions.ChooseCloudTile" target="it.polimi.ingsw.triton.launcher.server.model.playeractions.Action" relationship="REALIZATION">
+      <point x="0.0" y="-73.5" />
+      <point x="0.0" y="28.0" />
+    </edge>
+    <edge source="it.polimi.ingsw.triton.launcher.server.view.VirtualView" target="it.polimi.ingsw.triton.launcher.utils.obs.Observer" relationship="REALIZATION">
+      <point x="-65.25" y="-238.0" />
+      <point x="3582.25" y="976.0" />
+      <point x="2663.375" y="976.0" />
+      <point x="2663.375" y="956.0" />
+      <point x="2134.0" y="956.0" />
+      <point x="0.0" y="28.0" />
+    </edge>
+    <edge source="it.polimi.ingsw.triton.launcher.utils.message.servermessage.Requests.AssistantCardRequest" target="it.polimi.ingsw.triton.launcher.utils.message.servermessage.Requests.AskMessage" relationship="GENERALIZATION">
+      <point x="0.0" y="-39.5" />
+      <point x="365.0" y="4712.0" />
+      <point x="1085.0" y="4712.0" />
+      <point x="0.0" y="39.5" />
+    </edge>
+    <edge source="it.polimi.ingsw.triton.launcher.utils.message.servermessage.infoMessage.UpdateIslandWithNoEntryTilesMessage" target="it.polimi.ingsw.triton.launcher.utils.message.servermessage.InfoMessage" relationship="GENERALIZATION">
+      <point x="0.0" y="-51.0" />
+      <point x="4500.5" y="4712.0" />
+      <point x="5955.75" y="4712.0" />
+      <point x="0.0" y="39.5" />
+    </edge>
+    <edge source="it.polimi.ingsw.triton.launcher.utils.message.servermessage.infoMessage.GenericMessage" target="it.polimi.ingsw.triton.launcher.utils.message.servermessage.InfoMessage" relationship="GENERALIZATION">
+      <point x="0.0" y="-51.0" />
+      <point x="5496.0" y="4712.0" />
+      <point x="5955.75" y="4712.0" />
+      <point x="0.0" y="39.5" />
+    </edge>
+    <edge source="it.polimi.ingsw.triton.launcher.utils.message.servermessage.ServerMessage" target="it.polimi.ingsw.triton.launcher.utils.message.Message" relationship="INTERFACE_GENERALIZATION">
+      <point x="0.0" y="-28.0" />
+      <point x="3543.0" y="4260.0" />
+      <point x="7366.25" y="4260.0" />
+      <point x="-27.5" y="15.5" />
+    </edge>
+    <edge source="it.polimi.ingsw.triton.launcher.utils.message.clientmessage.UseCharacterCardRequest" target="it.polimi.ingsw.triton.launcher.utils.message.clientmessage.ClientMessage" relationship="GENERALIZATION">
+      <point x="0.0" y="-84.0" />
+      <point x="12624.0" y="4472.0" />
+      <point x="13057.0" y="4472.0" />
+      <point x="0.0" y="83.5" />
+    </edge>
+    <edge source="it.polimi.ingsw.triton.launcher.utils.message.clientmessage.TowerColorReply" target="it.polimi.ingsw.triton.launcher.utils.message.clientmessage.ClientMessage" relationship="GENERALIZATION">
+      <point x="0.0" y="-84.0" />
+      <point x="14356.0" y="4472.0" />
+      <point x="13057.0" y="4472.0" />
+      <point x="0.0" y="83.5" />
+    </edge>
+    <edge source="it.polimi.ingsw.triton.launcher.utils.message.servermessage.infoMessage.ChangeInfluenceMessage" target="it.polimi.ingsw.triton.launcher.utils.message.servermessage.InfoMessage" relationship="GENERALIZATION">
+      <point x="0.0" y="-62.0" />
+      <point x="5230.0" y="4712.0" />
+      <point x="5955.75" y="4712.0" />
+      <point x="0.0" y="39.5" />
+    </edge>
+    <edge source="it.polimi.ingsw.triton.launcher.utils.message.clientmessage.charactercard_replies.CharacterCard09Reply" target="it.polimi.ingsw.triton.launcher.utils.message.clientmessage.charactercard_replies.CharacterCardReply" relationship="GENERALIZATION">
+      <point x="0.0" y="-51.0" />
+      <point x="11089.5" y="4712.0" />
+      <point x="10925.0" y="4712.0" />
+      <point x="0.0" y="50.5" />
+    </edge>
+    <edge source="it.polimi.ingsw.triton.launcher.server.model.influencestrategy.InfluenceStrategyWithEffect09" target="it.polimi.ingsw.triton.launcher.server.model.influencestrategy.InfluenceStrategy" relationship="REALIZATION">
+      <point x="0.0" y="-51.0" />
+      <point x="0.0" y="28.0" />
+    </edge>
+    <edge source="it.polimi.ingsw.triton.launcher.utils.message.servermessage.infoMessage.infoMessageWithReceiver.EmptyGeneralCoinSupplyMessage" target="it.polimi.ingsw.triton.launcher.utils.message.servermessage.InfoWithReceiverMessage" relationship="GENERALIZATION">
+      <point x="0.0" y="-39.5" />
+      <point x="9100.0" y="4997.0" />
+      <point x="9236.0" y="4997.0" />
+      <point x="0.0" y="51.0" />
+    </edge>
+    <edge source="it.polimi.ingsw.triton.launcher.client.gui.scenes.CharCard0305SceneController" target="it.polimi.ingsw.triton.launcher.client.gui.scenes.SceneController" relationship="GENERALIZATION">
+      <point x="0.0" y="-106.0" />
+      <point x="1445.5" y="2445.0" />
+      <point x="2539.0" y="2445.0" />
+      <point x="0.0" y="117.5" />
+    </edge>
+    <edge source="it.polimi.ingsw.triton.launcher.server.view.VirtualView" target="it.polimi.ingsw.triton.launcher.utils.obs.Observable" relationship="GENERALIZATION">
+      <point x="65.25" y="-238.0" />
+      <point x="3712.75" y="966.0" />
+      <point x="4593.0" y="966.0" />
+      <point x="0.0" y="73.0" />
+    </edge>
+    <edge source="it.polimi.ingsw.triton.launcher.server.view.VirtualView" target="it.polimi.ingsw.triton.launcher.client.view.View" relationship="REALIZATION">
+      <point x="-65.25" y="-238.0" />
+      <point x="3582.25" y="976.0" />
+      <point x="2663.375" y="976.0" />
+      <point x="2663.375" y="280.0" />
+      <point x="4839.375" y="280.0" />
+      <point x="-61.75" y="127.0" />
+    </edge>
+    <edge source="it.polimi.ingsw.triton.launcher.client.gui.scenes.TowerColorSceneController" target="it.polimi.ingsw.triton.launcher.client.gui.scenes.SceneController" relationship="GENERALIZATION">
+      <point x="0.0" y="-106.0" />
+      <point x="771.0" y="2445.0" />
+      <point x="2539.0" y="2445.0" />
+      <point x="0.0" y="117.5" />
+    </edge>
+    <edge source="it.polimi.ingsw.triton.launcher.server.model.cardeffects.CardEffect10" target="it.polimi.ingsw.triton.launcher.server.model.cardeffects.CardEffect" relationship="REALIZATION">
+      <point x="0.0" y="-183.0" />
+      <point x="4541.0" y="5250.0" />
+      <point x="5335.25" y="5250.0" />
+      <point x="0.0" y="28.0" />
+    </edge>
+    <edge source="it.polimi.ingsw.triton.launcher.server.model.cardeffects.CardEffect12" target="it.polimi.ingsw.triton.launcher.server.model.cardeffects.CardEffect" relationship="REALIZATION">
+      <point x="0.0" y="-73.0" />
+      <point x="6266.5" y="5250.0" />
+      <point x="5335.25" y="5250.0" />
+      <point x="0.0" y="28.0" />
+    </edge>
+    <edge source="it.polimi.ingsw.triton.launcher.server.model.islands.Island" target="it.polimi.ingsw.triton.launcher.utils.obs.Observable" relationship="GENERALIZATION">
+      <point x="0.0" y="-205.0" />
+      <point x="4201.5" y="966.0" />
+      <point x="4593.0" y="966.0" />
+      <point x="0.0" y="73.0" />
+    </edge>
+    <edge source="it.polimi.ingsw.triton.launcher.server.model.cardeffects.CardEffect11" target="it.polimi.ingsw.triton.launcher.server.model.cardeffects.CardEffect" relationship="REALIZATION">
+      <point x="0.0" y="-117.0" />
+      <point x="3596.5" y="5250.0" />
+      <point x="5335.25" y="5250.0" />
+      <point x="0.0" y="28.0" />
+    </edge>
+    <edge source="it.polimi.ingsw.triton.launcher.utils.message.servermessage.infoMessage.ChangeTurnMessage" target="it.polimi.ingsw.triton.launcher.utils.message.servermessage.InfoMessage" relationship="GENERALIZATION">
+      <point x="0.0" y="-51.0" />
+      <point x="6109.0" y="4712.0" />
+      <point x="5955.75" y="4712.0" />
+      <point x="0.0" y="39.5" />
+    </edge>
+    <edge source="it.polimi.ingsw.triton.launcher.server.model.game.GameMode" target="it.polimi.ingsw.triton.launcher.utils.obs.Observable" relationship="GENERALIZATION">
+      <point x="0.0" y="-502.5" />
+      <point x="6143.6875" y="966.0" />
+      <point x="4593.0" y="966.0" />
+      <point x="0.0" y="73.0" />
+    </edge>
+    <edge source="it.polimi.ingsw.triton.launcher.utils.message.servermessage.ErrorMessage" target="it.polimi.ingsw.triton.launcher.utils.message.servermessage.ServerMessage" relationship="REALIZATION">
+      <point x="0.0" y="-62.0" />
+      <point x="0.0" y="28.0" />
+    </edge>
+    <edge source="it.polimi.ingsw.triton.launcher.client.gui.scenes.IpAddressSceneController" target="it.polimi.ingsw.triton.launcher.client.gui.scenes.SceneController" relationship="GENERALIZATION">
+      <point x="0.0" y="-73.0" />
+      <point x="1718.5" y="2445.0" />
+      <point x="2539.0" y="2445.0" />
+      <point x="0.0" y="117.5" />
+    </edge>
+    <edge source="it.polimi.ingsw.triton.launcher.utils.message.clientmessage.charactercard_replies.CharacterCard01Reply" target="it.polimi.ingsw.triton.launcher.utils.message.clientmessage.charactercard_replies.CharacterCardReply" relationship="GENERALIZATION">
+      <point x="0.0" y="-62.0" />
+      <point x="11418.5" y="4712.0" />
+      <point x="10925.0" y="4712.0" />
+      <point x="0.0" y="50.5" />
+    </edge>
+    <edge source="it.polimi.ingsw.triton.launcher.utils.message.servermessage.infoMessage.MoveTowerOntoIslandMessage" target="it.polimi.ingsw.triton.launcher.utils.message.servermessage.InfoMessage" relationship="GENERALIZATION">
+      <point x="0.0" y="-73.0" />
+      <point x="8286.5" y="4712.0" />
+      <point x="5955.75" y="4712.0" />
+      <point x="0.0" y="39.5" />
+    </edge>
+    <edge source="it.polimi.ingsw.triton.launcher.server.model.cardeffects.CardEffect07" target="it.polimi.ingsw.triton.launcher.server.model.cardeffects.CardEffect" relationship="REALIZATION">
+      <point x="0.0" y="-139.0" />
+      <point x="3122.5" y="5250.0" />
+      <point x="5335.25" y="5250.0" />
+      <point x="0.0" y="28.0" />
+    </edge>
+    <edge source="it.polimi.ingsw.triton.launcher.utils.message.clientmessage.AssistantCardReply" target="it.polimi.ingsw.triton.launcher.utils.message.clientmessage.ClientMessage" relationship="GENERALIZATION">
+      <point x="0.0" y="-84.0" />
+      <point x="11758.0" y="4472.0" />
+      <point x="13057.0" y="4472.0" />
+      <point x="0.0" y="83.5" />
+    </edge>
+    <edge source="it.polimi.ingsw.triton.launcher.utils.message.clientmessage.login_messages.LoginRequest" target="it.polimi.ingsw.triton.launcher.utils.message.clientmessage.ClientMessage" relationship="GENERALIZATION">
+      <point x="0.0" y="-73.0" />
+      <point x="15211.0" y="4472.0" />
+      <point x="13057.0" y="4472.0" />
+      <point x="0.0" y="83.5" />
+    </edge>
+    <edge source="it.polimi.ingsw.triton.launcher.utils.message.clientmessage.charactercard_replies.CharacterCard12Reply" target="it.polimi.ingsw.triton.launcher.utils.message.clientmessage.charactercard_replies.CharacterCardReply" relationship="GENERALIZATION">
+      <point x="0.0" y="-51.0" />
+      <point x="11747.5" y="4712.0" />
+      <point x="10925.0" y="4712.0" />
+      <point x="0.0" y="50.5" />
+    </edge>
+    <edge source="it.polimi.ingsw.triton.launcher.server.model.cardeffects.CardEffect06" target="it.polimi.ingsw.triton.launcher.server.model.cardeffects.CardEffect" relationship="REALIZATION">
+      <point x="0.0" y="-51.0" />
+      <point x="5203.0" y="5250.0" />
+      <point x="5335.25" y="5250.0" />
+      <point x="0.0" y="28.0" />
+    </edge>
+    <edge source="it.polimi.ingsw.triton.launcher.server.model.cardeffects.CardEffect09" target="it.polimi.ingsw.triton.launcher.server.model.cardeffects.CardEffect" relationship="REALIZATION">
+      <point x="0.0" y="-62.0" />
+      <point x="6007.5" y="5250.0" />
+      <point x="5335.25" y="5250.0" />
+      <point x="0.0" y="28.0" />
+    </edge>
+    <edge source="it.polimi.ingsw.triton.launcher.server.model.cardeffects.CardEffect08" target="it.polimi.ingsw.triton.launcher.server.model.cardeffects.CardEffect" relationship="REALIZATION">
+      <point x="0.0" y="-62.0" />
+      <point x="6747.0" y="5250.0" />
+      <point x="5335.25" y="5250.0" />
+      <point x="0.0" y="28.0" />
+    </edge>
+    <edge source="it.polimi.ingsw.triton.launcher.client.gui.scenes.GameModeAndNumOfPlayersSceneController" target="it.polimi.ingsw.triton.launcher.client.gui.scenes.SceneController" relationship="GENERALIZATION">
+      <point x="0.0" y="-128.0" />
+      <point x="3773.0" y="2445.0" />
+      <point x="2539.0" y="2445.0" />
+      <point x="0.0" y="117.5" />
+    </edge>
+    <edge source="it.polimi.ingsw.triton.launcher.utils.message.servermessage.Requests.MoveStudentFromEntranceMessage" target="it.polimi.ingsw.triton.launcher.utils.message.servermessage.Requests.AskMessage" relationship="GENERALIZATION">
+      <point x="0.0" y="-39.5" />
+      <point x="927.0" y="4712.0" />
+      <point x="1085.0" y="4712.0" />
+      <point x="0.0" y="39.5" />
+    </edge>
+    <edge source="it.polimi.ingsw.triton.launcher.utils.message.servermessage.Requests.CloudTileRequest" target="it.polimi.ingsw.triton.launcher.utils.message.servermessage.Requests.AskMessage" relationship="GENERALIZATION">
+      <point x="0.0" y="-39.5" />
+      <point x="1781.0" y="4712.0" />
+      <point x="1085.0" y="4712.0" />
+      <point x="0.0" y="39.5" />
+    </edge>
+    <edge source="it.polimi.ingsw.triton.launcher.client.Client" target="it.polimi.ingsw.triton.launcher.utils.obs.Observer" relationship="REALIZATION">
+      <point x="0.0" y="-172.0" />
+      <point x="1743.0" y="976.0" />
+      <point x="2134.0" y="976.0" />
+      <point x="0.0" y="28.0" />
+    </edge>
+    <edge source="it.polimi.ingsw.triton.launcher.client.gui.scenes.CharacterCardSceneController" target="it.polimi.ingsw.triton.launcher.client.gui.scenes.SceneController" relationship="GENERALIZATION">
+      <point x="0.0" y="-260.5" />
+      <point x="1105.0" y="2445.0" />
+      <point x="2539.0" y="2445.0" />
+      <point x="0.0" y="117.5" />
+    </edge>
+    <edge source="it.polimi.ingsw.triton.launcher.server.model.professor.ProfessorStrategyWithEffect" target="it.polimi.ingsw.triton.launcher.server.model.professor.ProfessorStrategy" relationship="GENERALIZATION">
+      <point x="0.0" y="-39.5" />
+      <point x="11917.0" y="5295.0" />
+      <point x="12043.25" y="5295.0" />
+      <point x="0.0" y="50.5" />
+    </edge>
+    <edge source="it.polimi.ingsw.triton.launcher.server.model.influencestrategy.InfluenceStrategyWithEffect08" target="it.polimi.ingsw.triton.launcher.server.model.influencestrategy.InfluenceStrategyDefault" relationship="GENERALIZATION">
+      <point x="0.0" y="-51.0" />
+      <point x="0.0" y="39.5" />
+    </edge>
+    <edge source="it.polimi.ingsw.triton.launcher.utils.message.servermessage.Requests.TowerColorRequest" target="it.polimi.ingsw.triton.launcher.utils.message.servermessage.Requests.AskMessage" relationship="GENERALIZATION">
+      <point x="0.0" y="-51.0" />
+      <point x="2031.0" y="4712.0" />
+      <point x="1085.0" y="4712.0" />
+      <point x="0.0" y="39.5" />
+    </edge>
+    <edge source="it.polimi.ingsw.triton.launcher.server.controller.Controller" target="it.polimi.ingsw.triton.launcher.utils.obs.Observer" relationship="REALIZATION">
+      <point x="0.0" y="-282.5" />
+      <point x="0.0" y="28.0" />
+    </edge>
+    <edge source="it.polimi.ingsw.triton.launcher.client.gui.scenes.AssistantCardSceneController" target="it.polimi.ingsw.triton.launcher.client.gui.scenes.SceneController" relationship="GENERALIZATION">
+      <point x="0.0" y="-161.0" />
+      <point x="3115.0" y="2445.0" />
+      <point x="2539.0" y="2445.0" />
+      <point x="0.0" y="117.5" />
+    </edge>
+    <edge source="it.polimi.ingsw.triton.launcher.utils.message.servermessage.infoMessage.InfoStudentOntoIslandMessage" target="it.polimi.ingsw.triton.launcher.utils.message.servermessage.InfoMessage" relationship="GENERALIZATION">
+      <point x="0.0" y="-84.0" />
+      <point x="4876.0" y="4712.0" />
+      <point x="5955.75" y="4712.0" />
+      <point x="0.0" y="39.5" />
+    </edge>
+    <edge source="it.polimi.ingsw.triton.launcher.server.model.game.GameDecorator" target="it.polimi.ingsw.triton.launcher.server.model.game.GameMode" relationship="GENERALIZATION">
+      <point x="0.0" y="-502.5" />
+      <point x="6322.1875" y="2445.0" />
+      <point x="6143.6875" y="2445.0" />
+      <point x="0.0" y="502.5" />
+    </edge>
+    <edge source="it.polimi.ingsw.triton.launcher.client.model.ClientModel" target="it.polimi.ingsw.triton.launcher.utils.obs.Observable" relationship="GENERALIZATION">
+      <point x="0.0" y="-425.0" />
+      <point x="4973.5" y="966.0" />
+      <point x="4593.0" y="966.0" />
+      <point x="0.0" y="73.0" />
+    </edge>
+    <edge source="it.polimi.ingsw.triton.launcher.utils.message.servermessage.infoMessage.MoveTowerOntoSchoolBoardMessage" target="it.polimi.ingsw.triton.launcher.utils.message.servermessage.InfoMessage" relationship="GENERALIZATION">
+      <point x="0.0" y="-62.0" />
+      <point x="7898.5" y="4712.0" />
+      <point x="5955.75" y="4712.0" />
+      <point x="0.0" y="39.5" />
+    </edge>
+    <edge source="it.polimi.ingsw.triton.launcher.client.gui.scenes.ActionPhaseSceneControllers" target="it.polimi.ingsw.triton.launcher.client.gui.scenes.SceneController" relationship="GENERALIZATION">
+      <point x="0.0" y="-39.5" />
+      <point x="494.5" y="2445.0" />
+      <point x="2539.0" y="2445.0" />
+      <point x="0.0" y="117.5" />
+    </edge>
+    <edge source="it.polimi.ingsw.triton.launcher.server.model.professor.ProfessorStrategyDefault" target="it.polimi.ingsw.triton.launcher.server.model.professor.ProfessorStrategy" relationship="GENERALIZATION">
+      <point x="0.0" y="-39.5" />
+      <point x="12169.5" y="5295.0" />
+      <point x="12043.25" y="5295.0" />
+      <point x="0.0" y="50.5" />
+    </edge>
+    <edge source="it.polimi.ingsw.triton.launcher.utils.message.clientmessage.MoveStudentOntoDiningRoomMessage" target="it.polimi.ingsw.triton.launcher.utils.message.clientmessage.ClientMessage" relationship="GENERALIZATION">
+      <point x="0.0" y="-84.0" />
+      <point x="13923.0" y="4472.0" />
+      <point x="13057.0" y="4472.0" />
+      <point x="0.0" y="83.5" />
+    </edge>
+    <edge source="it.polimi.ingsw.triton.launcher.utils.message.clientmessage.MotherNatureReply" target="it.polimi.ingsw.triton.launcher.utils.message.clientmessage.ClientMessage" relationship="GENERALIZATION">
+      <point x="0.0" y="-84.0" />
+      <point x="14789.0" y="4472.0" />
+      <point x="13057.0" y="4472.0" />
+      <point x="0.0" y="83.5" />
+    </edge>
+    <edge source="it.polimi.ingsw.triton.launcher.utils.message.servermessage.infoMessage.WinMessage" target="it.polimi.ingsw.triton.launcher.utils.message.servermessage.InfoMessage" relationship="GENERALIZATION">
+      <point x="0.0" y="-51.0" />
+      <point x="3709.0" y="4712.0" />
+      <point x="5955.75" y="4712.0" />
+      <point x="0.0" y="39.5" />
+    </edge>
+    <edge source="it.polimi.ingsw.triton.launcher.server.model.Bag" target="it.polimi.ingsw.triton.launcher.utils.obs.Observable" relationship="GENERALIZATION">
+      <point x="0.0" y="-95.5" />
+      <point x="3885.0" y="966.0" />
+      <point x="4593.0" y="966.0" />
+      <point x="0.0" y="73.0" />
+    </edge>
+    <edge source="it.polimi.ingsw.triton.launcher.utils.message.clientmessage.charactercard_replies.CharacterCard11Reply" target="it.polimi.ingsw.triton.launcher.utils.message.clientmessage.charactercard_replies.CharacterCardReply" relationship="GENERALIZATION">
+      <point x="0.0" y="-51.0" />
+      <point x="12076.5" y="4712.0" />
+      <point x="10925.0" y="4712.0" />
+      <point x="0.0" y="50.5" />
+    </edge>
+    <edge source="it.polimi.ingsw.triton.launcher.server.model.playeractions.UseCharacterCard" target="it.polimi.ingsw.triton.launcher.server.model.playeractions.Action" relationship="REALIZATION">
+      <point x="0.0" y="-95.0" />
+      <point x="1685.5" y="5250.0" />
+      <point x="2025.5" y="5250.0" />
+      <point x="0.0" y="28.0" />
+    </edge>
+    <edge source="it.polimi.ingsw.triton.launcher.client.gui.scenes.MoveStudentFromEntranceSceneController" target="it.polimi.ingsw.triton.launcher.client.gui.scenes.ActionPhaseSceneControllers" relationship="GENERALIZATION">
+      <point x="0.0" y="-161.0" />
+      <point x="166.5" y="3785.0" />
+      <point x="494.5" y="3785.0" />
+      <point x="0.0" y="39.5" />
+    </edge>
+    <edge source="it.polimi.ingsw.triton.launcher.utils.message.servermessage.InfoMessage" target="it.polimi.ingsw.triton.launcher.utils.message.servermessage.ServerMessage" relationship="REALIZATION">
+      <point x="0.0" y="-39.5" />
+      <point x="5955.75" y="4472.0" />
+      <point x="3543.0" y="4472.0" />
+      <point x="0.0" y="28.0" />
+    </edge>
+    <edge source="it.polimi.ingsw.triton.launcher.client.gui.scenes.MainSceneController" target="it.polimi.ingsw.triton.launcher.client.gui.scenes.SceneController" relationship="GENERALIZATION">
+      <point x="0.0" y="-645.0" />
+      <point x="2117.0" y="2445.0" />
+      <point x="2539.0" y="2445.0" />
+      <point x="0.0" y="117.5" />
+    </edge>
+    <edge source="it.polimi.ingsw.triton.launcher.client.gui.scenes.WizardSceneController" target="it.polimi.ingsw.triton.launcher.client.gui.scenes.SceneController" relationship="GENERALIZATION">
+      <point x="0.0" y="-150.0" />
+      <point x="2815.5" y="2445.0" />
+      <point x="2539.0" y="2445.0" />
+      <point x="0.0" y="117.5" />
+    </edge>
+    <edge source="it.polimi.ingsw.triton.launcher.utils.message.clientmessage.charactercard_replies.CharacterCardReply" target="it.polimi.ingsw.triton.launcher.utils.message.clientmessage.ClientMessage" relationship="GENERALIZATION">
+      <point x="0.0" y="-50.5" />
+      <point x="10925.0" y="4472.0" />
+      <point x="13057.0" y="4472.0" />
+      <point x="0.0" y="83.5" />
+    </edge>
+    <edge source="it.polimi.ingsw.triton.launcher.client.gui.scenes.CharCard01SceneController" target="it.polimi.ingsw.triton.launcher.client.gui.scenes.SceneController" relationship="GENERALIZATION">
+      <point x="0.0" y="-106.0" />
+      <point x="3434.5" y="2445.0" />
+      <point x="2539.0" y="2445.0" />
+      <point x="0.0" y="117.5" />
+    </edge>
+    <edge source="it.polimi.ingsw.triton.launcher.client.gui.Gui" target="it.polimi.ingsw.triton.launcher.client.view.ClientView" relationship="REALIZATION">
+      <point x="93.0" y="-634.5" />
+      <point x="7003.1875" y="956.0" />
+      <point x="6964.2514880952385" y="956.0" />
+      <point x="0.0" y="314.5" />
+    </edge>
+    <edge source="it.polimi.ingsw.triton.launcher.server.model.playeractions.MoveStudentOntoIsland" target="it.polimi.ingsw.triton.launcher.server.model.playeractions.Action" relationship="REALIZATION">
+      <point x="0.0" y="-84.0" />
+      <point x="2737.5" y="5250.0" />
+      <point x="2025.5" y="5250.0" />
+      <point x="0.0" y="28.0" />
+    </edge>
+    <edge source="it.polimi.ingsw.triton.launcher.utils.message.clientmessage.charactercard_replies.CharacterCard05Reply" target="it.polimi.ingsw.triton.launcher.utils.message.clientmessage.charactercard_replies.CharacterCardReply" relationship="GENERALIZATION">
+      <point x="0.0" y="-51.0" />
+      <point x="10760.5" y="4712.0" />
+      <point x="10925.0" y="4712.0" />
+      <point x="0.0" y="50.5" />
+    </edge>
+    <edge source="it.polimi.ingsw.triton.launcher.client.gui.scenes.LoginSceneController" target="it.polimi.ingsw.triton.launcher.client.gui.scenes.SceneController" relationship="GENERALIZATION">
+      <point x="0.0" y="-73.0" />
+      <point x="4784.0" y="2445.0" />
+      <point x="2539.0" y="2445.0" />
+      <point x="0.0" y="117.5" />
+    </edge>
+    <edge source="it.polimi.ingsw.triton.launcher.utils.message.servermessage.Requests.AskMessage" target="it.polimi.ingsw.triton.launcher.utils.message.servermessage.ServerMessage" relationship="REALIZATION">
+      <point x="0.0" y="-39.5" />
+      <point x="1085.0" y="4472.0" />
+      <point x="3543.0" y="4472.0" />
+      <point x="0.0" y="28.0" />
+    </edge>
+    <edge source="it.polimi.ingsw.triton.launcher.client.gui.scenes.CharCard10SceneController" target="it.polimi.ingsw.triton.launcher.client.gui.scenes.SceneController" relationship="GENERALIZATION">
+      <point x="0.0" y="-260.5" />
+      <point x="4318.5" y="2445.0" />
+      <point x="2539.0" y="2445.0" />
+      <point x="0.0" y="117.5" />
+    </edge>
+    <edge source="it.polimi.ingsw.triton.launcher.utils.message.servermessage.infoMessage.TieMessage" target="it.polimi.ingsw.triton.launcher.utils.message.servermessage.InfoMessage" relationship="GENERALIZATION">
+      <point x="0.0" y="-51.0" />
+      <point x="4213.0" y="4712.0" />
+      <point x="5955.75" y="4712.0" />
+      <point x="0.0" y="39.5" />
+    </edge>
+    <edge source="it.polimi.ingsw.triton.launcher.utils.message.servermessage.infoMessage.InfoCharacterCardPlayedMessage" target="it.polimi.ingsw.triton.launcher.utils.message.servermessage.InfoMessage" relationship="GENERALIZATION">
+      <point x="0.0" y="-106.0" />
+      <point x="8797.0" y="4712.0" />
+      <point x="5955.75" y="4712.0" />
+      <point x="0.0" y="39.5" />
+    </edge>
+    <edge source="it.polimi.ingsw.triton.launcher.server.model.game.Game" target="it.polimi.ingsw.triton.launcher.server.model.game.GameMode" relationship="GENERALIZATION">
+      <point x="0.0" y="-623.5" />
+      <point x="5965.1875" y="2445.0" />
+      <point x="6143.6875" y="2445.0" />
+      <point x="0.0" y="502.5" />
+    </edge>
+    <edge source="it.polimi.ingsw.triton.launcher.utils.message.servermessage.infoMessage.EmptyBagMessage" target="it.polimi.ingsw.triton.launcher.utils.message.servermessage.InfoMessage" relationship="GENERALIZATION">
+      <point x="0.0" y="-39.5" />
+      <point x="9484.0" y="4712.0" />
+      <point x="5955.75" y="4712.0" />
+      <point x="0.0" y="39.5" />
+    </edge>
+    <edge source="it.polimi.ingsw.triton.launcher.client.gui.scenes.MenuSceneController" target="it.polimi.ingsw.triton.launcher.client.gui.scenes.SceneController" relationship="GENERALIZATION">
+      <point x="0.0" y="-62.0" />
+      <point x="258.0" y="2445.0" />
+      <point x="2539.0" y="2445.0" />
+      <point x="0.0" y="117.5" />
+    </edge>
+    <edge source="it.polimi.ingsw.triton.launcher.client.gui.scenes.SceneController" target="it.polimi.ingsw.triton.launcher.utils.obs.Observable" relationship="GENERALIZATION">
+      <point x="0.0" y="-117.5" />
+      <point x="2539.0" y="966.0" />
+      <point x="4593.0" y="966.0" />
+      <point x="0.0" y="73.0" />
+    </edge>
+    <edge source="it.polimi.ingsw.triton.launcher.server.model.playeractions.MoveStudentIntoDiningRoom" target="it.polimi.ingsw.triton.launcher.server.model.playeractions.Action" relationship="REALIZATION">
+      <point x="0.0" y="-73.0" />
+      <point x="1338.0" y="5250.0" />
+      <point x="2025.5" y="5250.0" />
+      <point x="0.0" y="28.0" />
+    </edge>
+    <edge source="it.polimi.ingsw.triton.launcher.utils.message.clientmessage.MoveStudentOntoIslandMessage" target="it.polimi.ingsw.triton.launcher.utils.message.clientmessage.ClientMessage" relationship="GENERALIZATION">
+      <point x="0.0" y="-95.0" />
+      <point x="12191.0" y="4472.0" />
+      <point x="13057.0" y="4472.0" />
+      <point x="0.0" y="83.5" />
+    </edge>
+    <edge source="it.polimi.ingsw.triton.launcher.utils.message.servermessage.infoMessage.MergeIslandsMessage" target="it.polimi.ingsw.triton.launcher.utils.message.servermessage.InfoMessage" relationship="GENERALIZATION">
+      <point x="0.0" y="-62.0" />
+      <point x="7322.5" y="4712.0" />
+      <point x="5955.75" y="4712.0" />
+      <point x="0.0" y="39.5" />
+    </edge>
+    <edge source="it.polimi.ingsw.triton.launcher.utils.message.clientmessage.CloudTileReply" target="it.polimi.ingsw.triton.launcher.utils.message.clientmessage.ClientMessage" relationship="GENERALIZATION">
+      <point x="0.0" y="-84.0" />
+      <point x="13490.0" y="4472.0" />
+      <point x="13057.0" y="4472.0" />
+      <point x="0.0" y="83.5" />
+    </edge>
+    <edge source="it.polimi.ingsw.triton.launcher.client.gui.scenes.CharCard07SceneController" target="it.polimi.ingsw.triton.launcher.client.gui.scenes.SceneController" relationship="GENERALIZATION">
+      <point x="0.0" y="-304.5" />
+      <point x="5249.5" y="2445.0" />
+      <point x="2539.0" y="2445.0" />
+      <point x="0.0" y="117.5" />
+    </edge>
+    <edge source="it.polimi.ingsw.triton.launcher.server.model.islands.IslandManager" target="it.polimi.ingsw.triton.launcher.utils.obs.Observable" relationship="GENERALIZATION">
+      <point x="0.0" y="-183.5" />
+      <point x="0.0" y="73.0" />
+    </edge>
+    <edge source="it.polimi.ingsw.triton.launcher.client.cli.Cli" target="it.polimi.ingsw.triton.launcher.client.view.ClientView" relationship="REALIZATION">
+      <point x="93.0" y="-711.5" />
+      <point x="6611.1875" y="956.0" />
+      <point x="6964.2514880952385" y="956.0" />
+      <point x="0.0" y="314.5" />
+    </edge>
+    <edge source="it.polimi.ingsw.triton.launcher.client.gui.Gui" target="it.polimi.ingsw.triton.launcher.utils.obs.Observable" relationship="GENERALIZATION">
+      <point x="-93.0" y="-634.5" />
+      <point x="6817.1875" y="966.0" />
+      <point x="4593.0" y="966.0" />
+      <point x="0.0" y="73.0" />
+    </edge>
+    <edge source="it.polimi.ingsw.triton.launcher.utils.message.clientmessage.charactercard_replies.CharacterCard07Reply" target="it.polimi.ingsw.triton.launcher.utils.message.clientmessage.charactercard_replies.CharacterCardReply" relationship="GENERALIZATION">
+      <point x="0.0" y="-73.0" />
+      <point x="10102.5" y="4712.0" />
+      <point x="10925.0" y="4712.0" />
+      <point x="0.0" y="50.5" />
+    </edge>
+    <edge source="it.polimi.ingsw.triton.launcher.server.model.cardeffects.CardEffect03" target="it.polimi.ingsw.triton.launcher.server.model.cardeffects.CardEffect" relationship="REALIZATION">
+      <point x="0.0" y="-84.0" />
+      <point x="4073.0" y="5250.0" />
+      <point x="5335.25" y="5250.0" />
+      <point x="0.0" y="28.0" />
+    </edge>
+    <edge source="it.polimi.ingsw.triton.launcher.server.model.cardeffects.CardEffect02" target="it.polimi.ingsw.triton.launcher.server.model.cardeffects.CardEffect" relationship="REALIZATION">
+      <point x="0.0" y="-51.0" />
+      <point x="4959.0" y="5250.0" />
+      <point x="5335.25" y="5250.0" />
+      <point x="0.0" y="28.0" />
+    </edge>
+    <edge source="it.polimi.ingsw.triton.launcher.server.model.cardeffects.CardEffect05" target="it.polimi.ingsw.triton.launcher.server.model.cardeffects.CardEffect" relationship="REALIZATION">
+      <point x="0.0" y="-62.0" />
+      <point x="5755.5" y="5250.0" />
+      <point x="5335.25" y="5250.0" />
+      <point x="0.0" y="28.0" />
+    </edge>
+    <edge source="it.polimi.ingsw.triton.launcher.utils.message.servermessage.Requests.CharacterCardParameterRequest" target="it.polimi.ingsw.triton.launcher.utils.message.servermessage.Requests.AskMessage" relationship="GENERALIZATION">
+      <point x="0.0" y="-62.0" />
+      <point x="632.0" y="4712.0" />
+      <point x="1085.0" y="4712.0" />
+      <point x="0.0" y="39.5" />
+    </edge>
+    <edge source="it.polimi.ingsw.triton.launcher.server.model.cardeffects.CardEffect04" target="it.polimi.ingsw.triton.launcher.server.model.cardeffects.CardEffect" relationship="REALIZATION">
+      <point x="0.0" y="-51.0" />
+      <point x="6512.5" y="5250.0" />
+      <point x="5335.25" y="5250.0" />
+      <point x="0.0" y="28.0" />
+    </edge>
+    <edge source="it.polimi.ingsw.triton.launcher.utils.message.servermessage.infoMessage.GameInfoMessage" target="it.polimi.ingsw.triton.launcher.utils.message.servermessage.InfoMessage" relationship="GENERALIZATION">
+      <point x="0.0" y="-117.5" />
+      <point x="2497.0" y="4712.0" />
+      <point x="5955.75" y="4712.0" />
+      <point x="0.0" y="39.5" />
+    </edge>
+    <edge source="it.polimi.ingsw.triton.launcher.utils.message.servermessage.infoMessage.infoMessageWithReceiver.LoginReply" target="it.polimi.ingsw.triton.launcher.utils.message.servermessage.InfoWithReceiverMessage" relationship="GENERALIZATION">
+      <point x="0.0" y="-39.5" />
+      <point x="9372.0" y="4997.0" />
+      <point x="9236.0" y="4997.0" />
+      <point x="0.0" y="51.0" />
+    </edge>
+    <edge source="it.polimi.ingsw.triton.launcher.server.model.cardeffects.CardEffect01" target="it.polimi.ingsw.triton.launcher.server.model.cardeffects.CardEffect" relationship="REALIZATION">
+      <point x="0.0" y="-84.0" />
+      <point x="5467.5" y="5250.0" />
+      <point x="5335.25" y="5250.0" />
+      <point x="0.0" y="28.0" />
+    </edge>
+    <edge source="it.polimi.ingsw.triton.launcher.server.model.playeractions.ExpertMoveStudentIntoDiningRoom" target="it.polimi.ingsw.triton.launcher.server.model.playeractions.MoveStudentIntoDiningRoom" relationship="GENERALIZATION">
+      <point x="0.0" y="-73.0" />
+      <point x="0.0" y="73.0" />
+    </edge>
+    <edge source="it.polimi.ingsw.triton.launcher.client.view.ClientView" target="it.polimi.ingsw.triton.launcher.client.view.View" relationship="INTERFACE_GENERALIZATION">
+      <point x="0.0" y="-314.5" />
+      <point x="6964.2514880952385" y="280.0" />
+      <point x="4962.875" y="280.0" />
+      <point x="61.75" y="127.0" />
+    </edge>
+    <edge source="it.polimi.ingsw.triton.launcher.utils.message.servermessage.infoMessage.InfoChosenCloudTileMessage" target="it.polimi.ingsw.triton.launcher.utils.message.servermessage.InfoMessage" relationship="GENERALIZATION">
+      <point x="0.0" y="-84.0" />
+      <point x="6450.0" y="4712.0" />
+      <point x="5955.75" y="4712.0" />
+      <point x="0.0" y="39.5" />
+    </edge>
+    <edge source="it.polimi.ingsw.triton.launcher.server.model.influencestrategy.InfluenceStrategyDefault" target="it.polimi.ingsw.triton.launcher.server.model.influencestrategy.InfluenceStrategy" relationship="REALIZATION">
+      <point x="0.0" y="-39.5" />
+      <point x="8324.5" y="5250.0" />
+      <point x="8606.5" y="5250.0" />
+      <point x="0.0" y="28.0" />
+    </edge>
+    <edge source="it.polimi.ingsw.triton.launcher.utils.message.servermessage.InfoWithReceiverMessage" target="it.polimi.ingsw.triton.launcher.utils.message.servermessage.InfoMessage" relationship="GENERALIZATION">
+      <point x="0.0" y="-51.0" />
+      <point x="9236.0" y="4712.0" />
+      <point x="5955.75" y="4712.0" />
+      <point x="0.0" y="39.5" />
+    </edge>
+    <edge source="it.polimi.ingsw.triton.launcher.utils.message.servermessage.infoMessage.infoMessageWithReceiver.UpdateWalletMessage" target="it.polimi.ingsw.triton.launcher.utils.message.servermessage.InfoWithReceiverMessage" relationship="GENERALIZATION">
+      <point x="0.0" y="-51.0" />
+      <point x="8016.792307692308" y="4997.0" />
+      <point x="9236.0" y="4997.0" />
+      <point x="0.0" y="51.0" />
+    </edge>
+    <edge source="it.polimi.ingsw.triton.launcher.utils.message.servermessage.Requests.WizardRequest" target="it.polimi.ingsw.triton.launcher.utils.message.servermessage.Requests.AskMessage" relationship="GENERALIZATION">
+      <point x="0.0" y="-51.0" />
+      <point x="1531.0" y="4712.0" />
+      <point x="1085.0" y="4712.0" />
+      <point x="0.0" y="39.5" />
+    </edge>
+    <edge source="it.polimi.ingsw.triton.launcher.utils.message.servermessage.infoMessage.infoMessageWithReceiver.GiveAssistantDeckMessage" target="it.polimi.ingsw.triton.launcher.utils.message.servermessage.InfoWithReceiverMessage" relationship="GENERALIZATION">
+      <point x="0.0" y="-51.0" />
+      <point x="9663.5" y="4997.0" />
+      <point x="9236.0" y="4997.0" />
+      <point x="0.0" y="51.0" />
+    </edge>
+    <edge source="it.polimi.ingsw.triton.launcher.client.gui.scenes.CharCard091112SceneController" target="it.polimi.ingsw.triton.launcher.client.gui.scenes.SceneController" relationship="GENERALIZATION">
+      <point x="0.0" y="-106.0" />
+      <point x="0.0" y="117.5" />
+    </edge>
+    <edge source="it.polimi.ingsw.triton.launcher.utils.message.servermessage.infoMessage.ChangePhaseMessage" target="it.polimi.ingsw.triton.launcher.utils.message.servermessage.InfoMessage" relationship="GENERALIZATION">
+      <point x="0.0" y="-51.0" />
+      <point x="3961.0" y="4712.0" />
+      <point x="5955.75" y="4712.0" />
+      <point x="0.0" y="39.5" />
+    </edge>
+    <edge source="it.polimi.ingsw.triton.launcher.server.model.game.ExpertGame" target="it.polimi.ingsw.triton.launcher.server.model.game.GameDecorator" relationship="GENERALIZATION">
+      <point x="0.0" y="-172.0" />
+      <point x="0.0" y="502.5" />
+    </edge>
+    <edge source="it.polimi.ingsw.triton.launcher.utils.message.clientmessage.charactercard_replies.CharacterCard10Reply" target="it.polimi.ingsw.triton.launcher.utils.message.clientmessage.charactercard_replies.CharacterCardReply" relationship="GENERALIZATION">
+      <point x="0.0" y="-62.0" />
+      <point x="9773.5" y="4712.0" />
+      <point x="10925.0" y="4712.0" />
+      <point x="0.0" y="50.5" />
+    </edge>
+    <edge source="it.polimi.ingsw.triton.launcher.utils.message.servermessage.infoMessage.DisconnectionMessage" target="it.polimi.ingsw.triton.launcher.utils.message.servermessage.InfoMessage" relationship="GENERALIZATION">
+      <point x="0.0" y="-39.5" />
+      <point x="7065.0" y="4712.0" />
+      <point x="5955.75" y="4712.0" />
+      <point x="0.0" y="39.5" />
+    </edge>
+    <edge source="it.polimi.ingsw.triton.launcher.utils.message.servermessage.infoMessage.LobbyMessage" target="it.polimi.ingsw.triton.launcher.utils.message.servermessage.InfoMessage" relationship="GENERALIZATION">
+      <point x="0.0" y="-51.0" />
+      <point x="7580.0" y="4712.0" />
+      <point x="5955.75" y="4712.0" />
+      <point x="0.0" y="39.5" />
+    </edge>
+    <edge source="it.polimi.ingsw.triton.launcher.client.cli.Cli" target="it.polimi.ingsw.triton.launcher.utils.obs.Observable" relationship="GENERALIZATION">
+      <point x="-93.0" y="-711.5" />
+      <point x="6425.1875" y="966.0" />
+      <point x="4593.0" y="966.0" />
+      <point x="0.0" y="73.0" />
+    </edge>
+    <edge source="it.polimi.ingsw.triton.launcher.client.gui.scenes.MotherNatureStepsSceneController" target="it.polimi.ingsw.triton.launcher.client.gui.scenes.ActionPhaseSceneControllers" relationship="GENERALIZATION">
+      <point x="0.0" y="-95.0" />
+      <point x="0.0" y="39.5" />
+    </edge>
+    <edge source="it.polimi.ingsw.triton.launcher.utils.message.clientmessage.charactercard_replies.CharacterCard03Reply" target="it.polimi.ingsw.triton.launcher.utils.message.clientmessage.charactercard_replies.CharacterCardReply" relationship="GENERALIZATION">
+      <point x="0.0" y="-51.0" />
+      <point x="10431.5" y="4712.0" />
+      <point x="10925.0" y="4712.0" />
+      <point x="0.0" y="50.5" />
+    </edge>
+    <edge source="it.polimi.ingsw.triton.launcher.utils.message.clientmessage.ClientMessage" target="it.polimi.ingsw.triton.launcher.utils.message.Message" relationship="REALIZATION">
+      <point x="0.0" y="-83.5" />
+      <point x="13057.0" y="4260.0" />
+      <point x="13229.5" y="4260.0" />
+      <point x="13229.5" y="4250.0" />
+      <point x="7421.25" y="4250.0" />
+      <point x="27.5" y="15.5" />
+    </edge>
+    <edge source="it.polimi.ingsw.triton.launcher.utils.message.clientmessage.WizardReply" target="it.polimi.ingsw.triton.launcher.utils.message.clientmessage.ClientMessage" relationship="GENERALIZATION">
+      <point x="0.0" y="-84.0" />
+      <point x="0.0" y="83.5" />
+    </edge>
+    <edge source="it.polimi.ingsw.triton.launcher.utils.message.UpdatedServerInfoMessage" target="it.polimi.ingsw.triton.launcher.utils.message.Message" relationship="REALIZATION">
+      <point x="0.0" y="-39.5" />
+      <point x="13402.0" y="4260.0" />
+      <point x="13229.5" y="4260.0" />
+      <point x="13229.5" y="4250.0" />
+      <point x="7421.25" y="4250.0" />
+      <point x="27.5" y="15.5" />
+    </edge>
+    <edge source="it.polimi.ingsw.triton.launcher.utils.message.servermessage.Requests.MotherNatureRequest" target="it.polimi.ingsw.triton.launcher.utils.message.servermessage.Requests.AskMessage" relationship="GENERALIZATION">
+      <point x="0.0" y="-39.5" />
+      <point x="115.0" y="4712.0" />
+      <point x="1085.0" y="4712.0" />
+      <point x="0.0" y="39.5" />
+    </edge>
+    <edge source="it.polimi.ingsw.triton.launcher.utils.message.servermessage.infoMessage.MotherNaturePositionMessage" target="it.polimi.ingsw.triton.launcher.utils.message.servermessage.InfoMessage" relationship="GENERALIZATION">
+      <point x="0.0" y="-51.0" />
+      <point x="6803.0" y="4712.0" />
+      <point x="5955.75" y="4712.0" />
+      <point x="0.0" y="39.5" />
+    </edge>
+    <edge source="it.polimi.ingsw.triton.launcher.utils.message.servermessage.infoMessage.ExpertGameInfoMessage" target="it.polimi.ingsw.triton.launcher.utils.message.servermessage.infoMessage.GameInfoMessage" relationship="GENERALIZATION">
+      <point x="0.0" y="-51.0" />
+      <point x="0.0" y="117.5" />
+    </edge>
+    <edge source="it.polimi.ingsw.triton.launcher.utils.message.servermessage.infoMessage.CloudTilesInfoMessage" target="it.polimi.ingsw.triton.launcher.utils.message.servermessage.InfoMessage" relationship="GENERALIZATION">
+      <point x="0.0" y="-51.0" />
+      <point x="2979.5" y="4712.0" />
+      <point x="5955.75" y="4712.0" />
+      <point x="0.0" y="39.5" />
+    </edge>
+  </edges>
+  <settings layout="Hierarchic" zoom="0.1" showDependencies="false" x="7703.5" y="3116.5" />
+  <SelectedNodes />
+  <Categories>
+    <Category>Constructors</Category>
+    <Category>Fields</Category>
+    <Category>Inner Classes</Category>
+    <Category>Methods</Category>
+    <Category>Properties</Category>
+  </Categories>
+  <SCOPE>All</SCOPE>
+  <VISIBILITY>private</VISIBILITY>
+</Diagram>
+
