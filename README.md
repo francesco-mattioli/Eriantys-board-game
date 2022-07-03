@@ -3,7 +3,7 @@
 ## Project specification
 The project consists of a Java version of the board  game *Eriantys*, made by *Cranio Creations*.
 
-You can find the game board [here](https://craniointernational.com/products/eriantys/).
+You can find the board game [here](https://craniointernational.com/products/eriantys/).
 
 The final version includes:
 * initial UML diagram
