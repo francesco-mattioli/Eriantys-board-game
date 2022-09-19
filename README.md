@@ -24,6 +24,10 @@ The final version includes:
 | 3-player game | [✅](https://github.com/engpap/prova-finale-ing-sw/tree/master/src/main/java/it/polimi/ingsw/triton/launcher/server/model)|
 | 12 character cards | [✅](https://github.com/engpap/prova-finale-ing-sw/tree/master/src/main/java/it/polimi/ingsw/triton/launcher/server/model/cardeffects) |
 
+## Grade
+In Italy, students are graded according to a scale ranging from 0 to 30. A cum laude may be added to the highest grade, as a special distinction.
+Our grade was *30 cum Laude*.
+
 
 ## Team
 * [Frati Davide](https://github.com/Davide-Frati)
