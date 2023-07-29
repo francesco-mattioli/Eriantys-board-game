@@ -1,5 +1,10 @@
 # Eriantys Board Game
 
+<p align="center">
+  <img width="100%" src="https://cf.geekdo-images.com/DzhJxVjMhGQadReXJmbIaQ__opengraph/img/qv98Tqw2-X1Mj-0J6OMlRoVC_Uk=/0x0:2988x1569/fit-in/1200x630/filters:strip_icc()/pic6253341.jpg" alt="header" />
+</p>
+
+
 ## Project specification
 The project consists of a Java version of the board  game *Eriantys*, made by *Cranio Creations*.
 
